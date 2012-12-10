@@ -1,0 +1,243 @@
+Map = {
+
+	World = {
+		type = "World",
+		position = {0,0,0},
+		model = "laberinto.mesh",
+		static = true,
+	},
+
+	David = {
+		type = "Player",
+		position = {0, 0, 0},
+		orientation = 180,
+		life = 100.0,
+		isPlayer = true,
+		model = "marine.mesh",
+		speed = 0.05,
+		defaultAnimation = "Idle",
+	},
+	
+	Camera = {
+		type = "Camera",
+		distance = 20,
+		height = 13,
+		targetDistance = 10,
+		targetHeight = 7,
+	},
+	
+	skybox = {
+		type = "Entity",
+		static = true,
+		position = {0, 0, 0},
+		orientation = 0,
+		model = "skybox.mesh",
+	},	
+	
+	torreta = {
+		type = "AnimatedEntity",
+		position = {-70, 0, 670},
+		orientation = 0,
+		life = 100.0,
+		model = "torreta_pie.mesh",
+		defaultAnimation = "torreta",
+	},
+
+	puerta1 = {
+		type = "AnimatedEntity",
+		position = {0, 0, 180},
+		orientation = 0,
+		life = 100.0,
+		model = "puerta.mesh",
+		defaultAnimation = "puerta",
+	},
+	
+	puerta2 = {
+		type = "AnimatedEntity",
+		position = {0, 0, 300},
+		orientation = 0,
+		life = 100.0,
+		model = "puerta.mesh",
+		defaultAnimation = "puerta",
+	},
+
+	puerta3 = {
+		type = "AnimatedEntity",
+		position = {110, 0, 420},
+		orientation = 90,
+		life = 100.0,
+		model = "puerta.mesh",
+		defaultAnimation = "puerta",
+	},
+	
+	puerta4 = {
+		type = "AnimatedEntity",
+		position = {130, 0, 450},
+		orientation = 0,
+		life = 100.0,
+		model = "puerta.mesh",
+		defaultAnimation = "puerta",
+	},
+	
+	puerta5 = {
+		type = "AnimatedEntity",
+		position = {0, 0, 750},
+		orientation = 90,
+		life = 100.0,
+		model = "puerta.mesh",
+
+	},
+	
+	puerta6 = {
+		type = "AnimatedEntity",
+		position = {-50, 0, 350},
+		orientation = 90,
+		life = 100.0,
+		model = "puerta.mesh",
+		defaultAnimation = "puerta",
+	},		
+	
+	puerta7 = {
+		type = "AnimatedEntity",
+		position = {-30, 0, 400},
+		orientation = 0,
+		life = 100.0,
+		model = "puerta.mesh",
+		defaultAnimation = "puerta",
+	},	
+	
+	puerta8 = {
+		type = "AnimatedEntity",
+		position = {-150, 0, 320},
+		orientation = 0,
+		life = 100.0,
+		model = "puerta.mesh",
+		defaultAnimation = "puerta",
+	},	
+	
+	puerta9 = {
+		type = "AnimatedEntity",
+		position = {-210, 0, 320},
+		orientation = 0,
+		life = 100.0,
+		model = "puerta.mesh",
+		defaultAnimation = "puerta",
+	},	
+	
+	puerta10 = {
+		type = "AnimatedEntity",
+		position = {-70, 0, 630},
+		orientation = 0,
+		life = 100.0,
+		model = "puerta.mesh",
+		defaultAnimation = "puerta",
+	},
+	
+	puerta11 = {
+		type = "AnimatedEntity",
+		position = {-150, 0, 750},
+		orientation = 90,
+		life = 100.0,
+		model = "puerta.mesh",
+
+	},	
+	
+	sierra1 = {
+		type = "AnimatedEntity",
+		position = {0, 0, 280},
+		orientation = 0,
+		life = 100.0,
+		model = "sierra.mesh",
+		defaultAnimation = "sierra",
+	},
+	
+	sierra2 = {
+		type = "AnimatedEntity",
+		position = {220, 0, 430},
+		orientation = 0,
+		life = 100.0,
+		model = "sierra.mesh",
+		defaultAnimation = "sierra",
+	},
+		
+	sierra3 = {
+		type = "AnimatedEntity",
+		position = {70, 0, 420},
+		orientation = 90,
+		life = 100.0,
+		model = "sierra.mesh",
+		defaultAnimation = "sierra",
+	},
+		
+	sierra4 = {
+		type = "AnimatedEntity",
+		position = {110, 0, 510},
+		orientation = 270,
+		life = 100.0,
+		model = "sierra.mesh",
+		defaultAnimation = "sierra",
+	},
+
+	sierra5 = {
+		type = "AnimatedEntity",
+		position = {-180, 0, 340},
+		orientation = 90,
+		life = 100.0,
+		model = "sierra.mesh",
+		defaultAnimation = "sierra",
+	},
+	
+	sierra6 = {
+		type = "AnimatedEntity",
+		position = {-180, 0, 410},
+		orientation = 0,
+		life = 100.0,
+		model = "sierra.mesh",
+		defaultAnimation = "sierra",
+	},	
+
+	sierra7 = {
+		type = "AnimatedEntity",
+		position = {-280, 0, 460},
+		orientation = 0,
+		life = 100.0,
+		model = "sierra.mesh",
+		defaultAnimation = "sierra",
+	},	
+	
+	sierra8 = {
+		type = "AnimatedEntity",
+		position = {-70, 0, 550},
+		orientation = 0,
+		life = 100.0,
+		model = "sierra.mesh",
+		defaultAnimation = "sierra",
+	},	
+	
+	fuente = {
+		type = "AnimatedEntity",
+		position = {-40, 12, 311},
+		orientation = 0,
+		life = 100.0,
+		model = "fuente.mesh",
+		defaultAnimation = "fuente",		
+	},
+	
+	burbujas = {
+		type = "AnimatedEntity",
+		position = {-50, 0, 730},
+		orientation = 0,
+		life = 100.0,
+		model = "burbujas.mesh",
+		defaultAnimation = "burbujas",		
+	},
+	
+	bioshock = {
+		type = "AnimatedEntity",
+		position = {-70, 0, 730},
+		orientation = 180,
+		life = 100.0,
+		model = "bioshock.mesh",
+		defaultAnimation = "bioshock",
+	},	
+}

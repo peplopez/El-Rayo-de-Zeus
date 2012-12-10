@@ -1,0 +1,45 @@
+    vertex_program monster_vs cg
+    {
+        source monster.source
+ 
+        default_params
+        {
+            param_named_auto lightPosition0 light_position_object_space 0
+            param_named_auto lightPosition1 light_position_object_space 1
+            param_named_auto lightPosition2 light_position_object_space 2
+            param_named_auto eyePosition camera_position_object_space
+            param_named_auto worldviewproj worldviewproj_matrix
+            param_named scale float 2 
+        }
+ 
+        entry_point monster_vs
+        profiles vs_1_1 arbvp1
+    }
+
+    fragment_program monster_ps cg
+    {
+        source monster.source
+ 
+        default_params
+        {
+            param_named_auto lightDiffuse0 light_diffuse_colour 0
+            param_named_auto lightDiffuse1 light_diffuse_colour 1
+            param_named_auto lightDiffuse2 light_diffuse_colour 2
+ 
+            param_named_auto lightSpecular0 light_specular_colour 0
+            param_named_auto lightSpecular1 light_specular_colour 1
+            param_named_auto lightSpecular2 light_specular_colour 2
+ 
+//            param_named_auto atten0 light_attenuation 0
+//            param_named_auto atten1 light_attenuation 1
+//            param_named_auto atten2 light_attenuation 2
+ 
+            param_named exponent0 float 127
+            param_named scaleBias float4 0.04 -0.02 1 0 
+            param_named ambient float4 0.0 0.0 0.1 1.0
+ 
+        }
+ 
+        entry_point monster_ps
+        profiles ps_2_0 arbfp1
+    }

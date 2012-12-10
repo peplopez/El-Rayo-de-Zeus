@@ -1,0 +1,42 @@
+Al marine se le pueden "attach" armas en los huesos y en función del alma que lleve
+se debería poner una serie de animaciones u otras. La katana y el AK47 tienen que 
+estar puestas en el hueso de la mano derecha ("Bip01 R Hand"), y las uzis (que son 2, 
+uno para cada mano y cada uno con sus propios ejes) en los huesos de cada mano, el de
+la izquierda es "Bip01 L Hand". Los modelos de las armas son:
+- Katana.mesh
+- AK47.mesh
+- UziRight.mesh
+- UziLeft.mesh
+
+Nombre animaciones en Ogre = nombre animacion+arma (ex : WalkAK47, RunUzi, etc...)
+
+Si=hecho
+X = no existe
+
+              basic   AK47    Katana  Uzi     Duracion
+Idle          Si      Si      Si      Si      40
+Walk          Si      Si      Si      Si      32
+Run           Si      Si      Si      Si      32
+Fire          X       Si      Si      Si      4 (katana = 30)
+GetObject     Si      X       X       X       31
+Death         Si      Si      Si      Si      31
+Damage        Si      Si      Si      Si      20
+Crouch        Si      Si      Si      Si      40
+WalkBack      Si      Si      Si      Si      32
+RunBack       Si      Si      Si      Si      32
+StrafeLeft    Si      X       X       X       ?
+StrafeRight   Si      X       X       X       ?
+
+¡¡En Galeón no proporcionamos aun nada para adjuntar elementos a los huesos de una 
+entidad!! Para las pruebas hice un hack muy cutre al final de Graphics::CEntity::load(). 
+Pongo el código por si alguien se propone hacerlo bien que vea un ejemplo :-)
+
+bool CEntity::load() {
+	...
+	if(!_name.compare("David")) // que es como llamamos al player en el mapa
+	{
+		Ogre::Entity *weapon = _scene->getSceneMgr()->createEntity("weapon", "AK47.mesh");
+		_entity->attachObjectToBone("Bip01 R Hand",weapon);
+	}
+	return true;
+}

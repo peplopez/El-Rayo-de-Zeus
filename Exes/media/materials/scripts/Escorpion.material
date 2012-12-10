@@ -1,0 +1,39 @@
+material Escorpion/TEXFACE/escorpion.jpg
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.1 0.1 0.1 1
+			diffuse 1 1 1 1
+			emissive 0 0 0 1
+			texture_unit
+			{
+				texture escorpion.jpg
+				colour_op modulate
+			}
+		}
+//		pass
+//		{
+//			ambient 1 1 1 1
+//			diffuse 0.0 0.0 0.0
+//			specular 0.500000 0.500000 0.500000 1.000000 12.500000
+//			scene_blend add
+//		}
+	}
+}
+//material Escorpion/TEXFACE
+//{
+//	receive_shadows on
+//	technique
+//	{
+//		pass
+//		{
+//			ambient 1 1 1 1
+//			diffuse 0.800000 0.800000 0.800000 1.000000
+//			specular 0.500000 0.500000 0.500000 1.000000 12.500000
+//			emissive 0.000000 0.000000 0.000000 1.000000
+//		}
+//	}
+//}

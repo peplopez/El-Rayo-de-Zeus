@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="OgreTray/FrameWindow" Name="Time" >
+        <Property Name="Font" Value="DejaVuSans-10" />
+        <Property Name="Text" Value="Time: 0" />
+        <Property Name="AlwaysOnTop" Value="True" />
+        <Property Name="CaptionFont" Value="DejaVuSans-10" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.25,0},{0.1,0}}" />
+    </Window>
+</GUILayout>
