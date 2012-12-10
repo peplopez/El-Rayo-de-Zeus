@@ -24,6 +24,8 @@
 
 [Dd]ebug*/
 [Rr]elease/
+*.exe
+*.dll
 
 build/
 
