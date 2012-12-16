@@ -9,6 +9,8 @@ gráfica de una entidad estática.
 
 @author David Llansó
 @date Agosto, 2010
+
+PRUEBA FER MIAU MIAU
 */
 
 #include "AnimatedGraphics.h"
