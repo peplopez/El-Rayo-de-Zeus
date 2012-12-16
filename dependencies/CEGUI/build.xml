@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- Fichero Ant para la compilación del proyecto -->
+<!-- Marco Antonio Gomez Martin -->
+<!-- Julio, 2010 -->
+
+<project name="CEGUI" default="build">
+
+  <!-- =========== -->
+  <!-- PROPIEDADES -->
+  <!-- =========== -->
+
+  <property name="vslogfile" value="${basedir}/vslog.txt"/>
+  <property name="ceguiSLN" value="CEGUI.sln"/>
+
+  <patternset id="vctmpfiles">
+    <include name="**/*.suo"/>
+    <include name="**/*.ncb"/>
+    <include name="**/*.sdf"/>
+    <include name="**/*.exp"/>
+    <include name="**/*.ilk"/>
+    <include name="**/*.user"/>
+  </patternset>
+
+  <taskdef resource = "vcTasks.properties" classpath="vcTask"/>
+
+  <!-- =============================================== -->
+  <!-- TARGET DE PUBLICACION DE .h Y BINARIOS          -->
+  <!-- =============================================== -->
+<target name="publishLibBinDebug">
+   <copy file="lib/CEGUIBase_d.lib" todir="../lib/Debug"/>
+   <copy file="lib/CEGUIExpatParser_d.lib" todir="../lib/Debug"/>
+   <copy file="lib/CEGUIFalagardWRBase_d.lib" todir="../lib/Debug"/>
+   <copy file="lib/CEGUIOgreRenderer_d.lib" todir="../lib/Debug"/>
+   <copy file="lib/CEGUISILLYImageCodec_d.lib" todir="../lib/Debug"/>
+   <copy file="bin/CEGUIBase_d.dll" todir="../bin/Debug"/>
+   <copy file="bin/CEGUIExpatParser_d.dll" todir="../bin/Debug"/>
+   <copy file="bin/CEGUIFalagardWRBase_d.dll" todir="../bin/Debug"/>
+   <copy file="bin/CEGUIOgreRenderer_d.dll" todir="../bin/Debug"/>
+   <copy file="bin/CEGUISILLYImageCodec_d.dll" todir="../bin/Debug"/>
+   <copy file="dependencies/bin/SILLY_d.dll" todir="../bin/Debug"/>
+</target>
+
+<target name="publishLibBinRelease">
+   <copy file="lib/CEGUIBase.lib" todir="../lib/Release"/>
+   <copy file="lib/CEGUIExpatParser.lib" todir="../lib/Release"/>
+   <copy file="lib/CEGUIFalagardWRBase.lib" todir="../lib/Release"/>
+   <copy file="lib/CEGUIOgreRenderer.lib" todir="../lib/Release"/>
+   <copy file="lib/CEGUISILLYImageCodec.lib" todir="../lib/Release"/>
+   <copy file="bin/CEGUIBase.dll" todir="../bin/Release"/>
+   <copy file="bin/CEGUIExpatParser.dll" todir="../bin/Release"/>
+   <copy file="bin/CEGUIFalagardWRBase.dll" todir="../bin/Release"/>
+   <copy file="bin/CEGUIOgreRenderer.dll" todir="../bin/Release"/>
+   <copy file="bin/CEGUISILLYImageCodec.dll" todir="../bin/Release"/>
+   <copy file="dependencies/bin/SILLY.dll" todir="../bin/Release"/>
+</target>
+
+
+<target name="publishIncludes">
+    <mkdir dir="../include/cegui"/>
+    <copy todir="../include/cegui">
+       <fileset dir="cegui/include/" excludes="**.in,**.am"/>
+    </copy>
+</target>
+
+  <!-- =============================================== -->
+  <!-- TARGET DE GENERACION DE LOS PROYECTOS DE VISUAL -->
+  <!-- =============================================== -->
+
+<target name="generaSLN">
+   <!-- Generamos el proyecto de Visual 2008 (premake no -->
+   <!-- soporta aún Visual 2010) -->
+   <exec executable="${basedir}/projects/premake/build_vs2008.bat" dir="${basedir}/projects/premake">
+   </exec>
+
+   <!-- Y convertimos a Visual 2010 -->
+   <!-- Primero borramos los resultados de la conversión anterior -->
+   <!-- para que Visual no nos saque una ventana preguntando qué hacer -->
+   <!-- con ellos... -->
+   <delete verbose="true">
+      <fileset dir="${basedir}/projects/premake" includes="**/*.vcxproj"/>
+      <fileset dir="${basedir}/projects/premake" includes="**/*.vcxproj.filters"/>
+      <fileset dir="${basedir}/projects/premake" includes="UpgradeLog*.XML"/>
+   </delete>
+   <delete verbose="true" dir="${basedir}/projects/premake/Backup"/>
+   <delete verbose="true" dir="${basedir}/projects/premake/_UpgradeReport_Files"/>
+
+   <!-- Y luego llamamos a Visual -->
+   <vc10 projectfolder="${basedir}/projects/premake" 
+        upgrade="true"
+        logfile="${vslogfile}">
+     <targets dir="${basedir}/projects/premake" includes="${ceguiSLN}"/>
+   </vc10>
+   <delete file = "${vslogfile}"/>
+</target>
+
+  <!-- ==================================== -->
+  <!-- TARGET DE INVOCACION A VISUAL STUDIO -->
+  <!-- ==================================== -->
+
+<!-- Objetivo que compila un proyecto de VC7.
+Parámetros (utilizando propiedades):
+  projectfolder: Directorio donde está el SLN.
+  buildmode: Configuracion. Normalmente, Debug o Release.
+  rebuild: "true" si se quiere recompilar; false si no
+  project: Fichero .sln a compilar. Se pueden poner comodines ("**/*.sln").
+  vslogfile: fichero donde se guarda el log de la compilacion (se borra luego).
+-->
+<target name="windowsbuilder">
+  <vc10 projectfolder="${projectfolder}" 
+       buildmode="${buildmode}"
+       rebuild="${rebuild}"
+       logfile="${vslogfile}">
+    <targets dir="${projectfolder}" includes="${project}"/>
+  </vc10>
+  <delete file = "${vslogfile}"/>
+</target>
+
+<!-- Objetivo que compila el proyecto.
+Parametros:
+   config: Debug o Release
+   rebuild: "true" si se quiere recompilar; false si no.
+-->
+<target name="compilaSln">
+
+  <antcall target="windowsbuilder">
+    <param name="projectfolder" value="${basedir}/projects/premake"/>
+    <param name="buildmode" value="${config}"/>
+    <param name="project" value="${ceguiSLN}"/>
+  </antcall>
+</target>
+
+  <!-- =================== -->
+  <!-- TARGETS DE LIMPIEZA -->
+  <!-- =================== -->
+
+<target name="cleanDebug"
+        description="Elimina los ficheros de la compilacion en Debug">
+   <delete includeemptydirs="true" failonerror="false">
+      <fileset dir="${basedir}/lib" includes="*_d*"/>
+      <fileset dir="${basedir}/bin" includes="*_d*"/>
+      <fileset dir="${basedir}/projects/premake" includes="**/Debug/"/>
+   </delete>
+</target>
+
+<target name="cleanRelease"
+        description="Elimina los ficheros de la compilacion en Release">
+
+   <delete includeemptydirs="true" failonerror="false">
+      <fileset dir="${basedir}/lib" includes="*" excludes="*_d*"/>
+      <fileset dir="${basedir}/bin" includes="*" excludes="*_d*"/>
+      <fileset dir="${basedir}/projects/premake" includes="**/Release/"/>
+   </delete>
+
+</target>
+
+<target name="clean"
+        description="Elimina ficheros de compilación"
+	depends="cleanDebug, cleanRelease">
+
+   <delete>
+     <fileset dir="${basedir}">
+       <patternset refid="vctmpfiles"/>
+     </fileset>
+   </delete>
+  <delete file = "${vslogfile}"/>
+  <delete dir="${basedir}/include"/>
+  <delete includeemptydirs="true" failonerror="false">
+      <fileset dir="${basedir}/projects/premake" includes="**/obj/,**/*.vcxproj,**/*.vcxproj.filters,UpgradeLog*.XML,CEGUI.sln"/>
+      <fileset dir="${basedir}/cegui/include" includes="config.h"/>
+   </delete>
+   <delete verbose="true" dir="${basedir}/projects/premake/Backup"/>
+   <delete verbose="true" dir="${basedir}/projects/premake/_UpgradeReport_Files"/>
+</target>
+
+  <!-- ================================== -->
+  <!-- TARGETS DE COMPILACION INCREMENTAL -->
+  <!-- ================================== -->
+
+<!-- Objetivo que compila el proyecto en modo Debug. -->
+<target name="debug"
+        description="Compilación (incremental) en modo Debug"
+        depends="generaSLN">
+
+  <antcall target="compilaSln">
+    <param name="config" value="Debug"/>
+    <param name="rebuild" value="false"/>
+  </antcall>
+
+  <!-- Y copiamos las .dll al Exes -->
+  <antcall target="publishLibBinDebug"/>
+
+  <!-- Y los ficheros de cabecera -->
+  <antcall target="publishIncludes"/>
+</target>
+
+<!-- Objetivo que compila el proyecto en modo Release. -->
+<target name="release"
+        description="Compilación (incremental) en modo Release"
+        depends="generaSLN">
+
+  <antcall target="compilaSln">
+    <param name="config" value="Release"/>
+    <param name="rebuild" value="false"/>
+  </antcall>
+
+  <!-- Y copiamos las .dll al Exes -->
+  <antcall target="publishLibBinRelease"/>
+
+  <!-- Y los ficheros de cabecera -->
+  <antcall target="publishIncludes"/>
+</target>
+
+<!-- Objetivo que compila el proyecto (Debug+Release) de forma incremental. -->
+<target name="build"
+        description="Compilación (incremental) Debug y Release."
+        depends="debug, release"/>
+
+  <!-- =============================== -->
+  <!-- TARGETS DE COMPILACION COMPLETA -->
+  <!-- =============================== -->
+
+<!-- Objetivo que compila todo el proyecto en modo Debug. -->
+<target name="redebug"
+        description="Compilación desde cero en modo Debug"
+        depends="cleanDebug, generaSLN">
+
+  <antcall target="compilaSln">
+    <param name="config" value="Debug"/>
+    <param name="rebuild" value="true"/>
+  </antcall>
+
+  <!-- Y copiamos las .dll al Exes -->
+  <antcall target="publishLibBinDebug"/>
+
+  <!-- Y los ficheros de cabecera -->
+  <antcall target="publishIncludes"/>
+</target>
+
+<!-- Objetivo que compila todo el proyecto en modo Release. -->
+<target name="rerelease"
+        description="Compilación desde cero en modo Release"
+        depends="cleanRelease, generaSLN">
+
+  <antcall target="compilaSln">
+    <param name="config" value="Release"/>
+    <param name="rebuild" value="true"/>
+  </antcall>
+
+  <!-- Y copiamos las .dll al Exes -->
+  <antcall target="publishLibBinRelease"/>
+
+  <!-- Y los ficheros de cabecera -->
+  <antcall target="publishIncludes"/>
+
+</target>
+
+<!-- Objetivo que compila todo el proyecto (Debug+Release). -->
+<target name="rebuild"
+        description="Compilación desde cero en Debug y Release."
+        depends="clean, redebug, rerelease"/>
+
+  <!-- ============================= -->
+  <!-- TARGETS DE EJECUCION DE TESTS -->
+  <!-- ============================= -->
+
+<target name="runTests"
+        description="Ejecución de tests del proyecto (si los hay...)."/>
+
+<target name="tests" description="Compilacion y ejecución de tests."
+        depends="build, runTests"/>
+
+  <!-- ==================================== -->
+  <!-- TARGETS DE CREACION DE DOCUMENTACION -->
+  <!-- ==================================== -->
+
+<target name="doxygen"
+        description="Genera la documentación, si la hay."/>
+
+  <!-- =========================== -->
+  <!-- TARGETS PARA CRUISE CONTROL --> 
+  <!-- =========================== -->
+
+<target name="CruiseControl"
+        depends="build, runTests"
+        description="Compilacion para CruiseControl (build + tests)."/>
+
+</project>

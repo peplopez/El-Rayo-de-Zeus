@@ -1,0 +1,95 @@
+material base_material
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "32"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture white.png
+            }
+
+            texture_unit aoMap
+            {
+                texture white.png
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 0 0 0 0
+
+            texture_unit diffuseMap
+            {
+                texture white.png
+            }
+
+            texture_unit specMap
+            {
+                texture white.png
+            }
+
+            texture_unit normalMap
+            {
+                texture flat_n.png
+            }
+        }
+    }
+}
+
+// examples (require the appropriate [[textures]], all found in the Ogre samples)
+
+material rockwall : base_material
+{
+    set_texture_alias diffuseMap rockwall.tga
+    set_texture_alias specMap rockwall.tga
+    set_texture_alias normalMap rockwall_NH.tga
+}
+
+material metal : base_material
+{
+    set_texture_alias diffuseMap RustedMetal.jpg
+    set_texture_alias specMap RustedMetal.jpg
+}
+
+material ogre : base_material
+{
+    set_texture_alias diffuseMap GreenSkin.jpg
+    set_texture_alias specMap GreenSkin.jpg
+    set_texture_alias normalMap NMHollyBumps.png
+}
+

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- Fichero Ant para la compilación del proyecto -->
+<!-- Marco Antonio Gomez Martin -->
+<!-- Julio, 2010 -->
+
+<project name="Galeon" default="build">
+
+  <!-- =========== -->
+  <!-- PROPIEDADES -->
+  <!-- =========== -->
+
+  <property name="vslogfile" value="${basedir}/vslog.txt"/>
+  <property name="slnName" value="Galeon.sln"/>
+
+  <patternset id="vctmpfiles">
+    <include name="**/*.suo"/>
+    <include name="**/*.ncb"/>
+    <include name="**/*.exp"/>
+    <include name="**/*.ilk"/>
+    <include name="**/*.user"/>
+  </patternset>
+
+  <taskdef name = "vc7" classname="com.arrizza.ant.taskdefs.VC7"/>
+
+  <!-- ==================================== -->
+  <!-- TARGET DE INVOCACION A VISUAL STUDIO -->
+  <!-- ==================================== -->
+
+<!-- Objetivo que compila un proyecto de VC7.
+Parámetros (utilizando propiedades):
+  projectfolder: Directorio donde está el SLN.
+  buildmode: Configuracion. Normalmente, Debug o Release.
+  rebuild: "true" si se quiere recompilar; false si no
+  project: Fichero .sln a compilar. Se pueden poner comodines ("**/*.sln").
+  vslogfile: fichero donde se guarda el log de la compilacion (se borra luego).
+-->
+<target name="windowsbuilder">
+  <vc7 projectfolder="${projectfolder}" 
+       buildmode="${buildmode}"
+       rebuild="${rebuild}"
+       logfile="${vslogfile}">
+    <targets dir="${projectfolder}" includes="${project}"/>
+  </vc7>
+  <delete file = "${vslogfile}"/>
+</target>
+
+<!-- Objetivo que compila el proyecto.
+Parametros:
+   config: Debug o Release
+   rebuild: "true" si se quiere recompilar; false si no.
+-->
+<target name="compilaSln">
+
+  <antcall target="windowsbuilder">
+    <param name="projectfolder" value="../.."/>
+    <param name="buildmode" value="${config}"/>
+    <param name="project" value="${slnName}"/>
+  </antcall>
+</target>
+
+  <!-- =================== -->
+  <!-- TARGETS DE LIMPIEZA -->
+  <!-- =================== -->
+
+<target name="cleanDebug"
+        description="Elimina los ficheros de la compilacion en Debug de TODOS los proyectos">
+
+   <delete includeemptydirs="true" failonerror="false">
+     <fileset dir="${basedir}/.." includes="**/Debug/"/>   
+   </delete>
+</target>
+
+<target name="cleanRelease"
+        description="Elimina los ficheros de la compilacion en Release de TODOS los proyectos">
+
+   <delete includeemptydirs="true" failonerror="false">
+     <fileset dir="${basedir}/.." includes="**/Release/"/>   
+   </delete>
+</target>
+
+<target name="clean"
+        description="Elimina ficheros de compilación"
+	depends="cleanDebug, cleanRelease">
+
+   <delete>
+     <fileset dir="${basedir}">
+       <patternset refid="vctmpfiles"/>
+     </fileset>
+   </delete>
+  <delete file = "${vslogfile}"/>
+</target>
+
+  <!-- ================================== -->
+  <!-- TARGETS DE COMPILACION INCREMENTAL -->
+  <!-- ================================== -->
+
+<!-- Objetivo que compila el proyecto en modo Debug. -->
+<target name="debug"
+        description="Compilación (incremental) en modo Debug">
+
+  <antcall target="compilaSln">
+    <param name="config" value="Debug"/>
+    <param name="rebuild" value="false"/>
+  </antcall>
+
+</target>
+
+<!-- Objetivo que compila el proyecto en modo Release. -->
+<target name="release"
+        description="Compilación (incremental) en modo Release">
+
+  <antcall target="compilaSln">
+    <param name="config" value="Release"/>
+    <param name="rebuild" value="false"/>
+  </antcall>
+
+</target>
+
+<!-- Objetivo que compila el proyecto (Debug+Release) de forma incremental. -->
+<target name="build"
+        description="Compilación (incremental) Debug y Release."
+        depends="debug, release"/>
+
+  <!-- =============================== -->
+  <!-- TARGETS DE COMPILACION COMPLETA -->
+  <!-- =============================== -->
+
+<!-- Objetivo que compila todo el proyecto en modo Debug. -->
+<target name="redebug"
+        description="Compilación desde cero en modo Debug">
+
+  <antcall target="compilaSln">
+    <param name="config" value="Debug"/>
+    <param name="rebuild" value="true"/>
+  </antcall>
+
+</target>
+
+<!-- Objetivo que compila todo el proyecto en modo Release. -->
+<target name="rerelease"
+        description="Compilación desde cero en modo Release">
+
+  <antcall target="compilaSln">
+    <param name="config" value="Release"/>
+    <param name="rebuild" value="true"/>
+  </antcall>
+
+</target>
+
+<!-- Objetivo que compila todo el proyecto (Debug+Release). -->
+<target name="rebuild"
+        description="Compilación desde cero en Debug y Release."
+        depends="redebug, rerelease"/>
+
+  <!-- ==================================== -->
+  <!-- TARGETS DE CREACION DE DOCUMENTACION -->
+  <!-- ==================================== -->
+
+<target name="doxygen"
+        description="Genera la documentación, si la hay."/>
+
+  <!-- =========================== -->
+  <!-- TARGETS PARA CRUISE CONTROL --> 
+  <!-- =========================== -->
+
+<target name="CruiseControl"
+        depends="build"
+        description="Compilacion para CruiseControl (build)."/>
+
+</project>

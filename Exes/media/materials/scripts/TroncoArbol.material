@@ -1,0 +1,46 @@
+material TroncoArbol/blinn1
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0 0 0 3.33333
+			emissive 0 0 0
+
+			texture_unit
+			{
+				texture tronco2.jpg
+				tex_coord_set 0
+				colour_op modulate
+				scale 1 1
+				scroll 0 0
+				rotate 0
+			}
+		}
+	}
+}
+material TroncoArbol/blinn2
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0 0 0 3.33333
+			emissive 0 0 0
+
+			texture_unit
+			{
+				texture tronco3.jpg
+				tex_coord_set 0
+				colour_op modulate
+				scale 1 1
+				scroll 0 0
+				rotate 0
+			}
+		}
+	}
+}

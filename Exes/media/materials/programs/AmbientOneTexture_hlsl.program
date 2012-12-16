@@ -1,0 +1,13 @@
+ vertex_program AmbientOneTexture_hlsl hlsl
+        {
+            source AmbientOneTexture_vs.hlsl
+            entry_point main
+            target vs_1_1
+            
+            default_params
+            {
+                param_named_auto worldViewProj worldviewproj_matrix
+                param_named_auto ambientColor ambient_light_colour
+            }
+        }
+

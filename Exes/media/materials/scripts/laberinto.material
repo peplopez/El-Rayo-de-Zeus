@@ -1,0 +1,1657 @@
+material paredmetalica
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "32"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+			cull_hardware none
+			cull_software none
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture paredmetalica.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture paredmetalica.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture paredmetalica.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture paredmetalica_Nbump.tga
+            }
+        }
+    }
+}
+
+material corredores
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "32"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+			cull_hardware none
+			cull_software none
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture corredores.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture corredores.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture corredores.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture corredores_Nbump.tga
+            }
+        }
+    }
+}
+
+
+material entrada
+{
+     set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "32"
+	
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0	
+			cull_hardware none
+			cull_software none
+			
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture pared1.jpg
+            }
+
+            texture_unit aoMap
+            {
+                texture pared1.jpg
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture pared1.jpg
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture pared1.jpg
+            }
+        }
+    }
+}
+
+material Caja
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "10 10 10 10"
+    set $shininess "18"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture caja.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture caja.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture caja.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture caja_Nbump.tga
+            }
+        }
+    }
+}
+
+
+
+material rejas
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "10 10 10 10"
+    set $shininess "10"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture rejas.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture rejas.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture rejas.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture rejas_Nbump.tga
+            }
+        }
+    }
+}
+material canon
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "32"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture canon.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture canon.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture canon.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture canon_Nbump.tga
+            }
+        }
+    }
+}
+
+material rojo
+{
+     set $diffuseCol "1 1 1 1"
+    set $specularCol "2 2 2 2"
+    set $shininess "10"
+	
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0	
+
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture rojo.jpg
+            }
+
+            texture_unit aoMap
+            {
+                texture rojo.jpg
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture rojo.jpg
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture rojo.jpg
+            }
+        }
+    }
+}
+
+material blancopuro
+{
+	technique
+	{
+		pass
+		{
+			specular 0 0 0 10 0
+			emissive 2 2 1 1
+		}
+
+	}
+
+}
+
+
+material sierras
+ {
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "30"
+ technique
+     {
+         pass
+         {
+             lighting off
+ 
+             ambient 1 1 1 1
+             diffuse 1 1 1 1
+             specular 0 0 0 0
+             emissive 0 0 0
+			cull_hardware none
+			cull_software none
+			 
+             scene_blend alpha_blend
+             depth_write off
+ 
+             texture_unit
+             {
+                 texture sierras.tga
+                 tex_coord_set 0
+                 colour_op modulate
+             }
+         }
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                 texture sierras.tga
+                 tex_coord_set 0
+                 colour_op modulate
+             }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture sierras_Nbump.tga
+            }
+        }
+    }
+}
+
+
+material cuadrosierras
+ {
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "30"
+ technique
+     {
+         pass
+         {
+             lighting off
+ 
+             ambient 1 1 1 1
+             diffuse 1 1 1 1
+             specular 0 0 0 0
+             emissive 0 0 0
+			cull_hardware none
+			cull_software none
+			 
+             scene_blend alpha_blend
+             depth_write off
+ 
+             texture_unit
+             {
+                 texture sierras.tga
+             }
+         }
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                 texture sierras.tga
+                 tex_coord_set 0
+                 colour_op modulate
+             }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture sierras_Nbump.tga
+            }
+        }
+    }
+}
+
+
+material vallas
+{
+	technique Map#57
+	{
+		pass Map#58
+		{
+			ambient 0.698039 0.698039 0.698039 0.3
+			diffuse 0.698039 0.698039 0.698039 0.3
+			specular 0.898039 0.898039 0.898039 0.3 0
+			emissive 0 0 0 0.3
+			scene_blend alpha_blend
+			depth_write off
+			cull_software front
+			shading flat
+
+			texture_unit Map#59
+			{
+				texture_alias Map#59
+				texture valla.tga alpha
+				filtering linear linear linear
+				alpha_op_ex modulate src_texture src_texture
+			}
+		}
+
+	}
+
+}
+ 
+ material aguasucia
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 0"
+    set $shininess "10"
+ technique
+     {
+         pass
+         {
+             lighting off
+ 
+             ambient 1 1 1 1
+             diffuse 1 1 1 1
+             specular 0 0 0 0
+             emissive 0 0 0
+			cull_hardware none
+			cull_software none
+			 
+             scene_blend alpha_blend
+             depth_write off
+ 
+             texture_unit
+             {
+                 texture egout.tga
+                 tex_coord_set 0
+                 colour_op modulate
+             }
+         }
+     }
+}
+ 
+ 
+material egout
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "32"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+			cull_hardware none
+			cull_software none
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture egout.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture egout.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture egout.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture egout_Nbump.tga
+            }
+        }
+    }
+}
+ 
+
+ 
+
+
+
+
+
+material tanke
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "30"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+			cull_hardware none
+			cull_software none
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture tanke.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture tanke.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture tanke.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture tanke_Nbump.tga
+            }
+        }
+    }
+}
+
+
+material calefaccion
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "32"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+			cull_hardware none
+			cull_software none
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture calefaccion.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture calefaccion.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture calefaccion.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture calefaccion_Nbump.tga
+            }
+        }
+    }
+}
+
+
+material cama
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "12"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+			cull_hardware none
+			cull_software none
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture cama.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture cama.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture cama.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture cama_Nbump.tga
+            }
+        }
+    }
+}
+
+
+
+material estanterias
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "32"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+			cull_hardware none
+			cull_software none
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture estanterias.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture estanterias.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture estanterias.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture estanterias_Nbump.tga
+            }
+        }
+    }
+}
+
+material suelo
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "30"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+			cull_hardware none
+			cull_software none
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture suelo.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture suelo.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture suelo.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture suelo_Nbump.tga
+            }
+        }
+    }
+}
+
+material puertas
+
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "50"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 10 0 0 0
+			cull_hardware none
+			cull_software none
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture puertas.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture puertas.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture puertas.tga
+            }
+
+            texture_unit specMap
+            {
+                texture puertas.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture puertas_Nbump.tga
+            }
+        }
+    }
+}
+
+
+
+material fuente
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0 0 0 0 0
+
+			texture_unit
+			{
+				texture spec.tga
+			}
+		}
+
+	}
+
+}
+
+
+
+
+material aire
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "32"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+			cull_hardware none
+			cull_software none
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture aire.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture aire.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture aire.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture aire_Nbump.tga
+            }
+        }
+    }
+}
+
+
+material cofre
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "32"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+			cull_hardware none
+			cull_software none
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture cofre.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture cofre.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture cofre.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture cofre_Nbump.tga
+            }
+        }
+    }
+}
+
+
+ material vidrios
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "10 1 1 80"
+    set $shininess "1"
+ technique
+     {
+         pass
+         {
+             lighting off
+ 
+             ambient 1 1 1 1
+             diffuse 1 1 1 1
+             specular 0 0 0 0
+             emissive 0 0 0
+			cull_hardware none
+			cull_software none
+			 
+             scene_blend alpha_blend
+             depth_write off
+ 
+             texture_unit
+             {
+                 texture vidrios.tga
+                 tex_coord_set 0
+                 colour_op modulate
+             }
+         }
+     }
+}
+
+ material spec
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "10 1 1 80"
+    set $shininess "1"
+ technique
+     {
+         pass
+         {
+  
+             texture_unit
+             {
+                 texture spec.tga
+             }
+         }
+     }
+}
+
+
+
+
+material arcos
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "0.1 0.1 0.1 10"
+    set $shininess "22"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+			cull_hardware none
+			cull_software none
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture arcos.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture arcos.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture arcos.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture arcos_Nbump.tga
+            }
+        }
+    }
+}
+
+
+material bioshock
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1 10"
+    set $shininess "22"
+
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+
+            ambient 1 1 1 1
+            diffuse $diffuseCol
+            specular 0 0 0 0
+            emissive 0 0 0 0
+			cull_hardware none
+			cull_software none
+            vertex_program_ref ambient_vs
+            {
+            }
+
+            fragment_program_ref ambient_ps
+            {
+            }
+
+            texture_unit diffuseMap
+            {
+                texture bioshock.tga
+            }
+
+            texture_unit aoMap
+            {
+                texture bioshock.tga
+            }
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient 1 1 1 1
+
+            texture_unit diffuseMap
+            {
+                texture bioshock.tga
+            }
+
+            texture_unit specMap
+            {
+                texture spec.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture bioshock_Nbump.tga
+            }
+        }
+    }
+}
+
+
+
+material skybox
+{
+	technique Map#54
+	{
+		pass Map#55
+		{
+			ambient 10 1 1 1
+			diffuse 3 3 3 1
+			specular 0 0 0 0 0
+
+			texture_unit Map#56
+			{
+				texture space.jpg
+
+			}
+		}
+
+	}
+
+}
+
+
+
