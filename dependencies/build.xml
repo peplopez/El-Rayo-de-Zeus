@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- Fichero Ant para la compilación de las dependencias -->
+<!-- del proyecto. -->
+<!-- Marco Antonio Gomez Martin -->
+<!-- Septiembre, 2010 -->
+
+<project name="dependencies" default="build">
+
+
+  <!-- ===================================================== -->
+  <!-- TARGET DE INVOCACION A TODOS LOS BUILD.XML AUXILIARES -->
+  <!-- ===================================================== -->
+
+<!-- 
+     Invoca todos los build.xml de las librerías con el target del parámetro.
+     Parámetro: targetUsed
+-->
+<target name="llamaBuilds"
+        description="Invoca todos los build.xml de las librerias con un target dado">
+
+      <ant antfile="build.xml" target="${targetUsed}" dir="./OgreDependencies"/>
+      <ant antfile="build.xml" target="${targetUsed}" dir="./Ogre"/>
+      <ant antfile="build.xml" target="${targetUsed}" dir="./CEGUI"/>
+
+</target>
+
+  <!-- ==================================== -->
+  <!-- TARGETS DE PUBLICACION DE RESULTADOS -->
+  <!-- ==================================== -->
+  <!-- Copian al directorio Exes las .dll   -->
+  <!-- generadas.                           -->
+
+<target name="publishDebug">
+   <copy todir="../Exes">
+      <fileset dir="bin/Debug"/>
+   </copy>
+</target>
+
+<target name="publishRelease">
+   <copy todir="../Exes">
+      <fileset dir="bin/Release"/>
+   </copy>
+</target>
+
+  <!-- =================== -->
+  <!-- TARGETS DE LIMPIEZA -->
+  <!-- =================== -->
+
+<target name="cleanDebugObj"
+        description="Elimina los ficheros intermedios de la compilacion en Debug">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="cleanDebug"/>
+  </antcall> 
+
+</target>
+
+<target name="cleanReleaseObj"
+        description="Elimina los ficheros intermedios de la compilacion en Release">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="cleanRelease"/>
+  </antcall>
+
+</target>
+
+<target name="cleanObj"
+        description="Elimina los ficheros intermedios de la compilación"
+        depends="cleanDebugObj, cleanReleaseObj">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="clean"/>
+  </antcall>
+
+</target>
+
+<target name="cleanDebug"
+        description="Elimina los ficheros intermedios de la compilacion en Debug y las bibliotecas resultantes de dependencies/lib/Debug, dependencies/bin/Debug y Exes"
+        depends="cleanDebugObj">
+
+  <delete includeemptydirs="true" failonerror="false">
+    <fileset dir="${basedir}/lib/Debug" includes="*CEGUI*,cg.lib,FreeImaged.lib,freetype2311_d.lib,*Ogre*,*OIS*,Plugin_CgProgramManager_d.lib,Plugin_ParticleFX_d.lib,RenderSystem_Direct3D9_d.lib,RenderSystem_GL_d.lib,zlibd.lib,zziplibd.lib"/>  
+    <fileset dir="${basedir}/bin/Debug" includes="*CEGUI*,cg.dll,*Ogre*,*OIS*,Plugin_CgProgramManager_d.dll,Plugin_ParticleFX_d.dll,RenderSystem_Direct3D9_d.dll,RenderSystem_GL_d.dll,SILLY_d.dll,plugins_d.cfg,dbghelp.dll,vld.ini,vld_x86.dll"/> 
+    <fileset dir="${basedir}/../Exes" includes="*_d*"/>  
+  </delete>  
+
+</target>
+
+<target name="cleanRelease"
+        description="Elimina los ficheros intermedios de la compilacion en Release y las bibliotecas resultantes de dependencies/lib/Release, dependencies/bin/Release y Exes"
+        depends="cleanReleaseObj">
+
+  <delete includeemptydirs="true" failonerror="false">
+    <fileset dir="${basedir}/lib/Release" includes="*CEGUI*,cg.lib,FreeImage.lib,freetype2311.lib,*Ogre*,*OIS*,Plugin_CgProgramManager.lib,Plugin_ParticleFX.lib,RenderSystem_Direct3D9.lib,RenderSystem_GL.lib,zlib.lib,zziplib.lib"/>  
+    <fileset dir="${basedir}/bin/Release" includes="*CEGUI*,cg.dll,*Ogre*,*OIS*,Plugin_CgProgramManager.dll,Plugin_ParticleFX.dll,RenderSystem_Direct3D9.dll,RenderSystem_GL.dll,SILLY.dll,plugins.cfg"/>  
+    <fileset dir="${basedir}/../Exes" includes="*" excludes="*_d*,cg.dll,ogre.cfg,resources.cfg"/>  
+  </delete>  
+
+</target>
+
+<target name="clean"
+        description="Elimina los ficheros intermedios de la compilación, las bibliotecas resultantes de dependencies/lib, dependencies/bin y Exes (con los ejecutables generados) y los archivos de inclusión de dependencies/include"
+        depends="cleanDebug, cleanRelease">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="clean"/>
+  </antcall>
+  
+  <delete includeemptydirs="true" failonerror="false">
+    <fileset dir="${basedir}/include" includes="cegui/,cg/,freetype/,OGRE/,OIS/,zzip/,FreeImage.h,ft2build.h,vld*,zconf.h,zlib.h"/>  
+    <fileset dir="${basedir}/../Exes" includes="*" excludes="resources.cfg"/>  
+  </delete>  
+
+</target>
+
+  <!-- ================================== -->
+  <!-- TARGETS DE COMPILACION INCREMENTAL -->
+  <!-- ================================== -->
+
+<!-- Objetivo que compila el proyecto en modo Debug. -->
+<target name="debug"
+        description="Compilación (incremental) en modo Debug">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="debug"/>
+  </antcall>
+
+  <antcall target="publishDebug"/>
+
+</target>
+
+<!-- Objetivo que compila el proyecto en modo Release. -->
+<target name="release"
+        description="Compilación (incremental) en modo Release">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="release"/>
+  </antcall>
+
+  <antcall target="publishRelease"/>
+</target>
+
+<!-- Objetivo que compila el proyecto (Debug+Release) de forma incremental. -->
+<target name="build"
+        description="Compilación (incremental) Debug y Release.">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="build"/>
+  </antcall>
+
+  <antcall target="publishRelease"/>
+  <antcall target="publishDebug"/>
+</target>
+
+  <!-- =============================== -->
+  <!-- TARGETS DE COMPILACION COMPLETA -->
+  <!-- =============================== -->
+
+<!-- Objetivo que compila todo el proyecto en modo Debug. -->
+<target name="redebug"
+        description="Compilación desde cero en modo Debug">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="redebug"/>
+  </antcall>
+
+  <antcall target="publishDebug"/>
+</target>
+
+<!-- Objetivo que compila todo el proyecto en modo Release. -->
+<target name="rerelease"
+        description="Compilación desde cero en modo Release">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="rerelease"/>
+  </antcall>
+
+  <antcall target="publishRelease"/>
+</target>
+
+<!-- Objetivo que compila todo el proyecto (Debug+Release). -->
+<target name="rebuild"
+        description="Compilación desde cero en Debug y Release.">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="rebuild"/>
+  </antcall>
+
+  <antcall target="publishRelease"/>
+  <antcall target="publishDebug"/>
+
+</target>
+
+  <!-- ============================= -->
+  <!-- TARGETS DE EJECUCION DE TESTS -->
+  <!-- ============================= -->
+
+<target name="runTests"
+        description="Ejecución de tests del proyecto (si los hay...).">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="runTests"/>
+  </antcall>
+
+</target>
+
+<target name="tests" description="Compilacion y ejecución de tests.">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="tests"/>
+  </antcall>
+
+</target>
+
+  <!-- ==================================== -->
+  <!-- TARGETS DE CREACION DE DOCUMENTACION -->
+  <!-- ==================================== -->
+
+<target name="doxygen"
+        description="Genera la documentación, si la hay.">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="doxygen"/>
+  </antcall>
+
+</target>
+
+  <!-- =========================== -->
+  <!-- TARGETS PARA CRUISE CONTROL --> 
+  <!-- =========================== -->
+
+<target name="CruiseControl"
+        description="Compilacion para CruiseControl (build + tests).">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="CruiseControl"/>
+  </antcall>
+
+</target>
+
+</project>
