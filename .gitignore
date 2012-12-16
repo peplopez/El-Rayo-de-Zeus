@@ -26,6 +26,10 @@
 [Rr]elease/
 *.exe
 *.dll
+Exes/*.tlog
+Exes/Application.lastbuildstate
+Exes/Galeon.exe.intermediate.manifest
+
 
 build/
 
@@ -122,3 +126,5 @@ UpgradeLog*.XML
 
 # NuGet
 packages/
+!dependencies/cmake/bin/
+!dependencies/cmake/bin/*.*
