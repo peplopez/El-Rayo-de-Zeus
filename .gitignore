@@ -123,9 +123,14 @@ Thumbs.db
 /dependencies/OgreDependencies/zlib-1.2.3/projects/visualc6/Win32_LIB_Debug/
 /dependencies/OgreDependencies/zlib-1.2.3/projects/visualc6/Win32_LIB_Release/
 /dependencies/OgreDependencies/zlib-1.2.3/projects/visualc6/*.2010.vcxproj.user
+/dependencies/OgreDependencies/zlib-1.2.3/win32/zlib1.res
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Debug/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Release/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/*.2010.vcxproj.user
+
+#Document. Doxygen
+
+/DocumentacionDoxygen/
 
 
 #Exes
