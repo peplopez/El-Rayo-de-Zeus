@@ -1,0 +1,13 @@
+vertex_program BarraVidaVSShader hlsl
+{
+	source barravida.hlsl
+	entry_point vsMain
+	target vs_2_0
+}
+
+fragment_program BarraVidaHLSL hlsl
+{
+	source barravida.hlsl
+	entry_point main
+	target ps_2_0
+}
