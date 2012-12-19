@@ -98,6 +98,7 @@ namespace Graphics
 		}
 		_entityNode = _scene->getSceneMgr()->getRootSceneNode()->
 								createChildSceneNode(_name + "_node");
+		
 		_entityNode->attachObject(_entity);
 		_loaded = true;
 
@@ -126,6 +127,8 @@ namespace Graphics
 
 	//--------------------------------------------------------
 		
+
+
 	void CEntity::tick(float secs)
 	{
 	} // tick
@@ -153,6 +156,26 @@ namespace Graphics
 
 	} // setOrientation
 	
+	
+	Ogre::SceneNode* CEntity::getEntityNode()
+	{
+		assert(_entityNode && "La entidad no ha sido cargada");
+		if(_entityNode)		
+			return _entityNode;
+
+	}
+
+	void CEntity::setMaterial(const std::string &materialName) 
+	{
+		assert(_entityNode && "La entidad no ha sido cargada");
+		if(_entityNode)
+			_entity->setMaterialName(materialName);
+			//_entity->getChild(0)->setMaterialName();
+
+	} // setOrientation
+	
+
+
 	//--------------------------------------------------------
 		
 	void CEntity::setVisible(bool visible)

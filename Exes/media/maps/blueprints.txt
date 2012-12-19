@@ -1,5 +1,6 @@
 World CGraphics
-Player CAvatarController CAnimatedGraphics
+Player CAvatarController CAnimatedGraphics CAngularMovement 
 Entity CGraphics
-AnimatedEntity CAnimatedGraphics
-Camera CCamera
+AnimatedEntity CAnimatedGraphics CAngularMovement 
+Camera CCamera 
+BarraVida CGraphics CLifeController

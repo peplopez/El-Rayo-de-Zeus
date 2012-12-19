@@ -455,7 +455,7 @@ namespace BaseSubsystems
 			// Inicializa el sistema de renderizado y crea la ventanapor defecto. 
 			// El true nos evita llamar a Root::createRenderWindow y se invoca 
 			// con los parámetros actuales del sistema de reenderizado.
-			_renderWindow = _root->initialise(true,"Galeon");
+			_renderWindow = _root->initialise(true,"El Rayo de Zeus");
 
 			// Añadimos un listener que gestiona el evento de cierre de la ventana.
 			_windowEventListener = new WindowEventListener();

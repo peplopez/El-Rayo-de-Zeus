@@ -77,6 +77,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\AngularMovement.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\ComponentFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\EntityFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\EntityID.cpp" />
@@ -89,8 +90,10 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Camera.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Graphics.cpp" />
     <ClCompile Include="..\..\Src\Logic\Server.cpp" />
+    <ClCompile Include="LifeController.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeController.h" />
     <ClInclude Include="..\..\Src\Logic\Maps\ComponentFactory.h" />
     <ClInclude Include="..\..\Src\Logic\Maps\Documentation.h" />
     <ClInclude Include="..\..\Src\Logic\Maps\EntityFactory.h" />
@@ -107,6 +110,7 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Graphics.h" />
     <ClInclude Include="..\..\Src\Logic\Documentation.h" />
     <ClInclude Include="..\..\Src\Logic\Server.h" />
+    <ClInclude Include="AngularMovement.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseSubsystems\BaseSubsystems.vcxproj">

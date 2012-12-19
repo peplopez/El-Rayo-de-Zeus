@@ -53,7 +53,8 @@ namespace Logic
 
 	bool CAvatarController::accept(const TMessage &message)
 	{
-		return message._type == Message::CONTROL;
+		return false;
+		return message._type == Message::SET_TRANSFORM;
 
 	} // accept
 	
@@ -143,12 +144,12 @@ namespace Logic
 
 	void CAvatarController::strafeLeft() 
 	{
-		_strafingLeft = true;
-
+		//_strafingLeft = true;
+			_walking = true;
 		// Cambiamos la animación
 		TMessage message;
 		message._type = Message::SET_ANIMATION;
-		message._string = "StrafeLeft";
+		message._string = "Walk";
 		message._bool = true;
 		_entity->emitMessage(message,this);
 
@@ -158,12 +159,12 @@ namespace Logic
 
 	void CAvatarController::strafeRight() 
 	{
-		_strafingRight = true;
-
+		//_strafingRight = true;
+			_walking = true;
 		// Cambiamos la animación
 		TMessage message;
 		message._type = Message::SET_ANIMATION;
-		message._string = "StrafeRight";
+		message._string = "Walk";
 		message._bool = true;
 		_entity->emitMessage(message,this);
 
@@ -205,6 +206,8 @@ namespace Logic
 			if(_walking || _walkingBack)
 			{
 				direction = Math::getDirection(_entity->getYaw());
+				//_entity->setYaw(Math::fro);
+				//_entity->setOrientation(0-_entity->getPosition().x,(-125)-_entity->getPosition().y,0-_entity->getPosition().z);
 				if(_walkingBack)
 					direction *= -1;
 			}
