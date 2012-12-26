@@ -163,3 +163,4 @@ Thumbs.db
 /Projects/Map/Release/
 /Projects/Map/*.vcxproj.user
 
+/dependencies/OgreDependencies/zlib-1.2.3/win32/zlib1.res
