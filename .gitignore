@@ -55,8 +55,9 @@ Thumbs.db
 #root
 /Galeon.opensdf
 /Galeon.sdf
-/Galeon.suo
 /vslog.txt
+/ipch/
+
 
 #dependencies
 
