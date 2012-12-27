@@ -4,7 +4,7 @@ material Verde
 	{
 		pass
 		{
-		texture_unit {
+		texture_unit aoMap{
 				texture rojoVerdeD.png
 				filtering trilinear
 				scroll 0.5 0.5

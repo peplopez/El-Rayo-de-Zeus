@@ -1,18 +1,18 @@
 /**
-@file AngularMovement.h
+@file Collider.h
 
-Contiene la declaración del componente que controla el movimiento 
-angular de entidades.
+Contiene la declaración del componente que controla la capacidad de colisionar 
+de la entidad.
 
-@see Logic::CAngularMovement
+@see Logic::CCollider
 @see Logic::IComponent
 
-@author José Luis López
+@author Jose Luis López Sánchez
 @date Diciembre, 2012
 */
 #pragma once
-#ifndef __Logic_AngularMovement_H
-#define __Logic_AngularMovement_H
+#ifndef __Logic_Collider_H
+#define __Logic_Collider_H
 
 #include "Logic/Entity/Component.h"
 
@@ -30,20 +30,19 @@ namespace Logic
 	
     @ingroup logicGroup
 
-	@author David Llansó García
-	@date Agosto, 2010
+	@author Jose Luis López Sánchez
+	@date Diciembre, 2012
 */
-	class CAngularMovement : public IComponent
+	class CCollider : public IComponent
 	{
-		DEC_FACTORY(CAngularMovement);
+		DEC_FACTORY(CCollider);
 	public:
 
 		/**
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAngularMovement() : IComponent(), _walkingRight(false), _walkingLeft(false), _goingUp(false),_goingDown(false),
-			_angularSpeed(0.05f), _actualRadius(-55), _actualDegree(-90){}
+		CCollider() : IComponent(),_sentidoColision(false),_hit(0) {}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -107,86 +106,35 @@ namespace Logic
 		@param message Mensaje a procesar.
 		*/
 		virtual void process(const TMessage &message);
-
-
-		/**
-		Provoca que la entidad avance a la derecha.
-		*/
-		void walkRight();
-
-		/**
-		Provoca que la entidad avance a la izquierda
-		*/
-		void walkLeft();
 		
 		/**
-		Provoca que la entidad retroceda al chocarse con otra entidad en lugar de simplemente pararse, 
-		así ya no está colisionando y se puede mover.
-		*/	
-		void walkBack();
+		Método virtual que define el comportamiento en caso de colisión.
+		*/
+		virtual void Contacto();
 
 		/**
-		Provoca que la entidad baje de anillo. Conlleva un cambio del eje de giro en su coordenada y
+		Método virtual que determina en una colisión quien está a la izquierda y quien a la derecha
 		*/
-		void goDown();
-
-		/**
-		Provoca que la entidad suba de anillo. Conlleva un cambio del eje de giro en su coordenada y
-		*/
-		void goUp();
-
-		/**
-		Provoca que la entidad cese el desplazamiento.
-		*/
-		void stopMovement();
-		
-		/**
-		Provoca que la entidad gire. Números Positivos para	giro a 
-		derechas, negativos para giro izquierdas.
-
-		@param amount Cantidad de giro. Positivos giro a derechas,
-		negativos a izquierdas.
-		*/
-		void turn(float amount);
+		virtual bool sentidoColision(CEntity* entidad1);
 
 
 
-	
+
 	protected:
-
 		/**
-		Atributo para saber si la entidad está avanzando a la derecha.
+			false si en una colisión, está a la izquierda
 		*/
-		bool _walkingRight;
-
+		bool _sentidoColision;
+		
 		/**
-		Atributo para saber si la entidad está avanzando a la izquierda
+			false si en una colisión, está a la izquierda
 		*/
-		bool _walkingLeft;
-		/**
-			Atributo para saber si la entidad está bajando de anillo
-		*/
-		bool _goingUp;
-		/**
-		Atributo para saber si la entidad está subiendo de anillo
-		*/
-		bool _goingDown;
+		short _hit;
+		
+	}; // class CCollider
 
-		/**
-		Atributo que indica la magnitud de velocidad de la entidad.
-		*/
-
-		float _angularSpeed;
-
-		float _actualRadius;
-
-		float _actualDegree;
-
-		bool _sentidoIzquierda;
-	}; // class CAngularMovement
-
-	REG_FACTORY(CAngularMovement);
+	REG_FACTORY(CCollider);
 
 } // namespace Logic
 
-#endif // __Logic_AngularMovement_H
+#endif // __Logic_Collider_H

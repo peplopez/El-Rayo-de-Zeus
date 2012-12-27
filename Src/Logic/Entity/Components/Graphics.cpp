@@ -76,6 +76,24 @@ namespace Logic
 			//_entity
 			//_entity->getenti
 		}
+
+		if(_entity->getType().compare("Altar")==0)
+		{	
+			_graphicsEntity->setScale(3);
+			//_graphicsEntity->setMaterial("Verde");
+			//	getEntityNode();
+			//_entity
+			//_entity->getenti
+		}
+
+		
+		if(_entity->getType().compare("AnimatedEntity")==0)
+		{	
+			_graphicsEntity->setScale(0.5);
+		//	_graphicsEntity->setMaterial("marine");
+			//_graphicsEntity->
+		}
+
 		
 		if(!_graphicsEntity)
 			return false;
@@ -116,7 +134,7 @@ namespace Logic
 
 	bool CGraphics::accept(const TMessage &message)
 	{
-		return message._type == Message::SET_TRANSFORM || message._type == Message::SET_TRANSFORM_QUAT ;
+		return message._type == Message::SET_TRANSFORM || message._type == Message::SET_TRANSFORM_QUAT || message._type == Message::SET_SHADER ;
 
 	} // accept
 	
@@ -131,6 +149,9 @@ namespace Logic
 			break;
 		case Message::SET_TRANSFORM_QUAT:
 			_graphicsEntity->setTransform(message._quat);
+			break;
+		case Message::SET_SHADER:
+			_graphicsEntity->setMaterial(message._string);
 			break;
 		}
 
