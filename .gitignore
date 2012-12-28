@@ -55,9 +55,9 @@ Thumbs.db
 #root
 /Galeon.opensdf
 /Galeon.sdf
-/Galeon.suo
 /vslog.txt
 /ipch/
+
 
 #dependencies
 
@@ -163,3 +163,5 @@ Thumbs.db
 /Projects/Map/Debug/
 /Projects/Map/Release/
 /Projects/Map/*.vcxproj.user
+
+
