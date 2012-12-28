@@ -58,6 +58,7 @@ Thumbs.db
 /vslog.txt
 /ipch/
 
+
 #dependencies
 
 /dependencies/bin/Debug/*
@@ -162,4 +163,5 @@ Thumbs.db
 /Projects/Map/Debug/
 /Projects/Map/Release/
 /Projects/Map/*.vcxproj.user
+
 
