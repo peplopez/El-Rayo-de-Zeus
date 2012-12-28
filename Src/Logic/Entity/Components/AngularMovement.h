@@ -41,7 +41,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAngularMovement() : IComponent(),_sentidoColision(false),_walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false),_goingDown(false),
+		CAngularMovement() : IComponent(), _walkingRight(false), _walkingLeft(false), _goingUp(false),_goingDown(false),
 			_angularSpeed(0.05f), _actualRadius(-55), _actualDegree(-90){}
 		
 		/**
@@ -107,11 +107,6 @@ namespace Logic
 		*/
 		virtual void process(const TMessage &message);
 
-			/**
-		Provoca que la entidad retroceda al chocarse con otra entidad en lugar de simplemente pararse, 
-		así ya no está colisionando y se puede mover.
-		*/	
-		void walkBack();
 
 		/**
 		Provoca que la entidad avance a la derecha.
@@ -153,11 +148,6 @@ namespace Logic
 	protected:
 
 		/**
-		Atributo para hacer que retroceda ante una colisión.
-		*/
-		bool _walkBack;
-
-		/**
 		Atributo para saber si la entidad está avanzando a la derecha.
 		*/
 		bool _walkingRight;
@@ -186,10 +176,6 @@ namespace Logic
 		float _actualDegree;
 
 		bool _sentidoIzquierda;
-
-		bool _sentidoColision;
-	
-
 	}; // class CAngularMovement
 
 	REG_FACTORY(CAngularMovement);

@@ -73,9 +73,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AngularMovement.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Maps\ComponentFactory.h">
@@ -126,20 +123,11 @@
     <ClInclude Include="..\..\Src\Logic\Server.h">
       <Filter>Maps\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AngularMovement.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeController.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\LogicalPosition.h">
-      <Filter>Entity\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>Entity\Components\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\AngularMovement.h">
-      <Filter>Entity\Components\Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Logic.rc" />
   </ItemGroup>
 </Project>

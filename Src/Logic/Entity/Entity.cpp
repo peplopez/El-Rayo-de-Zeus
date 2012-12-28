@@ -50,104 +50,16 @@ namespace Logic
 		_map = map;
 		_entityInfo=entityInfo;
 		_type = entityInfo->getType();
-		_logicInput=false;
-		Vector3 posicion=Vector3::ZERO;	
-		
+
 		if(entityInfo->hasAttribute("name"))
 			_name = entityInfo->getStringAttribute("name");
 
-		if(entityInfo->hasAttribute("logicInput"))
-			_logicInput = entityInfo->getBoolAttribute("logicInput");
-		if (_logicInput)
+		if(entityInfo->hasAttribute("position"))
 		{
-			if(entityInfo->hasAttribute("degrees"))
-				_pos._degrees = entityInfo->getFloatAttribute("degrees");
-
-			if(entityInfo->hasAttribute("radio")) //LO podremos poner en "ring" en el futuro y ahorrarnoslo
-				_pos._radio = entityInfo->getFloatAttribute("radio");
-
-			// ahora empezamos a hacer la composicion de la posición, calculamos x, z
-			Vector3 posicion=Math::fromPolarToCartesian(_pos._degrees,_pos._radio);
-
-			if(entityInfo->hasAttribute("ring"))
-			{
-				switch (entityInfo->getIntAttribute("ring"))
-				{
-					case Logic::LogicalPosition::ANILLO_INFERIOR:
-					{
-						_pos._ring = Logic::LogicalPosition::ANILLO_INFERIOR;
-						posicion.y=-50; // sustituir por una constante
-						break;
-					}
-					case Logic::LogicalPosition::ANILLO_CENTRAL:
-					{
-						_pos._ring = Logic::LogicalPosition::ANILLO_CENTRAL;
-						posicion.y=0; // sustituir por una constante
-						break;
-					}
-					case Logic::LogicalPosition::ANILLO_SUPERIOR:
-					{
-						_pos._ring = Logic::LogicalPosition::ANILLO_SUPERIOR;
-						posicion.y=50; // sustituir por una constante
-						break;
-					}
-					default:
-						{
-						_pos._ring= Logic::LogicalPosition::ANILLO_CENTRAL;
-						posicion.y=0;
-						//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
-						//pese a todo no pete.
-						}
-			}
-
-			}
-
-
-			if(entityInfo->hasAttribute("base"))					
-				_pos._base = entityInfo->getIntAttribute("base");
-
-			if(entityInfo->hasAttribute("angularBox"))					
-				_pos._angularBox = entityInfo->getFloatAttribute("angularBox");
-
-
-			if(entityInfo->hasAttribute("sense"))
-				switch (entityInfo->getIntAttribute("sense"))
-				{//	_pos._sense = entityInfo->getIntAttribute("sense");		
-				case Logic::LogicalPosition::IZQUIERDA:
-					{
-						_pos._sense = Logic::LogicalPosition::IZQUIERDA;
-						float yaw = Math::fromDegreesToRadians(90);
-						Math::yaw(yaw,_transform);
-						break;
-					}
-					case Logic::LogicalPosition::DERECHA:
-					{
-						_pos._sense = Logic::LogicalPosition::DERECHA;
-						float yaw = Math::fromDegreesToRadians(0);
-						Math::yaw(yaw,_transform);
-						break;
-					}
-					default:
-						{
-						_pos._sense= Logic::LogicalPosition::IZQUIERDA;
-						float yaw = Math::fromDegreesToRadians(90);
-						Math::yaw(yaw,_transform);
-						//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el sentido izquierda 					
-						}
-			}		
-			
-			//aplicamos la transformación, las coordenadas
-			_transform.setTrans(posicion);
-
-			}
-		else
-			{
-			if(entityInfo->hasAttribute("position"))
-				{
-					Vector3 position = entityInfo->getVector3Attribute("position");
-					_transform.setTrans(position);
-				}
+			Vector3 position = entityInfo->getVector3Attribute("position");
+			_transform.setTrans(position);
 		}
+
 		// Por comodidad en el mapa escribimos los ángulos en grados.
 		if(entityInfo->hasAttribute("orientation"))
 		{
@@ -462,49 +374,5 @@ namespace Logic
 		emitMessage(message);
 
 	} // pitch
-
-	void CEntity::setDegree(const float &degree)
-	{
-		_pos._degrees=degree;
-	}
-
-	void CEntity::setRadio(const float &radio)
-	{
-		_pos._radio=radio;
-	}
-
-	
-	bool CEntity::contactoAngular(CEntity* entidad)
-	{
-		if (this==entidad)
-			return false;
-		if (this->getBase()!=entidad->getBase()) 
-			return false;
-		if (this->getRing()!=entidad->getRing()) 
-			return false;
-		if (!this->_logicInput || !entidad->_logicInput)
-			return false;
-		
-		float angleE1=this->getDegree();
-		float angleE2=entidad->getDegree();
-		float angularBoxE1=this->getAngularBox();
-		float angularBoxE2=entidad->getAngularBox();
-		if (angularBoxE2==0)
-			return false;
-		float logicalCenterDistance=abs(angleE1-angleE2);//distancia entre los centros de las entidades
-		if (logicalCenterDistance>180) //
-			logicalCenterDistance=360-logicalCenterDistance;
-
-		float angularBoxAmount=angularBoxE1+angularBoxE2;
-		//if (this->getType().compare("AnimatedEntity")==0)
-		//	int i=0;
-		if (logicalCenterDistance<=angularBoxAmount) //si la distancia de los centros es menor que la suma de los radios hay contacto
-		{
-			
-			return true;
-		
-		}
-			return false;
-	}
 
 } // namespace Logic

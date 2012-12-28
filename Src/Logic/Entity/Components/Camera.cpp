@@ -49,7 +49,6 @@ namespace Logic
 		if(entityInfo->hasAttribute("targetHeight"))
 			_targetHeight = entityInfo->getFloatAttribute("targetHeight");
 
-		std::cout<<Math::fromPolarToCartesian(50,45)<<std::endl;
 		return true;
 
 	} // spawn
@@ -59,10 +58,7 @@ namespace Logic
 	bool CCamera::activate()
 	{
 		_target = CServer::getSingletonPtr()->getPlayer();
-		_target->setPosition(Math::fromPolarToCartesian(0,60)); //esto no está bien aquí, pero si no está no calcula bien el vector dirección.
-		//anula lo que haya en el maps.txt sobre la posición del prota
-
-		 _graphicsCamera->setCameraPosition(4*_target->getPosition()+Vector3(0,_targetHeight*2,0));
+		_target->setPosition(Math::fromPolarToCartesian(-90,-55));
 		return true;
 
 	} // activate
@@ -79,11 +75,10 @@ namespace Logic
 
 	void CCamera::tick(unsigned int msecs)
 	{
-		
+		IComponent::tick(msecs);
 
 		if(_target)
 		{
-			std::pair<float,float> ja=Math::fromCartesianToPolar(Vector3(0,0,-55));
 			// Actualizamos la posición de la cámara.
 			Vector3 centro=Vector3(0,-125,0);
 			Vector3 vectorCentroProtaCamara =  -(centro-_target->getPosition());
@@ -180,9 +175,8 @@ namespace Logic
 			direction.y = _targetHeight;
 
 			//_graphicsCamera->setTargetCameraPosition(position+direction);
-			
 		}
-IComponent::tick(msecs);
+
 	} // tick
 
 } // namespace Logic

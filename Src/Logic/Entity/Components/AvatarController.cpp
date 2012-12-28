@@ -53,7 +53,7 @@ namespace Logic
 
 	bool CAvatarController::accept(const TMessage &message)
 	{
-		return false;   //ANULACION
+		return false;
 		return message._type == Message::SET_TRANSFORM;
 
 	} // accept
@@ -66,7 +66,9 @@ namespace Logic
 		{
 		case Message::CONTROL:
 			if(!message._string.compare("walk"))
-				walk();			
+				walk();
+			else if(!message._string.compare("walkBack"))
+				walkBack();
 			else if(!message._string.compare("stopWalk"))
 				stopWalk();
 			else if(!message._string.compare("strafeLeft"))
@@ -103,6 +105,21 @@ namespace Logic
 		_entity->emitMessage(message,this);
 
 	} // walk
+	
+	//---------------------------------------------------------
+
+	void CAvatarController::walkBack() 
+	{
+		_walkingBack = true;
+
+		// Cambiamos la animación
+		TMessage message;
+		message._type = Message::SET_ANIMATION;
+		message._string = "WalkBack";
+		message._bool = true;
+		_entity->emitMessage(message,this);
+
+	} // walkBack
 	
 	//---------------------------------------------------------
 
@@ -208,10 +225,6 @@ namespace Logic
 			direction *= msecs * _speed;
 			Vector3 newPosition = _entity->getPosition() + direction;
 			_entity->setPosition(newPosition);
-
-
-			//_entity->setRadio(Math::fromCartesianToPolar(newPosition).second);
-
 		}
 
 	} // tick

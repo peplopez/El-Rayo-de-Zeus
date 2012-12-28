@@ -10,7 +10,6 @@ angular de entidades.
 @author José Luis López
 @date Diciembre, 2012
 */
-#pragma once
 #ifndef __Logic_AngularMovement_H
 #define __Logic_AngularMovement_H
 
@@ -119,12 +118,6 @@ namespace Logic
 		*/
 		void walkLeft();
 		
-		/**
-		Provoca que la entidad retroceda al chocarse con otra entidad en lugar de simplemente pararse, 
-		así ya no está colisionando y se puede mover.
-		*/	
-		void walkBack();
-
 		/**
 		Provoca que la entidad baje de anillo. Conlleva un cambio del eje de giro en su coordenada y
 		*/

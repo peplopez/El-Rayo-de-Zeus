@@ -17,8 +17,6 @@ de juego. Es una colección de componentes.
 #include "BaseSubsystems/Math.h"
 
 #include "Logic/Maps/EntityID.h"
-#include "LogicalPosition.h"
-
 
 // Mensaje
 #include "Message.h"
@@ -106,7 +104,7 @@ namespace Logic
 		bool spawn(CMap *map, const Map::CEntity *entity);
 
 	public:
-			
+
 		/**
 		Activa la entidad. Esto significa que el mapa ha sido activado.
 		<p>
@@ -257,106 +255,6 @@ namespace Logic
 		Vector3 getPosition() const { return _transform.getTrans(); }
 
 		/**
-		Establece la posición de la entidad en grados.
-
-		@param position Nueva posición.
-		*/
-		void setDegree(const float &degree);
-
-		/**
-		Devuelve la posición de la entidad.
-		en grados
-		@return Posición de la entidad en el entorno.
-		*/
-		float getDegree() const { 
-			if (_pos._degrees>=0 && _pos._degrees<360)
-				return _pos._degrees;
-
-			if (_pos._degrees>360)
-			{
-				return (int)_pos._degrees%360;
-			}
-			else //menor que cero
-				return 360-(int)abs((int)_pos._degrees%360);
-		}
-
-		/**
-		Establece la base de la entidad. 
-		NO Avisa a los componentes
-		del cambio. Mas adelante vere si es necesario pero creo que no
-
-		@param base nueva
-		*/
-		void setBase(const short &base);
-
-		/**
-		Devuelve la base de la entidad.
-		
-		@return Base de la entidad en el entorno.
-		*/
-		short getBase() const { return _pos._base; }
-
-		/**
-		Establece el anillo de la entidad. 
-		NO Avisa a los componentes
-		del cambio. Mas adelante vere si es necesario pero creo que no
-
-		@param Ring nueva
-		*/
-		void setRing(const short &ring);
-
-		/**
-		Devuelve el anillo de la entidad.
-		
-		@return Ring de la entidad en el entorno.
-		*/
-		short getRing() const { return _pos._ring; }
-
-		/**
-		Establece el radio sobre el que se mueve la entidad. 
-		NO Avisa a los componentes del cambio.
-		Mas adelante vere si es necesario pero creo que no
-
-		@param radio nuevo
-		*/
-		void setRadio(const float &radio);
-
-		/**
-		Devuelve el radio sobre el que se mueve la entidad.
-		
-		@return Radio de la entidad en el entorno.
-		*/
-		float getRadio() const { return _pos._radio; }
-
-
-		/**
-		Establece la anchura de la entidad gráfica
-		@param angularBox nuevo
-		*/
-		void setAngularBox(const float &angularBox);
-
-		/**
-		Devuelve la anchura de la entidad gráfica.
-		
-		@return AngularBox de la entidad en el entorno.
-		*/
-		float getAngularBox() const { return _pos._angularBox; }
-
-		/**
-		Establece la anchura de la entidad gráfica
-		@param angularBox nuevo
-		*/
-		void setSense(const short &sense);
-
-		/**
-		Devuelve la anchura de la entidad gráfica.
-		
-		@return AngularBox de la entidad en el entorno.
-		*/
-		short getSense() const { return _pos._sense; }
-
-
-		/**
 		Establece la orientación de la entidad. Avisa a los componentes
 		del cambio.
 
@@ -430,9 +328,6 @@ namespace Logic
 
 		const Map::CEntity* getEntityInfo() {return _entityInfo; }
 
-		bool contactoAngular(CEntity* entidad);
-
-
 	protected:
 
 		/**
@@ -445,12 +340,7 @@ namespace Logic
 		Identificador único de la entidad.
 		*/
 		Logic::TEntityID _entityID;
-		
-		/**
-		Estructura de datos que contiene la posición lógica
-		*/
-		Logic::TLogicalPosition _pos;
-		
+
 		/**
 		Tipo para la lista de componetes.
 		*/
@@ -465,12 +355,6 @@ namespace Logic
 		Indica si la entidad está activa.
 		*/
 		bool _activated;
-
-		/**
-		Indica si la entidad ha sido puesta en Maps.txt como coordenadas polares (Lógicas)
-		*/
-		bool _logicInput;
-
 
 		/**
 		Tipo de la entidad declarado en el archivo blueprints.
