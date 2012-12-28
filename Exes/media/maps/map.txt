@@ -1,4 +1,76 @@
-Map = {
+Map ={
+	Altar1 = {
+		type = "Altar",
+		position = {-31,0,37},
+		model = "altar.mesh",
+		static = true,
+	},
+	Altar2 = {
+		type = "Altar",
+		position = {31,0,37},
+		model = "altar.mesh",
+		static = true,
+	},
+	Altar3 = {
+		type = "Altar",
+		position = {31,0,-37},
+		model = "altar.mesh",
+		static = true,
+	},
+	Altar4 = {
+		type = "Altar",
+		position = {-31,0,-37},
+		model = "altar.mesh",
+		static = true,
+	},
+	Altar5 = {
+		type = "Altar",
+		position = {31,50,37},
+		model = "altar.mesh",
+		static = true,
+	},
+	Altar6 = {
+		type = "Altar",
+		position = {-31,50,37},
+		model = "altar.mesh",
+		static = true,
+	},
+	Altar7 = {
+		type = "Altar",
+		position = {31,50,-37},
+		model = "altar.mesh",
+		static = true,
+	},
+	Altar8 = {
+		type = "Altar",
+		position = {-30,50,-37},
+		model = "altar.mesh",
+		static = true,
+	},	Altar9 = {
+		type = "Altar",
+		position = {-31,-50,37},
+		model = "altar.mesh",
+		static = true,
+	},
+	Altar10 = {
+		type = "Altar",
+		position = {-31,-50,-37},
+		model = "altar.mesh",
+		static = true,
+	},
+	Altar11 = {
+		type = "Altar",
+		position = {31,-50,-37},
+		model = "altar.mesh",
+		static = true,
+	},
+	Altar12 = {
+		type = "Altar",
+		position = {31,-50,37},
+		model = "altar.mesh",
+		static = true,
+	},
+
 	Barravida1 = {
 		type = "BarraVida",
 		position = {0, 0,-126},
@@ -28,13 +100,19 @@ Map = {
 	
 	David = {
 		type = "Player",
-		position = {0, 0, -55},
 		orientation = 90,
 		life = 100.0,
 		isPlayer = true,
 		model = "marine.mesh",
-		angularSpeed = 0.8,
+		angularSpeed = 0.5,
 		defaultAnimation = "Idle",
+		degrees=0,
+		base=1,
+		ring=1,
+		logicInput=true,
+		sense=0,
+		radio=60,
+		angularBox=2.5,
 	},
 	
 	Camera = {
@@ -45,35 +123,118 @@ Map = {
 		targetHeight = 7,
 		angularSpeed = 0.5,
 	},
-	
-		bioshock = {
+			
+	bioshockLOGICO = {
 		type = "AnimatedEntity",
-		position = {-55, 0, 0},
-		orientation = 180,
 		life = 100.0,
 		model = "bioshock.mesh",
-
+		logicInput=true,
+		base=1,
+		ring=1,
+		degrees=90,
+		radio=60,
+		sense=0,
+		angularBox=5,
 	},	
 	
-			bioshock1 = {
+
+	bioshockLOGICO2 = {
 		type = "AnimatedEntity",
-		position = {55, 50, 0},
-		orientation = 180,
 		life = 100.0,
 		model = "bioshock.mesh",
-
+		logicInput=true,
+		base=1,
+		ring=2,
+		degrees=90,
+		radio=60,
+		sense=0,
+		angularBox=5,
 	},	
-	
-	bioshock2 = {
+	bioshockLOGICO3 = {
 		type = "AnimatedEntity",
-		position = {-55, -50, 0},
-		orientation = 0,
 		life = 100.0,
 		model = "bioshock.mesh",
-		
+		logicInput=true,
+		base=1,
+		ring=0,
+		degrees=120,
+		radio=60,
+		sense=0,
+		angularBox=5,
 	},	
-		
-
 	
+		bioshockLOGICO4 = {
+		type = "AnimatedEntity",
+		life = 100.0,
+		model = "bioshock.mesh",
+		logicInput=true,
+		base=1,
+		ring=0,
+		degrees=150,
+		radio=60,
+		sense=1,
+		angularBox=5,
+	},	
+	
+	bioshockLOGICO6 = {
+		type = "AnimatedEntity",
+		life = 100.0,
+		model = "bioshock.mesh",
+		logicInput=true,
+		base=1,
+		ring=1,
+		degrees=180,
+		radio=60,
+		sense=1,
+		angularBox=5,
+	},	
+	bioshockLOGICO7 = {
+		type = "AnimatedEntity",
+		life = 100.0,
+		model = "bioshock.mesh",
+		logicInput=true,
+		base=1,
+		ring=0,
+		degrees=240,
+		radio=60,
+		sense=1,
+				angularBox=5,
+	},	
+		bioshockLOGICO8 = {
+		type = "AnimatedEntity",
+		life = 100.0,
+		model = "bioshock.mesh",
+		logicInput=true,
+		base=1,
+		ring=0,
+		angularBox=5,
+		degrees=270,
+		radio=60,
+		sense=1,
+	},	
+		bioshockLOGICO9 = {
+		type = "AnimatedEntity",
+		life = 100.0,
+		model = "bioshock.mesh",
+		logicInput=true,
+		base=1,
+		ring=2,
+		degrees=300,
+		radio=60,
+		sense=1,
+		angularBox=5,
+	},	
+		bioshockLOGICO10 = {
+		type = "AnimatedEntity",
+		life = 100.0,
+		model = "bioshock.mesh",
+		logicInput=true,
+		base=1,
+		ring=0,
+				angularBox=5,
+		degrees=330,
+		radio=60,
+		sense=1,
+	},	
 	
 }
