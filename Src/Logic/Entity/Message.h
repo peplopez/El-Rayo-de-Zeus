@@ -28,7 +28,9 @@ namespace Logic
 			SET_TRANSFORM_QUAT,
 			SET_ANIMATION,
 			STOP_ANIMATION,
-			CONTROL
+			CONTROL,
+			CONTACTO,
+			SET_SHADER
 		};
 	}
 
