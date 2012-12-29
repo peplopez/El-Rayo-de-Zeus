@@ -12,8 +12,6 @@ gráfica de la entidad.
 */
 
 #include "Graphics.h"
-#include "LifeController.h"
-
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/Map.h"
@@ -22,7 +20,6 @@ gráfica de la entidad.
 #include "Graphics/Scene.h"
 #include "Graphics/Entity.h"
 #include "Graphics/StaticEntity.h"
-#include "Logic/Maps/EntityFactory.h"
 
 namespace Logic 
 {
@@ -50,33 +47,10 @@ namespace Logic
 		
 		_scene = _entity->getMap()->getScene();
 
-		 
-
 		if(entityInfo->hasAttribute("model"))
 			_model = entityInfo->getStringAttribute("model");
-	
-		//Para iniciar la variable publica estatida _BarraVida y poder así clonarla
-		if(_entity->getType().compare("BarraVida")==0 && Logic::CLifeController::_BarraVida==0)
-		{
-		//	Logic::CLifeController::_BarraVida->set
-		//	printf("Entidad nombre:      %s        ",_entity->getName());
-		//	Logic::CLifeController::_BarraVida=CEntityFactory::getSingletonPtr()->createEntity(entityInfo,map);
-		//	printf("Entidad nombre:         %s      ",Logic::CLifeController::_BarraVida->getName());
-		}
-		
 
 		_graphicsEntity = createGraphicsEntity(entityInfo);
-		if(_entity->getType().compare("BarraVida")==0)
-		{
-			_graphicsEntity->setScale(6);
-			
-			//_graphicsEntity->setScale(20);
-			_graphicsEntity->setMaterial("Verde");
-			//	getEntityNode();
-			//_entity
-			//_entity->getenti
-		}
-		
 		if(!_graphicsEntity)
 			return false;
 
@@ -107,7 +81,6 @@ namespace Logic
 
 		_graphicsEntity->setTransform(_entity->getTransform());
 		
-
 		return _graphicsEntity;
 
 	} // createGraphicsEntity
@@ -116,7 +89,7 @@ namespace Logic
 
 	bool CGraphics::accept(const TMessage &message)
 	{
-		return message._type == Message::SET_TRANSFORM || message._type == Message::SET_TRANSFORM_QUAT ;
+		return message._type == Message::SET_TRANSFORM;
 
 	} // accept
 	
@@ -128,10 +101,6 @@ namespace Logic
 		{
 		case Message::SET_TRANSFORM:
 			_graphicsEntity->setTransform(message._transform);
-			break;
-		case Message::SET_TRANSFORM_QUAT:
-			_graphicsEntity->setTransform(message._quat);
-			break;
 		}
 
 	} // process

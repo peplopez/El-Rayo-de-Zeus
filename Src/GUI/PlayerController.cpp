@@ -41,7 +41,7 @@ namespace GUI {
 	void CPlayerController::activate()
 	{		
 		CInputManager::getSingletonPtr()->addKeyListener(this);
-	//	CInputManager::getSingletonPtr()->addMouseListener(this);
+		CInputManager::getSingletonPtr()->addMouseListener(this);
 
 	} // activate
 
@@ -50,7 +50,7 @@ namespace GUI {
 	void CPlayerController::deactivate()
 	{
 		CInputManager::getSingletonPtr()->removeKeyListener(this);
-	//	CInputManager::getSingletonPtr()->removeMouseListener(this);
+		CInputManager::getSingletonPtr()->removeMouseListener(this);
 
 	} // deactivate
 
@@ -65,16 +65,16 @@ namespace GUI {
 			switch(key.keyId)
 			{
 			case GUI::Key::W:
-				//m._string = "walk";
+				m._string = "walk";
 				break;
 			case GUI::Key::S:
-				//m._string = "walkBack";
+				m._string = "walkBack";
 				break;
 			case GUI::Key::A:
-				m._string = "walkLeft";
+				m._string = "strafeLeft";
 				break;
 			case GUI::Key::D:
-				m._string = "walkRight";
+				m._string = "strafeRight";
 				break;
 			default:
 				return false;
@@ -98,13 +98,12 @@ namespace GUI {
 			{
 			case GUI::Key::W:
 			case GUI::Key::S:
-				m._string = "walkStop";
+				m._string = "stopWalk";
 				break;
 
 			case GUI::Key::A:
 			case GUI::Key::D:
-				//m._string = "stopStrafe";
-				m._string = "walkStop";
+				m._string = "stopStrafe";
 				break;
 
 			default:

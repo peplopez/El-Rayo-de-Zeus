@@ -40,7 +40,6 @@ namespace Logic
 			_animatedGraphicsEntity->setObserver(this);
 		}
 
-
 		return _animatedGraphicsEntity;
 
 	} // createGraphicsEntity

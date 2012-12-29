@@ -21,9 +21,9 @@ material marine
             {
             }
 
-           // fragment_program_ref MiShaderHLSL
-         //   {
-         //   }
+            fragment_program_ref ambient_ps
+            {
+            }
 
             texture_unit diffuseMap
             {
@@ -71,14 +71,4 @@ material marine
             }
         }
     }
-	technique
-	{
-		pass
-		{
-			texture_unit {
-				texture error.png
-				colour_op replace
-			}
-		}
-	}
 }

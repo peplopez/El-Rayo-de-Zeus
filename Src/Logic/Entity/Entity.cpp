@@ -48,7 +48,6 @@ namespace Logic
 	{
 		// Leemos las propiedades comunes
 		_map = map;
-		_entityInfo=entityInfo;
 		_type = entityInfo->getType();
 
 		if(entityInfo->hasAttribute("name"))
@@ -253,7 +252,7 @@ namespace Logic
 	void CEntity::setOrientation(const Matrix3& orientation) 
 	{
 		_transform = orientation;
-		
+
 		// Avisamos a los componentes del cambio.
 		TMessage message;
 		message._type = Message::SET_TRANSFORM;
@@ -261,19 +260,6 @@ namespace Logic
 		emitMessage(message);
 
 	} // setOrientation
-
-
-	void CEntity::setOrientation(const Quaternion &quat)
-	{
-		_quat=quat;
-		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._quat = _quat;
-		message._transform = _transform;
-		emitMessage(message);	
-	}
-	
 
 	//---------------------------------------------------------
 
@@ -301,44 +287,6 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-		void CEntity::setRoll(float roll) 
-	{
-		Math::setRoll(roll,_transform);
-
-		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
-
-	} // setYaw
-
-		void CEntity::setPitch(float pitch) 
-	{
-		Math::setPitch(pitch,_transform);
-
-		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
-
-	} // setYaw
-
-
-
-		void CEntity::setPitchYaw(float pitch,float yaw) 
-	{
-		Math::setPitchYaw(pitch,yaw,_transform);
-
-		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
-
-	} // setYaw
-
 	void CEntity::yaw(float yaw) 
 	{
 		Math::yaw(yaw,_transform);
@@ -350,29 +298,5 @@ namespace Logic
 		emitMessage(message);
 
 	} // yaw
-
-	void CEntity::roll(float roll) 
-	{
-		Math::roll(roll,_transform);
-
-		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
-
-	} // roll
-
-	void CEntity::pitch(float pitch)
-	{
-		Math::pitch(pitch,_transform);
-
-		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
-
-	} // pitch
 
 } // namespace Logic

@@ -138,46 +138,6 @@ namespace Math
 
 	} // yaw
 	
-
-	static void roll(float turn, Matrix4& transform) 
-	{
-		Matrix3 rotation;
-		transform.extract3x3Matrix(rotation);
-		Ogre::Radian yaw, pitch, roll;
-		rotation.ToEulerAnglesYXZ(yaw, pitch, roll);
-		Ogre::Radian newRoll = roll + Ogre::Radian(turn);
-		rotation.FromEulerAnglesYXZ(yaw, pitch, newRoll);
-		transform = rotation;
-
-	} // roll
-
-	static void pitch(float turn, Matrix4& transform) 
-	{
-		Matrix3 rotation;
-		transform.extract3x3Matrix(rotation);
-		Ogre::Radian yaw, pitch, roll;
-		rotation.ToEulerAnglesYXZ(yaw, pitch, roll);
-		Ogre::Radian newPitch = pitch + Ogre::Radian(turn);
-		rotation.FromEulerAnglesYXZ(yaw, newPitch, roll);
-		transform = rotation;
-
-	} // pitch
-
-		static void pitchYaw(float turnPitch, float turnYaw, Matrix4& transform) 
-	{
-		Matrix3 rotation;
-		transform.extract3x3Matrix(rotation);
-		Ogre::Radian yaw, pitch, roll;
-		rotation.ToEulerAnglesYXZ(yaw, pitch, roll);
-		Ogre::Radian newPitch = pitch + Ogre::Radian(turnPitch);
-		Ogre::Radian newYaw = yaw + Ogre::Radian(turnYaw);
-		
-		rotation.FromEulerAnglesYXZ(newYaw, newPitch, roll);
-		transform = rotation;
-
-	} // pitchyaw
-
-	
 	/**
 	Extrae el estado del viraje de una matriz de transformación.
 
@@ -210,45 +170,6 @@ namespace Math
 	} // setYaw
 	
 	/**
-	Establece un viraje a una matriz de transformación.
-
-	@param turn Giro en radianes que se quiere etablecer.
-	@param transform Matriz de transformación a modificar.
-	*/
-	static void setPitch(float turn, Matrix4& transform) 
-	{
-		// Reiniciamos la matriz de rotación
-		transform = Matrix3::IDENTITY;
-		// Sobre esta rotamos.
-		Math::pitch(turn,transform);
-
-	} // setPitch
-
-	/**
-	Establece un viraje a una matriz de transformación.
-
-	@param turn Giro en radianes que se quiere etablecer.
-	@param transform Matriz de transformación a modificar.
-	*/
-	static void setRoll(float turn, Matrix4& transform) 
-	{
-		// Reiniciamos la matriz de rotación
-		transform = Matrix3::IDENTITY;
-		// Sobre esta rotamos.
-		Math::roll(turn,transform);
-
-	} // setYaw
-
-	static void setPitchYaw(float pitch,float yaw, Matrix4& transform)
-	{
-		// Reiniciamos la matriz de rotación
-		transform = Matrix3::IDENTITY;
-		// Sobre esta rotamos.
-		Math::pitchYaw(pitch,yaw,transform);
-
-	}
-
-	/**
 	Crea un vector unitario de dirección en el plano XZ a partir 
 	de una matriz de transformación.
 
@@ -260,16 +181,6 @@ namespace Math
 		return getDirection(getYaw(transform));
 
 	} // getDirection
-
-	static Vector3 fromPolarToCartesian(const float grados, const float radio) 
-	{
-		Vector3 retorno=Vector3::ZERO;
-		retorno.x = radio * cos(fromDegreesToRadians(grados));
-		retorno.z = radio * sin(fromDegreesToRadians(grados));
-		return retorno;
-	} // getYaw
-
-
 
 } // namespace Math
 

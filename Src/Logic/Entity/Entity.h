@@ -262,14 +262,6 @@ namespace Logic
 		*/
 		void setOrientation(const Matrix3& orientation);
 
-			/**
-		Cambia la orientación de la entidad.
-
-		@param orientation Referencia a la matriz de rotación con la que debe 
-		orientarse la entidad.
-		*/
-		void setOrientation(const Quaternion &quat);
-
 		/**
 		Devuelve la matriz de rotación de la entidad.
 		<p>
@@ -288,18 +280,6 @@ namespace Logic
 		@param yaw Nuevo viraje.
 		*/
 		void setYaw(float yaw);
-
-		void setPitch(float pitch);
-		
-		void setRoll(float roll);
-
-		void setPitchYaw(float pitch,float yaw);
-
-
-		void roll(float roll); 
-
-		void pitch(float pitch); 
-
 
 		/**
 		Vira la entidad. Avisa a los componentes del cambio.
@@ -325,8 +305,6 @@ namespace Logic
 		@return true si la entidad está activa.
 		*/
 		bool isActivated() {return _activated;}
-
-		const Map::CEntity* getEntityInfo() {return _entityInfo; }
 
 	protected:
 
@@ -376,7 +354,6 @@ namespace Logic
 		*/
 		Matrix4 _transform;
 
-		Quaternion _quat;
 		/*
 		Posición de la entidad.
 		*
@@ -393,10 +370,6 @@ namespace Logic
 		*/
 		bool _isPlayer;
 
-		/**
-		Copia de la definición de la entidad leida del mapa.
-		*/
-		const Map::CEntity *_entityInfo;
 	}; // class CEntity
 
 } // namespace Logic
