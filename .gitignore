@@ -144,24 +144,19 @@ Thumbs.db
 
 /Projects/Application/Debug/
 /Projects/Application/Release/
-/Projects/Application/*.vcxproj.user
 /Projects/BaseSubsystems/Debug/
 /Projects/BaseSubsystems/Release/
-/Projects/BaseSubsystems/*.vcxproj.user
 /Projects/Configure/Debug/
 /Projects/Configure/Release/
-/Projects/Configure/*.vcxproj.user
 /Projects/Graphics/Debug/
 /Projects/Graphics/Release/
-/Projects/Graphics/*.vcxproj.user
 /Projects/GUI/Debug/
 /Projects/GUI/Release/
-/Projects/GUI/*.vcxproj.user
 /Projects/Logic/Debug/
 /Projects/Logic/Release/
-/Projects/Logic/*.vcxproj.user
 /Projects/Map/Debug/
 /Projects/Map/Release/
-/Projects/Map/*.vcxproj.user
 
 
+
+/Galeon.suo
