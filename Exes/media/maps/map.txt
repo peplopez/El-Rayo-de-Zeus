@@ -122,6 +122,12 @@ Map ={
 		targetDistance = 0,
 		targetHeight = 7,
 		angularSpeed = 0.5,
+		ring=1,
+		base=1,
+		degrees=0;
+		sense=0,
+		logicInput=true,
+		radio=120,
 	},
 			
 	bioshockLOGICO = {

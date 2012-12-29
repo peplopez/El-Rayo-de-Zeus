@@ -37,8 +37,8 @@ namespace Logic
 	{
 		 _sentidoIzquierda=true;
 		 //_actualRadius=
-		 if (_entity->getType().compare("Player")==0)
-		 			std::cout<<"PlayerDegree: "<<_entity->getDegree()<<std::endl;
+		 //if (_entity->getType().compare("Player")==0)
+		 	//		std::cout<<"PlayerDegree: "<<_entity->getDegree()<<std::endl;
 			return true;
 	}
 		
