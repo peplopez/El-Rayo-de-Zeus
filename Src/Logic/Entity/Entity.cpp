@@ -56,6 +56,7 @@ namespace Logic
 		if(entityInfo->hasAttribute("name"))
 			_name = entityInfo->getStringAttribute("name");
 
+
 		if(entityInfo->hasAttribute("logicInput"))
 			_logicInput = entityInfo->getBoolAttribute("logicInput");
 		if (_logicInput)
@@ -65,6 +66,27 @@ namespace Logic
 
 			if(entityInfo->hasAttribute("radio")) //LO podremos poner en "ring" en el futuro y ahorrarnoslo
 				_pos._radio = entityInfo->getFloatAttribute("radio");
+			
+			if(entityInfo->hasAttribute("sense"))
+				switch (entityInfo->getIntAttribute("sense"))
+				{
+					case Logic::LogicalPosition::IZQUIERDA:
+					{
+						_pos._sense = Logic::LogicalPosition::IZQUIERDA;						
+						break;
+					}
+					case Logic::LogicalPosition::DERECHA:
+					{
+						_pos._sense = Logic::LogicalPosition::DERECHA;
+						break;
+					}
+					default:
+						{
+						_pos._sense= Logic::LogicalPosition::IZQUIERDA;
+						//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna por defecto dirección izquierda
+						//pese a todo no pete.
+						}
+			}
 
 			// ahora empezamos a hacer la composicion de la posición, calculamos x, z
 			Vector3 posicion=Math::fromPolarToCartesian(_pos._degrees,_pos._radio);
@@ -148,6 +170,15 @@ namespace Logic
 					_transform.setTrans(position);
 				}
 		}
+		/* arreglamos la orientación */
+		Vector3 centro=Vector3(0,-125,0);
+		Vector3 vectorCentroEntidad = -(centro-_transform.getTrans());
+		vectorCentroEntidad.normalise();
+		Vector3 actualDirection=Math::getDirection(this->getYaw());
+		Vector3 directionPerp= Vector3::UNIT_Y.crossProduct(vectorCentroEntidad);
+		Quaternion rotacionDestino=actualDirection.getRotationTo(directionPerp);
+
+
 		// Por comodidad en el mapa escribimos los ángulos en grados.
 		if(entityInfo->hasAttribute("orientation"))
 		{
@@ -285,7 +316,7 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	bool CEntity::emitMessage(const TMessage &message, IComponent* emitter)
+	const bool CEntity::emitMessage (const TMessage &message, IComponent* emitter)
 	{
 		// Interceptamos los mensajes que además de al resto de los
 		// componentes, interesan a la propia entidad.
@@ -365,7 +396,7 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	Matrix3 CEntity::getOrientation() const
+	Matrix3 CEntity::getOrientation() 
 	{
 		Matrix3 orientation;
 		_transform.extract3x3Matrix(orientation);
@@ -473,7 +504,20 @@ namespace Logic
 		_pos._radio=radio;
 	}
 
+	void CEntity::setSense(const LogicalPosition::Sense &sense)
+	{
+		_pos._sense=sense;
+	}
 	
+	void CEntity::setRing(const LogicalPosition::Ring &ring)
+	{
+		_pos._ring=ring;
+	}
+	
+	
+
+
+	/*
 	bool CEntity::contactoAngular(CEntity* entidad)
 	{
 		if (this==entidad)
@@ -507,4 +551,37 @@ namespace Logic
 			return false;
 	}
 
+		void CEntity::Contacto()
+	{
+		Logic::TMessage m;
+		//_Vida--; si tiene vida se le disminuye, si es un proyectil no tiene vida
+
+		//if (_Vida<=0){	
+			//_entity->getMap()->getScene()->removeEntity(_entity->_gentity);
+			if (this->getType().compare("Player")==0)
+			{
+				
+				m._string="walkBack";
+				m._type = Logic::Message::CONTROL;
+				m._bool=_sentidoColision;
+				this->emitMessage(m,this);				
+				
+				_hit++;
+				m._string="luminoso";
+				m._type = Logic::Message::SET_SHADER;
+				this->emitMessage(m,this);
+			}		
+			if (this->getType().compare("AnimatedEntity")==0)
+			{
+				m._string="walkBack";
+				m._type = Logic::Message::NPC_CONTROL;
+				m._bool=_sentidoColision;
+				this->emitMessage(m,this);			
+
+				_hit++;
+				m._string="luminoso";
+				m._type = Logic::Message::SET_SHADER;
+				_entity->emitMessage(m,this);
+			}
+	}*/
 } // namespace Logic

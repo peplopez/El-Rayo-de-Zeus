@@ -49,7 +49,7 @@ namespace Logic
 		if(entityInfo->hasAttribute("targetHeight"))
 			_targetHeight = entityInfo->getFloatAttribute("targetHeight");
 
-		std::cout<<Math::fromPolarToCartesian(50,45)<<std::endl;
+	
 		return true;
 
 	} // spawn
@@ -83,12 +83,13 @@ namespace Logic
 		if(_target)
 		{			
 			// Actualizamos la posición de la cámara.
+			//este parrafo es para conseguir que el modelo mire en dirección perpendicular al vector centro camara
 			Vector3 centro=Vector3(0,-125,0);
 			Vector3 vectorCentroProtaCamara =  -(centro-_target->getPosition());
 			vectorCentroProtaCamara.normalise();
-			Vector3 actualDirection=Math::getDirection(_target->getOrientation());
-			Vector3 directionPerp= Vector3::UNIT_Y.crossProduct(vectorCentroProtaCamara);
-			Quaternion rotacionDestino=actualDirection.getRotationTo(directionPerp);
+			//Vector3 actualDirection=Math::getDirection(_target->getOrientation());
+			//Vector3 directionPerp= Vector3::UNIT_Y.crossProduct(vectorCentroProtaCamara);
+			//Quaternion rotacionDestino=actualDirection.getRotationTo(directionPerp);
 			
 			Matrix4 orientacion = _target->getOrientation();
 			//std::cout<<vectorCentroProtaCamara<<std::endl;
@@ -104,8 +105,8 @@ namespace Logic
 			vectorCentroProtaCamara.y=direction.y;
 			//std::cout<<"vectorcentroprotacamara: "<<vectorCentroProtaCamara<<std::endl;
 		
-			_currentPos += ((4*_target->getPosition()+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035;
-			
+			//inercia de la camara
+			_currentPos += ((4*_target->getPosition()+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035;			
 			_graphicsCamera->setCameraPosition(_currentPos);
 
 			

@@ -98,7 +98,7 @@ Map ={
 		static = true,
 	},
 	
-	David = {
+	PeP = {
 		type = "Player",
 		orientation = 90,
 		life = 100.0,
@@ -129,34 +129,8 @@ Map ={
 		logicInput=true,
 		radio=120,
 	},
-			
-	bioshockLOGICO = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
-		base=1,
-		ring=1,
-		degrees=90,
-		radio=60,
-		sense=0,
-		angularBox=5,
-	},	
 	
-
-	bioshockLOGICO2 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
-		base=1,
-		ring=2,
-		degrees=90,
-		radio=60,
-		sense=0,
-		angularBox=5,
-	},	
-	bioshockLOGICO3 = {
+bioshockLOGICO3 = {
 		type = "AnimatedEntity",
 		life = 100.0,
 		model = "bioshock.mesh",
@@ -165,7 +139,7 @@ Map ={
 		ring=0,
 		degrees=120,
 		radio=60,
-		sense=0,
+		sense=1,
 		angularBox=5,
 	},	
 	
@@ -178,22 +152,14 @@ Map ={
 		ring=0,
 		degrees=150,
 		radio=60,
-		sense=1,
+		sense=0,
 		angularBox=5,
 	},	
+
 	
-	bioshockLOGICO6 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
-		base=1,
-		ring=1,
-		degrees=180,
-		radio=60,
-		sense=1,
-		angularBox=5,
-	},	
+	
+	
+	
 	bioshockLOGICO7 = {
 		type = "AnimatedEntity",
 		life = 100.0,
@@ -241,6 +207,35 @@ Map ={
 		degrees=330,
 		radio=60,
 		sense=1,
+	},	
+	
+		
+	bioshockLOGICO = {
+		type = "AnimatedEntity",
+		life = 100.0,
+		model = "bioshock.mesh",
+		logicInput=true,
+		base=1,
+		ring=1,
+		degrees=90,
+		radio=60,
+		sense=1,
+		angularBox=5,
+	},	
+	
+
+	
+	bioshockLOGICO6 = {
+		type = "AnimatedEntity",
+		life = 100.0,
+		model = "bioshock.mesh",
+		logicInput=true,
+		base=1,
+		ring=1,
+		degrees=180,
+		radio=60,
+		sense=1,
+		angularBox=5,
 	},	
 	
 }

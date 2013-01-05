@@ -35,7 +35,19 @@ namespace Logic
 
 	bool CAngularMovement::activate()
 	{
-		 _sentidoIzquierda=true;
+		_sentidoDerecha=!_entity->getSense();
+		
+		if (_entity->getType().compare("Player")!=0)
+		if (_sentidoDerecha)
+		{
+			_walkingLeft=false;
+			_walkingRight=true;
+		}
+		else
+		{
+			_walkingLeft=true;
+			_walkingRight=false;
+		}
 		 //_actualRadius=
 		 //if (_entity->getType().compare("Player")==0)
 		 	//		std::cout<<"PlayerDegree: "<<_entity->getDegree()<<std::endl;
@@ -48,7 +60,10 @@ namespace Logic
 	
 	bool CAngularMovement::accept(const TMessage &message)
 	{
-		return message._type == Message::CONTROL; //De momento, luego tendrá que aceptar de otras entidades NPC
+		if (_entity->getType().compare("Player")==0)
+			return message._type == Message::CONTROL;
+		 if (_entity->getType().compare("AnimatedEntity")==0)
+			return message._type == Message::NPC_CONTROL;
 	}
 
 		
@@ -57,6 +72,7 @@ namespace Logic
 		switch(message._type)
 		{
 		case Message::CONTROL:
+			{
 			if(!message._string.compare("goUp"))
 				goUp();
 			else if(!message._string.compare("goDown"))
@@ -72,17 +88,47 @@ namespace Logic
 					_sentidoColision=message._bool;
 					walkBack();
 				 }
+			else if(!message._string.compare("changeDirection"))
+				 {	
+					 _sentidoColision=message._bool;
+					changeDirection(_sentidoColision);
+				 }
 			else if(!message._string.compare("turn"))
 				turn(message._float);
+			}
+		case Message::NPC_CONTROL:
+			{
+			if(!message._string.compare("goUp"))
+				goUp();
+			else if(!message._string.compare("goDown"))
+				goDown();
+			else if(!message._string.compare("walkLeft"))
+				walkLeft();
+			else if(!message._string.compare("walkRight"))
+				walkRight();
+			else if(!message._string.compare("walkStop"))
+				stopMovement();
+			else if(!message._string.compare("walkBack"))
+				 {	
+					_sentidoColision=message._bool;
+					walkBack();
+				 }
+			else if(!message._string.compare("changeDirection"))
+				 {	
+					 _sentidoColision=message._bool;
+					changeDirection(_sentidoColision);
+				 }
+			else if(!message._string.compare("turn"))
+				turn(message._float);
+			}
 		}
-
-		 }
-
+	}
 
 		void CAngularMovement::walkRight()
 		{
 			_walkingRight = true;
 			// Cambiamos la animación
+			_entity->setSense(LogicalPosition::DERECHA);
 			TMessage message;
 			message._type = Message::SET_ANIMATION;
 			message._string = "Run";
@@ -94,7 +140,9 @@ namespace Logic
 		void CAngularMovement::walkLeft()
 		{
 			_walkingLeft = true;
+			
 			// Cambiamos la animación
+			_entity->setSense(LogicalPosition::IZQUIERDA);
 			TMessage message;
 			message._type = Message::SET_ANIMATION;
 			message._string = "Run";
@@ -123,7 +171,7 @@ namespace Logic
 		
 		void CAngularMovement::stopMovement()
 		{
-		_walkingLeft = _walkingRight = false;
+			_walkingLeft = _walkingRight = false;
 
 		// Cambiamos la animación si no seguimos desplazándonos
 		// lateralmente
@@ -135,6 +183,37 @@ namespace Logic
 			_entity->emitMessage(message,this);
 		}
 		
+		
+	void CAngularMovement::changeDirection(bool newDirection)
+	{
+		/*if (_hit>0)
+		{
+			_hit++;
+			if(_hit==100)
+			{*/
+
+
+				Logic::TMessage m;
+				m._string="marine";
+				m._type = Logic::Message::SET_SHADER;
+				_entity->emitMessage(m,this);
+				if (_entity->getType().compare("Player")==0)
+				return;
+					//_hit=0;
+				
+			
+
+			//	if (_entity->getType().compare("AnimatedEntity")==0)
+				//{
+				if (!_walkingLeft && !_walkingRight)
+					if (newDirection)
+						walkLeft();
+					else
+						walkRight();
+				//	}
+			}
+	
+
 
 		void CAngularMovement::tick(unsigned int msecs)
 	{
@@ -158,9 +237,9 @@ namespace Logic
 				//Matrix4 orientacion = _entity->getOrientation();
 				//Math::yaw(Math::fromDegreesToRadians(_actualDegree),orientacion);
 				if(_walkingRight){
-					if(_sentidoIzquierda==true)
+					if(_sentidoDerecha==true)
 					{
-						_sentidoIzquierda=false;
+						_sentidoDerecha=false;
 						_entity->yaw(Math::PI);						
 					}
 						//_entity->setYaw(0);
@@ -173,10 +252,10 @@ namespace Logic
 				}
 				else
 				{
-					if(_sentidoIzquierda==false)
+					if(_sentidoDerecha==false)
 					{
 						_entity->yaw(Math::PI);					
-						_sentidoIzquierda=true;
+						_sentidoDerecha=true;
 					}
 					//_actualDegree+=_angularSpeed;
 					if (!_walkBack)
@@ -191,25 +270,27 @@ namespace Logic
 				//_entity->setOrientation(
 				if (_walkBack)
 					{
-						if (_sentidoColision)
+						stopMovement();   
+						_walkBack=false;
+
+						if (_sentidoColision) // la direccion
 						{
-							_entity->setDegree(_entity->getDegree()+(_angularSpeed)); 
+							_entity->setDegree(_entity->getDegree()+(_angularSpeed+10)); 
 							_entity->yaw(Math::fromDegreesToRadians(-(_angularSpeed)));
 						}
 						else
 						{
-							_entity->setDegree(_entity->getDegree()-(_angularSpeed)); 
+							_entity->setDegree(_entity->getDegree()-(_angularSpeed+10)); 
 							_entity->yaw(Math::fromDegreesToRadians((_angularSpeed)));
 						}							
 				
-						stopMovement();   
+						
 						/*Logic::TMessage m;
-						m._type = Logic::Message::CONTROL;						
+						m._type = Logic::Message::CONTROL;
 						m._string = "walkStop";
 						_entity->emitMessage(m);*/
 						_sentidoColision=false;
-						_walkBack=false;
-
+						
 					}
 				if(_walkingLeft)
 					direction *= -1;
@@ -219,11 +300,12 @@ namespace Logic
 			//_entity->setDegree(_actualDegree);
 			//_entity->setRadio(_actualRadius);
 
-			//std::cout<<"PlayerDegree: "<<_entity->getDegree()<<std::endl;
+			// std::cout<<"PlayerDegree: "<<_entity->getDegree()<<std::endl;
 			Vector3 newPosition = Math::fromPolarToCartesian(_entity->getDegree(),_entity->getRadio());
 			
-			//newPosition.y=0;
+			newPosition.y=_entity->getY();
 			_entity->setPosition(newPosition);
+		
 		}
 		
 		}

@@ -42,7 +42,7 @@ namespace Logic
 		defecto.
 		*/
 		CAngularMovement() : IComponent(),_sentidoColision(false),_walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false),_goingDown(false),
-			_angularSpeed(0.05f), _actualRadius(-55), _actualDegree(-90){}
+			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90){}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -147,6 +147,12 @@ namespace Logic
 		*/
 		void turn(float amount);
 
+		/**
+		Provoca que la entidad cambie de dirección.
+		@param amount Cantidad de giro. Positivos giro a derechas,
+		negativos a izquierdas.
+		*/
+		void changeDirection(const bool newDirection);
 
 
 	
@@ -185,7 +191,7 @@ namespace Logic
 
 		float _actualDegree;
 
-		bool _sentidoIzquierda;
+		bool _sentidoDerecha;
 
 		bool _sentidoColision;
 	

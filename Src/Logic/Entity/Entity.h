@@ -168,7 +168,7 @@ namespace Logic
 		@param emitter Componente emisor, si lo hay. No se le enviará el mensaje.
 		@return true si al menos un componente aceptó el mensaje
 		*/
-		bool emitMessage(const TMessage &message, IComponent* emitter = 0);
+		const bool emitMessage (const TMessage &message, IComponent* emitter = 0);
 
 		/**
 		Devuelve el identificador único de la entidad.
@@ -268,7 +268,7 @@ namespace Logic
 		en grados
 		@return Posición de la entidad en el entorno.
 		*/
-		float getDegree() const { 
+		const float getDegree() const { 
 			if (_pos._degrees>=0 && _pos._degrees<360)
 				return _pos._degrees;
 
@@ -303,14 +303,41 @@ namespace Logic
 
 		@param Ring nueva
 		*/
-		void setRing(const short &ring);
+		void setRing(const LogicalPosition::Ring &ring);
 
 		/**
 		Devuelve el anillo de la entidad.
 		
 		@return Ring de la entidad en el entorno.
 		*/
-		short getRing() const { return _pos._ring; }
+		LogicalPosition::Ring getRing() const { return _pos._ring; }
+
+		/**
+		Devuelve el anillo de la entidad.
+		
+		@return Ring de la entidad en el entorno.
+		*/
+		short getY() const { 
+			switch(_pos._ring)
+			{
+				case 0:
+				{
+					return -50;//abajo
+					break;
+				}
+				case 1:
+				{
+					return 0;//Centro
+					break;
+				}
+				case 2:
+				{
+					return 50;//arriba
+					break;
+				}
+		}
+	
+		}
 
 		/**
 		Establece el radio sobre el que se mueve la entidad. 
@@ -326,7 +353,7 @@ namespace Logic
 		
 		@return Radio de la entidad en el entorno.
 		*/
-		float getRadio() const { return _pos._radio; }
+		const float getRadio() const { return _pos._radio; }
 
 
 		/**
@@ -340,20 +367,20 @@ namespace Logic
 		
 		@return AngularBox de la entidad en el entorno.
 		*/
-		float getAngularBox() const { return _pos._angularBox; }
+		const float getAngularBox() const { return _pos._angularBox; }
 
 		/**
 		Establece la anchura de la entidad gráfica
 		@param angularBox nuevo
 		*/
-		void setSense(const short &sense);
+		void setSense(const LogicalPosition::Sense &sense);
 
 		/**
 		Devuelve la anchura de la entidad gráfica.
 		
 		@return AngularBox de la entidad en el entorno.
 		*/
-		short getSense() const { return _pos._sense; }
+		const LogicalPosition::Sense getSense() const { return _pos._sense; }
 
 
 		/**
@@ -381,7 +408,7 @@ namespace Logic
 
 		@return Orientación en el entorno.
 		*/
-		Matrix3 getOrientation() const;
+		 Matrix3 getOrientation() ;
 
 		/**
 		Establece el viraje de la entidad. Avisa a los componentes
@@ -419,7 +446,7 @@ namespace Logic
 
 		@return Viraje en el entorno.
 		*/
-		float getYaw() const { return Math::getYaw(_transform); }
+		const float getYaw() const { return Math::getYaw(_transform); }
 
 		/**
 		Indica si la entidad se encuentra activa.
@@ -430,8 +457,9 @@ namespace Logic
 
 		const Map::CEntity* getEntityInfo() {return _entityInfo; }
 
-		bool contactoAngular(CEntity* entidad);
+		//bool contactoAngular(CEntity* entidad);
 
+		//void Contacto();
 
 	protected:
 

@@ -30,7 +30,8 @@ namespace Logic
 			STOP_ANIMATION,
 			CONTROL,
 			CONTACTO,
-			SET_SHADER
+			SET_SHADER,
+			NPC_CONTROL
 		};
 	}
 

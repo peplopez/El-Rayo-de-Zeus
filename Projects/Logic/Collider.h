@@ -109,15 +109,17 @@ namespace Logic
 		
 		/**
 		Método virtual que define el comportamiento en caso de colisión.
+
+		@return devuelve la direccion a la que tiene el obstaculo
 		*/
-		virtual void Contacto();
+		virtual bool contacto( CEntity* entidad1, CEntity* entidad2);
 
 		/**
 		Método virtual que determina en una colisión quien está a la izquierda y quien a la derecha
 		*/
-		virtual bool sentidoColision(CEntity* entidad1);
+		virtual bool sentidoColision(const CEntity* entidad1,const CEntity* entidad2);
 
-
+		virtual bool contactoAngular( CEntity* entidad, CEntity* entidad2);
 
 
 	protected:
@@ -130,6 +132,8 @@ namespace Logic
 			false si en una colisión, está a la izquierda
 		*/
 		short _hit;
+
+		CEntity* _excluido;
 		
 	}; // class CCollider
 
