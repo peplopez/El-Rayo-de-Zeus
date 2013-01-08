@@ -100,7 +100,7 @@ material luminoso
 
             fragment_program_ref MiShaderHLSL
             {
-				param_named Color float4 1.0 1.0 1.0 1.0
+				param_named Color float4 0.5 1.0 1.0 1.0
             }
 
             texture_unit diffuseMap

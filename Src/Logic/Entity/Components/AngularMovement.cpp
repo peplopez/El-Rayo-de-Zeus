@@ -206,11 +206,13 @@ namespace Logic
 			//	if (_entity->getType().compare("AnimatedEntity")==0)
 				//{
 				if (!_walkingLeft && !_walkingRight)
+				{
 					if (newDirection)
 						walkLeft();
 					else
 						walkRight();
-				//	}
+				}
+					//	}
 			}
 	
 
@@ -301,7 +303,7 @@ namespace Logic
 			//_entity->setRadio(_actualRadius);
 
 			// std::cout<<"PlayerDegree: "<<_entity->getDegree()<<std::endl;
-			Vector3 newPosition = Math::fromPolarToCartesian(_entity->getDegree(),_entity->getRadio());
+			Vector3  newPosition= Math::fromPolarToCartesian(_entity->getDegree(),_entity->getRadio());
 			
 			newPosition.y=_entity->getY();
 			_entity->setPosition(newPosition);
