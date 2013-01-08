@@ -2,7 +2,6 @@
 ###################
 *.com
 *.class
-*.dll
 *.exe
 *.o
 *.so
@@ -59,6 +58,16 @@ Thumbs.db
 /vslog.txt
 /ipch/
 
+#Document. Doxygen
+/DocumentacionDoxygen/
+
+#Exes
+/Exes/*.*
+!/Exes/resources.cfg
+
+#Projects
+/Projects/*/Debug/
+/Projects/*/Release/
 
 #dependencies
 
@@ -130,20 +139,14 @@ Thumbs.db
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Release/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/*.2010.vcxproj.user
 
-#Document. Doxygen
-
-/DocumentacionDoxygen/
-
-
-#Exes
-
-/Exes/*.*
-!/Exes/resources.cfg
-
-
-#Projects
-
-/Projects/*/Debug/
-/Projects/*/Release/
+#exceptions
+!/dependencies/include/enet/
+!/dependencies/include/PhysX/
+!/dependencies/lib/*/PhysX*.lib
+!/dependencies/lib/*/enet.lib
+!/dependencies/lib/*/NxCharacter.lib
+!/dependencies/bin/*/PhysX*.dll
+!/dependencies/bin/*/cudart32_30_9.dll
+!/dependencies/bin/*/NxCharacter.dll
 
 
