@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="GameOver" >
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Window Type="OgreTray/StaticImage" Name="GameOver/BackGround" >
+            <Property Name="Font" Value="FairChar-30" />
+            <Property Name="Text" Value="GALEON" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+            <Window Type="OgreTray/Title" Name="GameOver/BackGround/" >
+                <Property Name="Font" Value="FairChar-30" />
+                <Property Name="Text" Value="GAME OVER" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.2,0},{0.8,0},{0.4,0}}" />
+            </Window>
+        </Window>
+        <Window Type="OgreTray/Button" Name="GameOver/Exit" >
+            <Property Name="Font" Value="DejaVuSans-10" />
+            <Property Name="Text" Value="Exit" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.35,0},{0.6,0},{0.65,0},{0.7,0}}" />
+        </Window>
+    </Window>
+</GUILayout>

@@ -13,15 +13,17 @@ leaks. En función de la configuración y plataforma se usa un main o un WinMain.
 */
 
 #ifdef _DEBUG
+// VLD: Completa biblioteca para detectar leaks y donde se produjeron en modo de
+// depuración. Ralentiza moderadamente el lanzamiento de la aplicación aunque no 
+// en exceso su ejecución. Si se desea anular la comprobación basta con comentar 
+// la siguiente línea.
+//#define _VISUALLEAKDETECTOR
 
-// Código para poder comprobar en modo Debug en Windows si hay leaks de memoria. 
-// Si se desea anular la comprobación basta con comentar la siguiente línea.
-//#define _LEAKDETECTOR
-
-#if (defined _LEAKDETECTOR) && (defined _WIN32)
-#include <crtdbg.h>
-#include <assert.h>
-#endif // _LEAKDETECTOR && _WIN32
+#ifdef _VISUALLEAKDETECTOR
+#define WIN32_LEAN_AND_MEAN 
+#include <windows.h>
+#include <vld.h> 
+#endif // _VISUALLEAKDETECTOR
 
 #endif // _DEBUG
 
@@ -31,10 +33,6 @@ leaks. En función de la configuración y plataforma se usa un main o un WinMain.
 #if (defined _DEBUG) || !(defined _WIN32)
 int main(int argc, char **argv) 
 {
-#ifdef _LEAKDETECTOR
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	_CrtSetBreakAlloc(-1);
-#endif
 #else
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

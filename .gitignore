@@ -143,18 +143,7 @@ Thumbs.db
 
 #Projects
 
-/Projects/Application/Debug/
-/Projects/Application/Release/
-/Projects/BaseSubsystems/Debug/
-/Projects/BaseSubsystems/Release/
-/Projects/Configure/Debug/
-/Projects/Configure/Release/
-/Projects/Graphics/Debug/
-/Projects/Graphics/Release/
-/Projects/GUI/Debug/
-/Projects/GUI/Release/
-/Projects/Logic/Debug/
-/Projects/Logic/Release/
-/Projects/Map/Debug/
-/Projects/Map/Release/
+/Projects/*/Debug/
+/Projects/*/Release/
+
 

@@ -76,6 +76,9 @@ namespace GUI {
 			case GUI::Key::D:
 				m._string = "strafeRight";
 				break;
+			case GUI::Key::E:
+				m._string = "specialAction";
+				break;
 			default:
 				return false;
 			}

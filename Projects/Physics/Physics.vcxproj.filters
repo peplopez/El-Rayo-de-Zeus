@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{c27e36f8-a59c-4a6b-9405-c846fa13bc4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools\NxuStream2">
+      <UniqueIdentifier>{5ab36894-987a-4461-ab33-ba8d436643da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_Asc2Bin.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_ColladaExport.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_ColladaImport.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_cooking.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_customcopy.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_File.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_Geometry.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_GraphicsMesh.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_helper.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_hull.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_PhysicsExport.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_PhysicsInstantiator.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_ScaledCopy.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_schema.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_SchemaStream.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_Streaming.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_string.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_tinystr.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_tinyxml.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_tinyxmlerror.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Tools\NxuStream2\NXU_tinyxmlparser.cpp">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\CollisionMng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\IPhysicModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\IPhysicObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\PhysicEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\PhysicInstancer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\PhysicModelCharacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\PhysicModelGeneric.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\PhysicModelSimple.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\PhysicObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\PhysicObjCharacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\PhysicObjGeneric.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\PhysicObjSimple.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\PhysicScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\PhysicUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\PhysicWaterMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Stream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_Asc2Bin.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_ColladaExport.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_ColladaImport.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_cooking.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_customcopy.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_File.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_Geometry.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_GraphicsMesh.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_helper.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_hull.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_PhysicsExport.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_PhysicsInstantiator.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_ScaledCopy.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_schema.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_SchemaStream.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_SchemaTypes.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_Streaming.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_string.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_tinystr.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Tools\NxuStream2\NXU_tinyxml.h">
+      <Filter>Tools\NxuStream2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\CollisionMng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Conversions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\ErrorStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\IPhysicCollisionMng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\IPhysicModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\IPhysicObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\PhysicEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\PhysicGlobals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\PhysicInstancer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\PhysicModelCharacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\PhysicModelGeneric.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\PhysicModelSimple.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\PhysicObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\PhysicObjCharacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\PhysicObjGeneric.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\PhysicObjSimple.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\PhysicScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\PhysicUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\PhysicWaterMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Server.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Enet">
+      <UniqueIdentifier>{1203077f-044b-4607-aa07-c60c5deccdf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Enet">
+      <UniqueIdentifier>{f5165457-3fa7-4199-a24f-5eabdb7394f0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Src\Net\buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Net\Manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Net\paquete.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Net\serializable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Net\clienteENet.cpp">
+      <Filter>Source Files\Enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Net\conexionENet.cpp">
+      <Filter>Source Files\Enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Net\servidorENet.cpp">
+      <Filter>Source Files\Enet</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Src\Net\buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\cliente.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\conexion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\factoriared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\Manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\paquete.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\serializable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\servidor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\clienteENet.h">
+      <Filter>Header Files\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\conexionENet.h">
+      <Filter>Header Files\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\factoriaredenet.h">
+      <Filter>Header Files\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\servidorENet.h">
+      <Filter>Header Files\Enet</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

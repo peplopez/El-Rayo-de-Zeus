@@ -134,9 +134,8 @@ namespace Logic
 			in >> b;
 			// Si no era una línea en blanco
 			if(!b.type.empty())
-			{
-				// Si el tipo ya estaba definido lo eliminamos.
-				if(_bluePrints.count(b.type))
+			{				
+				if(_bluePrints.count(b.type)) // Si el tipo ya estaba definido lo eliminamos.
 					_bluePrints.erase(b.type);
 				// Añadimos a la tabla
 				TStringBluePrintPair elem(b.type,b);
@@ -162,7 +161,7 @@ namespace Logic
 	{
 		TBluePrintMap::const_iterator it;
 
-		it = _bluePrints.find(type);
+		it = _bluePrints.find(type); // mapa <"tipoEntidad", TBluePrint>
 		// si el tipo se encuentra registrado.
 		if (it != _bluePrints.end()) 
 		{
@@ -170,7 +169,7 @@ namespace Logic
 			std::list<std::string>::const_iterator itc;
 			// Añadimos todos sus componentes.
 			IComponent* comp;
-			for(itc = (*it).second.components.begin(); 
+			for(itc = (*it).second.components.begin(); // TBluePrintMap.second: TBluePrint: mapa <type (string), components (list<string>)>
 				itc !=(*it).second.components.end(); itc++)
 			{
 				if(CComponentFactory::getSingletonPtr()->has((*itc)))

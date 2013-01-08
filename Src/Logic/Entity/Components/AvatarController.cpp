@@ -16,6 +16,10 @@ de la entidad.
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
 
+// Includes para pruebas de paso de mensajes a componentes de IA
+#include "AI/Server.h"
+#include "AI/Movement.h"
+
 
 namespace Logic 
 {
@@ -76,6 +80,8 @@ namespace Logic
 				strafeRight();
 			else if(!message._string.compare("stopStrafe"))
 				stopStrafe();
+			else if(!message._string.compare("specialAction"))
+				specialAction();
 			else if(!message._string.compare("turn"))
 				turn(message._float);
 		}
@@ -170,6 +176,23 @@ namespace Logic
 	} // walkBack
 	
 	//---------------------------------------------------------
+	void CAvatarController::specialAction() 
+	{
+		// TODO PRÁCTICA IA
+		// Este método es llamado cuando se activa la acción especial del jugador (por defecto con la E).
+		// Aquí se pueden enviar mensajes para testear el funcionamiento de otros componentes.
+		AI::CWaypointGraph *wg = AI::CServer::getSingletonPtr()->getNavigationGraph();
+		int waypoints = wg->getWaypointCount();
+		int targetId = rand() % waypoints;
+		Vector3 target = wg->getWaypoint(targetId);
+		std::cout << "Navigating to: " << target << std::endl;
+		TMessage message2;
+		message2._type = Message::ROUTE_TO;
+		message2._vector3 = target;
+		_entity->emitMessage(message2, this);
+	} // specialAction
+	
+	//---------------------------------------------------------
 
 	void CAvatarController::stopStrafe() 
 	{
@@ -220,8 +243,15 @@ namespace Logic
 			direction += directionStrafe;
 			direction.normalise();
 			direction *= msecs * _speed;
-			Vector3 newPosition = _entity->getPosition() + direction;
-			_entity->setPosition(newPosition);
+
+			// Enviar un mensaje para que el componente físico mueva el personaje
+			TMessage message;
+			message._type = Message::AVATAR_WALK;
+			message._vector3 = direction;
+			_entity->emitMessage(message);
+
+			//Vector3 newPosition = _entity->getPosition() + direction;
+			//_entity->setPosition(newPosition);
 		}
 
 	} // tick

@@ -22,7 +22,7 @@ Si se define la siguiente directiva, en modo ventana el juego no toma ratón
 y teclado como como de uso exclusivo sino que se sigue viendo el del OS y se
 pueden usar en otras ventanas
 */
-//#define NON_EXCLUSIVE_MODE_IN_WINDOW_MODE
+#define NON_EXCLUSIVE_MODE_IN_WINDOW_MODE
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 

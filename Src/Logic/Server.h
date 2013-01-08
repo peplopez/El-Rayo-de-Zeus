@@ -19,6 +19,7 @@ namespace Logic
 {
 	class CMap;
 	class CEntity;
+	class CGameNetMsgManager;
 }
 
 /**
@@ -161,6 +162,11 @@ namespace Logic
 		Entidad del jugador.
 		*/
 		CEntity *_player;
+
+		/**
+		Gestor de los mensajes que llegan por la red
+		*/
+		Logic::CGameNetMsgManager* _gameNetMsgManager;
 
 	private:
 		/**

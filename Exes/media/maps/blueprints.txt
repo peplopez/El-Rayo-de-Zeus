@@ -1,5 +1,11 @@
-World CGraphics
-Player CAvatarController CAnimatedGraphics
+World CGraphics CPhysicEntity
+Player CAvatarController CAnimatedGraphics CLife CPhysicCharacter
+NPC CAnimatedGraphics CLife CPhysicCharacter CSteeringMovement CRouteTo CStateMachineExecutor
 Entity CGraphics
 AnimatedEntity CAnimatedGraphics
 Camera CCamera
+Barril CGraphics CPhysicEntity
+DoorTrigger CSwitchTrigger CPhysicEntity
+Door CGraphics CSwitchPosition
+Blade CAnimatedGraphics CSwitchPosition CDamageTrigger CPhysicEntity
+Waypoint 

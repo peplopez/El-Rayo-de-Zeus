@@ -27,6 +27,7 @@ Se ofrecen también una serie de funciones auxiliares.
 #include <OgreQuaternion.h>
 #include <OgreMatrix3.h>
 #include <OgreMatrix4.h>
+#include <OgreRay.h>
 
 /**
 Definicion de matriz de 4x4. La definición del tipo de datos
@@ -69,6 +70,12 @@ La definición del tipo de datos es la misma que la utilizada por
 el motor gráfico, por lo tanto es dependiente del motor usado.
  */
 typedef Ogre::Quaternion Quaternion;
+
+/**
+Rayo. La definición del tipo de datos es la misma que la utilizada 
+por el motor gráfico, por lo tanto es dependiente del motor usado.
+ */
+typedef Ogre::Ray Ray;
 
 /**
 Namespace en el que ofrecemos alguna definición de constante

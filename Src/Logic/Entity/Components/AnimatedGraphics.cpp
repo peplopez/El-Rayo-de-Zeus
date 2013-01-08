@@ -40,6 +40,11 @@ namespace Logic
 			_animatedGraphicsEntity->setObserver(this);
 		}
 
+		float scale = 1.0;
+		if (entityInfo->hasAttribute("scale"))
+			scale = entityInfo->getFloatAttribute("scale");
+		_animatedGraphicsEntity->setScale(scale);
+
 		return _animatedGraphicsEntity;
 
 	} // createGraphicsEntity

@@ -16,6 +16,10 @@ Contiene la implementación del estado de menú.
 
 #include "MenuState.h"
 
+#include "Logic/Server.h"
+#include "Logic/Maps/EntityFactory.h"
+#include "Logic/Maps/Map.h"
+
 #include "GUI/Server.h"
 
 #include <CEGUISystem.h>
@@ -47,6 +51,10 @@ namespace Application {
 		CEGUI::WindowManager::getSingleton().getWindow("Menu/Exit")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CMenuState::exitReleased, this));
+
+		CEGUI::WindowManager::getSingleton().getWindow("Menu/Multiplayer")->
+			subscribeEvent(CEGUI::PushButton::EventClicked, 
+				CEGUI::SubscriberSlot(&CMenuState::multiplayerReleased, this));
 	
 		return true;
 
@@ -114,6 +122,15 @@ namespace Application {
 			break;
 		case GUI::Key::RETURN:
 			_app->setState("game");
+			// Cargamos el archivo con las definiciones de las entidades del nivel.
+			if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
+				return false;
+			// Cargamos el nivel a partir del nombre del mapa. 
+			if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))
+				return false;
+			break;
+		case GUI::Key::M:
+			_app->setState("netmenu");
 			break;
 		default:
 			return false;
@@ -148,10 +165,19 @@ namespace Application {
 	} // mouseReleased
 			
 	//--------------------------------------------------------
-		
+// TODO Por qué se devuelve  true o false?
 	bool CMenuState::startReleased(const CEGUI::EventArgs& e)
 	{
 		_app->setState("game");
+
+		// Cargamos el archivo con las definiciones de las entidades del nivel.
+		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
+			return false;
+
+		// Cargamos el nivel a partir del nombre del mapa. 
+		if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))
+			return false;
+
 		return true;
 
 	} // startReleased
@@ -164,5 +190,14 @@ namespace Application {
 		return true;
 
 	} // exitReleased
+
+	//--------------------------------------------------------
+
+	bool CMenuState::multiplayerReleased(const CEGUI::EventArgs& e)
+	{
+		_app->setState("netmenu");
+		return true;
+
+	} // multiplayerReleased
 
 } // namespace Application

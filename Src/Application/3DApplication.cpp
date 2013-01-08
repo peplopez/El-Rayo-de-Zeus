@@ -24,6 +24,9 @@ basadas en Ogre. Esta clase maneja la ejecución de todo el juego.
 #include "GUI/Server.h"
 #include "Logic/Server.h"
 #include "Logic/Maps/ComponentFactory.h"
+#include "Physics/Server.h"
+#include "AI/Server.h"
+#include "net/manager.h"
 
 #include <cassert>
 
@@ -63,6 +66,7 @@ namespace Application {
 		// Inicializamos el gestor de entrada de periféricos.
 		if (!GUI::CInputManager::Init())
 			return false;
+
 		// Nos registramos como oyentes de los eventos del teclado.
 		GUI::CInputManager::getSingletonPtr()->addKeyListener(this);
 		// Y como oyentes de los eventos del ratón.
@@ -72,8 +76,20 @@ namespace Application {
 		if (!GUI::CServer::Init())
 			return false;
 
+		// Inicialización del servidor de física.
+		if (!Physics::CServer::Init())
+			return false;
+
 		// Inicializamos el servidor de la lógica.
 		if (!Logic::CServer::Init())
+			return false;
+
+		// Inicializamos el servidor de IA
+		if (!AI::CServer::Init())
+			return false;
+
+		// Inicializamos la red
+		if (!Net::CManager::Init())
 			return false;
 
 		// Creamos el reloj basado en Ogre.
@@ -94,12 +110,25 @@ namespace Application {
 		// de componentes no es de construcción y destrucción explícita
 		// debido a como se registran los componentes. Por ello Init y
 		// Release no son simétricos.
+
+		// Inicializamos la red
+		if (Net::CManager::getSingletonPtr())
+			Net::CManager::Release();
+		
+		// Liberar servidor de IA 
+		if (AI::CServer::getSingletonPtr())
+			AI::CServer::Release();
+
 		if(Logic::CComponentFactory::getSingletonPtr())
 			delete Logic::CComponentFactory::getSingletonPtr();
 
 		if(Logic::CServer::getSingletonPtr())
 			Logic::CServer::Release();
-		
+
+		// Liberar los recursos del servidor de física
+		if (Physics::CServer::getSingletonPtr())
+			Physics::CServer::Release();
+
 		if(GUI::CServer::getSingletonPtr())
 			GUI::CServer::Release();
 
@@ -131,6 +160,8 @@ namespace Application {
 		GUI::CInputManager::getSingletonPtr()->tick();
 
 		Graphics::CServer::getSingletonPtr()->tick(msecs/1000.0f);
+
+		Net::CManager::getSingletonPtr()->tick(msecs);
 
 	} // tick
 

@@ -136,7 +136,10 @@ namespace Logic
 		Provoca que la entidad cese el desplazamiento lateral.
 		*/
 		void stopStrafe();
-		
+		/**
+		Acción especial para depuración.
+		*/
+		void specialAction();
 		/**
 		Provoca que la entidad gire. Números Positivos para	giro a 
 		derechas, negativos para giro izquierdas.

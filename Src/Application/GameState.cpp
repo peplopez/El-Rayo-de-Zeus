@@ -23,6 +23,8 @@ Contiene la implementación del estado de juego.
 #include "GUI/Server.h"
 #include "GUI/PlayerController.h"
 
+#include "Physics/Server.h"
+
 #include <CEGUISystem.h>
 #include <CEGUIWindowManager.h>
 #include <CEGUIWindow.h>
@@ -33,13 +35,8 @@ namespace Application {
 	{
 		CApplicationState::init();
 
-		// Cargamos el archivo con las definiciones de las entidades del nivel.
-		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
-			return false;
-
-		// Cargamos el nivel a partir del nombre del mapa. 
-		if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))
-			return false;
+		// Crear la escena física.
+		Physics::CServer::getSingletonPtr()->createScene();
 
 		// Cargamos la ventana que muestra el tiempo de juego transcurrido.
 		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Time.layout");
@@ -56,6 +53,9 @@ namespace Application {
 		Logic::CServer::getSingletonPtr()->unLoadLevel();
 
 		Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
+
+		// Liberamos la escena física.
+		Physics::CServer::getSingletonPtr()->destroyScene();
 
 		CApplicationState::release();
 
@@ -104,6 +104,9 @@ namespace Application {
 	void CGameState::tick(unsigned int msecs) 
 	{
 		CApplicationState::tick(msecs);
+
+		// Simulación física
+		Physics::CServer::getSingletonPtr()->tick(msecs / 1000.0f);
 
 		// Actualizamos la lógica de juego.
 		Logic::CServer::getSingletonPtr()->tick(msecs);

@@ -15,9 +15,13 @@ Contiene la implementación de la clase CMap, Un mapa lógico.
 #include "EntityFactory.h"
 
 #include "Map/MapParser.h"
+#include "Map/MapEntity.h"
 
 #include "Graphics/Server.h"
 #include "Graphics/Scene.h"
+
+#include "AI/Server.h"
+
 
 #include <cassert>
 
@@ -54,10 +58,20 @@ namespace Logic {
 		// Creamos todas las entidades lógicas.
 		for(; it != end; it++)
 		{
-			// La propia factoría se encarga de añadir la entidad al mapa.
-			CEntity *entity = entityFactory->createEntity((*it),map);
-			assert(entity && "No se pudo crear una entidad del mapa");
+			if ((*it)->getType() == "Waypoint") {
+				// Procesar waypoint del grafo de navegación
+				AI::CServer::getSingletonPtr()->addWaypoint((*it)->getVector3Attribute("position"));
+				// HACK - Descomentar para ver los nodos del grafo de navegación
+				entityFactory->createEntity((*it), map);
+			} else {
+				// La propia factoría se encarga de añadir la entidad al mapa.
+				CEntity *entity = entityFactory->createEntity((*it),map);
+				assert(entity && "No se pudo crear una entidad del mapa");
+			}
 		}
+
+		// Generar el grafo de navegación
+		AI::CServer::getSingletonPtr()->computeNavigationGraph();
 
 		return map;
 
