@@ -2,9 +2,11 @@
 ###################
 *.com
 *.class
+*.dll
 *.exe
 *.o
 *.so
+*.suo
 
 # Packages #
 ############
@@ -53,7 +55,6 @@ Thumbs.db
 
 #root
 /Galeon.opensdf
-/Galeon.suo
 /Galeon.sdf
 /vslog.txt
 /ipch/
@@ -68,6 +69,7 @@ Thumbs.db
 #Projects
 /Projects/*/Debug/
 /Projects/*/Release/
+
 
 #dependencies
 
