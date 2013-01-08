@@ -6,6 +6,7 @@
 *.exe
 *.o
 *.so
+*.suo
 
 # Packages #
 ############
@@ -54,10 +55,20 @@ Thumbs.db
 
 #root
 /Galeon.opensdf
-/Galeon.suo
 /Galeon.sdf
 /vslog.txt
 /ipch/
+
+#Document. Doxygen
+/DocumentacionDoxygen/
+
+#Exes
+/Exes/*.*
+!/Exes/resources.cfg
+
+#Projects
+/Projects/*/Debug/
+/Projects/*/Release/
 
 
 #dependencies
@@ -129,20 +140,3 @@ Thumbs.db
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Debug/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Release/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/*.2010.vcxproj.user
-
-#Document. Doxygen
-
-/DocumentacionDoxygen/
-
-
-#Exes
-
-/Exes/*.*
-!/Exes/resources.cfg
-
-
-#Projects
-
-/Projects/*/Debug/
-/Projects/*/Release/
-
