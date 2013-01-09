@@ -35,7 +35,7 @@ namespace Logic
 
 	bool CAngularMovement::activate()
 	{
-		_sentidoDerecha=!_entity->getSense();
+		_sentidoDerecha=_entity->getSense();
 		
 		if (_entity->getType().compare("Player")!=0)
 		if (_sentidoDerecha)

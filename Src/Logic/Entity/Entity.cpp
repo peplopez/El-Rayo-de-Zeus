@@ -176,14 +176,27 @@ namespace Logic
 		vectorCentroEntidad.normalise();
 		Vector3 actualDirection=Math::getDirection(this->getYaw());
 		Vector3 directionPerp= Vector3::UNIT_Y.crossProduct(vectorCentroEntidad);
+		directionPerp.normalise();
 		Quaternion rotacionDestino=actualDirection.getRotationTo(directionPerp);
 
-
+	//	Matrix4 orientacion = this->getOrientation();
+		if (this->getType().compare("AnimatedEntity")==0)
+		{
+			//_entity->setDegree(_entity->getDegree()-_angularSpeed); 
+			if (this->getSense()==LogicalPosition::DERECHA)
+				this->setYaw(-Math::fromDegreesToRadians(this->getDegree()));
+			else
+				this->setYaw(Math::fromDegreesToRadians(360-this->getDegree()+180));
+			
+		}
+		//	this->setOrientation(rotacionDestino);
+		//this->setYaw(Math::fromDegreesToRadians(-90));
+		//this->setYaw(rotacionDestino);
 		// Por comodidad en el mapa escribimos los ángulos en grados.
 		if(entityInfo->hasAttribute("orientation"))
 		{
 			float yaw = Math::fromDegreesToRadians(entityInfo->getFloatAttribute("orientation"));
-			Math::yaw(yaw,_transform);
+			Math::yaw(yaw,_transform); //revisar
 		}
 
 		if(entityInfo->hasAttribute("isPlayer"))

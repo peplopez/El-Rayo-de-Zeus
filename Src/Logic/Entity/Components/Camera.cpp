@@ -95,7 +95,7 @@ namespace Logic
 			//std::cout<<vectorCentroProtaCamara<<std::endl;
 			//std::cout<<Math::getDirection(orientacion)<<std::endl;
 			
-			Math::yaw(Math::fromDegreesToRadians(-90),orientacion);
+			//Math::yaw(Math::fromDegreesToRadians(-90),orientacion);
 			Vector3 direction = vectorCentroProtaCamara; //-_distance * (Math::getDirection(orientacion))  ;
 		
 			direction.normalise();
