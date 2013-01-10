@@ -1,14 +1,14 @@
 //---------------------------------------------------------------------------
-// MenuState.cpp
+// LobbyClientState.cpp
 //---------------------------------------------------------------------------
 
 /**
-@file MenuState.cpp
+@file LobbyClientState.cpp
 
-Contiene la implementación del estado de menú.
+Contiene la implementación del estado de lobby del cliente.
 
 @see Application::CApplicationState
-@see Application::CMenuState
+@see Application::CLobbyClientState
 
 @author David Llansó
 @date Agosto, 2010
@@ -85,8 +85,7 @@ namespace Application {
 
 		// NET
 		Net::CManager::getSingletonPtr()->addObserver(this); // Se registra como IObserver
-		// Activar la red
-		Net::CManager::getSingletonPtr()->activateAsClient(); // De tipo Client
+		Net::CManager::getSingletonPtr()->activateAsClient(); //  Activar la red como tipo Client
 
 	} // activate
 
@@ -211,51 +210,86 @@ namespace Application {
 
 	} // doStart
 
-	
-	// NET: Rx Packet
+
+	/**********************
+		NET: IOBSERVER
+	********************/
 	void CLobbyClientState::dataPacketReceived(Net::CPaquete* packet)
 	{
-		Net::NetMessageType txMsg; 
-		Net::NetMessageType rxMsg;
-			memcpy(&rxMsg, packet->getData(),sizeof(rxMsg));
-			switch (rxMsg)
-			{
+		Net::NetMessageType msg;
+			memcpy(&msg, packet->getData(),sizeof(msg));		
+		
+		switch (msg)
+		{
 
-			// TODO Gestionar la carga del blueprints cliente y del mapa cuando  
-			// se reciba un mensaje de red de tipo LOAD_MAP. Cuando se finalice
-			// la carga avisar al servidor enviando un mensaje tipo MAP_LOADED
-			case Net::LOAD_MAP:		
+		// TODO Gestionar la carga del blueprints cliente y del mapa cuando  
+		// se reciba un mensaje de red de tipo LOAD_MAP. Cuando se finalice
+		// la carga avisar al servidor enviando un mensaje tipo MAP_LOADED
+		case Net::LOAD_MAP:
 
-#if _DEBUG
-		fprintf (stdout, "NET::CLIENT::RX>> LOAD_MAP.\n");
-#endif
-				// Carga de blueprints y map
-				if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints_client.txt") ||
-					!Logic::CServer::getSingletonPtr()->loadLevel("map_client.txt")) {
-					CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar el mapa");
-					return;
-				}
-#if _DEBUG
-		fprintf (stdout, "NET::CLIENT>> MAPA Cargado.\n");
-#endif
-			
-				txMsg = Net::NetMessageType::MAP_LOADED; // Informamos de carga finalizada
-				Net::CManager::getSingletonPtr()->send( (void*) &txMsg, sizeof(txMsg));
+#if _DEBUG	fprintf (stdout, "NET::CLIENT::RX>> LOAD_MAP.\n");
+#endif			
+			// Cargamos el archivo con las definiciones de las entidades del nivel.
+			if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints_client.txt"))			{
+				CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar el nivel");
+				Net::CManager::getSingletonPtr()->deactivateNetwork();
+				_app->exitRequest();
 
-#if _DEBUG
-		fprintf (stdout, "NET::CLIENT::TX>> MAP_LOADED.\n");
-#endif
-				break;
+			// Cargamos el nivel a partir del nombre del mapa. 
+			} else if (!Logic::CServer::getSingletonPtr()->loadLevel("map_client.txt")){
+				CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar el nivel");
+				Net::CManager::getSingletonPtr()->deactivateNetwork();
+				_app->exitRequest();
 
-			case Net::START_GAME:
-#if _DEBUG
-		fprintf (stdout, "NET::CLIENT::RX>> START_GAME.\n");
+			} else { //Avisamos de que hemos terminado la carga.
+
+#if _DEBUG		fprintf (stdout, "NET::CLIENT>> MAPA Cargado.\n"); 
+#endif			
+				Net::NetMessageType txMsg = Net::NetMessageType::MAP_LOADED; // Informamos de carga finalizada
+				Net::CManager::getSingletonPtr()->send(&txMsg, sizeof(txMsg));
+
+#if _DEBUG		fprintf (stdout, "NET::CLIENT::TX>> MAP_LOADED.\n");
 #endif
-				_app->setState("game"); // Rx mensaje START -> game state
-				break;
 			}
+
+			break;
+
+		case Net::LOAD_PLAYER: { // Creamos el player.
+
+#if _DEBUG	fprintf (stdout, "NET::CLIENT::RX>> LOAD_PLAYER.\n");
+#endif
+			// HACK Deberíamos poder propocionar caracteríasticas
+			// diferentes según el cliente (nombre, modelo, etc.). Esto es una
+			// aproximación, solo cambiamos el nombre y decimos si es el jugador
+			// local. Los datos deberían llegar en el paquete de red.
+			Net::NetID id;
+				memcpy(&id, packet->getData() + sizeof(msg), sizeof(id) );			
+			std::stringstream number;
+				number << id;			// TODO Por qué es necesario pasar por stringstream para el append?
+			std::string name("Player");
+				name.append(number.str());
+
+			// TODO Llamar al método de creación del jugador. Deberemos decidir
+			// si el jugador es el jugador local (si el ID del paquete coincide 
+			// con nuestro ID de red).
+
+			//Enviamos el mensaje de que se ha creado el jugador
+			Net::NetMessageType msg = Net::PLAYER_LOADED;
+			Net::CManager::getSingletonPtr()->send(&msg, sizeof(msg));
+
+#if _DEBUG	fprintf (stdout, "NET::CLIENT::TX>> PLAYER_LOADED.\n");
+#endif
+		}	break;	
+
+		case Net::START_GAME:
+#if _DEBUG	fprintf (stdout, "NET::CLIENT::RX>> START_GAME.\n");
+#endif		_app->setState("game"); // Rx mensaje START -> game state
+			break;
+		}
+
 	} // dataPacketReceived
 
 	//--------------------------------------------------------
+
 
 } // namespace Application

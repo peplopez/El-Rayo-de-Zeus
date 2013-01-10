@@ -46,7 +46,9 @@ CPhysicCharacter::~CPhysicCharacter()
 
 bool CPhysicCharacter::accept(const TMessage &message)
 {
-	return message._type == Message::AVATAR_WALK;
+	return message._type == Message::AVATAR_WALK ||
+		   message._type == Message::SET_TRANSFORM && 
+										message._bool; // TODO bool???
 } 
 
 //---------------------------------------------------------
@@ -61,6 +63,12 @@ void CPhysicCharacter::process(const TMessage &message)
 		// en el mismo ciclo sólo tendremos en cuenta el último.
 		_movement = message._vector3;
 		break;
+	case Message::SET_TRANSFORM:
+		// Subimos la cápsula para que no se hunda.
+		Vector3 pos = message._transform.getTrans();
+		pos.y = fromPhysicsToLogic(_physicServer->getPosition((CPhysicObjCharacter *)_physicObj)).y; // Acotamos/elevamos la y del transform según pos física
+		_physicServer->setPosition((CPhysicObjCharacter *)_physicObj, // Set position del transform . TODO la rotacion no se tiene en cuenta
+									fromLogicToPhysics(pos));
 	}
 
 } 
@@ -86,7 +94,13 @@ void CPhysicCharacter::tick(unsigned int msecs)
 	// Los controllers no tienen orientación, así que sólo actualizamos su posición.
 	// Es importante transformar entre posiciones lógicas y posiciones físicas.
 	Vector3 physicPos = _physicServer->getPosition(_physicObj);
-	_entity->setPosition(fromPhysicsToLogic(physicPos));
+	Matrix4 trans = _entity->getTransform();
+	trans.setTrans(fromPhysicsToLogic(physicPos));
+	// Avisamos a los componentes del cambio.
+	TMessage message;
+	message._type = Message::SET_TRANSFORM;
+	message._transform = trans;
+	_entity->emitMessage(message,this);
 }
 
 //---------------------------------------------------------
@@ -100,7 +114,7 @@ IPhysicObj* CPhysicCharacter::createPhysicEntity(const Map::CEntity *entityInfo)
 	// al método anterior no hemos tenido en cuenta la diferencia de sistemas de coordenadas.
 	// Además sumaremos un pequeño desplazamiento en el eje Y para asegurarnos de que el
 	// controller queda por encima del suelo y no lo atraviesa.
-	Vector3 pos = fromLogicToPhysics(_physicServer->getPosition(obj)) + Vector3(0,2,0);
+	Vector3 pos = fromLogicToPhysics(_physicServer->getPosition(obj) + Vector3(0,10,0)); // Para que no se hunda
 	_physicServer->setPosition(obj, pos);
 
 	return obj;

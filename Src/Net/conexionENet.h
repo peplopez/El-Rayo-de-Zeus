@@ -25,20 +25,21 @@ namespace Net {
 class CConexionENet: public CConexion{
 
 public:
+	CConexionENet():_id(0xFFFFFFFF),_peer(0){}
 
 	int getAddress();
 	short getPort();
 
-	void setId(const std::string& id);
+	void setId(NetID id);
 
-	std::string getId();
+	NetID getId();
 
     void setENetPeer(ENetPeer* p);
 
 	ENetPeer* getENetPeer();
 private:
 	ENetPeer* _peer;
-	std::string _id;
+	NetID _id;
 };
 
 

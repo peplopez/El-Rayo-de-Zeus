@@ -121,17 +121,26 @@ namespace Logic
 			// Aplicamos la rotación
 			_yaw->move(msecs, _currentProperties);
 
-			// Enviar un mensaje para que el componente físico mueva el personaje
-			TMessage message;
-			message._type = Message::AVATAR_WALK;
-			message._vector3 = _currentProperties.linearSpeed * (float)msecs;
-			_entity->emitMessage(message, this);
 			// Aplicar la rotación
 			//_entity->yaw(_entity->getYaw() - out.targetYaw);
 			// En este caso suponemos que la entidad siempre se mueve hacia adelante, 
 			// así que tomamos la dirección del vector de velocidad.
 			//_entity->setYaw(atan2(-message._vector3.x, -message._vector3.z));
-			_entity->setYaw(_entity->getYaw() + (float)_currentProperties.angularSpeed * msecs);
+
+			Matrix4 trans = _entity->getTransform();
+			Math::setYaw(_entity->getYaw() + (float)_currentProperties.angularSpeed * msecs,trans);
+
+			// Avisamos a los componentes del cambio.
+			TMessage msg;
+			msg._type = Message::SET_TRANSFORM;
+			msg._transform = trans;
+			_entity->emitMessage(msg);
+
+			// Enviar un mensaje para que el componente físico mueva el personaje
+			TMessage message;
+			message._type = Message::AVATAR_WALK;
+			message._vector3 = _currentProperties.linearSpeed * (float)msecs;
+			_entity->emitMessage(message, this);
 
 			// Acelerar
 			_currentProperties.linearSpeed += _currentProperties.linearAccel * (float)msecs;

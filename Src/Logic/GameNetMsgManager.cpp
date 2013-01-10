@@ -19,7 +19,7 @@ Contiene la implementación del gestor de los mensajes de red durante la partida.
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Message.h"
 #include "Logic/Maps/Map.h"
-#include "Server.h"
+#include "Logic/Server.h"
 
 #include "Net/paquete.h"
 #include "Net/buffer.h"
@@ -97,18 +97,19 @@ namespace Logic {
 		// entidad y el mensaje serializado. La función de serialización
 		// de un mensaje lógico está en Message. Al final se debe hacer
 		// el envío usando el gestor de red.
-		Net::NetMessageType msgType = Net::NetMessageType::ENTITY_MSG;
+		// Es un mensaje para enviar por el tubo.
+		// Lo serializamos y enviamos por la red...
 
+		Net::NetMessageType msgType = Net::NetMessageType::ENTITY_MSG;// Escribimos el tipo de mensaje de red a enviar
 		Net::CBuffer serialMsg;		
 			serialMsg.write(&msgType, sizeof(msgType));
-			serialMsg.write(&destID, sizeof(destID));
-			Message::Serialize(txMsg, serialMsg);
-
+			serialMsg.write(&destID, sizeof(destID)); // Escribimos el id de la entidad destino
+			Message::Serialize(txMsg, serialMsg);   // Serializamos el mensaje a continuación en el buffer
 		Net::CManager::getSingletonPtr()->send(serialMsg.getbuffer(), serialMsg.getSize());
 
 //#if _DEBUG
-//		fprintf (stdout, "NET::TX>> ENTITY_MSG %d to EntityID %d.\n", txMsg._type, destID);
-//#endif
+/#endif	fprintf (stdout, "NET::TX>> ENTITY_MSG %d to EntityID %d.\n", txMsg._type, destID);
+
 	} // sendEntityMessage
 
 	//---------------------------------------------------------
@@ -123,12 +124,15 @@ namespace Logic {
 		// Creamos un buffer con los datos para leer de manera más cómoda
 		Net::CBuffer serialMsg;
 			serialMsg.write(packet->getData(),packet->getDataLength());
-			serialMsg.reset();
+			serialMsg.reset(); // Reiniciamos el puntero de lectura a la posición 0
 
-		// Ignoramos el tipo de mensaje de red. Ya lo hemos procesado		
+
+
+
+		// Extraemos, pero ignoramos el tipo de mensaje de red. Ya lo hemos procesado		
 		Net::NetMessageType msgType;
 			serialMsg.read(&msgType,sizeof(msgType));
-		TEntityID destID;
+		TEntityID destID; // Escribimos el id de la entidad
 			serialMsg.read(&destID, sizeof(destID));
 		TMessage rxMsg;
 			Message::Deserialize(serialMsg, rxMsg);
@@ -152,11 +156,9 @@ namespace Logic {
 			memcpy(&rxMsg, packet->getData(),sizeof(rxMsg));
 			switch (rxMsg)
 			{
-
 			case Net::NetMessageType::ENTITY_MSG:	
 				processEntityMessage(packet);
 				break;	
-
 			case Net::NetMessageType::END_GAME:	
 				Application::CBaseApplication::getSingletonPtr()->setState("gameOver");
 				break;

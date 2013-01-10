@@ -42,7 +42,7 @@ namespace Application
 	del menú a las funciones C++ que se deben invocar cuando los botones
 	son pulsados.
 	<p>
-	// TODO
+	// HACK Arreglar
 	Este estado es CEGUI dependiente, lo cual no es deseable, la aplicación
 	debería ser independiente de las tecnologías usadas.
 

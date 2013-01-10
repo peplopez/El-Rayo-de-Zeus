@@ -1,14 +1,14 @@
 //---------------------------------------------------------------------------
-// MenuState.h
+// LobbyClientState.h
 //---------------------------------------------------------------------------
 
 /**
-@file MenuState.h
+@file LobbyClientState.h
 
-Contiene la declaración del estado de menú.
+Contiene la declaración del estado de lobby del cliente.
 
 @see Application::CApplicationState
-@see Application::CMenuState
+@see Application::CLobbyClientState
 
 @author David Llansó
 @date Agosto, 2010

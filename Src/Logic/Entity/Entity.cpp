@@ -229,6 +229,7 @@ namespace Logic
 		TMessage message;
 		message._type = Message::SET_TRANSFORM;
 		message._transform = _transform;
+		message._bool = true; // TODO Para qué este true?
 		emitMessage(message);
 
 	} // setTransform
@@ -243,6 +244,7 @@ namespace Logic
 		TMessage message;
 		message._type = Message::SET_TRANSFORM;
 		message._transform = _transform;
+		message._bool = true;
 		emitMessage(message);
 
 	} // setPosition

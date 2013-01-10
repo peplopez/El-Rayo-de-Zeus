@@ -128,6 +128,13 @@ namespace Application {
 			// Cargamos el nivel a partir del nombre del mapa. 
 			if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))
 				return false;
+			// Creamos el player.
+			// HACK Deberíamos poder propocionar caracteríasticas
+			// diferentes según el cliente (nombre, modelo, etc.). Esto es una
+			// aproximación, solo cambiamos el nombre y decimos si es el jugador
+			// local
+			// TODO Llamar al método de creación del jugador. Deberemos decidir
+			// si el jugador es el jugador local. Al ser el monojugador lo es.
 			break;
 		case GUI::Key::M:
 			_app->setState("netmenu");
@@ -177,6 +184,14 @@ namespace Application {
 		// Cargamos el nivel a partir del nombre del mapa. 
 		if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))
 			return false;
+
+		// Creamos el player.
+		// HACK  Deberíamos poder propocionar caracteríasticas
+		// diferentes según el cliente (nombre, modelo, etc.). Esto es una
+		// aproximación, solo cambiamos el nombre y decimos si es el jugador
+		// local
+		// TODO Llamar al método de creación del jugador. Deberemos decidir
+		// si el jugador es el jugador local. Al ser el monojugador lo es.
 
 		return true;
 

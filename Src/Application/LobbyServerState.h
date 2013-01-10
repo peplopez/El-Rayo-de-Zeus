@@ -1,14 +1,14 @@
 //---------------------------------------------------------------------------
-// MenuState.h
+// LobbyServerState.h
 //---------------------------------------------------------------------------
 
 /**
-@file MenuState.h
+@file LobbyServerState.h
 
-Contiene la declaración del estado de menú.
+Contiene la declaración del estado de lobby del servidor.
 
 @see Application::CApplicationState
-@see Application::CMenuState
+@see Application::CLobbyServerState
 
 @author David Llansó
 @date Agosto, 2010
@@ -19,6 +19,8 @@ Contiene la declaración del estado de menú.
 
 #include "ApplicationState.h"
 #include "net/Manager.h"
+#include <list>
+#include <map>
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Application 
@@ -57,7 +59,7 @@ namespace Application
 		/** 
 		Constructor de la clase 
 		*/
-		CLobbyServerState(CBaseApplication *app) : CApplicationState(app)
+		CLobbyServerState(CBaseApplication *app) : CApplicationState(app),_waiting(true)
 				{}
 
 		/** 
@@ -176,7 +178,32 @@ namespace Application
 		Ventana CEGUI que muestra el menú.
 		*/
 		CEGUI::Window* _menuWindow;
+
+		typedef std::list<Net::NetID> TNetIDList;
+
+		/**
+		lista donde almacenamos los clientes conectados
+		*/
+		TNetIDList _clients;
+
+		/**
+		lista donde almacenamos los clientes que han cargado el mapa
+		*/
+		TNetIDList _mapLoadedByClients;
+
+		typedef std::map<Net::NetID,unsigned int> TNetIDCounterMap;
+		typedef std::pair<Net::NetID,unsigned int> TNetIDCounterPair;
+
+		/**
+		Tabla donde almacenamos por cada cliente cuantos jugadores han creado
+		*/
+		TNetIDCounterMap _playersLoadedByClients;
 		
+		/**
+		Indica si estamos en fase de espera de jugadores
+		*/
+		bool _waiting;
+
 		/**
 		Función que se quiere realizar cuando se pulse el botón start.
 		Simplemente cambia al estado de juego.

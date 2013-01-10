@@ -20,6 +20,11 @@ namespace Logic
 	class CEntity;
 }
 
+namespace Map
+{
+	class CEntity;
+}
+
 namespace Graphics 
 {
 	class CScene;
@@ -157,6 +162,20 @@ namespace Logic
 		@return Escena con las entidades gráficas.
 		*/
 		Graphics::CScene *getScene() {return _scene;}
+		
+		/**
+		Establece la información para la creación de los jugadores.
+
+		@param playerInfo Propiedades de la inicialización de los players.
+		*/
+		void setPlayerInfo(Map::CEntity* playerInfo) {_playerInfo = playerInfo;}
+		
+		/**
+		Crea un nuevo jugador y le porporciona un nombre determinado.
+
+		@param name Nombre del jugador.
+		*/
+		void createPlayer(std::string name, bool isLocalPlayer);
 
 	private:
 
@@ -180,6 +199,16 @@ namespace Logic
 		las entidades.
 		*/
 		Graphics::CScene* _scene;
+
+		/**
+		Propiedades de la inicialización de los players.
+		*/
+		Map::CEntity* _playerInfo;
+
+		/**
+		Número de jugadores creados hasta el momento.
+		*/
+		unsigned int _numOfPlayers;
 
 	}; // class CMap
 

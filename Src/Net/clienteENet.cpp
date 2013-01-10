@@ -14,7 +14,7 @@
 #include "conexionENet.h"
 #include <iostream>
 
-#define DEBUG_CLIENT 1
+#define DEBUG_CLIENT 0
 
 namespace Net {
 
@@ -140,7 +140,7 @@ namespace Net {
     
 		if(!isConnected())
 			return;
-    
+
 		/* Wait up to 0 milliseconds for an event. */
 		while (enet_host_service (client, & event, 0) > 0)
 		{
@@ -149,8 +149,8 @@ namespace Net {
 				case ENET_EVENT_TYPE_RECEIVE:
 					if(DEBUG_CLIENT)
 						printf ("NET::CLIENT>> A packet of length %u was received from %s on channel %u.\n",
-							event.packet -> dataLength,
-							event.peer -> data,
+							event.packet->dataLength,
+							event.peer->data,
 							event.channelID);
 					
 
@@ -167,7 +167,7 @@ namespace Net {
 					disconnectReceived((CConexion*)event.peer->data);
 					break;		           
 				default:
-					puts("NET::CLIENT>> Unknown packet.\n");
+					puts("NET::CLIENT>> Unknown packet.");
 			}
 		}
 	}

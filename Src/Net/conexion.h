@@ -22,13 +22,18 @@
 
 namespace Net {
 
+	/** 
+	ID de identificación en la red.
+	*/
+	typedef unsigned int NetID;
+
 class CConexion {
 
 public:
 	virtual int getAddress()=0;
 	virtual short getPort()=0;
-	virtual void setId(const std::string& id)=0;
-	virtual std::string getId()=0;
+	virtual void setId(NetID id)=0;
+	virtual NetID getId()=0;
 };
 
 

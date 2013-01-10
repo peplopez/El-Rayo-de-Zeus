@@ -58,6 +58,11 @@ namespace Logic {
 			} while (!mgsTypeList.eof());
 		}
 
+		// Obtenemos los milisegundos que se esperan entre envios 
+		// de mensajes del mismo tipo
+		if (entityInfo->hasAttribute("blockedTime")) 
+			_timeOfBlocking = entityInfo->getIntAttribute("blockedTime");
+
 		return true;
 	}
 
@@ -66,10 +71,22 @@ namespace Logic {
 		// TODO Vemos si es uno de los mensajes que debemos trasmitir 
 		// por red. Para eso usamos la lista de mensajes que se ha
 		// leido del mapa.
-		std::vector<TMessageType>::const_iterator it; 	
-		for(it = _forwardedMsgTypes.begin(); it != _forwardedMsgTypes.end(); ++it)
-			if( *it == message._type)
-				return true;	
+		// Vemos si es uno de los mensajes que debemos trasmitir 
+		// por red.
+		if (std::find(_forwardedMsgTypes.begin(),  _forwardedMsgTypes.end(), message._type) != _forwardedMsgTypes.end())
+		{
+			// Grano fino, en vez de aceptar el mensaje directamente
+			// solo se retransmitirá por la red si no se ha transmitido 
+			// hace poco (_timeOfBlocking milisegundos) un mensaje del 
+			// mismo tipo
+			if(_timeToUnblockMsgDelivery.count(message._type) == 0) // TODO probar sin ajuste fino qué tal va de fino :P
+			{
+				if(_timeOfBlocking)
+					_timeToUnblockMsgDelivery.insert(
+						TTimeToUnblockMsgDeliveryPair(message._type,_timeOfBlocking));
+				return true;
+			}// TODO no hace falta ir descontando tiempo y eliminar el par en algún momento?
+		}
 
 		return false;
 
@@ -81,7 +98,8 @@ namespace Logic {
 	{
 		// TODO Es un mensaje para enviar por el tubo.
 		// Lo enviamos por la red usando el front-end CGameNetMsgManager
-		CGameNetMsgManager::getSingletonPtr()->sendEntityMessage(message, _entity->getEntityID());
+		CGameNetMsgManager::getSingletonPtr()->
+			sendEntityMessage(message,_entity->getEntityID());
 
 	} // process
 		
@@ -90,6 +108,21 @@ namespace Logic {
 	void CNetConnector::tick(unsigned int msecs)
 	{
 		IComponent::tick(msecs);
+		
+		// Grano fino:
+		// Solo permitimos envíos del mismo tipo de mensaje cada x tiempo.
+		// Aquí actualizamos el tiempo que falta para poder enviar un nuevo
+		// mensaje de un tipo espécifico.
+		TTimeToUnblockMsgDelivery::iterator it =
+			_timeToUnblockMsgDelivery.begin();
+		while(it != _timeToUnblockMsgDelivery.end()) // Recorremos pares
+		{
+			(*it).second -= msecs;	//Descontamos tiempo a _timeToUnblock (second)
+			if ((*it).second <= 0)
+				it = _timeToUnblockMsgDelivery.erase(it); // Eliminamos par de bloqueo y saltamos al siguiente
+			else
+				it++;	// Si no se elimina par, incremetnamos para pasar a siguiente
+		}
 	}
 
 } // namespace Logic

@@ -56,7 +56,11 @@ namespace Logic
 
 	bool CCamera::activate()
 	{
-		_target = CServer::getSingletonPtr()->getPlayer();
+//		_target = CServer::getSingletonPtr()->getPlayer(); UNDONE Por que ya no se usa getPlayer?
+		do
+		{
+			_target = _entity->getMap()->getEntityByType("Player",_target);
+		}while(!_target->isPlayer());
 
 		return true;
 

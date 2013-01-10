@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 // Galeon.cpp
 //---------------------------------------------------------------------------
-
+  
 /**
 @file Galeon.cpp
 Contiene el punto de entrada principal del programa Galeon. Según la configuración

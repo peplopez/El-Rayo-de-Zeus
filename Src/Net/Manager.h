@@ -13,6 +13,7 @@ la gestión de la red del juego.
 #define __Net_Manager_H
 
 #include <vector>
+#include <map>
 
 // Predeclaracion de clases
 namespace Net {
@@ -34,13 +35,44 @@ Namespace que engloba lo relacionado con la parte de red.
 */
 namespace Net
 {
+	/** 
+	ID de identificación en la red.
+	*/
+	typedef unsigned int NetID;
+
+	/**
+	Namespace para los tipos de IDs posibles.
+	*/
+	namespace ID
+	{
+		/** 
+			Client identification that denotes the identification hasn't
+			been initialized.
+		*/
+		enum { UNASSIGNED  = 0xFFFFFFFF,
+			   SERVER      = 0x00000000,
+			   FIRSTCLIENT = 0x00000001};
+
+		/**
+			Returns the next ID given the previous one.
+
+			@param id The last assigned ID.
+			@return New ID.
+		*/
+		NetID NextID(const NetID &id);
+
+	}; // namespace ID
+
 	enum NetMessageType {
 		COMMAND,
 		START_GAME,
 		END_GAME,
 		LOAD_MAP,
+		LOAD_PLAYER,
 		MAP_LOADED,
-		ENTITY_MSG
+		PLAYER_LOADED,
+		ENTITY_MSG,
+		ASSIGNED_ID
 	};
 
 
@@ -124,14 +156,19 @@ namespace Net
 
 		void connectTo(char* address, int port, int channels = 1, unsigned int timeout = 5000);
 
-		void disconnect();
-
 		void deactivateNetwork();
 
 
 		void addObserver(IObserver*);
 
 		void removeObserver(IObserver*);
+
+		/**
+		Devuelve el ID de red.
+		
+		@return El ID de red.
+		*/
+		NetID getID() {return _id;}
 
 	protected:
 		/**
@@ -161,6 +198,12 @@ namespace Net
 		void close();
 
 		void getPackets(std::vector<Net::CPaquete*>& _paquetes);
+		
+		bool internalData(Net::CPaquete* packet);
+		
+		void connect(CConexion* connection);
+
+		void disconnect(CConexion* connection);
 
 	private:
 		/**
@@ -183,15 +226,35 @@ namespace Net
 		*/
 		Net::CCliente* _clienteRed;
 
+		typedef std::pair<NetID, CConexion*> TConnectionPair;
+		typedef std::map<NetID, CConexion*> TConnectionTable;
 		/**
-			Conexion cliente de red. Es decir, el servidor visto desde el cliente.
-			En un juego avanzado habría más de una si estamos en p2p.
+			Conexiones de red. Es decir, el servidor visto desde el cliente
+			o los clientes vistos desde el servidor. En el cliente solo se 
+			usará una y en el servidor tantas como clientes haya.
 		*/
-		Net::CConexion* _conexion;
+		TConnectionTable _connections;
+
+		CConexion* getConnection(NetID id) {return (*_connections.find(id)).second;}
+
+		bool addConnection(NetID id, CConexion* connection);
+
+		bool removeConnection(NetID id);
 
 		std::vector<IObserver*> _observers;
 
 		std::vector<Net::CPaquete*> _paquetes;
+
+		/**
+		ID de red una vez conectado.
+		*/
+		NetID _id;// id para esta entidad de red
+
+		/**
+		Siguiente ID de red que se asignará al próximo cliente. Solo se usa en modo 
+		servidor.
+		*/
+		NetID _nextId;
 
 		}; // class CManager
 

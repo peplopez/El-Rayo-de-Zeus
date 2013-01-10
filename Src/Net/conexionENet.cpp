@@ -27,12 +27,12 @@ namespace Net {
 		return _peer;
 	};
 
-	void CConexionENet::setId(const std::string& id)
+	void CConexionENet::setId(NetID id)
 	{
 		_id = id;
 	}
 
-	std::string CConexionENet::getId()
+	NetID CConexionENet::getId()
 	{
 		return _id;
 	}

@@ -38,13 +38,9 @@ namespace Logic
 
 		/* TODO TRANSFORM serializar el campo _transform.
 			Quizá solo habría que hacerlo si _type == SET_TRANSFORM? */
-		Vector3 trans = message._transform.getTrans();		
-		Quaternion quat = message._transform.extractQuaternion();
-			data.write(&trans.x,(size_t) sizeof(trans.x));
-			data.write(&trans.y,(size_t) sizeof(trans.y));
-			data.write(&trans.z,(size_t) sizeof(trans.z));
-			data.write(quat.ptr(),(size_t) sizeof(quat));	
-
+		for(int i = 0; i < 4; ++i)
+			for(int j = 0; j < 4; ++j)
+				data.write((void*)(&message._transform[i][j]),(size_t) sizeof(message._transform[i][j]));
 		/* ENTIDAD: Serializamos el campo con una entidad. 
 					Lo que hacemos es  mandar el ID para su recuperación */
 		Logic::TEntityID id;
@@ -84,21 +80,18 @@ namespace Logic
 		
 		// TODO deserializar el campo _transform.
 		// TODO reserva dinámica?
-		Vector3 trans;
-			data.read(&trans.x,(size_t) sizeof(trans.x));
-			data.read(&trans.y,(size_t) sizeof(trans.y));
-			data.read(&trans.z,(size_t) sizeof(trans.z));
-		Quaternion quat;
-			data.read(quat.ptr(),(size_t) sizeof(quat));		
-		message._transform = Matrix4(quat);
-			message._transform.setTrans(trans);
-
+		// Deserializamos el campo con una transformada
+		for(int i = 0; i < 4; ++i)
+			for(int j = 0; j < 4; ++j)
+				data.read(&message._transform[i][j],(size_t) sizeof(message._transform[i][j]));
 		// TODO ENTIDAD: Deserializar el campo con una entidad. Con el id sacarla del mapa		 
+		//HACK 	// Si en algún momento hay más de un mapa habrá que modificar esto
 		Logic::TEntityID id;
 			data.read(&id, (size_t) sizeof(id));
-			if(id != EntityID::UNASSIGNED)
-				message._entity = CServer::getSingletonPtr()->getMap()->getEntityByID(id);
-			
+			if(id == EntityID::UNASSIGNED)
+				message._entity = 0;
+			else
+				message._entity = CServer::getSingletonPtr()->getMap()->get
 	} // Deserialize
 
 } // namespace Logic

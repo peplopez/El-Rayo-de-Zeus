@@ -58,12 +58,22 @@ namespace Logic {
 		// Creamos todas las entidades lógicas.
 		for(; it != end; it++)
 		{
-			if ((*it)->getType() == "Waypoint") {
+			if ((*it)->getType() == "Waypoint") 
+			{
 				// Procesar waypoint del grafo de navegación
 				AI::CServer::getSingletonPtr()->addWaypoint((*it)->getVector3Attribute("position"));
 				// HACK - Descomentar para ver los nodos del grafo de navegación
 				entityFactory->createEntity((*it), map);
-			} else {
+			}
+			else if((*it)->getType() == "PlayerSpawn")
+			{
+				// TODO Guardamos los valores de la entidad especial en el mapa (_playerInfo). 
+				// Cambiamos el type de los Map::CEntity de PlayerSpawn a Player
+				// Para cuando creemos jugadores. No es la forma más elegante de hacerlo,
+				// pero si la más rápida.
+			}
+			else 
+			{
 				// La propia factoría se encarga de añadir la entidad al mapa.
 				CEntity *entity = entityFactory->createEntity((*it),map);
 				assert(entity && "No se pudo crear una entidad del mapa");
@@ -79,7 +89,7 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-	CMap::CMap(const std::string &name)
+	CMap::CMap(const std::string &name) : _playerInfo(0), _numOfPlayers(0)
 	{
 		_name = name;
 		_scene = Graphics::CServer::getSingletonPtr()->createScene(name);
@@ -266,5 +276,17 @@ namespace Logic {
 		return 0;
 
 	} // getEntityByType
+
+	//--------------------------------------------------------
+
+	void CMap::createPlayer(std::string name, bool isLocalPlayer)
+	{
+		// TODO Creamos un nuevo jugador. Deberíamos tener la info del player
+		// almacenada en _playerInfo así que solo habría que modificarle el
+		// "name". Luego se crea la entidad del jugador con la factoría de 
+		// entidades y se le dice si es o no el jugador local (con setIsPlayer())
+		// Para que no salgan todos los jugadores unos encima de otros podemos
+		// cambiar la posición de éstos.
+	}
 
 } // namespace Logic
