@@ -114,7 +114,7 @@ namespace Logic
 		bool CCollider::contacto( CEntity* entidad1, CEntity* entidad2)
 	{
 		Logic::TMessage m;
-				m._string="luminoso";
+		m._string="luminoso";
 		m._type = Logic::Message::SET_SHADER;
 		entidad1->emitMessage(m,this);
 		entidad2->emitMessage(m,this);

@@ -109,6 +109,14 @@ Map ={
 		radio=50,
 		static = true,
 	},
+	
+	Tubo = {
+		type = "World",
+		position = {0,-176,0},
+		model = "tubo.mesh",
+		static = true,
+	},
+	
 	Barravida1 = {
 		type = "BarraVida",
 		position = {0, 0,-126},

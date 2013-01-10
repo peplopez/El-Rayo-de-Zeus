@@ -189,6 +189,9 @@ namespace Logic
 				this->setYaw(Math::fromDegreesToRadians(360-this->getDegree()+180));
 			
 		}
+		if (this->getType().compare("Player")==0)
+			this->yaw(Math::PI);
+		
 		//	this->setOrientation(rotacionDestino);
 		//this->setYaw(Math::fromDegreesToRadians(-90));
 		//this->setYaw(rotacionDestino);
