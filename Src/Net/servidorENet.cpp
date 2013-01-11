@@ -15,7 +15,7 @@
 #include "servidorENet.h"
 #include "conexionENet.h"
 
-#define DEBUG_SERVER 1
+#define DEBUG_SERVER 0
 
 namespace Net {
 
@@ -153,13 +153,12 @@ namespace Net {
 		if(reliable)
 			rel = ENET_PACKET_FLAG_RELIABLE;
 		
-		ENetPacket * packet = 
-			enet_packet_create (data, longData, rel);
+		ENetPacket * packet =  enet_packet_create (data, longData, rel);
 	    
 		enet_peer_send (((CConexionENet*)conexion)->getENetPeer(), channel, packet);
 
 		if(DEBUG_SERVER)
-			fprintf (stdout, "NET::SERVER>> Packet send ");
+			fprintf (stdout, "NET::SERVER>> Packet send.\n");
 		enet_host_flush (server);
 	}
 
@@ -178,7 +177,7 @@ namespace Net {
 		}
 
 		if(DEBUG_SERVER)
-			fprintf (stdout, "NET::SERVER>> Packet send ");
+			fprintf (stdout, "NET::SERVER>> Packet send.\n");
 		enet_host_flush (server);
 	}
 
@@ -200,7 +199,7 @@ namespace Net {
 
 			case ENET_EVENT_TYPE_DISCONNECT:
 				if(DEBUG_SERVER)
-					fprintf (stdout, "NET::SERVER>> Disconnection succeeded.");
+					fprintf (stdout, "NET::SERVER>> Disconnection succeeded.\n");
 					disconnectReceived(conexion);
 				return;
 			}
@@ -212,7 +211,7 @@ namespace Net {
 		disconnectReceived(conexion);
 
 		if(DEBUG_SERVER)
-			fprintf(stdout, "NET::SERVER>> Disconnection Forced");
+			fprintf(stdout, "NET::SERVER>> Disconnection Forced.\n");
 
 		if(listaConexiones.empty())
 			estado = INIT_NOT_CONNECTED;
@@ -230,7 +229,7 @@ namespace Net {
 		}
 
 		if(DEBUG_SERVER)
-			fprintf(stdout, "NET::SERVER>> Everything Disconnected");
+			fprintf(stdout, "NET::SERVER>> Everything Disconnected.\n");
 
 		estado = INIT_NOT_CONNECTED;
 	}

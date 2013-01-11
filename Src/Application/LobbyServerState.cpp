@@ -238,7 +238,7 @@ namespace Application {
 		switch (rxMsg)
 		{
 
-			case Net::MAP_LOADED:	
+			case Net::MAP_LOADED: {
 #if _DEBUG
 #endif		fprintf (stdout, "NET::SERVER::RX>> MAP_LOADED.\n");
 			// TODO Borrar las siguientes 3 líneas. Están de momento para que
@@ -281,8 +281,8 @@ namespace Application {
 					// TODO Llamar al método de creación del jugador. Deberemos decidir
 					// si el jugador es el jugador local. Al ser el servidor ninguno lo es
 				}
-			}
-			break;
+
+			} break;
 		}
 		case Net::PLAYER_LOADED:
 		{

@@ -16,8 +16,8 @@
 #define __SERVIDORENET_H
 
 
-#include "enet/enet.h"
 #include "servidor.h"
+#include "enet/enet.h"
 
 namespace Net {
 

@@ -108,7 +108,7 @@ namespace Logic {
 		Net::CManager::getSingletonPtr()->send(serialMsg.getbuffer(), serialMsg.getSize());
 
 //#if _DEBUG
-/#endif	fprintf (stdout, "NET::TX>> ENTITY_MSG %d to EntityID %d.\n", txMsg._type, destID);
+//#endif	fprintf (stdout, "NET::TX>> ENTITY_MSG %d to EntityID %d.\n", txMsg._type, destID);
 
 	} // sendEntityMessage
 

@@ -91,7 +91,7 @@ namespace Logic
 			if(id == EntityID::UNASSIGNED)
 				message._entity = 0;
 			else
-				message._entity = CServer::getSingletonPtr()->getMap()->get
+				message._entity = CServer::getSingletonPtr()->getMap()->getEntityByID(id);
 	} // Deserialize
 
 } // namespace Logic
