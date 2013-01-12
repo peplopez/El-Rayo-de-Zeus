@@ -27,7 +27,10 @@ namespace Logic
 			SET_TRANSFORM,
 			SET_ANIMATION,
 			STOP_ANIMATION,
-			CONTROL
+			CONTROL,
+			CONTACTO,
+			SET_SHADER,
+			NPC_CONTROL
 		};
 	}
 

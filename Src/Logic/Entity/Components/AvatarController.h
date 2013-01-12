@@ -113,11 +113,6 @@ namespace Logic
 		void walk();
 
 		/**
-		Provoca que la entidad retroceda.
-		*/
-		void walkBack();
-
-		/**
 		Provoca que la entidad cese el avance.
 		*/
 		void stopWalk();
