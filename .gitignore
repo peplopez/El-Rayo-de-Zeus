@@ -54,6 +54,7 @@ Thumbs.db
 
 
 #root
+/Galeon.suo
 /Galeon.opensdf
 /Galeon.sdf
 /vslog.txt
@@ -62,11 +63,9 @@ Thumbs.db
 #Document. Doxygen
 /DocumentacionDoxygen/
 
-
 #Exes
 /Exes/*.*
 !/Exes/resources.cfg
-
 
 #Projects
 /Projects/*/Debug/
@@ -142,35 +141,3 @@ Thumbs.db
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Debug/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Release/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/*.2010.vcxproj.user
-
-#Document. Doxygen
-
-/DocumentacionDoxygen/
-
-
-#Exes
-
-/Exes/*.*
-!/Exes/resources.cfg
-
-
-#Projects
-
-/Projects/Application/Debug/
-/Projects/Application/Release/
-/Projects/BaseSubsystems/Debug/
-/Projects/BaseSubsystems/Release/
-/Projects/Configure/Debug/
-/Projects/Configure/Release/
-/Projects/Graphics/Debug/
-/Projects/Graphics/Release/
-/Projects/GUI/Debug/
-/Projects/GUI/Release/
-/Projects/Logic/Debug/
-/Projects/Logic/Release/
-/Projects/Map/Debug/
-/Projects/Map/Release/
-
-
-
-/Galeon.suo
