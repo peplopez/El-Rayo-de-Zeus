@@ -25,9 +25,13 @@ namespace Logic
 		{
 			UNASSIGNED = 0xFFFFFFFF,
 			SET_TRANSFORM,
+			SET_TRANSFORM_QUAT,
 			SET_ANIMATION,
 			STOP_ANIMATION,
-			CONTROL
+			CONTROL,
+			CONTACTO,
+			SET_SHADER,
+			NPC_CONTROL
 		};
 	}
 
@@ -82,6 +86,12 @@ namespace Logic
 		Atributo para almacenar un string.
 		*/
 		std::string _string;
+
+		/**
+		Atributo para almacenar un quaternion.
+		*/
+		Ogre::Quaternion _quat;
+
 
 	} TMessage; 
 

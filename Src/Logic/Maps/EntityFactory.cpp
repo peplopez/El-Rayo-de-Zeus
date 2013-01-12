@@ -219,6 +219,20 @@ namespace Logic
 
 	} // createEntity
 	
+
+	//---------------------------------------------------------
+
+	//     CEntity *instantiate(CEntity *entity, const Vector3 &position)
+
+
+	Logic::CEntity *CEntityFactory::instantiate(CEntity *entity)
+	{
+		CEntity* e = createEntity(entity->getEntityInfo(), entity->getMap());
+		e->activate();
+		return e;
+
+	} // instantiate
+
 	//---------------------------------------------------------
 
 	void CEntityFactory::deleteEntity(Logic::CEntity *entity)

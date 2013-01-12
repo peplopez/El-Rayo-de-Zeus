@@ -166,6 +166,24 @@ namespace Logic
 		*/
 		void deleteDefferedEntities();
 
+				/**
+		Crea una nueva entidad de juego a partir de otra entidad, de alguna
+		manera lo que se hace es clonar la primera entidad.
+
+		El método se encarga de asignar un nuevo identificador único a la
+		entidad y añadirlo en el mapa del parámetro.
+
+		@param entity Entidad que se quiere en cierta manera duplicar. De
+		ella se extrae la definición de la entidad y el mapa donde instanciar.
+		@return Entidad creada o NULL si no se pudo crear.
+
+		@note Las entidades aquí creadas pueden eliminarse al final del 
+		juego o bien utilizando deferredDeleteEntity.
+		*/
+		CEntity *instantiate(CEntity *entity);
+
+
+		
 		/**
 		Estructura que define una entidad blueprint.
 		*/

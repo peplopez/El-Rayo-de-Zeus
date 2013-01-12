@@ -105,6 +105,7 @@ namespace Graphics
 		*/
 		void setOrientation(const Matrix3 &orientation);
 
+	
 		/**
 		 Establece la propiedad visible de la entidad. Si
 		 la entidad está puesta invisible, no debería dibujarse.
@@ -130,6 +131,7 @@ namespace Graphics
 		*/
 		const bool getVisible();
 
+		Ogre::SceneNode* getEntityNode();
 		/**
 		 Escala la entidad.
 
@@ -157,6 +159,8 @@ namespace Graphics
 		@return puntero a la entidad de Ogre.
 		*/
 		Ogre::Entity* getEntity() {return _entity;}
+
+				void setMaterial(const std::string &materialName);
 
 	protected:
 
@@ -214,6 +218,8 @@ namespace Graphics
 		Nodo que contiene la entidad de Ogre.
 		*/
 		Ogre::SceneNode *_entityNode;
+
+
 
 		/**
 		Entidad de Ogre.

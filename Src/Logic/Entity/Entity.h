@@ -17,6 +17,8 @@ de juego. Es una colección de componentes.
 #include "BaseSubsystems/Math.h"
 
 #include "Logic/Maps/EntityID.h"
+#include "LogicalPosition.h"
+
 
 // Mensaje
 #include "Message.h"
@@ -104,7 +106,7 @@ namespace Logic
 		bool spawn(CMap *map, const Map::CEntity *entity);
 
 	public:
-
+			
 		/**
 		Activa la entidad. Esto significa que el mapa ha sido activado.
 		<p>
@@ -166,7 +168,7 @@ namespace Logic
 		@param emitter Componente emisor, si lo hay. No se le enviará el mensaje.
 		@return true si al menos un componente aceptó el mensaje
 		*/
-		bool emitMessage(const TMessage &message, IComponent* emitter = 0);
+		const bool emitMessage (const TMessage &message, IComponent* emitter = 0);
 
 		/**
 		Devuelve el identificador único de la entidad.
@@ -255,12 +257,147 @@ namespace Logic
 		Vector3 getPosition() const { return _transform.getTrans(); }
 
 		/**
+		Establece la posición de la entidad en grados.
+
+		@param position Nueva posición.
+		*/
+		void setDegree(const float &degree);
+
+		/**
+		Devuelve la posición de la entidad.
+		en grados
+		@return Posición de la entidad en el entorno.
+		*/
+		const float getDegree() const { 
+			if (_pos._degrees>=0 && _pos._degrees<360)
+				return _pos._degrees;
+
+			if (_pos._degrees>360)
+			{
+				return (int)_pos._degrees%360;
+			}
+			else //menor que cero
+				return 360-(int)abs((int)_pos._degrees%360);
+		}
+
+		/**
+		Establece la base de la entidad. 
+		NO Avisa a los componentes
+		del cambio. Mas adelante vere si es necesario pero creo que no
+
+		@param base nueva
+		*/
+		void setBase(const short &base);
+
+		/**
+		Devuelve la base de la entidad.
+		
+		@return Base de la entidad en el entorno.
+		*/
+		short getBase() const { return _pos._base; }
+
+		/**
+		Establece el anillo de la entidad. 
+		NO Avisa a los componentes
+		del cambio. Mas adelante vere si es necesario pero creo que no
+
+		@param Ring nueva
+		*/
+		void setRing(const LogicalPosition::Ring &ring);
+
+		/**
+		Devuelve el anillo de la entidad.
+		
+		@return Ring de la entidad en el entorno.
+		*/
+		LogicalPosition::Ring getRing() const { return _pos._ring; }
+
+		/**
+		Devuelve el anillo de la entidad.
+		
+		@return Ring de la entidad en el entorno.
+		*/
+		short getY() const { 
+			switch(_pos._ring)
+			{
+				case 0:
+				{
+					return -50;//abajo
+					break;
+				}
+				case 1:
+				{
+					return 0;//Centro
+					break;
+				}
+				case 2:
+				{
+					return 50;//arriba
+					break;
+				}
+		}
+	
+		}
+
+		/**
+		Establece el radio sobre el que se mueve la entidad. 
+		NO Avisa a los componentes del cambio.
+		Mas adelante vere si es necesario pero creo que no
+
+		@param radio nuevo
+		*/
+		void setRadio(const float &radio);
+
+		/**
+		Devuelve el radio sobre el que se mueve la entidad.
+		
+		@return Radio de la entidad en el entorno.
+		*/
+		const float getRadio() const { return _pos._radio; }
+
+
+		/**
+		Establece la anchura de la entidad gráfica
+		@param angularBox nuevo
+		*/
+		void setAngularBox(const float &angularBox);
+
+		/**
+		Devuelve la anchura de la entidad gráfica.
+		
+		@return AngularBox de la entidad en el entorno.
+		*/
+		const float getAngularBox() const { return _pos._angularBox; }
+
+		/**
+		Establece la anchura de la entidad gráfica
+		@param angularBox nuevo
+		*/
+		void setSense(const LogicalPosition::Sense &sense);
+
+		/**
+		Devuelve la anchura de la entidad gráfica.
+		
+		@return AngularBox de la entidad en el entorno.
+		*/
+		const LogicalPosition::Sense getSense() const { return _pos._sense; }
+
+
+		/**
 		Establece la orientación de la entidad. Avisa a los componentes
 		del cambio.
 
 		@param pos Nueva orientación.
 		*/
 		void setOrientation(const Matrix3& orientation);
+
+			/**
+		Cambia la orientación de la entidad.
+
+		@param orientation Referencia a la matriz de rotación con la que debe 
+		orientarse la entidad.
+		*/
+		void setOrientation(const Quaternion &quat);
 
 		/**
 		Devuelve la matriz de rotación de la entidad.
@@ -271,7 +408,7 @@ namespace Logic
 
 		@return Orientación en el entorno.
 		*/
-		Matrix3 getOrientation() const;
+		 Matrix3 getOrientation() ;
 
 		/**
 		Establece el viraje de la entidad. Avisa a los componentes
@@ -280,6 +417,18 @@ namespace Logic
 		@param yaw Nuevo viraje.
 		*/
 		void setYaw(float yaw);
+
+		void setPitch(float pitch);
+		
+		void setRoll(float roll);
+
+		void setPitchYaw(float pitch,float yaw);
+
+
+		void roll(float roll); 
+
+		void pitch(float pitch); 
+
 
 		/**
 		Vira la entidad. Avisa a los componentes del cambio.
@@ -297,7 +446,7 @@ namespace Logic
 
 		@return Viraje en el entorno.
 		*/
-		float getYaw() const { return Math::getYaw(_transform); }
+		const float getYaw() const { return Math::getYaw(_transform); }
 
 		/**
 		Indica si la entidad se encuentra activa.
@@ -305,6 +454,12 @@ namespace Logic
 		@return true si la entidad está activa.
 		*/
 		bool isActivated() {return _activated;}
+
+		const Map::CEntity* getEntityInfo() {return _entityInfo; }
+
+		//bool contactoAngular(CEntity* entidad);
+
+		//void Contacto();
 
 	protected:
 
@@ -318,7 +473,12 @@ namespace Logic
 		Identificador único de la entidad.
 		*/
 		Logic::TEntityID _entityID;
-
+		
+		/**
+		Estructura de datos que contiene la posición lógica
+		*/
+		Logic::TLogicalPosition _pos;
+		
 		/**
 		Tipo para la lista de componetes.
 		*/
@@ -333,6 +493,12 @@ namespace Logic
 		Indica si la entidad está activa.
 		*/
 		bool _activated;
+
+		/**
+		Indica si la entidad ha sido puesta en Maps.txt como coordenadas polares (Lógicas)
+		*/
+		bool _logicInput;
+
 
 		/**
 		Tipo de la entidad declarado en el archivo blueprints.
@@ -354,6 +520,7 @@ namespace Logic
 		*/
 		Matrix4 _transform;
 
+		Quaternion _quat;
 		/*
 		Posición de la entidad.
 		*
@@ -370,6 +537,10 @@ namespace Logic
 		*/
 		bool _isPlayer;
 
+		/**
+		Copia de la definición de la entidad leida del mapa.
+		*/
+		const Map::CEntity *_entityInfo;
 	}; // class CEntity
 
 } // namespace Logic

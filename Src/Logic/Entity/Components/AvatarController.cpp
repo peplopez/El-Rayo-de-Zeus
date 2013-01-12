@@ -53,7 +53,8 @@ namespace Logic
 
 	bool CAvatarController::accept(const TMessage &message)
 	{
-		return message._type == Message::CONTROL;
+		return false;   //ANULACION
+		return message._type == Message::SET_TRANSFORM;
 
 	} // accept
 	
@@ -65,9 +66,7 @@ namespace Logic
 		{
 		case Message::CONTROL:
 			if(!message._string.compare("walk"))
-				walk();
-			else if(!message._string.compare("walkBack"))
-				walkBack();
+				walk();			
 			else if(!message._string.compare("stopWalk"))
 				stopWalk();
 			else if(!message._string.compare("strafeLeft"))
@@ -107,21 +106,6 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	void CAvatarController::walkBack() 
-	{
-		_walkingBack = true;
-
-		// Cambiamos la animación
-		TMessage message;
-		message._type = Message::SET_ANIMATION;
-		message._string = "WalkBack";
-		message._bool = true;
-		_entity->emitMessage(message,this);
-
-	} // walkBack
-	
-	//---------------------------------------------------------
-
 	void CAvatarController::stopWalk() 
 	{
 		_walking = _walkingBack = false;
@@ -143,12 +127,12 @@ namespace Logic
 
 	void CAvatarController::strafeLeft() 
 	{
-		_strafingLeft = true;
-
+		//_strafingLeft = true;
+			_walking = true;
 		// Cambiamos la animación
 		TMessage message;
 		message._type = Message::SET_ANIMATION;
-		message._string = "StrafeLeft";
+		message._string = "Walk";
 		message._bool = true;
 		_entity->emitMessage(message,this);
 
@@ -158,12 +142,12 @@ namespace Logic
 
 	void CAvatarController::strafeRight() 
 	{
-		_strafingRight = true;
-
+		//_strafingRight = true;
+			_walking = true;
 		// Cambiamos la animación
 		TMessage message;
 		message._type = Message::SET_ANIMATION;
-		message._string = "StrafeRight";
+		message._string = "Walk";
 		message._bool = true;
 		_entity->emitMessage(message,this);
 
@@ -205,6 +189,8 @@ namespace Logic
 			if(_walking || _walkingBack)
 			{
 				direction = Math::getDirection(_entity->getYaw());
+				//_entity->setYaw(Math::fro);
+				//_entity->setOrientation(0-_entity->getPosition().x,(-125)-_entity->getPosition().y,0-_entity->getPosition().z);
 				if(_walkingBack)
 					direction *= -1;
 			}
@@ -222,6 +208,10 @@ namespace Logic
 			direction *= msecs * _speed;
 			Vector3 newPosition = _entity->getPosition() + direction;
 			_entity->setPosition(newPosition);
+
+
+			//_entity->setRadio(Math::fromCartesianToPolar(newPosition).second);
+
 		}
 
 	} // tick

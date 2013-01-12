@@ -1,19 +1,19 @@
-/**
+Ôªø/**
 @file Math.h
 
-Este fichero contiene la definiciÛn de ciertos tipos de datos
-utilizados por la aplicaciÛn y relacionados con la base
-matem·tica; en particular, define distintos tipos de matriz,
+Este fichero contiene la definici√≥n de ciertos tipos de datos
+utilizados por la aplicaci√≥n y relacionados con la base
+matem√°tica; en particular, define distintos tipos de matriz,
 vector, etc.
 <p>
-En la pr·ctica, los tipos son simplemente tipos sinÛnimos
-a los de Ogre, para evitar pÈrdidas de tiempo en conversiones
-superfluas entre la aplicaciÛn y Ogre (sÌ habr· que hacerlas
-entre la aplicaciÛn y el motor de fÌsica, por ejemplo).
+En la pr√°ctica, los tipos son simplemente tipos sin√≥nimos
+a los de Ogre, para evitar p√©rdidas de tiempo en conversiones
+superfluas entre la aplicaci√≥n y Ogre (s√≠ habr√° que hacerlas
+entre la aplicaci√≥n y el motor de f√≠sica, por ejemplo).
 <p>
-Se ofrecen tambiÈn una serie de funciones auxiliares.
+Se ofrecen tambi√©n una serie de funciones auxiliares.
  
-@author David LlansÛ
+@author David Llans√≥
 @date Julio, 2010
 */
 
@@ -29,55 +29,55 @@ Se ofrecen tambiÈn una serie de funciones auxiliares.
 #include <OgreMatrix4.h>
 
 /**
-Definicion de matriz de 4x4. La definiciÛn del tipo de datos
-es la misma que la utilizada por el motor gr·fico, por lo tanto
+Definicion de matriz de 4x4. La definici√≥n del tipo de datos
+es la misma que la utilizada por el motor gr√°fico, por lo tanto
 es dependiente del motor usado.
  */
 typedef Ogre::Matrix4 Matrix4;
 
 /**
-DefiniciÛn de matriz de 3x3 de rotaciÛn. La definiciÛn del tipo 
-de datos es la misma que la utilizada por el motor gr·fico, por 
+Definici√≥n de matriz de 3x3 de rotaci√≥n. La definici√≥n del tipo 
+de datos es la misma que la utilizada por el motor gr√°fico, por 
 lo tanto es dependiente del motor usado.
  */
 typedef Ogre::Matrix3 Matrix3;
 
 /**
-Vector (o punto) 2d utilizado. La definiciÛn del tipo de datos
-es la misma que la utilizada por el motor gr·fico, por lo tanto
+Vector (o punto) 2d utilizado. La definici√≥n del tipo de datos
+es la misma que la utilizada por el motor gr√°fico, por lo tanto
 es dependiente del motor usado.
  */
 typedef Ogre::Vector2 Vector2;
 
 /**
-Vector (o punto) 3d utilizado. La definiciÛn del tipo de datos
-es la misma que la utilizada por el motor gr·fico, por lo tanto
+Vector (o punto) 3d utilizado. La definici√≥n del tipo de datos
+es la misma que la utilizada por el motor gr√°fico, por lo tanto
 es dependiente del motor usado.
  */
 typedef	Ogre::Vector3 Vector3;
 
 /**
-Vector (o punto) 4d utilizado. La definiciÛn del tipo de datos
-es la misma que la utilizada por el motor gr·fico, por lo tanto
+Vector (o punto) 4d utilizado. La definici√≥n del tipo de datos
+es la misma que la utilizada por el motor gr√°fico, por lo tanto
 es dependiente del motor usado.
  */
 typedef	Ogre::Vector4 Vector4;
 
 /**
-Quaternion, usado para c·lculos de rotaciones tridimensionales. 
-La definiciÛn del tipo de datos es la misma que la utilizada por 
-el motor gr·fico, por lo tanto es dependiente del motor usado.
+Quaternion, usado para c√°lculos de rotaciones tridimensionales. 
+La definici√≥n del tipo de datos es la misma que la utilizada por 
+el motor gr√°fico, por lo tanto es dependiente del motor usado.
  */
 typedef Ogre::Quaternion Quaternion;
 
 /**
-Namespace en el que ofrecemos alguna definiciÛn de constante
-matam·tica y mÈtodos para convertir grados en radianes, etc.
+Namespace en el que ofrecemos alguna definici√≥n de constante
+matam√°tica y m√©todos para convertir grados en radianes, etc.
 */
 namespace Math
 {
 	/**
-	DefiniciÛn de la constante PI.
+	Definici√≥n de la constante PI.
 	*/
 	static const float PI = float( 4.0 * atan( 1.0 ) );
 
@@ -94,24 +94,25 @@ namespace Math
 	/**
 	Transforma grados en radianes.
 
-	@param degree ¡ngulo en grados.
-	@return ¡ngulo en radianes.
+	@param degree √Ångulo en grados.
+	@return √Ångulo en radianes.
 	*/
 	static float fromDegreesToRadians(float degrees) {return degrees*_deg2Rad;}
+
 
 	/**
 	Transforma radianes en grados.
 
-	@param radian ¡ngulo en radianes.
-	@return ¡ngulo en grados.
+	@param radian √Ångulo en radianes.
+	@return √Ångulo en grados.
 	*/
 	static float fromRadiansToDegrees(float radians) {return radians*_rad2Deg;}
 	
 	/**
-	Crea un vector unitario de direcciÛn a partir de un angulo de
-	orientaciÛn en radianes.
+	Crea un vector unitario de direcci√≥n a partir de un angulo de
+	orientaci√≥n en radianes.
 
-	@param orientation OrientaciÛn en radianes.
+	@param orientation Orientaci√≥n en radianes.
 	@return Vector unitario en el plano XZ.
 	*/
 	static Vector3 getDirection(float orientation) 
@@ -121,10 +122,10 @@ namespace Math
 	} // getDirection
 	
 	/**
-	Aplica un viraje a una matriz de transformaciÛn.
+	Aplica un viraje a una matriz de transformaci√≥n.
 
 	@param turn Giro en radianes que se quiere aplicar.
-	@param transform Matriz de transformaciÛn a modificar.
+	@param transform Matriz de transformaci√≥n a modificar.
 	*/
 	static void yaw(float turn, Matrix4& transform) 
 	{
@@ -138,10 +139,50 @@ namespace Math
 
 	} // yaw
 	
-	/**
-	Extrae el estado del viraje de una matriz de transformaciÛn.
 
-	@param transform Matriz de transformaciÛn.
+	static void roll(float turn, Matrix4& transform) 
+	{
+		Matrix3 rotation;
+		transform.extract3x3Matrix(rotation);
+		Ogre::Radian yaw, pitch, roll;
+		rotation.ToEulerAnglesYXZ(yaw, pitch, roll);
+		Ogre::Radian newRoll = roll + Ogre::Radian(turn);
+		rotation.FromEulerAnglesYXZ(yaw, pitch, newRoll);
+		transform = rotation;
+
+	} // roll
+
+	static void pitch(float turn, Matrix4& transform) 
+	{
+		Matrix3 rotation;
+		transform.extract3x3Matrix(rotation);
+		Ogre::Radian yaw, pitch, roll;
+		rotation.ToEulerAnglesYXZ(yaw, pitch, roll);
+		Ogre::Radian newPitch = pitch + Ogre::Radian(turn);
+		rotation.FromEulerAnglesYXZ(yaw, newPitch, roll);
+		transform = rotation;
+
+	} // pitch
+
+		static void pitchYaw(float turnPitch, float turnYaw, Matrix4& transform) 
+	{
+		Matrix3 rotation;
+		transform.extract3x3Matrix(rotation);
+		Ogre::Radian yaw, pitch, roll;
+		rotation.ToEulerAnglesYXZ(yaw, pitch, roll);
+		Ogre::Radian newPitch = pitch + Ogre::Radian(turnPitch);
+		Ogre::Radian newYaw = yaw + Ogre::Radian(turnYaw);
+		
+		rotation.FromEulerAnglesYXZ(newYaw, newPitch, roll);
+		transform = rotation;
+
+	} // pitchyaw
+
+	
+	/**
+	Extrae el estado del viraje de una matriz de transformaci√≥n.
+
+	@param transform Matriz de transformaci√≥n.
 	@return Viraje de la entidad.
 	*/
 	static float getYaw(const Matrix4& transform) 
@@ -155,14 +196,14 @@ namespace Math
 	} // getYaw
 	
 	/**
-	Establece un viraje a una matriz de transformaciÛn.
+	Establece un viraje a una matriz de transformaci√≥n.
 
 	@param turn Giro en radianes que se quiere etablecer.
-	@param transform Matriz de transformaciÛn a modificar.
+	@param transform Matriz de transformaci√≥n a modificar.
 	*/
 	static void setYaw(float turn, Matrix4& transform) 
 	{
-		// Reiniciamos la matriz de rotaciÛn
+		// Reiniciamos la matriz de rotaci√≥n
 		transform = Matrix3::IDENTITY;
 		// Sobre esta rotamos.
 		Math::yaw(turn,transform);
@@ -170,10 +211,49 @@ namespace Math
 	} // setYaw
 	
 	/**
-	Crea un vector unitario de direcciÛn en el plano XZ a partir 
-	de una matriz de transformaciÛn.
+	Establece un viraje a una matriz de transformaci√≥n.
 
-	@param transform Matriz de transformaciÛn.
+	@param turn Giro en radianes que se quiere etablecer.
+	@param transform Matriz de transformaci√≥n a modificar.
+	*/
+	static void setPitch(float turn, Matrix4& transform) 
+	{
+		// Reiniciamos la matriz de rotaci√≥n
+		transform = Matrix3::IDENTITY;
+		// Sobre esta rotamos.
+		Math::pitch(turn,transform);
+
+	} // setPitch
+
+	/**
+	Establece un viraje a una matriz de transformaci√≥n.
+
+	@param turn Giro en radianes que se quiere etablecer.
+	@param transform Matriz de transformaci√≥n a modificar.
+	*/
+	static void setRoll(float turn, Matrix4& transform) 
+	{
+		// Reiniciamos la matriz de rotaci√≥n
+		transform = Matrix3::IDENTITY;
+		// Sobre esta rotamos.
+		Math::roll(turn,transform);
+
+	} // setYaw
+
+	static void setPitchYaw(float pitch,float yaw, Matrix4& transform)
+	{
+		// Reiniciamos la matriz de rotaci√≥n
+		transform = Matrix3::IDENTITY;
+		// Sobre esta rotamos.
+		Math::pitchYaw(pitch,yaw,transform);
+
+	}
+
+	/**
+	Crea un vector unitario de direcci√≥n en el plano XZ a partir 
+	de una matriz de transformaci√≥n.
+
+	@param transform Matriz de transformaci√≥n.
 	@return Vector unitario en el plano XZ.
 	*/
 	static Vector3 getDirection(const Matrix4& transform) 
@@ -181,6 +261,27 @@ namespace Math
 		return getDirection(getYaw(transform));
 
 	} // getDirection
+
+	static std::pair<float,float> fromCartesianToPolar(const Vector3 coordenadas) 
+	{
+		std::pair <float,float> retorno;
+		
+		retorno.first = sqrtf( powf(coordenadas.x,2) +  powf(coordenadas.z, 2) );
+		retorno.second = atan(coordenadas.z/coordenadas.x);
+		
+		return retorno;
+	} // de cartesianas a polares
+
+	static Vector3 fromPolarToCartesian(const float grados, const float radio) 
+	{
+		Vector3 retorno=Vector3::ZERO;
+		retorno.x = radio * cos(fromDegreesToRadians(grados));
+		retorno.z = radio * sin(fromDegreesToRadians(grados));
+		return retorno;
+	} // de polares a cartesianas
+
+	
+
 
 } // namespace Math
 
