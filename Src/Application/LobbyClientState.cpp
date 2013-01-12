@@ -216,10 +216,10 @@ namespace Application {
 	********************/
 	void CLobbyClientState::dataPacketReceived(Net::CPaquete* packet)
 	{
-		Net::NetMessageType msg;
-			memcpy(&msg, packet->getData(),sizeof(msg));		
+		Net::NetMessageType rxMsg;
+			memcpy(&rxMsg, packet->getData(),sizeof(rxMsg)); // Packet: "NetMessageType | extraData"
 		
-		switch (msg)
+		switch (rxMsg)
 		{
 
 		// TODO Gestionar la carga del blueprints cliente y del mapa cuando  
@@ -246,7 +246,7 @@ namespace Application {
 #if _DEBUG		fprintf (stdout, "NET::CLIENT>> MAPA Cargado.\n"); 
 #endif			
 				Net::NetMessageType txMsg = Net::NetMessageType::MAP_LOADED; // Informamos de carga finalizada
-				Net::CManager::getSingletonPtr()->send(&txMsg, sizeof(txMsg));
+					Net::CManager::getSingletonPtr()->send(&txMsg, sizeof(txMsg));
 
 #if _DEBUG		fprintf (stdout, "NET::CLIENT::TX>> MAP_LOADED.\n");
 #endif
@@ -254,16 +254,14 @@ namespace Application {
 
 			break;
 
-		case Net::LOAD_PLAYER: { // Creamos el player.
+		// CARGAR PLAYER
+		case Net::LOAD_PLAYER: { 
 
 #if _DEBUG	fprintf (stdout, "NET::CLIENT::RX>> LOAD_PLAYER.\n");
 #endif
-			// HACK Deberíamos poder propocionar caracteríasticas
-			// diferentes según el cliente (nombre, modelo, etc.). Esto es una
-			// aproximación, solo cambiamos el nombre y decimos si es el jugador
-			// local. Los datos deberían llegar en el paquete de red.
+
 			Net::NetID id;
-				memcpy(&id, packet->getData() + sizeof(msg), sizeof(id) );			
+				memcpy(&id, packet->getData() + sizeof(rxMsg), sizeof(id) ); //	Packet: "NetMessageType | extraData(NetID)"		
 			std::stringstream number;
 				number << id;			// TODO Por qué es necesario pasar por stringstream para el append?
 			std::string name("Player");
@@ -272,6 +270,12 @@ namespace Application {
 			// TODO Llamar al método de creación del jugador. Deberemos decidir
 			// si el jugador es el jugador local (si el ID del paquete coincide 
 			// con nuestro ID de red).
+			bool localPlayer = id == Net::CManager::getSingletonPtr()->getID(); // id rx == id local?
+			Logic::CServer::getSingletonPtr()->getMap()->createPlayer(name, localPlayer);
+			// HACK Deberíamos poder propocionar caracteríasticas
+			// diferentes según el cliente (nombre, modelo, etc.). Esto es una
+			// aproximación, solo cambiamos el nombre y decimos si es el jugador
+			// local. Los datos deberían llegar en el paquete de red.
 
 			//Enviamos el mensaje de que se ha creado el jugador
 			Net::NetMessageType msg = Net::PLAYER_LOADED;

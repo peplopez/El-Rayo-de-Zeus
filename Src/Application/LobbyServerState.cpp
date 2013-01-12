@@ -193,14 +193,15 @@ namespace Application {
 
 	void CLobbyServerState::doStart()
 	{
+		_waiting = false;
 		// TODO Aquí debemos enviar a los clientes un mensaje de tipo
 		// Net::LOAD_MAP para que comiencen la carga del mapa. Tras esto 
 		// se debe realizar la carga del blueprints específico del 
 		// servidor y el mapa. La carga por defecto para monojugador
-		// se ha retrasado y se encuentra en MenuState.cpp
-		_waiting = false;		
+		// se ha retrasado y se encuentra en MenuState.cpp			
 		Net::NetMessageType txMsg = Net::LOAD_MAP; //Enviamos el mensaje de que carguen el mapa a todos los clientes
 			Net::CManager::getSingletonPtr()->send( &txMsg, sizeof(txMsg));
+
 #if _DEBUG
 #endif	fprintf (stdout, "NET::SERVER::TX>> LOAD_MAP.\n");
 		// Cargamos el archivo con las definiciones de las entidades del nivel.
@@ -237,17 +238,9 @@ namespace Application {
 		memcpy(&rxMsg, packet->getData(),sizeof(rxMsg));
 		switch (rxMsg)
 		{
-
 			case Net::MAP_LOADED: {
 #if _DEBUG
 #endif		fprintf (stdout, "NET::SERVER::RX>> MAP_LOADED.\n");
-			// TODO Borrar las siguientes 3 líneas. Están de momento para que
-			// se lance el estado de juego al cargar el mapa
-			////////////// BORRAR ///////////////////////////////////
-			Net::NetMessageType msg = Net::START_GAME;
-			Net::CManager::getSingletonPtr()->send(&msg, sizeof(msg));
-			_app->setState("game");
-			////////////// BORRAR ///////////////////////////////////
 				
 			//Almacenamos el ID del usuario que se ha cargado el mapa.
 			_mapLoadedByClients.push_back(packet->getConexion()->getId());
@@ -256,23 +249,23 @@ namespace Application {
 			if(_clients.size() == _mapLoadedByClients.size()) // Lista de clientes (IDs) VS lista de clientes que han cargado el mapa
 			{
 				// Se debe crear un jugador por cada cliente registrado.
-				for(TNetIDList::const_iterator it = _clients.begin(); it != _clients.end(); it++)
+				for(TNetIDList::iterator it = _clients.begin(); it != _clients.end(); it++)
 				{
-					//Preparamos la lista de control de carga de jugadores.
-					//Esto quiere decir que el cliente (*it) ha cargado 0 jugadores
-					TNetIDCounterPair elem(*it,0);
+					//Inicializamos a 0 la lista de control de carga de jugadores.					
+					TNetIDCounterPair elem(*it,0);		//Esto quiere decir que cada cliente (*it) ha cargado 0 jugadores
 					_playersLoadedByClients.insert(elem);
-
-					// Server orquesta carga de cada jugador: "voy a cargar tal, vosotros también"
+					
 					// TODO Hay que enviar un paquete tipo LOAD_PLAYER con 
 					// el NetID del cliente del que estamos creando el jugador (*it)
-
-					// Creamos el player. 
-					// HACK Deberíamos poder propocionar caracteríasticas
-					// diferentes según el cliente (nombre, modelo, etc.). Esto es una
-					// aproximación, solo cambiamos el nombre y decimos si es el jugador
-					// local
-					
+					// Server orquesta carga de cada jugador: "voy a cargar tal, vosotros también"
+					Net::NetMessageType txMsg = Net::LOAD_PLAYER; 
+					Net::CBuffer serialMsg;						// Serializamos "MessageType | ID"
+						serialMsg.write( &txMsg, sizeof(txMsg));
+						serialMsg.write( &(*it), sizeof(*it) );					
+					Net::CManager::getSingletonPtr()->send( serialMsg.getbuffer(),  serialMsg.getSize() );
+#if _DEBUG
+#endif		fprintf (stdout, "NET::SERVER::TX>> LOAD_PLAYER.\n");
+		
 					std::stringstream number;
 						number << (*it);
 					std::string name("Player");
@@ -280,21 +273,30 @@ namespace Application {
 
 					// TODO Llamar al método de creación del jugador. Deberemos decidir
 					// si el jugador es el jugador local. Al ser el servidor ninguno lo es
+					Logic::CServer::getSingletonPtr()->getMap()->createPlayer(name, false);
+					// HACK Deberíamos poder propocionar caracteríasticas
+					// diferentes según el cliente (nombre, modelo, etc.). Esto es una
+					// aproximación, solo cambiamos el nombre y decimos si es el jugador
+					// local
 				}
 
 			} break;
 		}
 		case Net::PLAYER_LOADED:
 		{
+#if _DEBUG
+#endif		fprintf (stdout, "NET::SERVER::TX>> PLAYER_LOADED.\n");
+		
 			//Aumentamos el número de jugadores cargados por el cliente
 			(*_playersLoadedByClients.find(packet->getConexion()->getId())).second++;
 
-			// TODO Comprobar si todos los clientes han terminado de 
-			// cargar todos los jugadores
+			// TODO Comprobar si todos los clientes han terminado de cargar todos los jugadores
 			bool loadFinished = true;
-
-			//Si todos los clientes han cargado todos los players
-			if(loadFinished)
+				for(TNetIDList::iterator it = _clients.begin(); it != _clients.end(); it++)				
+					if(_playersLoadedByClients[*it] < _clients.size()) // Nº de jugadores cargados < Nº clientes?
+						loadFinished = false;
+		
+			if(loadFinished) //Si todos los clientes han cargado todos los players (inc. el suyo)
 			{
 				//Enviamos el mensaje de que empieza el juego a todos los clientes
 				Net::NetMessageType txMsg = Net::START_GAME;
@@ -339,10 +341,24 @@ namespace Application {
 #if _DEBUG
 		fprintf (stdout, "NET::SERVER::RX>> DISCONNECT.\n");
 #endif		
-		//Habilitamos el botón de start.
-		CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Start")->setEnabled(false);
-		CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")
-			->setText("Client disconnected. Waiting for new clients...");		
+		//Eliminamos el ID del usuario que se ha desconectado.
+		_clients.remove( packet->getConexion()->getId() );
+		_mapLoadedByClients.remove( packet->getConexion()->getId() );
+
+		TNetIDCounterMap::const_iterator pairIt = _playersLoadedByClients.find(packet->getConexion()->getId());
+		if(pairIt != _playersLoadedByClients.end())
+			_playersLoadedByClients.erase(pairIt);
+		
+		if(!_clients.empty()) {
+			CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")
+				->setText("Client disconnected. Waiting for new clients...");					
+		} else{
+			CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")
+				->setText("All clients disconnected. Waiting for some client...");
+			CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Start")->setEnabled(false); //Dehabilitamos el botón de start.
+		}
+			
+
 	} // disconnexionPacketReceived
 
 } // namespace Application

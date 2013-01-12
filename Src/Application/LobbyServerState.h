@@ -165,10 +165,11 @@ namespace Application
 		virtual bool mouseReleased(const GUI::CMouseState &mouseState);
 
 
+		/******************
+			IOBSERVER
+		******************/
 		virtual void dataPacketReceived(Net::CPaquete* packet);
-
 		virtual void connexionPacketReceived(Net::CPaquete* packet);
-
 		virtual void disconnexionPacketReceived(Net::CPaquete* packet);
 
 

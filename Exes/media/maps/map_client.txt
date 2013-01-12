@@ -14,21 +14,20 @@ Map = {
 		physic_file = "media/models/laberinto-fisico.xml",
 		
 	},
-
-	David = {
-		type = "Player",
-		msgList= "3,4,8",
+	
+	PlayerSpawn = {
+		type = "PlayerSpawn",
+		msgList= "0,1,2",
 		position = {0, 0, 0},
 		orientation = 180,
 		life = 100.0,
-		isPlayer = true,
 		model = "marine.mesh",
 		speed = 0.05,
 		defaultAnimation = "Idle",
 		physic_entity = "controller",
 		physic_shape = "capsule",
 		physic_radius = 3,
-		physic_height = 6,		
+		physic_height = 6,
 	},
 
 	Gonzalo = {

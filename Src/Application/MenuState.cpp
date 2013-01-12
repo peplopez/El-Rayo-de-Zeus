@@ -117,9 +117,11 @@ namespace Application {
 	{
 		switch(key.keyId)
 		{
+
 		case GUI::Key::ESCAPE:
 			_app->exitRequest();
 			break;
+
 		case GUI::Key::RETURN:
 			_app->setState("game");
 			// Cargamos el archivo con las definiciones de las entidades del nivel.
@@ -128,14 +130,17 @@ namespace Application {
 			// Cargamos el nivel a partir del nombre del mapa. 
 			if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))
 				return false;
-			// Creamos el player.
+			
+			// TODO Llamar al método de creación del jugador. Deberemos decidir
+			// si el jugador es el jugador local. Al ser el monojugador lo es.
+			Logic::CServer::getSingletonPtr()->getMap()->createPlayer("Mono", true);
+
 			// HACK Deberíamos poder propocionar caracteríasticas
 			// diferentes según el cliente (nombre, modelo, etc.). Esto es una
 			// aproximación, solo cambiamos el nombre y decimos si es el jugador
 			// local
-			// TODO Llamar al método de creación del jugador. Deberemos decidir
-			// si el jugador es el jugador local. Al ser el monojugador lo es.
 			break;
+
 		case GUI::Key::M:
 			_app->setState("netmenu");
 			break;
@@ -185,13 +190,14 @@ namespace Application {
 		if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))
 			return false;
 
-		// Creamos el player.
-		// HACK  Deberíamos poder propocionar caracteríasticas
+		// TODO Llamar al método de creación del jugador. Deberemos decidir
+		// si el jugador es el jugador local. Al ser el monojugador lo es.
+		Logic::CServer::getSingletonPtr()->getMap()->createPlayer("Mono", true);
+
+		// HACK Deberíamos poder propocionar caracteríasticas
 		// diferentes según el cliente (nombre, modelo, etc.). Esto es una
 		// aproximación, solo cambiamos el nombre y decimos si es el jugador
 		// local
-		// TODO Llamar al método de creación del jugador. Deberemos decidir
-		// si el jugador es el jugador local. Al ser el monojugador lo es.
 
 		return true;
 

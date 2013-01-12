@@ -171,10 +171,8 @@ namespace Net {
 
 		ENetPacket * packet = enet_packet_create (data,longData,rel);
 	    
-		for(std::vector<CConexion*>::iterator iter = listaConexiones.begin(); iter != listaConexiones.end(); ++iter)
-		{
-			enet_peer_send (((CConexionENet*)*iter)->getENetPeer(), channel, packet);
-		}
+		for(std::vector<CConexion*>::iterator iter = listaConexiones.begin(); iter != listaConexiones.end(); ++iter)		
+			enet_peer_send (((CConexionENet*)*iter)->getENetPeer(), channel, packet);		
 
 		if(DEBUG_SERVER)
 			fprintf (stdout, "NET::SERVER>> Packet send.\n");

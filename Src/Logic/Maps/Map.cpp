@@ -11,6 +11,7 @@ Contiene la implementación de la clase CMap, Un mapa lógico.
 
 #include "Map.h"
 
+#include "Logic/Server.h"
 #include "Logic/Entity/Entity.h"
 #include "EntityFactory.h"
 
@@ -71,6 +72,8 @@ namespace Logic {
 				// Cambiamos el type de los Map::CEntity de PlayerSpawn a Player
 				// Para cuando creemos jugadores. No es la forma más elegante de hacerlo,
 				// pero si la más rápida.
+				(*it)->setType("Player");
+				map->setPlayerInfo(*it); // map que estamos creando desde el server
 			}
 			else 
 			{
@@ -256,9 +259,8 @@ namespace Logic {
 		// Si se definió entidad desde la que comenzar la búsqueda 
 		// cogemos su posición y empezamos desde la siguiente.
 		if (start)
-		{
-			it = _entityMap.find(start->getEntityID());
-			// si la entidad no existe devolvemos NULL.
+		{	// si la entidad no existe devolvemos NULL.
+			it = _entityMap.find(start->getEntityID()); 
 			if(it == end)
 				return 0;
 			it++;
@@ -287,6 +289,10 @@ namespace Logic {
 		// entidades y se le dice si es o no el jugador local (con setIsPlayer())
 		// Para que no salgan todos los jugadores unos encima de otros podemos
 		// cambiar la posición de éstos.
+		_playerInfo->setName(name);			
+		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createEntity(_playerInfo, this);
+			newPlayer->setIsPlayer(isLocalPlayer);
+			//newPlayer->setPosition TODO cambiar posicion para que no salgan unos encima de otros		
 	}
 
 } // namespace Logic

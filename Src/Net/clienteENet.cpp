@@ -75,7 +75,7 @@ namespace Net {
 
 		/* Connect */
 		enet_address_set_host (& _address, address);
-		_address.port = port;
+		_address.port = port; 
 
 		ENetPeer* peer = enet_host_connect (client, & _address, channels);    
 	    

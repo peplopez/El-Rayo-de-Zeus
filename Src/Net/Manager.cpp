@@ -106,8 +106,8 @@ namespace Net {
 		{
 			// TODO Ahora hay más de una conexión, debemos mandar el mensaje por
 			// todas si somos servidor.
-			//if(_servidorRed)
-			//	servidorRed->sendData(_conexion, data,longdata,0,1);
+			if(_servidorRed)
+				_servidorRed->sendAll(data,longdata,0,1);
 			if(_clienteRed)
 				_clienteRed->sendData(getConnection(Net::ID::SERVER),data,longdata,0,1); // TODO Se guardan en cliente conexiones con el resto de clientes?
 		}
@@ -177,13 +177,14 @@ namespace Net {
 
 	void CManager::connectTo(char* address, int port, int channels, unsigned int timeout)
 	{
-		assert(_clienteRed && "Cliente Red es null");
-		assert(_connections.empty() && "Ya hay una conexion");
-		CConexion* connection = _clienteRed->connect(address, port, channels,timeout);
-		// Almacenamos esa conexión y le otorgamos un ID de red
-		connection->setId(Net::ID::SERVER); // todos los clientes conectados al SERVER
-		addConnection(Net::ID::SERVER,connection);
+		assert(_clienteRed && "Cliente Red es null"); // Solo se puede ejecutar el connectTo si somos cliente
+		assert(_connections.empty() && "Ya hay una conexion"); // Capamos al cliente a 1 conexión max: la de con el server
 
+		CConexion* connection = _clienteRed->connect(address, port, channels,timeout); // CONNECT
+
+		// Almacenamos esa conexión y le otorgamos un ID de red
+		connection->setId(Net::ID::SERVER); // Un cliente sólo se conecta al SERVER
+		addConnection(Net::ID::SERVER, connection); // Guardamos en la tabla
 	} // connectTo
 
 	//---------------------------------------------------------
@@ -233,7 +234,7 @@ namespace Net {
 	} // connect
 
 	//---------------------------------------------------------
-// TODO antes se comprobaba conexion != NULL y se ponia a NULL, ver cómo funcionan disconnects internamente
+
 	void CManager::disconnect(CConexion* connection)
 	{
 		if(_servidorRed)
@@ -256,7 +257,7 @@ namespace Net {
 		if(_connections.count(id))
 			return false;
 		TConnectionPair elem(id,connection);
-		_connections.insert(elem);
+		_connections.insert(elem); // Insertamos par id - conexion
 		return true;
 
 	} // addConection
