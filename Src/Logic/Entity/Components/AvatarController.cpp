@@ -1,13 +1,13 @@
 /**
 @file AvatarController.cpp
 
-Contiene la implementaciï¿½n del componente que controla el movimiento 
+Contiene la implementación del componente que controla el movimiento 
 de la entidad.
  
 @see Logic::CAvatarController
 @see Logic::IComponent
 
-@author David Llansï¿½
+@author David Llansó
 @date Agosto, 2010
 */
 
@@ -53,8 +53,7 @@ namespace Logic
 
 	bool CAvatarController::accept(const TMessage &message)
 	{
-		return false;   //ANULACION
-		return message._type == Message::SET_TRANSFORM;
+		return message._type == Message::CONTROL;
 
 	} // accept
 	
@@ -66,7 +65,9 @@ namespace Logic
 		{
 		case Message::CONTROL:
 			if(!message._string.compare("walk"))
-				walk();			
+				walk();
+			else if(!message._string.compare("walkBack"))
+				walkBack();
 			else if(!message._string.compare("stopWalk"))
 				stopWalk();
 			else if(!message._string.compare("strafeLeft"))
@@ -95,7 +96,7 @@ namespace Logic
 	{
 		_walking = true;
 
-		// Cambiamos la animaciï¿½n
+		// Cambiamos la animación
 		TMessage message;
 		message._type = Message::SET_ANIMATION;
 		message._string = "Walk";
@@ -106,11 +107,26 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
+	void CAvatarController::walkBack() 
+	{
+		_walkingBack = true;
+
+		// Cambiamos la animación
+		TMessage message;
+		message._type = Message::SET_ANIMATION;
+		message._string = "WalkBack";
+		message._bool = true;
+		_entity->emitMessage(message,this);
+
+	} // walkBack
+	
+	//---------------------------------------------------------
+
 	void CAvatarController::stopWalk() 
 	{
 		_walking = _walkingBack = false;
 
-		// Cambiamos la animaciï¿½n si no seguimos desplazï¿½ndonos
+		// Cambiamos la animación si no seguimos desplazándonos
 		// lateralmente
 		if(!(_strafingLeft || _strafingRight))
 		{
@@ -127,12 +143,12 @@ namespace Logic
 
 	void CAvatarController::strafeLeft() 
 	{
-		//_strafingLeft = true;
-			_walking = true;
-		// Cambiamos la animaciï¿½n
+		_strafingLeft = true;
+
+		// Cambiamos la animación
 		TMessage message;
 		message._type = Message::SET_ANIMATION;
-		message._string = "Walk";
+		message._string = "StrafeLeft";
 		message._bool = true;
 		_entity->emitMessage(message,this);
 
@@ -142,12 +158,12 @@ namespace Logic
 
 	void CAvatarController::strafeRight() 
 	{
-		//_strafingRight = true;
-			_walking = true;
-		// Cambiamos la animaciï¿½n
+		_strafingRight = true;
+
+		// Cambiamos la animación
 		TMessage message;
 		message._type = Message::SET_ANIMATION;
-		message._string = "Walk";
+		message._string = "StrafeRight";
 		message._bool = true;
 		_entity->emitMessage(message,this);
 
@@ -159,7 +175,7 @@ namespace Logic
 	{
 		_strafingLeft = _strafingRight = false;
 
-		// Cambiamos la animaciï¿½n si no seguimos andando
+		// Cambiamos la animación si no seguimos andando
 		if(!(_walking || _walkingBack))
 		{
 			TMessage message;
@@ -177,9 +193,9 @@ namespace Logic
 	{
 		IComponent::tick(msecs);
 
-		// Si nos estamos desplazando calculamos la prï¿½xima posiciï¿½n
-		// Calculamos si hay vectores de direcciï¿½n de avance y strafe,
-		// hayamos la direcciï¿½n de la suma y escalamos segï¿½n la
+		// Si nos estamos desplazando calculamos la próxima posición
+		// Calculamos si hay vectores de dirección de avance y strafe,
+		// hayamos la dirección de la suma y escalamos según la
 		// velocidad y el tiempo transcurrido.
 		if(_walking || _walkingBack || _strafingLeft || _strafingRight)
 		{
@@ -189,8 +205,6 @@ namespace Logic
 			if(_walking || _walkingBack)
 			{
 				direction = Math::getDirection(_entity->getYaw());
-				//_entity->setYaw(Math::fro);
-				//_entity->setOrientation(0-_entity->getPosition().x,(-125)-_entity->getPosition().y,0-_entity->getPosition().z);
 				if(_walkingBack)
 					direction *= -1;
 			}
@@ -208,10 +222,6 @@ namespace Logic
 			direction *= msecs * _speed;
 			Vector3 newPosition = _entity->getPosition() + direction;
 			_entity->setPosition(newPosition);
-
-
-			//_entity->setRadio(Math::fromCartesianToPolar(newPosition).second);
-
 		}
 
 	} // tick

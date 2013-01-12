@@ -1,16 +1,15 @@
 /**
 @file Camera.cpp
 
-Contiene la implementaciï¿½n del componente que controla la cï¿½mara grï¿½fica
+Contiene la implementación del componente que controla la cámara gráfica
 de una escena.
  
 @see Logic::CCamera
 @see Logic::IComponent
 
-@author David Llansï¿½
+@author David Llansó
 @date Agosto, 2010
 */
-//#include     <cmath>
 
 #include "Camera.h"
 
@@ -49,7 +48,6 @@ namespace Logic
 		if(entityInfo->hasAttribute("targetHeight"))
 			_targetHeight = entityInfo->getFloatAttribute("targetHeight");
 
-	
 		return true;
 
 	} // spawn
@@ -59,11 +57,7 @@ namespace Logic
 	bool CCamera::activate()
 	{
 		_target = CServer::getSingletonPtr()->getPlayer();
-		_target->setPosition(Math::fromPolarToCartesian(0,60)); //esto no estï¿½ bien aquï¿½, pero si no estï¿½ no calcula bien el vector direcciï¿½n.
-		//anula lo que haya en el maps.txt sobre la posiciï¿½n del prota
 
-		_currentPos = 4*_target->getPosition()+Vector3(0,_targetHeight*2,0);
-		 _graphicsCamera->setCameraPosition(_currentPos);
 		return true;
 
 	} // activate
@@ -80,48 +74,22 @@ namespace Logic
 
 	void CCamera::tick(unsigned int msecs)
 	{
+		IComponent::tick(msecs);
+
 		if(_target)
-		{			
-			// Actualizamos la posiciï¿½n de la cï¿½mara.
-			//este parrafo es para conseguir que el modelo mire en direcciï¿½n perpendicular al vector centro camara
-			Vector3 centro=Vector3(0,-125,0);
-			Vector3 vectorCentroProtaCamara =  -(centro-_target->getPosition());
-			vectorCentroProtaCamara.normalise();
-			//Vector3 actualDirection=Math::getDirection(_target->getOrientation());
-			//Vector3 directionPerp= Vector3::UNIT_Y.crossProduct(vectorCentroProtaCamara);
-			//Quaternion rotacionDestino=actualDirection.getRotationTo(directionPerp);
-			
-			Matrix4 orientacion = _target->getOrientation();
-			//std::cout<<vectorCentroProtaCamara<<std::endl;
-			//std::cout<<Math::getDirection(orientacion)<<std::endl;
-			
-			//Math::yaw(Math::fromDegreesToRadians(-90),orientacion);
-			Vector3 direction = vectorCentroProtaCamara; //-_distance * (Math::getDirection(orientacion))  ;
-		
-			direction.normalise();
+		{
+			// Actualizamos la posición de la cámara.
+			Vector3 position = _target->getPosition();
+			Vector3 direction = -_distance * Math::getDirection(_target->getOrientation());
+			direction.y = _height;
+			_graphicsCamera->setCameraPosition(position + direction);
+
+			// Y la posición hacia donde mira la cámara.
+			direction = _targetDistance * Math::getDirection(_target->getOrientation());
 			direction.y = _targetHeight;
-			
-			vectorCentroProtaCamara.normalise();
-			vectorCentroProtaCamara.y=direction.y;
-			//std::cout<<"vectorcentroprotacamara: "<<vectorCentroProtaCamara<<std::endl;
-		
-			//inercia de la camara
-			_currentPos += ((4*_target->getPosition()+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035;			
-			_graphicsCamera->setCameraPosition(_currentPos);
-
-			
-//						_graphicsCamera->setCameraPosition( +4*position);
-			//anillo x=0 y=-125 z=0
-			// Y la posiciï¿½n hacia donde mira la cï¿½mara.
-			//direction = _targetDistance * Math::getDirection(orientacion);
-
-			direction = _targetDistance * direction;
-			direction.y = _targetHeight;
-
-			//_graphicsCamera->setTargetCameraPosition(position+direction);
-			
+			_graphicsCamera->setTargetCameraPosition(position + direction);
 		}
-IComponent::tick(msecs);
+
 	} // tick
 
 } // namespace Logic

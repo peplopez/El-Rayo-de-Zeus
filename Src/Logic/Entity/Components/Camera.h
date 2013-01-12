@@ -108,8 +108,6 @@ namespace Logic
 		*/
 		CEntity *_target;
 
-		Vector3 _currentPos;
-
 		/**
 		Distancia de la cámara respecto a la entidad objetivo. Es distancia
 		sobre el plano XZ, la altura tiene su propio atributo.

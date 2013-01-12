@@ -40,22 +40,13 @@ namespace Application {
 		_menuWindow = CEGUI::WindowManager::getSingleton().getWindow("Menu");
 		
 		// Asociamos los botones del menú con las funciones que se deben ejecutar.
-		/*CEGUI::WindowManager::getSingleton().getWindow("Menu/Start")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, 
-				CEGUI::SubscriberSlot(&CMenuState::startReleased, this));*/
-		CEGUI::WindowManager::getSingleton().getWindow("Menu/Join")->
+		CEGUI::WindowManager::getSingleton().getWindow("Menu/Start")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CMenuState::startReleased, this));
-
-		CEGUI::WindowManager::getSingleton().getWindow("Menu/New")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, 
-				CEGUI::SubscriberSlot(&CMenuState::exitReleased, this));
 		
 		CEGUI::WindowManager::getSingleton().getWindow("Menu/Exit")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CMenuState::exitReleased, this));
-
-
 	
 		return true;
 

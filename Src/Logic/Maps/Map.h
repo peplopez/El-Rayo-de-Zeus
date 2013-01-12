@@ -12,7 +12,6 @@ Contiene la declaración de la clase CMap, Un mapa lógico.
 #define __Logic_Map_H
 
 #include <map>
-#include <list>
 #include "EntityID.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
@@ -120,7 +119,6 @@ namespace Logic
 		*/
 		void destroyAllEntities();
 
-		
 		/**
 		Recupera una entidad del mapa a partir de su ID.
 
@@ -154,18 +152,6 @@ namespace Logic
 		CEntity *getEntityByType(const std::string &type, CEntity *start = 0);
 
 		/**
-		Tipo lista de entidades de mapa.
-		*/ 
-		typedef std::list<CEntity*> TEntityList;
-
-		/**
-		Devuelve la lista con todas las entidades del mapa.
-
-		@return Lista con todas las entidades.
-		*/
-		const TEntityList& getEntities() {return _entityList; }
-
-		/**
 		Devuelve la escena gráfica correspondiente a este mapa.
 
 		@return Escena con las entidades gráficas.
@@ -183,11 +169,6 @@ namespace Logic
 		tabla con las entidades del mapa localizadas por su ID.
 		*/
 		TEntityMap _entityMap;
-
-		/**
-		lista con las entidades del mapa.
-		*/
-		TEntityList _entityList;
 
 		/**
 		Nombre del mapa.

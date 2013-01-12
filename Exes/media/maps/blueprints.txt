@@ -1,7 +1,5 @@
 World CGraphics
-Altar CGraphics
-Player  CAnimatedGraphics CAngularMovement CCollider
+Player CAvatarController CAnimatedGraphics
 Entity CGraphics
-AnimatedEntity CAnimatedGraphics CCollider CAngularMovement
+AnimatedEntity CAnimatedGraphics
 Camera CCamera
-BarraVida CGraphics CLifeController

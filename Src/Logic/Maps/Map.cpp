@@ -140,7 +140,6 @@ namespace Logic {
 		{
 			TEntityPair elem(entity->getEntityID(),entity);
 			_entityMap.insert(elem);
-			_entityList.push_back(entity);
 		}
 
 	} // addEntity
@@ -155,7 +154,6 @@ namespace Logic {
 				entity->deactivate();
 			entity->_map = 0;
 			_entityMap.erase(entity->getEntityID());
-			_entityList.remove(entity);
 		}
 
 	} // removeEntity
