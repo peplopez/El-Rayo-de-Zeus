@@ -59,6 +59,19 @@ Thumbs.db
 /vslog.txt
 /ipch/
 
+#Document. Doxygen
+/DocumentacionDoxygen/
+
+
+#Exes
+/Exes/*.*
+!/Exes/resources.cfg
+
+
+#Projects
+/Projects/*/Debug/
+/Projects/*/Release/
+
 
 #dependencies
 

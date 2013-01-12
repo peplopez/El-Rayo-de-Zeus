@@ -4,7 +4,7 @@ material 1_-_Default
 	{
 		pass
 		{
-			ambient 1 0.585938 0.585938
+			ambient 0.585938 0.585938 0.585938
 			diffuse 0.585938 0.585938 0.585938
 			specular 0.585938 0.585938 0.585938 1.000000
 			texture_unit
@@ -21,9 +21,9 @@ material 3_-_Default
 	{
 		pass
 		{
-			ambient 1 0.3 0.585938
-			diffuse 1 0.3 0.585938
-			specular 1 0.3 0.585938 1.000000
+			ambient 0.585938 0.585938 0.585938
+			diffuse 0.585938 0.585938 0.585938
+			specular 0.585938 0.585938 0.585938 1.000000
 			texture_unit
 			{
 				texture SUELO.JPG
@@ -31,3 +31,4 @@ material 3_-_Default
 		}
 	}
 }
+
