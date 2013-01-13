@@ -293,6 +293,8 @@ namespace Logic {
 		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createEntity(_playerInfo, this);
 			newPlayer->setIsPlayer(isLocalPlayer);
 			//newPlayer->setPosition TODO cambiar posicion para que no salgan unos encima de otros		
+
+		// TODO Elegir también malla y usarlo en la parte de IA
 	}
 
 } // namespace Logic

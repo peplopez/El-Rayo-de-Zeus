@@ -14,7 +14,7 @@ Map = {
 	},
 
 	PlayerSpawn = {
-		type = "PlayerSpawn",	
+		type = "PlayerSpawn",
 		position = {0, 0, 0},
 		orientation = 180,
 		life = 100.0,
@@ -397,9 +397,7 @@ Map = {
 		physic_shape = "box",
 		physic_dimensions = { 7, 7, 1 },
 		physic_mass = 1,
-		physic_collision_group = 0,		
-		msgList = "0,1,2",
-		blockedTime = 0,
+		physic_collision_group = 0,	
 	},
 	
 	sierra3 = {
@@ -419,9 +417,7 @@ Map = {
 		physic_shape = "box",
 		physic_dimensions = { 7, 7, 1 },
 		physic_mass = 1,
-		physic_collision_group = 0,		
-		msgList = "0,1,2",
-		blockedTime = 0,
+		physic_collision_group = 0,	
 	},
 	
 	sierra4 = {
@@ -441,9 +437,7 @@ Map = {
 		physic_shape = "box",
 		physic_dimensions = { 7, 7, 1 },
 		physic_mass = 1,
-		physic_collision_group = 0,		
-		msgList = "0,1,2",
-		blockedTime = 0,
+		physic_collision_group = 0,	
 	},
 	
 	sierra5 = {
@@ -463,9 +457,7 @@ Map = {
 		physic_shape = "box",
 		physic_dimensions = { 7, 7, 1 },
 		physic_mass = 1,
-		physic_collision_group = 0,		
-		msgList = "0,1,2",
-		blockedTime = 0,
+		physic_collision_group = 0,	
 	},
 	
 	sierra6 = {
@@ -485,9 +477,7 @@ Map = {
 		physic_shape = "box",
 		physic_dimensions = { 7, 7, 1 },
 		physic_mass = 1,
-		physic_collision_group = 0,		
-		msgList = "0,1,2",
-		blockedTime = 0,
+		physic_collision_group = 0,	
 	},
 	
 	sierra7 = {
@@ -507,9 +497,7 @@ Map = {
 		physic_shape = "box",
 		physic_dimensions = { 7, 7, 1 },
 		physic_mass = 1,
-		physic_collision_group = 0,		
-		msgList = "0,1,2",
-		blockedTime = 0,
+		physic_collision_group = 0,	
 	},
 	
 	sierra8 = {
@@ -529,9 +517,7 @@ Map = {
 		physic_shape = "box",
 		physic_dimensions = { 7, 7, 1 },
 		physic_mass = 1,
-		physic_collision_group = 0,		
-		msgList = "0,1,2",
-		blockedTime = 0,
+		physic_collision_group = 0,	
 	},
 	
 	fuente = {

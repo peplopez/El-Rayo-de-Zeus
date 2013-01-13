@@ -203,7 +203,8 @@ namespace Application {
 			Net::CManager::getSingletonPtr()->send( &txMsg, sizeof(txMsg));
 
 #if _DEBUG
-#endif	fprintf (stdout, "NET::SERVER::TX>> LOAD_MAP.\n");
+		fprintf (stdout, "NET::SERVER::TX>> LOAD_MAP.\n");
+#endif	
 		// Cargamos el archivo con las definiciones de las entidades del nivel.
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints_server.txt")){
 			CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar el nivel");
@@ -218,7 +219,8 @@ namespace Application {
 
 		} else {
 #if _DEBUG
-#endif		fprintf (stdout, "NET::SERVER>> MAPA Cargado.\n");
+			fprintf (stdout, "NET::SERVER>> MAPA Cargado.\n");
+#endif		
 		}
 	} // doStart
 
@@ -227,7 +229,6 @@ namespace Application {
 	/*******************
 		NET: IObserver
 	*********************/
-	
 	void CLobbyServerState::dataPacketReceived(Net::CPaquete* packet)
 	{
 		// TODO Aquí es donde debemos recibir los mensajes de red. Hay
@@ -240,8 +241,8 @@ namespace Application {
 		{
 			case Net::MAP_LOADED: {
 #if _DEBUG
-#endif		fprintf (stdout, "NET::SERVER::RX>> MAP_LOADED.\n");
-				
+			fprintf (stdout, "NET::SERVER::RX>> MAP_LOADED.\n");
+#endif						
 			//Almacenamos el ID del usuario que se ha cargado el mapa.
 			_mapLoadedByClients.push_back(packet->getConexion()->getId());
 
@@ -264,8 +265,8 @@ namespace Application {
 						serialMsg.write( &(*it), sizeof(*it) );					
 					Net::CManager::getSingletonPtr()->send( serialMsg.getbuffer(),  serialMsg.getSize() );
 #if _DEBUG
-#endif		fprintf (stdout, "NET::SERVER::TX>> LOAD_PLAYER.\n");
-		
+					fprintf (stdout, "NET::SERVER::TX>> LOAD_PLAYER.\n");
+#endif				
 					std::stringstream number;
 						number << (*it);
 					std::string name("Player");
@@ -273,7 +274,7 @@ namespace Application {
 
 					// TODO Llamar al método de creación del jugador. Deberemos decidir
 					// si el jugador es el jugador local. Al ser el servidor ninguno lo es
-					Logic::CServer::getSingletonPtr()->getMap()->createPlayer(name, false);
+					Logic::CServer::getSingletonPtr()->getMap()->createPlayer(name, true);
 					// HACK Deberíamos poder propocionar caracteríasticas
 					// diferentes según el cliente (nombre, modelo, etc.). Esto es una
 					// aproximación, solo cambiamos el nombre y decimos si es el jugador
@@ -285,8 +286,8 @@ namespace Application {
 		case Net::PLAYER_LOADED:
 		{
 #if _DEBUG
-#endif		fprintf (stdout, "NET::SERVER::TX>> PLAYER_LOADED.\n");
-		
+			fprintf (stdout, "NET::SERVER::TX>> PLAYER_LOADED.\n");
+#endif				
 			//Aumentamos el número de jugadores cargados por el cliente
 			(*_playersLoadedByClients.find(packet->getConexion()->getId())).second++;
 
@@ -300,10 +301,11 @@ namespace Application {
 			{
 				//Enviamos el mensaje de que empieza el juego a todos los clientes
 				Net::NetMessageType txMsg = Net::START_GAME;
-					Net::CManager::getSingletonPtr()->send( (void*) &txMsg, sizeof(txMsg));
+					Net::CManager::getSingletonPtr()->send( &txMsg, sizeof(txMsg));
 				_app->setState("game");
 #if _DEBUG
-#endif			fprintf (stdout, "NET::SERVER::TX>> START_GAME.\n");
+				fprintf (stdout, "NET::SERVER::TX>> START_GAME.\n");
+#endif			
 
 			}
 			break;

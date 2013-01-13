@@ -12,12 +12,11 @@ Map = {
 		physic_shape = "plane",
 		physic_normal = { 0, 1, 0 },
 		physic_file = "media/models/laberinto-fisico.xml",
-		
 	},
-	
+
 	PlayerSpawn = {
 		type = "PlayerSpawn",
-		msgList= "0,1,2",
+		msgList= "3,4,8",
 		position = {0, 0, 0},
 		orientation = 180,
 		life = 100.0,
@@ -48,7 +47,7 @@ Map = {
 		physic_entity = "controller",
 		physic_shape = "capsule",
 		physic_radius = 3,
-		physic_height = 6,		
+		physic_height = 6,
 	},
 	
 	Camera = {
@@ -139,7 +138,7 @@ Map = {
 	
 	door1 = {
 		type = "Door",
-		msgList= "0,7",
+		msgList= "7",
 		position = {0, 0, 180},
 		orientation = 0,
 		model = "puerta.mesh",
@@ -162,7 +161,7 @@ Map = {
 	
 	door2 = {
 		type = "Door",
-		msgList= "0,7",
+		msgList= "7",
 		position = {0, 0, 300},
 		orientation = 0,
 		model = "puerta.mesh",
@@ -185,7 +184,7 @@ Map = {
 	
 	door3 = {
 		type = "Door",
-		msgList= "0,7",
+		msgList= "7",
 		position = {110, 0, 420},
 		orientation = 90,
 		model = "puerta.mesh",
@@ -208,7 +207,7 @@ Map = {
 	
 	door4 = {
 		type = "Door",
-		msgList= "0,7",
+		msgList= "7",
 		position = {130, 0, 450},
 		orientation = 0,
 		model = "puerta.mesh",
@@ -231,7 +230,7 @@ Map = {
 	
 	door5 = {
 		type = "Door",
-		msgList= "0,7",
+		msgList= "7",
 		position = {0, 0, 750},
 		orientation = 90,
 		model = "puerta.mesh",
@@ -254,7 +253,7 @@ Map = {
 	
 	door6 = {
 		type = "Door",
-		msgList= "0,7",
+		msgList= "7",
 		position = {-50, 0, 350},
 		orientation = 90,
 		model = "puerta.mesh",
@@ -263,7 +262,7 @@ Map = {
 	},
 	
 	doorTrigger7 = {
-		type = "DoorTrigger", 
+		type = "DoorTrigger",
 		position = {-30, 0, 400},
 		orientation = 0,
 		target = "door7",
@@ -277,7 +276,7 @@ Map = {
 	
 	door7 = {
 		type = "Door",
-		msgList= "0,7",
+		msgList= "7",
 		position = {-30, 0, 400},
 		orientation = 0,
 		model = "puerta.mesh",
@@ -300,7 +299,7 @@ Map = {
 	
 	door8 = {
 		type = "Door",
-		msgList= "0,7",
+		msgList= "7",
 		position = {-150, 0, 320},
 		orientation = 0,
 		model = "puerta.mesh",
@@ -323,7 +322,7 @@ Map = {
 	
 	door9 = {
 		type = "Door",
-		msgList= "0,7",
+		msgList= "7",
 		position = {-210, 0, 320},
 		orientation = 0,
 		model = "puerta.mesh",
@@ -346,7 +345,7 @@ Map = {
 	
 	door10 = {
 		type = "Door",
-		msgList= "0,7",
+		msgList= "7",
 		position = {-70, 0, 630},
 		orientation = 0,
 		model = "puerta.mesh",
@@ -369,7 +368,7 @@ Map = {
 	
 	door11 = {
 		type = "Door",
-		msgList= "0,7",
+		msgList= "7",
 		position = {-150, 0, 750},
 		orientation = 90,
 		model = "puerta.mesh",
@@ -378,7 +377,7 @@ Map = {
 	},
 	
 	sierra1 = {
-		type = "Blade",		
+		type = "Blade",
 		msgList= "0,5,7",
 		position = {0, 30, 250},
 		orientation = 0,
@@ -400,7 +399,7 @@ Map = {
 	},
 	
 	sierra2 = {
-		type = "Blade",		
+		type = "Blade",
 		msgList= "0,5,7",
 		position = {220, 30, 430},
 		orientation = 0,
@@ -423,7 +422,7 @@ Map = {
 	},
 	
 	sierra3 = {
-		type = "Blade",		
+		type = "Blade",
 		msgList= "0,5,7",
 		position = {70, 30, 420},
 		orientation = 90,
@@ -446,7 +445,7 @@ Map = {
 	},
 	
 	sierra4 = {
-		type = "Blade",		
+		type = "Blade",
 		msgList= "0,5,7",
 		position = {110, 30, 510},
 		orientation = 270,
@@ -469,7 +468,7 @@ Map = {
 	},
 	
 	sierra5 = {
-		type = "Blade",		
+		type = "Blade",
 		msgList= "0,5,7",
 		position = {-180, 30, 340},
 		orientation = 90,
@@ -492,7 +491,7 @@ Map = {
 	},
 	
 	sierra6 = {
-		type = "Blade",		
+		type = "Blade",
 		msgList= "0,5,7",
 		position = {-180, 30, 410},
 		orientation = 0,
@@ -515,7 +514,7 @@ Map = {
 	},
 	
 	sierra7 = {
-		type = "Blade",		
+		type = "Blade",
 		msgList= "0,5,7",
 		position = {-280, 30, 460},
 		orientation = 0,
@@ -538,7 +537,7 @@ Map = {
 	},
 	
 	sierra8 = {
-		type = "Blade",		
+		type = "Blade",
 		msgList= "0,5,7",
 		position = {-70, 30, 550},
 		orientation = 0,

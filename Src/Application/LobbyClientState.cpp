@@ -227,7 +227,8 @@ namespace Application {
 		// la carga avisar al servidor enviando un mensaje tipo MAP_LOADED
 		case Net::LOAD_MAP:
 
-#if _DEBUG	fprintf (stdout, "NET::CLIENT::RX>> LOAD_MAP.\n");
+#if _DEBUG	
+			fprintf (stdout, "NET::CLIENT::RX>> LOAD_MAP.\n");
 #endif			
 			// Cargamos el archivo con las definiciones de las entidades del nivel.
 			if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints_client.txt"))			{
@@ -243,12 +244,14 @@ namespace Application {
 
 			} else { //Avisamos de que hemos terminado la carga.
 
-#if _DEBUG		fprintf (stdout, "NET::CLIENT>> MAPA Cargado.\n"); 
+#if _DEBUG		
+				fprintf (stdout, "NET::CLIENT>> MAPA Cargado.\n"); 
 #endif			
 				Net::NetMessageType txMsg = Net::NetMessageType::MAP_LOADED; // Informamos de carga finalizada
 					Net::CManager::getSingletonPtr()->send(&txMsg, sizeof(txMsg));
 
-#if _DEBUG		fprintf (stdout, "NET::CLIENT::TX>> MAP_LOADED.\n");
+#if _DEBUG		
+				fprintf (stdout, "NET::CLIENT::TX>> MAP_LOADED.\n");
 #endif
 			}
 
@@ -257,7 +260,8 @@ namespace Application {
 		// CARGAR PLAYER
 		case Net::LOAD_PLAYER: { 
 
-#if _DEBUG	fprintf (stdout, "NET::CLIENT::RX>> LOAD_PLAYER.\n");
+#if _DEBUG	
+			fprintf (stdout, "NET::CLIENT::RX>> LOAD_PLAYER.\n");
 #endif
 
 			Net::NetID id;
@@ -281,13 +285,16 @@ namespace Application {
 			Net::NetMessageType msg = Net::PLAYER_LOADED;
 			Net::CManager::getSingletonPtr()->send(&msg, sizeof(msg));
 
-#if _DEBUG	fprintf (stdout, "NET::CLIENT::TX>> PLAYER_LOADED.\n");
+#if _DEBUG	
+			fprintf (stdout, "NET::CLIENT::TX>> PLAYER_LOADED.\n");
 #endif
 		}	break;	
 
 		case Net::START_GAME:
-#if _DEBUG	fprintf (stdout, "NET::CLIENT::RX>> START_GAME.\n");
-#endif		_app->setState("game"); // Rx mensaje START -> game state
+#if _DEBUG	
+			fprintf (stdout, "NET::CLIENT::RX>> START_GAME.\n");
+#endif		
+			_app->setState("game"); // Rx mensaje START -> game state
 			break;
 		}
 
