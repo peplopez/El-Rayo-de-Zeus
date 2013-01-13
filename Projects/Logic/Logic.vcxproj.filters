@@ -138,6 +138,9 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AngularMovement.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\RingStruct.h">
+      <Filter>Entity\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Logic.rc" />

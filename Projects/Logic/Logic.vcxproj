@@ -96,6 +96,7 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AngularMovement.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeController.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\LogicalPosition.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\RingStruct.h" />
     <ClInclude Include="..\..\Src\Logic\Maps\ComponentFactory.h" />
     <ClInclude Include="..\..\Src\Logic\Maps\Documentation.h" />
     <ClInclude Include="..\..\Src\Logic\Maps\EntityFactory.h" />

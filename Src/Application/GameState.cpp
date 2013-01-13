@@ -33,22 +33,33 @@ namespace Application {
 	{
 		CApplicationState::init();
 
+
 		// Cargamos el archivo con las definiciones de las entidades del nivel.
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
+			return false;
+
+		// Cargamos los anillos a partir del nombre del mapa. 
+		if (!Logic::CServer::getSingletonPtr()->setRingPositions())
 			return false;
 
 		// Cargamos el nivel a partir del nombre del mapa. 
 		if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))
 			return false;
 
+
+
 		// Cargamos la ventana que muestra el tiempo de juego transcurrido.
 		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Time.layout");
 		_timeWindow = CEGUI::WindowManager::getSingleton().getWindow("Time");
 
+	
+		
+		
 		return true;
 
 	} // init
 
+	
 	//--------------------------------------------------------
 
 	void CGameState::release() 

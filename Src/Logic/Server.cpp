@@ -16,7 +16,7 @@ la gestión de la lógica del juego.
 #include "Logic/Maps/EntityFactory.h"
 
 #include "Map/MapParser.h"
-
+#include "Logic/Entity/RingStruct.h"
 #include <cassert>
 
 namespace Logic {
@@ -115,6 +115,55 @@ namespace Logic {
 		return false;
 
 	} // loadLevel
+
+	bool CServer::setRingPositions()
+	{
+
+		//inicializamos la estructura de posiciones de los anillos
+		//el primer anillo de la primera base, empezando por abajo, será la base de la pila de anillos
+		//Logic::TLogicalPosition _pos;
+		//_ri
+		
+		for (int i=0;i<=Logic::NUM_BASES;i++)
+		{
+			
+		//	_r
+
+			Logic::base.posBase[i]._down=Logic::startingBasesPosition+i*Logic::separationBetweenBases;
+			Logic::base.posBase[i]._center=base.posBase[i]._down+Logic::separationBetweenRings;
+			Logic::base.posBase[i]._up=base.posBase[i]._down+2*Logic::separationBetweenRings;
+		}
+		return true;
+	}
+
+	Vector3 CServer::getRingPositions(unsigned short base,Logic::LogicalPosition::Ring ring)
+	{
+		Vector3 retorno= Vector3::ZERO;
+			switch (ring)
+			{
+				case Logic::LogicalPosition::ANILLO_INFERIOR:
+				{
+
+					return Logic::base.posBase[base]._down;
+				}
+				case Logic::LogicalPosition::ANILLO_CENTRAL:
+				{
+					return Logic::base.posBase[base]._center;
+				}
+				case Logic::LogicalPosition::ANILLO_SUPERIOR:
+				{
+					return Logic::base.posBase[base]._up;
+				}
+				default:
+					{
+					return Logic::base.posBase[base]._center;
+					//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
+					//pese a todo no pete.
+					}								
+			}
+
+		return retorno;
+	}
 
 	//--------------------------------------------------------
 

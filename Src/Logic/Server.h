@@ -13,6 +13,7 @@ la gestión de la lógica del juego.
 #define __Logic_Server_H
 
 #include <string>
+#include "Logic\Entity\LogicalPosition.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Logic 
@@ -88,6 +89,17 @@ namespace Logic
 		Función que desactiva el mapa en curso.
 		*/
 		void deactivateMap();
+		
+		/**
+		Para inicializar las estructuras que contienen las posiciones de los anillos
+		*/
+		virtual bool setRingPositions();
+
+		/**
+		Para inicializar las estructuras que contienen las posiciones de los anillos
+		*/
+		virtual Vector3 getRingPositions(unsigned short base,Logic::LogicalPosition::Ring ring);
+
 
 		/**
 		Devuelve el mapa lógico del juego.
@@ -157,10 +169,16 @@ namespace Logic
 		*/
 		CMap *_map;
 
+		
 		/**
 		Entidad del jugador.
 		*/
 		CEntity *_player;
+
+		/**
+		Estructura que contiene las posiciones de todos los anillos
+		*/
+		//Logic::TBase *_ringPositions;
 
 	private:
 		/**

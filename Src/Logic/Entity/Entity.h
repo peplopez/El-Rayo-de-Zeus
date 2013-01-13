@@ -287,14 +287,14 @@ namespace Logic
 
 		@param base nueva
 		*/
-		void setBase(const short &base);
+		void setBase(const unsigned short &base);
 
 		/**
 		Devuelve la base de la entidad.
 		
 		@return Base de la entidad en el entorno.
 		*/
-		short getBase() const { return _pos._base; }
+		unsigned short getBase() const { return _pos._base; }
 
 		/**
 		Establece el anillo de la entidad. 
@@ -313,24 +313,24 @@ namespace Logic
 		LogicalPosition::Ring getRing() const { return _pos._ring; }
 
 		/**
-		Devuelve el anillo de la entidad.
+		Devuelve la Y del anillo de la entidad.
 		
 		@return Ring de la entidad en el entorno.
 		*/
 		short getY() const { 
 			switch(_pos._ring)
 			{
-				case 0:
+			case LogicalPosition::Ring::ANILLO_INFERIOR:
 				{
 					return -50;//abajo
 					break;
 				}
-				case 1:
+			case LogicalPosition::Ring::ANILLO_CENTRAL:
 				{
 					return 0;//Centro
 					break;
 				}
-				case 2:
+				case LogicalPosition::Ring::ANILLO_SUPERIOR:
 				{
 					return 50;//arriba
 					break;

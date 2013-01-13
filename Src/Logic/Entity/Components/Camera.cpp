@@ -21,6 +21,7 @@ de una escena.
 
 #include "Graphics/Scene.h"
 #include "Graphics/Camera.h"
+#include "Logic/Entity/LogicalPosition.h"
 
 namespace Logic 
 {
@@ -78,6 +79,11 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
+	void CCamera::changeHeight(const unsigned short &base, const LogicalPosition::Ring &ring)
+	{
+		
+	}
+
 	void CCamera::tick(unsigned int msecs)
 	{
 		if(_target)
@@ -106,7 +112,7 @@ namespace Logic
 			//std::cout<<"vectorcentroprotacamara: "<<vectorCentroProtaCamara<<std::endl;
 		
 			//inercia de la camara
-			_currentPos += ((4*_target->getPosition()+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035;			
+			_currentPos += ((_targetDistance*_target->getPosition()+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035;			
 			_graphicsCamera->setCameraPosition(_currentPos);
 
 			

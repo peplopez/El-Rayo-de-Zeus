@@ -5,7 +5,7 @@ Map ={
 		degrees=60,
 		logicInput=true,
 		ring=0,
-		base=1,
+		base=0,
 		radio=50,
 		static = true,
 	},
@@ -15,7 +15,7 @@ Map ={
 		degrees=180,
 		logicInput=true,
 		ring=0,
-		base=1,
+		base=0,
 		radio=50,
 		static = true,
 	},
@@ -25,7 +25,7 @@ Map ={
 		degrees=300,
 		logicInput=true,
 		ring=0,
-		base=1,
+		base=0,
 		radio=50,
 		static = true,
 	},
@@ -35,7 +35,7 @@ Map ={
 		degrees=36,
 		logicInput=true,
 		ring=1,
-		base=1,
+		base=0,
 		radio=50,
 		static = true,
 	},
@@ -45,7 +45,7 @@ Map ={
 		degrees=108,
 		logicInput=true,
 		ring=1,
-		base=1,
+		base=0,
 		radio=50,
 		static = true,
 	},
@@ -55,7 +55,7 @@ Map ={
 		degrees=180,
 		logicInput=true,
 		ring=1,
-		base=1,
+		base=0,
 		radio=50,
 		static = true,
 	},
@@ -65,7 +65,7 @@ Map ={
 		degrees=252,
 		logicInput=true,
 		ring=1,
-		base=1,
+		base=0,
 		radio=50,
 		static = true,
 	},
@@ -75,7 +75,7 @@ Map ={
 		degrees=324,
 		logicInput=true,
 		ring=1,
-		base=1,
+		base=0,
 		radio=50,
 		static = true,
 	},
@@ -85,7 +85,7 @@ Map ={
 		degrees=60,
 		logicInput=true,
 		ring=2,
-		base=1,
+		base=0,
 		radio=50,
 		static = true,
 	},
@@ -95,7 +95,7 @@ Map ={
 		degrees=180,
 		logicInput=true,
 		ring=2,
-		base=1,
+		base=0,
 		radio=50,
 		static = true,
 	},
@@ -105,17 +105,11 @@ Map ={
 		degrees=300,
 		logicInput=true,
 		ring=2,
-		base=1,
+		base=0,
 		radio=50,
 		static = true,
 	},
-	
-	Tubo = {
-		type = "World",
-		position = {0,-176,0},
-		model = "tubo.mesh",
-		static = true,
-	},
+
 	
 	Barravida1 = {
 		type = "BarraVida",
@@ -123,27 +117,226 @@ Map ={
 		model = "plane.mesh",
 	},
 
-	WorldAbajo = {
+	WorldAbajo0 = {
 		type = "World",
-		position = {0,-176,0},
 		model = "anillo.mesh",
 		static = true,
+		base=0,
+		ring=0,
 	},
 	
-	WorldCentro = {
+	WorldCentro0 = {
 		type = "World",
-		position = {0,-126,0},
 		model = "anillo.mesh",
 		static = true,
+		base=0,
+		ring=1,
 	},
 	
-	WorldArriba = {
+	WorldArriba0= {
 		type = "World",
-		position = {0,-76,0},
 		model = "anillo.mesh",
 		static = true,
+		base=0,
+		ring=2,
 	},
 	
+	WorldAbajo1 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=1,
+		ring=0,
+	},
+	
+	WorldCentro1 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=1,
+		ring=1,
+	},
+	
+	WorldArriba1 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=1,
+		ring=2,
+	},
+
+
+	WorldAbajo2 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=2,
+		ring=0,
+	},
+	
+	WorldCentro2 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=2,
+		ring=1,
+	},
+	
+	WorldArriba2 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=2,
+		ring=2,
+	},
+	
+	WorldAbajo3 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=3,
+		ring=0,
+	},
+	
+	WorldCentro3 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=3,
+		ring=1,
+	},
+	
+	WorldArriba3 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=3,
+		ring=2,
+	},
+
+	
+	WorldAbajo4 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=4,
+		ring=0,
+	},
+	
+	WorldCentro4 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=4,
+		ring=1,
+	},
+	
+	WorldArriba4 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=4,
+		ring=2,
+	},
+	
+	WorldAbajo5 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=5,
+		ring=0,
+	},
+	
+	WorldCentro5 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=5,
+		ring=1,
+	},
+	
+	WorldArriba5 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=5,
+		ring=2,
+	},
+
+	
+	WorldAbajo6 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=6,
+		ring=0,
+	},
+	
+	WorldCentro6 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=6,
+		ring=1,
+	},
+	
+	WorldArriba6 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=6,
+		ring=2,
+	},
+	
+	WorldAbajo7 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=7,
+		ring=0,
+	},
+	
+	WorldCentro7 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=7,
+		ring=1,
+	},
+	
+	WorldArriba7 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=7,
+		ring=2,
+	},
+
+		
+	WorldAbajo8 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=8,
+		ring=0,
+	},
+	
+	WorldCentro8 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=8,
+		ring=1,
+	},
+	
+	WorldArriba8 = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+		base=8,
+		ring=2,
+	},
+
 	PeP = {
 		type = "Player",
 		orientation = 90,
@@ -153,7 +346,7 @@ Map ={
 		angularSpeed = 0.5,
 		defaultAnimation = "Idle",
 		degrees=0,
-		base=1,
+		base=0,
 		ring=1,
 		logicInput=true,
 		sense=0,
@@ -165,11 +358,11 @@ Map ={
 		type = "Camera",
 		distance = 150,
 		height = 13,
-		targetDistance = 0,
+		targetDistance = 50,
 		targetHeight = 7,
 		angularSpeed = 0.5,
 		ring=1,
-		base=1,
+		base=0,
 		degrees=0;
 		sense=0,
 		logicInput=true,
@@ -181,7 +374,7 @@ bioshockLOGICO3 = {
 		life = 100.0,
 		model = "bioshock.mesh",
 		logicInput=true,
-		base=1,
+		base=0,
 		ring=0,
 		degrees=0,
 		radio=60,
@@ -194,7 +387,7 @@ bioshockLOGICO3 = {
 		life = 100.0,
 		model = "bioshock.mesh",
 		logicInput=true,
-		base=1,
+		base=0,
 		ring=0,
 		degrees=150,
 		radio=60,
@@ -211,7 +404,7 @@ bioshockLOGICO3 = {
 		life = 100.0,
 		model = "bioshock.mesh",
 		logicInput=true,
-		base=1,
+		base=0,
 		ring=0,
 		degrees=240,
 		radio=60,
@@ -223,7 +416,7 @@ bioshockLOGICO3 = {
 		life = 100.0,
 		model = "bioshock.mesh",
 		logicInput=true,
-		base=1,
+		base=0,
 		ring=0,
 		angularBox=5,
 		degrees=270,
@@ -235,7 +428,7 @@ bioshockLOGICO3 = {
 		life = 100.0,
 		model = "bioshock.mesh",
 		logicInput=true,
-		base=1,
+		base=0,
 		ring=2,
 		degrees=0,
 		radio=60,
@@ -247,7 +440,7 @@ bioshockLOGICO3 = {
 		life = 100.0,
 		model = "bioshock.mesh",
 		logicInput=true,
-		base=1,
+		base=0,
 		ring=0,
 				angularBox=5,
 		degrees=330,
@@ -261,7 +454,7 @@ bioshockLOGICO3 = {
 		life = 100.0,
 		model = "bioshock.mesh",
 		logicInput=true,
-		base=1,
+		base=0,
 		ring=1,
 		degrees=90,
 		radio=60,
@@ -276,7 +469,7 @@ bioshockLOGICO3 = {
 		life = 100.0,
 		model = "bioshock.mesh",
 		logicInput=true,
-		base=1,
+		base=0,
 		ring=1,
 		degrees=180,
 		radio=60,

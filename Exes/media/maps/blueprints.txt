@@ -1,4 +1,5 @@
 World CGraphics
+SkyBox CGraphics
 Altar CGraphics
 Player  CAnimatedGraphics CAngularMovement CCollider
 Entity CGraphics

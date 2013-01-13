@@ -173,6 +173,8 @@ namespace Application
 		*/
 		virtual bool mouseReleased(const GUI::CMouseState &mouseState);
 
+
+
 	protected:
 
 		/**

@@ -14,7 +14,7 @@ de una escena.
 #define __Logic_Camera_H
 
 #include "Logic/Entity/Component.h"
-
+#include "Logic/Entity/LogicalPosition.h"
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Graphics 
 {
@@ -95,6 +95,17 @@ namespace Logic
 		@param msecs Milisegundos transcurridos desde el último tick.
 		*/
 		virtual void tick(unsigned int msecs);
+		
+		/**
+		Método que lleva la camara a una altura determinada. Se usará en saltos en la propia base, teletransporte a otra base y podría usarse tambien para visualizar otra base.
+
+		<p>
+		Se encarga de mover la cámara siguiendo al jugador.
+
+		@param base short para la base
+		@param ring LogicalPosition::Ring anillo
+		*/
+		virtual void changeHeight(const unsigned short &base, const LogicalPosition::Ring &ring);
 
 	protected:
 		
@@ -132,6 +143,9 @@ namespace Logic
 		altura del punto al que mirará la cámara respecto del suelo o plano XZ.
 		*/
 		float _targetHeight;
+
+
+
 
 	}; // class CCamera
 

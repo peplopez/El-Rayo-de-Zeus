@@ -85,6 +85,14 @@ namespace Logic
 			//_entity
 			//_entity->getenti
 		}
+				if(_entity->getName().compare("Tubo")==0)
+		{	
+			_graphicsEntity->setScale(Vector3(1,10,1));
+			//_graphicsEntity->setMaterial("Verde");
+			//	getEntityNode();
+			//_entity
+			//_entity->getenti
+		}
 
 		
 		if(_entity->getType().compare("AnimatedEntity")==0)

@@ -13,7 +13,7 @@ Contiene el tipo de datos de un mensaje.
 @author Jose Luis López Sánchez
 */
 #pragma once
-
+#ifndef __Logic_LogicalPosition_H
 #define __Logic_LogicalPosition_H
 
 #include <string>
@@ -72,7 +72,7 @@ namespace Logic
 		/**
 			Número de base: 1-8
 		*/
-		short _base;
+		unsigned short _base;
 		/**
 			Grados
 		*/	
@@ -92,3 +92,4 @@ namespace Logic
 
 } // namespace Logic
 
+#endif // __Logic_LogicalPosition_H

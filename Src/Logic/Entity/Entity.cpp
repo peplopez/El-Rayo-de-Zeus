@@ -23,6 +23,7 @@ de juego. Es una colección de componentes.
 #include "GUI/Server.h"
 #include "GUI/PlayerController.h"
 
+
 namespace Logic 
 {
 	CEntity::CEntity(TEntityID entityID) : _entityID(entityID), 
@@ -56,6 +57,7 @@ namespace Logic
 		if(entityInfo->hasAttribute("name"))
 			_name = entityInfo->getStringAttribute("name");
 
+		
 
 		if(entityInfo->hasAttribute("logicInput"))
 			_logicInput = entityInfo->getBoolAttribute("logicInput");
@@ -164,21 +166,61 @@ namespace Logic
 			}
 		else
 			{
-			if(entityInfo->hasAttribute("position"))
-				{
-					Vector3 position = entityInfo->getVector3Attribute("position");
-					_transform.setTrans(position);
-				}
-		}
+					Vector3 position =Vector3::ZERO;
+					if (this->getType().compare("World")==0)
+					{			
+						if(entityInfo->hasAttribute("base"))					
+							_pos._base = entityInfo->getIntAttribute("base");
+						if(entityInfo->hasAttribute("ring"))
+						{
+							switch (entityInfo->getIntAttribute("ring"))
+							{
+								case Logic::LogicalPosition::ANILLO_INFERIOR:
+								{
+									_pos._ring = Logic::LogicalPosition::ANILLO_INFERIOR;									
+									break;
+								}
+								case Logic::LogicalPosition::ANILLO_CENTRAL:
+								{
+									_pos._ring = Logic::LogicalPosition::ANILLO_CENTRAL;
+									break;
+								}
+								case Logic::LogicalPosition::ANILLO_SUPERIOR:
+								{
+									_pos._ring = Logic::LogicalPosition::ANILLO_SUPERIOR;
+									break;
+								}
+								default:
+									{
+									_pos._ring= Logic::LogicalPosition::ANILLO_CENTRAL;
+									//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
+									//pese a todo no pete.
+									}								
+							}
+
+						}
+						position=CServer::getSingletonPtr()->getRingPositions(_pos._base,_pos._ring);						
+						_transform.setTrans(position);
+					}
+					else
+					{
+						if(entityInfo->hasAttribute("position"))
+						{
+							Vector3 position = entityInfo->getVector3Attribute("position");
+							_transform.setTrans(position);
+						}
+					}				
+			}
+		
 		/* arreglamos la orientación */
-		Vector3 centro=Vector3(0,-125,0);
+		/*Vector3 centro=Vector3(0,-125,0);
 		Vector3 vectorCentroEntidad = -(centro-_transform.getTrans());
 		vectorCentroEntidad.normalise();
 		Vector3 actualDirection=Math::getDirection(this->getYaw());
 		Vector3 directionPerp= Vector3::UNIT_Y.crossProduct(vectorCentroEntidad);
 		directionPerp.normalise();
 		Quaternion rotacionDestino=actualDirection.getRotationTo(directionPerp);
-
+		*/
 	//	Matrix4 orientacion = this->getOrientation();
 		if (this->getType().compare("AnimatedEntity")==0)
 		{
@@ -530,74 +572,4 @@ namespace Logic
 		_pos._ring=ring;
 	}
 	
-	
-
-
-	/*
-	bool CEntity::contactoAngular(CEntity* entidad)
-	{
-		if (this==entidad)
-			return false;
-		if (this->getBase()!=entidad->getBase()) 
-			return false;
-		if (this->getRing()!=entidad->getRing()) 
-			return false;
-		if (!this->_logicInput || !entidad->_logicInput)
-			return false;
-		
-		float angleE1=this->getDegree();
-		float angleE2=entidad->getDegree();
-		float angularBoxE1=this->getAngularBox();
-		float angularBoxE2=entidad->getAngularBox();
-		if (angularBoxE2==0)
-			return false;
-		float logicalCenterDistance=abs(angleE1-angleE2);//distancia entre los centros de las entidades
-		if (logicalCenterDistance>180) //
-			logicalCenterDistance=360-logicalCenterDistance;
-
-		float angularBoxAmount=angularBoxE1+angularBoxE2;
-		//if (this->getType().compare("AnimatedEntity")==0)
-		//	int i=0;
-		if (logicalCenterDistance<=angularBoxAmount) //si la distancia de los centros es menor que la suma de los radios hay contacto
-		{
-			
-			return true;
-		
-		}
-			return false;
-	}
-
-		void CEntity::Contacto()
-	{
-		Logic::TMessage m;
-		//_Vida--; si tiene vida se le disminuye, si es un proyectil no tiene vida
-
-		//if (_Vida<=0){	
-			//_entity->getMap()->getScene()->removeEntity(_entity->_gentity);
-			if (this->getType().compare("Player")==0)
-			{
-				
-				m._string="walkBack";
-				m._type = Logic::Message::CONTROL;
-				m._bool=_sentidoColision;
-				this->emitMessage(m,this);				
-				
-				_hit++;
-				m._string="luminoso";
-				m._type = Logic::Message::SET_SHADER;
-				this->emitMessage(m,this);
-			}		
-			if (this->getType().compare("AnimatedEntity")==0)
-			{
-				m._string="walkBack";
-				m._type = Logic::Message::NPC_CONTROL;
-				m._bool=_sentidoColision;
-				this->emitMessage(m,this);			
-
-				_hit++;
-				m._string="luminoso";
-				m._type = Logic::Message::SET_SHADER;
-				_entity->emitMessage(m,this);
-			}
-	}*/
 } // namespace Logic
