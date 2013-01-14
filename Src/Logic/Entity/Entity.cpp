@@ -86,15 +86,6 @@ namespace Logic
 
 	bool CEntity::activate() 
 	{
-		// Si somos jugador, se lo decimos al servidor
-		// y nos registramos para que nos informen
-		// de los movimientos que debemos realizar
-		if (isPlayer())
-		{
-			CServer::getSingletonPtr()->setPlayer(this);
-			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);
-		}
-
 		// Activamos los componentes
 		TComponentList::const_iterator it;
 
@@ -118,11 +109,7 @@ namespace Logic
 		// y evitamos que se nos siga informando de los movimientos que 
 		// debemos realizar
 		if (isPlayer())
-		{
-			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(0);
-			CServer::getSingletonPtr()->setPlayer(0);
-		}
-
+			setIsPlayer(false);
 
 		TComponentList::const_iterator it;
 
@@ -135,7 +122,21 @@ namespace Logic
 	} // deactivate
 
 	//---------------------------------------------------------
+	void CEntity::setIsPlayer(bool isPlayer) 
+	{ 		
+		_isPlayer = isPlayer; 
+		if(_isPlayer) {
+			CServer::getSingletonPtr()->setPlayer(this);
+			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);		
+		} else {
+			if(CServer::getSingletonPtr()->getPlayer() == this)
+				CServer::getSingletonPtr()->setPlayer(0);
+			if(GUI::CServer::getSingletonPtr()->getPlayerController()->getControlledAvatar() == this)
+				GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(0);
+		}
+	} // setIsPlayer
 
+	//---------------------------------------------------------
 	void CEntity::tick(unsigned int msecs) 
 	{
 		TComponentList::const_iterator it;

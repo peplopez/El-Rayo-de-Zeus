@@ -1,12 +1,12 @@
 World CNetConnector CGraphics CPhysicEntity
-Player CNetConnector CAvatarController CAnimatedGraphics CLife CPhysicCharacter
+Player CNetConnector CAnimatedGraphics CAvatarController CLife CPhysicCharacter
 NPC CNetConnector CAnimatedGraphics CLife CPhysicCharacter CSteeringMovement CRouteTo CStateMachineExecutor
-Entity CGraphics
-AnimatedEntity CAnimatedGraphics
+Entity
+AnimatedEntity
 Camera CCamera
 Barril CNetConnector CGraphics CPhysicEntity
 DoorTrigger CSwitchTrigger CPhysicEntity
-Door CNetConnector CGraphics CSwitchPosition
-Blade CNetConnector CAnimatedGraphics CSwitchPosition CDamageTrigger CPhysicEntity
+Door CNetConnector CSwitchPosition
+Blade CNetConnector CSwitchPosition CDamageTrigger CPhysicEntity
 Waypoint
 

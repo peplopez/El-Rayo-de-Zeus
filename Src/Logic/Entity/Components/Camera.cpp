@@ -55,12 +55,13 @@ namespace Logic
 	//---------------------------------------------------------
 
 	bool CCamera::activate()
-	{
-//		_target = CServer::getSingletonPtr()->getPlayer(); UNDONE Por que ya no se usa getPlayer?
-		do
-		{
-			_target = _entity->getMap()->getEntityByType("Player",_target);
-		}while(!_target->isPlayer());
+	{		
+		_target = CServer::getSingletonPtr()->getPlayer(); 
+
+		if(!_target) {			
+			// UNDONE _entity->setIsPlayer(true); // Activamos cámara como player -> manejar cámara -> TODO crear un CamaraController
+			_target = CServer::getSingletonPtr()->getMap()->getEntityByType("Player");
+		}
 
 		return true;
 
@@ -82,16 +83,17 @@ namespace Logic
 
 		if(_target)
 		{
-			// Actualizamos la posición de la cámara.
-			Vector3 position = _target->getPosition();
-			Vector3 direction = -_distance * Math::getDirection(_target->getOrientation());
-			direction.y = _height;
-			_graphicsCamera->setCameraPosition(position + direction);
+			Vector3 targetPos = _target->getPosition();
 
-			// Y la posición hacia donde mira la cámara.
-			direction = _targetDistance * Math::getDirection(_target->getOrientation());
-			direction.y = _targetHeight;
-			_graphicsCamera->setTargetCameraPosition(position + direction);
+			// Actualizamos la posición de la cámara.
+			Vector3 offset = -_distance * Math::getDirection(_target->getOrientation()); // Offset desde detrás del jugador
+				offset.y = _height;
+			_graphicsCamera->setCameraPosition(targetPos + offset);
+
+			// Y la posición hacia donde mira la cámara 
+				offset = _targetDistance * Math::getDirection(_target->getOrientation()); // Offset hacia delante del player
+				offset.y = _targetHeight;
+			_graphicsCamera->setTargetCameraPosition(targetPos + offset);
 		}
 
 	} // tick

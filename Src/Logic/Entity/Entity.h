@@ -195,7 +195,7 @@ namespace Logic
 		
 		@return true si la entidad es el jugador.
 		*/
-		void setIsPlayer(bool isPlayer) { _isPlayer = isPlayer; }
+		void setIsPlayer(bool isPlayer);
 
 		/**
 		Devuelve el mapa donde está la entidad.

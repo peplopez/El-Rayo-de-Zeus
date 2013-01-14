@@ -274,7 +274,7 @@ namespace Application {
 
 					// TODO Llamar al método de creación del jugador. Deberemos decidir
 					// si el jugador es el jugador local. Al ser el servidor ninguno lo es
-					Logic::CServer::getSingletonPtr()->getMap()->createPlayer(name, true);
+					Logic::CServer::getSingletonPtr()->getMap()->createPlayer(name, false);
 					// HACK Deberíamos poder propocionar caracteríasticas
 					// diferentes según el cliente (nombre, modelo, etc.). Esto es una
 					// aproximación, solo cambiamos el nombre y decimos si es el jugador

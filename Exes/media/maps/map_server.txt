@@ -13,7 +13,7 @@ Map = {
 		physic_normal = { 0, 1, 0 },
 		physic_file = "media/models/laberinto-fisico.xml",
 	},
-
+	
 	PlayerSpawn = {
 		type = "PlayerSpawn",
 		msgList= "0,1,2",
@@ -52,10 +52,10 @@ Map = {
 	
 	Camera = {
 		type = "Camera",
-		distance = 20,
-		height = 13,
-		targetDistance = 10,
-		targetHeight = 7,
+		distance = 0,
+		height = 200,
+		targetDistance = 1,
+		targetHeight = 0,
 	},
 	
 	Barril1 = {
