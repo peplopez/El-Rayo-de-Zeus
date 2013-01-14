@@ -289,9 +289,9 @@ namespace Logic {
 		// entidades y se le dice si es o no el jugador local (con setIsPlayer())
 		// Para que no salgan todos los jugadores unos encima de otros podemos
 		// cambiar la posición de éstos.
-		string models[4] = {"loco.mesh", "marine.mesh", "AttaObrera.mesh", "bioshock.mesh"};
+		string models[6] = {"AttaSoldada.mesh", "aranna.mesh", "loco.mesh", "marine.mesh", "AttaObrera.mesh", "bioshock.mesh"};
 
-		_playerInfo->setAttribute("model", models[rand()%4] );
+		_playerInfo->setAttribute("model", models[rand()%6] );
 		_playerInfo->setName(name);			
 		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createEntity(_playerInfo, this);
 			newPlayer->setIsPlayer(isLocalPlayer);
