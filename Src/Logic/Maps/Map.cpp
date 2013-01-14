@@ -295,7 +295,7 @@ namespace Logic {
 		_playerInfo->setName(name);			
 		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createEntity(_playerInfo, this);
 			newPlayer->setIsPlayer(isLocalPlayer);
-			newPlayer->setPosition( newPlayer->getPosition() + (rand()%10) * Vector3(1, 0, 0) );
+			newPlayer->setPosition( newPlayer->getPosition() + (rand()%100-50) * Vector3(1, 0, 1) );
 			//newPlayer->setPosition TODO cambiar posicion para que no salgan unos encima de otros		
 
 		// TODO Elegir también malla y usarlo en la parte de IA
