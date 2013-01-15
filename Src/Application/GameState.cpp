@@ -37,6 +37,10 @@ namespace Application {
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
 			return false;
 
+		// Cargamos el archivo con las definiciones de los archetypes
+		if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes.txt"))
+			return false;
+
 		// Cargamos el nivel a partir del nombre del mapa. 
 		if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))
 			return false;

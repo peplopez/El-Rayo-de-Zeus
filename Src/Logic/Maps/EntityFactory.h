@@ -97,6 +97,11 @@ namespace Logic
 		void unloadBluePrints();
 
 		/**
+		Pendiente
+		*/
+		bool loadArchetypes(const std::string &filename);
+
+		/**
 		Crea una nueva entidad de juego en un mapa determinado a partir de
 		su descripción en base a los componentes que necesita debido
 		a su naturaleza según lo leído en el/los archivo/s blueprint.
@@ -183,6 +188,8 @@ namespace Logic
 
 		}TBluePrint;
 
+
+
 	protected:
 
 		/**
@@ -248,6 +255,17 @@ namespace Logic
 		Tabla donde se almacenan las entidades blueprint por nombre.
 		*/
 		TBluePrintMap _bluePrints;
+
+		/**
+		Tipo tabla no ordenada (acceso por clave mas rápido), para almacenar los archetypes con valores predefinidos.
+		*/
+		typedef std::map<std::string,Map::CEntity> TArchetypeMap;
+
+		/**
+		Tabla donde se almacenan las entidades archetype.
+		*/
+		TArchetypeMap _archetypes;
+
 
 	}; // CEntityFactory
 

@@ -15,6 +15,7 @@ del juego.
 #include "Map.h"
 
 #include "Map/MapEntity.h"
+#include "Map/MapParser.h"
 
 #include <iostream>
 #include <fstream>
@@ -22,6 +23,7 @@ del juego.
 
 // HACK. Debería leerse de algún fichero de configuración
 #define BLUEPRINTS_FILE_PATH "./media/maps/"
+#define ARCHETYPES_FILE_PATH "./media/maps/"
 
 /**
 Sobrecargamos el operador >> para la lectura de blueprints.
@@ -155,8 +157,44 @@ namespace Logic
 		_bluePrints.clear();
 
 	} // unloadBluePrints
+
+	//---------------------------------------------------------
+
+	typedef std::pair<std::string,Map::CEntity> TStringCEntityPair;
+
+	bool CEntityFactory::loadArchetypes(const std::string &filename)
+	{
+		// Completamos la ruta con el nombre proporcionado
+		std::string completePath(ARCHETYPES_FILE_PATH);
+		completePath = completePath + filename;
+
+		if(!Map::CMapParser::getSingletonPtr()->parseFile(completePath))
+		{
+			assert(!"No se ha podido parsear el archetypes.");
+			return false;
+		}
+
+		// Extraemos las entidades del parseo.
+		Map::CMapParser::TEntityList entityList = 
+			Map::CMapParser::getSingletonPtr()->getEntityList();
+
+		Map::CMapParser::TEntityList::const_iterator it, end;
+		it = entityList.begin();
+		end = entityList.end();
+
+		for (; it != end; it++) 
+		{
+			Map::CEntity *entity = (*it);
+			TStringCEntityPair elem(entity->getType(), (*entity));
+			_archetypes.insert(elem);
+			entity = NULL;
+		}
+		return true;
+
+	} // loadArchetypes
 	
 	//---------------------------------------------------------
+
 
 	Logic::CEntity *CEntityFactory::assembleEntity(const std::string &type) 
 	{
