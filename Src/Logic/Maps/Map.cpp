@@ -290,12 +290,13 @@ namespace Logic {
 		// Para que no salgan todos los jugadores unos encima de otros podemos
 		// cambiar la posición de éstos.
 		string models[6] = {"AttaSoldada.mesh", "aranna.mesh", "loco.mesh", "marine.mesh", "AttaObrera.mesh", "bioshock.mesh"};
-
+				
 		_playerInfo->setAttribute("model", models[rand()%6] );
 		_playerInfo->setName(name);			
+
 		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createEntity(_playerInfo, this);
 			newPlayer->setIsPlayer(isLocalPlayer);
-			newPlayer->setPosition( newPlayer->getPosition() + (rand()%100-50) * Vector3(1, 0, 1) );
+			newPlayer->setPosition( newPlayer->getPosition() + (rand()%50-25) * Vector3(1, 0, 1) );
 			//newPlayer->setPosition TODO cambiar posicion para que no salgan unos encima de otros		
 
 		// TODO Elegir también malla y usarlo en la parte de IA
