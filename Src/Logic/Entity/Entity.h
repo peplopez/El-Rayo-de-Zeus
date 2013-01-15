@@ -317,27 +317,7 @@ namespace Logic
 		
 		@return Ring de la entidad en el entorno.
 		*/
-		short getY() const { 
-			switch(_pos._ring)
-			{
-			case LogicalPosition::Ring::ANILLO_INFERIOR:
-				{
-					return -50;//abajo
-					break;
-				}
-			case LogicalPosition::Ring::ANILLO_CENTRAL:
-				{
-					return 0;//Centro
-					break;
-				}
-				case LogicalPosition::Ring::ANILLO_SUPERIOR:
-				{
-					return 50;//arriba
-					break;
-				}
-		}
-	
-		}
+		const float getY(const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
 		/**
 		Establece el radio sobre el que se mueve la entidad. 
@@ -457,9 +437,7 @@ namespace Logic
 
 		const Map::CEntity* getEntityInfo() {return _entityInfo; }
 
-		//bool contactoAngular(CEntity* entidad);
-
-		//void Contacto();
+		const Vector3 fromLogicalToCartesian(const float grados, const float radio, const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
 	protected:
 

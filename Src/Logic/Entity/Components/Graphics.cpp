@@ -87,7 +87,7 @@ namespace Logic
 		}
 				if(_entity->getName().compare("Tubo")==0)
 		{	
-			_graphicsEntity->setScale(Vector3(1,10,1));
+			_graphicsEntity->setScale(Vector3(2,10,2));
 			//_graphicsEntity->setMaterial("Verde");
 			//	getEntityNode();
 			//_entity

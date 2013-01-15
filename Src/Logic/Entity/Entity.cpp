@@ -55,9 +55,7 @@ namespace Logic
 		Vector3 posicion=Vector3::ZERO;	
 		
 		if(entityInfo->hasAttribute("name"))
-			_name = entityInfo->getStringAttribute("name");
-
-		
+			_name = entityInfo->getStringAttribute("name");		
 
 		if(entityInfo->hasAttribute("logicInput"))
 			_logicInput = entityInfo->getBoolAttribute("logicInput");
@@ -90,8 +88,11 @@ namespace Logic
 						}
 			}
 
+			if(entityInfo->hasAttribute("base"))					
+				_pos._base = entityInfo->getIntAttribute("base");
 			// ahora empezamos a hacer la composicion de la posición, calculamos x, z
-			Vector3 posicion=Math::fromPolarToCartesian(_pos._degrees,_pos._radio);
+			Vector3 posicion=Vector3::ZERO;
+				//Math::fromPolarToCartesian(_pos._degrees,_pos._radio);
 
 			if(entityInfo->hasAttribute("ring"))
 			{
@@ -100,35 +101,31 @@ namespace Logic
 					case Logic::LogicalPosition::ANILLO_INFERIOR:
 					{
 						_pos._ring = Logic::LogicalPosition::ANILLO_INFERIOR;
-						posicion.y=-50; // sustituir por una constante
 						break;
 					}
 					case Logic::LogicalPosition::ANILLO_CENTRAL:
 					{
-						_pos._ring = Logic::LogicalPosition::ANILLO_CENTRAL;
-						posicion.y=0; // sustituir por una constante
+						_pos._ring = Logic::LogicalPosition::ANILLO_CENTRAL;				
 						break;
 					}
 					case Logic::LogicalPosition::ANILLO_SUPERIOR:
 					{
 						_pos._ring = Logic::LogicalPosition::ANILLO_SUPERIOR;
-						posicion.y=50; // sustituir por una constante
 						break;
 					}
 					default:
 						{
-						_pos._ring= Logic::LogicalPosition::ANILLO_CENTRAL;
-						posicion.y=0;
+						_pos._ring= Logic::LogicalPosition::ANILLO_CENTRAL;			
 						//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
 						//pese a todo no pete.
 						}
 			}
-
+			//	posicion=CServer::getSingletonPtr()->getRingPositions(_pos._base,_pos._ring);
+				posicion=this->fromLogicalToCartesian(_pos._degrees,_pos._radio,_pos._base,_pos._ring);
 			}
 
 
-			if(entityInfo->hasAttribute("base"))					
-				_pos._base = entityInfo->getIntAttribute("base");
+
 
 			if(entityInfo->hasAttribute("angularBox"))					
 				_pos._angularBox = entityInfo->getFloatAttribute("angularBox");
@@ -164,7 +161,7 @@ namespace Logic
 			_transform.setTrans(posicion);
 
 			}
-		else
+		else//logicInput=false
 			{
 					Vector3 position =Vector3::ZERO;
 					if (this->getType().compare("World")==0)
@@ -313,6 +310,25 @@ namespace Logic
 	} // deactivate
 
 	//---------------------------------------------------------
+
+	 const Vector3 CEntity::fromLogicalToCartesian(const float grados, const float radio, const unsigned short base, const Logic::LogicalPosition::Ring ring)
+	 {
+		 
+		 Vector3 resultado=Vector3::ZERO;
+		 resultado=Math::fromPolarToCartesian(grados, radio);
+		 resultado.y=CServer::getSingletonPtr()->getRingPositions(base,ring).y+126;
+		 return resultado;
+	 }
+
+	 const float CEntity::getY(const unsigned short base, const Logic::LogicalPosition::Ring ring)
+	  { 		    
+			//en el caso de que NO esté saltando
+			Vector3 position=Vector3::ZERO;
+			position=CServer::getSingletonPtr()->getRingPositions(base,ring);	
+			return position.y;
+
+			//TODO en el caso de que esté saltando
+	  }
 
 	void CEntity::tick(unsigned int msecs) 
 	{

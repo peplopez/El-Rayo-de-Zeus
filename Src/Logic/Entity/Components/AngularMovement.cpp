@@ -299,15 +299,24 @@ namespace Logic
 			}
 
 			direction.normalise();
+			_entity->getPosition();
 			//_entity->setDegree(_actualDegree);
 			//_entity->setRadio(_actualRadius);
 
-			// std::cout<<"PlayerDegree: "<<_entity->getDegree()<<std::endl;
-			Vector3  newPosition= Math::fromPolarToCartesian(_entity->getDegree(),_entity->getRadio());
 			
-			newPosition.y=_entity->getY();
+			// std::cout<<"PlayerDegree: "<<_entity->getDegree()<<std::endl;
+			/*Vector3  newPosition=Vector3();
+			if (_entity->getType().compare("Player")==0)
+			newPosition= _entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getRadio(),_entity->getBase(),_entity->getRing());
+			else	
+			newPosition= _entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getRadio(),_entity->getBase(),_entity->getRing());
+			*/
+			Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getRadio(),_entity->getBase(),_entity->getRing());
+			
+			//newPosition.y=_entity->getY();
 			_entity->setPosition(newPosition);
-		
+			direction.normalise();
+			
 		}
 		
 		}
