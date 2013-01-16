@@ -3,3 +3,4 @@ Player CAvatarController CAnimatedGraphics
 Entity CGraphics
 AnimatedEntity CAnimatedGraphics
 Camera CCamera
+Puerta CAnimatedGraphics

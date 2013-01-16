@@ -44,102 +44,73 @@ Map = {
 	},
 
 	puerta1 = {
-		type = "AnimatedEntity",
+		type = "Puerta",
 		position = {0, 0, 180},
 		orientation = 0,
-		life = 100.0,
-		model = "puerta.mesh",
-		defaultAnimation = "puerta",
 	},
 	
 	puerta2 = {
-		type = "AnimatedEntity",
+		type = "Puerta",
 		position = {0, 0, 300},
 		orientation = 0,
-		life = 100.0,
-		model = "puerta.mesh",
-		defaultAnimation = "puerta",
 	},
 
 	puerta3 = {
-		type = "AnimatedEntity",
+		type = "Puerta",
 		position = {110, 0, 420},
 		orientation = 90,
-		life = 100.0,
-		model = "puerta.mesh",
-		defaultAnimation = "puerta",
 	},
 	
 	puerta4 = {
-		type = "AnimatedEntity",
+		type = "Puerta",
 		position = {130, 0, 450},
 		orientation = 0,
-		life = 100.0,
-		model = "puerta.mesh",
-		defaultAnimation = "puerta",
 	},
 	
 	puerta5 = {
-		type = "AnimatedEntity",
+		type = "Entity",
 		position = {0, 0, 750},
 		orientation = 90,
 		life = 100.0,
 		model = "puerta.mesh",
-
 	},
 	
 	puerta6 = {
-		type = "AnimatedEntity",
+		type = "Puerta",
 		position = {-50, 0, 350},
 		orientation = 90,
-		life = 100.0,
-		model = "puerta.mesh",
-		defaultAnimation = "puerta",
 	},		
 	
 	puerta7 = {
-		type = "AnimatedEntity",
+		type = "Puerta",
 		position = {-30, 0, 400},
 		orientation = 0,
-		life = 100.0,
-		model = "puerta.mesh",
-		defaultAnimation = "puerta",
 	},	
 	
 	puerta8 = {
-		type = "AnimatedEntity",
+		type = "Puerta",
 		position = {-150, 0, 320},
 		orientation = 0,
-		life = 100.0,
-		model = "puerta.mesh",
-		defaultAnimation = "puerta",
 	},	
 	
 	puerta9 = {
-		type = "AnimatedEntity",
+		type = "Puerta",
 		position = {-210, 0, 320},
 		orientation = 0,
-		life = 100.0,
-		model = "puerta.mesh",
-		defaultAnimation = "puerta",
 	},	
 	
 	puerta10 = {
-		type = "AnimatedEntity",
+		type = "Puerta",
 		position = {-70, 0, 630},
 		orientation = 0,
-		life = 100.0,
-		model = "puerta.mesh",
-		defaultAnimation = "puerta",
 	},
 	
 	puerta11 = {
-		type = "AnimatedEntity",
+		type = "Entity",
 		position = {-150, 0, 750},
 		orientation = 90,
 		life = 100.0,
 		model = "puerta.mesh",
-
 	},	
 	
 	sierra1 = {
@@ -152,7 +123,7 @@ Map = {
 	},
 	
 	sierra2 = {
-		type = "AnimatedEntity",
+		type = "Puerta",
 		position = {220, 0, 430},
 		orientation = 0,
 		life = 100.0,
