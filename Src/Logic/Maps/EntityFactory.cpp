@@ -233,11 +233,24 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
+	typedef std::map<std::string, std::string> TAttrList;
 
 	Logic::CEntity *CEntityFactory::createEntity(
-								const Map::CEntity *entityInfo,
+								Map::CEntity *entityInfo,
 								Logic::CMap *map)
 	{
+		
+		TArchetypeMap::const_iterator it = _archetypes.find(entityInfo->getType());
+
+		
+		//Si encuentra el archetype de ese tipo, fusiono con él en entityInfo
+		if (it != _archetypes.end())
+		{
+			entityInfo->mergeWithArchetype(it->second);
+			
+		}
+		
+
 		CEntity *ret = assembleEntity(entityInfo->getType());
 
 		if (!ret)
@@ -245,6 +258,7 @@ namespace Logic
 
 		// Añadimos la nueva entidad en el mapa antes de inicializarla.
 		map->addEntity(ret);
+
 
 		// Y lo inicializamos
 		if (ret->spawn(map, entityInfo))

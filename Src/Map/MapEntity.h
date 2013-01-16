@@ -40,9 +40,15 @@ namespace Map
 	*/
 	class CEntity 
 	{
+
+	/**
+	Tipo lista de CEntity donde guardaremos los pendientes de borrar.
+	*/
+	typedef std::map<std::string, std::string> TAttrList;
+
 	public:
 
-		/** 
+		/**
 		Constructor de la clase.
 		*/
 		CEntity(const std::string &name) : _type(""), _name(name) {}
@@ -151,12 +157,25 @@ namespace Map
 		*/
 		void setName(const std::string &name) {_name = name;}
 
-	protected:
+		/**
+		Agrega en la lista de atributos de la entidad aquellos que no
+		tenga definidos pero que si tenga la entidad pasada como parametro (el archetype)
+
+		@param  archetype a fusionar
+		*/
+
+		void mergeWithArchetype(const CEntity &archetype);
+
 
 		/**
-		Tipo lista de CEntity donde guardaremos los pendientes de borrar.
+		Devuelve un mapa con la lista de pares (atributo,valor) de la entidad
 		*/
-		typedef std::map<std::string, std::string> TAttrList;
+
+		const TAttrList& getAtributes() const {return _attributes;}
+
+	
+
+	protected:
 
 		/**
 		Atributos de la entidad.
@@ -172,6 +191,8 @@ namespace Map
 		Nombre de la entidad.
 		*/
 		std::string _name;
+
+
 
 	}; // CEntity
 

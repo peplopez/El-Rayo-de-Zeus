@@ -117,7 +117,7 @@ namespace Logic
 		@note Las entidades aquí creadas pueden eliminarse al final del 
 		juego o bien utilizando deferredDeleteEntity.
 		*/
-		CEntity *createEntity(const Map::CEntity *entityInfo,
+		CEntity *createEntity(Map::CEntity *entityInfo,
 							  CMap *map);
 
 		/**
@@ -257,7 +257,7 @@ namespace Logic
 		TBluePrintMap _bluePrints;
 
 		/**
-		Tipo tabla no ordenada (acceso por clave mas rápido), para almacenar los archetypes con valores predefinidos.
+		Tipo mapa ordenado (no disponsible unordered_map :_( ), para almacenar los archetypes con valores predefinidos.
 		*/
 		typedef std::map<std::string,Map::CEntity> TArchetypeMap;
 
