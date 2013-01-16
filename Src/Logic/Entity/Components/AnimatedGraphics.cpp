@@ -19,6 +19,13 @@ gráfica de una entidad estática.
 
 #include "Graphics/Scene.h"
 
+#define DEBUG 0
+#if DEBUG
+#define LOG(msg) printf("LOGIC::ANIMATED_GRAPHICS>> %s\n", ( (std::string) msg).c_str() );
+#else
+#define LOG(msg)
+#endif
+
 namespace Logic 
 {
 	IMP_FACTORY(CAnimatedGraphics);
@@ -64,7 +71,7 @@ namespace Logic
 	void CAnimatedGraphics::process(const TMessage &message)
 	{
 		CGraphics::process(message);
-
+		
 		switch(message._type)
 		{
 		case Message::SET_ANIMATION:
@@ -73,9 +80,11 @@ namespace Logic
 			// de animaciones. Galeon no lo plantea.
 			_animatedGraphicsEntity->stopAllAnimations();
 			_animatedGraphicsEntity->setAnimation(message._string,message._bool);
+			LOG("SET_ANIMATION: " + message._string);
 			break;
 		case Message::STOP_ANIMATION:
 			_animatedGraphicsEntity->stopAnimation(message._string);
+			LOG("STOP_ANIMATION: " + message._string);
 			break;
 		}
 

@@ -181,7 +181,7 @@ namespace Net {
 		assert(_connections.empty() && "Ya hay una conexion"); // Capamos al cliente a 1 conexión max: la de con el server
 
 		CConexion* connection = _clienteRed->connect(address, port, channels,timeout); // CONNECT
-
+		
 		// Almacenamos esa conexión y le otorgamos un ID de red
 		connection->setId(Net::ID::SERVER); // Un cliente sólo se conecta al SERVER
 		addConnection(Net::ID::SERVER, connection); // Guardamos en la tabla

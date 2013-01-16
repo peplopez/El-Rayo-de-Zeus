@@ -66,6 +66,8 @@ namespace Graphics
 			{
 				animation = it.getNext();
 				animation->setEnabled(false);
+				if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
+					animation->setTimePosition(0);  // De lo contrario, no dejan de lanzar el evento finished a los observers
 			}
 
 			// Si había animación activa ya no lo está.

@@ -105,7 +105,7 @@ namespace Logic
 		// Cambiamos la animación
 		TMessage message;
 		message._type = Message::SET_ANIMATION;
-		message._string = "Walk";
+		message._string = "RunUzi";
 		message._bool = true;
 		_entity->emitMessage(message,this);
 
@@ -120,7 +120,7 @@ namespace Logic
 		// Cambiamos la animación
 		TMessage message;
 		message._type = Message::SET_ANIMATION;
-		message._string = "WalkBack";
+		message._string = "WalkBackAK47";
 		message._bool = true;
 		_entity->emitMessage(message,this);
 
@@ -138,7 +138,7 @@ namespace Logic
 		{
 			TMessage message;
 			message._type = Message::SET_ANIMATION;
-			message._string = "Idle";
+			message._string = "IdleKatana";
 			message._bool = true;
 			_entity->emitMessage(message,this);
 		}
@@ -203,7 +203,7 @@ namespace Logic
 		{
 			TMessage message;
 			message._type = Message::SET_ANIMATION;
-			message._string = "Idle";
+			message._string = "IdleKatana";
 			message._bool = true;
 			_entity->emitMessage(message,this);
 		}

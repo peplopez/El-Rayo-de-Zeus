@@ -41,7 +41,7 @@ namespace Logic {
 		{
 			assert(!"No se ha podido parsear el mapa.");
 			return false;
-		}
+		} 
 
 		// Si se ha realizado con éxito el parseo creamos el mapa.
 		CMap *map = new CMap(filename);
@@ -289,9 +289,10 @@ namespace Logic {
 		// entidades y se le dice si es o no el jugador local (con setIsPlayer())
 		// Para que no salgan todos los jugadores unos encima de otros podemos
 		// cambiar la posición de éstos.
-		string models[6] = {"AttaSoldada.mesh", "aranna.mesh", "loco.mesh", "marine.mesh", "AttaObrera.mesh", "bioshock.mesh"};
-				
-		_playerInfo->setAttribute("model", models[rand()%6] );
+		string models[] = {"loco.mesh", "marine.mesh"};//, "AttaObrera.mesh", "bioshock.mesh","AttaSoldada.mesh", "aranna.mesh"};
+		int nModels = sizeof(models)/sizeof(string);
+
+		_playerInfo->setAttribute("model", models[rand() % nModels] );
 		_playerInfo->setName(name);			
 
 		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createEntity(_playerInfo, this);
