@@ -66,7 +66,7 @@ namespace GUI {
 			switch(key.keyId)
 			{
 			case GUI::Key::W:
-				//m._string = "walk";
+				m._string = "jump"; // Pablo
 				break;
 			case GUI::Key::S:
 				//m._string = "walkBack";

@@ -42,11 +42,13 @@ namespace Logic
 		{
 			_walkingLeft=false;
 			_walkingRight=true;
+			_jumping = false; // Pablo
 		}
 		else
 		{
 			_walkingLeft=true;
 			_walkingRight=false;
+			_jumping = false; // Pablo
 		}
 		 //_actualRadius=
 		 //if (_entity->getType().compare("Player")==0)
@@ -83,6 +85,8 @@ namespace Logic
 				walkRight();
 			else if(!message._string.compare("walkStop"))
 				stopMovement();
+			else if(!message._string.compare("jump")) // Pablo
+				jump();
 			else if(!message._string.compare("walkBack"))
 				 {	
 					_sentidoColision=message._bool;
@@ -146,6 +150,25 @@ namespace Logic
 			TMessage message;
 			message._type = Message::SET_ANIMATION;
 			message._string = "Run";
+			message._bool = true;
+			_entity->emitMessage(message,this);
+
+		}
+
+		// Pablo
+		void CAngularMovement::jump()
+		{
+			_jumping = true;
+
+			// Cambiamos la animación
+			if(_walkingLeft)
+			  _entity->setSense(LogicalPosition::DERECHA);
+			if(_walkingRight)
+			  _entity->setSense(LogicalPosition::IZQUIERDA);
+
+			TMessage message;
+			message._type = Message::SET_ANIMATION;
+			message._string = "Jump";
 			message._bool = true;
 			_entity->emitMessage(message,this);
 
@@ -217,9 +240,9 @@ namespace Logic
 	
 
 
-		void CAngularMovement::tick(unsigned int msecs)
+	void CAngularMovement::tick(unsigned int msecs)
 	{
-			IComponent::tick(msecs);
+		IComponent::tick(msecs);
 
 		// Si nos estamos desplazando calculamos la próxima posición
 		// Calculamos si hay vectores de dirección de avance y strafe,
@@ -227,10 +250,18 @@ namespace Logic
 		// velocidad y el tiempo transcurrido.
 	
 
-			//if (!_entity->isPlayer())
+		//if (!_entity->isPlayer())
 
 
-	     Vector3 direction(Vector3::ZERO);
+	    Vector3 direction(Vector3::ZERO);
+
+		//Pablo
+		/*
+		if(_jumping)
+		{
+			direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
+		}
+		else if(_walkingLeft || _walkingRight) */
 		if(_walkingLeft || _walkingRight)
 		{
 			if(_walkingLeft || _walkingRight)
@@ -238,6 +269,7 @@ namespace Logic
 				direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
 				//Matrix4 orientacion = _entity->getOrientation();
 				//Math::yaw(Math::fromDegreesToRadians(_actualDegree),orientacion);
+				//SI ANDA A LA DERECHA
 				if(_walkingRight){
 					if(_sentidoDerecha==true)
 					{
@@ -252,7 +284,7 @@ namespace Logic
 						_entity->yaw(Math::fromDegreesToRadians(_angularSpeed));
 					}
 				}
-				else
+				else //SI ANDA A LA IZQUIERDA
 				{
 					if(_sentidoDerecha==false)
 					{
@@ -271,7 +303,7 @@ namespace Logic
 				//turn(Math::PI/2);			
 				//_entity->setOrientation(
 				if (_walkBack)
-					{
+				{
 						stopMovement();   
 						_walkBack=false;
 
@@ -293,7 +325,7 @@ namespace Logic
 						_entity->emitMessage(m);*/
 						_sentidoColision=false;
 						
-					}
+				}
 				if(_walkingLeft)
 					direction *= -1;
 			}
@@ -317,13 +349,13 @@ namespace Logic
 			_entity->setPosition(newPosition);
 			direction.normalise();
 			
-		}
+		} // fin del if(_walkingLeft || _walkingRight)
 		
-		}
+	} //fin del CAngularMovement::tick
 
-		void CAngularMovement::turn(float amount)
-		{
-				_entity->yaw(amount);		
-		}
+	void CAngularMovement::turn(float amount)
+	{
+		_entity->yaw(amount);		
+	}
 
 } // namespace Logic

@@ -41,8 +41,9 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
+		// Pablo. Añadido la inicialización de _jumping
 		CAngularMovement() : IComponent(),_sentidoColision(false),_walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false),_goingDown(false),
-			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90){}
+			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90), _jumping(false){}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -122,6 +123,12 @@ namespace Logic
 		Provoca que la entidad avance a la izquierda
 		*/
 		void walkLeft();
+
+		//Pablo
+		/**
+		Provoca que la entidad salte.
+		*/
+		void jump();
 		
 		/**
 		Provoca que la entidad baje de anillo. Conlleva un cambio del eje de giro en su coordenada y
@@ -172,6 +179,13 @@ namespace Logic
 		Atributo para saber si la entidad está avanzando a la izquierda
 		*/
 		bool _walkingLeft;
+
+		// Pablo
+		/**
+		Atributo para saber si la entidad está saltando dentro de un anillo
+		*/
+		bool _jumping;
+
 		/**
 			Atributo para saber si la entidad está bajando de anillo
 		*/
