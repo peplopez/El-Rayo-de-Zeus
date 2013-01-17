@@ -96,10 +96,14 @@ namespace Logic
 		virtual bool setRingPositions();
 
 		/**
-		Para inicializar las estructuras que contienen las posiciones de los anillos
+		Para obtener un Vector3 con la posición del anillo
 		*/
 		virtual Vector3 getRingPositions(unsigned short base,Logic::LogicalPosition::Ring ring);
 
+		/**
+		Para obtener un float con el radio de un anillo pasado por parámetro
+		*/		
+		virtual float getRingRadio(unsigned short base,Logic::LogicalPosition::Ring ring);
 
 		/**
 		Devuelve el mapa lógico del juego.

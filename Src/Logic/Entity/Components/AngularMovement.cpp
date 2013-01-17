@@ -131,7 +131,7 @@ namespace Logic
 			_entity->setSense(LogicalPosition::DERECHA);
 			TMessage message;
 			message._type = Message::SET_ANIMATION;
-			message._string = "Run";
+			message._string = "RunKatana";
 			message._bool = true;
 			_entity->emitMessage(message,this);
 
@@ -145,7 +145,7 @@ namespace Logic
 			_entity->setSense(LogicalPosition::IZQUIERDA);
 			TMessage message;
 			message._type = Message::SET_ANIMATION;
-			message._string = "Run";
+			message._string = "RunKatana";
 			message._bool = true;
 			_entity->emitMessage(message,this);
 
@@ -157,7 +157,7 @@ namespace Logic
 			// Cambiamos la animación
 			TMessage message;
 			message._type = Message::SET_ANIMATION;
-			message._string = "Idle";
+			message._string = "IdleKatana";
 			message._bool = true;
 			_entity->emitMessage(message,this);
 		}
@@ -178,7 +178,7 @@ namespace Logic
 		
 			TMessage message;
 			message._type = Message::SET_ANIMATION;
-			message._string = "Idle";
+			message._string = "IdleKatana";
 			message._bool = true;
 			_entity->emitMessage(message,this);
 		}
@@ -311,7 +311,7 @@ namespace Logic
 			else	
 			newPosition= _entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getRadio(),_entity->getBase(),_entity->getRing());
 			*/
-			Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getRadio(),_entity->getBase(),_entity->getRing());
+			Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
 			
 			//newPosition.y=_entity->getY();
 			_entity->setPosition(newPosition);

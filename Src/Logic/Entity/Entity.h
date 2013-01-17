@@ -319,21 +319,14 @@ namespace Logic
 		*/
 		const float getY(const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
-		/**
-		Establece el radio sobre el que se mueve la entidad. 
-		NO Avisa a los componentes del cambio.
-		Mas adelante vere si es necesario pero creo que no
-
-		@param radio nuevo
-		*/
-		void setRadio(const float &radio);
-
+		
 		/**
 		Devuelve el radio sobre el que se mueve la entidad.
-		
+		NO USAREMOS SET_RADIO, con los cambios de anillo usamos setRing()
 		@return Radio de la entidad en el entorno.
 		*/
-		const float getRadio() const { return _pos._radio; }
+
+		const float getRadio();
 
 
 		/**
@@ -437,7 +430,7 @@ namespace Logic
 
 		const Map::CEntity* getEntityInfo() {return _entityInfo; }
 
-		const Vector3 fromLogicalToCartesian(const float grados, const float radio, const unsigned short base, const Logic::LogicalPosition::Ring ring);
+		const Vector3 fromLogicalToCartesian(const float grados, const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
 	protected:
 

@@ -26,9 +26,13 @@ namespace Logic
 	//si queremos, estas tres constantes pueden ser parametros de entrada, pero al ser algo que no se va a cambiar frecuentemente no hace falta
 	const Vector3 separationBetweenRings=Vector3(0,50,0);
 	const Vector3 separationBetweenBases=Vector3(0,230,0);	
-	const int NUM_BASES=8;
+	const unsigned int NUM_BASES=8;
 	const Vector3 startingBasesPosition=Vector3(0,-176,0);
+	const unsigned short RADIO_MAYOR=73;
+	const unsigned short RADIO_MENOR=58;
 
+
+	
 
 
 	struct Position
