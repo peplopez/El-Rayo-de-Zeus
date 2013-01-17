@@ -44,6 +44,9 @@ namespace Graphics
 			return false;
 		Ogre::AnimationState *animation = _entity->getAnimationState(anim);
 		animation->setEnabled(false);
+		if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
+			animation->setTimePosition(0);  // De lo contrario, no dejan de lanzar el evento finished a los observers
+
 		// Si la animación a parar es la animación activa ya no lo estará.
 		if(animation == _currentAnimation)
 			_currentAnimation = 0;
@@ -78,18 +81,39 @@ namespace Graphics
 
 	//--------------------------------------------------------
 		
+	
+	void CAnimatedEntity::addObserver(IObserver* listener)
+	{
+		_observers.push_back(listener);
+
+	} // addObserver
+
+	//---------------------------------------------------------
+
+	void CAnimatedEntity::removeObserver(IObserver* listener)
+	{
+		for(std::vector<IObserver*>::iterator iter = _observers.begin();iter != _observers.end();++iter)
+			if((*iter)==listener)
+			{
+				_observers.erase(iter);
+				break;
+			}
+	} // removeObserver
+
+	//---------------------------------------------------------
+
 	void CAnimatedEntity::tick(float secs)
 	{
 		if(_currentAnimation)
 		{
 			_currentAnimation->addTime(secs);
-			// Comprobamos si la animación ha terminado para avisar
-			if(_observer && _currentAnimation->hasEnded())
-				_observer->animationFinished
+			
+			if(_currentAnimation->hasEnded()) // Comprobamos si la animación ha terminado para avisar
+				for(std::vector<IObserver*>::iterator iter = _observers.begin();iter != _observers.end();++iter)
+					(*iter)->animationFinished
 							(_currentAnimation->getAnimationName());
 		}
 
 	} // tick
-
 
 } // namespace Graphics

@@ -27,11 +27,18 @@ Contiene la implementación del estado de lobby del servidor.
 #include "net/paquete.h"
 #include "net/buffer.h"
 
-
 #include <CEGUISystem.h>
 #include <CEGUIWindowManager.h>
 #include <CEGUIWindow.h>
 #include <elements/CEGUIPushButton.h>
+
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "APP::SERVER>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 namespace Application {
 
@@ -202,9 +209,8 @@ namespace Application {
 		Net::NetMessageType txMsg = Net::LOAD_MAP; //Enviamos el mensaje de que carguen el mapa a todos los clientes
 			Net::CManager::getSingletonPtr()->send( &txMsg, sizeof(txMsg));
 
-#if _DEBUG
-		fprintf (stdout, "NET::SERVER::TX>> LOAD_MAP.\n");
-#endif	
+		LOG("TX LOAD_MAP");
+
 		// Cargamos el archivo con las definiciones de las entidades del nivel.
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints_server.txt")){
 			CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar el nivel");
@@ -218,9 +224,8 @@ namespace Application {
 			_app->exitRequest();
 
 		} else {
-#if _DEBUG
-			fprintf (stdout, "NET::SERVER>> MAPA Cargado.\n");
-#endif		
+
+			LOG("MAPA Cargado");
 		}
 	} // doStart
 
@@ -235,14 +240,18 @@ namespace Application {
 		// que atender al mensaje Net::MAP_LOADED para que cuando se
 		// reciba, enviar un mensaje tipo Net::START_GAME a los clientes
 		// y cambiar al estado "game" de la aplicación
-		Net::NetMessageType rxMsg;
-		memcpy(&rxMsg, packet->getData(),sizeof(rxMsg));
-		switch (rxMsg)
+		Net::CBuffer rxSerialMsg; // Packet: "NetMessageType | extraData"
+			rxSerialMsg.write(packet->getData(),packet->getDataLength());
+			rxSerialMsg.reset();
+
+		Net::NetMessageType rxMsgType;
+			rxSerialMsg.read( &rxMsgType, sizeof(rxMsgType) );
+		switch (rxMsgType)
 		{
 			case Net::MAP_LOADED: {
-#if _DEBUG
-			fprintf (stdout, "NET::SERVER::RX>> MAP_LOADED.\n");
-#endif						
+			
+			LOG("RX MAP_LOADED from " << packet->getConexion()->getId() );
+					
 			//Almacenamos el ID del usuario que se ha cargado el mapa.
 			_mapLoadedByClients.push_back(packet->getConexion()->getId());
 
@@ -260,17 +269,17 @@ namespace Application {
 					// el NetID del cliente del que estamos creando el jugador (*it)
 					// Server orquesta carga de cada jugador: "voy a cargar tal, vosotros también"
 					Net::NetMessageType txMsg = Net::LOAD_PLAYER; 
-					Net::CBuffer serialMsg;						// Serializamos "MessageType | ID"
+					Net::CBuffer serialMsg;						// Serializamos "MessageType | NetID"
 						serialMsg.write( &txMsg, sizeof(txMsg));
 						serialMsg.write( &(*it), sizeof(*it) );					
 					Net::CManager::getSingletonPtr()->send( serialMsg.getbuffer(),  serialMsg.getSize() );
-#if _DEBUG
-					fprintf (stdout, "NET::SERVER::TX>> LOAD_PLAYER.\n");
-#endif				
-					std::stringstream number;
+								
+					std::ostringstream number;
 						number << (*it);
 					std::string name("Player");
-						name.append(number.str());
+						name += number.str();
+
+					LOG("TX LOAD_PLAYER " << name);
 
 					// TODO Llamar al método de creación del jugador. Deberemos decidir
 					// si el jugador es el jugador local. Al ser el servidor ninguno lo es
@@ -283,19 +292,22 @@ namespace Application {
 
 			} break;
 		}
+
+
 		case Net::PLAYER_LOADED:
 		{
-#if _DEBUG
-			fprintf (stdout, "NET::SERVER::TX>> PLAYER_LOADED.\n");
-#endif				
+			LOG("RX PLAYER_LOADED from " << packet->getConexion()->getId() );
+			
 			//Aumentamos el número de jugadores cargados por el cliente
 			(*_playersLoadedByClients.find(packet->getConexion()->getId())).second++;
 
 			// TODO Comprobar si todos los clientes han terminado de cargar todos los jugadores
 			bool loadFinished = true;
 				for(TNetIDList::iterator it = _clients.begin(); it != _clients.end(); it++)				
-					if(_playersLoadedByClients[*it] < _clients.size()) // Nº de jugadores cargados < Nº clientes?
+					if(_playersLoadedByClients[*it] < _clients.size()){ // Nº de jugadores cargados < Nº clientes?
 						loadFinished = false;
+						break;
+					}
 		
 			if(loadFinished) //Si todos los clientes han cargado todos los players (inc. el suyo)
 			{
@@ -303,10 +315,8 @@ namespace Application {
 				Net::NetMessageType txMsg = Net::START_GAME;
 					Net::CManager::getSingletonPtr()->send( &txMsg, sizeof(txMsg));
 				_app->setState("game");
-#if _DEBUG
-				fprintf (stdout, "NET::SERVER::TX>> START_GAME.\n");
-#endif			
 
+				LOG("TX START_GAME");
 			}
 			break;
 		}
@@ -317,6 +327,8 @@ namespace Application {
 
 	void CLobbyServerState::connexionPacketReceived(Net::CPaquete* packet)
 	{
+		LOG("RX CONNECT from " << packet->getConexion()->getId() );
+
 		if(_waiting){
 			//Mostramos un poco de información en el status		
 			unsigned int ip = packet->getConexion()->getAddress();
@@ -340,9 +352,8 @@ namespace Application {
 	void CLobbyServerState::disconnexionPacketReceived(Net::CPaquete* packet)
 	{
 		// TODO gestionar desconexiones.
-#if _DEBUG
-		fprintf (stdout, "NET::SERVER::RX>> DISCONNECT.\n");
-#endif		
+		LOG("RX DISCONNECT from " << packet->getConexion()->getId() );
+	
 		//Eliminamos el ID del usuario que se ha desconectado.
 		_clients.remove( packet->getConexion()->getId() );
 		_mapLoadedByClients.remove( packet->getConexion()->getId() );

@@ -22,17 +22,25 @@ Contiene la implementación del estado de lobby del cliente.
 
 #include "GUI/Server.h"
 
-#include "net/Manager.h"
-#include "net/Cliente.h"
-#include "net/factoriared.h"
-#include "net/paquete.h"
-#include "net/conexion.h"
-
+#include "NET/Manager.h"
+#include "NET/Cliente.h"
+#include "NET/factoriared.h"
+#include "NET/paquete.h"
+#include "NET/conexion.h"
+#include "NET/buffer.h"
 
 #include <CEGUISystem.h>
 #include <CEGUIWindowManager.h>
 #include <CEGUIWindow.h>
 #include <elements/CEGUIPushButton.h>
+
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "APP::CLIENT>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 namespace Application {
 
@@ -216,10 +224,13 @@ namespace Application {
 	********************/
 	void CLobbyClientState::dataPacketReceived(Net::CPaquete* packet)
 	{
-		Net::NetMessageType rxMsg;
-			memcpy(&rxMsg, packet->getData(),sizeof(rxMsg)); // Packet: "NetMessageType | extraData"
+		Net::CBuffer rxSerialMsg; // Packet: "NetMessageType | extraData"
+			rxSerialMsg.write(packet->getData(),packet->getDataLength());
+			rxSerialMsg.reset();
 		
-		switch (rxMsg)
+		Net::NetMessageType rxMsgType;
+			rxSerialMsg.read( &rxMsgType, sizeof(rxMsgType) );
+		switch (rxMsgType)
 		{
 
 		// TODO Gestionar la carga del blueprints cliente y del mapa cuando  
@@ -227,9 +238,8 @@ namespace Application {
 		// la carga avisar al servidor enviando un mensaje tipo MAP_LOADED
 		case Net::LOAD_MAP:
 
-#if _DEBUG	
-			fprintf (stdout, "NET::CLIENT::RX>> LOAD_MAP.\n");
-#endif			
+			LOG("RX LOAD_MAP");
+		
 			// Cargamos el archivo con las definiciones de las entidades del nivel.
 			if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints_client.txt"))			{
 				CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar el nivel");
@@ -243,33 +253,28 @@ namespace Application {
 				_app->exitRequest();
 
 			} else { //Avisamos de que hemos terminado la carga.
+				LOG("MAPA Cargado"); 		
 
-#if _DEBUG		
-				fprintf (stdout, "NET::CLIENT>> MAPA Cargado.\n"); 
-#endif			
 				Net::NetMessageType txMsg = Net::NetMessageType::MAP_LOADED; // Informamos de carga finalizada
 					Net::CManager::getSingletonPtr()->send(&txMsg, sizeof(txMsg));
 
-#if _DEBUG		
-				fprintf (stdout, "NET::CLIENT::TX>> MAP_LOADED.\n");
-#endif
+				LOG("TX MAP_LOADED");
 			}
 
 			break;
 
 		// CARGAR PLAYER
-		case Net::LOAD_PLAYER: { 
-
-#if _DEBUG	
-			fprintf (stdout, "NET::CLIENT::RX>> LOAD_PLAYER.\n");
-#endif
+		case Net::LOAD_PLAYER: { 			
 
 			Net::NetID id;
-				memcpy(&id, packet->getData() + sizeof(rxMsg), sizeof(id) ); //	Packet: "NetMessageType | extraData(NetID)"		
-			std::stringstream number;
-				number << id;			// TODO Por qué es necesario pasar por stringstream para el append?
+				rxSerialMsg.read(&id, sizeof(id) ); //	Packet: "NetMessageType | extraData(NetID)"		
+
+			std::ostringstream number; 
+				number << id;			
 			std::string name("Player");
-				name.append(number.str());
+				name += number.str(); //name.append(number.str());
+
+			LOG( "RX LOAD_PLAYER " << name);
 
 			// TODO Llamar al método de creación del jugador. Deberemos decidir
 			// si el jugador es el jugador local (si el ID del paquete coincide 
@@ -282,18 +287,16 @@ namespace Application {
 			// local. Los datos deberían llegar en el paquete de red.
 
 			//Enviamos el mensaje de que se ha creado el jugador
-			Net::NetMessageType msg = Net::PLAYER_LOADED;
-			Net::CManager::getSingletonPtr()->send(&msg, sizeof(msg));
+			Net::NetMessageType msg = Net::NetMessageType::PLAYER_LOADED;
+				Net::CManager::getSingletonPtr()->send(&msg, sizeof(msg));
 
-#if _DEBUG	
-			fprintf (stdout, "NET::CLIENT::TX>> PLAYER_LOADED.\n");
-#endif
+			LOG("TX PLAYER_LOADED " << name);
+
 		}	break;	
 
 		case Net::START_GAME:
-#if _DEBUG	
-			fprintf (stdout, "NET::CLIENT::RX>> START_GAME.\n");
-#endif		
+
+			LOG("RX START_GAME");
 			_app->setState("game"); // Rx mensaje START -> game state
 			break;
 		}

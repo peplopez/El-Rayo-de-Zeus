@@ -194,7 +194,7 @@ namespace Net {
 		Net::CBuffer data;
 		data.write(packet->getData(),packet->getDataLength());
 		data.reset();
-		// Ignoramos el tipo de mensaje de red. Ya lo hemos procesado
+		
 		Net::NetMessageType msg;
 		data.read(&msg,sizeof(msg));
 		switch (msg)
@@ -211,21 +211,16 @@ namespace Net {
 
 	//---------------------------------------------------------
 
-	void CManager::connect(CConexion* connection)
+	void CManager::connect(CConexion* connection)// Una nueva conexión de un cliente al sevidor
 	{
-		// Una nueva conexión de un cliente al sevidor
-
 		// Almacenamos esa conexión y le otorgamos un ID de red
 		connection->setId(_nextId);
 		addConnection(_nextId,connection);
 
-		// Avisamos al cliente de cual es su nuevo ID
-		CBuffer buf;
-		// Escribimos el tipo de mensaje de red a enviar
-		NetMessageType type = Net::ASSIGNED_ID;
-		buf.write(&type,sizeof(type));
-		// Escribimos el id del cliente
-		buf.write(&_nextId,sizeof(_nextId));
+		NetMessageType type = Net::ASSIGNED_ID;// Escribimos el tipo de mensaje de red a enviar
+		CBuffer buf;// Avisamos al cliente de cual es su nuevo ID	
+			buf.write(&type,sizeof(type));		
+			buf.write(&_nextId,sizeof(_nextId));// Escribimos el id del cliente
 		_servidorRed->sendData(connection, buf.getbuffer(),buf.getSize(),0,1);
 
 		// Preparamos para la siguiente conexión

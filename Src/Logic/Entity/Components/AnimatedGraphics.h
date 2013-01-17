@@ -39,7 +39,7 @@ namespace Logic
 	@author David Llansó García
 	@date Agosto, 2010
 */
-	class CAnimatedGraphics : public CGraphics, public Graphics::CAnimatedEntityListener
+	class CAnimatedGraphics : public CGraphics, public Graphics::IObserver
 	{
 		DEC_FACTORY(CAnimatedGraphics);
 	public:

@@ -222,11 +222,9 @@ namespace Logic
 
 	void CEntityFactory::deleteEntity(Logic::CEntity *entity)
 	{
-		assert(entity);
-		// Si la entidad estaba activada se desactiva al sacarla
-		// del mapa.
-		entity->getMap()->removeEntity(entity);
-		delete entity;
+		assert(entity);		
+		entity->getMap()->removeEntity(entity);// Si la entidad estaba activada se desactiva al sacarla del mapa.
+		delete entity; // El delete nos toca a nosotros
 
 	} // deleteEntity
 	

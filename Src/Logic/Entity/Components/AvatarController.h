@@ -77,7 +77,8 @@ namespace Logic
 		<p>
 		Si el componente pertenece a la entidad del jugador, el componente
 		se deregistra así mismo en el controlador del GUI para dejar de
-		recibir las ordenes dadas a partir de los eventos de teclado y ratón.
+		recibir las ordenes dadas a partir de los eventos de teclado y ratón
+		(ver CEntity::deactivate() )
 		*/
 		virtual void deactivate();
 

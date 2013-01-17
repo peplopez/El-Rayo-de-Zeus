@@ -19,6 +19,7 @@ Contiene la implementación del gestor de los mensajes de red durante la partida.
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Message.h"
 #include "Logic/Maps/Map.h"
+#include "Logic/Maps/EntityFactory.h"
 #include "Logic/Server.h"
 
 #include "Net/paquete.h"
@@ -26,6 +27,13 @@ Contiene la implementación del gestor de los mensajes de red durante la partida.
 
 #include "Application/BaseApplication.h"
 
+#define DEBUG 0
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) cout << "LOGIC::NET_MANAGER>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 namespace Logic {
 
@@ -107,8 +115,7 @@ namespace Logic {
 			Message::Serialize(txMsg, serialMsg);   // Serializamos el mensaje a continuación en el buffer
 		Net::CManager::getSingletonPtr()->send(serialMsg.getbuffer(), serialMsg.getSize());
 
-//#if _DEBUG
-//#endif	fprintf (stdout, "NET::TX>> ENTITY_MSG %d to EntityID %d.\n", txMsg._type, destID);
+		LOG("TX ENTITY_MSG " << txMsg._type << " to EntityID " << destID);
 
 	} // sendEntityMessage
 
@@ -126,9 +133,6 @@ namespace Logic {
 			serialMsg.write(packet->getData(),packet->getDataLength());
 			serialMsg.reset(); // Reiniciamos el puntero de lectura a la posición 0
 
-
-
-
 		// Extraemos, pero ignoramos el tipo de mensaje de red. Ya lo hemos procesado		
 		Net::NetMessageType msgType;
 			serialMsg.read(&msgType,sizeof(msgType));
@@ -137,12 +141,12 @@ namespace Logic {
 		TMessage rxMsg;
 			Message::Deserialize(serialMsg, rxMsg);
 
-		Logic::CServer::getSingletonPtr()->getMap()-> // Reenvío del mensaje deserializado
-			getEntityByID(destID)->emitMessage(rxMsg);
-
-//#if _DEBUG
-//		fprintf (stdout, "NET::RX>> ENTITY_MSG %d from EntityID %d.\n", rxMsg._type, destID);
-//#endif
+		// Reenvío del mensaje deserializado
+		CEntity* destEntity = Logic::CServer::getSingletonPtr()->getMap()->getEntityByID(destID);
+		if(destEntity != 0)
+			destEntity->emitMessage(rxMsg);
+		
+		LOG("RX ENTITY_MSG " << rxMsg._type << " from EntityID " << destID);
 	} // processEntityMessage
 
 
@@ -152,17 +156,33 @@ namespace Logic {
 	// Aquí es donde debemos recibir los mensajes de red
 	void CGameNetMsgManager::dataPacketReceived(Net::CPaquete* packet)
 	{
-		Net::NetMessageType rxMsg;
-			memcpy(&rxMsg, packet->getData(),sizeof(rxMsg));
-			switch (rxMsg)
-			{
-			case Net::NetMessageType::ENTITY_MSG:	
-				processEntityMessage(packet);
-				break;	
-			case Net::NetMessageType::END_GAME:	
-				Application::CBaseApplication::getSingletonPtr()->setState("gameOver");
-				break;
-			}
+		Net::CBuffer rxSerialMsg; // Packet: "NetMessageType | extraData"
+			rxSerialMsg.write(packet->getData(),packet->getDataLength());
+			rxSerialMsg.reset();
+
+		Net::NetMessageType rxMsgType;
+			rxSerialMsg.read( &rxMsgType, sizeof(rxMsgType) );			
+		switch (rxMsgType)
+		{
+
+		case Net::NetMessageType::ENTITY_MSG:	
+			processEntityMessage(packet);
+			break;	
+
+		case Net::NetMessageType::END_GAME:	
+
+			TEntityID entityID; 
+				rxSerialMsg.read(&entityID, sizeof(entityID) );  //	Packet: "NetMessageType | extraData(NetID)"	
+			
+			CEntity* player = Logic::CServer::getSingletonPtr()->getMap()->getEntityByID(entityID);
+				if( player->isPlayer() )						// GameOver si el END_GAME es para nuestro player
+					Application::CBaseApplication::getSingletonPtr()->setState("gameOver");
+				else											// Si no, eliminamos ese player del mapa
+					player->deactivate();
+				//CEntityFactory::getSingletonPtr()->deferredDeleteEntity(entity);
+
+			break;
+		}
 	} // dataPacketReceived
 
 	//--------------------------------------------------------

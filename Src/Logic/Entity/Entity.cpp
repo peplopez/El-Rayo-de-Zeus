@@ -199,6 +199,9 @@ namespace Logic
 
 	bool CEntity::emitMessage(const TMessage &message, IComponent* emitter)
 	{
+		if(!_activated) // HACK Si la entidad no está activa, no recibe mensajes
+			return false;
+
 		// Interceptamos los mensajes que además de al resto de los
 		// componentes, interesan a la propia entidad.
 		switch(message._type)

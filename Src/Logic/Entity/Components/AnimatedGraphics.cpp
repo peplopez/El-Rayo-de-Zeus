@@ -21,9 +21,10 @@ gráfica de una entidad estática.
 
 #define DEBUG 0
 #if DEBUG
-#define LOG(msg) printf("LOGIC::ANIMATED_GRAPHICS>> %s\n", ( (std::string) msg).c_str() );
+#	include <iostream>
+#	define LOG(msg) cout << "LOGIC::ANIMATED>> " << msg << std::endl;
 #else
-#define LOG(msg)
+#	define LOG(msg)
 #endif
 
 namespace Logic 
@@ -44,7 +45,7 @@ namespace Logic
 		{
 			_defaultAnimation = entityInfo->getStringAttribute("defaultAnimation");
 			_animatedGraphicsEntity->setAnimation(_defaultAnimation,true);
-			_animatedGraphicsEntity->setObserver(this);
+			_animatedGraphicsEntity->addObserver(this);
 		}
 
 		float scale = 1.0;

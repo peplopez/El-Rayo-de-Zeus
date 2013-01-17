@@ -43,7 +43,7 @@ namespace Graphics
 	@author David Llansó
 	@date Julio, 2010
 	*/
-	class CAnimatedEntityListener 
+	class IObserver
 	{
 	public:
 
@@ -115,27 +115,22 @@ namespace Graphics
 		void stopAllAnimations();
 
 		/**
-		Función que registra al oyente de la entidad gráfica. Por 
-		simplicidad solo habrá un oyente por entidad.
+		Función que registra al oyente de la entidad gráfica. 
 		*/
-		void setObserver(CAnimatedEntityListener *observer)
-											{_observer = observer;}
+		void CAnimatedEntity::addObserver(IObserver* listener);
 
 		/**
-		Función que quita al oyente de la entidad gráfica. Por 
-		simplicidad solo habrá un oyente por entidad.
+		Función que quita al oyente de la entidad gráfica. 
 		*/
-		void removeObserver(CAnimatedEntityListener *observer)
-							{if(_observer = observer) _observer = 0;}
+		void CAnimatedEntity::removeObserver(IObserver* listener);
 
 	protected:
 
 		/**
 		Objeto oyente que es informado de cambios en la entidad como 
-		la terminación de las animaciones. Por simplicidad solo habrá
-		un oyente por entidad.
+		la terminación de las animaciones.
 		*/
-		CAnimatedEntityListener *_observer;
+		std::vector<IObserver*> _observers;		
 
 		// Cada entidad debe pertenecer a una escena. Solo permitimos
 		// a la escena actualizar el estado.

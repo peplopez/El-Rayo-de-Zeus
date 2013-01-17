@@ -58,14 +58,28 @@ namespace Logic
 				// Disminuir la vida de la entidad
 				_life -= message._float;
 
-				// Si han matado al jugador salir de la partida
+				// Si han matado al jugador sacarlo de la partida
 				if (_life <= 0 && _entity->getType() == "Player") 
 				{
 					// TODO Si matan a un jugador habrá que avisarle que, para él, el 
 					// juego ha terminado. Si hubiese más jugadores también deberían
-					// enterarse de que ese jugador ha muerto para que eliminen su entidad.
+					// enterarse de que ese jugador ha muerto para que eliminen su entidad...
+					// TODO Pero queremos eliminar la entidad o dejarla deactive?
+					// TODO Quizá aquí merezca la pena tener un CDeath que se encargue de estas cosas con un Msg DIE entidad tal
+					
+					// MENSAJE "END_GAME | TEntityID"
 					Net::NetMessageType txMsg = Net::NetMessageType::END_GAME;
-					Net::CManager::getSingletonPtr()->send(&txMsg, sizeof(txMsg) );					
+					TEntityID entityID = _entity->getEntityID();
+					Net::CBuffer serialMsg;						
+						serialMsg.write( &txMsg, sizeof(txMsg));
+						serialMsg.write( &entityID, sizeof(entityID) );	
+					Net::CManager::getSingletonPtr()->send( serialMsg.getbuffer(),  serialMsg.getSize() );
+
+					// TRATAMIENTO DEL PLAYER
+					if(_entity->isPlayer() ) // MONOJUGADOR -> GameOver
+						Application::CBaseApplication::getSingletonPtr()->setState("gameOver");
+					else					// MULTIJUGADOR
+						_entity->deactivate();
 				}
 				
 				TMessage msg;

@@ -157,9 +157,7 @@ namespace Logic {
 	void CServer::deactivateMap() 
 	{
 		_map->deactivate();
-		// Se desactiva la escucha del oyente de los mensajes de red para el
-		// estado de juego.
-		_gameNetMsgManager->deactivate();
+		_gameNetMsgManager->deactivate(); // Se desactiva la escucha del oyente de los mensajes de red para el estado de juego.
 
 	} // deactivateMap
 
