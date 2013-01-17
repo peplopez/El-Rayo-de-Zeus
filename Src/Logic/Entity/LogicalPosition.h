@@ -30,15 +30,17 @@ namespace Logic
 		/**
 			Ambito actual hasta que se cambie de base y/o anillo
 		*/
-		enum Ring{	
+		const enum Ring{	
 			ANILLO_INFERIOR=0,
 			ANILLO_CENTRAL=1,
 			ANILLO_SUPERIOR=2
 		};
-		enum Sense{ //Quizá mejor sentido angunos positivos/negativos?	
+		const enum Sense{ //Quizá mejor sentido angunos positivos/negativos?	
 			IZQUIERDA=0,
 			DERECHA=1
 		};
+		
+
 	}
 		//Coordenadas comunes a todas las entidades del juego.
 	
@@ -82,7 +84,7 @@ namespace Logic
 		/**
 			Mi intención es quitarlo más adelante, al decir el anillo ya estás diciendo el radio, este no cambia jamás durante la ejecución
 		*/	
-		float _radio;
+		//float _radio;
 
 		/**
 			Anchura de la entidad gráfica en grados

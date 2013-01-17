@@ -155,9 +155,33 @@ namespace Logic {
 					}								
 			}
 
-		return retorno;
 	}
 
+	float CServer::getRingRadio(unsigned short base,Logic::LogicalPosition::Ring ring)
+	{
+			switch (ring)
+			{
+				case Logic::LogicalPosition::ANILLO_INFERIOR:
+				{
+					return Logic::RADIO_MENOR;
+				}
+				case Logic::LogicalPosition::ANILLO_CENTRAL:
+				{
+					return Logic::RADIO_MAYOR;
+				}
+				case Logic::LogicalPosition::ANILLO_SUPERIOR:
+				{
+					return Logic::RADIO_MENOR;
+				}
+				default:
+					{
+						return Logic::RADIO_MAYOR;
+					//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
+					//pese a todo no pete.
+					}								
+			}
+
+	}
 	//--------------------------------------------------------
 
 	void CServer::unLoadLevel()

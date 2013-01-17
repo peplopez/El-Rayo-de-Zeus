@@ -59,13 +59,15 @@ namespace Logic
 
 		if(entityInfo->hasAttribute("logicInput"))
 			_logicInput = entityInfo->getBoolAttribute("logicInput");
+
+
 		if (_logicInput)
 		{
 			if(entityInfo->hasAttribute("degrees"))
 				_pos._degrees = entityInfo->getFloatAttribute("degrees");
 
-			if(entityInfo->hasAttribute("radio")) //LO podremos poner en "ring" en el futuro y ahorrarnoslo
-				_pos._radio = entityInfo->getFloatAttribute("radio");
+			//if(entityInfo->hasAttribute("radio")) //LO podremos poner en "ring" en el futuro y ahorrarnoslo
+				//_pos._radio = entityInfo->getFloatAttribute("radio");
 			
 			if(entityInfo->hasAttribute("sense"))
 				switch (entityInfo->getIntAttribute("sense"))
@@ -121,7 +123,7 @@ namespace Logic
 						}
 			}
 			//	posicion=CServer::getSingletonPtr()->getRingPositions(_pos._base,_pos._ring);
-				posicion=this->fromLogicalToCartesian(_pos._degrees,_pos._radio,_pos._base,_pos._ring);
+				posicion=this->fromLogicalToCartesian(_pos._degrees,_pos._base,_pos._ring);
 			}
 
 
@@ -228,6 +230,7 @@ namespace Logic
 				this->setYaw(Math::fromDegreesToRadians(360-this->getDegree()+180));
 			
 		}
+		
 		if (this->getType().compare("Player")==0)
 			this->yaw(Math::PI);
 		
@@ -311,11 +314,15 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	 const Vector3 CEntity::fromLogicalToCartesian(const float grados, const float radio, const unsigned short base, const Logic::LogicalPosition::Ring ring)
-	 {
-		 
+	 const Vector3 CEntity::fromLogicalToCartesian(const float grados, const unsigned short base, const Logic::LogicalPosition::Ring ring)
+	 {		 
+		 float offset=0;
+		if (this->getType().compare("Altar")==0)
+		{
+			offset=-9;
+		}
 		 Vector3 resultado=Vector3::ZERO;
-		 resultado=Math::fromPolarToCartesian(grados, radio);
+		 resultado=Math::fromPolarToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset);
 		 resultado.y=CServer::getSingletonPtr()->getRingPositions(base,ring).y+126;
 		 return resultado;
 	 }
@@ -573,11 +580,6 @@ namespace Logic
 		_pos._degrees=degree;
 	}
 
-	void CEntity::setRadio(const float &radio)
-	{
-		_pos._radio=radio;
-	}
-
 	void CEntity::setSense(const LogicalPosition::Sense &sense)
 	{
 		_pos._sense=sense;
@@ -587,5 +589,9 @@ namespace Logic
 	{
 		_pos._ring=ring;
 	}
-	
+	const float CEntity::getRadio()
+	{
+		
+		return CServer::getSingletonPtr()->getRingRadio(_pos._base,_pos._ring);
+	}
 } // namespace Logic

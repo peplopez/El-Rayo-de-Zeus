@@ -118,7 +118,7 @@ namespace Logic
 			//std::cout<<"vectorcentroprotacamara: "<<vectorCentroProtaCamara<<std::endl;
 		
 			//inercia de la camara
-				_currentPos += ((Vector3(_target->getPosition().x*4,_target->getPosition().y,_target->getPosition().z*4)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035;
+				_currentPos += ((Vector3(_target->getPosition().x*3.5,_target->getPosition().y,_target->getPosition().z*4)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035;
 		
 			 _graphicsCamera->setCameraPosition(_currentPos);
 
