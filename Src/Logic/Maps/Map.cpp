@@ -292,6 +292,7 @@ namespace Logic {
 		string models[] = {"loco.mesh", "marine.mesh"};//, "AttaObrera.mesh", "bioshock.mesh","AttaSoldada.mesh", "aranna.mesh"};
 		int nModels = sizeof(models)/sizeof(string);
 
+		srand(time(NULL));
 		_playerInfo->setAttribute("model", models[rand() % nModels] );
 		_playerInfo->setName(name);			
 
