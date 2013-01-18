@@ -54,6 +54,7 @@ Thumbs.db
 
 
 #root
+*.orig
 /Galeon.opensdf
 /Galeon.sdf
 /vslog.txt
