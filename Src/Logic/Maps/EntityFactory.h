@@ -100,7 +100,7 @@ namespace Logic
 		/**
 		Add - ESC
 		Carga un std:map con los arquetipos. Se almacena en la factoría de 
-		entidades. 
+		entidades. El mapa es del tipo <nombredelarquetipo, Map::CEntity arquetipo> 
 
 		@param filename Fichero con la descripción de los arquetipos.
 		*/

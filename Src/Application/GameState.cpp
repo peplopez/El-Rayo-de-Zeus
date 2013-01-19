@@ -38,15 +38,16 @@ namespace Application {
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
 			return false;
 
+		// Add - ESC
+		// Cargamos el archivo con las definiciones de los archetypes
+		if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes.txt"))
+			return false;
+
 		// Add - JLS
 		// Cargamos los anillos a partir del nombre del mapa. 
 		if (!Logic::CServer::getSingletonPtr()->setRingPositions())
 			return false;
 
-		// Add - ESC
-		// Cargamos el archivo con las definiciones de los archetypes
-		if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes.txt"))
-			return false;
 
 		// Cargamos el nivel a partir del nombre del mapa. 
 		if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))

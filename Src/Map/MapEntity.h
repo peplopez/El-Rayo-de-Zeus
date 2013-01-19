@@ -154,8 +154,10 @@ namespace Map
 
 		/**
 		Add - ESC 
-		Agrega en la lista de atributos de la entidad aquellos que no
-		tenga definidos, pero que si tenga la entidad pasada como parametro (el archetype)
+		Fusiona los atributos de la entidad con los del 
+		arquetipo pasado como parametro. Los atributos de la entidad no 
+		se sobreescriben.La única expceción a esto es el tipo de la entidad, 
+		que si es sobreescrito por el del archetype.
 
 		@param  archetype a fusionar
 		*/

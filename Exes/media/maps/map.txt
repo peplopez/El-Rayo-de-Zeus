@@ -1,218 +1,173 @@
 Map ={
-Tubo = {
+	Tubo = {
 		type = "SkyBox",
 		position = {0,-600,0},
 		model = "tubo.mesh",
 		static = true,		
 	},
 	
-	
 	Altar1 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=60,
-		logicInput=true,
 		ring=0,
 		base=0,
-		static = true,
 	},
+	
 	Altar2 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=180,
-		logicInput=true,
 		ring=0,
 		base=0,
-		static = true,
 	},
+	
 	Altar3 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=300,
-		logicInput=true,
 		ring=0,
 		base=0,		
-		static = true,
 	},
+	
 	Altar4 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=36,
-		logicInput=true,
 		ring=1,
 		base=0,
-		static = true,
 	},
 	Altar5 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=108,
-		logicInput=true,
 		ring=1,
 		base=0,
-		static = true,
 	},
+	
 	Altar6 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=180,
-		logicInput=true,
 		ring=1,
 		base=0,
-		static = true,
 	},
+	
 	Altar7 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=252,
-		logicInput=true,
 		ring=1,
 		base=0,		
-		static = true,
 	},
+	
 	Altar8 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=324,
-		logicInput=true,
 		ring=1,
 		base=0,		
-		static = true,
 	},
+	
 	Altar9 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=60,
-		logicInput=true,
 		ring=2,
 		base=0,		
-		static = true,
 	},
+	
 	Altar10 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=180,
 		logicInput=true,
 		ring=2,
 		base=0,		
-		static = true,
 	},
+	
 	Altar11 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=300,
-		logicInput=true,
 		ring=2,
 		base=0,		
-		static = true,
 	},
 
 	
 	Altar13 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=60,
 		logicInput=true,
 		ring=0,
 		base=3,		
 		static = true,
 	},
+	
 	Altar23 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=180,
-		logicInput=true,
 		ring=0,
 		base=3,		
-		static = true,
 	},
+	
 	Altar33 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=300,
-		logicInput=true,
 		ring=0,
 		base=3,		
-		static = true,
 	},
+	
 	Altar43 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=36,
-		logicInput=true,
 		ring=1,
 		base=3,		
-		static = true,
 	},
+	
 	Altar53 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=108,
-		logicInput=true,
 		ring=1,
 		base=3,		
-		static = true,
 	},
+	
 	Altar63 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=180,
-		logicInput=true,
 		ring=1,
 		base=3,		
-		static = true,
 	},
+	
 	Altar73 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=252,
-		logicInput=true,
 		ring=1,
 		base=3,		
-		static = true,
 	},
+	
 	Altar83 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=324,
-		logicInput=true,
 		ring=1,
 		base=3,		
-		static = true,
 	},
+	
 	Altar93 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=60,
-		logicInput=true,
 		ring=2,
 		base=3,		
-		static = true,
 	},
+	
 	Altar103 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=180,
-		logicInput=true,
 		ring=2,
 		base=3,		
-		static = true,
 	},
+	
 	Altar113 = {
 		type = "Altar",
-		model = "altar.mesh",
 		degrees=300,
-		logicInput=true,
 		ring=2,
 		base=3,		
-		static = true,
 	},
 
 	Barravida1 = {
 		type = "BarraVida",
 		position = {0, 0,-126},
-		model = "plane.mesh",
 	},
+	
 	PeP = {
 		type = "Player",
 		orientation = 90,
@@ -228,7 +183,8 @@ Tubo = {
 		sense=0,
 		angularBox=2.5,
 	},
-		Camera = {
+	
+	Camera = {
 		type = "Camera",
 		distance = 150,
 		height = 13,
@@ -242,98 +198,75 @@ Tubo = {
 		logicInput=true,
 		radio=120,
 	},
+	
 	WorldAbajo0 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=0,
 		ring=0,
 	},
 	
 	WorldCentro0 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=0,
 		ring=1,
 	},
 	
 	WorldArriba0= {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=0,
 		ring=2,
 	},
 	
 	WorldAbajo1 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=1,
 		ring=0,
 	},
 	
 	WorldCentro1 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=1,
 		ring=1,
 	},
 	
 	WorldArriba1 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=1,
 		ring=2,
 	},
 
 	WorldAbajo2 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=2,
 		ring=0,
 	},
 	
 	WorldCentro2 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=2,
 		ring=1,
 	},
 	
 	WorldArriba2 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=2,
 		ring=2,
 	},
 	
 	WorldAbajo3 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=3,
 		ring=0,
 	},
 	
 	WorldCentro3 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=3,
 		ring=1,
 	},
 	
 	WorldArriba3 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=3,
 		ring=2,
 	},
@@ -341,48 +274,36 @@ Tubo = {
 	
 	WorldAbajo4 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=4,
 		ring=0,
 	},
 	
 	WorldCentro4 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=4,
 		ring=1,
 	},
 	
 	WorldArriba4 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=4,
 		ring=2,
 	},
 	
 	WorldAbajo5 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=5,
 		ring=0,
 	},
 	
 	WorldCentro5 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=5,
 		ring=1,
 	},
 	
 	WorldArriba5 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=5,
 		ring=2,
 	},
@@ -390,48 +311,36 @@ Tubo = {
 	
 	WorldAbajo6 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=6,
 		ring=0,
 	},
 	
 	WorldCentro6 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=6,
 		ring=1,
 	},
 	
 	WorldArriba6 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=6,
 		ring=2,
 	},
 	
 	WorldAbajo7 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=7,
 		ring=0,
 	},
 	
 	WorldCentro7 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=7,
 		ring=1,
 	},
 	
 	WorldArriba7 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=7,
 		ring=2,
 	},
@@ -439,279 +348,180 @@ Tubo = {
 		
 	WorldAbajo8 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=8,
 		ring=0,
 	},
 	
 	WorldCentro8 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=8,
 		ring=1,
 	},
 	
 	WorldArriba8 = {
 		type = "World",
-		model = "anillo.mesh",
-		static = true,
 		base=8,
 		ring=2,
 	},
-
-
 	
-bioshockLOGICO3 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+	bioshockLOGICO3 = {
+		type = "Bigdaddy",
 		base=1,
 		ring=0,
 		degrees=0,
 		sense=1,
-		angularBox=5,
 	},	
 	
-		bioshockLOGICO4 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+	bioshockLOGICO4 = {
+		type = "Bigdaddy",
 		base=0,
 		ring=0,
 		degrees=150,
 		sense=0,
-		angularBox=5,
 	},	
 
-	
-	
-	
-	
 	bioshockLOGICO7 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+		type = "Bigdaddy",
 		base=0,
 		ring=0,
 		degrees=240,
 		sense=1,
-		angularBox=5,
 	},	
-		bioshockLOGICO8 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+	
+	bioshockLOGICO8 = {
+		type = "Bigdaddy",
 		base=1,
 		ring=0,
-		angularBox=5,
 		degrees=270,
 		sense=1,
 	},	
-		bioshockLOGICO9 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+	
+	bioshockLOGICO9 = {
+		type = "Bigdaddy",
 		base=0,
 		ring=2,
 		degrees=0,
 		sense=1,
-		angularBox=5,
 	},	
-		bioshockLOGICO10 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+	
+	bioshockLOGICO10 = {
+		type = "Bigdaddy",
 		base=0,
 		ring=0,
-		angularBox=5,
 		degrees=330,
 		sense=1,
 	},	
-	
 		
 	bioshockLOGICO = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+		type = "Bigdaddy",
 		base=0,
 		ring=1,
 		degrees=90,
 		sense=1,
-		angularBox=5,
 	},	
 	
-
-	
 	bioshockLOGICO6 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+		type = "Bigdaddy",
 		base=0,
 		ring=1,
 		degrees=180,
 		sense=1,
-		angularBox=5,
 	},	
 	
-	
-
-
-	
-	
-	
-	
 	bioshockLOGICO73 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+		type = "Bigdaddy",
 		base=3,
 		ring=0,
 		degrees=240,
 		sense=1,
-		angularBox=5,
 	},	
-		bioshockLOGICO83 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+	
+	bioshockLOGICO83 = {
+		type = "Bigdaddy",
 		base=3,
 		ring=0,
-		angularBox=5,
 		degrees=270,
 		sense=1,
 	},	
-		bioshockLOGICO93 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+	
+	bioshockLOGICO93 = {
+		type = "Bigdaddy",
 		base=3,
 		ring=2,
 		degrees=0,
 		sense=1,
-		angularBox=5,
 	},	
-		bioshockLOGICO103 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+	
+	bioshockLOGICO103 = {
+		type = "Bigdaddy",
 		base=3,
 		ring=0,
-		angularBox=5,
 		degrees=330,
 		sense=1,
 	},	
 	
 		
 	bioshockLOGICO333 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+		type = "Bigdaddy",
 		base=3,
 		ring=1,
 		degrees=90,
 		sense=1,
-		angularBox=5,
 	},	
-	
-
-	
+		
 	bioshockLOGICO63 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+		type = "Bigdaddy",
 		base=3,
 		ring=1,
 		degrees=180,
 		sense=1,
-		angularBox=5,
 	},	
 
-	
 	bioshockLOGICO74 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+		type = "Bigdaddy",
 		base=4,
 		ring=0,
 		degrees=240,
 		sense=1,
-		angularBox=5,
 	},	
-		bioshockLOGICO84 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+	
+	bioshockLOGICO84 = {
+		type = "Bigdaddy",
 		base=4,
 		ring=0,
-		angularBox=5,
 		degrees=270,
 		sense=1,
 	},	
-		bioshockLOGICO94 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+	
+	bioshockLOGICO94 = {
+		type = "Bigdaddy",
 		base=4,
 		ring=2,
 		degrees=0,
 		sense=1,
-		angularBox=5,
 	},	
-		bioshockLOGICO104 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+	
+	bioshockLOGICO104 = {
+		type = "Bigdaddy",
 		base=4,
 		ring=0,
-		angularBox=5,
 		degrees=330,
 		sense=1,
 	},	
-	
 		
 	bioshockLOGICO334 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+		type = "Bigdaddy",
 		base=4,
 		ring=1,
 		degrees=90,
 		sense=1,
-		angularBox=5,
 	},	
 	
-
-	
 	bioshockLOGICO64 = {
-		type = "AnimatedEntity",
-		life = 100.0,
-		model = "bioshock.mesh",
-		logicInput=true,
+		type = "Bigdaddy",
 		base=4,
 		ring=1,
 		degrees=180,
 		sense=1,
-		angularBox=5,
 	},	
 }

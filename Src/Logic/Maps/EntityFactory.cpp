@@ -186,7 +186,7 @@ namespace Logic
 		//Guardamos cada uno de los archetypes en el std::map de archetypes
 		for (; it != end; it++) 
 		{
-			TStringCEntityPair elem((*it)->getType(), *(*it));
+			TStringCEntityPair elem((*it)->getName(), *(*it));
 			_archetypes.insert(elem);
 		}
 		return true;
@@ -261,7 +261,7 @@ namespace Logic
 			return 0;
 		}
 
-	} // createEntity 1
+	} // createEntity
 
 
 	//---------------------------------------------------------
@@ -283,7 +283,7 @@ namespace Logic
 		}
 		return 0;
 
-	} // createEntity 2	
+	} // createEntity
 
 
 	//---------------------------------------------------------

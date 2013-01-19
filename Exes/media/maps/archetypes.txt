@@ -1,14 +1,28 @@
 Map = {	
-	Puerta = {
-		type = "Puerta",
-		life = 100.0,
-		model = "puerta.mesh",
-		defaultAnimation = "puerta",
+	Altar = {
+		type = "Altar",
+		model = "altar.mesh",
+		logicInput=true,
+		static = true,	
 	},
-	Sierra = {
-		type = "Sierra",
-		life = 100.0,
-		model = "sierra.mesh",
-		defaultAnimation = "sierra",
+	
+	BarraVida = {
+		type = "BarraVida",
+		model = "plane.mesh",
 	},
+	
+	World = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+	},
+	
+	Bigdaddy = {
+		type = "AnimatedEntity",
+		life = 100.0,
+		model = "bioshock.mesh",
+		logicInput=true,
+		angularBox=5,
+	},
+	
 }
