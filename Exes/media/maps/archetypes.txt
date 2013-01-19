@@ -1,0 +1,14 @@
+Map = {	
+	Puerta = {
+		type = "Puerta",
+		life = 100.0,
+		model = "puerta.mesh",
+		defaultAnimation = "puerta",
+	},
+	Sierra = {
+		type = "Sierra",
+		life = 100.0,
+		model = "sierra.mesh",
+		defaultAnimation = "sierra",
+	},
+}

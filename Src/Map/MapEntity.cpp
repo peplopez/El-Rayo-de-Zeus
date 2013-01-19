@@ -104,4 +104,25 @@ namespace Map {
 
 	} // getVector3Attribute
 
+	//--------------------------------------------------------
+
+	void CEntity::mergeWithArchetype(const CEntity& archetype)
+	{
+		
+		TAttrList::const_iterator it,end;
+
+		it=archetype.getAttributes().begin();
+		end=archetype.getAttributes().end();
+		
+		
+		for (; it != end; it++)
+		{
+			if(!this->hasAttribute(it->first))
+			{
+				this->setAttribute(it->first, it->second);
+			}
+		}	
+
+	} // mergeWithArchetype
+
 } // namespace Map
