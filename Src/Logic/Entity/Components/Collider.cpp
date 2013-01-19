@@ -30,7 +30,7 @@ namespace Logic
 
 	bool CCollider::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
-		_excluido==NULL;
+		_excluido=NULL;
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 		

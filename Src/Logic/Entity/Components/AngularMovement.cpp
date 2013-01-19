@@ -167,7 +167,9 @@ namespace Logic
 		{}
 		
 		void CAngularMovement::goUp()
-		{}
+		{
+		
+		}
 		
 		void CAngularMovement::stopMovement()
 		{
