@@ -37,6 +37,7 @@ namespace Application {
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
 			return false;
 
+		// Add - ESC
 		// Cargamos el archivo con las definiciones de los archetypes
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes.txt"))
 			return false;
@@ -60,6 +61,7 @@ namespace Application {
 		Logic::CServer::getSingletonPtr()->unLoadLevel();
 
 		Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
+		Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
 
 		CApplicationState::release();
 

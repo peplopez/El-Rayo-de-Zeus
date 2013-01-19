@@ -111,8 +111,8 @@ namespace Map {
 		
 		TAttrList::const_iterator it,end;
 
-		it=archetype.getAtributes().begin();
-		end=archetype.getAtributes().end();
+		it=archetype.getAttributes().begin();
+		end=archetype.getAttributes().end();
 		
 		
 		for (; it != end; it++)

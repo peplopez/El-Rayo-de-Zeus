@@ -4,3 +4,4 @@ Entity CGraphics
 AnimatedEntity CAnimatedGraphics
 Camera CCamera
 Puerta CAnimatedGraphics
+Sierra CAnimatedGraphics

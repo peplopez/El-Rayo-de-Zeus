@@ -46,7 +46,7 @@ namespace Logic {
 			Map::CMapParser::getSingletonPtr()->getEntityList();
 
 		CEntityFactory* entityFactory = CEntityFactory::getSingletonPtr();
-
+		
 		Map::CMapParser::TEntityList::const_iterator it, end;
 		it = entityList.begin();
 		end = entityList.end();
@@ -55,9 +55,12 @@ namespace Logic {
 		for(; it != end; it++)
 		{
 			// La propia factoría se encarga de añadir la entidad al mapa.
-			CEntity *entity = entityFactory->createEntity((*it),map);
+			CEntity *entity = entityFactory->createMergedEntity((*it),map);
 			assert(entity && "No se pudo crear una entidad del mapa");
 		}
+
+		//Add ESC - registramos el mapa que se acaba de leer como mapa actual.
+		entityFactory->setCurrentMap(map);
 
 		return map;
 

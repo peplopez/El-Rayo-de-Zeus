@@ -114,75 +114,51 @@ Map = {
 	},	
 	
 	sierra1 = {
-		type = "AnimatedEntity",
+		type = "Sierra",
 		position = {0, 0, 280},
 		orientation = 0,
-		life = 100.0,
-		model = "sierra.mesh",
-		defaultAnimation = "sierra",
 	},
 	
 	sierra2 = {
-		type = "Puerta",
+		type = "Sierra",
 		position = {220, 0, 430},
 		orientation = 0,
-		life = 100.0,
-		model = "sierra.mesh",
-		defaultAnimation = "sierra",
 	},
 		
 	sierra3 = {
-		type = "AnimatedEntity",
+		type = "Sierra",
 		position = {70, 0, 420},
 		orientation = 90,
-		life = 100.0,
-		model = "sierra.mesh",
-		defaultAnimation = "sierra",
 	},
 		
 	sierra4 = {
-		type = "AnimatedEntity",
+		type = "Sierra",
 		position = {110, 0, 510},
 		orientation = 270,
-		life = 100.0,
-		model = "sierra.mesh",
-		defaultAnimation = "sierra",
 	},
 
 	sierra5 = {
-		type = "AnimatedEntity",
+		type = "Sierra",
 		position = {-180, 0, 340},
 		orientation = 90,
-		life = 100.0,
-		model = "sierra.mesh",
-		defaultAnimation = "sierra",
 	},
 	
 	sierra6 = {
-		type = "AnimatedEntity",
+		type = "Sierra",
 		position = {-180, 0, 410},
 		orientation = 0,
-		life = 100.0,
-		model = "sierra.mesh",
-		defaultAnimation = "sierra",
 	},	
 
 	sierra7 = {
-		type = "AnimatedEntity",
+		type = "Sierra",
 		position = {-280, 0, 460},
 		orientation = 0,
-		life = 100.0,
-		model = "sierra.mesh",
-		defaultAnimation = "sierra",
 	},	
 	
 	sierra8 = {
-		type = "AnimatedEntity",
+		type = "Sierra",
 		position = {-70, 0, 550},
 		orientation = 0,
-		life = 100.0,
-		model = "sierra.mesh",
-		defaultAnimation = "sierra",
 	},	
 	
 	fuente = {

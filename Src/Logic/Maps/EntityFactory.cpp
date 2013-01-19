@@ -112,6 +112,7 @@ namespace Logic
 	void CEntityFactory::close() 
 	{
 		unloadBluePrints();
+		unloadArchetypes();
 
 	} // close
 	
@@ -182,19 +183,25 @@ namespace Logic
 		it = entityList.begin();
 		end = entityList.end();
 
+		//Guardamos cada uno de los archetypes en el std::map de archetypes
 		for (; it != end; it++) 
 		{
-			Map::CEntity *entity = (*it);
-			TStringCEntityPair elem(entity->getType(), (*entity));
+			TStringCEntityPair elem((*it)->getType(), *(*it));
 			_archetypes.insert(elem);
-			entity = NULL;
 		}
 		return true;
 
 	} // loadArchetypes
-	
+
 	//---------------------------------------------------------
 
+	void CEntityFactory::unloadArchetypes()
+	{
+		_archetypes.clear();
+
+	} // unloadArchetypes
+	
+	//---------------------------------------------------------
 
 	Logic::CEntity *CEntityFactory::assembleEntity(const std::string &type) 
 	{
@@ -232,25 +239,10 @@ namespace Logic
 	} // assembleEntity
 	
 	//---------------------------------------------------------
-
-	typedef std::map<std::string, std::string> TAttrList;
-
-	Logic::CEntity *CEntityFactory::createEntity(
+	Logic::CEntity *CEntityFactory::createEntity(const
 								Map::CEntity *entityInfo,
 								Logic::CMap *map)
-	{
-		
-		TArchetypeMap::const_iterator it = _archetypes.find(entityInfo->getType());
-
-		
-		//Si encuentra el archetype de ese tipo, fusiono con él en entityInfo
-		if (it != _archetypes.end())
-		{
-			entityInfo->mergeWithArchetype(it->second);
-			
-		}
-		
-
+	{		
 		CEntity *ret = assembleEntity(entityInfo->getType());
 
 		if (!ret)
@@ -269,8 +261,55 @@ namespace Logic
 			return 0;
 		}
 
-	} // createEntity
-	
+	} // createEntity 1
+
+
+	//---------------------------------------------------------
+
+
+	Logic::CEntity *CEntityFactory::createEntity(const std::string &archetype,
+							  const Matrix4 &transform)
+	{
+		//Se busca en el std::map de archetypes el tipo del *entityInfo
+
+		TArchetypeMap::const_iterator it = _archetypes.find(archetype);
+ 
+
+		if (it != _archetypes.end())
+		{
+			CEntity *ret = createEntity(&(it->second), _currentMap);
+			ret->setTransform(transform);
+			return ret;	
+		}
+		return 0;
+
+	} // createEntity 2	
+
+
+	//---------------------------------------------------------
+
+	Logic::CEntity *CEntityFactory::createMergedEntity(
+								Map::CEntity *entityInfo,
+								Logic::CMap *map)
+	{
+		
+		//Se busca en el std::map de archetypes el tipo del *entityInfo
+		TArchetypeMap::const_iterator it = _archetypes.find(entityInfo->getType());
+
+		//Si encuentra el archetype de ese tipo, fusiono con él en entityInfo
+		if (it != _archetypes.end())
+		{
+			entityInfo->mergeWithArchetype(it->second);
+		}
+
+		CEntity *ret = createEntity(entityInfo, map);
+		return ret;
+		
+
+	} // createMergedEntity
+
+
+
 	//---------------------------------------------------------
 
 	void CEntityFactory::deleteEntity(Logic::CEntity *entity)
