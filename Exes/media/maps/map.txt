@@ -524,5 +524,4 @@ Map ={
 		degrees=180,
 		sense=1,
 	},	
-	
 }
