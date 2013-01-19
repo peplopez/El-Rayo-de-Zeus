@@ -1,6 +1,6 @@
 World CGraphics CPhysicEntity
-Player CAvatarController CAnimatedGraphics CLife CPhysicCharacter
-NPC CAnimatedGraphics CLife CPhysicCharacter CSteeringMovement CRouteTo CStateMachineExecutor
+Player CAvatarController CAnimatedGraphics CLife CPhysicCharacter CDeath
+NPC CAnimatedGraphics CLife CPhysicCharacter CSteeringMovement CRouteTo CStateMachineExecutor CDeath
 Entity CGraphics
 AnimatedEntity CAnimatedGraphics
 Camera CCamera

@@ -99,6 +99,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\GameNetMsgManager.cpp" />
     <ClCompile Include="..\..\Src\Logic\Server.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Death.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Maps\ComponentFactory.h">
@@ -178,5 +181,8 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\GameNetMsgManager.h" />
     <ClInclude Include="..\..\Src\Logic\Server.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Death.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

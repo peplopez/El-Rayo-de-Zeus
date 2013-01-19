@@ -42,10 +42,12 @@ namespace Logic
 			UNTOUCHED           = 0x00000006,
 			SWITCH              = 0x00000007,
 			DAMAGED             = 0x00000008,
-			MOVE_TO             = 0x00000009,
-			ROUTE_TO            = 0x0000000A,
-			FINISHED_ROUTE      = 0x0000000B,
-			FAILED_ROUTE        = 0x0000000C
+			DEAD				= 0x00000009,
+			MOVE_TO             = 0x0000000A,
+			ROUTE_TO            = 0x0000000B,
+			FINISHED_ROUTE      = 0x0000000C,
+			FAILED_ROUTE        = 0x0000000D,
+			ANIMATION_FINISHED  = 0x0000000E
 		};
 	}
 

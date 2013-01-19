@@ -16,7 +16,7 @@ Map = {
 	
 	PlayerSpawn = {
 		type = "PlayerSpawn",
-		msgList= "0,1,2",
+		msgList= "0,1,2,9",
 		position = {0, 0, 0},
 		orientation = 180,
 		life = 100.0,
@@ -31,7 +31,7 @@ Map = {
 
 	Gonzalo = {
 		type = "NPC",
-		msgList= "0,1,2",
+		msgList= "0,1,2,9",
 		position = {0, 0, 100},
 		orientation = 180,
 		life = 100.0,

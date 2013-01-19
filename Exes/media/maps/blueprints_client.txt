@@ -1,6 +1,6 @@
 World CGraphics
-Player CNetConnector CAnimatedGraphics
-NPC CAnimatedGraphics
+Player CNetConnector CAnimatedGraphics CDeath
+NPC CAnimatedGraphics CDeath
 Entity CGraphics
 AnimatedEntity CAnimatedGraphics
 Camera CCamera

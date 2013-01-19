@@ -95,6 +95,12 @@ namespace Logic
 	
 	void CAnimatedGraphics::animationFinished(const std::string &animation)
 	{
+		
+		TMessage msg;
+		msg._type = Message::TMessageType::ANIMATION_FINISHED;
+		msg._string = animation;
+		_entity->emitMessage(msg);		
+
 		// Si acaba una animación y tenemos una por defecto la ponemos
 		_animatedGraphicsEntity->stopAllAnimations();
 		_animatedGraphicsEntity->setAnimation(_defaultAnimation,true);

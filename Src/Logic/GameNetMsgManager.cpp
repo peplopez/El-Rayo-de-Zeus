@@ -178,8 +178,7 @@ namespace Logic {
 				if( player->isPlayer() )						// GameOver si el END_GAME es para nuestro player
 					Application::CBaseApplication::getSingletonPtr()->setState("gameOver");
 				else											// Si no, eliminamos ese player del mapa
-					player->deactivate();
-				//CEntityFactory::getSingletonPtr()->deferredDeleteEntity(entity);
+					CEntityFactory::getSingletonPtr()->deferredDeleteEntity(player);
 
 			break;
 		}
