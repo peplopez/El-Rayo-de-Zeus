@@ -165,12 +165,13 @@ namespace Logic
 		
 		void CAngularMovement::goDown()
 		{
-			_changingRing=true;
+			_changingRing=true;_entity->setRing(Ring::ANILLO_INFERIOR);
 		}
 		
 		void CAngularMovement::goUp()
 		{
 			_changingRing=true;	
+			_entity->setRing(Ring::ANILLO_SUPERIOR);
 		}
 		
 		void CAngularMovement::stopMovement()
@@ -223,7 +224,7 @@ namespace Logic
 		bool cierre=false;
 			unsigned int currentTime;
 				unsigned int endingTime;
-		while(_changingRing){
+		/*while(_changingRing){
 			currentTime=Application::CBaseApplication::getSingletonPtr()->getAppTime();
 			
 		if (!cierre)
@@ -235,7 +236,7 @@ namespace Logic
 			_changingRing=false;
 		_entity->setRing(LogicalPosition::ANILLO_SUPERIOR);
 			IComponent::tick(msecs);
-		}
+		}*/
 
 	     Vector3 direction(Vector3::ZERO);
 		if(_walkingLeft || _walkingRight)
