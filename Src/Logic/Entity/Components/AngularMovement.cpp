@@ -15,7 +15,7 @@ angular de entidades.
 
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
- 
+ #include "Application/BaseApplication.h"
 
 //declaración de la clase
 namespace Logic 
@@ -164,11 +164,13 @@ namespace Logic
 		
 		
 		void CAngularMovement::goDown()
-		{}
+		{
+			_changingRing=true;
+		}
 		
 		void CAngularMovement::goUp()
 		{
-		
+			_changingRing=true;	
 		}
 		
 		void CAngularMovement::stopMovement()
@@ -187,24 +189,14 @@ namespace Logic
 		
 		
 	void CAngularMovement::changeDirection(bool newDirection)
-	{
-		/*if (_hit>0)
-		{
-			_hit++;
-			if(_hit==100)
-			{*/
-
-
+	{		
 				Logic::TMessage m;
 				m._string="marine";
 				m._type = Logic::Message::SET_SHADER;
 				_entity->emitMessage(m,this);
 				if (_entity->getType().compare("Player")==0)
 				return;
-					//_hit=0;
-				
-			
-
+	
 			//	if (_entity->getType().compare("AnimatedEntity")==0)
 				//{
 				if (!_walkingLeft && !_walkingRight)
@@ -228,9 +220,22 @@ namespace Logic
 		// hayamos la dirección de la suma y escalamos según la
 		// velocidad y el tiempo transcurrido.
 	
-
-			//if (!_entity->isPlayer())
-
+		bool cierre=false;
+			unsigned int currentTime;
+				unsigned int endingTime;
+		while(_changingRing){
+			currentTime=Application::CBaseApplication::getSingletonPtr()->getAppTime();
+			
+		if (!cierre)
+		{
+			cierre=true;
+			endingTime=currentTime+3000;		
+		}
+		if (currentTime>endingTime)
+			_changingRing=false;
+		_entity->setRing(LogicalPosition::ANILLO_SUPERIOR);
+			IComponent::tick(msecs);
+		}
 
 	     Vector3 direction(Vector3::ZERO);
 		if(_walkingLeft || _walkingRight)

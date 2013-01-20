@@ -14,6 +14,8 @@ del juego.
 #include "Logic/Entity/Entity.h"
 #include "Map.h"
 
+
+
 #include "Map/MapEntity.h"
 #include "Map/MapParser.h"
 
@@ -285,6 +287,22 @@ namespace Logic
 
 	} // createEntity
 
+	Logic::CEntity *CEntityFactory::createEntity(const std::string &archetype,
+		const Logic::TLogicalPosition &pos)
+	{
+		//Se busca en el std::map de archetypes el tipo del *entityInfo
+
+		TArchetypeMap::const_iterator it = _archetypes.find(archetype);
+ 
+		
+		if (it != _archetypes.end())
+		{
+			CEntity *ret = createEntity(&(it->second), _currentMap);
+			ret->setLogicalPosition(pos);
+			return ret;	
+		}
+		return 0;
+	}
 
 	//---------------------------------------------------------
 

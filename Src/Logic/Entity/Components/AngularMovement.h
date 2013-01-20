@@ -41,7 +41,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAngularMovement() : IComponent(),_sentidoColision(false),_walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false),_goingDown(false),
+		CAngularMovement() : IComponent(),_sentidoColision(false),_changingRing(false),_walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false),_goingDown(false),
 			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90){}
 		
 		/**
@@ -184,8 +184,8 @@ namespace Logic
 		/**
 		Atributo que indica la magnitud de velocidad de la entidad.
 		*/
-
 		float _angularSpeed;
+
 
 		float _actualRadius;
 
@@ -194,6 +194,11 @@ namespace Logic
 		bool _sentidoDerecha;
 
 		bool _sentidoColision;
+	
+		/**
+		Atributo que indica si la entidad está en proceso de cambio de anillo
+		*/
+		bool _changingRing;
 	
 
 	}; // class CAngularMovement

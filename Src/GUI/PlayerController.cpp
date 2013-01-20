@@ -66,10 +66,10 @@ namespace GUI {
 			switch(key.keyId)
 			{
 			case GUI::Key::W:
-				//m._string = "walk";
+				m._string = "goUp";
 				break;
 			case GUI::Key::S:
-				//m._string = "walkBack";
+				m._string = "goDown";
 				break;
 			case GUI::Key::A:
 				m._string = "walkLeft";

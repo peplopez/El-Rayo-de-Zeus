@@ -130,7 +130,7 @@ namespace Logic
 
 
 			if(entityInfo->hasAttribute("angularBox"))					
-				_pos._angularBox = entityInfo->getFloatAttribute("angularBox");
+				_angularBox = entityInfo->getFloatAttribute("angularBox");
 
 
 			if(entityInfo->hasAttribute("sense"))
@@ -448,6 +448,20 @@ namespace Logic
 
 	} // setPosition
 
+
+	void CEntity::setLogicalPosition(const Logic::TLogicalPosition &pos)
+	{
+		_pos._base=pos._base;
+		_pos._degrees=pos._degrees;
+		_pos._ring=pos._ring;
+		_pos._sense=pos._sense;
+		
+		const Vector3 position=fromLogicalToCartesian(_pos._degrees,_pos._base,_pos._ring);
+		setPosition(position);
+
+
+	} //setLogicalPosition
+		
 	//---------------------------------------------------------
 
 	void CEntity::setOrientation(const Matrix3& orientation) 

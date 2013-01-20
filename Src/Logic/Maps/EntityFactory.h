@@ -19,6 +19,7 @@ del juego.
 
 #include "BaseSubsystems/Math.h"
 #include "EntityID.h"
+#include "../Entity/LogicalPosition.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Map
@@ -152,6 +153,18 @@ namespace Logic
 		CEntity *createEntity(const std::string &archetype,
 							  const Matrix4 &transform);
 
+
+		/**
+		Add PEP
+		Crea una entidad lógica en el mapa a partir del nombre del 
+		archeytipe y la posición lógica pasados como parametros.
+
+		@param archetype nombre del archetype que se utilizará como modelo
+		@param pos posición lógica de la entidad que se creará
+		*/
+
+		CEntity *createEntity(const std::string &archetype,
+			const Logic::TLogicalPosition &pos);
 		/**
 		Destruye el CEntity pasado como parámetro. La destrucción
 		es inmediata, por lo que el <em>invocante debe garantizar</em>

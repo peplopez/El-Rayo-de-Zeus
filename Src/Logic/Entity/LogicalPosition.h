@@ -79,17 +79,7 @@ namespace Logic
 			Grados
 		*/	
 		float _degrees;
-
-
-		/**
-			Mi intención es quitarlo más adelante, al decir el anillo ya estás diciendo el radio, este no cambia jamás durante la ejecución
-		*/	
-		//float _radio;
-
-		/**
-			Anchura de la entidad gráfica en grados
-		*/	
-		float _angularBox;
+	
 	}TLogicalPosition; 
 
 } // namespace Logic
