@@ -1,6 +1,6 @@
-World CGraphics CPhysicEntity CNetConnector
-Player CAnimatedGraphics CAvatarController CLife CPhysicCharacter CNetConnector CDeath
-NPC CAnimatedGraphics CLife CPhysicCharacter CSteeringMovement CRouteTo CStateMachineExecutor CNetConnector CDeath
+World CGraphics CPhysicEntity
+Player CAnimatedGraphics CAvatarController CLife CPhysicCharacter CDeath CNetConnector
+NPC CAnimatedGraphics CLife CPhysicCharacter CSteeringMovement CRouteTo CStateMachineExecutor CDeath CNetConnector
 Entity
 AnimatedEntity
 Camera CCamera

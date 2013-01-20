@@ -148,7 +148,7 @@ namespace Net
 
 		@param data Datos a enviar.
 		*/
-		void send(void* data, size_t longdata);
+		void send(void* data, size_t longdata, bool reliable = true);
 
 		void activateAsServer(int port, int clients = 16, unsigned int maxinbw = 0, unsigned int maxoutbw = 0);
 

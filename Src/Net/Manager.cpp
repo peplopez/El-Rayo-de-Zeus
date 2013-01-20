@@ -99,17 +99,17 @@ namespace Net {
 	} // close
 
 	//---------------------------------------------------------
-
-	void CManager::send(void* data, size_t longdata) 
+	
+	void CManager::send(void* data, size_t longdata, bool reliable) 
 	{
 		if(!_connections.empty())
 		{
-			// TODO Ahora hay más de una conexión, debemos mandar el mensaje por
-			// todas si somos servidor.
+			// TODO Ahora hay más de una conexión, debemos mandar el mensaje por todas si somos servidor.
+			// TODO Siempre por todas, o habrá momentos de switching?
 			if(_servidorRed)
-				_servidorRed->sendAll(data,longdata,0,1);
+				_servidorRed->sendAll( data, longdata, 0, reliable);
 			if(_clienteRed)
-				_clienteRed->sendData(getConnection(Net::ID::SERVER),data,longdata,0,1); // TODO Se guardan en cliente conexiones con el resto de clientes?
+				_clienteRed->sendData( getConnection(Net::ID::SERVER), data, longdata, 0, reliable); // TODO Se guardan en cliente conexiones con el resto de clientes?
 		}
 
 	} // send
@@ -221,7 +221,7 @@ namespace Net {
 		CBuffer buf;// Avisamos al cliente de cual es su nuevo ID	
 			buf.write(&type,sizeof(type));		
 			buf.write(&_nextId,sizeof(_nextId));// Escribimos el id del cliente
-		_servidorRed->sendData(connection, buf.getbuffer(),buf.getSize(),0,1);
+		_servidorRed->sendData(buf.getbuffer(),buf.getSize(),0,1, connection);
 
 		// Preparamos para la siguiente conexión
 		_nextId = ID::NextID(_nextId);

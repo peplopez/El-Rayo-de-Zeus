@@ -58,8 +58,7 @@ namespace Logic {
 			} while (!mgsTypeList.eof());
 		}
 
-		// Obtenemos los milisegundos que se esperan entre envios 
-		// de mensajes del mismo tipo
+		// Obtenemos los milisegundos que se esperan entre envios de mensajes del mismo tipo
 		if (entityInfo->hasAttribute("blockedTime")) 
 			_timeOfBlocking = entityInfo->getIntAttribute("blockedTime");
 
@@ -75,15 +74,16 @@ namespace Logic {
 		// por red.
 		if (std::find(_forwardedMsgTypes.begin(),  _forwardedMsgTypes.end(), message._type) != _forwardedMsgTypes.end())
 		{
+			if(message._type == Message::CONTROL)
+				return true;
 			// Grano fino, en vez de aceptar el mensaje directamente
 			// solo se retransmitirá por la red si no se ha transmitido 
 			// hace poco (_timeOfBlocking milisegundos) un mensaje del 
 			// mismo tipo
-			if(_timeToUnblockMsgDelivery.count(message._type) == 0) // TODO probar sin ajuste fino qué tal va de fino :P
+			else if(_timeToUnblockMsgDelivery.count(message._type) == 0) // TODO probar sin ajuste fino qué tal va de fino :P
 			{
-				if(_timeOfBlocking)
-					_timeToUnblockMsgDelivery.insert(
-						TTimeToUnblockMsgDeliveryPair(message._type,_timeOfBlocking));
+				if(_timeOfBlocking && message._type)
+					_timeToUnblockMsgDelivery.insert(TTimeToUnblockMsgDeliveryPair(message._type,_timeOfBlocking));
 				return true;
 			}// TODO no hace falta ir descontando tiempo y eliminar el par en algún momento?
 		}

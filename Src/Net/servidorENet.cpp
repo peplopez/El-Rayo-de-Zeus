@@ -147,7 +147,7 @@ namespace Net {
 	}
 	
 
-	void CServidorENet::sendData(CConexion* conexion, void* data, size_t longData, int channel, bool reliable)
+	void CServidorENet::sendData(void* data, size_t longData, int channel, bool reliable, CConexion* conexion)
 	{
 		enet_uint32 rel = 0;
 		if(reliable)

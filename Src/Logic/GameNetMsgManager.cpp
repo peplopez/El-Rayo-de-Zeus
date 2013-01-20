@@ -27,10 +27,10 @@ Contiene la implementación del gestor de los mensajes de red durante la partida.
 
 #include "Application/BaseApplication.h"
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #	include <iostream>
-#	define LOG(msg) cout << "LOGIC::NET_MANAGER>> " << msg << std::endl;
+#	define LOG(msg) std::cout << "LOGIC::NET_MANAGER>> " << msg << std::endl;
 #else
 #	define LOG(msg)
 #endif

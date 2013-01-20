@@ -73,7 +73,7 @@ public:
 	 * @param channel canal lógico por el que se enviarán los datos
 	 * @param reliable indica si el cliente debe comprobar que los datos han sido recibidos por la máquina remota
 	 */
-	void sendData(CConexion* conexion, void* data, size_t longData, int channel, bool reliable);
+	void sendData(void* data, size_t longData, int channel, bool reliable, CConexion* conexion);
 
 	/**
 	 * Envía el mismo dato a todos los clientes conectados
