@@ -14,7 +14,11 @@ del juego.
 #include "Logic/Entity/Entity.h"
 #include "Map.h"
 
+
+
+
 #include "Map/MapEntity.h"
+#include "Map/MapParser.h"
 
 #include <iostream>
 #include <fstream>
@@ -22,6 +26,7 @@ del juego.
 
 // HACK. Debería leerse de algún fichero de configuración
 #define BLUEPRINTS_FILE_PATH "./media/maps/"
+#define ARCHETYPES_FILE_PATH "./media/maps/"
 
 /**
 Sobrecargamos el operador >> para la lectura de blueprints.
@@ -110,6 +115,7 @@ namespace Logic
 	void CEntityFactory::close() 
 	{
 		unloadBluePrints();
+		unloadArchetypes();
 
 	} // close
 	
@@ -155,6 +161,48 @@ namespace Logic
 		_bluePrints.clear();
 
 	} // unloadBluePrints
+
+	//---------------------------------------------------------
+
+	typedef std::pair<std::string,Map::CEntity> TStringCEntityPair;
+
+	bool CEntityFactory::loadArchetypes(const std::string &filename)
+	{
+		// Completamos la ruta con el nombre proporcionado
+		std::string completePath(ARCHETYPES_FILE_PATH);
+		completePath = completePath + filename;
+
+		if(!Map::CMapParser::getSingletonPtr()->parseFile(completePath))
+		{
+			assert(!"No se ha podido parsear el archetypes.");
+			return false;
+		}
+
+		// Extraemos las entidades del parseo.
+		Map::CMapParser::TEntityList entityList = 
+			Map::CMapParser::getSingletonPtr()->getEntityList();
+
+		Map::CMapParser::TEntityList::const_iterator it, end;
+		it = entityList.begin();
+		end = entityList.end();
+
+		//Guardamos cada uno de los archetypes en el std::map de archetypes
+		for (; it != end; it++) 
+		{
+			TStringCEntityPair elem((*it)->getName(), *(*it));
+			_archetypes.insert(elem);
+		}
+		return true;
+
+	} // loadArchetypes
+
+	//---------------------------------------------------------
+
+	void CEntityFactory::unloadArchetypes()
+	{
+		_archetypes.clear();
+
+	} // unloadArchetypes
 	
 	//---------------------------------------------------------
 
@@ -194,12 +242,10 @@ namespace Logic
 	} // assembleEntity
 	
 	//---------------------------------------------------------
-
-
-	Logic::CEntity *CEntityFactory::createEntity(
-								const Map::CEntity *entityInfo,
+	Logic::CEntity *CEntityFactory::createEntity(const
+								Map::CEntity *entityInfo,
 								Logic::CMap *map)
-	{
+	{		
 		CEntity *ret = assembleEntity(entityInfo->getType());
 
 		if (!ret)
@@ -208,7 +254,9 @@ namespace Logic
 		// Añadimos la nueva entidad en el mapa antes de inicializarla.
 		map->addEntity(ret);
 
+
 		// Y lo inicializamos
+		
 		if (ret->spawn(map, entityInfo))
 			return ret;
 		else {
@@ -218,7 +266,73 @@ namespace Logic
 		}
 
 	} // createEntity
-	
+
+
+	//---------------------------------------------------------
+
+
+	Logic::CEntity *CEntityFactory::createEntity(const std::string &archetype,
+							  const Matrix4 &transform)
+	{
+		//Se busca en el std::map de archetypes el tipo del *entityInfo
+
+		TArchetypeMap::const_iterator it = _archetypes.find(archetype);
+ 
+
+		if (it != _archetypes.end())
+		{
+			CEntity *ret = createEntity(&(it->second), _currentMap);
+			ret->setTransform(transform);
+			return ret;	
+		}
+		return 0;
+
+	} // createEntity
+
+	//---------------------------------------------------------
+
+	Logic::CEntity *CEntityFactory::createEntity(const std::string &archetype,
+		const Logic::TLogicalPosition &pos)
+	{
+		//Se busca en el std::map de archetypes el tipo del *entityInfo
+
+		TArchetypeMap::const_iterator it = _archetypes.find(archetype);
+ 
+		
+		if (it != _archetypes.end())
+		{
+			CEntity *ret = createEntity(&(it->second), _currentMap);
+			ret->setLogicalPosition(pos);
+			return ret;	
+		}
+		return 0;
+
+	} // createEntity
+
+	//---------------------------------------------------------
+
+	Logic::CEntity *CEntityFactory::createMergedEntity(
+								Map::CEntity *entityInfo,
+								Logic::CMap *map)
+	{
+		
+		//Se busca en el std::map de archetypes el tipo del *entityInfo
+		TArchetypeMap::const_iterator it = _archetypes.find(entityInfo->getType());
+
+		//Si encuentra el archetype de ese tipo, fusiono con él en entityInfo
+		if (it != _archetypes.end())
+		{
+			entityInfo->mergeWithArchetype(it->second);
+		}
+
+		CEntity *ret = createEntity(entityInfo, map);
+		return ret;
+		
+
+	} // createMergedEntity
+
+
+
 
 	//---------------------------------------------------------
 

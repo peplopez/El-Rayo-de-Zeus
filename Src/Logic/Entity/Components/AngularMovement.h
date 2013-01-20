@@ -42,7 +42,6 @@ namespace Logic
 		defecto.
 		*/
 		// Pablo. Añadido la inicialización de _jumping y _timeJumping
-		CAngularMovement() : IComponent(),_sentidoColision(false),_walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false),_goingDown(false),
 			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90), _jumping(false), _timeJumping(0){}
 		
 		/**
@@ -198,8 +197,8 @@ namespace Logic
 		/**
 		Atributo que indica la magnitud de velocidad de la entidad.
 		*/
-
 		float _angularSpeed;
+
 
 		float _actualRadius;
 

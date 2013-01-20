@@ -78,7 +78,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AngularMovement.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Collider.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\JumpMovement.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeController.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeController.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\ComponentFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\EntityFactory.cpp" />

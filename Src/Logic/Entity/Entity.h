@@ -218,6 +218,22 @@ namespace Logic
 		const std::string &getType() const { return _type; }
 
 		/**
+		Add PEP
+		Establece la estructura de posición lógica asociada a las entidades que hagan uso de ella.
+		
+		@param pos Nueva posición lógica de la entidad.
+		*/		
+		void setLogicalPosition(const Logic::TLogicalPosition &pos);
+
+		/**
+		Add PEP
+		Recupera la estructura de posición lógica de una entidad
+		
+		@return posición lógica
+		*/		
+		Logic::TLogicalPosition getLogicalPosition() const {return _pos;}
+
+		/**
 		Establece la matriz de transformación de la entidad. Avisa a los 
 		componentes del cambio.
 
@@ -328,8 +344,8 @@ namespace Logic
 		NO USAREMOS SET_RADIO, con los cambios de anillo usamos setRing()
 		@return Radio de la entidad en el entorno.
 		*/
-
 		const float getRadio();
+
 
 
 		/**
@@ -343,7 +359,7 @@ namespace Logic
 		
 		@return AngularBox de la entidad en el entorno.
 		*/
-		const float getAngularBox() const { return _pos._angularBox; }
+		const float getAngularBox() const { return _angularBox; }
 
 		/**
 		Establece la anchura de la entidad gráfica
@@ -435,6 +451,8 @@ namespace Logic
 
 		const Vector3 fromLogicalToCartesian(const float grados, const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
+		
+
 	protected:
 
 		/**
@@ -515,6 +533,11 @@ namespace Logic
 		Copia de la definición de la entidad leida del mapa.
 		*/
 		const Map::CEntity *_entityInfo;
+					
+		/**
+			Anchura de la entidad gráfica en grados
+		*/	
+		float _angularBox;
 	}; // class CEntity
 
 } // namespace Logic

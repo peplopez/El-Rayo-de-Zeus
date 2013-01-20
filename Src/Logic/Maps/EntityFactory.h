@@ -17,7 +17,10 @@ del juego.
 #include <string>
 #include <list>
 
+#include "BaseSubsystems/Math.h"
 #include "EntityID.h"
+#include "Logic/Entity/LogicalPosition.h"
+
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Map
@@ -97,6 +100,20 @@ namespace Logic
 		void unloadBluePrints();
 
 		/**
+		Add - ESC
+		Carga un std:map con los arquetipos. Se almacena en la factoría de 
+		entidades. El mapa es del tipo <nombredelarquetipo, Map::CEntity arquetipo> 
+
+		@param filename Fichero con la descripción de los arquetipos.
+		*/
+		bool loadArchetypes(const std::string &filename);
+
+		/**
+		Descarga el listado de arquetipos creados
+		*/
+		void unloadArchetypes();
+
+		/**
 		Crea una nueva entidad de juego en un mapa determinado a partir de
 		su descripción en base a los componentes que necesita debido
 		a su naturaleza según lo leído en el/los archivo/s blueprint.
@@ -115,6 +132,40 @@ namespace Logic
 		CEntity *createEntity(const Map::CEntity *entityInfo,
 							  CMap *map);
 
+		/**
+		Add ESC
+		Mod ESC - Método modificado usado durante la carga del mapa, para que tenga en cuenta los archetypes.
+		En este método se añade al MAP::CEntity la información adicional que haya en el arquetipo,
+		pero nunca se sobreescribe la existente del map.txt, excepto el type.
+		*/
+		CEntity *createMergedEntity(Map::CEntity *entityInfo,
+							  CMap *map);
+		
+
+		/**
+		Add ESC
+		Crea una entidad lógica en el mapa a partir del nombre del 
+		archeytipe y el transform pasados como parametro.
+
+		@param archetype nombre del archetype que se utilizará como modelo
+		@param transform transform de la entidad que se creará
+		*/
+
+		CEntity *createEntity(const std::string &archetype,
+							  const Matrix4 &transform);
+
+
+		/**
+		Add PEP
+		Crea una entidad lógica en el mapa a partir del nombre del 
+		archeytipe y la posición lógica pasados como parametros.
+
+		@param archetype nombre del archetype que se utilizará como modelo
+		@param pos posición lógica de la entidad que se creará
+		*/
+
+		CEntity *createEntity(const std::string &archetype,
+			const Logic::TLogicalPosition &pos);
 		/**
 		Destruye el CEntity pasado como parámetro. La destrucción
 		es inmediata, por lo que el <em>invocante debe garantizar</em>
@@ -185,6 +236,12 @@ namespace Logic
 
 		
 		/**
+		Add - ESC
+		Metodo para registrar el mapa lógico donde se crearán las entidades
+		*/
+		void setCurrentMap(CMap *currentMap) { _currentMap = currentMap; }
+		
+		/**
 		Estructura que define una entidad blueprint.
 		*/
 		typedef struct
@@ -200,6 +257,8 @@ namespace Logic
 			std::list<std::string> components;
 
 		}TBluePrint;
+
+
 
 	protected:
 
@@ -258,14 +317,35 @@ namespace Logic
 		TEntityList _pendingEntities;
 
 		/**
+		Add ESC
 		Tipo tabla para almacenar entidades blueprint por nombre.
 		*/
 		typedef std::map<std::string,TBluePrint> TBluePrintMap;
 
 		/**
+		Add ESC
 		Tabla donde se almacenan las entidades blueprint por nombre.
 		*/
 		TBluePrintMap _bluePrints;
+
+		/**
+		Add ESC
+		Tipo mapa ordenado, para almacenar los archetypes con valores predefinidos.
+		*/
+		typedef std::map<std::string,Map::CEntity> TArchetypeMap;
+
+		/**
+		Add ESC
+		Tabla donde se almacenan las entidades archetype.
+		*/
+		TArchetypeMap _archetypes;
+
+		/**
+		Add ESC
+		Referencia al mapa lógico actual, donde se crearán las entidades logicas.
+		*/
+
+		CMap *_currentMap;
 
 	}; // CEntityFactory
 

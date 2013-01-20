@@ -39,7 +39,6 @@ namespace Logic
 		_bb.setCoordenadas(0.0f, 0.0f, 0.5f, 1.0f);
 		*/
 
-
 		return true;
 		}
 

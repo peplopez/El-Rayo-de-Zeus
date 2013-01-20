@@ -104,4 +104,25 @@ namespace Map {
 
 	} // getVector3Attribute
 
+	//--------------------------------------------------------
+
+	void CEntity::mergeWithArchetype(const CEntity& archetype)
+	{
+		
+		TAttrList::const_iterator it,end;
+
+		it=archetype.getAttributes().begin();
+		end=archetype.getAttributes().end();
+		
+		for (; it != end; it++)
+		{
+			if(!this->hasAttribute(it->first) && it->first.compare("type") != 0)
+				this->setAttribute(it->first, it->second);
+		}
+
+		//Por ultimo se modifica el tipo de la entidad al que se indique en el arquetipo
+		this->setType(archetype.getType());
+
+	} // mergeWithArchetype
+
 } // namespace Map
