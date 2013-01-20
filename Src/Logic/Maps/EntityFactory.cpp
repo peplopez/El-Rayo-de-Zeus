@@ -16,6 +16,7 @@ del juego.
 
 
 
+
 #include "Map/MapEntity.h"
 #include "Map/MapParser.h"
 
@@ -255,6 +256,7 @@ namespace Logic
 
 
 		// Y lo inicializamos
+		
 		if (ret->spawn(map, entityInfo))
 			return ret;
 		else {
@@ -287,6 +289,8 @@ namespace Logic
 
 	} // createEntity
 
+	//---------------------------------------------------------
+
 	Logic::CEntity *CEntityFactory::createEntity(const std::string &archetype,
 		const Logic::TLogicalPosition &pos)
 	{
@@ -302,7 +306,8 @@ namespace Logic
 			return ret;	
 		}
 		return 0;
-	}
+
+	} // createEntity
 
 	//---------------------------------------------------------
 

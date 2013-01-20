@@ -30,12 +30,12 @@ namespace Logic
 		/**
 			Ambito actual hasta que se cambie de base y/o anillo
 		*/
-		const enum Ring{	
+		enum Ring{	
 			ANILLO_INFERIOR=0,
 			ANILLO_CENTRAL=1,
 			ANILLO_SUPERIOR=2
 		};
-		const enum Sense{ //Quizá mejor sentido angunos positivos/negativos?	
+		enum Sense{ //Quizá mejor sentido angunos positivos/negativos?	
 			IZQUIERDA=0,
 			DERECHA=1
 		};
@@ -61,7 +61,7 @@ namespace Logic
 	@date Diciembre, 2012
     @ingroup grupoEntidad
 	*/
-	typedef struct
+	struct TLogicalPosition
 	{
 		/**
 			Anillo
@@ -79,8 +79,10 @@ namespace Logic
 			Grados
 		*/	
 		float _degrees;
+
+		TLogicalPosition() : _ring(LogicalPosition::ANILLO_CENTRAL), _sense(LogicalPosition::IZQUIERDA), _base(0), _degrees(0){}
 	
-	}TLogicalPosition; 
+	}; 
 
 } // namespace Logic
 

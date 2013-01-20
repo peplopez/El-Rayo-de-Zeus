@@ -19,7 +19,8 @@ del juego.
 
 #include "BaseSubsystems/Math.h"
 #include "EntityID.h"
-#include "../Entity/LogicalPosition.h"
+#include "Logic/Entity/LogicalPosition.h"
+
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Map
@@ -135,7 +136,7 @@ namespace Logic
 		Add ESC
 		Mod ESC - Método modificado usado durante la carga del mapa, para que tenga en cuenta los archetypes.
 		En este método se añade al MAP::CEntity la información adicional que haya en el arquetipo,
-		pero nunca se sobreescribe la existente del map.txt.
+		pero nunca se sobreescribe la existente del map.txt, excepto el type.
 		*/
 		CEntity *createMergedEntity(Map::CEntity *entityInfo,
 							  CMap *map);

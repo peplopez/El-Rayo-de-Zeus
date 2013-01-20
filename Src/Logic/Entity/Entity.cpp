@@ -28,7 +28,7 @@ namespace Logic
 {
 	CEntity::CEntity(TEntityID entityID) : _entityID(entityID), 
 				_map(0), _type(""), _name(""), _transform(Matrix4::IDENTITY),
-				_isPlayer(false), _activated(false)
+				_isPlayer(false), _activated(false), _pos(TLogicalPosition())
 	{
 
 	} // CEntity
