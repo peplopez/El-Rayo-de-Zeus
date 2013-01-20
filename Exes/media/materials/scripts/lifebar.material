@@ -1,0 +1,15 @@
+material lifeBar
+{
+	technique
+	{
+		pass
+		{	
+			emissive 0.7 0.7 0.7 1.0
+			
+			texture_unit
+			{
+				texture VerdeRojo.png
+			}
+		}
+	}
+}
