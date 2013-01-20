@@ -33,12 +33,12 @@ namespace Logic
 
 		//David LLanso. Tutoria.
 		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
+		//_bb = Graphics::CBillboard::CBillboard(entity->getName()+"_billboard");
 		/*
 		_bb = Graphics::CBillboard::CBillboard(entity->getName()+"_billboard");
-		_bb.setDimensions(40,2);
-		_bb.setCoordenadas(0.0f, 0.0f, 0.5f, 1.0f);
+		_bb->setDimensions(40,2);
+		_bb->setCoordenadas(0.0f, 0.0f, 0.5f, 1.0f);
 		*/
-
 		return true;
 		}
 
@@ -103,10 +103,12 @@ namespace Logic
 			//if (_miBarra!=0)
 			//_miBarra->setPosition(_entity->getPosition());
 			//if (_entity->getType().compare("BarraVida")==0)
+			/*
 			    _entity->setPosition(Logic::CServer::getSingletonPtr()->getPlayer()->getPosition());
 				_entity->setPosition(Vector3(_entity->getPosition().x,_entity->getPosition().y+13,_entity->getPosition().z));
 				
 				_entity->setPitchYaw(Math::PI/2,Logic::CServer::getSingletonPtr()->getPlayer()->getYaw()-Math::PI/2);
+				*/
 				
 				//_entity->get
 			//	printf("player position: %d ",Logic::CServer::getSingletonPtr()->getPlayer()->getPosition().z);

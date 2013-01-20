@@ -123,7 +123,7 @@ namespace Logic
 		//static Logic::CEntity *_BarraVida;
 
 		// Tutoria
-		//Graphics::CBillboard* _bb;
+		Graphics::CBillboard* _bb;
 
 
 

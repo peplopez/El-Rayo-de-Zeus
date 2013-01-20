@@ -172,9 +172,8 @@ namespace Graphics
 
 	// David LLanso Tutoria
 	// Se añade un nuevo método para crear un Billboard desde la escena
-	//Ogre::BillboardSet* createBillboard(const std::string &name)
 	
-	Ogre::BillboardSet* CScene::addBillboard(std::string &name)
+	Ogre::BillboardSet* CScene::addBillboard(const std::string &name)
 	{
 		Ogre::BillboardSet* _bbSet;
 		_bbSet = _sceneMgr->createBillboardSet();

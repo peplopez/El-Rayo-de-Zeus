@@ -137,7 +137,7 @@ namespace Graphics
 		void removeStaticEntity(CStaticEntity* entity);
 
 		//David Llanso Tutoria
-		Ogre::BillboardSet* addBillboard(std::string &name);
+		Ogre::BillboardSet* addBillboard(const std::string &name);
 
 		//Pablo
 		void deleteBillboard(const std::string &name);
