@@ -79,6 +79,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Src\Graphics\AnimatedEntity.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Camera.cpp" />
+    <ClCompile Include="..\..\Src\Graphics\Billboard.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Entity.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Scene.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Server.cpp" />
@@ -87,6 +88,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Src\Graphics\AnimatedEntity.h" />
     <ClInclude Include="..\..\Src\Graphics\Camera.h" />
+    <ClInclude Include="..\..\Src\Graphics\Billboard.h" />
     <ClInclude Include="..\..\Src\Graphics\Documentation.h" />
     <ClInclude Include="..\..\Src\Graphics\Entity.h" />
     <ClInclude Include="..\..\Src\Graphics\Scene.h" />

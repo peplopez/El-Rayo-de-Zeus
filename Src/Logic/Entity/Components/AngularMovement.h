@@ -41,9 +41,9 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		// Pablo. Añadido la inicialización de _jumping
+		// Pablo. Añadido la inicialización de _jumping y _timeJumping
 		CAngularMovement() : IComponent(),_sentidoColision(false),_walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false),_goingDown(false),
-			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90), _jumping(false){}
+			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90), _jumping(false), _timeJumping(0){}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -208,6 +208,26 @@ namespace Logic
 		bool _sentidoDerecha;
 
 		bool _sentidoColision;
+
+		// Pablo. Atributo que indica la velocidad de salto de la entidad
+		float jumpSpeed;
+
+		// Pablo. Atributo que indica que acaba de empezar a saltar
+		float _initialJump;
+
+		float _timeJumping;
+
+		// Pablo. Atributo que indica la velocidad de la fuerza de gravedad
+		float gravity;
+
+		//Pablo. Altura maxima del salto
+		float Hmax;
+
+		//Pablo. Tiempo máximo en el aire
+		float Tmax;
+
+		//Pablo. Tiempo hasta alcanzar la máxima altura
+		float Tmaxaltura;
 	
 
 	}; // class CAngularMovement

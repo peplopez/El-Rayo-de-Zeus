@@ -1,5 +1,5 @@
 	/**
-@file LifeController.h
+@file LifeController.cpp
 
 Contiene la declaración del componente que controla el movimiento 
 angular de entidades.
@@ -10,11 +10,12 @@ angular de entidades.
 @author José Luis López
 @date Diciembre, 2012
 */
-
-//#include "Logic/Entity/Components/"
+#include "LifeController.h"
 
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
+#include "Logic/Maps/EntityFactory.h"
+#include "Logic/Server.h"
 
 
 //declaración de la clase
@@ -22,19 +23,43 @@ namespace Logic
 {
 	IMP_FACTORY(CLifeController);
 
+	//CEntity *CLifeController::_BarraVida=0;
+
 	bool CLifeController::spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo){
 
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
-		
-		if(entityInfo->hasAttribute("angularSpeed"))
-			_angularSpeed = entityInfo->getFloatAttribute("angularSpeed");
+
+
+		//David LLanso. Tutoria.
+		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
+		/*
+		_bb = Graphics::CBillboard::CBillboard(entity->getName()+"_billboard");
+		_bb.setDimensions(40,2);
+		_bb.setCoordenadas(0.0f, 0.0f, 0.5f, 1.0f);
+		*/
+
 
 		return true;
 		}
 
 	bool CLifeController::activate()
 	{
+		if(_entity->getType().compare("BarraVida")==0)		
+		{	
+			//_entity->pitch(Math::PI);
+				//_entity->setPitch(Math::PI/2);
+		//	printf("Entidad nombre: %s",_BarraVida->getName());
+		//	if (_BarraVida!=0){
+				//_miBarra = CEntityFactory::getSingletonPtr()->instantiate(_entity);
+				//_miBarra->setPosition(_entity->getPosition());
+				//_miBarra->set
+				//e->setPosition(Vector3(0,-126,0));
+				//e->set
+			//} 
+		//	_entity->setOrientation(
+
+		}		
 			return true;
 	}
 		
@@ -46,7 +71,9 @@ namespace Logic
 	
 		 bool CLifeController::accept(const TMessage &message)
 		 {
-			return message._type == Message::CONTROL; //De momento, luego tendrá que aceptar de otras entidades NPC
+			//return message._type == Message::CONTROL; 
+			//De momento, luego tendrá que aceptar de otras entidades NPC
+			 return false;
 		 }
 
 		
@@ -71,74 +98,34 @@ namespace Logic
 
 		 }
 
-		void CLifeController::tick(unsigned int msecs)
-	{
-			IComponent::tick(msecs);
-
-		// Si nos estamos desplazando calculamos la próxima posición
-		// Calculamos si hay vectores de dirección de avance y strafe,
-		// hayamos la dirección de la suma y escalamos según la
-		// velocidad y el tiempo transcurrido.
-		if(_walkingLeft || _walkingRight)
-		{
-			Vector3 direction(Vector3::ZERO);
+	 void CLifeController::tick(unsigned int msecs)
+	 {
+	 		IComponent::tick(msecs);
+			//if (_miBarra!=0)
+			//_miBarra->setPosition(_entity->getPosition());
+			//if (_entity->getType().compare("BarraVida")==0)
+			    _entity->setPosition(Logic::CServer::getSingletonPtr()->getPlayer()->getPosition());
+				_entity->setPosition(Vector3(_entity->getPosition().x,_entity->getPosition().y+13,_entity->getPosition().z));
+				
+				_entity->setPitchYaw(Math::PI/2,Logic::CServer::getSingletonPtr()->getPlayer()->getYaw()-Math::PI/2);
+				
+				//_entity->get
+			//	printf("player position: %d ",Logic::CServer::getSingletonPtr()->getPlayer()->getPosition().z);
+				//CServer::getSingletonPtr()->get
 			
-			/*if(_walkingLeft || _walkingRight)
-			{
-				direction = Math::getDirection(_entity->getYaw());
-				if(_walkingBack)
-					direction *= -1;
-			}*/
+			//_BarraVida->setPosition(_BarraVida->getPosition().);
+		//Vector3 pos= _entity->getPosition();
+	
+		//_entity->setPosition(pos);
+	 }
 
-			if(_walkingLeft || _walkingRight)
-			{
-				direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
-				//Matrix4 orientacion = _entity->getOrientation();
-				//Math::yaw(Math::fromDegreesToRadians(_actualDegree),orientacion);
-				if(_walkingRight){
-					if(_sentidoIzquierda==true){
-						_sentidoIzquierda=false;
-						_entity->yaw(Math::PI);
-						
-					}
-						//_entity->setYaw(0);
-						_actualDegree+=-_angularSpeed;
-						_entity->yaw(Math::fromDegreesToRadians(_angularSpeed));
-				}
-				else
-				{
-					if(_sentidoIzquierda==false){
-						_entity->yaw(Math::PI);					
-						_sentidoIzquierda=true;
-					}
-					_actualDegree+=_angularSpeed;
-					_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed));
-				}
-				//turn(-0.02f*_angularSpeed);
-				//turn(Math::PI/2);
-				
-				
-				//_entity->setOrientation(
-				if(_walkingLeft)
-					direction *= -1;
-			}
 
-			//direction += directionStrafe;
-			direction.normalise();
-			//direction *= msecs * _angularSpeed;
-			//float desplazamiento
-
-			Vector3 newPosition = Math::fromPolarToCartesian(_actualDegree,_actualRadius);
-				//_entity->getPosition() + direction;
-			_entity->setPosition(newPosition);
-		}
-		}
-		void setLife(float life)
+		void CLifeController::setLife(float life)
 		{
 			_life=life;
 		}
 
-		float getLife()
+		float CLifeController::getLife()
 		{
 			return _life;
 		}

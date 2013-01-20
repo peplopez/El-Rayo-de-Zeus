@@ -317,7 +317,10 @@ namespace Logic
 		
 		@return Ring de la entidad en el entorno.
 		*/
+
 		const float getY(const unsigned short base, const Logic::LogicalPosition::Ring ring);
+		// Pablo
+		const float getYJump(const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
 		
 		/**

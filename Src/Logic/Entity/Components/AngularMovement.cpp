@@ -30,6 +30,24 @@ namespace Logic
 		if(entityInfo->hasAttribute("angularSpeed"))
 			_angularSpeed = entityInfo->getFloatAttribute("angularSpeed");
 
+		// Pablo. Si la entidad tiene el atributo jumpSpeed la capturamos y la guardamos en _jumpSpeed
+		// En ppio solo la va a tener el player
+		if(entityInfo->hasAttribute("initialJumpSpeed"))
+			jumpSpeed = entityInfo->getFloatAttribute("initialJumpSpeed");
+
+		// Pablo. Inicializo la gravedad
+		gravity = 9.8; //expresada en metros /seg
+
+		// velocidad inicial. es 28 m / seg
+
+		//Pablo. Calculo la altura maxima del salto
+		Hmax = (jumpSpeed*jumpSpeed) / (2*gravity); // 40 m es la altura maxima del salto ( en nuestro caso son pixeles)
+
+		//Pablo. Tiempo hasta alcanzar la máxima altura
+		// Vi - Vf / g (Velocidad inicial - Velocidad final / aceleracion). La Vf es 0 en altura max.
+		Tmaxaltura = jumpSpeed / gravity; // 2,857142 segundos --> 2857,142 milisegundos
+		Tmax = Tmaxaltura * 2; // 5,71428571 seg. --> 5714,28571 milisegundos.
+
 		return true;
 		}
 
@@ -70,63 +88,64 @@ namespace Logic
 
 		
 	 void CAngularMovement::process(const TMessage &message)
-		 {
+	 {
 		switch(message._type)
 		{
-		case Message::CONTROL:
+
+			case Message::CONTROL:
 			{
-			if(!message._string.compare("goUp"))
-				goUp();
-			else if(!message._string.compare("goDown"))
-				goDown();
-			else if(!message._string.compare("walkLeft"))
-				walkLeft();
-			else if(!message._string.compare("walkRight"))
-				walkRight();
-			else if(!message._string.compare("walkStop"))
-				stopMovement();
-			else if(!message._string.compare("jump")) // Pablo
-				jump();
-			else if(!message._string.compare("walkBack"))
-				 {	
+				if(!message._string.compare("goUp"))
+					goUp();
+				else if(!message._string.compare("goDown"))
+					goDown();
+				else if(!message._string.compare("walkLeft"))
+					walkLeft();
+				else if(!message._string.compare("walkRight"))
+					walkRight();
+				else if(!message._string.compare("walkStop"))
+					stopMovement();
+				else if(!message._string.compare("jump")) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
+					jump();
+				else if(!message._string.compare("walkBack"))
+				{	
 					_sentidoColision=message._bool;
 					walkBack();
-				 }
-			else if(!message._string.compare("changeDirection"))
-				 {	
-					 _sentidoColision=message._bool;
-					changeDirection(_sentidoColision);
-				 }
-			else if(!message._string.compare("turn"))
-				turn(message._float);
-			}
-		case Message::NPC_CONTROL:
-			{
-			if(!message._string.compare("goUp"))
-				goUp();
-			else if(!message._string.compare("goDown"))
-				goDown();
-			else if(!message._string.compare("walkLeft"))
-				walkLeft();
-			else if(!message._string.compare("walkRight"))
-				walkRight();
-			else if(!message._string.compare("walkStop"))
-				stopMovement();
-			else if(!message._string.compare("walkBack"))
-				 {	
+				}
+				else if(!message._string.compare("changeDirection"))
+				{	
 					_sentidoColision=message._bool;
-					walkBack();
-				 }
-			else if(!message._string.compare("changeDirection"))
-				 {	
-					 _sentidoColision=message._bool;
 					changeDirection(_sentidoColision);
-				 }
-			else if(!message._string.compare("turn"))
-				turn(message._float);
+				}
+				else if(!message._string.compare("turn"))
+					turn(message._float);
 			}
-		}
-	}
+			case Message::NPC_CONTROL:
+			{
+				if(!message._string.compare("goUp"))
+					goUp();
+				else if(!message._string.compare("goDown"))
+					goDown();
+				else if(!message._string.compare("walkLeft"))
+					walkLeft();
+				else if(!message._string.compare("walkRight"))
+					walkRight();
+				else if(!message._string.compare("walkStop"))
+					stopMovement();
+				else if(!message._string.compare("walkBack"))
+					 {	
+						_sentidoColision=message._bool;
+						walkBack();
+					 }
+				else if(!message._string.compare("changeDirection"))
+					 {	
+						 _sentidoColision=message._bool;
+						changeDirection(_sentidoColision);
+					 }
+				else if(!message._string.compare("turn"))
+					turn(message._float);
+			}
+		} //fin del switch
+	}//fin de CAngularMovement::process(const TMessage &message)
 
 		void CAngularMovement::walkRight()
 		{
@@ -158,19 +177,26 @@ namespace Logic
 		// Pablo
 		void CAngularMovement::jump()
 		{
-			_jumping = true;
+			_initialJump = true;
+
+
+			/*if(_walkingLeft)
+			  _entity->setSense(LogicalPosition::IZQUIERDA);
+			if(_walkingRight)
+			  _entity->setSense(LogicalPosition::DERECHA);*/
+
+			// Pablo
+			//_entity->getY(_entity->getBase(), _entity->getRing(),_jumping);
+			//_entity->setPosition(_entity->getPosition());
+			// Fin Pablo
 
 			// Cambiamos la animación
-			if(_walkingLeft)
-			  _entity->setSense(LogicalPosition::DERECHA);
-			if(_walkingRight)
-			  _entity->setSense(LogicalPosition::IZQUIERDA);
-
-			TMessage message;
+			/*TMessage message;
 			message._type = Message::SET_ANIMATION;
 			message._string = "Jump";
 			message._bool = true;
 			_entity->emitMessage(message,this);
+			*/
 
 		}
 	
@@ -187,10 +213,38 @@ namespace Logic
 		
 		
 		void CAngularMovement::goDown()
-		{}
+		{
+			Vector3 direction(Vector3::ZERO);
+			direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
+			unsigned short base = _entity->getBase();
+			unsigned short anillo = _entity->getRing();
+			switch(anillo)
+			{
+			case 0:
+				return; //no se puede bajar de anillo si estas en el inferior
+			case 1:
+				break;
+			case 2:
+				break;
+			}
+		}
 		
 		void CAngularMovement::goUp()
-		{}
+		{
+			Vector3 direction(Vector3::ZERO);
+			direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
+			unsigned short base = _entity->getBase();
+			unsigned short anillo = _entity->getRing();
+			switch(anillo)
+			{
+			case 0:
+				break; 
+			case 1:
+				break;
+			case 2:
+				return; //no se puede subir de anillo si estas en el superior
+			}
+		}
 		
 		void CAngularMovement::stopMovement()
 		{
@@ -244,6 +298,9 @@ namespace Logic
 	{
 		IComponent::tick(msecs);
 
+		// inicialY antes de saltar
+		float inicialY;
+
 		// Si nos estamos desplazando calculamos la próxima posición
 		// Calculamos si hay vectores de dirección de avance y strafe,
 		// hayamos la dirección de la suma y escalamos según la
@@ -255,14 +312,43 @@ namespace Logic
 
 	    Vector3 direction(Vector3::ZERO);
 
+		if(_initialJump==true && _jumping==false)
+		{
+			_jumping = true;
+			_timeJumping = 0;
+			inicialY = _entity->getY(_entity->getBase(),_entity->getRing());
+			
+		}
+
 		//Pablo
-		/*
 		if(_jumping)
 		{
-			direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
+			//_timeJumping se incrementa en cada tick
+			_timeJumping+= msecs;
+
+			//direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
+
+			Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+
+			float altura = jumpSpeed*_timeJumping -(gravity*(_timeJumping*_timeJumping)/2);
+
+			newPosition.y = inicialY + altura;
+			if(newPosition.y>=Hmax)
+			{
+				//_entity->setPosition(Hmax);
+			}
+
+			_entity->setPosition(newPosition);
+
+			//direction.normalise();
+
+			if(_timeJumping >= Tmax ) {
+				_jumping = false;
+			}
+
+			
 		}
-		else if(_walkingLeft || _walkingRight) */
-		if(_walkingLeft || _walkingRight)
+		else if(_walkingLeft || _walkingRight)//		if(_walkingLeft || _walkingRight)
 		{
 			if(_walkingLeft || _walkingRight)
 			{
@@ -274,7 +360,8 @@ namespace Logic
 					if(_sentidoDerecha==true)
 					{
 						_sentidoDerecha=false;
-						_entity->yaw(Math::PI);						
+						_entity->yaw(Math::PI);
+						std::cout << "PosY: " << _entity->getPosition().y;
 					}
 						//_entity->setYaw(0);
 						//_actualDegree+=-_angularSpeed;
@@ -290,6 +377,7 @@ namespace Logic
 					{
 						_entity->yaw(Math::PI);					
 						_sentidoDerecha=true;
+						std::cout << "PosY: " << _entity->getPosition().y;
 					}
 					//_actualDegree+=_angularSpeed;
 					if (!_walkBack)
@@ -350,6 +438,9 @@ namespace Logic
 			direction.normalise();
 			
 		} // fin del if(_walkingLeft || _walkingRight)
+
+		// Pablo. Inicializo a false _initialJump para que solo lo tenga en cuenta una vez.
+		_initialJump = false;
 		
 	} //fin del CAngularMovement::tick
 

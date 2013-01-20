@@ -1,8 +1,8 @@
 World CGraphics
 SkyBox CGraphics
 Altar CGraphics
-Player  CAnimatedGraphics CAngularMovement CCollider
+Player  CAnimatedGraphics CAngularMovement CCollider CLifeController
 Entity CGraphics
-AnimatedEntity CAnimatedGraphics CCollider CAngularMovement
+AnimatedEntity CAnimatedGraphics CCollider CAngularMovement CLifeController
 Camera CCamera
-BarraVida CGraphics CLifeController
+BarraVida CGraphics

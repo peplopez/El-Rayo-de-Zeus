@@ -28,9 +28,11 @@ de una escena.
 #include <OgreViewport.h>
 #include <OgreStaticGeometry.h>
 #include <OgreColourValue.h>
+#include <OgreBillboardSet.h> //Pablo
 
 namespace Graphics 
 {
+
 	CScene::CScene(const std::string& name) : _viewport(0), 
 			_staticGeometry(0), _directionalLight(0)
 	{
@@ -165,5 +167,27 @@ namespace Graphics
 		}
 
 	} // buildStaticGeometry
+
+
+
+	// David LLanso Tutoria
+	// Se añade un nuevo método para crear un Billboard desde la escena
+	//Ogre::BillboardSet* createBillboard(const std::string &name)
+	/*
+	Ogre::BillboardSet* addBillboard(std::string &name)
+	{
+		Ogre::BillboardSet* _bbSet;
+	    //_bbSet = _sceneMgr->createBillboard();
+        //_bbSet->createBillboard(Ogre::Vector3(0, 0, 0));
+
+
+	  // se añade el billboard a la entidad en lugar de a la escena (hay que cambiar la linea con *)
+	     //_sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(_bbSetLife); // *
+		_sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(_bbSet);
+
+		return _bbSet; //debéría devolver el Ogre::BillboardSet
+
+	}
+	*/
 
 } // namespace Graphics

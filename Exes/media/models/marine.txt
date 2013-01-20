@@ -31,7 +31,8 @@ StrafeRight   Si      X       X       X       ?
 entidad!! Para las pruebas hice un hack muy cutre al final de Graphics::CEntity::load(). 
 Pongo el código por si alguien se propone hacerlo bien que vea un ejemplo :-)
 
-bool CEntity::load() {
+
+bool Graphics::Entity::load() {
 	...
 	if(!_name.compare("David")) // que es como llamamos al player en el mapa
 	{

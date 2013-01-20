@@ -316,25 +316,31 @@ namespace Logic
 
 	 const Vector3 CEntity::fromLogicalToCartesian(const float grados, const unsigned short base, const Logic::LogicalPosition::Ring ring)
 	 {		 
-		 float offset=0;
-		if (this->getType().compare("Altar")==0)
-		{
+		float offset=0;
+
+		if (this->getType().compare("Altar")==0){
 			offset=-9;
 		}
-		 Vector3 resultado=Vector3::ZERO;
-		 resultado=Math::fromPolarToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset);
-		 resultado.y=CServer::getSingletonPtr()->getRingPositions(base,ring).y+126;
-		 return resultado;
+
+		Vector3 resultado=Vector3::ZERO;
+		resultado=Math::fromPolarToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset);
+		resultado.y=CServer::getSingletonPtr()->getRingPositions(base,ring).y+126;
+
+		return resultado;
 	 }
+	 
+	  const float CEntity::getY(const unsigned short base, const Logic::LogicalPosition::Ring ring)
+	  { 	
+		  Vector3 position=Vector3::ZERO;
+		  position=CServer::getSingletonPtr()->getRingPositions(base,ring);	
+		  return position.y;
+	  }
 
-	 const float CEntity::getY(const unsigned short base, const Logic::LogicalPosition::Ring ring)
-	  { 		    
-			//en el caso de que NO esté saltando
-			Vector3 position=Vector3::ZERO;
-			position=CServer::getSingletonPtr()->getRingPositions(base,ring);	
-			return position.y;
-
-			//TODO en el caso de que esté saltando
+	  const float CEntity::getYJump(const unsigned short base, const Logic::LogicalPosition::Ring ring)
+	  { 	
+		  Vector3 position=Vector3::ZERO;
+		  position=CServer::getSingletonPtr()->getRingPositions(base,ring);	
+		  return position.y+5;
 	  }
 
 	void CEntity::tick(unsigned int msecs) 
@@ -501,7 +507,7 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-		void CEntity::setRoll(float roll) 
+	void CEntity::setRoll(float roll) 
 	{
 		Math::setRoll(roll,_transform);
 
@@ -511,9 +517,9 @@ namespace Logic
 		message._transform = _transform;
 		emitMessage(message);
 
-	} // setYaw
+	} // setRoll
 
-		void CEntity::setPitch(float pitch) 
+	void CEntity::setPitch(float pitch) 
 	{
 		Math::setPitch(pitch,_transform);
 
@@ -523,11 +529,11 @@ namespace Logic
 		message._transform = _transform;
 		emitMessage(message);
 
-	} // setYaw
+	} // setPitch
 
 
 
-		void CEntity::setPitchYaw(float pitch,float yaw) 
+	void CEntity::setPitchYaw(float pitch,float yaw) 
 	{
 		Math::setPitchYaw(pitch,yaw,_transform);
 
@@ -537,7 +543,7 @@ namespace Logic
 		message._transform = _transform;
 		emitMessage(message);
 
-	} // setYaw
+	} // setPitchYaw
 
 	void CEntity::yaw(float yaw) 
 	{

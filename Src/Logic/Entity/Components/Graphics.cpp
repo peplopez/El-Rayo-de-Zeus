@@ -56,13 +56,13 @@ namespace Logic
 			_model = entityInfo->getStringAttribute("model");
 	
 		//Para iniciar la variable publica estatida _BarraVida y poder así clonarla
-		if(_entity->getType().compare("BarraVida")==0 && Logic::CLifeController::_BarraVida==0)
-		{
+		//if(_entity->getType().compare("BarraVida")==0 && Logic::CLifeController::_BarraVida==0)
+		//{
 		//	Logic::CLifeController::_BarraVida->set
 		//	printf("Entidad nombre:      %s        ",_entity->getName());
 		//	Logic::CLifeController::_BarraVida=CEntityFactory::getSingletonPtr()->createEntity(entityInfo,map);
 		//	printf("Entidad nombre:         %s      ",Logic::CLifeController::_BarraVida->getName());
-		}
+		//}
 		
 
 		_graphicsEntity = createGraphicsEntity(entityInfo);

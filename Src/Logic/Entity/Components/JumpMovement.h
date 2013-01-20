@@ -1,18 +1,17 @@
 /**
-@file AngularMovement.h
+@file JumpMovement.h
 
 Contiene la declaración del componente que controla el movimiento 
 angular de entidades.
 
-@see Logic::CAngularMovement
+@see Logic::CJumpMovement
 @see Logic::IComponent
 
 @author José Luis López
 @date Diciembre, 2012
 */
-#pragma once
-#ifndef __Logic_AngularMovement_H
-#define __Logic_AngularMovement_H
+#ifndef __Logic_JumpMovement_H
+#define __Logic_JumpMovement_H
 
 #include "Logic/Entity/Component.h"
 
@@ -30,20 +29,19 @@ namespace Logic
 	
     @ingroup logicGroup
 
-	@author David Llansó García
-	@date Agosto, 2010
+	@author Pablo Terrado
+	@date Enero, 2013
 */
-	class CAngularMovement : public IComponent
+	class CJumpMovement : public IComponent
 	{
-		DEC_FACTORY(CAngularMovement);
+		DEC_FACTORY(CJumpMovement);
 	public:
 
 		/**
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAngularMovement() : IComponent(), _walkingRight(false), _walkingLeft(false), _goingUp(false),_goingDown(false),
-			_angularSpeed(0.05f), _actualRadius(-55), _actualDegree(-90){}
+		CJumpMovement() : IComponent(), _jumping(false){}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -108,85 +106,39 @@ namespace Logic
 		*/
 		virtual void process(const TMessage &message);
 
-
+		//Pablo
 		/**
-		Provoca que la entidad avance a la derecha.
+		Provoca que la entidad salte.
 		*/
-		void walkRight();
-
-		/**
-		Provoca que la entidad avance a la izquierda
-		*/
-		void walkLeft();
-		
-		/**
-		Provoca que la entidad retroceda al chocarse con otra entidad en lugar de simplemente pararse, 
-		así ya no está colisionando y se puede mover.
-		*/	
-		void walkBack();
-
-		/**
-		Provoca que la entidad baje de anillo. Conlleva un cambio del eje de giro en su coordenada y
-		*/
-		void goDown();
-
-		/**
-		Provoca que la entidad suba de anillo. Conlleva un cambio del eje de giro en su coordenada y
-		*/
-		void goUp();
-
-		/**
-		Provoca que la entidad cese el desplazamiento.
-		*/
-		void stopMovement();
-		
-		/**
-		Provoca que la entidad gire. Números Positivos para	giro a 
-		derechas, negativos para giro izquierdas.
-
-		@param amount Cantidad de giro. Positivos giro a derechas,
-		negativos a izquierdas.
-		*/
-		void turn(float amount);
-
-
+		void jump();
 
 	
 	protected:
 
 		/**
-		Atributo para saber si la entidad está avanzando a la derecha.
+		Atributo para saber si la entidad está saltando dentro de un anillo
 		*/
-		bool _walkingRight;
+		bool _jumping;
 
-		/**
-		Atributo para saber si la entidad está avanzando a la izquierda
-		*/
-		bool _walkingLeft;
-		/**
-			Atributo para saber si la entidad está bajando de anillo
-		*/
-		bool _goingUp;
-		/**
-		Atributo para saber si la entidad está subiendo de anillo
-		*/
-		bool _goingDown;
+		// Pablo. Atributo que indica la velocidad de salto de la entidad
+		float jumpSpeed;
+		// Pablo. Atributo que indica la velocidad de la fuerza de gravedad
+		float gravity;
 
-		/**
-		Atributo que indica la magnitud de velocidad de la entidad.
-		*/
+		//Pablo. Altura maxima del salto
+		float Hmax;
 
-		float _angularSpeed;
+		//Pablo. Tiempo máximo en el aire
+		float Tmax;
 
-		float _actualRadius;
+		//Pablo. Tiempo hasta alcanzar la máxima altura
+		float Tmaxaltura;
+	
 
-		float _actualDegree;
+	}; // class CJumpMovement
 
-		bool _sentidoIzquierda;
-	}; // class CAngularMovement
-
-	REG_FACTORY(CAngularMovement);
+	REG_FACTORY(CJumpMovement);
 
 } // namespace Logic
 
-#endif // __Logic_AngularMovement_H
+#endif // __Logic_JumpMovement_H

@@ -77,6 +77,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AngularMovement.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Collider.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\JumpMovement.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeController.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\ComponentFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\EntityFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\EntityID.cpp" />
@@ -89,11 +92,11 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Camera.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Graphics.cpp" />
     <ClCompile Include="..\..\Src\Logic\Server.cpp" />
-    <ClCompile Include="Collider.cpp" />
-    <ClCompile Include="LifeController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AngularMovement.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Collider.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\JumpMovement.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeController.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\LogicalPosition.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\RingStruct.h" />
@@ -113,7 +116,6 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Graphics.h" />
     <ClInclude Include="..\..\Src\Logic\Documentation.h" />
     <ClInclude Include="..\..\Src\Logic\Server.h" />
-    <ClInclude Include="Collider.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseSubsystems\BaseSubsystems.vcxproj">

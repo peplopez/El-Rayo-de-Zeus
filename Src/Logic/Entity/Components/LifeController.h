@@ -14,6 +14,7 @@ de la entidad.
 #define __Logic_LifeController_H
 
 #include "Logic/Entity/Component.h"
+#include "Graphics/Billboard.h" // Pablo. A ver si me pilla Graphics::CBillboard. Bien
 
 //declaración de la clase
 namespace Logic 
@@ -119,7 +120,10 @@ namespace Logic
 
 		virtual float getLife();
 			
-		static Logic::CEntity *_BarraVida;
+		//static Logic::CEntity *_BarraVida;
+
+		// Tutoria
+		//Graphics::CBillboard* _bb;
 
 
 
@@ -129,6 +133,9 @@ namespace Logic
 		Atributo que indica la magnitud de la vida de la entidad.
 		*/
 		float _life;
+
+		// Tutoria2
+		//Graphics::CBillboard _bb;
 
 	}; // class LifeController
 
