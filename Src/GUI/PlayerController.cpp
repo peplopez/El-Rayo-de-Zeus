@@ -65,10 +65,13 @@ namespace GUI {
 			m._type = Logic::Message::CONTROL;
 			switch(key.keyId)
 			{
-			case GUI::Key::W:
-				m._string = "goUp";
+			case GUI::Key::W: //subir anillo superior
+				m._string = "goUp"; // Pablo
 				break;
-			case GUI::Key::S:
+			case GUI::Key::SPACE:
+				m._string = "jump"; // Pablo
+				break;
+			case GUI::Key::S: //bajar anillo inferior
 				m._string = "goDown";
 				break;
 			case GUI::Key::A:

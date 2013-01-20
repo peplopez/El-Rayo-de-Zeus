@@ -42,7 +42,8 @@ namespace Logic
 		
 
 	}
-		//Coordenadas comunes a todas las entidades del juego.
+
+	//Coordenadas comunes a todas las entidades del juego.
 	
 	/**
 	Tipo copia para los anillos. Por simplicidad.

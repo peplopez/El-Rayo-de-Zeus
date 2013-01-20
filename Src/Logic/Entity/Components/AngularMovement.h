@@ -41,8 +41,9 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAngularMovement() : IComponent(),_sentidoColision(false),_changingRing(false),_walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false),_goingDown(false),
-			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90){}
+		// Pablo. Añadido la inicialización de _jumping y _timeJumping
+		CAngularMovement() : IComponent(), _sentidoColision(false),_changingRing(false), _walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false), _goingDown(false),
+			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90), _jumping(false), _timeJumping(0){}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -122,6 +123,12 @@ namespace Logic
 		Provoca que la entidad avance a la izquierda
 		*/
 		void walkLeft();
+
+		//Pablo
+		/**
+		Provoca que la entidad salte.
+		*/
+		void jump();
 		
 		/**
 		Provoca que la entidad baje de anillo. Conlleva un cambio del eje de giro en su coordenada y
@@ -172,6 +179,13 @@ namespace Logic
 		Atributo para saber si la entidad está avanzando a la izquierda
 		*/
 		bool _walkingLeft;
+
+		// Pablo
+		/**
+		Atributo para saber si la entidad está saltando dentro de un anillo
+		*/
+		bool _jumping;
+
 		/**
 			Atributo para saber si la entidad está bajando de anillo
 		*/
@@ -194,10 +208,27 @@ namespace Logic
 		bool _sentidoDerecha;
 
 		bool _sentidoColision;
-	
-		/**
-		Atributo que indica si la entidad está en proceso de cambio de anillo
-		*/
+
+		// Pablo. Atributo que indica la velocidad de salto de la entidad
+		float jumpSpeed;
+
+		// Pablo. Atributo que indica que acaba de empezar a saltar
+		float _initialJump;
+
+		float _timeJumping;
+
+		// Pablo. Atributo que indica la velocidad de la fuerza de gravedad
+		float gravity;
+
+		//Pablo. Altura maxima del salto
+		float Hmax;
+
+		//Pablo. Tiempo máximo en el aire
+		float Tmax;
+
+		//Pablo. Tiempo hasta alcanzar la máxima altura
+		float Tmaxaltura;
+
 		bool _changingRing;
 	
 

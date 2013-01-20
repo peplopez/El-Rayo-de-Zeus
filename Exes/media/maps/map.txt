@@ -174,7 +174,7 @@ Map ={
 		life = 100.0,
 		isPlayer = true,
 		model = "marine.mesh",
-		angularSpeed = 0.5,
+		angularSpeed = 1,
 		defaultAnimation = "Idle",
 		degrees=0,
 		base=3,
@@ -182,6 +182,7 @@ Map ={
 		logicInput=true,
 		sense=0,
 		angularBox=2.5,
+		initialJumpSpeed = 28,
 	},
 	
 	Camera = {
@@ -190,7 +191,7 @@ Map ={
 		height = 13,
 		targetDistance = 8,
 		targetHeight = 7,
-		angularSpeed = 0.5,
+		angularSpeed = 1,
 		ring=1,
 		base=0,
 		degrees=0;

@@ -93,7 +93,7 @@ namespace Logic
 			// Actualizamos la posición de la cámara.
 			//este parrafo es para conseguir que el modelo mire en dirección perpendicular al vector centro camara
 			Vector3 centro=Vector3::NEGATIVE_UNIT_Y;
-		centro.y=_target->getPosition().y;
+		    centro.y=_target->getPosition().y;
 			//Vector3 centro=Vector3(0,-125-250,0);
 			
 
@@ -118,12 +118,12 @@ namespace Logic
 			//std::cout<<"vectorcentroprotacamara: "<<vectorCentroProtaCamara<<std::endl;
 		
 			//inercia de la camara
-				_currentPos += ((Vector3(_target->getPosition().x*3.5,_target->getPosition().y,_target->getPosition().z*4)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035;
+			_currentPos += ((Vector3(_target->getPosition().x*3.5,_target->getPosition().y,_target->getPosition().z*4)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035;
 		
 			 _graphicsCamera->setCameraPosition(_currentPos);
 
 			
-//						_graphicsCamera->setCameraPosition( +4*position);
+			//_graphicsCamera->setCameraPosition( +4*position);
 			//anillo x=0 y=-125 z=0
 			// Y la posición hacia donde mira la cámara.
 			//direction = _targetDistance * Math::getDirection(orientacion);
@@ -134,7 +134,7 @@ namespace Logic
 			_graphicsCamera->setTargetCameraPosition(_target->getPosition());
 			
 		}
-IComponent::tick(msecs);
+		IComponent::tick(msecs);
 	} // tick
 
 } // namespace Logic

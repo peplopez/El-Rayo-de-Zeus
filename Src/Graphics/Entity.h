@@ -160,7 +160,7 @@ namespace Graphics
 		*/
 		Ogre::Entity* getEntity() {return _entity;}
 
-				void setMaterial(const std::string &materialName);
+		void setMaterial(const std::string &materialName);
 
 	protected:
 

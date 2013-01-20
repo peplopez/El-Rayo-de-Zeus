@@ -10,12 +10,12 @@ angular de entidades.
 @author José Luis López
 @date Diciembre, 2012
 */
-#include "Logic\Entity\Components\LifeController.h"
+#include "LifeController.h"
 
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
 #include "Logic/Maps/EntityFactory.h"
-#include "Logic\Server.h"
+#include "Logic/Server.h"
 
 
 //declaración de la clase
@@ -23,12 +23,21 @@ namespace Logic
 {
 	IMP_FACTORY(CLifeController);
 
-	CEntity *CLifeController::_BarraVida=0;
+	//CEntity *CLifeController::_BarraVida=0;
 
 	bool CLifeController::spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo){
 
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
+
+
+		//David LLanso. Tutoria.
+		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
+		/*
+		_bb = Graphics::CBillboard::CBillboard(entity->getName()+"_billboard");
+		_bb.setDimensions(40,2);
+		_bb.setCoordenadas(0.0f, 0.0f, 0.5f, 1.0f);
+		*/
 
 		return true;
 		}

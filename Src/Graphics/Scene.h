@@ -135,6 +135,12 @@ namespace Graphics
 		*/
 		void removeStaticEntity(CStaticEntity* entity);
 
+		//David Llanso Tutoria
+		//Ogre::BillboardSet* addBillboard(std::string &name);
+
+		//Pablo
+		//void deleteBillboard(const std::string &name);
+
 	protected:
 
 		/**
@@ -183,6 +189,9 @@ namespace Graphics
 		modificar los valores de las entidades estáticas.
 		*/
 		void buildStaticGeometry();
+
+		//David Llanso Tutoria2
+		//Ogre::BillboardSet* createBillboard(const std::string &name);
 
 		/**
 		Clase amiga. Solo las entidades y la cámara pueden acceder al 

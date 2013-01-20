@@ -30,6 +30,24 @@ namespace Logic
 		if(entityInfo->hasAttribute("angularSpeed"))
 			_angularSpeed = entityInfo->getFloatAttribute("angularSpeed");
 
+		// Pablo. Si la entidad tiene el atributo jumpSpeed la capturamos y la guardamos en _jumpSpeed
+		// En ppio solo la va a tener el player
+		if(entityInfo->hasAttribute("initialJumpSpeed"))
+			jumpSpeed = entityInfo->getFloatAttribute("initialJumpSpeed");
+
+		// Pablo. Inicializo la gravedad
+		gravity = 9.8; //expresada en metros /seg
+
+		// velocidad inicial. es 28 m / seg
+
+		//Pablo. Calculo la altura maxima del salto
+		Hmax = (jumpSpeed*jumpSpeed) / (2*gravity); // 40 m es la altura maxima del salto ( en nuestro caso son pixeles)
+
+		//Pablo. Tiempo hasta alcanzar la máxima altura
+		// Vi - Vf / g (Velocidad inicial - Velocidad final / aceleracion). La Vf es 0 en altura max.
+		Tmaxaltura = jumpSpeed / gravity; // 2,857142 segundos --> 2857,142 milisegundos
+		Tmax = Tmaxaltura * 2; // 5,71428571 seg. --> 5714,28571 milisegundos.
+
 		return true;
 		}
 
@@ -42,11 +60,13 @@ namespace Logic
 		{
 			_walkingLeft=false;
 			_walkingRight=true;
+			_jumping = false; // Pablo
 		}
 		else
 		{
 			_walkingLeft=true;
 			_walkingRight=false;
+			_jumping = false; // Pablo
 		}
 		 //_actualRadius=
 		 //if (_entity->getType().compare("Player")==0)
@@ -83,6 +103,8 @@ namespace Logic
 				walkRight();
 			else if(!message._string.compare("walkStop"))
 				stopMovement();
+			else if(!message._string.compare("jump")) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
+					jump();
 			else if(!message._string.compare("walkBack"))
 				 {	
 					_sentidoColision=message._bool;
@@ -108,6 +130,8 @@ namespace Logic
 				walkRight();
 			else if(!message._string.compare("walkStop"))
 				stopMovement();
+			else if(!message._string.compare("jump")) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
+					jump();
 			else if(!message._string.compare("walkBack"))
 				 {	
 					_sentidoColision=message._bool;
@@ -148,6 +172,13 @@ namespace Logic
 			message._string = "RunKatana";
 			message._bool = true;
 			_entity->emitMessage(message,this);
+
+		}
+
+		// Pablo
+		void CAngularMovement::jump()
+		{
+			_initialJump = true;
 
 		}
 	
@@ -216,14 +247,17 @@ namespace Logic
 	{
 			IComponent::tick(msecs);
 
+		// inicialY antes de saltar
+		float inicialY;
+
 		// Si nos estamos desplazando calculamos la próxima posición
 		// Calculamos si hay vectores de dirección de avance y strafe,
 		// hayamos la dirección de la suma y escalamos según la
 		// velocidad y el tiempo transcurrido.
 	
 		bool cierre=false;
-			unsigned int currentTime;
-				unsigned int endingTime;
+		unsigned int currentTime;
+		unsigned int endingTime;
 		/*while(_changingRing){
 			currentTime=Application::CBaseApplication::getSingletonPtr()->getAppTime();
 			
@@ -239,6 +273,44 @@ namespace Logic
 		}*/
 
 	     Vector3 direction(Vector3::ZERO);
+
+		if(_initialJump==true && _jumping==false)
+		{
+			_jumping = true;
+			_timeJumping = 0;
+			inicialY = _entity->getY(_entity->getBase(),_entity->getRing());
+			
+		}
+
+				//Pablo
+		if(_jumping)
+		{
+			//_timeJumping se incrementa en cada tick
+			_timeJumping+= msecs;
+
+			//direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
+
+			Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+
+			float altura = jumpSpeed*_timeJumping -(gravity*(_timeJumping*_timeJumping)/2);
+
+			newPosition.y = inicialY + altura;
+			if(newPosition.y>=Hmax)
+			{
+				//_entity->setPosition(Hmax);
+			}
+
+			_entity->setPosition(newPosition);
+
+			//direction.normalise();
+
+			if(_timeJumping >= Tmax ) {
+				_jumping = false;
+			}
+
+			
+		}
+
 		if(_walkingLeft || _walkingRight)
 		{
 			if(_walkingLeft || _walkingRight)
@@ -326,6 +398,9 @@ namespace Logic
 			direction.normalise();
 			
 		}
+
+		// Pablo. Inicializo a false _initialJump para que solo lo tenga en cuenta una vez.
+		_initialJump = false;
 		
 		}
 
