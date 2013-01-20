@@ -173,12 +173,12 @@ namespace Graphics
 	// David LLanso Tutoria
 	// Se añade un nuevo método para crear un Billboard desde la escena
 	//Ogre::BillboardSet* createBillboard(const std::string &name)
-	/*
-	Ogre::BillboardSet* addBillboard(std::string &name)
+	
+	Ogre::BillboardSet* CScene::addBillboard(std::string &name)
 	{
 		Ogre::BillboardSet* _bbSet;
-	    //_bbSet = _sceneMgr->createBillboard();
-        //_bbSet->createBillboard(Ogre::Vector3(0, 0, 0));
+		_bbSet = _sceneMgr->createBillboardSet();
+        _bbSet->createBillboard(Ogre::Vector3(0, 0, 0));
 
 
 	  // se añade el billboard a la entidad en lugar de a la escena (hay que cambiar la linea con *)
@@ -188,6 +188,6 @@ namespace Graphics
 		return _bbSet; //debéría devolver el Ogre::BillboardSet
 
 	}
-	*/
+	
 
 } // namespace Graphics
