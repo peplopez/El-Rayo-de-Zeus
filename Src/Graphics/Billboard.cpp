@@ -45,14 +45,17 @@ Contiene la implementación de la clase que maneja el billboard.
 namespace Graphics 
 {
 	//Constructor de la clase CBillboard. Donde se crea un BillboardSet (de momento con 1 sólo Billboard)
-	CBillboard::CBillboard(const std::string &name)
+	//CBillboard::CBillboard(const std::string &name, Vector3 position) //le paso un string y la posicion de la entidad
+	CBillboard::CBillboard(const std::string &name) //le paso un string
 	{
 		//Graphics::CServer::getSingletonPtr()->getActiveScene()->createBillboard();
 		//Desde el singletonPtr del Server grafico, puedo llamar al metodo getActiveScene para
 		//conseguir la escena actual. Y desde la escena puedo llamar al método createBillboard
 		//para crear el BillBoardSet desde la escena
-		_bbSet = Graphics::CServer::getSingletonPtr()->getActiveScene()->addBillboard(name);
-		//_namebb = name;
+
+		//_bbSet = Graphics::CServer::getSingletonPtr()->getActiveScene()->createBillboard(name,position); //le paso un string y la position
+		_bbSet = Graphics::CServer::getSingletonPtr()->getActiveScene()->createBillboard(name); //le paso un string
+
 
 	} // CBillboard
 
@@ -82,9 +85,9 @@ namespace Graphics
 	}
 
 	//aqui debería de colocarse encima de la entidad.
-	void CBillboard::setPosition(float,float,float){ //x,y,z
+	/*void CBillboard::setPosition(const Vector3 v){ //x,y,z
 		
-	}
+	}*/
 
 	//El material se realiza sobre el BillboardSet
 	void CBillboard::setMaterial(const std::string &name){

@@ -15,6 +15,7 @@ de una escena.
 */
 
 #include "Scene.h"
+#include "Logic\Server.h"
 #include "Camera.h"
 #include "Server.h"
 #include "StaticEntity.h"
@@ -29,6 +30,7 @@ de una escena.
 #include <OgreStaticGeometry.h>
 #include <OgreColourValue.h>
 #include <OgreBillboardSet.h> //Pablo
+#include "Logic/Entity/Entity.h" //Pablo
 
 namespace Graphics 
 {
@@ -173,16 +175,27 @@ namespace Graphics
 	// David LLanso Tutoria
 	// Se añade un nuevo método para crear un Billboard desde la escena
 	
-	Ogre::BillboardSet* CScene::addBillboard(const std::string &name)
+	//le paso un string
+	Ogre::BillboardSet* CScene::createBillboard(const std::string &name) 
+	//Ogre::BillboardSet* CScene::createBillboard(const std::string &name, Ogre::Vector3 position) //no puedo pasarle
+	//la position.... no se porq
 	{
 		Ogre::BillboardSet* _bbSet;
-		_bbSet = _sceneMgr->createBillboardSet();
-        _bbSet->createBillboard(Ogre::Vector3(0, 0, 0));
+		_bbSet = _sceneMgr->createBillboardSet(name+"_billboard");
+		Vector3 posAnilloCentral=Logic::CServer::getSingletonPtr()->getRingPositions(3,Logic::Ring::ANILLO_CENTRAL);
+
+		//consigo la entidad de ogre llamada name
+		Ogre::Entity* oe =_sceneMgr->getEntity(name);
+
+		_bbSet->createBillboard(posAnilloCentral);
 
 
-	  // se añade el billboard a la entidad en lugar de a la escena (hay que cambiar la linea con *)
-	     //_sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(_bbSetLife); // *
-		_sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(_bbSet);
+	   // se añade el billboard a la entidad en lugar de a la escena (hay que cambiar la linea con *)
+	   // *  //_sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(_bbSetLife); 
+		//_sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(_bbSet);
+		Ogre::Entity* en = _sceneMgr->getEntity(name);
+		_sceneMgr->getSceneNode(name)->attachObject(_bbSet);
+		//_sceneMgr->getSceneNode()->
 
 		return _bbSet; //debéría devolver el Ogre::BillboardSet
 

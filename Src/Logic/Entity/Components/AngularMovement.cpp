@@ -36,12 +36,17 @@ namespace Logic
 			jumpSpeed = entityInfo->getFloatAttribute("initialJumpSpeed");
 
 		// Pablo. Inicializo la gravedad
-		gravity = 9.8; //expresada en metros /seg
+		if(entityInfo->hasAttribute("gravity"))
+			gravity = entityInfo->getFloatAttribute("gravity");
+		//gravity = 9.8; //expresada en metros /seg
 
 		// velocidad inicial. es 28 m / seg
 
 		//Pablo. Calculo la altura maxima del salto
-		Hmax = (jumpSpeed*jumpSpeed) / (2*gravity); // 40 m es la altura maxima del salto ( en nuestro caso son pixeles)
+		//Hmax = (jumpSpeed*jumpSpeed) / (2*gravity); // 40 m es la altura maxima del salto ( en nuestro caso son pixeles)
+		if(entityInfo->hasAttribute("Hmax"))
+			Hmax = entityInfo->getFloatAttribute("Hmax");
+		//Hmax = 40;
 
 		//Pablo. Tiempo hasta alcanzar la máxima altura
 		// Vi - Vf / g (Velocidad inicial - Velocidad final / aceleracion). La Vf es 0 en altura max.
@@ -243,166 +248,181 @@ namespace Logic
 	
 
 
-		void CAngularMovement::tick(unsigned int msecs)
+	void CAngularMovement::tick(unsigned int msecs)
 	{
 			IComponent::tick(msecs);
 
-		// inicialY antes de saltar
-		float inicialY;
 
-		// Si nos estamos desplazando calculamos la próxima posición
-		// Calculamos si hay vectores de dirección de avance y strafe,
-		// hayamos la dirección de la suma y escalamos según la
-		// velocidad y el tiempo transcurrido.
+			// Si nos estamos desplazando calculamos la próxima posición
+			// Calculamos si hay vectores de dirección de avance y strafe,
+			// hayamos la dirección de la suma y escalamos según la
+			// velocidad y el tiempo transcurrido.
 	
-		bool cierre=false;
-		unsigned int currentTime;
-		unsigned int endingTime;
-		/*while(_changingRing){
-			currentTime=Application::CBaseApplication::getSingletonPtr()->getAppTime();
+			bool cierre=false;
+			unsigned int currentTime;
+			unsigned int endingTime;
+			/*while(_changingRing){
+				currentTime=Application::CBaseApplication::getSingletonPtr()->getAppTime();
 			
-		if (!cierre)
-		{
-			cierre=true;
-			endingTime=currentTime+3000;		
-		}
-		if (currentTime>endingTime)
-			_changingRing=false;
-		_entity->setRing(LogicalPosition::ANILLO_SUPERIOR);
-			IComponent::tick(msecs);
-		}*/
-
-	     Vector3 direction(Vector3::ZERO);
-
-		if(_initialJump==true && _jumping==false)
-		{
-			_jumping = true;
-			_timeJumping = 0;
-			inicialY = _entity->getY(_entity->getBase(),_entity->getRing());
-			
-		}
-
-				//Pablo
-		if(_jumping)
-		{
-			//_timeJumping se incrementa en cada tick
-			_timeJumping+= msecs;
-
-			//direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
-
-			Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-
-			float altura = jumpSpeed*_timeJumping -(gravity*(_timeJumping*_timeJumping)/2);
-
-			newPosition.y = inicialY + altura;
-			if(newPosition.y>=Hmax)
+			if (!cierre)
 			{
-				//_entity->setPosition(Hmax);
+				cierre=true;
+				endingTime=currentTime+3000;		
 			}
+			if (currentTime>endingTime)
+				_changingRing=false;
+			_entity->setRing(LogicalPosition::ANILLO_SUPERIOR);
+				IComponent::tick(msecs);
+			}*/
 
-			_entity->setPosition(newPosition);
+			Vector3 direction(Vector3::ZERO);
 
-			//direction.normalise();
 
-			if(_timeJumping >= Tmax ) {
-				_jumping = false;
-			}
-
-			
-		}
-
-		if(_walkingLeft || _walkingRight)
-		{
 			if(_walkingLeft || _walkingRight)
 			{
-				direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
-				//Matrix4 orientacion = _entity->getOrientation();
-				//Math::yaw(Math::fromDegreesToRadians(_actualDegree),orientacion);
-				if(_walkingRight){
-					if(_sentidoDerecha==true)
-					{
-						_sentidoDerecha=false;
-						_entity->yaw(Math::PI);						
-					}
-						//_entity->setYaw(0);
-						//_actualDegree+=-_angularSpeed;
-					if (!_walkBack)
-					{
-						_entity->setDegree(_entity->getDegree()-_angularSpeed); 
-						_entity->yaw(Math::fromDegreesToRadians(_angularSpeed));
-					}
-				}
-				else
+				if(_walkingLeft || _walkingRight)
 				{
-					if(_sentidoDerecha==false)
-					{
-						_entity->yaw(Math::PI);					
-						_sentidoDerecha=true;
-					}
-					//_actualDegree+=_angularSpeed;
-					if (!_walkBack)
-					{
-						_entity->setDegree(_entity->getDegree()+_angularSpeed);
-						_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed));
-					}			
-					
-				}
-				//turn(-0.02f*_angularSpeed);
-				//turn(Math::PI/2);			
-				//_entity->setOrientation(
-				if (_walkBack)
-					{
-						stopMovement();   
-						_walkBack=false;
-
-						if (_sentidoColision) // la direccion
+					direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
+					//Matrix4 orientacion = _entity->getOrientation();
+					//Math::yaw(Math::fromDegreesToRadians(_actualDegree),orientacion);
+					if(_walkingRight){
+						if(_sentidoDerecha==true)
 						{
-							_entity->setDegree(_entity->getDegree()+(_angularSpeed+10)); 
-							_entity->yaw(Math::fromDegreesToRadians(-(_angularSpeed)));
+							_sentidoDerecha=false;
+							_entity->yaw(Math::PI);						
 						}
-						else
+						if (!_walkBack)
 						{
-							_entity->setDegree(_entity->getDegree()-(_angularSpeed+10)); 
-							_entity->yaw(Math::fromDegreesToRadians((_angularSpeed)));
-						}							
-				
-						
-						/*Logic::TMessage m;
-						m._type = Logic::Message::CONTROL;
-						m._string = "walkStop";
-						_entity->emitMessage(m);*/
-						_sentidoColision=false;
-						
+							_entity->setDegree(_entity->getDegree()-_angularSpeed); 
+							_entity->yaw(Math::fromDegreesToRadians(_angularSpeed));
+						}
 					}
-				if(_walkingLeft)
-					direction *= -1;
+					else
+					{
+						if(_sentidoDerecha==false)
+						{
+							_entity->yaw(Math::PI);					
+							_sentidoDerecha=true;
+						}
+						if (!_walkBack)
+						{
+							_entity->setDegree(_entity->getDegree()+_angularSpeed);
+							_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed));
+						}			
+					
+					}
+
+					if (_walkBack)
+						{
+							stopMovement();   
+							_walkBack=false;
+
+							if (_sentidoColision) // la direccion
+							{
+								_entity->setDegree(_entity->getDegree()+(_angularSpeed+10)); 
+								_entity->yaw(Math::fromDegreesToRadians(-(_angularSpeed)));
+							}
+							else
+							{
+								_entity->setDegree(_entity->getDegree()-(_angularSpeed+10)); 
+								_entity->yaw(Math::fromDegreesToRadians((_angularSpeed)));
+							}							
+				
+							_sentidoColision=false;
+						
+						}
+					if(_walkingLeft)
+						direction *= -1;
+				}
+
+				direction.normalise();
+				_entity->getPosition();
+
+				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+			
+				//newPosition.y=_entity->getY();
+				_entity->setPosition(newPosition);
+				direction.normalise();
+			
 			}
 
-			direction.normalise();
-			_entity->getPosition();
-			//_entity->setDegree(_actualDegree);
-			//_entity->setRadio(_actualRadius);
 
-			
-			// std::cout<<"PlayerDegree: "<<_entity->getDegree()<<std::endl;
-			/*Vector3  newPosition=Vector3();
+			// Pablo. Salto
+
+
+
 			if (_entity->getType().compare("Player")==0)
-			newPosition= _entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getRadio(),_entity->getBase(),_entity->getRing());
-			else	
-			newPosition= _entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getRadio(),_entity->getBase(),_entity->getRing());
-			*/
-			Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+			{
+					if(_initialJump==true && _jumping==false)
+					{
+						// Pablo. Inicializo a false _initialJump para que solo lo tenga en cuenta una vez.
+						_initialJump = false;
+						_jumping = true;
+						_timeJumping = 0;
+						Vector3 newPositionInitial=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+						//inicialY = _entity->getY(_entity->getBase(),_entity->getRing());
+						inicialY = newPositionInitial.y;
+						Vector3 newPosition2=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+						posicionSalto = newPosition2;
 			
-			//newPosition.y=_entity->getY();
-			_entity->setPosition(newPosition);
-			direction.normalise();
-			
-		}
+					}
 
-		// Pablo. Inicializo a false _initialJump para que solo lo tenga en cuenta una vez.
-		_initialJump = false;
+					//Pablo
+					if(_jumping)
+					{
+						//std::cout << "inicialY: " << inicialY << "\n";
+						//std::cout << "posicionSalto.y: " << posicionSalto.y << "\n";
+
+						//_timeJumping se incrementa en cada tick
+						//_timeJumping+= msecs;
+
+						//Vector3 newPosition2=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+
+						//float altura = jumpSpeed*_timeJumping -(gravity*(_timeJumping*_timeJumping)/2);
+
+						//newPosition.y = inicialY + altura;
+
+						//si esta saltando, y esta bajando decrementamos la y en 1 unidad cada tick de reloj
+						if(_jumpingDown){
+							posicionSalto.y-= 1;
+						}
+						else //si esta saltando y esta subiendo incrementamos la y en 1 unidad cada tick de reloj
+						{
+							posicionSalto.y+= 1;
+						}
+
+
+						//control para que no suba más arriba que su inicialY + la altura maxima del salto
+						if(posicionSalto.y>=inicialY+Hmax)
+						{
+							_jumpingDown=true;
+						}
+						//control para que no baje más que su inicialY
+						if(posicionSalto.y<inicialY)
+						{
+							posicionSalto.y=inicialY;
+							_jumpingDown=false;
+							_jumping=false;
+						}
+
+
+						_entity->setPosition(posicionSalto);
+						direction.normalise();
+
+						/*
+						if(_timeJumping >= Tmax ) {
+							_jumping = false;
+						}
+						*/
+
+					} //fin del if (_jumping)
+			}// FIN if (_entity->getType().compare("Player")!=0)
+
+			// Fin Pablo. Salto
 		
-		}
+		} //fin de CAngularMovement:tick
+
+
 
 		void CAngularMovement::turn(float amount)
 		{

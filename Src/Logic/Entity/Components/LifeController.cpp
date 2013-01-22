@@ -33,12 +33,15 @@ namespace Logic
 
 		//David LLanso. Tutoria.
 		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
-		//_bb = Graphics::CBillboard::CBillboard(entity->getName()+"_billboard");
+		//le paso un string y la posicion de la entidad.
 		/*
-		_bb = Graphics::CBillboard::CBillboard(entity->getName()+"_billboard");
-		_bb->setDimensions(40,2);
+		_bb = new Graphics::CBillboard(entity->getName()); 
+		
+		_bb->setMaterial("lifeBar");
+		_bb->setDimensions(200,10);
 		_bb->setCoordenadas(0.0f, 0.0f, 0.5f, 1.0f);
 		*/
+
 		return true;
 		}
 

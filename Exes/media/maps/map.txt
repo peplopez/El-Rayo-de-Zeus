@@ -183,6 +183,8 @@ Map ={
 		sense=0,
 		angularBox=2.5,
 		initialJumpSpeed = 28,
+		gravity = 9.8,
+		Hmax = 20,
 	},
 	
 	Camera = {
