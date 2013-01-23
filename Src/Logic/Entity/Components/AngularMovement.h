@@ -43,7 +43,7 @@ namespace Logic
 		*/
 		// Pablo. Añadido la inicialización de _jumping y _timeJumping
 		CAngularMovement() : IComponent(), _sentidoColision(false),_changingRing(false), _walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false), _goingDown(false),
-			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90), _jumping(false), _jumpingDown(false), _initialJump(false), _timeJumping(0){}
+			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90), _jumping(false), _jumpingDown(false), _initialJump(false), _timeJumping(0), _potenciaSaltoInicial(5){}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -223,25 +223,29 @@ namespace Logic
 		float _timeJumping;
 
 		// Pablo. Atributo que indica la velocidad de la fuerza de gravedad
-		float gravity;
+		float _gravity;
 
 		//Pablo. Altura maxima del salto
-		float Hmax;
+		float _Hmax;
 
 		//Pablo. Tiempo máximo en el aire
-		float Tmax;
+		float _Tmax;
 
 		//Pablo. Tiempo hasta alcanzar la máxima altura
-		float Tmaxaltura;
+		float _Tmaxaltura;
 
 		//Pablo. Y inicial en el momento de saltar
-		float inicialY;
+		float _inicialY;
 
 		//Pablo. posicion Vector3 (x,y,z) en el momento de saltar
-		Vector3 posicionSalto;
+		Vector3 _posicionSalto;
 
 		bool _changingRing;
 	
+		float _potenciaSalto;
+
+		float _potenciaSaltoInicial;
+
 
 	}; // class CAngularMovement
 

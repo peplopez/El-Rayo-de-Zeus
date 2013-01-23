@@ -37,7 +37,7 @@ namespace Logic
 
 		// Pablo. Inicializo la gravedad
 		if(entityInfo->hasAttribute("gravity"))
-			gravity = entityInfo->getFloatAttribute("gravity");
+			_gravity = entityInfo->getFloatAttribute("gravity");
 		//gravity = 9.8; //expresada en metros /seg
 
 		// velocidad inicial. es 28 m / seg
@@ -45,14 +45,14 @@ namespace Logic
 		//Pablo. Calculo la altura maxima del salto
 		//Hmax = (jumpSpeed*jumpSpeed) / (2*gravity); // 40 m es la altura maxima del salto ( en nuestro caso son pixeles)
 		if(entityInfo->hasAttribute("Hmax"))
-			Hmax = entityInfo->getFloatAttribute("Hmax");
+			_Hmax = entityInfo->getFloatAttribute("Hmax");
 		//Hmax = 40;
 
 		//Pablo. Tiempo hasta alcanzar la máxima altura
 		// Vi - Vf / g (Velocidad inicial - Velocidad final / aceleracion). La Vf es 0 en altura max.
-		Tmaxaltura = jumpSpeed / gravity; // 2,857142 segundos --> 2857,142 milisegundos
-		Tmax = Tmaxaltura * 2; // 5,71428571 seg. --> 5714,28571 milisegundos.
-
+		_Tmaxaltura = jumpSpeed / _gravity; // 2,857142 segundos --> 2857,142 milisegundos
+		_Tmax = _Tmaxaltura * 2; // 5,71428571 seg. --> 5714,28571 milisegundos.
+		_potenciaSalto=_potenciaSaltoInicial;
 		return true;
 		}
 
@@ -61,22 +61,21 @@ namespace Logic
 		_sentidoDerecha=_entity->getSense();
 		
 		if (_entity->getType().compare("Player")!=0)
+		_jumping = false; // Pablo
 		if (_sentidoDerecha)
 		{
 			_walkingLeft=false;
 			_walkingRight=true;
-			_jumping = false; // Pablo
+
 		}
 		else
 		{
 			_walkingLeft=true;
 			_walkingRight=false;
-			_jumping = false; // Pablo
 		}
-		 //_actualRadius=
-		 //if (_entity->getType().compare("Player")==0)
-		 	//		std::cout<<"PlayerDegree: "<<_entity->getDegree()<<std::endl;
-			return true;
+		if (_entity->getType().compare("Player")==0)
+			stopMovement();
+		return true;
 	}
 		
 
@@ -125,11 +124,11 @@ namespace Logic
 			}
 		case Message::NPC_CONTROL:
 			{
-			if(!message._string.compare("goUp"))
+			/*if(!message._string.compare("goUp"))
 				goUp();
 			else if(!message._string.compare("goDown"))
 				goDown();
-			else if(!message._string.compare("walkLeft"))
+			*/ if(!message._string.compare("walkLeft"))
 				walkLeft();
 			else if(!message._string.compare("walkRight"))
 				walkRight();
@@ -184,7 +183,6 @@ namespace Logic
 		void CAngularMovement::jump()
 		{
 			_initialJump = true;
-
 		}
 	
 		void CAngularMovement::walkBack()
@@ -201,17 +199,45 @@ namespace Logic
 		
 		void CAngularMovement::goDown()
 		{
-			_changingRing=true;_entity->setRing(Ring::ANILLO_INFERIOR);
+			_changingRing=true;
+			if (_entity->getRing()==Ring::ANILLO_CENTRAL)
+			{
+				_entity->setRing(Ring::ANILLO_INFERIOR);
+				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+				_entity->setPosition(newPosition);
+			}
+			if (_entity->getRing()==Ring::ANILLO_SUPERIOR)
+			{
+				_entity->setRing(Ring::ANILLO_CENTRAL);
+				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+				_entity->setPosition(newPosition);
+			}
+			
+			
 		}
 		
 		void CAngularMovement::goUp()
 		{
 			_changingRing=true;	
-			_entity->setRing(Ring::ANILLO_SUPERIOR);
+			if (_entity->getRing()==Ring::ANILLO_CENTRAL)
+			{
+				_entity->setRing(Ring::ANILLO_SUPERIOR);
+				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+				_entity->setPosition(newPosition);
+			}
+			if (_entity->getRing()==Ring::ANILLO_INFERIOR)
+			{
+				_entity->setRing(Ring::ANILLO_CENTRAL);
+				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+				_entity->setPosition(newPosition);
+			}
+			
 		}
 		
 		void CAngularMovement::stopMovement()
 		{
+			//if(!_jumping)
+				
 			_walkingLeft = _walkingRight = false;
 
 		// Cambiamos la animación si no seguimos desplazándonos
@@ -276,9 +302,9 @@ namespace Logic
 			}*/
 
 			Vector3 direction(Vector3::ZERO);
+				
 
-
-			if(_walkingLeft || _walkingRight)
+			if(_walkingLeft || _walkingRight || _initialJump || _jumping)
 			{
 				if(_walkingLeft || _walkingRight)
 				{
@@ -311,6 +337,10 @@ namespace Logic
 						}			
 					
 					}
+					/*if (!_walkingLeft && !_walkingRight && _jumping){
+							_entity->setDegree(_entity->getDegree()+_angularSpeed);
+							_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed));
+					}*/
 
 					if (_walkBack)
 						{
@@ -336,34 +366,24 @@ namespace Logic
 				}
 
 				direction.normalise();
-				_entity->getPosition();
+				//_entity->getPosition();
 
-				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-			
-				//newPosition.y=_entity->getY();
-				_entity->setPosition(newPosition);
-				direction.normalise();
-			
-			}
+				// SALTO
 
-
-			// Pablo. Salto
-
-
-
-			if (_entity->getType().compare("Player")==0)
+				if (_entity->getType().compare("Player")==0)
 			{
 					if(_initialJump==true && _jumping==false)
 					{
 						// Pablo. Inicializo a false _initialJump para que solo lo tenga en cuenta una vez.
+						_potenciaSalto=_potenciaSaltoInicial;
 						_initialJump = false;
 						_jumping = true;
 						_timeJumping = 0;
 						Vector3 newPositionInitial=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
 						//inicialY = _entity->getY(_entity->getBase(),_entity->getRing());
-						inicialY = newPositionInitial.y;
-						Vector3 newPosition2=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-						posicionSalto = newPosition2;
+						_inicialY = newPositionInitial.y;
+						Vector3 newPosition2=newPositionInitial;//_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+						_posicionSalto = newPosition2;
 			
 					}
 
@@ -384,29 +404,32 @@ namespace Logic
 
 						//si esta saltando, y esta bajando decrementamos la y en 1 unidad cada tick de reloj
 						if(_jumpingDown){
-							posicionSalto.y-= 1;
+							_posicionSalto.y-= _potenciaSaltoInicial-_potenciaSalto;
+							if (_potenciaSalto>0)_potenciaSalto-=0.3;
 						}
 						else //si esta saltando y esta subiendo incrementamos la y en 1 unidad cada tick de reloj
 						{
-							posicionSalto.y+= 1;
+							_posicionSalto.y+= _potenciaSalto;
+							if (_potenciaSalto>0)_potenciaSalto-=0.3;
 						}
 
 
 						//control para que no suba más arriba que su inicialY + la altura maxima del salto
-						if(posicionSalto.y>=inicialY+Hmax)
+						if(_posicionSalto.y>=_inicialY+_Hmax)
 						{
 							_jumpingDown=true;
+							_potenciaSalto=_potenciaSaltoInicial-0.5;
 						}
 						//control para que no baje más que su inicialY
-						if(posicionSalto.y<inicialY)
+						if(_posicionSalto.y<_inicialY)
 						{
-							posicionSalto.y=inicialY;
+							_posicionSalto.y=_inicialY;
 							_jumpingDown=false;
 							_jumping=false;
 						}
 
 
-						_entity->setPosition(posicionSalto);
+						//_entity->setPosition(posicionSalto);
 						direction.normalise();
 
 						/*
@@ -420,6 +443,33 @@ namespace Logic
 
 			// Fin Pablo. Salto
 		
+
+
+
+
+
+
+
+
+
+
+				//FIN SALTO
+				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+			
+				//newPosition.y=_entity->getY();
+				if (_jumping)
+					newPosition.y=_posicionSalto.y;
+				_entity->setPosition(newPosition);
+				direction.normalise();
+			
+			}
+
+
+			// Pablo. Salto
+
+
+
+			
 		} //fin de CAngularMovement:tick
 
 
