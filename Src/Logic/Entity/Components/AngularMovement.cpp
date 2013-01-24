@@ -199,18 +199,22 @@ namespace Logic
 		
 		void CAngularMovement::goDown()
 		{
-			_changingRing=true;
-			if (_entity->getRing()==Ring::ANILLO_CENTRAL)
+			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
+			if(_jumping==false)
 			{
-				_entity->setRing(Ring::ANILLO_INFERIOR);
-				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-				_entity->setPosition(newPosition);
-			}
-			if (_entity->getRing()==Ring::ANILLO_SUPERIOR)
-			{
-				_entity->setRing(Ring::ANILLO_CENTRAL);
-				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-				_entity->setPosition(newPosition);
+				_changingRing=true;
+				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
+				{
+					_entity->setRing(Ring::ANILLO_INFERIOR);
+					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+					_entity->setPosition(newPosition);
+				}
+				if (_entity->getRing()==Ring::ANILLO_SUPERIOR)
+				{
+					_entity->setRing(Ring::ANILLO_CENTRAL);
+					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+					_entity->setPosition(newPosition);
+				}
 			}
 			
 			
@@ -218,18 +222,22 @@ namespace Logic
 		
 		void CAngularMovement::goUp()
 		{
-			_changingRing=true;	
-			if (_entity->getRing()==Ring::ANILLO_CENTRAL)
+			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
+			if(_jumping==false)
 			{
-				_entity->setRing(Ring::ANILLO_SUPERIOR);
-				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-				_entity->setPosition(newPosition);
-			}
-			if (_entity->getRing()==Ring::ANILLO_INFERIOR)
-			{
-				_entity->setRing(Ring::ANILLO_CENTRAL);
-				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-				_entity->setPosition(newPosition);
+				_changingRing=true;	
+				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
+				{
+					_entity->setRing(Ring::ANILLO_SUPERIOR);
+					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+					_entity->setPosition(newPosition);
+				}
+				if (_entity->getRing()==Ring::ANILLO_INFERIOR)
+				{
+					_entity->setRing(Ring::ANILLO_CENTRAL);
+					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+					_entity->setPosition(newPosition);
+				}
 			}
 			
 		}
