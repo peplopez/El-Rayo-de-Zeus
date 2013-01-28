@@ -52,9 +52,16 @@ namespace Graphics
 		//Desde el singletonPtr del Server grafico, puedo llamar al metodo getActiveScene para
 		//conseguir la escena actual. Y desde la escena puedo llamar al método createBillboard
 		//para crear el BillBoardSet desde la escena
+		//le paso un string y la position
+		//_bbSet = Graphics::CServer::getSingletonPtr()->getActiveScene()->createBillboard(name,position);
 
-		//_bbSet = Graphics::CServer::getSingletonPtr()->getActiveScene()->createBillboard(name,position); //le paso un string y la position
-		_bbSet = Graphics::CServer::getSingletonPtr()->getActiveScene()->createBillboard(name); //le paso un string
+		// Pablo 28-01-2013. Indico que la escena activa es map.txt (no dummy_scene)
+		Graphics::CServer::getSingletonPtr()->setScene("map.txt");
+
+		//le paso un string
+		//_bbSet = Graphics::CServer::getSingletonPtr()->getActiveScene()->createBillboard(name); 
+		Graphics::CScene* _scen = Graphics::CServer::getSingletonPtr()->getActiveScene();
+		_bbSet = _scen->createBillboard(name); 
 
 
 	} // CBillboard

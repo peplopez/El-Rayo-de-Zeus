@@ -111,15 +111,26 @@ namespace Logic
 			return false;
 	}
 
-		bool CCollider::contacto( CEntity* entidad1, CEntity* entidad2)
+	bool CCollider::contacto( CEntity* entidad1, CEntity* entidad2)
 	{
 		Logic::TMessage m;
+
+		//_Vida--; si tiene vida se le disminuye, si es un proyectil no tiene vida
+		// Pablo 28-01-2013
+		m._type = Logic::Message::CONTACTO;
+		m._string="updateLife";
+		m._float=10.0;
+		entidad1->emitMessage(m,this);
+		entidad2->emitMessage(m,this);
+		//fin emision mensaje de vida
+
+
 		m._string="luminoso";
 		m._type = Logic::Message::SET_SHADER;
 		entidad1->emitMessage(m,this);
 		entidad2->emitMessage(m,this);
 
-		//_Vida--; si tiene vida se le disminuye, si es un proyectil no tiene vida			
+
 		m._string="walkStop";		
 		if (entidad1->getType().compare("Player")==0)
 			m._type = Logic::Message::CONTROL;

@@ -30,7 +30,8 @@ de una escena.
 #include <OgreStaticGeometry.h>
 #include <OgreColourValue.h>
 #include <OgreBillboardSet.h> //Pablo
-#include "Logic/Entity/Entity.h" //Pablo
+//#include "Logic/Entity/Entity.h" //Pablo
+#include "Graphics/Entity.h" // Pablo. Graphics/Entity.h
 
 namespace Graphics 
 {
@@ -177,25 +178,31 @@ namespace Graphics
 	
 	//le paso un string
 	Ogre::BillboardSet* CScene::createBillboard(const std::string &name) 
-	//Ogre::BillboardSet* CScene::createBillboard(const std::string &name, Ogre::Vector3 position) //no puedo pasarle
-	//la position.... no se porq
 	{
 		Ogre::BillboardSet* _bbSet;
+
 		_bbSet = _sceneMgr->createBillboardSet(name+"_billboard");
 		Vector3 posAnilloCentral=Logic::CServer::getSingletonPtr()->getRingPositions(3,Logic::Ring::ANILLO_CENTRAL);
 
-		//consigo la entidad de ogre llamada name
-		Ogre::Entity* oe =_sceneMgr->getEntity(name);
-
-		_bbSet->createBillboard(posAnilloCentral);
+		//_bbSet->createBillboard(posAnilloCentral);
+		_bbSet->createBillboard(Vector3(0,30,0));
 
 
 	   // se añade el billboard a la entidad en lugar de a la escena (hay que cambiar la linea con *)
 	   // *  //_sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(_bbSetLife); 
-		//_sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(_bbSet);
-		Ogre::Entity* en = _sceneMgr->getEntity(name);
-		_sceneMgr->getSceneNode(name)->attachObject(_bbSet);
-		//_sceneMgr->getSceneNode()->
+		//_sceneMgr->getRootSceneNode()->createChildSceneNode(name+"_billboard",posAnilloCentral)->attachObject(_bbSet);
+		//Ogre::Entity* en = _sceneMgr->getEntity(name);
+		//_sceneMgr->getSceneNode(name)->attachObject(_bbSet);
+		//_sceneMgr->getRootSceneNode()->attachObject(_bbSet);
+
+		Ogre::SceneNode* bbNode = _sceneMgr->createSceneNode(name+"_billboard");
+		bbNode->attachObject(_bbSet);
+
+		if(_sceneMgr->hasSceneNode(name+"_node"))
+		{
+			_sceneMgr->getSceneNode(name+"_node")->addChild(bbNode);
+		}
+
 
 		return _bbSet; //debéría devolver el Ogre::BillboardSet
 

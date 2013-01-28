@@ -43,7 +43,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CLifeController() : IComponent(),  _life(0.0f), _miBarra(0) {}
+		CLifeController() : IComponent(),  _life(100.0f),_maxLife(100.0), _miBarra(0) {}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -119,6 +119,8 @@ namespace Logic
 		virtual void setLife(float life);
 
 		virtual float getLife();
+
+		virtual void updateLife(float); //Pablo 28-01-2013
 			
 		//static Logic::CEntity *_BarraVida;
 
@@ -133,6 +135,11 @@ namespace Logic
 		Atributo que indica la magnitud de la vida de la entidad.
 		*/
 		float _life;
+
+		/**
+		Atributo que indica la vida máxima de la entidad.
+		*/
+		float _maxLife;
 
 		// Tutoria2
 		//Graphics::CBillboard _bb;

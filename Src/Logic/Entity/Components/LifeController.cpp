@@ -25,25 +25,35 @@ namespace Logic
 
 	//CEntity *CLifeController::_BarraVida=0;
 
-	bool CLifeController::spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo){
+	bool CLifeController::spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo)
+	{
 
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
+
+		// Pablo. 28-01-2013. Inicialización del atributo _life y _maxLife para aquellas
+		// entidades que tienen el componente CLifeController
+		if(entityInfo->hasAttribute("life"))
+		{
+			_maxLife = entityInfo->getFloatAttribute("life");
+			_life = _maxLife;
+		}
 
 
 		//David LLanso. Tutoria.
 		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
 		//le paso un string y la posicion de la entidad.
-		/*
+		//_bb = new Graphics::CBillboard(entity->getName(),entity->getPosition());
+
+		//le paso un string con el nombre de la entidad
 		_bb = new Graphics::CBillboard(entity->getName()); 
 		
 		_bb->setMaterial("lifeBar");
-		_bb->setDimensions(200,10);
+		_bb->setDimensions(10,1);
 		_bb->setCoordenadas(0.0f, 0.0f, 0.5f, 1.0f);
-		*/
 
 		return true;
-		}
+	}
 
 	bool CLifeController::activate()
 	{
@@ -74,6 +84,7 @@ namespace Logic
 		 bool CLifeController::accept(const TMessage &message)
 		 {
 			//return message._type == Message::CONTROL; 
+			return message._type == Message::CONTACTO;
 			//De momento, luego tendrá que aceptar de otras entidades NPC
 			 return false;
 		 }
@@ -81,22 +92,12 @@ namespace Logic
 		
 		 void CLifeController::process(const TMessage &message)
 		 {
-		/*switch(message._type)
-		{
-		case Message::CONTROL:
-			if(!message._string.compare("goUp"))
-				goUp();
-			else if(!message._string.compare("goDown"))
-				goDown();
-			else if(!message._string.compare("walkLeft"))
-				walkLeft();
-			else if(!message._string.compare("walkRight"))
-				walkRight();
-			else if(!message._string.compare("walkStop"))
-				stopMovement();
-			else if(!message._string.compare("turn"))
-				turn(message._float);
-		}*/
+			switch(message._type)
+			{
+			case Message::CONTACTO:
+				if(!message._string.compare("updateLife"))
+					updateLife(message._float);
+			}
 
 		 }
 
@@ -132,6 +133,24 @@ namespace Logic
 		float CLifeController::getLife()
 		{
 			return _life;
+		}
+
+		void CLifeController::updateLife(float damage)
+		{
+				//float ratio = _energy / _maxEnergy;
+				_life-=damage;
+
+				float ratio = _life / _maxLife;
+    
+				if (ratio < 0.0f)
+					ratio = 0.0f;
+        
+				float u1 = (1.0f - ratio) / 2.0f;
+				float v1 = 0.0f;
+				float u2 = 0.5f + (1.0f - ratio) / 2.0f;
+				float v2 = 1.0f;
+        
+				_bb->setCoordenadas(u1, v1, u2, v2);
 		}
 	
 

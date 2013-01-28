@@ -81,6 +81,10 @@ namespace GUI {
 			case GUI::Key::D:
 				m._string = "walkRight";
 				break;
+			/*case GUI::Key::C:
+				m._string = "updateLife";
+				m._float = 10.0;
+				break;*/
 			default:
 				return false;
 			}
