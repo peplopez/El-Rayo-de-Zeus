@@ -185,7 +185,7 @@ namespace Graphics
 		Vector3 posAnilloCentral=Logic::CServer::getSingletonPtr()->getRingPositions(3,Logic::Ring::ANILLO_CENTRAL);
 
 		//_bbSet->createBillboard(posAnilloCentral);
-		_bbSet->createBillboard(Vector3(0,30,0));
+		_bbSet->createBillboard(Vector3(0,10,0));
 
 
 	   // se añade el billboard a la entidad en lugar de a la escena (hay que cambiar la linea con *)

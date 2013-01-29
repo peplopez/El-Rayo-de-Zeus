@@ -162,11 +162,6 @@ Map ={
 		ring=2,
 		base=3,		
 	},
-
-	Barravida1 = {
-		type = "BarraVida",
-		position = {0, 0,-126},
-	},
 	
 	PeP = {
 		type = "Player",

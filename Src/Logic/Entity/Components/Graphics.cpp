@@ -55,59 +55,30 @@ namespace Logic
 		if(entityInfo->hasAttribute("model"))
 			_model = entityInfo->getStringAttribute("model");
 	
-		//Para iniciar la variable publica estatida _BarraVida y poder así clonarla
-		//if(_entity->getType().compare("BarraVida")==0 && Logic::CLifeController::_BarraVida==0)
-		//{
-		//	Logic::CLifeController::_BarraVida->set
-		//	printf("Entidad nombre:      %s        ",_entity->getName());
-		//	Logic::CLifeController::_BarraVida=CEntityFactory::getSingletonPtr()->createEntity(entityInfo,map);
-		//	printf("Entidad nombre:         %s      ",Logic::CLifeController::_BarraVida->getName());
-		//}
-		
 
 		_graphicsEntity = createGraphicsEntity(entityInfo);
-		if(_entity->getType().compare("BarraVida")==0)
-		{
-			_graphicsEntity->setScale(6);
-			
-			//_graphicsEntity->setScale(20);
-			_graphicsEntity->setMaterial("Verde");
-			//	getEntityNode();
-			//_entity
-			//_entity->getenti
-		}
+
 
 		if(_entity->getType().compare("Altar")==0)
 		{	
 			_graphicsEntity->setScale(3);
-			//_graphicsEntity->setMaterial("Verde");
-			//	getEntityNode();
-			//_entity
-			//_entity->getenti
 		}
-				if(_entity->getName().compare("Tubo")==0)
+
+		if(_entity->getName().compare("Tubo")==0)
 		{	
 			_graphicsEntity->setScale(Vector3(2,10,2));
-			//_graphicsEntity->setMaterial("Verde");
-			//	getEntityNode();
-			//_entity
-			//_entity->getenti
 		}
 
 		
 		if(_entity->getType().compare("AnimatedEntity")==0)
 		{	
-			_graphicsEntity->setScale(0.5);
-		//	_graphicsEntity->setMaterial("marine");
-			//_graphicsEntity->
+			_graphicsEntity->setScale(0.25);
 		}
 
 		if(_entity->getType().compare("World")==0)
 		{	
 			if(_entity->getRing()==LogicalPosition::ANILLO_CENTRAL)
 			_graphicsEntity->setScale(Vector3(1.3,1,1.3));
-		//	_graphicsEntity->setMaterial("marine");
-			//_graphicsEntity->
 		}
 
 		
