@@ -72,7 +72,7 @@ namespace Logic
 		
 		if(_entity->getType().compare("AnimatedEntity")==0)
 		{	
-			_graphicsEntity->setScale(0.25);
+			_graphicsEntity->setScale(0.5);
 		}
 
 		if(_entity->getType().compare("World")==0)
