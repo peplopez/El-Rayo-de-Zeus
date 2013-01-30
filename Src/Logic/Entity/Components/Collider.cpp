@@ -19,8 +19,12 @@ de la entidad.
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/EntityFactory.h"
+#include "Logic/Entity/Component.h"
+
 
 #include "Map/MapParser.h"
+
+
 
 namespace Logic 
 {
@@ -33,7 +37,6 @@ namespace Logic
 		_excluido=NULL;
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
-		
 		return true;
 
 	} // spawn
@@ -82,6 +85,8 @@ namespace Logic
 
 	bool CCollider::contactoAngular( CEntity* entidad1, CEntity* entidad2)
 	{
+//		if (entidad1->_components.
+
 		if (entidad1==entidad2)
 			return false;
 		if (entidad1->getBase()!=entidad2->getBase()) 
@@ -90,7 +95,11 @@ namespace Logic
 			return false;
 		//if (!entidad1->_logicInput || !entidad2->_logicInput)
 			//return false;
-		
+	
+
+		if (entidad1->getJumping()==true || entidad2->getJumping()==true)
+			return false;
+
 		float angleE1=entidad1->getDegree();
 		float angleE2=entidad2->getDegree();
 		float angularBoxE1=entidad1->getAngularBox();

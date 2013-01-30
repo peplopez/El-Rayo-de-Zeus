@@ -53,6 +53,8 @@ namespace Logic
 		_Tmaxaltura = jumpSpeed / _gravity; // 2,857142 segundos --> 2857,142 milisegundos
 		_Tmax = _Tmaxaltura * 2; // 5,71428571 seg. --> 5714,28571 milisegundos.
 		_potenciaSalto=_potenciaSaltoInicial;
+		_entity->setJumping(false);
+			//_isJumping=
 		return true;
 		}
 
@@ -61,7 +63,7 @@ namespace Logic
 		_sentidoDerecha=_entity->getSense();
 		
 		if (_entity->getType().compare("Player")!=0)
-		_jumping = false; // Pablo
+		_entity->setJumping(false); // Pablo
 		if (_sentidoDerecha)
 		{
 			_walkingLeft=false;
@@ -200,7 +202,7 @@ namespace Logic
 		void CAngularMovement::goDown()
 		{
 			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
-			if(_jumping==false)
+			if(_entity->getJumping()==false)
 			{
 				_changingRing=true;
 				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
@@ -223,7 +225,7 @@ namespace Logic
 		void CAngularMovement::goUp()
 		{
 			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
-			if(_jumping==false)
+			if(_entity->getJumping()==false)
 			{
 				_changingRing=true;	
 				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
@@ -312,7 +314,7 @@ namespace Logic
 			Vector3 direction(Vector3::ZERO);
 				
 
-			if(_walkingLeft || _walkingRight || _initialJump || _jumping)
+			if(_walkingLeft || _walkingRight || _initialJump || _entity->getJumping())
 			{
 				if(_walkingLeft || _walkingRight)
 				{
@@ -380,12 +382,12 @@ namespace Logic
 
 				if (_entity->getType().compare("Player")==0)
 			{
-					if(_initialJump==true && _jumping==false)
+					if(_initialJump==true && _entity->getJumping()==false)
 					{
 						// Pablo. Inicializo a false _initialJump para que solo lo tenga en cuenta una vez.
 						_potenciaSalto=_potenciaSaltoInicial;
 						_initialJump = false;
-						_jumping = true;
+						_entity->setJumping(true);
 						_timeJumping = 0;
 						Vector3 newPositionInitial=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
 						//inicialY = _entity->getY(_entity->getBase(),_entity->getRing());
@@ -396,7 +398,7 @@ namespace Logic
 					}
 
 					//Pablo
-					if(_jumping)
+					if(_entity->getJumping())
 					{
 						//std::cout << "inicialY: " << inicialY << "\n";
 						//std::cout << "posicionSalto.y: " << posicionSalto.y << "\n";
@@ -433,7 +435,7 @@ namespace Logic
 						{
 							_posicionSalto.y=_inicialY;
 							_jumpingDown=false;
-							_jumping=false;
+							_entity->setJumping(false);
 						}
 
 
@@ -465,7 +467,7 @@ namespace Logic
 				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
 			
 				//newPosition.y=_entity->getY();
-				if (_jumping)
+				if (_entity->getJumping())
 					newPosition.y=_posicionSalto.y;
 				_entity->setPosition(newPosition);
 				direction.normalise();

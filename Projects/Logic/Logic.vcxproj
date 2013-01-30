@@ -96,7 +96,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AngularMovement.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Collider.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\JumpMovement.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeController.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\LogicalPosition.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\RingStruct.h" />

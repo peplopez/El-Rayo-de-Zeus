@@ -451,7 +451,9 @@ namespace Logic
 
 		const Vector3 fromLogicalToCartesian(const float grados, const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
+		bool getJumping() {return _jumping;}
 		
+		void setJumping(bool jumping){_jumping=jumping;}
 
 	protected:
 
@@ -460,6 +462,7 @@ namespace Logic
 		usa para modificar el mapa.
 		*/
 		friend class CMap;
+		friend class CCollider;
 
 		/**
 		Identificador único de la entidad.
@@ -538,6 +541,13 @@ namespace Logic
 			Anchura de la entidad gráfica en grados
 		*/	
 		float _angularBox;
+
+		// Pablo
+		/**
+		Atributo para saber si la entidad está saltando dentro de un anillo
+		*/
+		bool _jumping;
+
 	}; // class CEntity
 
 } // namespace Logic
