@@ -43,7 +43,7 @@ namespace Logic
 		*/
 		// Pablo. Añadido la inicialización de _jumping y _timeJumping
 		CAngularMovement() : IComponent(), _sentidoColision(false),_changingRing(false), _walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false), _goingDown(false),
-			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90), _jumpingDown(false), _initialJump(false), _timeJumping(0), _potenciaSaltoInicial(5){}
+			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90), _jumpingDown(false), _initialJump(false), _timeJumping(0), _potenciaSaltoInicial(5), _correccionGrados(0){}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -204,6 +204,8 @@ namespace Logic
 		float _actualRadius;
 
 		float _actualDegree;
+
+		float _correccionGrados;
 
 		bool _sentidoDerecha;
 

@@ -85,32 +85,25 @@ namespace Logic
 
 	bool CCollider::contactoAngular( CEntity* entidad1, CEntity* entidad2)
 	{
-//		if (entidad1->_components.
-
 		if (entidad1==entidad2)
 			return false;
 		if (entidad1->getBase()!=entidad2->getBase()) 
 			return false;
 		if (entidad1->getRing()!=entidad2->getRing()) 
 			return false;
-		//if (!entidad1->_logicInput || !entidad2->_logicInput)
-			//return false;
 	
 
 		if (entidad1->getJumping()==true || entidad2->getJumping()==true)
 			return false;
 
-		float angleE1=entidad1->getDegree();
-		float angleE2=entidad2->getDegree();
-		float angularBoxE1=entidad1->getAngularBox();
-		float angularBoxE2=entidad2->getAngularBox();
-		if (angularBoxE2==0)
+
+		if (entidad2->getAngularBox()==0)
 			return false;
-		float logicalCenterDistance=abs(angleE1-angleE2);//distancia entre los centros de las entidades
+		float logicalCenterDistance=abs(entidad1->getDegree()-entidad2->getDegree());//distancia entre los centros de las entidades
 		if (logicalCenterDistance>180) //
 			logicalCenterDistance=360-logicalCenterDistance;
 
-		float angularBoxAmount=angularBoxE1+angularBoxE2;
+		float angularBoxAmount=entidad1->getAngularBox()+entidad2->getAngularBox();
 		//if (this->getType().compare("AnimatedEntity")==0)
 		//	int i=0;
 		if (logicalCenterDistance<=angularBoxAmount) //si la distancia de los centros es menor que la suma de los radios hay contacto
@@ -119,6 +112,30 @@ namespace Logic
 		}
 			return false;
 	}
+
+	bool CCollider::contactoExtremo( CEntity* entidad1, CEntity* entidad2)
+	{		
+		if (entidad2->getAngularBox()==0)
+			return false;
+		float logicalCenterDistance=abs(entidad1->getDegree()-entidad2->getDegree());//distancia entre los centros de las entidades
+		if (logicalCenterDistance>180) //
+			logicalCenterDistance=360-logicalCenterDistance;
+
+		if (logicalCenterDistance<((entidad1->getAngularBox()+entidad2->getAngularBox())/2))
+			return true;
+
+		return false;
+
+		float angularBoxAmount=entidad1->getAngularBox()+entidad2->getAngularBox();
+		//if (this->getType().compare("AnimatedEntity")==0)
+		//	int i=0;
+		if (logicalCenterDistance<=angularBoxAmount) //si la distancia de los centros es menor que la suma de los radios hay contacto
+		{	
+			return true;		
+		}
+			return false;
+	}
+
 
 	bool CCollider::contacto( CEntity* entidad1, CEntity* entidad2)
 	{
@@ -140,7 +157,6 @@ namespace Logic
 		entidad2->emitMessage(m,this);
 
 
-		m._string="walkStop";		
 		if (entidad1->getType().compare("Player")==0)
 			m._type = Logic::Message::CONTROL;
 		if (entidad1->getType().compare("AnimatedEntity")==0)
@@ -149,11 +165,23 @@ namespace Logic
 	//	_sentidoColision=sentidoColision(entidad1,entidad2);
         m._bool=sentidoColision(entidad1,entidad2);
 //		m._bool=_sentidoColision;
-		entidad1->emitMessage(m,this);	
-		m._bool=!m._bool;
-		entidad2->emitMessage(m,this);	
 
-
+		//corrección para cuerpos superspuestos
+		if (contactoExtremo(entidad1,entidad2))
+		{
+			m._string="walkBack";
+			m._float=(((entidad1->getAngularBox()+entidad2->getAngularBox())/2)/*-abs(entidad1->getDegree()-entidad2->getDegree())*/);
+			entidad1->emitMessage(m,this);	
+			m._bool=!m._bool;
+			entidad2->emitMessage(m,this);	
+		}
+		else
+		{
+			m._string="walkStop";
+			entidad1->emitMessage(m,this);	
+			m._bool=!m._bool;
+			entidad2->emitMessage(m,this);	
+		}
 		m._string="changeDirection";
 			
 		m._bool=sentidoColision(entidad1,entidad2);

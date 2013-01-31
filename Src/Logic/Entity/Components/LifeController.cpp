@@ -51,6 +51,7 @@ namespace Logic
 		_bb->setMaterial("lifeBar");
 		_bb->setDimensions(10,1);
 		_bb->setCoordenadas(0.0f, 0.0f, 0.5f, 1.0f);
+		//_bb->set
 
 		return true;
 	}

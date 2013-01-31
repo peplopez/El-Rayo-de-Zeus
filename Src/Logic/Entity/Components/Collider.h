@@ -121,6 +121,7 @@ namespace Logic
 
 		virtual bool contactoAngular( CEntity* entidad, CEntity* entidad2);
 
+		virtual	bool CCollider::contactoExtremo( CEntity* entidad1, CEntity* entidad2);
 
 	protected:
 		/**

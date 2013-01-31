@@ -68,7 +68,6 @@ namespace Logic
 		{
 			_walkingLeft=false;
 			_walkingRight=true;
-
 		}
 		else
 		{
@@ -114,6 +113,7 @@ namespace Logic
 			else if(!message._string.compare("walkBack"))
 				 {	
 					_sentidoColision=message._bool;
+					_correccionGrados=message._float;
 					walkBack();
 				 }
 			else if(!message._string.compare("changeDirection"))
@@ -141,6 +141,7 @@ namespace Logic
 			else if(!message._string.compare("walkBack"))
 				 {	
 					_sentidoColision=message._bool;
+					_correccionGrados=message._float;
 					walkBack();
 				 }
 			else if(!message._string.compare("changeDirection"))
@@ -352,25 +353,9 @@ namespace Logic
 							_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed));
 					}*/
 
-					if (_walkBack)
-						{
-							stopMovement();   
-							_walkBack=false;
-
-							if (_sentidoColision) // la direccion
-							{
-								_entity->setDegree(_entity->getDegree()+(_angularSpeed+10)); 
-								_entity->yaw(Math::fromDegreesToRadians(-(_angularSpeed)));
-							}
-							else
-							{
-								_entity->setDegree(_entity->getDegree()-(_angularSpeed+10)); 
-								_entity->yaw(Math::fromDegreesToRadians((_angularSpeed)));
-							}							
-				
-							_sentidoColision=false;
-						
-						}
+					/*
+					WALKBACK
+					*/
 					if(_walkingLeft)
 						direction *= -1;
 				}
@@ -478,7 +463,30 @@ namespace Logic
 			// Pablo. Salto
 
 
+			if (_walkBack)
+						{
+							stopMovement();   
+							_walkBack=false;
 
+							if (_sentidoColision) // la direccion
+							{
+								_entity->setDegree(_entity->getDegree()+(_angularSpeed+_correccionGrados)); 
+								_entity->yaw(Math::fromDegreesToRadians(-(_angularSpeed)));
+							}
+							else
+							{
+								_entity->setDegree(_entity->getDegree()-(_angularSpeed+_correccionGrados)); 
+								_entity->yaw(Math::fromDegreesToRadians((_angularSpeed)));
+							}							
+				
+							_sentidoColision=false;
+							Vector3 newPositionWalkBack=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());		
+				
+							if (_entity->getJumping())
+								newPositionWalkBack.y=_posicionSalto.y;
+							_entity->setPosition(newPositionWalkBack);
+
+						}
 			
 		} //fin de CAngularMovement:tick
 
