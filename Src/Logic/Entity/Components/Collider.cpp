@@ -121,7 +121,7 @@ namespace Logic
 		if (logicalCenterDistance>180) //
 			logicalCenterDistance=360-logicalCenterDistance;
 
-		if (logicalCenterDistance<((entidad1->getAngularBox()+entidad2->getAngularBox())/2))
+		if (logicalCenterDistance<((entidad1->getAngularBox()+entidad2->getAngularBox()/2)))
 			return true;
 
 		return false;
@@ -147,9 +147,8 @@ namespace Logic
 		m._string="updateLife";
 		m._float=10.0;
 		entidad1->emitMessage(m,this);
-		entidad2->emitMessage(m,this);
+		//entidad2->emitMessage(m,this);
 		//fin emision mensaje de vida
-
 
 		m._string="luminoso";
 		m._type = Logic::Message::SET_SHADER;
@@ -162,6 +161,7 @@ namespace Logic
 		if (entidad1->getType().compare("AnimatedEntity")==0)
 			m._type = Logic::Message::NPC_CONTROL;
 
+
 	//	_sentidoColision=sentidoColision(entidad1,entidad2);
         m._bool=sentidoColision(entidad1,entidad2);
 //		m._bool=_sentidoColision;
@@ -170,9 +170,15 @@ namespace Logic
 		if (contactoExtremo(entidad1,entidad2))
 		{
 			m._string="walkBack";
-			m._float=(((entidad1->getAngularBox()+entidad2->getAngularBox())/2)/*-abs(entidad1->getDegree()-entidad2->getDegree())*/);
+			m._float=(((entidad1->getAngularBox()+entidad2->getAngularBox())/4));
 			entidad1->emitMessage(m,this);	
 			m._bool=!m._bool;
+			if (entidad2->getType().compare("Player")==0)
+				m._type = Logic::Message::CONTROL;
+			if (entidad2->getType().compare("AnimatedEntity")==0)
+				m._type = Logic::Message::NPC_CONTROL;
+
+
 			entidad2->emitMessage(m,this);	
 		}
 		else
@@ -180,13 +186,29 @@ namespace Logic
 			m._string="walkStop";
 			entidad1->emitMessage(m,this);	
 			m._bool=!m._bool;
+			if (entidad2->getType().compare("Player")==0)
+				m._type = Logic::Message::CONTROL;
+			if (entidad2->getType().compare("AnimatedEntity")==0)
+				m._type = Logic::Message::NPC_CONTROL;
+
+
 			entidad2->emitMessage(m,this);	
 		}
 		m._string="changeDirection";
 			
 		m._bool=sentidoColision(entidad1,entidad2);
+			if (entidad1->getType().compare("Player")==0)
+				m._type = Logic::Message::CONTROL;
+			if (entidad1->getType().compare("AnimatedEntity")==0)
+				m._type = Logic::Message::NPC_CONTROL;
+
 		entidad1->emitMessage(m,this);	
 		m._bool=!m._bool;
+			if (entidad2->getType().compare("Player")==0)
+				m._type = Logic::Message::CONTROL;
+			if (entidad2->getType().compare("AnimatedEntity")==0)
+				m._type = Logic::Message::NPC_CONTROL;
+
 		entidad2->emitMessage(m,this);	
 			
 		//}
@@ -230,33 +252,38 @@ namespace Logic
 
 	void CCollider::tick(unsigned int msecs)
 	{
-		IComponent::tick(msecs);
-		
-		
+		IComponent::tick(msecs);		
 
 		//me gustaría que en esta lista tan sólo estuvieran entidades con componente CColider
+		//if (_entity->getType().compare("Player")==0)
+		//{
 		CMap::TEntityList::const_iterator it = _entity->getMap()->getEntities().begin();
 		CMap::TEntityList::const_iterator end = _entity->getMap()->getEntities().end();
 		_excluido=NULL;
+		_comprobando=!_comprobando;
+		//if (_comprobando)
 		for(; it != end; it++)
+		{
+		
 			//Si la entidad que comparo no soy yo mismo y la distancia entre las posiciones
 			//de las dos es menor de la distancia de colisión (o radio)
+			
 			if(_entity != (*it) && contactoAngular(_entity,(*it)) )
 			{
-				if (_excluido==NULL)
-				{
-				contacto(_entity,(*it));
- 				_excluido=(*it);
-				break;
+				if (_excluido==NULL && ((*it)->getType().compare("Altar")!=0)&& ((*it)->getType().compare("World")!=0))
+				{//lo que hay que  hacer es que no se itere sobre entidades que no tengan componente CCollider, de momento se hace esa comprobación
+					contacto(_entity,(*it));
+ 					//_excluido=(*it);
+
+					break;
 				}
 				//Logic::TMessage m;
 				//m._type = Logic::Message::CONTACTO;				
-				//_entity->emitMessage(m,this);
-				
-			
-				
+				//_entity->emitMessage(m,this);				
+			}
 			} // tick
 		}
+//	}
 		
 
 

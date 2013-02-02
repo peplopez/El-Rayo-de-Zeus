@@ -42,9 +42,9 @@ namespace Logic
 		defecto.
 		*/
 		// Pablo. Añadido la inicialización de _jumping y _timeJumping
-		CAngularMovement() : IComponent(), _sentidoColision(false),_changingRing(false), _walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false), _goingDown(false),
-			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90), _jumpingDown(false), _initialJump(false), _timeJumping(0), _potenciaSaltoInicial(5), _correccionGrados(0){}
-		
+		CAngularMovement() : IComponent(), _sentidoColision(false),_changingRing(false),_changingBase(false), _walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false), _goingDown(false),
+			_angularSpeed(0.00625f), _actualRadius(-55), _actualDegree(-90), _jumpingDown(false), _initialJump(false), _timeJumping(0), _potenciaSaltoInicial(5)/*5*/, _correccionGrados(0){}
+		// divididio entre 32
 		/**
 		Inicialización del componente, utilizando la información extraída de
 		la entidad leída del mapa (Maps::CEntity). Toma del mapa el atributo
@@ -161,6 +161,10 @@ namespace Logic
 		*/
 		void changeDirection(const bool newDirection);
 
+				
+		void changeBase(int base);
+
+
 
 	
 	protected:
@@ -238,6 +242,8 @@ namespace Logic
 		Vector3 _posicionSalto;
 
 		bool _changingRing;
+
+		bool _changingBase;
 	
 		float _potenciaSalto;
 

@@ -29,6 +29,9 @@ namespace Logic
 		
 		if(entityInfo->hasAttribute("angularSpeed"))
 			_angularSpeed = entityInfo->getFloatAttribute("angularSpeed");
+		
+		//_angularSpeed=0.00625;
+
 
 		// Pablo. Si la entidad tiene el atributo jumpSpeed la capturamos y la guardamos en _jumpSpeed
 		// En ppio solo la va a tener el player
@@ -146,8 +149,12 @@ namespace Logic
 				 }
 			else if(!message._string.compare("changeDirection"))
 				 {	
-					 _sentidoColision=message._bool;
+					_sentidoColision=message._bool;
 					changeDirection(_sentidoColision);
+				 }
+			else if(!message._string.compare("changeBase"))
+				 {	
+					changeBase(message._float);
 				 }
 			else if(!message._string.compare("turn"))
 				turn(message._float);
@@ -218,9 +225,7 @@ namespace Logic
 					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
 				}
-			}
-			
-			
+			}			
 		}
 		
 		void CAngularMovement::goUp()
@@ -241,10 +246,30 @@ namespace Logic
 					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
 				}
-			}
-			
+			}			
 		}
 		
+		void CAngularMovement::changeBase(int base)
+		{
+			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
+			if(_entity->getJumping()==false && !_walkingLeft && !_walkingRight)
+			{
+				_changingBase=true;	
+				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
+				{
+					_entity->setBase(base);
+					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+					_entity->setPosition(newPosition);
+				}
+				if (_entity->getRing()==Ring::ANILLO_INFERIOR)
+				{
+					_entity->setBase(base);
+					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+					_entity->setPosition(newPosition);
+				}
+			}			
+		}
+
 		void CAngularMovement::stopMovement()
 		{
 			//if(!_jumping)
@@ -330,8 +355,8 @@ namespace Logic
 						}
 						if (!_walkBack)
 						{
-							_entity->setDegree(_entity->getDegree()-_angularSpeed); 
-							_entity->yaw(Math::fromDegreesToRadians(_angularSpeed));
+							_entity->setDegree(_entity->getDegree()-_angularSpeed*msecs); 
+							_entity->yaw(Math::fromDegreesToRadians(_angularSpeed*msecs));
 						}
 					}
 					else
@@ -343,8 +368,8 @@ namespace Logic
 						}
 						if (!_walkBack)
 						{
-							_entity->setDegree(_entity->getDegree()+_angularSpeed);
-							_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed));
+							_entity->setDegree(_entity->getDegree()+_angularSpeed*msecs);
+							_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed*msecs));
 						}			
 					
 					}
@@ -399,12 +424,12 @@ namespace Logic
 
 						//si esta saltando, y esta bajando decrementamos la y en 1 unidad cada tick de reloj
 						if(_jumpingDown){
-							_posicionSalto.y-= _potenciaSaltoInicial-_potenciaSalto;
+							_posicionSalto.y-= (_potenciaSaltoInicial-_potenciaSalto)*(0.05*msecs);
 							if (_potenciaSalto>0)_potenciaSalto-=0.3;
 						}
 						else //si esta saltando y esta subiendo incrementamos la y en 1 unidad cada tick de reloj
 						{
-							_posicionSalto.y+= _potenciaSalto;
+							_posicionSalto.y+= _potenciaSalto * (0.05*msecs);
 							if (_potenciaSalto>0)_potenciaSalto-=0.3;
 						}
 
@@ -437,14 +462,6 @@ namespace Logic
 			}// FIN if (_entity->getType().compare("Player")!=0)
 
 			// Fin Pablo. Salto
-		
-
-
-
-
-
-
-
 
 
 
@@ -465,17 +482,17 @@ namespace Logic
 
 			if (_walkBack)
 						{
-							stopMovement();   
+							//stopMovement();   
 							_walkBack=false;
 
 							if (_sentidoColision) // la direccion
 							{
-								_entity->setDegree(_entity->getDegree()+(_angularSpeed+_correccionGrados)); 
-								_entity->yaw(Math::fromDegreesToRadians(-(_angularSpeed)));
+								_entity->setDegree(_entity->getDegree()+((_angularSpeed+(_correccionGrados/msecs))*msecs)); 
+								_entity->yaw(Math::fromDegreesToRadians(-(_angularSpeed*msecs)));
 							}
 							else
 							{
-								_entity->setDegree(_entity->getDegree()-(_angularSpeed+_correccionGrados)); 
+								_entity->setDegree(_entity->getDegree()-((_angularSpeed+(_correccionGrados/msecs))*msecs)); 
 								_entity->yaw(Math::fromDegreesToRadians((_angularSpeed)));
 							}							
 				

@@ -169,7 +169,7 @@ Map ={
 		life = 1000.0,
 		isPlayer = true,
 		model = "marine.mesh",
-		angularSpeed = 1,
+		angularSpeed = 0.0325,
 		defaultAnimation = "Idle",
 		degrees=0,
 		base=3,
@@ -178,7 +178,7 @@ Map ={
 		sense=0,
 		angularBox=2.5,
 		initialJumpSpeed = 28,
-		gravity = 9.8,
+		gravity = 0.98,
 		Hmax = 40,
 	},
 	

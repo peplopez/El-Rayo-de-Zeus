@@ -81,10 +81,42 @@ namespace GUI {
 			case GUI::Key::D:
 				m._string = "walkRight";
 				break;
-			/*case GUI::Key::C:
-				m._string = "updateLife";
-				m._float = 10.0;
-				break;*/
+			case GUI::Key::NUMBER1:
+				m._string = "changeBase";
+				m._float = 1;
+				break;
+			case GUI::Key::NUMBER2:
+				m._string = "changeBase";
+				m._float = 2;
+				break;			
+			case GUI::Key::NUMBER3:
+				m._string = "changeBase";
+				m._float = 3;
+				break;
+			case GUI::Key::NUMBER4:
+				m._string = "changeBase";
+				m._float = 4;
+				break;			
+			case GUI::Key::NUMBER5:
+				m._string = "changeBase";
+				m._float = 5;
+				break;
+			case GUI::Key::NUMBER6:
+				m._string = "changeBase";
+				m._float = 6;
+				break;			
+			case GUI::Key::NUMBER7:
+				m._string = "changeBase";
+				m._float = 7;
+				break;
+			case GUI::Key::NUMBER8:
+				m._string = "changeBase";
+				m._float = 8;
+				break;
+			case GUI::Key::NUMBER0:
+				m._string = "changeBase";
+				m._float = 0;
+				break;
 			default:
 				return false;
 			}

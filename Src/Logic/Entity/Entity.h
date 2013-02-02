@@ -288,12 +288,17 @@ namespace Logic
 			if (_pos._degrees>=0 && _pos._degrees<360)
 				return _pos._degrees;
 
+			float decimal=_pos._degrees-(int)_pos._degrees;
+			int grados=(int)_pos._degrees%360;
+
 			if (_pos._degrees>360)
-			{
-				return (int)_pos._degrees%360;
+			{				
+				return grados+decimal;
 			}
 			else //menor que cero
-				return 360-(int)abs((int)_pos._degrees%360);
+			{
+				return 360-(int)abs(grados)+decimal;
+			}
 		}
 
 		/**
@@ -303,7 +308,7 @@ namespace Logic
 
 		@param base nueva
 		*/
-		void setBase(const unsigned short &base);
+		void setBase(const unsigned short &base)  {_pos._base=base;}
 
 		/**
 		Devuelve la base de la entidad.
