@@ -42,7 +42,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CCollider() : IComponent(),_sentidoColision(false),_hit(0) {}
+		CCollider() : IComponent(),_sentidoColision(false),_hit(0),_comprobando(true) {}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -121,7 +121,7 @@ namespace Logic
 
 		virtual bool contactoAngular( CEntity* entidad, CEntity* entidad2);
 
-		virtual	bool CCollider::contactoExtremo( CEntity* entidad1, CEntity* entidad2);
+		virtual	bool contactoExtremo( CEntity* entidad1, CEntity* entidad2);
 
 	protected:
 		/**
@@ -135,6 +135,8 @@ namespace Logic
 		short _hit;
 
 		CEntity* _excluido;
+
+		bool _comprobando;
 		
 	}; // class CCollider
 
