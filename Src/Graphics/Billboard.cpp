@@ -46,7 +46,7 @@ namespace Graphics
 {
 	//Constructor de la clase CBillboard. Donde se crea un BillboardSet (de momento con 1 sólo Billboard)
 	//CBillboard::CBillboard(const std::string &name, Vector3 position) //le paso un string y la posicion de la entidad
-	CBillboard::CBillboard(const std::string &name) //le paso un string
+	CBillboard::CBillboard(const std::string &name, const float offset) //le paso un string y el offset de la pos del billboard
 	{
 		//Graphics::CServer::getSingletonPtr()->getActiveScene()->createBillboard();
 		//Desde el singletonPtr del Server grafico, puedo llamar al metodo getActiveScene para
@@ -56,12 +56,12 @@ namespace Graphics
 		//_bbSet = Graphics::CServer::getSingletonPtr()->getActiveScene()->createBillboard(name,position);
 
 		// Pablo 28-01-2013. Indico que la escena activa es map.txt (no dummy_scene)
-		Graphics::CServer::getSingletonPtr()->setScene("map.txt");
+		//Graphics::CServer::getSingletonPtr()->setScene("map.txt");
 
 		//le paso un string
 		//_bbSet = Graphics::CServer::getSingletonPtr()->getActiveScene()->createBillboard(name); 
 		Graphics::CScene* _scen = Graphics::CServer::getSingletonPtr()->getActiveScene();
-		_bbSet = _scen->createBillboard(name); 
+		_bbSet = _scen->createBillboard(name,offset); 
 
 
 	} // CBillboard

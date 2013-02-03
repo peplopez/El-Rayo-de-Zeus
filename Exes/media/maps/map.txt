@@ -167,6 +167,9 @@ Map ={
 		type = "Player",
 		orientation = 90,
 		life = 1000.0,
+		offsetLife = 14.0,
+		widthLife = 10.0,
+		heightLife = 1.0,
 		isPlayer = true,
 		model = "marine.mesh",
 		angularSpeed = 1,
@@ -369,6 +372,9 @@ Map ={
 		degrees=0,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO4 = {
@@ -378,6 +384,9 @@ Map ={
 		degrees=150,
 		sense=0,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 
 	bioshockLOGICO7 = {
@@ -387,6 +396,9 @@ Map ={
 		degrees=240,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO8 = {
@@ -396,6 +408,9 @@ Map ={
 		degrees=270,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO9 = {
@@ -405,6 +420,9 @@ Map ={
 		degrees=0,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO10 = {
@@ -414,6 +432,9 @@ Map ={
 		degrees=330,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 		
 	bioshockLOGICO = {
@@ -423,6 +444,9 @@ Map ={
 		degrees=90,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO6 = {
@@ -432,6 +456,9 @@ Map ={
 		degrees=180,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO73 = {
@@ -441,6 +468,9 @@ Map ={
 		degrees=240,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO83 = {
@@ -450,6 +480,9 @@ Map ={
 		degrees=270,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO93 = {
@@ -459,6 +492,9 @@ Map ={
 		degrees=0,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO103 = {
@@ -468,6 +504,9 @@ Map ={
 		degrees=330,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 		
@@ -478,6 +517,9 @@ Map ={
 		degrees=90,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 		
 	bioshockLOGICO63 = {
@@ -487,6 +529,9 @@ Map ={
 		degrees=180,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 
 	bioshockLOGICO74 = {
@@ -496,6 +541,9 @@ Map ={
 		degrees=240,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO84 = {
@@ -505,6 +553,9 @@ Map ={
 		degrees=270,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO94 = {
@@ -514,6 +565,9 @@ Map ={
 		degrees=0,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO104 = {
@@ -523,6 +577,9 @@ Map ={
 		degrees=330,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 		
 	bioshockLOGICO334 = {
@@ -532,6 +589,9 @@ Map ={
 		degrees=90,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO64 = {
@@ -541,5 +601,8 @@ Map ={
 		degrees=180,
 		sense=1,
 		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 }

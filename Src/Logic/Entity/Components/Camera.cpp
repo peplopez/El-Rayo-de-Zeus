@@ -119,7 +119,8 @@ namespace Logic
 		
 			//inercia de la camara
 			Vector3 cameraTarget=CServer::getSingletonPtr()->getRingPositions(_target->getBase(),_target->getRing());
-			_currentPos += ((Vector3(_target->getPosition().x*3.5,cameraTarget.y+126,_target->getPosition().z*4)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035;
+			//_currentPos += ((Vector3(_target->getPosition().x*1.75,cameraTarget.y+126,_target->getPosition().z*1.75)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035;
+			_currentPos += ((Vector3(_target->getPosition().x*2.25,cameraTarget.y+126,_target->getPosition().z*1.75)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035;
 		
 			 _graphicsCamera->setCameraPosition(_currentPos);
 
