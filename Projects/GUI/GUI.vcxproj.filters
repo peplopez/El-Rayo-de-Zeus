@@ -19,6 +19,9 @@
     <ClCompile Include="..\..\Src\GUI\Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\GUI\CameraController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\GUI\Documentation.h">
@@ -31,6 +34,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\GUI\Server.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\GUI\CameraController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -31,7 +31,8 @@ namespace Logic
 			CONTROL,
 			CONTACTO,
 			SET_SHADER,
-			NPC_CONTROL
+			NPC_CONTROL,
+			CAMERA
 		};
 	}
 

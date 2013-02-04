@@ -137,8 +137,6 @@ namespace GUI {
 			m._type = Logic::Message::CONTROL;
 			switch(key.keyId)
 			{
-
-
 			case GUI::Key::A:
 			case GUI::Key::D:
 				//m._string = "stopStrafe";
