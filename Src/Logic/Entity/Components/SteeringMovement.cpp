@@ -116,39 +116,41 @@ namespace Logic
 
 		// Si nos estamos desplazando calculamos la próxima posición
 		if (!_arrived && _currentMovement != 0) {
+
 			_arrived = _entity->getPosition().positionEquals(_target);
 			_currentMovement->move(msecs, _currentProperties);
 			// Aplicamos la rotación
 			_yaw->move(msecs, _currentProperties);
-
+						
 			// Aplicar la rotación
 			//_entity->yaw(_entity->getYaw() - out.targetYaw);
 			// En este caso suponemos que la entidad siempre se mueve hacia adelante, 
 			// así que tomamos la dirección del vector de velocidad.
 			//_entity->setYaw(atan2(-message._vector3.x, -message._vector3.z));
 
-			Matrix4 trans = _entity->getTransform();
-			Math::setYaw(_entity->getYaw() + (float)_currentProperties.angularSpeed * msecs,trans);
+			// UNDONE [ƒ®§] Lo suyo es utilizar el entity->yaw que ya envia el msg
+			//Matrix4 trans = _entity->getTransform();
+			//Math::setYaw(_entity->getYaw() + (float)_currentProperties.angularSpeed * msecs, trans);
+			//// Avisamos a los componentes del cambio.
+			//TMessage msg;
+			//	msg._type = Message::SET_TRANSFORM;
+			//	msg._transform = trans;
+			//	_entity->emitMessage(msg);
 
-			// Avisamos a los componentes del cambio.
-			TMessage msg;
-			msg._type = Message::SET_TRANSFORM;
-			msg._transform = trans;
-			_entity->emitMessage(msg);
+			_entity->yaw(_currentProperties.angularSpeed * msecs);
 
 			// Enviar un mensaje para que el componente físico mueva el personaje
 			TMessage message;
-			message._type = Message::AVATAR_WALK;
-			message._vector3 = _currentProperties.linearSpeed * (float)msecs;
-			_entity->emitMessage(message, this);
+				message._type = Message::AVATAR_WALK;
+				message._vector3 = _currentProperties.linearSpeed * (float)msecs;
+				_entity->emitMessage(message, this);
 
 			// Acelerar
 			_currentProperties.linearSpeed += _currentProperties.linearAccel * (float)msecs;
 			// Clipping
 			double speedValue = _currentProperties.linearSpeed.length();
-			if (speedValue > _maxLinearSpeed) {
+			if (speedValue > _maxLinearSpeed) 
 				_currentProperties.linearSpeed *= (_maxLinearSpeed / (float)speedValue);
-			}
 
 			_currentProperties.angularSpeed += _currentProperties.angularAccel * msecs;
 			if (_currentProperties.angularSpeed > _maxAngularSpeed) 

@@ -67,25 +67,23 @@ namespace Logic {
 
 	bool CNetConnector::accept(const TMessage &message)
 	{
-		// TODO Vemos si es uno de los mensajes que debemos trasmitir 
-		// por red. Para eso usamos la lista de mensajes que se ha
-		// leido del mapa.
-		// Vemos si es uno de los mensajes que debemos trasmitir 
-		// por red.
-		if (std::find(_forwardedMsgTypes.begin(),  _forwardedMsgTypes.end(), message._type) != _forwardedMsgTypes.end())
-		{
-			if(message._type == Message::CONTROL)
-				return true;
+		if(message._type == Message::CONTROL && !_entity->isPlayer() )  // CONTROL: sólo TX por red si lo ha generado el Player local (PlayerController)
+			return false;
+
+		// [ƒ®§] Vemos si es uno de los mensajes que debemos trasmitir 
+		// por red. Para eso usamos la lista de mensajes que se ha leido del mapa.
+		// Vemos si es uno de los mensajes que debemos trasmitir  por red.
+		else if (std::find(_forwardedMsgTypes.begin(),  _forwardedMsgTypes.end(), message._type) != _forwardedMsgTypes.end())
+		{			
 			// Grano fino, en vez de aceptar el mensaje directamente
 			// solo se retransmitirá por la red si no se ha transmitido 
-			// hace poco (_timeOfBlocking milisegundos) un mensaje del 
-			// mismo tipo
-			else if(_timeToUnblockMsgDelivery.count(message._type) == 0) // TODO probar sin ajuste fino qué tal va de fino :P
+			// hace poco (_timeOfBlocking milisegundos) un mensaje del mismo tipo
+			if(_timeToUnblockMsgDelivery.count(message._type) == 0) // TODO probar sin ajuste fino qué tal va de fino :P
 			{
-				if(_timeOfBlocking && message._type)
+				if(_timeOfBlocking)
 					_timeToUnblockMsgDelivery.insert(TTimeToUnblockMsgDeliveryPair(message._type,_timeOfBlocking));
 				return true;
-			}// TODO no hace falta ir descontando tiempo y eliminar el par en algún momento?
+			}
 		}
 
 		return false;

@@ -78,8 +78,7 @@ namespace Net {
 	{
 		ENetEvent event;
 		CPaquete* paquete;
-		CConexionENet* conexion;
-   
+		CConexionENet* conexion;   
 
 		/* Wait up to 0 milliseconds for an event. */
 		while (enet_host_service (server, & event, 0) > 0)
@@ -87,43 +86,48 @@ namespace Net {
 			switch (event.type)
 			{
 			case ENET_EVENT_TYPE_CONNECT:
+
 				if(DEBUG_SERVER)
 					fprintf(stdout,"NET::SERVER>> A new client connected from %x:%u.\n", 
 							event.peer -> address.host,
 							event.peer -> address.port);
 
 				conexion = new CConexionENet();
-				conexion->setENetPeer(event.peer);
-
-				event.peer -> data = conexion;
-				listaConexiones.push_back(conexion);
-
+					conexion->setENetPeer(event.peer);				
+					listaConexiones.push_back(conexion);
+					event.peer->data = conexion;
 
 				paquete = new CPaquete(CONEXION,0,0,conexion,0);
-				paquetesRecibidos.push_back(paquete);
+					paquetesRecibidos.push_back(paquete);
 				
 				estado = INIT_AND_CONNECTED;
 				
 				break;
 
 			case ENET_EVENT_TYPE_RECEIVE:
+
 				if(DEBUG_SERVER)
 					fprintf(stdout,"NET::SERVER>> A packet of length %u was received from %s on channel %u.\n",
-				event.packet -> dataLength,
-				event.peer -> data,
-				event.channelID);
+						event.packet->dataLength,
+						event.peer->data,
+						event.channelID);
+
 				paquete = new CPaquete(DATOS, event.packet->data, event.packet->dataLength, (CConexion*)event.peer->data, event.channelID);
-				paquetesRecibidos.push_back(paquete);
-				enet_packet_destroy (event.packet);            
+					paquetesRecibidos.push_back(paquete);
+					enet_packet_destroy (event.packet);            
 				break;
 	           
 			case ENET_EVENT_TYPE_DISCONNECT:
+
 				if(DEBUG_SERVER)
-					fprintf(stdout,"NET::SERVER>> %s disconected.\n", event.peer -> data);
+					fprintf(stdout,"NET::SERVER>> %s disconected.\n", ( (CConexion*) event.peer->data)->getId() );
+
 				paquete = new CPaquete(DESCONEXION,0,0,(CConexion*)event.peer->data,0);
-				paquetesRecibidos.push_back(paquete);
+					paquetesRecibidos.push_back(paquete);
+
 				disconnectReceived((CConexion*)event.peer->data);
 				break;
+
 			default:
 				fprintf(stdout,"NET::SERVER>> Unknown packet.\n");
 			}
@@ -149,11 +153,14 @@ namespace Net {
 
 	void CServidorENet::sendData(void* data, size_t longData, int channel, bool reliable, CConexion* conexion)
 	{
+		if(!conexion) 
+			return;
+
 		enet_uint32 rel = 0;
 		if(reliable)
 			rel = ENET_PACKET_FLAG_RELIABLE;
 		
-		ENetPacket * packet =  enet_packet_create (data, longData, rel);
+		ENetPacket * packet = enet_packet_create (data, longData, rel);
 	    
 		enet_peer_send (((CConexionENet*)conexion)->getENetPeer(), channel, packet);
 
@@ -163,7 +170,7 @@ namespace Net {
 	}
 
 
-	void CServidorENet::sendAll(void* data, size_t longData, int channel, bool reliable)
+	void CServidorENet::sendAll(void* data, size_t longData, int channel, bool reliable, CConexion* exception)
 	{
 		enet_uint32 rel = 0;
 		if(reliable)
@@ -171,8 +178,9 @@ namespace Net {
 
 		ENetPacket * packet = enet_packet_create (data,longData,rel);
 	    
-		for(std::vector<CConexion*>::iterator iter = listaConexiones.begin(); iter != listaConexiones.end(); ++iter)		
-			enet_peer_send (((CConexionENet*)*iter)->getENetPeer(), channel, packet);		
+		for(std::vector<CConexion*>::iterator iter = listaConexiones.begin(); iter != listaConexiones.end(); ++iter)	
+			if( (*iter) != exception )
+				enet_peer_send (((CConexionENet*)*iter)->getENetPeer(), channel, packet);		
 
 		if(DEBUG_SERVER)
 			fprintf (stdout, "NET::SERVER>> Packet send.\n");

@@ -72,7 +72,7 @@ namespace Net
 		MAP_LOADED,
 		PLAYER_LOADED,
 		ENTITY_MSG,
-		ASSIGNED_ID
+		ASSIGN_ID // Mensaje de asignación de NetID a un cliente
 	};
 
 
@@ -148,7 +148,8 @@ namespace Net
 
 		@param data Datos a enviar.
 		*/
-		void send(void* data, size_t longdata, bool reliable = true);
+		void send(void* data, size_t longdata, CConexion* exception);
+		void send(void* data, size_t longdata, bool reliable = true, CConexion* exception = 0);
 
 		void activateAsServer(int port, int clients = 16, unsigned int maxinbw = 0, unsigned int maxoutbw = 0);
 
@@ -199,7 +200,7 @@ namespace Net
 
 		void getPackets(std::vector<Net::CPaquete*>& _paquetes);
 		
-		bool internalData(Net::CPaquete* packet);
+		bool isMsgAssignID(Net::CPaquete* packet);
 		
 		void connect(CConexion* connection);
 
@@ -235,7 +236,7 @@ namespace Net
 		*/
 		TConnectionTable _connections;
 
-		CConexion* getConnection(NetID id) {return (*_connections.find(id)).second;}
+		CConexion* getConnection(NetID id);
 
 		bool addConnection(NetID id, CConexion* connection);
 

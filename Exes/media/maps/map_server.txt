@@ -15,7 +15,7 @@ Map = {
 	
 	PlayerSpawn = {
 		type = "PlayerSpawn",
-		msgList = "0,3,9",
+		msgList = "0,9",
 		blockedTime = 5000,
 		position = {0, 0, 0},
 		orientation = 180,

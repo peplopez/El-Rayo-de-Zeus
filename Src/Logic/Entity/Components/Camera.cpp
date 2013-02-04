@@ -59,8 +59,8 @@ namespace Logic
 		_target = CServer::getSingletonPtr()->getPlayer(); 
 
 		if(!_target) {			
-			// UNDONE _entity->setIsPlayer(true); // Activamos cámara como player -> manejar cámara -> TODO crear un CamaraController
-			_target = CServer::getSingletonPtr()->getMap()->getEntityByType("Player");
+			// UNDONE _entity->setIsPlayer(true); // Activamos cámara como player -> manejar cámara -> TODO crear un CamaraController que reciba mensajes de control
+			_target = CServer::getSingletonPtr()->getMap()->getEntityByType("Player"); // Estamos registrando como player el primer type Player
 		}
 
 		return true;

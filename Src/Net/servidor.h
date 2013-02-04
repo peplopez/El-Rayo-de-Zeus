@@ -80,7 +80,7 @@ public:
 	 * @param channel canal lógico por el que se enviarán los datos
 	 * @param reliable indica si el cliente debe comprobar que los datos han sido recibidos por la máquina remota
 	 */
-	virtual void sendAll(void* data, size_t longData, int channel, bool reliable)=0;
+	virtual void sendAll(void* data, size_t longData, int channel, bool reliable, CConexion* exception)=0;
 
 	/**
 	 * Desconecta la conexión indicada.

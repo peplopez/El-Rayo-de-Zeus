@@ -79,10 +79,9 @@ namespace Net {
 
 		ENetPeer* peer = enet_host_connect (client, & _address, channels);    
 	    
-		if (peer == NULL)
-		{
+		if (peer == NULL)		
 			printf ("NET::CLIENT>> No available peers for initiating an ENet connection.\n");
-		}
+		
 		else
 		{
 			/* Wait up to 5 seconds for the connection attempt to succeed.*/
@@ -91,9 +90,11 @@ namespace Net {
 			{		
 				if(DEBUG_CLIENT)
 					fprintf(stdout, "NET::CLIENT>> Connection succeeded.\n");
+
 				conexion = new CConexionENet();
-				conexion -> setENetPeer(peer);
-				listaConexiones.push_back(conexion);
+					conexion->setENetPeer(peer);				
+					listaConexiones.push_back(conexion);
+					event.peer->data = conexion;
 			}
 			else
 			{
@@ -117,8 +118,11 @@ namespace Net {
 		return listaConexiones.begin();
 	}
 
-	void CClienteENet::sendData(CConexion* conexion, void* data, int longData, int channel, bool reliable)
+	void CClienteENet::sendData(void* data, int longData, int channel, bool reliable, CConexion* conexion)
 	{
+		if(!conexion) 
+			return;
+		
 		enet_uint32 rel = 0;
 		if(reliable)
 			rel = ENET_PACKET_FLAG_RELIABLE;
@@ -130,6 +134,7 @@ namespace Net {
 		if(DEBUG_CLIENT)
 			fprintf (stdout, "NET::CLIENT>> Packet send .\n");
 		enet_host_flush (client);
+		
 	}
 
 
@@ -151,14 +156,14 @@ namespace Net {
 						printf ("NET::CLIENT>> A packet of length %u was received from %s on channel %u.\n",
 							event.packet->dataLength,
 							event.peer->data,
-							event.channelID);
-					
+							event.channelID);					
 
 					paquete = new CPaquete(DATOS, event.packet->data, event.packet->dataLength, (CConexion*)event.peer->data, event.channelID);
 					paquetesRecibidos.push_back(paquete);
 
 					enet_packet_destroy (event.packet);            
 					break;
+
 				case ENET_EVENT_TYPE_DISCONNECT:
 					if(DEBUG_CLIENT)
 						fprintf(stdout,"NET::CLIENT>> Server disconected.\n");
@@ -166,6 +171,7 @@ namespace Net {
 					paquetesRecibidos.push_back(paquete);
 					disconnectReceived((CConexion*)event.peer->data);
 					break;		           
+
 				default:
 					puts("NET::CLIENT>> Unknown packet.");
 			}

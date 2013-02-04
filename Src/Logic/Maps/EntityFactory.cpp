@@ -161,18 +161,19 @@ namespace Logic
 	{
 		TBluePrintMap::const_iterator it;
 
-		it = _bluePrints.find(type); // mapa <"tipoEntidad", TBluePrint>
+		it = _bluePrints.find(type); // TBluePrintMap: mapa <"tipoEntidad", TBluePrint>
 		// si el tipo se encuentra registrado.
 		if (it != _bluePrints.end()) 
 		{
 			CEntity* ent = new CEntity(EntityID::NextID());
 			std::list<std::string>::const_iterator itc;
+			
 			// Añadimos todos sus componentes.
 			IComponent* comp;
-			for(itc = (*it).second.components.begin(); // TBluePrintMap.second: TBluePrint: mapa <type (string), components (list<string>)>
+			for(itc = (*it).second.components.begin(); // TBluePrintMap.second: TBluePrint: struct { type (string), components (list<string>) }
 				itc !=(*it).second.components.end(); itc++)
 			{
-				if(CComponentFactory::getSingletonPtr()->has((*itc)))
+				if(CComponentFactory::getSingletonPtr()->has((*itc))) // itc (string cName)
 				{
 					comp = CComponentFactory::getSingletonPtr()->create((*itc));
 				}

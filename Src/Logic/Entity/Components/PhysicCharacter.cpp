@@ -47,8 +47,7 @@ CPhysicCharacter::~CPhysicCharacter()
 bool CPhysicCharacter::accept(const TMessage &message)
 {
 	return message._type == Message::AVATAR_WALK ||
-		   message._type == Message::SET_TRANSFORM && 
-										message._bool; // TODO bool???
+		   message._type == Message::SET_TRANSFORM && message._bool == true;
 } 
 
 //---------------------------------------------------------
@@ -57,17 +56,21 @@ void CPhysicCharacter::process(const TMessage &message)
 {
 	switch(message._type)
 	{
-	case Message::AVATAR_WALK:
+
+	case Message::AVATAR_WALK: // Movimiento con colisiones
 		// Anotamos el vector de desplazamiento para usarlo posteriormente en 
 		// el método tick. De esa forma, si recibimos varios mensajes AVATAR_WALK
 		// en el mismo ciclo sólo tendremos en cuenta el último.
 		_movement = message._vector3;
 		break;
-	case Message::SET_TRANSFORM:
-		// Subimos la cápsula para que no se hunda.
-		Vector3 pos = message._transform.getTrans();
-		pos.y = fromPhysicsToLogic(_physicServer->getPosition((CPhysicObjCharacter *)_physicObj)).y; // Acotamos/elevamos la y del transform según pos física
-		_physicServer->setPosition((CPhysicObjCharacter *)_physicObj, // Set position del transform . TODO la rotacion no se tiene en cuenta
+
+	case Message::SET_TRANSFORM: // Fija posición sin comprobar colisiones
+		
+		Vector3 pos = message._transform.getTrans(); // La rotacion no se tiene en cuenta
+		pos.y = fromPhysicsToLogic(
+			_physicServer->getPosition( (CPhysicObjCharacter *) _physicObj )  // Posición física
+		).y;	// Acotamos/elevamos la y del transform según pos física --> Subimos la cápsula para que no se hunda.
+		_physicServer->setPosition((CPhysicObjCharacter *)_physicObj, // Set position al transform .
 									fromLogicToPhysics(pos));
 	}
 
@@ -95,7 +98,8 @@ void CPhysicCharacter::tick(unsigned int msecs)
 	// Es importante transformar entre posiciones lógicas y posiciones físicas.
 	Vector3 physicPos = _physicServer->getPosition(_physicObj);
 	Matrix4 trans = _entity->getTransform();
-	trans.setTrans(fromPhysicsToLogic(physicPos));
+		trans.setTrans(fromPhysicsToLogic(physicPos));
+
 	// Avisamos a los componentes del cambio.
 	TMessage message;
 	message._type = Message::SET_TRANSFORM;

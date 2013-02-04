@@ -99,7 +99,7 @@ namespace Logic {
 		
 	void CGameNetMsgManager::sendEntityMessage(const TMessage &txMsg, TEntityID destID)
 	{
-		// TODO serializar el mensaje lógico. Para la serialización
+		// [f®§] Serializar el mensaje lógico. Para la serialización
 		// apoyarse en Net::CBuffer. Se debe guardar primero el tipo
 		// de mensaje de red (Net::ENTITY_MSG) y luego el id de la
 		// entidad y el mensaje serializado. La función de serialización
@@ -141,12 +141,17 @@ namespace Logic {
 		TMessage rxMsg;
 			Message::Deserialize(serialMsg, rxMsg);
 
-		// Reenvío del mensaje deserializado
+		// PROPAGACIÓN INMEDIATA: Msgs que deben propagarse directamente desde 1 cliente al resto (p.e. CONTROL)
+		if(rxMsg._type == TMessageType::CONTROL) // HACK: Si hay más mensajes de propagación inmediata -> config en map.txt
+			Net::CManager::getSingletonPtr()->send(serialMsg.getbuffer(), serialMsg.getSize(), packet->getConexion() );
+
+		// RTX DESERIALIZADO
 		CEntity* destEntity = Logic::CServer::getSingletonPtr()->getMap()->getEntityByID(destID);
-		if(destEntity != 0)
-			destEntity->emitMessage(rxMsg);
+			if(destEntity != 0)
+				destEntity->emitMessage(rxMsg);
 		
-		LOG("RX ENTITY_MSG " << rxMsg._type << " from EntityID " << destID);
+		if(packet->getConexion())
+			LOG("RX ENTITY_MSG " << rxMsg._type << " from NetID " << packet->getConexion()->getId() << " for EntityID " << destID);
 	} // processEntityMessage
 
 

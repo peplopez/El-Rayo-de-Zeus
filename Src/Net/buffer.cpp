@@ -15,7 +15,6 @@
 #include "buffer.h"
 #include "memory.h"
 
-#define DEBUG_BUFFER 1
 
 namespace Net {
 

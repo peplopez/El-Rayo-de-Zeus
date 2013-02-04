@@ -47,7 +47,7 @@ namespace Logic
 			ROUTE_TO            = 0x0000000B,
 			FINISHED_ROUTE      = 0x0000000C,
 			FAILED_ROUTE        = 0x0000000D,
-			ANIMATION_FINISHED  = 0x0000000E
+			ANIMATION_FINISHED  = 0x0000000E		
 		};
 	}
 

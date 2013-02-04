@@ -58,6 +58,7 @@ namespace GUI {
 
 	bool CPlayerController::keyPressed(TKey key)
 	{
+		// TODO Preguntar al CServer quién es el player si es null y dejarlo guardado
 		if(_controlledAvatar)
 		{
 			Logic::TMessage m;

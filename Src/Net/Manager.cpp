@@ -23,6 +23,15 @@ la gestión de la red del juego.
 #include "factoriared.h"
 #include <cassert>
 
+#define DEBUG 0
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "NET::MANAGER>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
+
+
 namespace Net {
 
 	CManager* CManager::_instance = 0;
@@ -99,32 +108,44 @@ namespace Net {
 	} // close
 
 	//---------------------------------------------------------
-	
-	void CManager::send(void* data, size_t longdata, bool reliable) 
+
+
+	void CManager::send(void* data, size_t longdata, CConexion* exception) 
 	{
-		if(!_connections.empty())
+		send(data, longdata, true, exception);
+	} // send overload 1
+
+	//---------------------------------------------------------
+
+	void CManager::send(void* data, size_t longdata, bool reliable, CConexion* exception) 
+	{
+		if(_connections.empty())
+			return;
+
+		if(exception)  LOG("Send: Exception NetID = " << exception->getId());
+
+		// [f®§] Hay más de una conexión, debemos mandar el mensaje por todas si somos servidor.		
+		if(_servidorRed)
+			_servidorRed->sendAll( data, longdata, 0, reliable, exception);
+		if(_clienteRed) 
 		{
-			// TODO Ahora hay más de una conexión, debemos mandar el mensaje por todas si somos servidor.
-			// TODO Siempre por todas, o habrá momentos de switching?
-			if(_servidorRed)
-				_servidorRed->sendAll( data, longdata, 0, reliable);
-			if(_clienteRed)
-				_clienteRed->sendData( getConnection(Net::ID::SERVER), data, longdata, 0, reliable); // TODO Se guardan en cliente conexiones con el resto de clientes?
+			CConexion* serverConnection( getConnection(Net::ID::SERVER) );	
+			if( serverConnection != exception) 
+				_clienteRed->sendData( data, longdata, 0, reliable, serverConnection);
 		}
 
-	} // send
+	} // send base
 
 	//---------------------------------------------------------
 
 	void CManager::tick(unsigned int msecs) 
 	{
 		_paquetes.clear();
-		Net::CManager::getSingletonPtr()->getPackets(_paquetes);
+		getPackets(_paquetes);
 
 		for(std::vector<Net::CPaquete*>::iterator iterp = _paquetes.begin();iterp != _paquetes.end();++iterp)
 		{
-			Net::CPaquete* paquete = *iterp;
-			// El mensaje debe ser de tipo CONEXION
+			Net::CPaquete* paquete = *iterp;			
 			switch (paquete->getTipo())
 			{
 				case Net::CONEXION:
@@ -133,7 +154,7 @@ namespace Net {
 						(*iter)->connexionPacketReceived(paquete);
 					break;
 				case Net::DATOS:
-					if(!internalData(paquete)) // Analiza si trae contenido -> TODO: ver funcion
+					if(!isMsgAssignID(paquete)) // Comprueba si es un MSG de asignación de NetID y guarda ID en tal caso.
 						for(std::vector<IObserver*>::iterator iter = _observers.begin();iter != _observers.end();++iter)
 							(*iter)->dataPacketReceived(paquete);
 					break;
@@ -189,19 +210,18 @@ namespace Net {
 
 	//---------------------------------------------------------
 
-	bool CManager::internalData(Net::CPaquete* packet)
+	bool CManager::isMsgAssignID(Net::CPaquete* packet)
 	{
 		Net::CBuffer data;
-		data.write(packet->getData(),packet->getDataLength());
-		data.reset();
+			data.write(packet->getData(),packet->getDataLength());
+			data.reset();
 		
 		Net::NetMessageType msg;
-		data.read(&msg,sizeof(msg));
+			data.read(&msg,sizeof(msg));
 		switch (msg)
 		{
-		case Net::ASSIGNED_ID: 
-			// Escribimos el id de red que corresponde a este cliente
-			data.read(&_id,sizeof(_id));
+		case Net::ASSIGN_ID: 			
+			data.read(&_id,sizeof(_id));// Escribimos el id de red que corresponde a este cliente
 			return true;
 		default:
 			return false;
@@ -217,7 +237,7 @@ namespace Net {
 		connection->setId(_nextId);
 		addConnection(_nextId,connection);
 
-		NetMessageType type = Net::ASSIGNED_ID;// Escribimos el tipo de mensaje de red a enviar
+		NetMessageType type = Net::ASSIGN_ID;// Escribimos el tipo de mensaje de red a enviar
 		CBuffer buf;// Avisamos al cliente de cual es su nuevo ID	
 			buf.write(&type,sizeof(type));		
 			buf.write(&_nextId,sizeof(_nextId));// Escribimos el id del cliente
@@ -247,6 +267,18 @@ namespace Net {
 		
 	//---------------------------------------------------------
 
+	CConexion* CManager::getConnection(NetID id) 
+	{
+		if( id == ID::UNASSIGNED)
+			return 0;
+		else if(_connections.find(id) != _connections.end()) // TODO: optimizacion: si somos cliente, devolver el primero directamente? vector vs map?
+			return _connections[id];
+		else
+			return 0;
+	} // getConnection
+		
+	//---------------------------------------------------------
+
 	bool CManager::addConnection(NetID id, CConexion* connection) 
 	{
 		if(_connections.count(id))
@@ -258,7 +290,7 @@ namespace Net {
 	} // addConection
 		
 	//---------------------------------------------------------
-
+	
 	bool CManager::removeConnection(NetID id) 
 	{
 		if(_connections.count(id))

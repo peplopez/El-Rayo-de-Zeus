@@ -69,7 +69,7 @@ bool CPhysicEntity::spawn(CEntity *entity, CMap *map, const Map::CEntity *entity
 
 bool CPhysicEntity::accept(const TMessage &message)
 {
-	return message._type == Message::SET_TRANSFORM;
+	return message._type == Message::SET_TRANSFORM && message._bool == true;
 }
 
 //---------------------------------------------------------
@@ -97,8 +97,12 @@ void CPhysicEntity::tick(unsigned int msecs)
 
 	// Si el objeto físico es kinemático intentamos moverlo a la posición
 	// recibida en el último mensaje de tipo SET_TRANSFORM
+
+	// KINEMÁTICO
 	if (_physicObj->IsKinematic()) {
-		_physicServer->move(_physicObj, _transform);
+		_physicServer->move(_physicObj, _transform); // SET_TRANSFORM sólo afecta a kinemático
+													 // y sirve para que obj kinemático genere onTrigger/Hit correctos
+	// DINÁMICO
 	} else {
 		// Actualizar la posición y la orientación de la entidad lógica usando la 
 		// información proporcionada por el motor de física
