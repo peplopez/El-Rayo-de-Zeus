@@ -39,6 +39,21 @@ namespace Logic
 			_life = _maxLife;
 		}
 
+		if(entityInfo->hasAttribute("offsetLife"))
+		{
+			_offsetLife = entityInfo->getFloatAttribute("offsetLife");
+		}
+
+		if(entityInfo->hasAttribute("widthLife"))
+		{
+			_widthLife = entityInfo->getFloatAttribute("widthLife");
+		}
+
+		if(entityInfo->hasAttribute("heightLife"))
+		{
+			_heightLife = entityInfo->getFloatAttribute("heightLife");
+		}
+
 
 		//David LLanso. Tutoria.
 		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
@@ -46,10 +61,12 @@ namespace Logic
 		//_bb = new Graphics::CBillboard(entity->getName(),entity->getPosition());
 
 		//le paso un string con el nombre de la entidad
-		_bb = new Graphics::CBillboard(entity->getName()); 
+		_bb = new Graphics::CBillboard(entity->getName(),_offsetLife); 
 		
 		_bb->setMaterial("lifeBar");
-		_bb->setDimensions(10,1);
+		//_bb->setDimensions(10,1);
+		//Pablo. 01-02-2013- Ancho y alto de la barra de vida dirigido por datos
+		_bb->setDimensions(_widthLife,_heightLife); 
 		_bb->setCoordenadas(0.0f, 0.0f, 0.5f, 1.0f);
 		//_bb->set
 
@@ -144,7 +161,11 @@ namespace Logic
 				float ratio = _life / _maxLife;
     
 				if (ratio < 0.0f)
+				{
 					ratio = 0.0f;
+
+					return;
+				}
         
 				float u1 = (1.0f - ratio) / 2.0f;
 				float v1 = 0.0f;

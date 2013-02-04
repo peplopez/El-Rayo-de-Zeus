@@ -72,6 +72,8 @@ namespace Logic {
 	{
 		_name = name;
 		_scene = Graphics::CServer::getSingletonPtr()->createScene(name);
+		// Pablo 31-01-2013. Indico que la escena activa es map.txt (no dummy_scene)
+		Graphics::CServer::getSingletonPtr()->setScene(name);	
 
 	} // CMap
 

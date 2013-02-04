@@ -177,15 +177,15 @@ namespace Graphics
 	// Se añade un nuevo método para crear un Billboard desde la escena
 	
 	//le paso un string
-	Ogre::BillboardSet* CScene::createBillboard(const std::string &name) 
+	Ogre::BillboardSet* CScene::createBillboard(const std::string &name, const float offset) 
 	{
 		Ogre::BillboardSet* _bbSet;
 
 		_bbSet = _sceneMgr->createBillboardSet(name+"_billboard");
 		Vector3 posAnilloCentral=Logic::CServer::getSingletonPtr()->getRingPositions(3,Logic::Ring::ANILLO_CENTRAL);
 
-		//_bbSet->createBillboard(posAnilloCentral);
-		_bbSet->createBillboard(Vector3(0,10,0));
+		//_bbSet->createBillboard(Vector3(0,12,0));
+		_bbSet->createBillboard(Vector3(0,offset,0));
 
 
 	   // se añade el billboard a la entidad en lugar de a la escena (hay que cambiar la linea con *)

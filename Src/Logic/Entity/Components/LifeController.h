@@ -141,6 +141,22 @@ namespace Logic
 		*/
 		float _maxLife;
 
+		/** Pablo. 01-02-2013
+		Atributo que indica el offset de la Y del posicionamiento del billboard de vida.
+		*/
+		float _offsetLife;
+
+		/** Pablo. 01-02-2013
+		Atributo que indica la anchura del billboard
+		*/
+		float _widthLife;
+
+
+		/** Pablo. 01-02-2013
+		Atributo que indica la altura del billboard
+		*/
+		float _heightLife;
+
 		// Tutoria2
 		//Graphics::CBillboard _bb;
 
