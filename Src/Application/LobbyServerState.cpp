@@ -294,20 +294,17 @@ namespace Application {
 					// el NetID del cliente del que estamos creando el jugador (*it)
 					// Server orquesta carga de cada jugador: "voy a cargar tal, vosotros también"						
 					Net::CBuffer txSerialMsg;
-
 						Net::NetMessageType msgType = Net::LOAD_PLAYER;  // Informamos de carga finalizada
-							txSerialMsg.write(&msgType, sizeof(msgType));						
-						
+							txSerialMsg.write(&msgType, sizeof(msgType));	
 						Net::NetID playerNetID = i;
 							txSerialMsg.write(&playerNetID, sizeof(playerNetID));
-						unsigned int nickSize =  nickSize;  // TODO unas funciones de serialización de tipo serán de mucha ayuda
+						unsigned int nickSize;  // TODO unas funciones de serialización de tipo serán de mucha ayuda
 							txSerialMsg.write(&nickSize,sizeof(nickSize));			
 							txSerialMsg.write(_playerNicks[i], nickSize);
-
-						unsigned int modelSize = modelSize; 
+						unsigned int modelSize; 
 							txSerialMsg.write(&modelSize,sizeof(modelSize));			
 							txSerialMsg.write(_playerModels[i], modelSize);
-				
+				(std::string(""))
 					Net::CManager::getSingletonPtr()->send(txSerialMsg.getbuffer(),	txSerialMsg.getSize() );
 
 					LOG("TX LOAD_PLAYER " << _playerNicks[i] );
