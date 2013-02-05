@@ -58,7 +58,7 @@ namespace Graphics
 		/**
 		Destructor de la aplicación.
 		*/
-		virtual ~CBillboard();
+		//virtual ~CBillboard();
 		
 
 		//TUTORIA
@@ -75,7 +75,7 @@ namespace Graphics
 
 		void activateBillboard();
 
-		void deactivateBillboard();
+		void deactivateBillboard(const std::string &name);
 
 		//void setPosition(const Vector3);
 
