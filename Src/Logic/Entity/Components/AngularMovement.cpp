@@ -209,6 +209,7 @@ namespace Logic
 		
 		void CAngularMovement::goDown()
 		{
+			_changingRing=true;
 			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
 			if(_entity->getJumping()==false)
 			{
@@ -230,6 +231,7 @@ namespace Logic
 		
 		void CAngularMovement::goUp()
 		{
+			_changingRing=true;
 			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
 			if(_entity->getJumping()==false)
 			{
@@ -251,6 +253,7 @@ namespace Logic
 		
 		void CAngularMovement::changeBase(int base)
 		{
+			_changingBase=true;
 			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
 			if(_entity->getJumping()==false && !_walkingLeft && !_walkingRight)
 			{
@@ -267,7 +270,7 @@ namespace Logic
 					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
 				}
-			}			
+			}
 		}
 
 		void CAngularMovement::stopMovement()
@@ -314,12 +317,6 @@ namespace Logic
 	{
 			IComponent::tick(msecs);
 
-
-			// Si nos estamos desplazando calculamos la próxima posición
-			// Calculamos si hay vectores de dirección de avance y strafe,
-			// hayamos la dirección de la suma y escalamos según la
-			// velocidad y el tiempo transcurrido.
-	
 			bool cierre=false;
 			unsigned int currentTime;
 			unsigned int endingTime;
@@ -337,6 +334,19 @@ namespace Logic
 				IComponent::tick(msecs);
 			}*/
 
+			if (_changingBase || _changingRing)
+			{
+				if (_entity->getType().compare("Player")==0)
+				{
+					Logic::TMessage m;		
+					m._string="transito";
+					m._type = Logic::Message::SET_SHADER;
+					_entity->emitMessage(m,this);
+					_changingBase=_changingRing=false;
+				}
+			}
+			else
+			{
 			Vector3 direction(Vector3::ZERO);
 				
 
@@ -481,31 +491,31 @@ namespace Logic
 
 
 			if (_walkBack)
-						{
-							//stopMovement();   
-							_walkBack=false;
+			{
+				//stopMovement();   
+				_walkBack=false;
 
-							if (_sentidoColision) // la direccion
-							{
-								_entity->setDegree(_entity->getDegree()+((_angularSpeed+(_correccionGrados/msecs))*msecs)); 
-								_entity->yaw(Math::fromDegreesToRadians(-(_angularSpeed*msecs)));
-							}
-							else
-							{
-								_entity->setDegree(_entity->getDegree()-((_angularSpeed+(_correccionGrados/msecs))*msecs)); 
-								_entity->yaw(Math::fromDegreesToRadians((_angularSpeed)));
-							}							
+				if (_sentidoColision) // la direccion
+				{
+					_entity->setDegree(_entity->getDegree()+((_angularSpeed+(_correccionGrados/msecs))*msecs)); 
+					_entity->yaw(Math::fromDegreesToRadians(-(_angularSpeed*msecs)));
+				}
+				else
+				{
+					_entity->setDegree(_entity->getDegree()-((_angularSpeed+(_correccionGrados/msecs))*msecs)); 
+					_entity->yaw(Math::fromDegreesToRadians((_angularSpeed)));
+				}							
 				
-							_sentidoColision=false;
-							Vector3 newPositionWalkBack=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());		
+				_sentidoColision=false;
+				Vector3 newPositionWalkBack=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());		
 				
-							if (_entity->getJumping())
-								newPositionWalkBack.y=_posicionSalto.y;
-							_entity->setPosition(newPositionWalkBack);
+				if (_entity->getJumping())
+					newPositionWalkBack.y=_posicionSalto.y;
+				_entity->setPosition(newPositionWalkBack);
 
-						}
-			
-		} //fin de CAngularMovement:tick
+			}
+		}
+	} //fin de CAngularMovement:tick
 
 
 

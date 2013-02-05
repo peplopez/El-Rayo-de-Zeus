@@ -13,6 +13,8 @@ la gestión de la interfaz con el usuario (entrada de periféricos, CEGui...).
 #include "Server.h"
 
 #include "PlayerController.h"
+
+#include "CameraController.h"
 #include "BaseSubsystems/Server.h"
 
 #include <cassert>
@@ -79,7 +81,7 @@ namespace GUI {
 	bool CServer::open()
 	{
 		_playerController = new CPlayerController();
-
+		_cameraController = new CCameraController();
 		_GUISystem = BaseSubsystems::CServer::getSingletonPtr()->getGUISystem();
 
 		// Cargamos las distintas plantillas o esquemas de fichero
@@ -113,6 +115,8 @@ namespace GUI {
 		CInputManager::getSingletonPtr()->removeMouseListener(this);
 
 		delete _playerController;
+		delete _cameraController;
+
 
 	} // close
 

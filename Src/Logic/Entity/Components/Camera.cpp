@@ -22,6 +22,7 @@ de una escena.
 #include "Graphics/Scene.h"
 #include "Graphics/Camera.h"
 #include "Logic/Entity/LogicalPosition.h"
+#include "GUI/InputManager.h"
 
 namespace Logic 
 {
@@ -76,7 +77,6 @@ namespace Logic
 	void CCamera::deactivate()
 	{
 		_target = 0;
-
 	} // deactivate
 	
 	//---------------------------------------------------------
@@ -86,8 +86,23 @@ namespace Logic
 		
 	}
 
+		
+	bool CCamera::accept(const TMessage &message)
+	{
+		return message._type == Message::CAMERA;
+	}
+
+	 void CCamera::process(const TMessage &message)
+	{
+		if (message._bool)
+			_targetDistance+=message._float;
+		else
+			_targetDistance-=message._float;
+	}
+
 	void CCamera::tick(unsigned int msecs)
 	{
+		IComponent::tick(msecs);
 		if(_target)
 		{			
 			// Actualizamos la posición de la cámara.
@@ -119,8 +134,7 @@ namespace Logic
 		
 			//inercia de la camara
 			Vector3 cameraTarget=CServer::getSingletonPtr()->getRingPositions(_target->getBase(),_target->getRing());
-			_currentPos += ((Vector3(_target->getPosition().x*3,cameraTarget.y+126,_target->getPosition().z*3)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035*0.05*msecs;//0.05*
-			_currentPos += ((Vector3(_target->getPosition().x*2.25,cameraTarget.y+126,_target->getPosition().z*1.75)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035;
+			_currentPos += ((Vector3(_target->getPosition().x*_targetDistance,cameraTarget.y+126,_target->getPosition().z*_targetDistance)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035*0.05*msecs;//0.05*
 		
 			 _graphicsCamera->setCameraPosition(_currentPos);
 
@@ -136,7 +150,7 @@ namespace Logic
 			_graphicsCamera->setTargetCameraPosition(cameraTarget);
 			
 		}
-		IComponent::tick(msecs);
+		
 	} // tick
 
 } // namespace Logic

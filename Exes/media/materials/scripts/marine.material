@@ -26,6 +26,7 @@ material marine
             texture_unit aoMap
             {
                 texture marine.tga
+
             }
         }
 
@@ -149,6 +150,93 @@ material luminoso
             }
         }
     }
+	technique
+	{
+		pass
+		{
+			texture_unit {
+				texture error.png
+				colour_op replace
+			}
+		}
+	}
+}
+
+material transito
+{
+    set $ambientCol "0 0 0 1"
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "2 2 2 100"
+    set $shininess "60"
+
+    technique
+    {
+		
+        pass
+        {
+            illumination_stage ambient
+
+            ambient $ambientCol
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            emissive 0 0 0 0
+
+
+            texture_unit diffuseMap
+            {
+                                             texture texturaa.jpg
+				scroll_anim 0.5 0.5
+            }
+
+            texture_unit aoMap
+            {
+                                                            texture texturaa.jpg
+				scroll_anim 0.5 0.5
+            }
+
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+
+            vertex_program_ref diffuse_vs
+            {
+            }
+
+            fragment_program_ref diffuse_ps
+            {
+            }
+
+            diffuse $diffuseCol
+            specular $specularCol $shininess
+            ambient $ambientCol
+
+            texture_unit diffuseMap
+            {
+                              texture texturaa.jpg
+				scroll_anim 0.5 0.5
+				}
+
+            texture_unit specMap
+            {
+                texture texturaa.jpg
+				scroll_anim 0.5 0.5
+            }
+
+            texture_unit normalMap
+            {
+                                                             texture texturaa.jpg
+				scroll_anim 0.5 0.5
+            }
+			
+
+        }
+    }
+
 	technique
 	{
 		pass

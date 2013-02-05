@@ -22,6 +22,8 @@ de juego. Es una colección de componentes.
 
 #include "GUI/Server.h"
 #include "GUI/PlayerController.h"
+#include "GUI/CameraController.h"
+
 
 
 namespace Logic 
@@ -272,6 +274,15 @@ namespace Logic
 			CServer::getSingletonPtr()->setPlayer(this);
 			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);
 		}
+		
+		if (this->getType().compare("Camera")==0)
+		{
+			//CServer::getSingletonPtr()->setPlayer(this);
+			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);
+			int i=0;
+		}
+		
+
 
 		// Activamos los componentes
 		TComponentList::const_iterator it;
