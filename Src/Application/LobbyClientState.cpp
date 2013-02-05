@@ -258,14 +258,17 @@ namespace Application {
 
 				// OBTENER PLAYER INFO
 				//// TODO obtener nickname
-				std::string playerNick = std::string("Player")  + std::string(rand());
+				std::ostringstream number; 
+					number << rand() % 8;			
+				std::string playerNick("Player");
+					playerNick.append(number.str());		
 				//CEGUI::String ip = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Editbox")->getText();
 LOG(playerNick);
 				//// TODO obtener modelo: sin mesh y luego añadirselo
 				//CEGUI::String ip = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Editbox")->getText();
 				std::string models[] = {"loco.mesh", "marine.mesh"};//, "AttaObrera.mesh", "bioshock.mesh","AttaSoldada.mesh", "aranna.mesh"};
 				int nModels = sizeof(models)/sizeof(std::string);
-				std::string playerModel = models[nModels];
+				std::string playerModel = models[ rand() % nModels];
 LOG(playerModel);
 				// HACK Lo suyo sería que cada uno ejecutara su propio createPlayer y que se propagara el LOAD_PLAYER como si fuera de server
 				// TX MAP LOADED
