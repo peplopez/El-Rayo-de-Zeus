@@ -14,6 +14,7 @@ Contiene definición de funciones de serialización y deserialización de mensajes.
 #include "Logic/Server.h"
 #include "Logic/Maps/Map.h"
 
+// TODO serializar y deserializar sólo lo necesario
 namespace Logic 
 {
 	void Message::Serialize(const TMessage &message, Net::CBuffer &data)
@@ -41,6 +42,7 @@ namespace Logic
 		for(int i = 0; i < 4; ++i)
 			for(int j = 0; j < 4; ++j)
 				data.write((void*)(&message._transform[i][j]), sizeof(message._transform[i][j]));
+		
 		/* ENTIDAD: Serializamos el campo con una entidad. 
 					Lo que hacemos es  mandar el ID para su recuperación */
 		Logic::TEntityID id;
@@ -64,10 +66,11 @@ namespace Logic
 		data.read(&message._float, sizeof(message._float));
 		data.read(&message._bool,  sizeof(message._bool));
 
+		message._bool |= message._type == TMessageType::SET_TRANSFORM;
+			 
 		// STRING		
 		unsigned int size;
-			data.read(&size, sizeof(size)); // Leemos longitud
-		
+			data.read(&size, sizeof(size)); // Leemos longitud		
 		char* aux = new char[size];		// Reservamos bloque car[] de tamaño size
 			data.read(aux, size);
 		message._string.assign(aux,size); // Init string cargando size caracteres de aux

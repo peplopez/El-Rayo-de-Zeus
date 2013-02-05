@@ -22,7 +22,7 @@ gráfica de una entidad estática.
 #define DEBUG 0
 #if DEBUG
 #	include <iostream>
-#	define LOG(msg) cout << "LOGIC::ANIMATED>> " << msg << std::endl;
+#	define LOG(msg) std::cout << "LOGIC::ANIMATED>> " << msg << std::endl;
 #else
 #	define LOG(msg)
 #endif

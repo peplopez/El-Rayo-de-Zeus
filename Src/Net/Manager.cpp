@@ -364,6 +364,7 @@ namespace Net {
 	namespace ID
 	{
 		/**
+		TODO gestionar ids libres para que siempre < 8;
 			Devuelve el siguiente ID dado el anterior.
 
 			@param id Último ID asignado.

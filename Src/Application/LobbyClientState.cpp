@@ -207,7 +207,7 @@ namespace Application {
 
 		// Obtenemos la ip desde el Editbox
 		CEGUI::String ip = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Editbox")->getText();
-
+		
 		// NET: Conectamos
 		Net::CManager::getSingletonPtr()->connectTo((char*)ip.c_str(),1234,1);
 
@@ -252,35 +252,67 @@ namespace Application {
 				Net::CManager::getSingletonPtr()->deactivateNetwork();
 				_app->exitRequest();
 
-			} else { //Avisamos de que hemos terminado la carga.
-				LOG("MAPA Cargado"); 		
+			} else { //Avisamos de que hemos terminado la carga y tx info de player
+				
+				LOG("MAPA Cargado"); 	
 
-				Net::NetMessageType txMsg = Net::NetMessageType::MAP_LOADED; // Informamos de carga finalizada
-					Net::CManager::getSingletonPtr()->send(&txMsg, sizeof(txMsg));
+				// OBTENER PLAYER INFO
+				//// TODO obtener nickname
+				std::string playerNick = std::string("Player")  + std::string(rand());
+				//CEGUI::String ip = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Editbox")->getText();
+LOG(playerNick);
+				//// TODO obtener modelo: sin mesh y luego añadirselo
+				//CEGUI::String ip = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Editbox")->getText();
+				std::string models[] = {"loco.mesh", "marine.mesh"};//, "AttaObrera.mesh", "bioshock.mesh","AttaSoldada.mesh", "aranna.mesh"};
+				int nModels = sizeof(models)/sizeof(std::string);
+				std::string playerModel = models[nModels];
+LOG(playerModel);
+				// HACK Lo suyo sería que cada uno ejecutara su propio createPlayer y que se propagara el LOAD_PLAYER como si fuera de server
+				// TX MAP LOADED
+				Net::CBuffer txSerialMsg;
 
+					Net::NetMessageType msgType = Net::NetMessageType::MAP_LOADED; // Informamos de carga finalizada
+						txSerialMsg.write(&msgType, sizeof(msgType));
+
+					unsigned int nickSize = playerNick.size();  // TODO unas funciones de serialización de tipo serán de mucha ayuda
+						txSerialMsg.write(&nickSize,sizeof(nickSize));			
+						txSerialMsg.write((void*)(playerNick.c_str()),nickSize);
+
+					unsigned int modelSize = playerModel.size(); 
+						txSerialMsg.write(&modelSize,sizeof(modelSize));			
+						txSerialMsg.write((void*)(playerNick.c_str()),modelSize);
+				
+				Net::CManager::getSingletonPtr()->send(txSerialMsg.getbuffer(),	txSerialMsg.getSize() );
+				
 				LOG("TX MAP_LOADED");
 			}
 
 			break;
 
 		// CARGAR PLAYER
-		case Net::LOAD_PLAYER: { 			
+		case Net::LOAD_PLAYER: { 	 //	Packet: "NetMessageType | netID | playerInfo"		
 
 			Net::NetID id;
-				rxSerialMsg.read(&id, sizeof(id) ); //	Packet: "NetMessageType | extraData(NetID)"		
+				rxSerialMsg.read(&id, sizeof(id) );
 
-			std::ostringstream number; 
-				number << id;			
-			std::string name("Player");
-				name += number.str(); //name.append(number.str());
-
-			LOG( "RX LOAD_PLAYER " << name);
+			// PLAYER INFO  	
+			unsigned int nickSize;
+				rxSerialMsg.read(&nickSize, sizeof(nickSize)); // Leemos longitud		
+			char* playerNick =  new char[nickSize];		// Reservamos bloque car[] de tamaño size
+				rxSerialMsg.read(playerNick, nickSize);		
+			unsigned int modelSize;
+				rxSerialMsg.read(&modelSize, sizeof(modelSize)); // Leemos longitud		
+			char* playerModel = new char[modelSize];		// Reservamos bloque car[] de tamaño size
+				rxSerialMsg.read(playerModel, modelSize);	
+			
+			LOG( "RX LOAD_PLAYER " << playerNick);
 
 			// TODO Llamar al método de creación del jugador. Deberemos decidir
 			// si el jugador es el jugador local (si el ID del paquete coincide 
 			// con nuestro ID de red).
-			bool localPlayer = id == Net::CManager::getSingletonPtr()->getID(); // id rx == id local?
-			Logic::CServer::getSingletonPtr()->getMap()->createPlayer(name, localPlayer);
+			bool isLocalPlayer = id == Net::CManager::getSingletonPtr()->getID(); // id rx == id local?
+
+			Logic::CServer::getSingletonPtr()->getMap()->createPlayer(playerNick, playerModel,  isLocalPlayer);
 			// HACK Deberíamos poder propocionar caracteríasticas
 			// diferentes según el cliente (nombre, modelo, etc.). Esto es una
 			// aproximación, solo cambiamos el nombre y decimos si es el jugador
@@ -290,7 +322,10 @@ namespace Application {
 			Net::NetMessageType msg = Net::NetMessageType::PLAYER_LOADED;
 				Net::CManager::getSingletonPtr()->send(&msg, sizeof(msg));
 
-			LOG("TX PLAYER_LOADED " << name);
+			LOG("TX PLAYER_LOADED " << playerNick);
+
+			delete[] playerNick;
+			delete[] playerModel;
 
 		}	break;	
 

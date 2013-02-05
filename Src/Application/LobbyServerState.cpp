@@ -42,6 +42,10 @@ Contiene la implementación del estado de lobby del servidor.
 
 namespace Application {
 
+	CLobbyServerState::CLobbyServerState(CBaseApplication *app) : CApplicationState(app),_waiting(true) 
+	{
+	} // CLobbyServerState
+
 	CLobbyServerState::~CLobbyServerState() 
 	{
 	} // ~CLobbyServerState
@@ -66,7 +70,14 @@ namespace Application {
 		CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Back")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CLobbyServerState::backReleased, this));
-	
+
+		_nClients = 0; // Nº clientes conectados
+		_clients = 0;
+		_mapLoadedByClients = 0;		
+		memset(_playerNicks,			0,	sizeof(char*) * Net::CLIENTS_MAX);
+		memset(_playerModels,			0,	sizeof(char*) * Net::CLIENTS_MAX);
+		memset(_playersLoadedByClients, 0,	sizeof(unsigned int) * Net::CLIENTS_MAX);
+
 		return true;
 
 	} // init
@@ -240,54 +251,74 @@ namespace Application {
 		// que atender al mensaje Net::MAP_LOADED para que cuando se
 		// reciba, enviar un mensaje tipo Net::START_GAME a los clientes
 		// y cambiar al estado "game" de la aplicación
+		Net::NetID clientID = packet->getConexion()->getId();
+
 		Net::CBuffer rxSerialMsg; // Packet: "NetMessageType | extraData"
 			rxSerialMsg.write(packet->getData(),packet->getDataLength());
 			rxSerialMsg.reset();
 
 		Net::NetMessageType rxMsgType;
 			rxSerialMsg.read( &rxMsgType, sizeof(rxMsgType) );
+		
 		switch (rxMsgType)
 		{
 			case Net::MAP_LOADED: {
 			
-			LOG("RX MAP_LOADED from " << packet->getConexion()->getId() );
+			LOG("RX MAP_LOADED from " << clientID);
 					
 			//Almacenamos el ID del usuario que se ha cargado el mapa.
-			_mapLoadedByClients.push_back(packet->getConexion()->getId());
+			_mapLoadedByClients |= 1 << clientID;
+
+			// PLAYER INFO: Extraemos info del player que ha cargado el mapa				
+			unsigned int nickSize;
+				rxSerialMsg.read(&nickSize, sizeof(nickSize)); // Leemos longitud		
+			_playerNicks[clientID] = new char[nickSize];		// Reservamos bloque car[] de tamaño size
+				rxSerialMsg.read( _playerNicks[clientID], nickSize);		
+			unsigned int modelSize;
+				rxSerialMsg.read(&modelSize, sizeof(modelSize)); // Leemos longitud		
+			_playerModels[clientID] = new char[modelSize];		// Reservamos bloque car[] de tamaño size
+				rxSerialMsg.read( _playerModels[clientID], modelSize);	
 
 			//Si todos los clientes han cargado los mapas pasamos a crear jugadores.
-			if(_clients.size() == _mapLoadedByClients.size()) // Lista de clientes (IDs) VS lista de clientes que han cargado el mapa
-			{
-				// Se debe crear un jugador por cada cliente registrado.
-				for(TNetIDList::iterator it = _clients.begin(); it != _clients.end(); it++)
+			if(_clients == _mapLoadedByClients ) // Lista de clientes (IDs) VS lista de clientes que han cargado el mapa
+			{		
+				for(int i=0; i < Net::CLIENTS_MAX; ++i)  // Se debe crear un jugador por cada cliente registrado.
 				{
-					//Inicializamos a 0 la lista de control de carga de jugadores.					
-					TNetIDCounterPair elem(*it,0);		//Esto quiere decir que cada cliente (*it) ha cargado 0 jugadores
-					_playersLoadedByClients.insert(elem);
-					
-					// TODO Hay que enviar un paquete tipo LOAD_PLAYER con 
-					// el NetID del cliente del que estamos creando el jugador (*it)
-					// Server orquesta carga de cada jugador: "voy a cargar tal, vosotros también"
-					Net::NetMessageType txMsg = Net::LOAD_PLAYER; 
-					Net::CBuffer serialMsg;						// Serializamos "MessageType | NetID"
-						serialMsg.write( &txMsg, sizeof(txMsg));
-						serialMsg.write( &(*it), sizeof(*it) );					
-					Net::CManager::getSingletonPtr()->send( serialMsg.getbuffer(),  serialMsg.getSize() );
-								
-					std::ostringstream number;
-						number << (*it);
-					std::string name("Player");
-						name += number.str();
+					if( ! (_clients & 1 << i ) ) // Si no tenemos cliente número i saltamos. TODO: si NetID se asigna ordenado, quizá habría que hacer break -> quedan libres NetIDs tras disconnect?
+						continue;				// TODO todo esto de las máscaras quedará más legible con funciones
 
-					LOG("TX LOAD_PLAYER " << name);
+					//Inicializamos a 0 la lista de control de carga de jugadores.					
+					_playersLoadedByClients[i] = 0;	//Cada cliente ha cargado 0 jugadores
+
+					// [FRS] Hay que enviar un paquete tipo LOAD_PLAYER con 
+					// el NetID del cliente del que estamos creando el jugador (*it)
+					// Server orquesta carga de cada jugador: "voy a cargar tal, vosotros también"						
+					Net::CBuffer txSerialMsg;
+
+						Net::NetMessageType msgType = Net::LOAD_PLAYER;  // Informamos de carga finalizada
+							txSerialMsg.write(&msgType, sizeof(msgType));						
+						
+						Net::NetID playerNetID = i;
+							txSerialMsg.write(&playerNetID, sizeof(playerNetID));
+						unsigned int nickSize =  nickSize;  // TODO unas funciones de serialización de tipo serán de mucha ayuda
+							txSerialMsg.write(&nickSize,sizeof(nickSize));			
+							txSerialMsg.write(_playerNicks[i], nickSize);
+
+						unsigned int modelSize = modelSize; 
+							txSerialMsg.write(&modelSize,sizeof(modelSize));			
+							txSerialMsg.write(_playerModels[i], modelSize);
+				
+					Net::CManager::getSingletonPtr()->send(txSerialMsg.getbuffer(),	txSerialMsg.getSize() );
+
+					LOG("TX LOAD_PLAYER " << _playerNicks[i] );
 
 					// TODO Llamar al método de creación del jugador. Deberemos decidir
 					// si el jugador es el jugador local. Al ser el servidor ninguno lo es
-					Logic::CServer::getSingletonPtr()->getMap()->createPlayer(name, false);
+					Logic::CServer::getSingletonPtr()->getMap()->createPlayer(_playerNicks[i], _playerModels[i] , false);
 					// HACK Deberíamos poder propocionar caracteríasticas
 					// diferentes según el cliente (nombre, modelo, etc.). Esto es una
-					// aproximación, solo cambiamos el nombre y decimos si es el jugador
-					// local
+					// aproximación, solo cambiamos el nombre y decimos si es el jugador local
+
 				}
 
 			} break;
@@ -299,15 +330,16 @@ namespace Application {
 			LOG("RX PLAYER_LOADED from " << packet->getConexion()->getId() );
 			
 			//Aumentamos el número de jugadores cargados por el cliente
-			(*_playersLoadedByClients.find(packet->getConexion()->getId())).second++;
+			++_playersLoadedByClients[packet->getConexion()->getId()];
 
-			// TODO Comprobar si todos los clientes han terminado de cargar todos los jugadores
+			//[FRS] Comprobar si todos los clientes han terminado de cargar todos los jugadores
 			bool loadFinished = true;
-				for(TNetIDList::iterator it = _clients.begin(); it != _clients.end(); it++)				
-					if(_playersLoadedByClients[*it] < _clients.size()){ // Nº de jugadores cargados < Nº clientes?
-						loadFinished = false;
-						break;
-					}
+				for(int i = 0; i<Net::CLIENTS_MAX; ++i)				
+					if(_clients & 1 << i)
+						if(_playersLoadedByClients[i] < _nClients){ // Nº de jugadores cargados < Nº clientes?
+							loadFinished = false;
+							break;
+						}
 		
 			if(loadFinished) //Si todos los clientes han cargado todos los players (inc. el suyo)
 			{
@@ -342,7 +374,9 @@ namespace Application {
 			CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Start")->setEnabled(true);
 
 			//Almacenamos el ID del usuario que se ha conectado.
-			_clients.push_back(packet->getConexion()->getId());
+			//UNDONE _clients.push_back(packet->getConexion()->getId());
+			_clients |= 1 << packet->getConexion()->getId();
+			++_nClients;
 		}
 
 	} // connexionPacketReceived
@@ -351,18 +385,32 @@ namespace Application {
 
 	void CLobbyServerState::disconnexionPacketReceived(Net::CPaquete* packet)
 	{
+		Net::NetID clientID = packet->getConexion()->getId();
+
 		// TODO gestionar desconexiones.
-		LOG("RX DISCONNECT from " << packet->getConexion()->getId() );
+		LOG("RX DISCONNECT from " << clientID ); // TODO quedan libres NetIDs tras disconnect? > 8 en algun momento?
 	
 		//Eliminamos el ID del usuario que se ha desconectado.
-		_clients.remove( packet->getConexion()->getId() );
-		_mapLoadedByClients.remove( packet->getConexion()->getId() );
+		--_nClients;
+		_clients &= 0 << clientID;
+		_mapLoadedByClients &= 0 << clientID;
 
-		TNetIDCounterMap::const_iterator pairIt = _playersLoadedByClients.find(packet->getConexion()->getId());
+		// UNDONE
+		/*TNetIDCounterMap::const_iterator pairIt = _playersLoadedByClients.find(packet->getConexion()->getId());
 		if(pairIt != _playersLoadedByClients.end())
-			_playersLoadedByClients.erase(pairIt);
+			_playersLoadedByClients.erase(pairIt);*/
+		_playersLoadedByClients[clientID] = 0;
 		
-		if(!_clients.empty()) {
+		if(_playerNicks[clientID] ) {
+			delete[] _playerNicks[clientID];
+			 _playerNicks[clientID] = 0;
+		}
+		if(_playerModels[clientID]){
+			delete[] _playerModels[clientID];
+			 _playerModels[clientID] = 0;
+		}
+		
+		if(_clients) {
 			CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")
 				->setText("Client disconnected. Waiting for new clients...");					
 		} else{

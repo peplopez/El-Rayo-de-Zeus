@@ -59,8 +59,7 @@ namespace Application
 		/** 
 		Constructor de la clase 
 		*/
-		CLobbyServerState(CBaseApplication *app) : CApplicationState(app),_waiting(true)
-				{}
+		CLobbyServerState(CBaseApplication *app);
 
 		/** 
 		Destructor 
@@ -175,31 +174,41 @@ namespace Application
 
 	private:
 
+		// PLAYER INFO
+		unsigned int _nClients;
+		char* _playerNicks[Net::CLIENTS_MAX]; // HACK fijamos num max de players a 8
+		char* _playerModels[Net::CLIENTS_MAX];
+
 		/**
 		Ventana CEGUI que muestra el menú.
 		*/
-		CEGUI::Window* _menuWindow;
+		CEGUI::Window* _menuWindow;		
 
-		typedef std::list<Net::NetID> TNetIDList;
+		//typedef std::list<Net::NetID> TNetIDList; UNDONE no es necesario una lista
+		typedef unsigned char TMask;
 
 		/**
 		lista donde almacenamos los clientes conectados
 		*/
-		TNetIDList _clients;
+		//TNetIDList _clients; UNDONE
+		TMask _clients; // char máscara
 
 		/**
 		lista donde almacenamos los clientes que han cargado el mapa
 		*/
-		TNetIDList _mapLoadedByClients;
+		//TNetIDList _mapLoadedByClients; UNDONE
+		TMask _mapLoadedByClients;
 
-		typedef std::map<Net::NetID,unsigned int> TNetIDCounterMap;
-		typedef std::pair<Net::NetID,unsigned int> TNetIDCounterPair;
+		// UNDONE
+		//typedef std::map<Net::NetID,unsigned int> TNetIDCounterMap;
+		//typedef std::pair<Net::NetID,unsigned int> TNetIDCounterPair;
 
 		/**
 		Tabla donde almacenamos por cada cliente cuantos jugadores han creado
 		*/
-		TNetIDCounterMap _playersLoadedByClients;
-		
+		//TNetIDCounterMap _playersLoadedByClients; UNDONE
+		unsigned int _playersLoadedByClients[Net::CLIENTS_MAX];
+
 		/**
 		Indica si estamos en fase de espera de jugadores
 		*/

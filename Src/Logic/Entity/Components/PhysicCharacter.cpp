@@ -21,6 +21,13 @@ el mundo físico usando character controllers.
 #include "Physics/PhysicModelCharacter.h"
 #include "Physics/PhysicObjCharacter.h"
 
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "LOGIC::PHYSIC_CHARACTER>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 using namespace Physics;
 using namespace Logic;
@@ -67,11 +74,13 @@ void CPhysicCharacter::process(const TMessage &message)
 	case Message::SET_TRANSFORM: // Fija posición sin comprobar colisiones
 		
 		Vector3 pos = message._transform.getTrans(); // La rotacion no se tiene en cuenta
-		pos.y = fromPhysicsToLogic(
-			_physicServer->getPosition( (CPhysicObjCharacter *) _physicObj )  // Posición física
-		).y;	// Acotamos/elevamos la y del transform según pos física --> Subimos la cápsula para que no se hunda.
-		_physicServer->setPosition((CPhysicObjCharacter *)_physicObj, // Set position al transform .
+			pos.y = fromPhysicsToLogic(
+				_physicServer->getPosition( (CPhysicObjCharacter *) _physicObj )  // Posición física
+			).y;	// Acotamos/elevamos la y del transform según pos física --> Subimos la cápsula para que no se hunda.
+			_physicServer->setPosition((CPhysicObjCharacter *)_physicObj, // Set position al transform .
 									fromLogicToPhysics(pos));
+
+		LOG("SET_TRANSFORM RX");
 	}
 
 } 

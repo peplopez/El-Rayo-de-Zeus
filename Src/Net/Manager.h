@@ -15,6 +15,8 @@ la gestión de la red del juego.
 #include <vector>
 #include <map>
 
+
+
 // Predeclaracion de clases
 namespace Net {
 	class CBuffer;
@@ -39,6 +41,8 @@ namespace Net
 	ID de identificación en la red.
 	*/
 	typedef unsigned int NetID;
+
+	unsigned const int CLIENTS_MAX = 8;
 
 	/**
 	Namespace para los tipos de IDs posibles.

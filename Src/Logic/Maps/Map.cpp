@@ -281,7 +281,7 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-	void CMap::createPlayer(std::string name, bool isLocalPlayer)
+	void CMap::createPlayer(std::string entityName, string model, bool isLocalPlayer)
 	{
 		// TODO Creamos un nuevo jugador. Deberíamos tener la info del player
 		// almacenada en _playerInfo así que solo habría que modificarle el
@@ -293,8 +293,8 @@ namespace Logic {
 		int nModels = sizeof(models)/sizeof(string);
 
 //		srand(time(NULL));
-		_playerInfo->setAttribute("model", models[rand() % nModels] );
-		_playerInfo->setName(name);			
+		_playerInfo->setAttribute("model", model);
+		_playerInfo->setName(entityName);			
 
 		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createEntity(_playerInfo, this);
 			newPlayer->setIsPlayer(isLocalPlayer);
