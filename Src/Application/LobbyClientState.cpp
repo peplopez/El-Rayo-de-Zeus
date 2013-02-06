@@ -33,6 +33,7 @@ Contiene la implementación del estado de lobby del cliente.
 #include <CEGUIWindowManager.h>
 #include <CEGUIWindow.h>
 #include <elements/CEGUIPushButton.h>
+#include <time.h>
 
 #define DEBUG 1
 #if DEBUG
@@ -52,6 +53,8 @@ namespace Application {
 
 	bool CLobbyClientState::init() 
 	{
+srand(time(0)); // HACK necesario subsistema random
+
 		CApplicationState::init();
 
 		// Cargamos la ventana que muestra el menú
@@ -263,13 +266,13 @@ namespace Application {
 				std::string playerNick("Player");
 					playerNick.append(number.str());		
 				//CEGUI::String ip = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Editbox")->getText();
-LOG(playerNick);
+
 				//// TODO obtener modelo: sin mesh y luego añadirselo
 				//CEGUI::String ip = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Editbox")->getText();
 				std::string models[] = {"loco.mesh", "marine.mesh"};//, "AttaObrera.mesh", "bioshock.mesh","AttaSoldada.mesh", "aranna.mesh"};
 				int nModels = sizeof(models)/sizeof(std::string);
 				std::string playerModel = models[ rand() % nModels];
-LOG(playerModel);
+
 				// HACK Lo suyo sería que cada uno ejecutara su propio createPlayer y que se propagara el LOAD_PLAYER como si fuera de server
 				// TX MAP LOADED
 				Net::CBuffer txSerialMsg;
@@ -283,11 +286,11 @@ LOG(playerModel);
 
 					unsigned int modelSize = playerModel.size(); 
 						txSerialMsg.write(&modelSize,sizeof(modelSize));			
-						txSerialMsg.write((void*)(playerNick.c_str()),modelSize);
+						txSerialMsg.write((void*)(playerModel.c_str()),modelSize);
 				
 				Net::CManager::getSingletonPtr()->send(txSerialMsg.getbuffer(),	txSerialMsg.getSize() );
 				
-				LOG("TX MAP_LOADED");
+				LOG("TX MAP_LOADED with Nick=" << playerNick << " and Model=" << playerModel );
 			}
 
 			break;
@@ -301,16 +304,20 @@ LOG(playerModel);
 			// PLAYER INFO  	
 			unsigned int nickSize;
 				rxSerialMsg.read(&nickSize, sizeof(nickSize)); // Leemos longitud		
-			char* playerNick =  new char[nickSize];		// Reservamos bloque car[] de tamaño size
-				rxSerialMsg.read(playerNick, nickSize);		
+			char* auxNick =  new char[nickSize];		// Reservamos bloque car[] de tamaño size
+				rxSerialMsg.read(auxNick, nickSize);		
+				std::string playerNick(auxNick, nickSize);
+				delete[] auxNick;
 			unsigned int modelSize;
 				rxSerialMsg.read(&modelSize, sizeof(modelSize)); // Leemos longitud		
-			char* playerModel = new char[modelSize];		// Reservamos bloque car[] de tamaño size
-				rxSerialMsg.read(playerModel, modelSize);	
-			
-			LOG( "RX LOAD_PLAYER " << playerNick);
+			char* auxModel = new char[modelSize];		// Reservamos bloque car[] de tamaño size
+				rxSerialMsg.read(auxModel , modelSize);	
+				std::string playerModel(auxModel, modelSize);
+				delete[] auxModel;
 
-			// TODO Llamar al método de creación del jugador. Deberemos decidir
+			LOG( "RX LOAD_PLAYER " << id << " with Nick=" << playerNick << " and Model=" << playerModel );
+
+			// [FRS] Llamar al método de creación del jugador. Deberemos decidir
 			// si el jugador es el jugador local (si el ID del paquete coincide 
 			// con nuestro ID de red).
 			bool isLocalPlayer = id == Net::CManager::getSingletonPtr()->getID(); // id rx == id local?
@@ -325,10 +332,7 @@ LOG(playerModel);
 			Net::NetMessageType msg = Net::NetMessageType::PLAYER_LOADED;
 				Net::CManager::getSingletonPtr()->send(&msg, sizeof(msg));
 
-			LOG("TX PLAYER_LOADED " << playerNick);
-
-			delete[] playerNick;
-			delete[] playerModel;
+			LOG("TX PLAYER_LOADED " << id);			
 
 		}	break;	
 

@@ -30,12 +30,12 @@ namespace Logic
 		// STRING: Para deserializar luego el string necesitaremos saber su longitud
 		unsigned int size = message._string.size();  
 		data.write(&size,sizeof(size));			// 1º SIZE
-		data.write((void*)(message._string.c_str()),size); // 2º CHAR[]
+		data.write((void*)message._string.c_str(),size); // 2º CHAR[]
 
 		// Serializamos el campo con una posicion
-		data.write((void*)(&message._vector3.x), sizeof(message._vector3.x));
-		data.write((void*)(&message._vector3.y), sizeof(message._vector3.y));
-		data.write((void*)(&message._vector3.z), sizeof(message._vector3.z));
+		data.write((void*) &message._vector3.x, sizeof(message._vector3.x));
+		data.write((void*) &message._vector3.y, sizeof(message._vector3.y));
+		data.write((void*) &message._vector3.z, sizeof(message._vector3.z));
 
 		/* TODO TRANSFORM serializar el campo _transform.
 			Quizá solo habría que hacerlo si _type == SET_TRANSFORM? */
@@ -73,7 +73,7 @@ namespace Logic
 			data.read(&size, sizeof(size)); // Leemos longitud		
 		char* aux = new char[size];		// Reservamos bloque car[] de tamaño size
 			data.read(aux, size);
-		message._string.assign(aux,size); // Init string cargando size caracteres de aux
+			message._string.assign(aux,size); // Init string cargando size caracteres de aux
 			delete[] aux;
 
 		// Deserializamos el campo con una posición

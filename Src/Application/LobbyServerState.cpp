@@ -73,10 +73,7 @@ namespace Application {
 
 		_nClients = 0; // Nº clientes conectados
 		_clients = 0;
-		_mapLoadedByClients = 0;		
-		memset(_playerNicks,			0,	sizeof(char*) * Net::CLIENTS_MAX);
-		memset(_playerModels,			0,	sizeof(char*) * Net::CLIENTS_MAX);
-		memset(_playersLoadedByClients, 0,	sizeof(unsigned int) * Net::CLIENTS_MAX);
+		_mapLoadedByClients = 0;	
 
 		return true;
 
@@ -263,8 +260,6 @@ namespace Application {
 		switch (rxMsgType)
 		{
 			case Net::MAP_LOADED: {
-			
-			LOG("RX MAP_LOADED from " << clientID);
 					
 			//Almacenamos el ID del usuario que se ha cargado el mapa.
 			_mapLoadedByClients |= 1 << clientID;
@@ -272,23 +267,32 @@ namespace Application {
 			// PLAYER INFO: Extraemos info del player que ha cargado el mapa				
 			unsigned int nickSize;
 				rxSerialMsg.read(&nickSize, sizeof(nickSize)); // Leemos longitud		
-			_playerNicks[clientID] = new char[nickSize];		// Reservamos bloque car[] de tamaño size
-				rxSerialMsg.read( _playerNicks[clientID], nickSize);		
+			char* playerNick = new char[nickSize];		// Reservamos bloque car[] de tamaño size
+				rxSerialMsg.read( playerNick, nickSize);	
+				_playerNicks[clientID].assign(playerNick, nickSize);
+				delete[] playerNick;
+				
 			unsigned int modelSize;
 				rxSerialMsg.read(&modelSize, sizeof(modelSize)); // Leemos longitud		
-			_playerModels[clientID] = new char[modelSize];		// Reservamos bloque car[] de tamaño size
-				rxSerialMsg.read( _playerModels[clientID], modelSize);	
+			char* playerModel = new char[modelSize];		// Reservamos bloque car[] de tamaño size
+				rxSerialMsg.read( playerModel, modelSize);	
+				_playerModels[clientID].assign( playerModel, modelSize);
+				delete[] playerModel;
+
+			LOG( "RX MAP_LOADED from " << clientID << " with Nick=" << _playerNicks[clientID] << " and Model=" << _playerModels[clientID] );
 
 			//Si todos los clientes han cargado los mapas pasamos a crear jugadores.
 			if(_clients == _mapLoadedByClients ) // Lista de clientes (IDs) VS lista de clientes que han cargado el mapa
 			{		
-				for(int i=0; i < Net::CLIENTS_MAX; ++i)  // Se debe crear un jugador por cada cliente registrado.
+				for(int id=0; id < Net::CLIENTS_MAX; ++id)  // Se debe crear un jugador por cada cliente registrado.
 				{
-					if( ! (_clients & 1 << i ) ) // Si no tenemos cliente número i saltamos. TODO: si NetID se asigna ordenado, quizá habría que hacer break -> quedan libres NetIDs tras disconnect?
+					if( ! (_clients & 1 << id ) ) // Si no tenemos cliente número i saltamos. TODO: si NetID se asigna ordenado, quizá habría que hacer break -> quedan libres NetIDs tras disconnect?
 						continue;				// TODO todo esto de las máscaras quedará más legible con funciones
 
+					LOG("Load Players Loop: ClientID=" << id);
+
 					//Inicializamos a 0 la lista de control de carga de jugadores.					
-					_playersLoadedByClients[i] = 0;	//Cada cliente ha cargado 0 jugadores
+					_playersLoadedByClients[id] = 0;	//Cada cliente ha cargado 0 jugadores
 
 					// [FRS] Hay que enviar un paquete tipo LOAD_PLAYER con 
 					// el NetID del cliente del que estamos creando el jugador (*it)
@@ -296,22 +300,22 @@ namespace Application {
 					Net::CBuffer txSerialMsg;
 						Net::NetMessageType msgType = Net::LOAD_PLAYER;  // Informamos de carga finalizada
 							txSerialMsg.write(&msgType, sizeof(msgType));	
-						Net::NetID playerNetID = i;
+						Net::NetID playerNetID = id;
 							txSerialMsg.write(&playerNetID, sizeof(playerNetID));
-						unsigned int nickSize;  // TODO unas funciones de serialización de tipo serán de mucha ayuda
+						unsigned int nickSize = _playerNicks[id].length();  // TODO unas funciones de serialización de tipo serán de mucha ayuda
 							txSerialMsg.write(&nickSize,sizeof(nickSize));			
-							txSerialMsg.write(_playerNicks[i], nickSize);
-						unsigned int modelSize; 
+							txSerialMsg.write( (void*) _playerNicks[id].c_str(), nickSize);
+						unsigned int modelSize = _playerModels[id].length(); 
 							txSerialMsg.write(&modelSize,sizeof(modelSize));			
-							txSerialMsg.write(_playerModels[i], modelSize);
-				(std::string(""))
+							txSerialMsg.write( (void*) _playerModels[id].c_str(), modelSize);
+				
 					Net::CManager::getSingletonPtr()->send(txSerialMsg.getbuffer(),	txSerialMsg.getSize() );
 
-					LOG("TX LOAD_PLAYER " << _playerNicks[i] );
+					LOG("TX LOAD_PLAYER " << id << " with Nick=" << _playerNicks[id] << " and Model=" << _playerModels[id] );
 
-					// TODO Llamar al método de creación del jugador. Deberemos decidir
+					// [FRS] Llamar al método de creación del jugador. Deberemos decidir
 					// si el jugador es el jugador local. Al ser el servidor ninguno lo es
-					Logic::CServer::getSingletonPtr()->getMap()->createPlayer(_playerNicks[i], _playerModels[i] , false);
+					Logic::CServer::getSingletonPtr()->getMap()->createPlayer(_playerNicks[id], _playerModels[id] , false);
 					// HACK Deberíamos poder propocionar caracteríasticas
 					// diferentes según el cliente (nombre, modelo, etc.). Esto es una
 					// aproximación, solo cambiamos el nombre y decimos si es el jugador local
@@ -397,15 +401,8 @@ namespace Application {
 		if(pairIt != _playersLoadedByClients.end())
 			_playersLoadedByClients.erase(pairIt);*/
 		_playersLoadedByClients[clientID] = 0;
-		
-		if(_playerNicks[clientID] ) {
-			delete[] _playerNicks[clientID];
-			 _playerNicks[clientID] = 0;
-		}
-		if(_playerModels[clientID]){
-			delete[] _playerModels[clientID];
-			 _playerModels[clientID] = 0;
-		}
+		_playerNicks[clientID] = "";
+		_playerModels[clientID]	= "";	
 		
 		if(_clients) {
 			CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")

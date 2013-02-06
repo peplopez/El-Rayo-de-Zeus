@@ -176,8 +176,8 @@ namespace Application
 
 		// PLAYER INFO
 		unsigned int _nClients;
-		char* _playerNicks[Net::CLIENTS_MAX]; // HACK fijamos num max de players a 8
-		char* _playerModels[Net::CLIENTS_MAX];
+		std::string _playerNicks[Net::CLIENTS_MAX]; // HACK fijamos num max de players a 8
+		std::string _playerModels[Net::CLIENTS_MAX]; // TODO quizá deberían ser enum para menos info por red en un futuro
 
 		/**
 		Ventana CEGUI que muestra el menú.
