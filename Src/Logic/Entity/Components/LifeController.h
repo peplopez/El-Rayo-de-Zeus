@@ -14,7 +14,8 @@ de la entidad.
 #define __Logic_LifeController_H
 
 #include "Logic/Entity/Component.h"
-#include "Graphics/Billboard.h" // Pablo. A ver si me pilla Graphics::CBillboard. Bien
+#include "Graphics/Billboard.h" //Pablo
+#include "Graphics/Scene.h" //Pablo
 
 //declaración de la clase
 namespace Logic 
@@ -43,7 +44,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CLifeController() : IComponent(),  _life(0.0f), _miBarra(0) {}
+		CLifeController() : IComponent(),  _life(100.0f),_maxLife(100.0), _miBarra(0) {}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -119,12 +120,16 @@ namespace Logic
 		virtual void setLife(float life);
 
 		virtual float getLife();
+
+		virtual void updateLife(float); //Pablo 28-01-2013
 			
 		//static Logic::CEntity *_BarraVida;
 
 		// Tutoria
 		Graphics::CBillboard* _bb;
 
+		//Pablo
+		Graphics::CScene* _cscene;
 
 
 	protected:
@@ -134,8 +139,26 @@ namespace Logic
 		*/
 		float _life;
 
-		// Tutoria2
-		//Graphics::CBillboard _bb;
+		/**
+		Atributo que indica la vida máxima de la entidad.
+		*/
+		float _maxLife;
+
+		/** Pablo. 01-02-2013
+		Atributo que indica el offset de la Y del posicionamiento del billboard de vida.
+		*/
+		float _offsetLife;
+
+		/** Pablo. 01-02-2013
+		Atributo que indica la anchura del billboard
+		*/
+		float _widthLife;
+
+
+		/** Pablo. 01-02-2013
+		Atributo que indica la altura del billboard
+		*/
+		float _heightLife;
 
 	}; // class LifeController
 

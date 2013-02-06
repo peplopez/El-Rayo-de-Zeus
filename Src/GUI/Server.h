@@ -23,6 +23,7 @@ namespace Logic
 namespace GUI 
 {
 	class CPlayerController;
+	class CCameraController;
 }
 
 namespace CEGUI
@@ -78,6 +79,16 @@ namespace GUI
 		@return Instancia de la clase GUI que controla al jugador.
 		*/
 		CPlayerController *getPlayerController() {return _playerController;}
+
+		/** PEP
+		Devuelve la instancia de la clase GUI que se encarga de procesar los
+		eventos de entrada para controlar al jugador por si se desea configurar
+		externemante.
+
+		@return Instancia de la clase GUI que controla al jugador.
+		*/
+		CCameraController *getCameraController() {return _cameraController;}
+
 
 		/***************************************************************
 		Métodos de CKeyboardListener
@@ -166,6 +177,12 @@ namespace GUI
 		Clase GUI que se encarga de controlar al jugador.
 		*/
 		CPlayerController *_playerController;
+
+		/**
+		Clase GUI que se encarga de controlar la cámara.
+		*/
+		CCameraController *_cameraController;
+
 
 		/**
 		Sistema de la interfaz gráfica de usuario CEGUI.

@@ -288,12 +288,17 @@ namespace Logic
 			if (_pos._degrees>=0 && _pos._degrees<360)
 				return _pos._degrees;
 
+			float decimal=_pos._degrees-(int)_pos._degrees;
+			int grados=(int)_pos._degrees%360;
+
 			if (_pos._degrees>360)
-			{
-				return (int)_pos._degrees%360;
+			{				
+				return grados+decimal;
 			}
 			else //menor que cero
-				return 360-(int)abs((int)_pos._degrees%360);
+			{
+				return 360-(int)abs(grados)+decimal;
+			}
 		}
 
 		/**
@@ -303,7 +308,7 @@ namespace Logic
 
 		@param base nueva
 		*/
-		void setBase(const unsigned short &base);
+		void setBase(const unsigned short &base)  {_pos._base=base;}
 
 		/**
 		Devuelve la base de la entidad.
@@ -451,7 +456,9 @@ namespace Logic
 
 		const Vector3 fromLogicalToCartesian(const float grados, const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
+		bool getJumping() {return _jumping;}
 		
+		void setJumping(bool jumping){_jumping=jumping;}
 
 	protected:
 
@@ -460,6 +467,7 @@ namespace Logic
 		usa para modificar el mapa.
 		*/
 		friend class CMap;
+		friend class CCollider;
 
 		/**
 		Identificador único de la entidad.
@@ -538,6 +546,13 @@ namespace Logic
 			Anchura de la entidad gráfica en grados
 		*/	
 		float _angularBox;
+
+		// Pablo
+		/**
+		Atributo para saber si la entidad está saltando dentro de un anillo
+		*/
+		bool _jumping;
+
 	}; // class CEntity
 
 } // namespace Logic

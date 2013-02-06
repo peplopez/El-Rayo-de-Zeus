@@ -22,6 +22,8 @@ de juego. Es una colección de componentes.
 
 #include "GUI/Server.h"
 #include "GUI/PlayerController.h"
+#include "GUI/CameraController.h"
+
 
 
 namespace Logic 
@@ -272,6 +274,15 @@ namespace Logic
 			CServer::getSingletonPtr()->setPlayer(this);
 			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);
 		}
+		
+		if (this->getType().compare("Camera")==0)
+		{
+			//CServer::getSingletonPtr()->setPlayer(this);
+			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);
+			int i=0;
+		}
+		
+
 
 		// Activamos los componentes
 		TComponentList::const_iterator it;
@@ -419,7 +430,7 @@ namespace Logic
 		for( it = _components.begin(); it != _components.end(); ++it )
 		{
 			// Al emisor no se le envia el mensaje.
-			if( emitter != (*it) )
+			if( emitter != (*it))
 				anyReceiver = (*it)->set(message) || anyReceiver;
 		}
 		return anyReceiver;
@@ -614,4 +625,9 @@ namespace Logic
 		
 		return CServer::getSingletonPtr()->getRingRadio(_pos._base,_pos._ring);
 	}
+
+	/*void CEntity::setIsJumping(bool &isJumpingPointer)
+	{		
+		_isJumping=&isJumpingPointer;
+	}*/
 } // namespace Logic

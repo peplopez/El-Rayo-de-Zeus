@@ -17,6 +17,7 @@ Contiene la declaración de la clase que maneja el billboard.
 #define __Graphics_Billboard_H
 
 #include "BaseSubsystems/Math.h"
+#include "Logic\Entity\Entity.h" // Pablo. al cambiar el CBillboard(string) por CBillboard(entity)
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 
@@ -42,7 +43,7 @@ namespace Graphics
 	@author Pablo Terrado
 	@date Enero, 2013
 	*/
-	class CBillboard 
+	class CBillboard
 	{
 	public:
 
@@ -51,12 +52,13 @@ namespace Graphics
 
 		@param name Nombre del billboard.
 		*/
-		CBillboard(const std::string &name);
+		//CBillboard(const std::string &name, Vector3 position); // le paso un string y la posicion de la entidad
+		CBillboard(const std::string &name, const float offset); // le paso un string
 
 		/**
 		Destructor de la aplicación.
 		*/
-		virtual ~CBillboard();
+		//virtual ~CBillboard();
 		
 
 		//TUTORIA
@@ -73,11 +75,13 @@ namespace Graphics
 
 		void activateBillboard();
 
-		void deactivateBillboard();
+		void deactivateBillboard(const std::string &name);
 
-		void setPosition(const float,const float,const float); //x,y,z
+		//void setPosition(const Vector3);
 
 		void setMaterial(const std::string &name);
+
+		Ogre::BillboardSet* getBBSet() {return _bbSet;}
 
 
 	protected:

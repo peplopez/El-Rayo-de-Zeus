@@ -162,19 +162,17 @@ Map ={
 		ring=2,
 		base=3,		
 	},
-
-	Barravida1 = {
-		type = "BarraVida",
-		position = {0, 0,-126},
-	},
 	
 	PeP = {
 		type = "Player",
 		orientation = 90,
-		life = 100.0,
+		life = 1000.0,
+		offsetLife = 14.0,
+		widthLife = 10.0,
+		heightLife = 1.0,
 		isPlayer = true,
 		model = "marine.mesh",
-		angularSpeed = 1,
+		angularSpeed = 0.0325,
 		defaultAnimation = "Idle",
 		degrees=0,
 		base=3,
@@ -183,13 +181,15 @@ Map ={
 		sense=0,
 		angularBox=2.5,
 		initialJumpSpeed = 28,
+		gravity = 0.98,
+		Hmax = 40,
 	},
 	
 	Camera = {
 		type = "Camera",
 		distance = 150,
 		height = 13,
-		targetDistance = 8,
+		targetDistance =2,
 		targetHeight = 7,
 		angularSpeed = 1,
 		ring=1,
@@ -371,6 +371,10 @@ Map ={
 		ring=0,
 		degrees=0,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO4 = {
@@ -379,6 +383,10 @@ Map ={
 		ring=0,
 		degrees=150,
 		sense=0,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 
 	bioshockLOGICO7 = {
@@ -387,6 +395,10 @@ Map ={
 		ring=0,
 		degrees=240,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO8 = {
@@ -395,6 +407,10 @@ Map ={
 		ring=0,
 		degrees=270,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO9 = {
@@ -403,6 +419,10 @@ Map ={
 		ring=2,
 		degrees=0,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO10 = {
@@ -411,6 +431,10 @@ Map ={
 		ring=0,
 		degrees=330,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 		
 	bioshockLOGICO = {
@@ -419,6 +443,10 @@ Map ={
 		ring=1,
 		degrees=90,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO6 = {
@@ -427,6 +455,10 @@ Map ={
 		ring=1,
 		degrees=180,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO73 = {
@@ -435,6 +467,10 @@ Map ={
 		ring=0,
 		degrees=240,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO83 = {
@@ -443,6 +479,10 @@ Map ={
 		ring=0,
 		degrees=270,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO93 = {
@@ -451,6 +491,10 @@ Map ={
 		ring=2,
 		degrees=0,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO103 = {
@@ -459,6 +503,10 @@ Map ={
 		ring=0,
 		degrees=330,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 		
@@ -468,6 +516,10 @@ Map ={
 		ring=1,
 		degrees=90,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 		
 	bioshockLOGICO63 = {
@@ -476,6 +528,10 @@ Map ={
 		ring=1,
 		degrees=180,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 
 	bioshockLOGICO74 = {
@@ -484,6 +540,10 @@ Map ={
 		ring=0,
 		degrees=240,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO84 = {
@@ -492,6 +552,10 @@ Map ={
 		ring=0,
 		degrees=270,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO94 = {
@@ -500,6 +564,10 @@ Map ={
 		ring=2,
 		degrees=0,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO104 = {
@@ -508,6 +576,10 @@ Map ={
 		ring=0,
 		degrees=330,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 		
 	bioshockLOGICO334 = {
@@ -516,6 +588,10 @@ Map ={
 		ring=1,
 		degrees=90,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 	
 	bioshockLOGICO64 = {
@@ -524,5 +600,9 @@ Map ={
 		ring=1,
 		degrees=180,
 		sense=1,
+		life = 500.0,
+		offsetLife = 30.0,
+		widthLife = 20.0,
+		heightLife = 2.0,		
 	},	
 }

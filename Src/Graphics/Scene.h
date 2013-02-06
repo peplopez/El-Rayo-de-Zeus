@@ -118,7 +118,7 @@ namespace Graphics
 		/**
 		Elimina una entidad gráfica de la escena. 
 		<p>
-		@remarks Este método NO destrulle la entidad, ésta solo deja de
+		@remarks Este método NO destruye la entidad, ésta solo deja de
 		ser parte de la escena.
 
 		@param entity Entidad gráfica que se quiere eliminar de la escena.
@@ -128,7 +128,7 @@ namespace Graphics
 		/**
 		Elimina una entidad gráfica estática de la escena. 
 		<p>
-		@remarks Este método NO destrulle la entidad, ésta solo deja de
+		@remarks Este método NO destruye la entidad, ésta solo deja de
 		ser parte de la escena.
 
 		@param entity Entidad gráfica estática que se quiere eliminar de 
@@ -137,10 +137,13 @@ namespace Graphics
 		void removeStaticEntity(CStaticEntity* entity);
 
 		//David Llanso Tutoria
-		Ogre::BillboardSet* addBillboard(const std::string &name);
+		Ogre::BillboardSet* createBillboard(const std::string &name, const float offset); //le paso un string
 
 		//Pablo
 		void deleteBillboard(const std::string &name);
+
+		//Pablo
+		void deleteSceneNode(const std::string &name);
 
 	protected:
 

@@ -42,9 +42,9 @@ namespace Logic
 		defecto.
 		*/
 		// Pablo. Añadido la inicialización de _jumping y _timeJumping
-		CAngularMovement() : IComponent(), _sentidoColision(false),_changingRing(false), _walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false), _goingDown(false),
-			_angularSpeed(0.2f), _actualRadius(-55), _actualDegree(-90), _jumping(false), _timeJumping(0){}
-		
+		CAngularMovement() : IComponent(), _sentidoColision(false),_changingRing(false),_changingBase(false), _walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false), _goingDown(false),
+			_angularSpeed(0.00625f), _actualRadius(-55), _actualDegree(-90), _jumpingDown(false), _initialJump(false), _timeJumping(0), _potenciaSaltoInicial(5)/*5*/, _correccionGrados(0){}
+		// divididio entre 32
 		/**
 		Inicialización del componente, utilizando la información extraída de
 		la entidad leída del mapa (Maps::CEntity). Toma del mapa el atributo
@@ -161,6 +161,10 @@ namespace Logic
 		*/
 		void changeDirection(const bool newDirection);
 
+				
+		void changeBase(int base);
+
+
 
 	
 	protected:
@@ -180,11 +184,11 @@ namespace Logic
 		*/
 		bool _walkingLeft;
 
-		// Pablo
+
 		/**
-		Atributo para saber si la entidad está saltando dentro de un anillo
+		Atributo para saber si la entidad está bajando en el salto dentro de un anillo
 		*/
-		bool _jumping;
+		bool _jumpingDown;
 
 		/**
 			Atributo para saber si la entidad está bajando de anillo
@@ -205,6 +209,8 @@ namespace Logic
 
 		float _actualDegree;
 
+		float _correccionGrados;
+
 		bool _sentidoDerecha;
 
 		bool _sentidoColision;
@@ -213,24 +219,36 @@ namespace Logic
 		float jumpSpeed;
 
 		// Pablo. Atributo que indica que acaba de empezar a saltar
-		float _initialJump;
+		bool _initialJump;
 
 		float _timeJumping;
 
 		// Pablo. Atributo que indica la velocidad de la fuerza de gravedad
-		float gravity;
+		float _gravity;
 
 		//Pablo. Altura maxima del salto
-		float Hmax;
+		float _Hmax;
 
 		//Pablo. Tiempo máximo en el aire
-		float Tmax;
+		float _Tmax;
 
 		//Pablo. Tiempo hasta alcanzar la máxima altura
-		float Tmaxaltura;
+		float _Tmaxaltura;
+
+		//Pablo. Y inicial en el momento de saltar
+		float _inicialY;
+
+		//Pablo. posicion Vector3 (x,y,z) en el momento de saltar
+		Vector3 _posicionSalto;
 
 		bool _changingRing;
+
+		bool _changingBase;
 	
+		float _potenciaSalto;
+
+		float _potenciaSaltoInicial;
+
 
 	}; // class CAngularMovement
 

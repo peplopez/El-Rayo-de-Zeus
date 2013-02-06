@@ -71,11 +71,13 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\GUI\CameraController.cpp" />
     <ClCompile Include="..\..\Src\GUI\InputManager.cpp" />
     <ClCompile Include="..\..\Src\GUI\PlayerController.cpp" />
     <ClCompile Include="..\..\Src\GUI\Server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Src\GUI\CameraController.h" />
     <ClInclude Include="..\..\Src\GUI\Documentation.h" />
     <ClInclude Include="..\..\Src\GUI\InputManager.h" />
     <ClInclude Include="..\..\Src\GUI\PlayerController.h" />

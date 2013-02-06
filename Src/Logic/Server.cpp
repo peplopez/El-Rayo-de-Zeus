@@ -137,19 +137,22 @@ namespace Logic {
 			{
 				case Logic::LogicalPosition::ANILLO_INFERIOR:
 				{
+					//return Logic::base.posBase[base]._down+Vector3(0,126,0);
 					return Logic::base.posBase[base]._down;
 				}
 				case Logic::LogicalPosition::ANILLO_CENTRAL:
 				{
+					//return Logic::base.posBase[base]._center+Vector3(0,126,0);
 					return Logic::base.posBase[base]._center;
 				}
 				case Logic::LogicalPosition::ANILLO_SUPERIOR:
 				{
+					//return Logic::base.posBase[base]._up+Vector3(0,126,0);
 					return Logic::base.posBase[base]._up;
 				}
 				default:
 					{
-					return Logic::base.posBase[base]._center;
+					return Logic::base.posBase[base]._center+Vector3(0,126,0);
 					//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
 					//pese a todo no pete.
 					}								

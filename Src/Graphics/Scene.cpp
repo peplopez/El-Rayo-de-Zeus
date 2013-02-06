@@ -15,6 +15,7 @@ de una escena.
 */
 
 #include "Scene.h"
+#include "Logic\Server.h"
 #include "Camera.h"
 #include "Server.h"
 #include "StaticEntity.h"
@@ -29,6 +30,7 @@ de una escena.
 #include <OgreStaticGeometry.h>
 #include <OgreColourValue.h>
 #include <OgreBillboardSet.h> //Pablo
+#include "Graphics/Entity.h" // Pablo. Graphics/Entity.h
 
 namespace Graphics 
 {
@@ -173,20 +175,50 @@ namespace Graphics
 	// David LLanso Tutoria
 	// Se añade un nuevo método para crear un Billboard desde la escena
 	
-	Ogre::BillboardSet* CScene::addBillboard(const std::string &name)
+	//le paso un string y el offset del billboard (el offset es solo en la Y)
+	Ogre::BillboardSet* CScene::createBillboard(const std::string &name, const float offset) 
 	{
 		Ogre::BillboardSet* _bbSet;
-		_bbSet = _sceneMgr->createBillboardSet();
-        _bbSet->createBillboard(Ogre::Vector3(0, 0, 0));
 
+		_bbSet = _sceneMgr->createBillboardSet(name+"_billboard");
+		//Vector3 posAnilloCentral=Logic::CServer::getSingletonPtr()->getRingPositions(3,Logic::Ring::ANILLO_CENTRAL);
 
-	  // se añade el billboard a la entidad en lugar de a la escena (hay que cambiar la linea con *)
-	     //_sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(_bbSetLife); // *
-		_sceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(_bbSet);
+		_bbSet->createBillboard(Vector3(0,offset,0));
+
+		Ogre::SceneNode* bbNode = _sceneMgr->createSceneNode(name+"_billboard");
+		bbNode->attachObject(_bbSet);
+
+		if(_sceneMgr->hasSceneNode(name+"_node"))
+		{
+			_sceneMgr->getSceneNode(name+"_node")->addChild(bbNode);
+		}
+
 
 		return _bbSet; //debéría devolver el Ogre::BillboardSet
 
-	}
+	}//createBillboard
+
+	//Pablo. Eliminacion del billboard grafico
+	void CScene::deleteBillboard(const std::string &name) 
+	{
+
+		//si la escena tiene un billboardset con el nombre de la entidad + "_billboard"
+		//se elimina ese billboardset
+		if(_sceneMgr->hasBillboardSet(name+"_billboard"))
+		{
+			_sceneMgr->destroyBillboardSet(name+"_billboard");
+		}
+	}//deleteBillboard
+
+	//Pablo. Eliminacion de un sceneNode
+	void CScene::deleteSceneNode(const std::string &name)
+	{
+		if(_sceneMgr->hasSceneNode(name+"_node"))
+		{
+			_sceneMgr->destroySceneNode(name+"_node");
+		}
+
+	}//deleteSceneNode
 	
 
 } // namespace Graphics

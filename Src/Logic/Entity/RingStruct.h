@@ -31,6 +31,7 @@ namespace Logic
 	const Vector3 startingBasesPosition=Vector3(0,-176,0);
 	const unsigned short RADIO_MAYOR=73;
 	const unsigned short RADIO_MENOR=58;
+	const unsigned int CONST_Y_ADJUST=126;
 
 
 	

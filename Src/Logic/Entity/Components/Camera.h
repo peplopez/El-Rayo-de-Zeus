@@ -107,6 +107,23 @@ namespace Logic
 		*/
 		virtual void changeHeight(const unsigned short &base, const LogicalPosition::Ring &ring);
 
+				/**
+		Método virtual que elige que mensajes son aceptados. Son válidos
+		CONTROL.
+
+		@param message Mensaje a chequear.
+		@return true si el mensaje es aceptado.
+		*/
+		virtual bool accept(const TMessage &message);
+
+		/**
+		Método virtual que procesa un mensaje.
+
+		@param message Mensaje a procesar.
+		*/
+		virtual void process(const TMessage &message);
+
+
 	protected:
 		
 		/**
