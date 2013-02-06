@@ -5,8 +5,18 @@
 *.dll
 *.exe
 *.o
-*.so
 *.suo
+# Compiled Object files
+*.slo
+*.lo
+*.o
+# Compiled Dynamic libraries
+*.so
+*.dylib
+# Compiled Static libraries
+*.lai
+*.la
+*.a
 
 # Packages #
 ############
@@ -38,42 +48,32 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-
-
-#root
+#Kdiff waste #
+#############
 *.orig
+
+
+# ROOT #
+#######
 /Galeon.opensdf
 /Galeon.sdf
 /vslog.txt
 /ipch/
-
-#Document. Doxygen
 /DocumentacionDoxygen/
 
-#Exes
+#EXES #
+#######
 /Exes/*.*
 !/Exes/resources.cfg
 
-#Projects
+#PROJECTS #
+###########
 /Projects/*/Debug/
 /Projects/*/Release/
 
 
-#dependencies
-
+#DEPENDENCIES #
+###############
 /dependencies/bin/Debug/*
 /dependencies/bin/Release/*
 /dependencies/CEGUI/bin/*
@@ -141,7 +141,9 @@ Thumbs.db
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Debug/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Release/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/*.2010.vcxproj.user
-#EXCEPTIONS
+
+#EXCEPTIONS #
+#############
 !/dependencies/include/enet/
 !/dependencies/include/PhysX/
 !/dependencies/lib/*/PhysX*.lib
