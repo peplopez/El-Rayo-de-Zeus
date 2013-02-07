@@ -62,7 +62,7 @@ srand(time(0)); // HACK necesario subsistema random
 		_menuWindow = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient");
 		
 		// Asociamos los botones del menú con las funciones que se deben ejecutar.
-		CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Start")->
+		CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Connect")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CLobbyClientState::startReleased, this));
 		
@@ -202,14 +202,14 @@ srand(time(0)); // HACK necesario subsistema random
 	void CLobbyClientState::doStart()
 	{
 		// Deshabilitamos el botón de Start
-		CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Start")->setEnabled(false);
+		CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Connect")->setEnabled(false);
 		
 		// Actualizamos el status
 		CEGUI::Window * status = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Status");
 		status->setText("Status: Connecting...");
 
 		// Obtenemos la ip desde el Editbox
-		CEGUI::String ip = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Editbox")->getText();
+		CEGUI::String ip = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/IPBox")->getText();
 		
 		// NET: Conectamos
 		Net::CManager::getSingletonPtr()->connectTo((char*)ip.c_str(),1234,1);
@@ -260,18 +260,11 @@ srand(time(0)); // HACK necesario subsistema random
 				LOG("MAPA Cargado"); 	
 
 				// OBTENER PLAYER INFO
-				//// TODO obtener nickname
-				std::ostringstream number; 
-					number << rand() % 8;			
-				std::string playerNick("Player");
-					playerNick.append(number.str());		
-				//CEGUI::String ip = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Editbox")->getText();
+				CEGUI::String playerNick = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/NickBox")->getText();
 
-				//// TODO obtener modelo: sin mesh y luego añadirselo
-				//CEGUI::String ip = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Editbox")->getText();
-				std::string models[] = {"loco.mesh", "marine.mesh"};//, "AttaObrera.mesh", "bioshock.mesh","AttaSoldada.mesh", "aranna.mesh"};
-				int nModels = sizeof(models)/sizeof(std::string);
-				std::string playerModel = models[ rand() % nModels];
+				//// TODO obtener modelo mediante ddList -> tabla mesh			
+				//"loco.mesh", "marine.mesh", "AttaObrera.mesh", "bioshock.mesh","AttaSoldada.mesh", "aranna.mesh"
+				CEGUI::String playerModel = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/ModelBox")->getText();
 
 				// HACK Lo suyo sería que cada uno ejecutara su propio createPlayer y que se propagara el LOAD_PLAYER como si fuera de server
 				// TX MAP LOADED
