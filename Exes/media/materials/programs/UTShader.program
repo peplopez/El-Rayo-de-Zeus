@@ -1,0 +1,13 @@
+vertex_program UTVSShader hlsl
+{
+	source BinkShaders.hlsl
+	entry_point VertexShaderMain
+	target vs_2_0
+}
+
+fragment_program UTShaderHLSL hlsl
+{
+	source BinkShaders.hlsl
+	entry_point VertexShaderMain
+	target ps_2_0
+}

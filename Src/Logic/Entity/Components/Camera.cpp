@@ -86,7 +86,7 @@ namespace Logic
 		
 	}
 
-		
+//aceptando mensajes que controlen la camara la hacemos menos independiente, quien quiera puede acceder a la camara.	
 	bool CCamera::accept(const TMessage &message)
 	{
 		return message._type == Message::CAMERA;
@@ -95,9 +95,14 @@ namespace Logic
 	 void CCamera::process(const TMessage &message)
 	{
 		if (message._bool)
-			_targetDistance+=message._float;
-		else
-			_targetDistance-=message._float;
+		{
+			if (_targetDistance<6)
+				_targetDistance+=message._float;
+		}else
+		{
+			if (_targetDistance>2)
+				_targetDistance-=message._float;
+		}
 	}
 
 	void CCamera::tick(unsigned int msecs)
