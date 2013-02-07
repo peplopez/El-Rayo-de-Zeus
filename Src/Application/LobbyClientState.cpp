@@ -36,7 +36,7 @@ Contiene la implementación del estado de lobby del cliente.
 #include <elements/CEGUIPushButton.h>
 #include <time.h>
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "APP::CLIENT>> " << msg << std::endl;

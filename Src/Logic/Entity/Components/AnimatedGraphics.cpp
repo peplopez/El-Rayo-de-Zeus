@@ -81,11 +81,11 @@ namespace Logic
 			// de animaciones. Galeon no lo plantea.
 			_animatedGraphicsEntity->stopAllAnimations();
 			_animatedGraphicsEntity->setAnimation(message._string,message._bool);
-			LOG("SET_ANIMATION: " << message._string);
+			LOG("SET_ANIMATION: " << message._string << " for Entity " << _entity->getName() );
 			break;
 		case Message::STOP_ANIMATION:
 			_animatedGraphicsEntity->stopAnimation(message._string);
-			LOG("STOP_ANIMATION: " << message._string);
+			LOG("STOP_ANIMATION: " << message._string << " for Entity " << _entity->getName() );
 			break;
 		}
 

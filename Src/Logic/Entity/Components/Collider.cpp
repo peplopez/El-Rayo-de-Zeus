@@ -70,7 +70,7 @@ namespace Logic
 	{
 		switch(message._type)
 		{
-		case Message::CONTACTO:
+		case Message::CONTACTO:  //[ƒ®§] Pero..?
 			//Contacto();
 			break;
 		 //PROCESAR EL CONTACTO, PARAR A LAS ENTIDADES IMPLICADAS
@@ -139,6 +139,8 @@ namespace Logic
 
 	bool CCollider::contacto( CEntity* entidad1, CEntity* entidad2)
 	{
+			
+
 		Logic::TMessage m;
 
 		//_Vida--; si tiene vida se le disminuye, si es un proyectil no tiene vida
@@ -150,11 +152,10 @@ namespace Logic
 		//entidad2->emitMessage(m,this);
 		//fin emision mensaje de vida
 
-		m._string="luminoso";
 		m._type = Logic::Message::SET_SHADER;
+		m._string="luminoso";		
 		entidad1->emitMessage(m,this);
 		entidad2->emitMessage(m,this);
-
 
 		if (entidad1->getType().compare("Player")==0)
 			m._type = Logic::Message::CONTROL;
@@ -228,6 +229,14 @@ namespace Logic
 
 		//_hit++;
 
+		// HACK [ƒ®§0207] No sé lo que  viene encima y miedo me da meterme ^^", ¿pero lo suyo no sería enviar un mensaje de daño y que lo reciba quien pueda ser dañado?
+		// Aunque para independizar este detector de físicas de daños, debería ser el componente dañino del entity2 el que, tras ser avisado de que ha contactado
+		// con el entity1, le enviara un mensaje DAMAGED con el CDamage::_DAMAGE que sólo él conoce (el CDamage de entity2)		
+		TMessage msg;
+			msg._type = TMessageType::DAMAGED;
+			msg._int = 10; // los hp suelen ser enteros
+		entidad1->emitMessage(msg, this);	
+
 		return false;
 		}
 
@@ -262,7 +271,7 @@ namespace Logic
 		_excluido=NULL;
 		_comprobando=!_comprobando;
 		//if (_comprobando)
-		for(; it != end; it++)
+		for(; it != end; ++it)
 		{
 		
 			//Si la entidad que comparo no soy yo mismo y la distancia entre las posiciones

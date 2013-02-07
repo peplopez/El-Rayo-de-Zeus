@@ -44,8 +44,7 @@ namespace Logic
 
 	bool CLife::accept(const TMessage &message)
 	{
-		return message._type == Message::DAMAGED || 
-				message._type == Message::CONTACTO || // HACK provisional
+		return message._type == Message::DAMAGED || 			
 				message._type == Message::ANIMATION_FINISHED;
 
 	} // accept
@@ -57,11 +56,10 @@ namespace Logic
 		switch(message._type)
 		{
 
-			case Message::DAMAGED:
-			case Message::CONTACTO:
+			case Message::DAMAGED:			
 			{
 				// Disminuir la vida de la entidad
-				_life -= message._float;
+				_life -= message._int;
 				
 				TMessage msg;
 					msg._type = TMessageType::SET_ANIMATION;						

@@ -33,7 +33,7 @@ Contiene la implementación del estado de lobby del servidor.
 #include <CEGUIWindow.h>
 #include <elements/CEGUIPushButton.h>
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "APP::SERVER>> " << msg << std::endl;
