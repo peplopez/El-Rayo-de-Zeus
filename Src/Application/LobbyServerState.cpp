@@ -278,20 +278,9 @@ namespace Application {
 			//Almacenamos el ID del usuario que se ha cargado el mapa.
 			_mapLoadedByClients |= 1 << clientID;
 
-			// PLAYER INFO: Extraemos info del player que ha cargado el mapa				
-			unsigned int nickSize;
-				rxSerialMsg.read(&nickSize, sizeof(nickSize)); // Leemos longitud		
-			char* playerNick = new char[nickSize];		// Reservamos bloque car[] de tamaño size
-				rxSerialMsg.read( playerNick, nickSize);	
-				_playerNicks[clientID].assign(playerNick, nickSize);
-				delete[] playerNick;
-				
-			unsigned int modelSize;
-				rxSerialMsg.read(&modelSize, sizeof(modelSize)); // Leemos longitud		
-			char* playerModel = new char[modelSize];		// Reservamos bloque car[] de tamaño size
-				rxSerialMsg.read( playerModel, modelSize);	
-				_playerModels[clientID].assign( playerModel, modelSize);
-				delete[] playerModel;
+			// PLAYER INFO: Extraemos info del player que ha cargado el mapa
+			_playerNicks[clientID].assign(	Net::Serializable::deserializeString(rxSerialMsg) );
+			_playerModels[clientID].assign( Net::Serializable::deserializeString(rxSerialMsg) );	
 
 			LOG( "RX MAP_LOADED from " << clientID << " with Nick=" << _playerNicks[clientID] << " and Model=" << _playerModels[clientID] );
 

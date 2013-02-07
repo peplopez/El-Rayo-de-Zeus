@@ -301,19 +301,9 @@ srand(time(0)); // HACK necesario subsistema random
 			Net::NetID id;
 				rxSerialMsg.read(&id, sizeof(id) );
 
-			// PLAYER INFO  	
-			unsigned int nickSize;
-				rxSerialMsg.read(&nickSize, sizeof(nickSize)); // Leemos longitud		
-			char* auxNick =  new char[nickSize];		// Reservamos bloque car[] de tamaño size
-				rxSerialMsg.read(auxNick, nickSize);		
-				std::string playerNick(auxNick, nickSize);
-				delete[] auxNick;
-			unsigned int modelSize;
-				rxSerialMsg.read(&modelSize, sizeof(modelSize)); // Leemos longitud		
-			char* auxModel = new char[modelSize];		// Reservamos bloque car[] de tamaño size
-				rxSerialMsg.read(auxModel , modelSize);	
-				std::string playerModel(auxModel, modelSize);
-				delete[] auxModel;
+			// PLAYER INFO
+			std::string playerNick(		Net::Serializable::deserializeString(rxSerialMsg) );
+			std::string playerModel(	Net::Serializable::deserializeString(rxSerialMsg) );
 
 			LOG( "RX LOAD_PLAYER " << id << " with Nick=" << playerNick << " and Model=" << playerModel );
 

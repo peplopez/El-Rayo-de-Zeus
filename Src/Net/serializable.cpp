@@ -15,22 +15,15 @@ namespace Net{
 
 	std::string Serializable::deserializeString(CBuffer& buffer){
 	
-		int tam;
-		buffer.read(&tam, sizeof(tam));
-		
-		if (tam > 0){
-		
-			std::string cad(tam,'0');
-			buffer.read(&cad[0],tam*sizeof(char));
-			//printf("se leyo %s \n",cad.c_str());
+		unsigned int length;
+			buffer.read(&length, sizeof(length)); // Leemos longitud		
 			
-			return cad;
-		}else{
-			
-			return "";
-		
-		}
-	
+				if (length > 0){
+					std::string s(length,'0');
+					buffer.read( &s[0], length);					
+					return s;			
+				} else
+					return "";
 	}
 
 	// TODO meter aquí el resto de serializes?
