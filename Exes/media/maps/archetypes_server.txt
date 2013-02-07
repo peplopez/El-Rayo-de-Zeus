@@ -36,7 +36,6 @@ Map = {
 		offsetLife = 14.0,
 		widthLife = 10.0,
 		heightLife = 1.0,
-		isPlayer = true,
 		model = "marine.mesh",
 		angularSpeed = 0.0325,
 		defaultAnimation = "Idle",
