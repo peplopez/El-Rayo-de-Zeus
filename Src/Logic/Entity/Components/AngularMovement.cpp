@@ -342,7 +342,33 @@ namespace Logic
 					m._string="transito";
 					m._type = Logic::Message::SET_SHADER;
 					_entity->emitMessage(m,this);
-					_changingBase=_changingRing=false;
+					//_changingBase=_changingRing=false;
+					if (_changingBase)
+					{
+						_changingBaseTime+=msecs;
+						if (_changingBaseTime>_maxChangingBaseTime)
+						{
+							_changingBase=false;
+							_changingBaseTime=0;
+							Logic::TMessage m;		
+							m._string="marine";
+							m._type = Logic::Message::SET_SHADER;
+							_entity->emitMessage(m,this);
+						}
+					}
+					if (_changingRing)
+						{
+						_changingRingTime+=msecs;
+						if (_changingRingTime>_maxChangingRingTime)
+						{
+							_changingRing=false;
+							_changingRingTime=0;
+							Logic::TMessage m;		
+							m._string="marine";
+							m._type = Logic::Message::SET_SHADER;
+							_entity->emitMessage(m,this);
+						}
+					}
 				}
 			}
 			else

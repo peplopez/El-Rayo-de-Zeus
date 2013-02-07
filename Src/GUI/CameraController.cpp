@@ -43,7 +43,7 @@ namespace GUI {
 	void CCameraController::activate()
 	{		
 		CInputManager::getSingletonPtr()->addKeyListener(this);
-	//	CInputManager::getSingletonPtr()->addMouseListener(this);
+		CInputManager::getSingletonPtr()->addMouseListener(this);
 
 	} // activate
 
@@ -52,7 +52,7 @@ namespace GUI {
 	void CCameraController::deactivate()
 	{
 		CInputManager::getSingletonPtr()->removeKeyListener(this);
-	//	CInputManager::getSingletonPtr()->removeMouseListener(this);
+		CInputManager::getSingletonPtr()->removeMouseListener(this);
 
 	} // deactivate
 
@@ -66,6 +66,7 @@ namespace GUI {
 			m._type = Logic::Message::CAMERA;
 			switch(key.keyId)
 			{			
+						
 			case GUI::Key::UPARROW:
 				m._bool = false;		
 				m._float = 1;
@@ -131,8 +132,27 @@ namespace GUI {
 		
 	bool CCameraController::mousePressed(const CMouseState &mouseState)
 	{
-		return false;
-
+		if(_controlledCamera)
+		{
+			Logic::TMessage m;
+			m._type = Logic::Message::CAMERA;
+			switch(mouseState.button)
+			{
+			case GUI::Button::LEFT:
+				m._bool = false;		
+				m._float = 1;
+				break;
+			case GUI::Button::RIGHT:
+				m._bool = true;		
+				m._float = 1;			
+				break;		
+			
+			default:
+				return false;
+			}
+			_controlledCamera->emitMessage(m);
+			return true;
+		}
 	} // mousePressed
 
 	//--------------------------------------------------------

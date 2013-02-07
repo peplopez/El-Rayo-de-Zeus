@@ -1,0 +1,13 @@
+vertex_program TransitoVSShader hlsl
+{
+	source prueba.hlsl
+	entry_point vsMain
+	target vs_2_0
+}
+
+fragment_program TransitoShaderHLSL hlsl
+{
+	source prueba.hlsl
+	entry_point main
+	target ps_2_0
+}

@@ -119,7 +119,7 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CGraphics::accept(const TMessage &message)
+	bool CGraphics::accept(const TMessage &message)//Pep: esto del QUAT lo puse yo pero creo que no se usa, los mensajes de QUAT como si no existieran
 	{
 		return message._type == Message::SET_TRANSFORM || message._type == Message::SET_TRANSFORM_QUAT || message._type == Message::SET_SHADER ;
 

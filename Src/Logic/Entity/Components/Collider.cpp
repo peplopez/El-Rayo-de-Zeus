@@ -60,7 +60,7 @@ namespace Logic
 
 	bool CCollider::accept(const TMessage &message)
 	{
-		
+		return false; //anulación, este componente emite colisiones, no tiene que recivirlas. Si tiene que hacer cosas las hace sin mensajes
 		return message._type == Message::CONTACTO;
 	} // accept
 	
@@ -68,14 +68,12 @@ namespace Logic
 
 	void CCollider::process(const TMessage &message)
 	{
-		switch(message._type)
+		/*switch(message._type)
 		{
-		case Message::CONTACTO:
+		case Message::CONTACTO: //PROCESAR EL CONTACTO, PARAR A LAS ENTIDADES IMPLICADAS
 			//Contacto();
-			break;
-		 //PROCESAR EL CONTACTO, PARAR A LAS ENTIDADES IMPLICADAS
-		
-		}
+			break;		
+		}*/
 
 	} // process
 	
@@ -90,12 +88,10 @@ namespace Logic
 		if (entidad1->getBase()!=entidad2->getBase()) 
 			return false;
 		if (entidad1->getRing()!=entidad2->getRing()) 
-			return false;
-	
+			return false;	
 
 		if (entidad1->getJumping()==true || entidad2->getJumping()==true)
 			return false;
-
 
 		if (entidad2->getAngularBox()==0)
 			return false;
@@ -154,8 +150,7 @@ namespace Logic
 		m._type = Logic::Message::SET_SHADER;
 		entidad1->emitMessage(m,this);
 		entidad2->emitMessage(m,this);
-
-
+		
 		if (entidad1->getType().compare("Player")==0)
 			m._type = Logic::Message::CONTROL;
 		if (entidad1->getType().compare("AnimatedEntity")==0)
@@ -166,7 +161,7 @@ namespace Logic
         m._bool=sentidoColision(entidad1,entidad2);
 //		m._bool=_sentidoColision;
 
-		//corrección para cuerpos superspuestos
+		//corrección para cuerpos superspuestos, este metodo es para cuando una entidad se mete dentro de otra al saltar
 		if (contactoExtremo(entidad1,entidad2))
 		{
 			m._string="walkBack";
