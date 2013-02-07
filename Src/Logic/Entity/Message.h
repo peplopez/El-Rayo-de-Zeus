@@ -14,6 +14,15 @@ Contiene el tipo de datos de un mensaje.
 
 #include "BaseSubsystems/Math.h"
 
+#include "Net/buffer.h"
+
+
+// Predeclaracion de clases
+namespace Logic {
+	class CEntity;
+};
+
+// Declaración de la clase
 namespace Logic
 {
 	/**
@@ -23,16 +32,20 @@ namespace Logic
 	{
 		enum TMessageType
 		{
-			UNASSIGNED = 0xFFFFFFFF,
-			SET_TRANSFORM,
+			UNASSIGNED 		= 0xFFFFFFFF,
+			SET_TRANSFORM 	= 0x00000000,
+			CONTROL			= 0x00000001,
+			NPC_CONTROL 	= 0x00000002,
+			DEAD 			= 0x00000003,
 			SET_TRANSFORM_QUAT,
 			SET_ANIMATION,
-			STOP_ANIMATION,
-			CONTROL,
-			CONTACTO,
-			SET_SHADER,
-			NPC_CONTROL,
-			CAMERA
+			STOP_ANIMATION,			 
+			CONTACTO,   // [ƒ®§] Spanglish nooo manches wayyy!!
+			SET_SHADER,			
+			CAMERA,
+			AVATAR_WALK,
+			DAMAGED,			
+			ANIMATION_FINISHED		
 		};
 	}
 
@@ -61,7 +74,7 @@ namespace Logic
 	@date Julio, 2010
     @ingroup grupoEntidad
 	*/
-	typedef struct
+	struct TMessage
 	{
 		/**
 		Tipo del mensaje.
@@ -73,6 +86,11 @@ namespace Logic
 		*/
 		Matrix4 _transform;
 		
+		/**
+		Atributo para almacenar un valor int.
+		*/
+		int _int;
+
 		/**
 		Atributo para almacenar un valor float.
 		*/
@@ -94,7 +112,43 @@ namespace Logic
 		Ogre::Quaternion _quat;
 
 
-	} TMessage; 
+		/**
+		Atributo para almacenar un vector.
+		*/
+		Vector3 _vector3;
+
+		/**
+		Atributo para almacenar una entidad.
+		*/
+		CEntity *_entity;
+
+		TMessage() : _type(Message::UNASSIGNED), _int(0), _float(0.0f), _bool(false),
+			_string(""),_vector3(Vector3::ZERO),_entity(0),_transform(Matrix4::ZERO) // TODO init  ,_quat()
+			{}
+
+
+	}; 
+
+	namespace Message
+	{
+		/**
+		Serializa un mensaje. Genera un CBuffer a partir de 
+		un mensaje.
+
+		@param message Mensaje a serializar.
+		@param data CBuffer donde almacenar la deserialización.
+		*/
+		void Serialize(const TMessage& message, Net::CBuffer &data);
+
+		/**
+		Deserializa un mensaje. A partir de un CBuffer genera
+		un nuevo mensaje.
+
+		@param data CBuffer a deserializar.
+		@param message Mensaje resultante de la deserialización.
+		*/
+		void Deserialize(Net::CBuffer &data, TMessage& message);
+	}
 
 } // namespace Logic
 

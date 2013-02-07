@@ -21,6 +21,11 @@ namespace Logic
 	class CEntity;
 }
 
+namespace Map
+{
+	class CEntity;
+}
+
 namespace Graphics 
 {
 	class CScene;
@@ -171,6 +176,13 @@ namespace Logic
 		@return Escena con las entidades gráficas.
 		*/
 		Graphics::CScene *getScene() {return _scene;}
+		
+		/**
+		Crea un nuevo jugador y le porporciona un nombre determinado.
+
+		@param name Nombre del jugador.
+		*/
+		void createPlayer(std::string entityName, std::string model, bool isLocalPlayer);
 
 	private:
 
@@ -199,7 +211,6 @@ namespace Logic
 		las entidades.
 		*/
 		Graphics::CScene* _scene;
-
 	}; // class CMap
 
 } // namespace Logic

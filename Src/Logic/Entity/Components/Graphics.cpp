@@ -97,6 +97,10 @@ namespace Logic
 		if(entityInfo->hasAttribute("static"))
 			isStatic = entityInfo->getBoolAttribute("static");
 
+		float scale = 1.0;
+		if (entityInfo->hasAttribute("scale"))
+			scale = entityInfo->getFloatAttribute("scale");
+
 		if(isStatic)
 		{
 			_graphicsEntity = new Graphics::CStaticEntity(_entity->getName(),_model);
@@ -110,6 +114,7 @@ namespace Logic
 				return 0;
 		}
 
+		_graphicsEntity->setScale(scale);
 		_graphicsEntity->setTransform(_entity->getTransform());
 		
 

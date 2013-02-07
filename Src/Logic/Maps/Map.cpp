@@ -11,10 +11,12 @@ Contiene la implementación de la clase CMap, Un mapa lógico.
 
 #include "Map.h"
 
+#include "Logic/Server.h"
 #include "Logic/Entity/Entity.h"
 #include "EntityFactory.h"
 
 #include "Map/MapParser.h"
+#include "Map/MapEntity.h"
 
 #include "Graphics/Server.h"
 #include "Graphics/Scene.h"
@@ -46,7 +48,7 @@ namespace Logic {
 			Map::CMapParser::getSingletonPtr()->getEntityList();
 
 		CEntityFactory* entityFactory = CEntityFactory::getSingletonPtr();
-		
+
 		Map::CMapParser::TEntityList::const_iterator it, end;
 		it = entityList.begin();
 		end = entityList.end();
@@ -55,7 +57,7 @@ namespace Logic {
 		for(; it != end; it++)
 		{
 			// La propia factoría se encarga de añadir la entidad al mapa.
-			CEntity *entity = entityFactory->createMergedEntity((*it),map);
+			CEntity *entity = entityFactory->createMergedEntity((*it),map); // [ƒ®§] Yo creo que sigue siendo un createEntity, pero bien hecho -> quitar "Merged"
 			assert(entity && "No se pudo crear una entidad del mapa");
 		}
 
@@ -145,7 +147,7 @@ namespace Logic {
 		{
 			TEntityPair elem(entity->getEntityID(),entity);
 			_entityMap.insert(elem);
-			_entityList.push_back(entity);
+			_entityList.push_back(entity); // [ƒ®§] Vamos a conservar la list y el map?
 		}
 
 	} // addEntity
@@ -241,9 +243,9 @@ namespace Logic {
 		if (start)
 		{
 			it = _entityMap.find(start->getEntityID());
-			// si la entidad no existe devolvemos NULL.
+		
 			if(it == end)
-				return 0;
+				return 0;// si la entidad no existe devolvemos NULL.
 			it++;
 		}
 		else
@@ -259,5 +261,25 @@ namespace Logic {
 		return 0;
 
 	} // getEntityByType
+
+	//--------------------------------------------------------
+// TODO adaptar a ARCHETYPES
+	void CMap::createPlayer(std::string entityName, std::string model, bool isLocalPlayer)
+	{
+		// [ƒ®§] Creamos un nuevo jugador. Deberíamos tener la info del player
+		// almacenada en _playerInfo así que solo habría que modificarle el
+		// "name". Luego se crea la entidad del jugador con la factoría de 
+		// entidades y se le dice si es o no el jugador local (con setIsPlayer())
+		// Para que no salgan todos los jugadores unos encima de otros podemos
+		// cambiar la posición de éstos.
+		Map::CEntity playerInfo(entityName);
+			playerInfo.setType("Player");			
+		if(model.length() > 0)
+			playerInfo.setAttribute("model", model);				
+
+		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createMergedEntity(&playerInfo, this);
+			newPlayer->setIsPlayer(isLocalPlayer);
+			//newPlayer->setPosition( newPlayer->getPosition() + (rand()%50-25) * Vector3(1, 0, 1) ); // TODO calibrar esta pos
+	}
 
 } // namespace Logic

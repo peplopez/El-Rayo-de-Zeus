@@ -16,6 +16,10 @@ Contiene la implementación del estado de menú.
 
 #include "MenuState.h"
 
+#include "Logic/Server.h"
+#include "Logic/Maps/EntityFactory.h"
+#include "Logic/Maps/Map.h"
+
 #include "GUI/Server.h"
 
 #include <CEGUISystem.h>
@@ -40,22 +44,17 @@ namespace Application {
 		_menuWindow = CEGUI::WindowManager::getSingleton().getWindow("Menu");
 		
 		// Asociamos los botones del menú con las funciones que se deben ejecutar.
-		/*CEGUI::WindowManager::getSingleton().getWindow("Menu/Start")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, 
-				CEGUI::SubscriberSlot(&CMenuState::startReleased, this));*/
-		CEGUI::WindowManager::getSingleton().getWindow("Menu/Join")->
+		CEGUI::WindowManager::getSingleton().getWindow("Menu/Single")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CMenuState::startReleased, this));
 
-		CEGUI::WindowManager::getSingleton().getWindow("Menu/New")->
+		CEGUI::WindowManager::getSingleton().getWindow("Menu/Multi")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CMenuState::exitReleased, this));
 		
 		CEGUI::WindowManager::getSingleton().getWindow("Menu/Exit")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CMenuState::exitReleased, this));
-
-
 	
 		return true;
 
@@ -118,14 +117,47 @@ namespace Application {
 	{
 		switch(key.keyId)
 		{
+
 		case GUI::Key::ESCAPE:
 			_app->exitRequest();
 			break;
+
 		case GUI::Key::RETURN:
 			_app->setState("game");
+			
+			//[ƒ®§] CARGA de Blueprints, Arquetypes y Map adelantada
+			// Cargamos el archivo con las definiciones de las entidades del nivel.
+			if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
+				return false;
+				
+			// Add - ESC
+			// Cargamos el archivo con las definiciones de los archetypes
+			if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes.txt"))
+				return false;
+			
+			// Add - JLS
+			// Cargamos los anillos a partir del nombre del mapa. 
+			if (!Logic::CServer::getSingletonPtr()->setRingPositions())//[ƒ®§] Esto no deberia ejecutarse como parte del loadLevel...?
+				return false;
+
+			// Cargamos el nivel a partir del nombre del mapa. 
+			if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))
+				return false;
+		
+			// Llamamos al método de creación del jugador. Deberemos decidir
+			// si el jugador es el jugador local. Al ser el monojugador lo es.
+			Logic::CServer::getSingletonPtr()->getMap()->createPlayer("Mono", "marine.mesh", true);
+
+			// TODO Deberíamos poder propocionar caracteríasticas  (nombre, modelo, etc.)... ==> Ampliar MenuState...
 			break;
+
+		case GUI::Key::M:
+			_app->setState("netmenu");
+			break;
+			
 		default:
 			return false;
+			
 		}
 		return true;
 
@@ -157,10 +189,38 @@ namespace Application {
 	} // mouseReleased
 			
 	//--------------------------------------------------------
-		
+// TODO Por qué se devuelve  true o false?
+// TODO Toda la carga y creación del jugador deberia encapsularse en un startGame() reusable
 	bool CMenuState::startReleased(const CEGUI::EventArgs& e)
 	{
 		_app->setState("game");
+			
+		//[ƒ®§] CARGA de Blueprints, Arquetypes y Map adelantada
+		// Cargamos el archivo con las definiciones de las entidades del nivel.
+		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
+			return false;
+				
+		// Add - ESC
+		// Cargamos el archivo con las definiciones de los archetypes
+		if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes.txt"))
+			return false;
+			
+		// Add - JLS
+		// Cargamos los anillos a partir del nombre del mapa. 
+		if (!Logic::CServer::getSingletonPtr()->setRingPositions())//[ƒ®§] Esto no deberia ejecutarse como parte del loadLevel...?
+			return false;
+
+		// Cargamos el nivel a partir del nombre del mapa. 
+		if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))
+			return false;
+			
+		// Llamamos al método de creación del jugador. Deberemos decidir
+		// si el jugador es el jugador local. Al ser el monojugador lo es.
+		Logic::CServer::getSingletonPtr()->getMap()->createPlayer("Mono", "marine.mesh", true);
+
+		// TODO Deberíamos poder propocionar caracteríasticas  (nombre, modelo, etc.)... ==> Ampliar MenuState...
+
+
 		return true;
 
 	} // startReleased
@@ -173,5 +233,14 @@ namespace Application {
 		return true;
 
 	} // exitReleased
+
+	//--------------------------------------------------------
+
+	bool CMenuState::multiplayerReleased(const CEGUI::EventArgs& e)
+	{
+		_app->setState("netmenu");
+		return true;
+
+	} // multiplayerReleased
 
 } // namespace Application

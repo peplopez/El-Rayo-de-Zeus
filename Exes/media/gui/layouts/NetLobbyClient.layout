@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="NetLobbyClient" >
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Window Type="OgreTray/StaticImage" Name="NetLobbyClient/BackGround" >
+            <Property Name="Font" Value="FairChar-30" />
+            <Property Name="Text" Value="Multiplayer" />
+            <Property Name="AlwaysOnTop" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+            <Window Type="OgreTray/Title" Name="NetLobbyClient/BackGround/" >
+                <Property Name="Font" Value="Batang-26" />
+                <Property Name="Text" Value="Connect to server" />
+                <Property Name="AlwaysOnTop" Value="True" />
+                <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.2,0},{0.7,0},{0.3,0}}" />
+            </Window>
+        </Window>
+        <Window Type="OgreTray/Editbox" Name="NetLobbyClient/IPBox" >
+            <Property Name="Font" Value="DejaVuSans-10" />
+            <Property Name="Text" Value="127.0.0.1" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.43,0},{0.4,0},{0.48,0}}" />
+        </Window>
+		<Window Type="OgreTray/Editbox" Name="NetLobbyClient/NickBox" >
+            <Property Name="Font" Value="DejaVuSans-10" />
+            <Property Name="Text" Value="Nickname" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.5,0},{0.4,0},{0.55,0}}" />
+        </Window>
+		<Window Type="OgreTray/Editbox" Name="NetLobbyClient/ModelBox" >
+            <Property Name="Font" Value="DejaVuSans-10" />
+            <Property Name="Text" Value="marine.mesh" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.57,0},{0.4,0},{0.62,0}}" />
+        </Window>
+        <Window Type="OgreTray/Button" Name="NetLobbyClient/Connect" >
+            <Property Name="Font" Value="DejaVuSans-10" />
+            <Property Name="Text" Value="Connect" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.5,0},{0.48,0},{0.9,0},{0.58,0}}" />
+        </Window>
+
+		 <Window Type="OgreTray/StaticText" Name="NetLobbyClient/Status" >
+            <Property Name="Font" Value="DejaVuSans-10" />
+            <Property Name="Text" Value="Status: Not connected." />
+            <Property Name="AlwaysOnTop" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0.1,1},{0.7,0},{0.9,0},{0.8,0}}" />
+        </Window>
+		
+        <Window Type="OgreTray/Button" Name="NetLobbyClient/Back" >
+            <Property Name="Font" Value="DejaVuSans-10" />
+            <Property Name="Text" Value="Back" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.9,0},{0.2,0},{0.95,0}}" />
+        </Window>
+    </Window>
+</GUILayout>

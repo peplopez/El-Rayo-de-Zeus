@@ -51,7 +51,7 @@ namespace Logic
 	{
 		// Leemos las propiedades comunes
 		_map = map;
-		_entityInfo=entityInfo;
+		_entityInfo=entityInfo; // TODO [ƒ®§] Esto para qué es necesario?
 		_type = entityInfo->getType();
 		_logicInput=false;
 		Vector3 posicion=Vector3::ZERO;	
@@ -119,7 +119,7 @@ namespace Logic
 					}
 					default:
 						{
-						_pos._ring= Logic::LogicalPosition::ANILLO_CENTRAL;			
+						_pos._ring= Logic::LogicalPosition::ANILLO_CENTRAL;  // TODO [ƒ®§] Esto de mezclar spanglish no queda muy fino, va a haber que normalizar todo al inglés...
 						//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
 						//pese a todo no pete.
 						}
@@ -213,6 +213,7 @@ namespace Logic
 					}				
 			}
 		
+		// TODO limpiar comentarios, por seguridad ya estamos usando git 
 		/* arreglamos la orientación */
 		/*Vector3 centro=Vector3(0,-125,0);
 		Vector3 vectorCentroEntidad = -(centro-_transform.getTrans());
@@ -243,12 +244,11 @@ namespace Logic
 		if(entityInfo->hasAttribute("orientation"))
 		{
 			float yaw = Math::fromDegreesToRadians(entityInfo->getFloatAttribute("orientation"));
-			Math::yaw(yaw,_transform); //revisar
+			Math::yaw(yaw,_transform); // HACK revisar
 		}
 
 		if(entityInfo->hasAttribute("isPlayer"))
-			_isPlayer = entityInfo->getBoolAttribute("isPlayer");
-		
+			setIsPlayer( entityInfo->getBoolAttribute("isPlayer") );		
 
 		// Inicializamos los componentes
 		TComponentList::const_iterator it;
@@ -266,16 +266,7 @@ namespace Logic
 
 	bool CEntity::activate() 
 	{
-		// Si somos jugador, se lo decimos al servidor
-		// y nos registramos para que nos informen
-		// de los movimientos que debemos realizar
-		if (isPlayer())
-		{
-			CServer::getSingletonPtr()->setPlayer(this);
-			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);
-		}
-		
-		if (this->getType().compare("Camera")==0)
+		if (this->getType().compare("Camera")==0) // TODO [ƒ®§] El compare es más eficiente que el == "Camera"?
 		{
 			//CServer::getSingletonPtr()->setPlayer(this);
 			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);
@@ -307,11 +298,7 @@ namespace Logic
 		// y evitamos que se nos siga informando de los movimientos que 
 		// debemos realizar
 		if (isPlayer())
-		{
-			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(0);
-			CServer::getSingletonPtr()->setPlayer(0);
-		}
-
+			setIsPlayer(false);
 
 		TComponentList::const_iterator it;
 
@@ -324,7 +311,24 @@ namespace Logic
 	} // deactivate
 
 	//---------------------------------------------------------
+	void CEntity::setIsPlayer(bool isPlayer) 
+	{ 		
+		if(isPlayer == _isPlayer)
+			return;
 
+		_isPlayer = isPlayer; 
+		if(_isPlayer) {
+			CServer::getSingletonPtr()->setPlayer(this);
+			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);		
+		} else {
+			if(CServer::getSingletonPtr()->getPlayer() == this)
+				CServer::getSingletonPtr()->setPlayer(0);
+			if(GUI::CServer::getSingletonPtr()->getPlayerController()->getControlledAvatar() == this)
+				GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(0);
+		}
+	} // setIsPlayer
+
+	//---------------------------------------------------------
 	 const Vector3 CEntity::fromLogicalToCartesian(const float grados, const unsigned short base, const Logic::LogicalPosition::Ring ring)
 	 {		 
 		float offset=0;
@@ -414,8 +418,11 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	const bool CEntity::emitMessage (const TMessage &message, IComponent* emitter)
+	const bool CEntity::emitMessage(const TMessage &message, IComponent* emitter)
 	{
+		if(!_activated) // HACK Si la entidad no está activa, no recibe mensajes
+			return false;
+
 		// Interceptamos los mensajes que además de al resto de los
 		// componentes, interesan a la propia entidad.
 		switch(message._type)
@@ -430,7 +437,7 @@ namespace Logic
 		for( it = _components.begin(); it != _components.end(); ++it )
 		{
 			// Al emisor no se le envia el mensaje.
-			if( emitter != (*it))
+			if( emitter != (*it) )
 				anyReceiver = (*it)->set(message) || anyReceiver;
 		}
 		return anyReceiver;
@@ -447,6 +454,7 @@ namespace Logic
 		TMessage message;
 		message._type = Message::SET_TRANSFORM;
 		message._transform = _transform;
+		message._bool = true; // [ƒ®§] Interesante si sólo queremos comprobar colisiones en cambios de posición y no en todos los SET_TRANSFORM
 		emitMessage(message);
 
 	} // setTransform
@@ -461,6 +469,7 @@ namespace Logic
 		TMessage message;
 		message._type = Message::SET_TRANSFORM;
 		message._transform = _transform;
+		message._bool = true; // [ƒ®§] Interesante si sólo queremos comprobar colisiones en cambios de posición y no en todos los SET_TRANSFORM
 		emitMessage(message);
 
 	} // setPosition
@@ -508,7 +517,7 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	Matrix3 CEntity::getOrientation() 
+	Matrix3 CEntity::getOrientation() const
 	{
 		Matrix3 orientation;
 		_transform.extract3x3Matrix(orientation);

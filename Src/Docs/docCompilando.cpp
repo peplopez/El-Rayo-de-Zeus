@@ -33,7 +33,7 @@ Para poder trabajar con Galeon es preciso que la máquina
 tenga instalado lo siguiente:
 
 <ul>
-   <li>Visual Studio 2010.</li>
+   <li>Visual Studio 2008.</li>
 
    <li>DirectX: es necesario tener instaladas las SDK
    de DirectX, que incluyen los ficheros de cabecera
@@ -97,16 +97,16 @@ debug:
 compilaSln:
 
 windowsbuilder:
-      [vc10] Command= C:\...\\IDE\devenv.com /out c:\\Galeon/vslog.txt ...
-      [vc10] 
-      [vc10] Microsoft (R) Visual Studio 10.0.30319.1.
-      [vc10] (C) Microsoft Corp. Reservados todos los derechos.
-      [vc10] 1>------ Operaci¢n Generar iniciada: proyecto: zlib, configuraci¢n: Debug Win32 ------
-      [vc10] 2>------ Operaci¢n Generar iniciada: proyecto: ZLib-freeImage, configuraci¢n: Debug Win32 ------
-      [vc10] 2>Compilando...
-      [vc10] 1>Compilando...
-      [vc10] 2>adler32.c
-      [vc10] 1>compress.c
+      [vc9] Command= C:\...\\IDE\devenv.com /out c:\\Galeon/vslog.txt ...
+      [vc9] 
+      [vc9] Microsoft (R) Visual Studio 9.0.30729.1.
+      [vc9] (C) Microsoft Corp. Reservados todos los derechos.
+      [vc9] 1>------ Operaci¢n Generar iniciada: proyecto: zlib, configuraci¢n: Debug Win32 ------
+      [vc9] 2>------ Operaci¢n Generar iniciada: proyecto: ZLib-freeImage, configuraci¢n: Debug Win32 ------
+      [vc9] 2>Compilando...
+      [vc9] 1>Compilando...
+      [vc9] 2>adler32.c
+      [vc9] 1>compress.c
 </pre>
 
 Después de mucho rato y más de 3GB menos en el disco duro, tanto
@@ -120,7 +120,7 @@ que tiene Galeon, que se encuentran en el directorio dependencies:
 
 <ol>
    <li>Compilar las dependencias de Ogre: para eso, abrir
-   el proyecto en Visual Studio 2010 (<tt>dependencies/OgreDependencies/OgreDependencies.VS2008.sln</tt>),
+   el proyecto en Visual Studio 2008 (<tt>dependencies/OgreDependencies/OgreDependencies.VS2008.sln</tt>),
    y generar las versiones Debug y Release (lo más fácil tanto en
    este como en el resto de proyectos es usar el menú Generar - Compilación por lotes -
    Seleccionar todo - Generar
@@ -142,7 +142,7 @@ que tiene Galeon, que se encuentran en el directorio dependencies:
 c:\Galeon\dependencies\Ogre> mkdir build
 c:\Galeon\dependencies\Ogre> cd build
 c:\Galeon\dependencies\Ogre\build> ..\\CMake\bin\cmake.exe -DOGRE_DEPENDENCIES_DIR=..\.. -DOGRE_BUILD_SAMPLES=FALSE -DOGRE_BUILD_TOOLS=FALSE -DOGRE_BUILD_COMPONENT_PAGING=FALSE -DOGRE_BUILD_COMPONENT_TERRAIN=FALSE -DOGRE_BUILD_PLUGIN_PCZ=FALSE -DOGRE_BUILD_PLUGIN_OCTREE=FALSE -DOGRE_BUILD_PLUGIN_BSP=FALSE -DOGRE_INSTALL_TOOLS=FALSE ..
--- Building for: Visual Studio 10 2010
+-- Building for: Visual Studio 9 2008
 -- Check for working C compiler: cl
 -- Check for working C compiler: cl -- works
 -- Detecting C compiler ABI info
@@ -187,10 +187,6 @@ c:\Galeon\dependencies\Ogre\build> ..\\CMake\bin\cmake.exe -DOGRE_DEPENDENCIES_D
 
    <li>Generar la solución de Visual Studio de CEGUI. Para eso, basta
    con ejecutar el fichero <tt>dependencies/CEGUI/projects/premake/build_vs2008.bat</tt>.
-   </li>
-
-   <li>Convertir a Visual Studio 2010 abriendo la solución generado con 
-   Visual Studio 2010.
    </li>
 
    <li>Compilar todos los proyectos de la solución CEGUI.sln que

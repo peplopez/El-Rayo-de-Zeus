@@ -17,6 +17,8 @@ la gestión de la lógica del juego.
 
 #include "Map/MapParser.h"
 #include "Logic/Entity/RingStruct.h"
+#include "Logic/GameNetMsgManager.h"
+
 #include <cassert>
 
 namespace Logic {
@@ -25,7 +27,7 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-	CServer::CServer() : _map(0)
+	CServer::CServer() : _map(0), _gameNetMsgManager(0)
 	{
 		_instance = this;
 
@@ -83,6 +85,12 @@ namespace Logic {
 		if (!Logic::CEntityFactory::Init())
 			return false;
 
+		// Inicializamos el gestor de los mensajes de red durante el estado de juego
+		if (!Logic::CGameNetMsgManager::Init())
+			return false;
+
+		_gameNetMsgManager = Logic::CGameNetMsgManager::getSingletonPtr();
+
 		return true;
 
 	} // open
@@ -92,6 +100,8 @@ namespace Logic {
 	void CServer::close() 
 	{
 		unLoadLevel();
+
+		Logic::CGameNetMsgManager::Release();
 
 		Logic::CEntityFactory::Release();
 		
@@ -203,6 +213,8 @@ namespace Logic {
 
 	bool CServer::activateMap() 
 	{
+		// Se activa la escucha del oyente de los mensajes de red para el estado de juego.
+		_gameNetMsgManager->activate();
 		return _map->activate();
 
 	} // activateMap
@@ -212,6 +224,7 @@ namespace Logic {
 	void CServer::deactivateMap() 
 	{
 		_map->deactivate();
+		_gameNetMsgManager->deactivate(); // Se desactiva la escucha del oyente de los mensajes de red para el estado de juego.
 
 	} // deactivateMap
 

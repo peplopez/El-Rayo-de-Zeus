@@ -77,7 +77,8 @@ namespace Logic
 		<p>
 		Si el componente pertenece a la entidad del jugador, el componente
 		se deregistra así mismo en el controlador del GUI para dejar de
-		recibir las ordenes dadas a partir de los eventos de teclado y ratón.
+		recibir las ordenes dadas a partir de los eventos de teclado y ratón
+		(ver CEntity::deactivate() )
 		*/
 		virtual void deactivate();
 
@@ -111,6 +112,7 @@ namespace Logic
 		Provoca que la entidad avance.
 		*/
 		void walk();
+		void walkBack();
 
 		/**
 		Provoca que la entidad cese el avance.
@@ -131,7 +133,10 @@ namespace Logic
 		Provoca que la entidad cese el desplazamiento lateral.
 		*/
 		void stopStrafe();
-		
+		/**
+		Acción especial para depuración.
+		*/
+		void specialAction();
 		/**
 		Provoca que la entidad gire. Números Positivos para	giro a 
 		derechas, negativos para giro izquierdas.

@@ -1,0 +1,54 @@
+Map = {	
+	Altar = {
+		type = "Altar",
+		model = "altar.mesh",
+		logicInput=true,
+		static = true,	
+	},
+	
+	BarraVida = {
+		type = "BarraVida",
+		model = "plane.mesh",
+	},
+	
+	World = {
+		type = "World",
+		model = "anillo.mesh",
+		static = true,
+	},
+	
+	Bigdaddy = {
+		type = "AnimatedEntity",
+		msgList= "0,3",
+		blockedTime = 5000,
+		life = 100.0,
+		model = "bioshock.mesh",
+		logicInput=true,
+		angularBox=5,
+	},
+	
+	Player = {
+		type = "Player",
+		msgList= "0,3",
+		blockedTime = 5000,
+		orientation = 90,
+		life = 1000.0,
+		offsetLife = 14.0,
+		widthLife = 10.0,
+		heightLife = 1.0,
+		isPlayer = true,
+		model = "marine.mesh",
+		angularSpeed = 0.0325,
+		defaultAnimation = "Idle",
+		degrees=0,
+		base=3,
+		ring=1,
+		logicInput=true,
+		sense=0,
+		angularBox=2.5,
+		initialJumpSpeed = 28,
+		gravity = 0.98,
+		Hmax = 40,
+	},
+	
+}

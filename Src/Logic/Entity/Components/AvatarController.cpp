@@ -53,8 +53,8 @@ namespace Logic
 
 	bool CAvatarController::accept(const TMessage &message)
 	{
-		return false;   //ANULACION
-		return message._type == Message::SET_TRANSFORM;
+		return false;   //HACK ANULACION --> [ƒ®§] Somos los Hack hack hack haaaackers, en el bosque nos encontrarás! A mí me mola este componente, voto por dejarlo...
+//		return message._type == Message::CONTROL;
 
 	} // accept
 	
@@ -66,7 +66,9 @@ namespace Logic
 		{
 		case Message::CONTROL:
 			if(!message._string.compare("walk"))
-				walk();			
+				walk();
+			else if(!message._string.compare("walkBack"))
+				walkBack();
 			else if(!message._string.compare("stopWalk"))
 				stopWalk();
 			else if(!message._string.compare("strafeLeft"))
@@ -75,6 +77,8 @@ namespace Logic
 				strafeRight();
 			else if(!message._string.compare("stopStrafe"))
 				stopStrafe();
+			else if(!message._string.compare("specialAction"))
+				specialAction();
 			else if(!message._string.compare("turn"))
 				turn(message._float);
 		}
@@ -98,11 +102,26 @@ namespace Logic
 		// Cambiamos la animación
 		TMessage message;
 		message._type = Message::SET_ANIMATION;
-		message._string = "Walk";
+		message._string = "RunUzi";
 		message._bool = true;
 		_entity->emitMessage(message,this);
 
 	} // walk
+	
+	//---------------------------------------------------------
+
+	void CAvatarController::walkBack() 
+	{
+		_walkingBack = true;
+
+		// Cambiamos la animación
+		TMessage message;
+		message._type = Message::SET_ANIMATION;
+		message._string = "WalkBackAK47";
+		message._bool = true;
+		_entity->emitMessage(message,this);
+
+	} // walkBack
 	
 	//---------------------------------------------------------
 
@@ -116,7 +135,7 @@ namespace Logic
 		{
 			TMessage message;
 			message._type = Message::SET_ANIMATION;
-			message._string = "Idle";
+			message._string = "IdleKatana";
 			message._bool = true;
 			_entity->emitMessage(message,this);
 		}
@@ -127,12 +146,12 @@ namespace Logic
 
 	void CAvatarController::strafeLeft() 
 	{
-		//_strafingLeft = true;
-			_walking = true;
+		_strafingLeft = true;
+
 		// Cambiamos la animación
 		TMessage message;
 		message._type = Message::SET_ANIMATION;
-		message._string = "Walk";
+		message._string = "StrafeLeft";
 		message._bool = true;
 		_entity->emitMessage(message,this);
 
@@ -142,16 +161,21 @@ namespace Logic
 
 	void CAvatarController::strafeRight() 
 	{
-		//_strafingRight = true;
-			_walking = true;
+		_strafingRight = true;
+
 		// Cambiamos la animación
 		TMessage message;
 		message._type = Message::SET_ANIMATION;
-		message._string = "Walk";
+		message._string = "StrafeRight";
 		message._bool = true;
 		_entity->emitMessage(message,this);
 
 	} // walkBack
+	
+	//---------------------------------------------------------
+	void CAvatarController::specialAction() 
+	{		
+	} // specialAction
 	
 	//---------------------------------------------------------
 
@@ -164,7 +188,7 @@ namespace Logic
 		{
 			TMessage message;
 			message._type = Message::SET_ANIMATION;
-			message._string = "Idle";
+			message._string = "IdleKatana";
 			message._bool = true;
 			_entity->emitMessage(message,this);
 		}
@@ -206,12 +230,15 @@ namespace Logic
 			direction += directionStrafe;
 			direction.normalise();
 			direction *= msecs * _speed;
-			Vector3 newPosition = _entity->getPosition() + direction;
-			_entity->setPosition(newPosition);
 
+			// Enviar un mensaje para que el componente físico mueva el personaje
+			TMessage message;
+			message._type = Message::AVATAR_WALK;
+			message._vector3 = direction;
+			_entity->emitMessage(message);
 
-			//_entity->setRadio(Math::fromCartesianToPolar(newPosition).second);
-
+			//Vector3 newPosition = _entity->getPosition() + direction;
+			//_entity->setPosition(newPosition);
 		}
 
 	} // tick

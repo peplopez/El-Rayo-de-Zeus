@@ -59,8 +59,8 @@ namespace Logic
 	//---------------------------------------------------------
 
 	bool CCamera::activate()
-	{
-		_target = CServer::getSingletonPtr()->getPlayer();
+	{		
+		_target = CServer::getSingletonPtr()->getPlayer(); 
 		//_target->setPosition(Math::fromPolarToCartesian(0,60)); //esto no está bien aquí, pero si no está no calcula bien el vector dirección.
 		//_target->fromLogicalToCartesian(0,60,_target->getBase(),_target->getRing()); //esto no está bien aquí, pero si no está no calcula bien el vector dirección.
 		
@@ -68,6 +68,9 @@ namespace Logic
 
 		_currentPos = 4*_target->getPosition()+Vector3(0,_targetHeight*2,0);
 		 _graphicsCamera->setCameraPosition(_currentPos);
+//		if(!_target) {			
+			// UNDONE _entity->setIsPlayer(true); // TODO Activamos cámara en CamaraController para que reciba mensajes de control
+//}			
 		return true;
 
 	} // activate
@@ -107,7 +110,7 @@ namespace Logic
 		{			
 			// Actualizamos la posición de la cámara.
 			//este parrafo es para conseguir que el modelo mire en dirección perpendicular al vector centro camara
-			Vector3 centro=Vector3::NEGATIVE_UNIT_Y;
+			Vector3 centro=Vector3::NEGATIVE_UNIT_Y; // TODO [ƒ®§] por que negative y no ZERO?
 		    centro.y=_target->getPosition().y;
 			//Vector3 centro=Vector3(0,-125-250,0);
 			
@@ -115,11 +118,11 @@ namespace Logic
 			Vector3 vectorCentroProtaCamara =  -(centro-_target->getPosition());
 			vectorCentroProtaCamara.normalise();
 			//Vector3 actualDirection=Math::getDirection(_target->getOrientation());
-			//Vector3 directionPerp= Vector3::UNIT_Y.crossProduct(vectorCentroProtaCamara);
+			//Vector3 directionPerp= Vector3::UNIT_Y.crossProduct(vectorCentroProtaCamara); // [ƒ®§] Si no son necesarios, mejor limpiar (ya se buscarán en git)
 			//Quaternion rotacionDestino=actualDirection.getRotationTo(directionPerp);
 			
 			Matrix4 orientacion = _target->getOrientation();
-			//std::cout<<vectorCentroProtaCamara<<std::endl;
+			//std::cout<<vectorCentroProtaCamara<<std::endl; // TODO Para estas cosillas es mejor usar la macro LOG (ver AnimatedGraphics)
 			//std::cout<<Math::getDirection(orientacion)<<std::endl;
 			
 			//Math::yaw(Math::fromDegreesToRadians(-90),orientacion);

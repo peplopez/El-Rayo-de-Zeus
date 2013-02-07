@@ -19,6 +19,14 @@ gráfica de una entidad estática.
 
 #include "Graphics/Scene.h"
 
+#define DEBUG 0
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "LOGIC::ANIMATED>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
+
 namespace Logic 
 {
 	IMP_FACTORY(CAnimatedGraphics);
@@ -40,6 +48,10 @@ namespace Logic
 			_animatedGraphicsEntity->setObserver(this);
 		}
 
+		float scale = 1.0;
+		if (entityInfo->hasAttribute("scale"))
+			scale = entityInfo->getFloatAttribute("scale");
+		_animatedGraphicsEntity->setScale(scale);
 
 		return _animatedGraphicsEntity;
 
@@ -60,7 +72,7 @@ namespace Logic
 	void CAnimatedGraphics::process(const TMessage &message)
 	{
 		CGraphics::process(message);
-
+		
 		switch(message._type)
 		{
 		case Message::SET_ANIMATION:
@@ -69,9 +81,11 @@ namespace Logic
 			// de animaciones. Galeon no lo plantea.
 			_animatedGraphicsEntity->stopAllAnimations();
 			_animatedGraphicsEntity->setAnimation(message._string,message._bool);
+			LOG("SET_ANIMATION: " << message._string);
 			break;
 		case Message::STOP_ANIMATION:
 			_animatedGraphicsEntity->stopAnimation(message._string);
+			LOG("STOP_ANIMATION: " << message._string);
 			break;
 		}
 
@@ -81,6 +95,12 @@ namespace Logic
 	
 	void CAnimatedGraphics::animationFinished(const std::string &animation)
 	{
+		// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
+		TMessage msg;
+		msg._type = Message::TMessageType::ANIMATION_FINISHED;
+		msg._string = animation;
+		_entity->emitMessage(msg);		
+
 		// Si acaba una animación y tenemos una por defecto la ponemos
 		_animatedGraphicsEntity->stopAllAnimations();
 		_animatedGraphicsEntity->setAnimation(_defaultAnimation,true);

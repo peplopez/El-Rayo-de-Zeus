@@ -18,8 +18,12 @@ basadas en Ogre. Esta clase maneja la ejecución de todo el juego.
 
 #include "ExitState.h"
 #include "MenuState.h"
+#include "GameOverState.h"
 #include "GameState.h"
 
+#include "NetMenuState.h"
+#include "LobbyClientState.h"
+#include "LobbyServerState.h"
 
 namespace Application {
 
@@ -43,20 +47,28 @@ namespace Application {
 		if (!C3DApplication::init())
 			return false;
 
-		// Creamos los estados. La aplicación se hace responsable de
-		// destruirlos.
-		if(!addState("menu", new CMenuState(this)))
+		// CREACION DE ESTADOS. 
+		// La aplicación se hace responsable de destruirlos.
+		if(!addState("gameOver", new CGameOverState(this)))
 			return false;
-		
+		if(!addState("menu", new CMenuState(this)))
+			return false;		
 		if(!addState("game", new CGameState(this)))
 			return false;
-
 		if(!addState("exit", new CExitState(this)))
 			return false;
 
-		if(!setState("menu"))
+		// ESTADOS DE RED
+		if(!addState("netmenu", new CNetMenuState(this)))
+			return false;
+		if(!addState("lobbyclient", new CLobbyClientState(this)))
+			return false;
+		if(!addState("lobbyserver", new CLobbyServerState(this)))
 			return false;
 
+		// ESTADO INICIAL
+		if(!setState("menu"))
+			return false;
 
 		return true;
 

@@ -20,6 +20,7 @@ namespace Logic
 {
 	class CMap;
 	class CEntity;
+	class CGameNetMsgManager;
 }
 
 /**
@@ -89,7 +90,7 @@ namespace Logic
 		Función que desactiva el mapa en curso.
 		*/
 		void deactivateMap();
-		
+
 		/**
 		Para inicializar las estructuras que contienen las posiciones de los anillos
 		*/
@@ -173,16 +174,15 @@ namespace Logic
 		*/
 		CMap *_map;
 
-		
 		/**
 		Entidad del jugador.
 		*/
 		CEntity *_player;
 
 		/**
-		Estructura que contiene las posiciones de todos los anillos
+		Gestor de los mensajes que llegan por la red
 		*/
-		//Logic::TBase *_ringPositions;
+		Logic::CGameNetMsgManager* _gameNetMsgManager;
 
 	private:
 		/**
