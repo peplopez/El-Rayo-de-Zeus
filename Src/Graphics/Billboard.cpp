@@ -68,7 +68,7 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
-	CBillboard::~CBillboard() 
+	void CBillboard::deactivateBillboard(const std::string &name) 
 	{
 		// desacoplamos el billboard de su entidad
 		/*_cameraNode->detachAllObjects();
@@ -76,8 +76,10 @@ namespace Graphics
 		_scene->getSceneMgr()->destroySceneNode(_cameraNode);
 		_scene->getSceneMgr()->destroySceneNode(_targetNode);
 		*/
+		Graphics::CScene* _scen = Graphics::CServer::getSingletonPtr()->getActiveScene();
+		_scen->deleteBillboard(name);
 
-	} // ~CBillboard
+	} // deactivateBillboard
 
 	//Las coordenadas se le dan al Billboard.
 	void CBillboard::setCoordenadas(const float u0,const float v0,const float u1,const float v1){

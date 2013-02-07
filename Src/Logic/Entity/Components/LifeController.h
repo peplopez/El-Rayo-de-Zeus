@@ -14,7 +14,8 @@ de la entidad.
 #define __Logic_LifeController_H
 
 #include "Logic/Entity/Component.h"
-#include "Graphics/Billboard.h" // Pablo. A ver si me pilla Graphics::CBillboard. Bien
+#include "Graphics/Billboard.h" //Pablo
+#include "Graphics/Scene.h" //Pablo
 
 //declaración de la clase
 namespace Logic 
@@ -127,6 +128,8 @@ namespace Logic
 		// Tutoria
 		Graphics::CBillboard* _bb;
 
+		//Pablo
+		Graphics::CScene* _cscene;
 
 
 	protected:
@@ -156,9 +159,6 @@ namespace Logic
 		Atributo que indica la altura del billboard
 		*/
 		float _heightLife;
-
-		// Tutoria2
-		//Graphics::CBillboard _bb;
 
 	}; // class LifeController
 

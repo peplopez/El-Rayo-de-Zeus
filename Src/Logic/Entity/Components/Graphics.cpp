@@ -78,7 +78,7 @@ namespace Logic
 		if(_entity->getType().compare("World")==0)
 		{	
 			if(_entity->getRing()==LogicalPosition::ANILLO_CENTRAL)
-			_graphicsEntity->setScale(Vector3(1.3,1,1.3));
+			_graphicsEntity->setScale(Vector3(1.3,1.0,1.3));
 		}
 
 		
