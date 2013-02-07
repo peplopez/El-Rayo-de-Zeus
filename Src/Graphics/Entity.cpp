@@ -102,6 +102,13 @@ namespace Graphics
 		_entityNode->attachObject(_entity);
 		_loaded = true;
 
+		//HACK cutre - para attach del arma en el Player
+		if(!_name.compare("Mono")) // que es como llamamos al player en el mapa
+		{
+			Ogre::Entity *weapon = _scene->getSceneMgr()->createEntity("weapon", "Katana.mesh");
+			_entity->attachObjectToBone("Bip01 R Hand",weapon);
+		}
+
 		return true;
 
 	} // load
