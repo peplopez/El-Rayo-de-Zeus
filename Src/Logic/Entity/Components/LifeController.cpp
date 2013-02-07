@@ -78,7 +78,7 @@ namespace Logic
 
 	bool CLifeController::activate()
 	{
-		return false;
+		return true;
 	}
 		
 

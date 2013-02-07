@@ -4,19 +4,12 @@
 namespace Net{
 
 	
-	void Serializable::serializeString(CBuffer& buffer, std::string cad){
+	void Serializable::serializeString(CBuffer& buffer, std::string s){
 		
-		int tam;
-		std::string aux = cad;
-		tam = aux.length();
-		buffer.write(&tam,sizeof(tam));
-		
-		if (tam > 0){ 
-			buffer.write(&aux[0], tam*sizeof(char));
-			//printf("Se escribio %s \n",aux.c_str());
-		}
-		
-		
+		unsigned int length = s.length();
+			buffer.write(&length, sizeof(length) );	
+			if (length > 0)
+				buffer.write((void*) s.c_str(), length);
 	}
 	
 
@@ -39,4 +32,6 @@ namespace Net{
 		}
 	
 	}
+
+	// TODO meter aquí el resto de serializes?
 }

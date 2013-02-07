@@ -272,8 +272,6 @@ namespace Logic
 			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);
 			int i=0;
 		}
-		
-
 
 		// Activamos los componentes
 		TComponentList::const_iterator it;
@@ -281,11 +279,8 @@ namespace Logic
 		// Solo si se activan todos los componentes correctamente nos
 		// consideraremos activados.
 		_activated = true;
-
-		for( it = _components.begin(); it != _components.end(); ++it )
-			_activated = (*it)->activate() && _activated;
-
-
+			for( it = _components.begin(); it != _components.end(); ++it )
+				_activated = (*it)->activate() && _activated;
 		return _activated;
 
 	} // activate

@@ -21,11 +21,12 @@ Contiene la implementación del estado de lobby del servidor.
 #include "Logic/Maps/Map.h"
 
 #include "GUI/Server.h"
-#include "net/Manager.h"
-#include "net/Servidor.h"
-#include "net/factoriared.h"
-#include "net/paquete.h"
-#include "net/buffer.h"
+#include "NET/Manager.h"
+#include "NET/Servidor.h"
+#include "NET/factoriared.h"
+#include "NET/paquete.h"
+#include "NET/buffer.h"
+#include "NET/serializable.h"
 
 #include <CEGUISystem.h>
 #include <CEGUIWindowManager.h>
@@ -314,14 +315,9 @@ namespace Application {
 						Net::NetMessageType msgType = Net::LOAD_PLAYER;  // Informamos de carga finalizada
 							txSerialMsg.write(&msgType, sizeof(msgType));	
 						Net::NetID playerNetID = id;
-							txSerialMsg.write(&playerNetID, sizeof(playerNetID));
-						unsigned int nickSize = _playerNicks[id].length();  // TODO unas funciones de serialización de tipo serán de mucha ayuda
-							txSerialMsg.write(&nickSize,sizeof(nickSize));			
-							txSerialMsg.write( (void*) _playerNicks[id].c_str(), nickSize);
-						unsigned int modelSize = _playerModels[id].length(); 
-							txSerialMsg.write(&modelSize,sizeof(modelSize));			
-							txSerialMsg.write( (void*) _playerModels[id].c_str(), modelSize);
-				
+							txSerialMsg.write(&playerNetID, sizeof(playerNetID));						
+						Net::Serializable::serializeString(txSerialMsg, _playerNicks[id]  );
+						Net::Serializable::serializeString(txSerialMsg, _playerModels[id] );
 					Net::CManager::getSingletonPtr()->send(txSerialMsg.getbuffer(),	txSerialMsg.getSize() );
 
 					LOG("TX LOAD_PLAYER " << id << " with Nick=" << _playerNicks[id] << " and Model=" << _playerModels[id] );

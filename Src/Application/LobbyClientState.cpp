@@ -28,6 +28,7 @@ Contiene la implementación del estado de lobby del cliente.
 #include "NET/paquete.h"
 #include "NET/conexion.h"
 #include "NET/buffer.h"
+#include "NET/serializable.h"
 
 #include <CEGUISystem.h>
 #include <CEGUIWindowManager.h>
@@ -274,27 +275,19 @@ srand(time(0)); // HACK necesario subsistema random
 				LOG("MAPA Cargado"); 	
 
 				// OBTENER PLAYER INFO
-				CEGUI::String playerNick = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/NickBox")->getText();
+				std::string playerNick = std::string( CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/NickBox")->getText().c_str() );
 
 				//// TODO obtener modelo mediante ddList -> tabla mesh			
 				//"loco.mesh", "marine.mesh", "AttaObrera.mesh", "bioshock.mesh","AttaSoldada.mesh", "aranna.mesh"
-				CEGUI::String playerModel = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/ModelBox")->getText();
+				std::string playerModel = std::string( CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/ModelBox")->getText().c_str() );
 
 				// HACK Lo suyo sería que cada uno ejecutara su propio createPlayer y que se propagara el LOAD_PLAYER como si fuera de server
 				// TX MAP LOADED
 				Net::CBuffer txSerialMsg;
-
 					Net::NetMessageType msgType = Net::NetMessageType::MAP_LOADED; // Informamos de carga finalizada
 						txSerialMsg.write(&msgType, sizeof(msgType));
-
-					unsigned int nickSize = playerNick.size();  // TODO unas funciones de serialización de tipo serán de mucha ayuda
-						txSerialMsg.write(&nickSize,sizeof(nickSize));			
-						txSerialMsg.write((void*)(playerNick.c_str()),nickSize);
-
-					unsigned int modelSize = playerModel.size(); 
-						txSerialMsg.write(&modelSize,sizeof(modelSize));			
-						txSerialMsg.write((void*)(playerModel.c_str()),modelSize);
-				
+					Net::Serializable::serializeString(txSerialMsg, playerNick);
+					Net::Serializable::serializeString(txSerialMsg, playerModel);				
 				Net::CManager::getSingletonPtr()->send(txSerialMsg.getbuffer(),	txSerialMsg.getSize() );
 				
 				LOG("TX MAP_LOADED with Nick=" << playerNick << " and Model=" << playerModel );

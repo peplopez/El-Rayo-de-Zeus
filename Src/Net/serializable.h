@@ -36,16 +36,15 @@ public:
 	 */
 	virtual void deserialize(CBuffer& buffer)=0;
 
-protected:
 	/**
 	 * Serializar cadena en buffer
 	 */
-	void serializeString(CBuffer& buffer,std::string cad);
+	static void serializeString(CBuffer& buffer,std::string cad);
 
 	/**
 	 * Leer cadena desde buffer
 	 */
-	std::string deserializeString(CBuffer& buffer);
+	static std::string deserializeString(CBuffer& buffer);
 
 
 };

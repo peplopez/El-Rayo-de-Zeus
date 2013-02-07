@@ -50,7 +50,7 @@ namespace Application {
 
 		CEGUI::WindowManager::getSingleton().getWindow("Menu/Multi")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
-				CEGUI::SubscriberSlot(&CMenuState::exitReleased, this));
+				CEGUI::SubscriberSlot(&CMenuState::multiplayerReleased, this));
 		
 		CEGUI::WindowManager::getSingleton().getWindow("Menu/Exit")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
