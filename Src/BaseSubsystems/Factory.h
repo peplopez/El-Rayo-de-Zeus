@@ -70,6 +70,8 @@ namespace BaseSubsystems
 		*/
 		void add(FunctionPointer function, const std::string& name);
 
+		void add(FunctionPointer function, altTypeId name);
+
 		/**
 		Si una función ya está contenida en la tabla.
 
@@ -79,6 +81,7 @@ namespace BaseSubsystems
 		*/
 		bool has(const std::string& name) const;
 
+		bool has(const altTypeId name) const;
 		/**
 		Crea una nueva instancia de la clase requerida.
 
@@ -86,6 +89,8 @@ namespace BaseSubsystems
 		@return Nueva instancia de la clase. 0 si no está en la tabla.
 		*/
 		T create(const std::string& name) const;
+
+		T create(altTypeId) const;
 
 	protected:
 
@@ -127,6 +132,16 @@ namespace BaseSubsystems
 		_table.insert(element);
 
 	} // add
+	//--------------------------------------------------------
+
+	template <class T> 
+	inline void CFactory<T>::add(FunctionPointer function, altTypeId name)
+	{
+
+		TStringFunctionPointerPair element(name,function);
+		_table.insert(element);
+
+	} // add
 
 	//--------------------------------------------------------
 
@@ -142,6 +157,16 @@ namespace BaseSubsystems
 	//--------------------------------------------------------
 
 	template <class T> 
+	inline bool CFactory<T>::has(altTypeId name) const
+	{
+
+		return _table.count(name) > 0;
+
+	} // has
+
+	//--------------------------------------------------------
+
+	template <class T> 
 	inline T CFactory<T>::create(const std::string& name) const
 	{
 		const char * c = name.c_str();
@@ -150,6 +175,21 @@ namespace BaseSubsystems
 		{
 			TFunctionPointerMap::const_iterator it;
 			it = _table.find(typeId);
+			if( it != _table.end() )
+				return it->second();
+		}
+		throw new std::exception("No existe la función de creación que se solicitó.");
+
+	} // create
+
+	//--------------------------------------------------------
+	template <class T> 
+	inline T CFactory<T>::create(altTypeId name) const
+	{
+		if(has(name))
+		{
+			TFunctionPointerMap::const_iterator it;
+			it = _table.find(name);
 			if( it != _table.end() )
 				return it->second();
 		}

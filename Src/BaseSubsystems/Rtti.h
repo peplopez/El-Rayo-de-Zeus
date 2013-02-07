@@ -13,8 +13,9 @@ a los Componentes del proyecto.
 #define __Logic_rtti_H
 
 
-//nclude <iostream>
+//#include <iostream>
 #include "BaseSubsystems/city.h"
+
 
 /**
 Declaracion de tipo para identificador de clase alternativo
@@ -26,11 +27,14 @@ typedef unsigned int altTypeId;
 /**
 Template que hace uso de typeid - tiempo constante - para devolver una cadena con el nombre de la clase
 */
-template <typename TYPE>
-const char* GetTypeName()
+template <typename T>
+inline const char* GetTypeName()
 {
-    return typeid(TYPE).name();
+    // aquí va un assert
+	static const char* name = typeid(T).name();
+	return name;
 }
+
 
 /**
 Clase generadora de TypeID alternativo templatizada
