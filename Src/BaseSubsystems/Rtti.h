@@ -30,8 +30,9 @@ Template que hace uso de typeid - tiempo constante - para devolver una cadena co
 template <typename T>
 inline const char* GetTypeName()
 {
-    // aquí va un assert
-	static const char* name = typeid(T).name();
+	//Apaño para velocidad - Se truncan los 13 primeros chars, si el typeid(T).name fuera "Class Logic::CGraphics", quedaría como "CGraphics" a secas
+	//Se puede mejorar si merece la pena
+	static const char* name = typeid(T).name() + 13;
 	return name;
 }
 
@@ -66,7 +67,7 @@ public:
 	static altTypeId GetAltTypeId()
 	{
 		//Calcula la hash una única vez y la cachea para futuros usos
-		static altTypeId type_id = BaseSubsystems::CityHash32( GetTypeName<T>(),strlen( GetTypeName<T>() ) );
+		static altTypeId type_id = BaseSubsystems::CityHash32( GetTypeName<T>(), strlen( GetTypeName<T>() ) );
 		return type_id;
 	}
 };
