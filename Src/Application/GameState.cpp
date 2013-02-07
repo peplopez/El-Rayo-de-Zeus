@@ -93,9 +93,9 @@ namespace Application {
 		GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
 
 		// Activamos la ventana que nos muestra el tiempo transcurrido.
-		CEGUI::System::getSingletonPtr()->setGUISheet(_timeWindow);
-		_timeWindow->setVisible(true);
-		_timeWindow->activate();
+		//CEGUI::System::getSingletonPtr()->setGUISheet(_timeWindow);
+		//_timeWindow->setVisible(true);
+		//_timeWindow->activate();
 
 	} // activate
 
@@ -130,8 +130,8 @@ namespace Application {
 		_time += msecs;
 		
 		std::stringstream text;
-		text << "Time: " << _time/1000;
-		_timeWindow->setText(text.str());
+		//text << "Time: " << _time/1000;
+		//_timeWindow->setText(text.str());
 
 	} // tick
 

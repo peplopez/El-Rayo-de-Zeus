@@ -43,7 +43,8 @@ namespace Logic
 		*/
 		// Pablo. Añadido la inicialización de _jumping y _timeJumping
 		CAngularMovement() : IComponent(), _sentidoColision(false),_changingRing(false),_changingBase(false), _walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false), _goingDown(false),
-			_angularSpeed(0.00625f), _actualRadius(-55), _actualDegree(-90), _jumpingDown(false), _initialJump(false), _timeJumping(0), _potenciaSaltoInicial(5)/*5*/, _correccionGrados(0){}
+			_angularSpeed(0.00625f), _actualRadius(-55), _actualDegree(-90), _jumpingDown(false), _initialJump(false), _timeJumping(0), _speed(0), //_potenciaSaltoInicial(5)/*5*/, 
+			_correccionGrados(0){}
 		// divididio entre 32
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -216,7 +217,10 @@ namespace Logic
 		bool _sentidoColision;
 
 		// Pablo. Atributo que indica la velocidad de salto de la entidad
-		float jumpSpeed;
+		float _jumpSpeed;
+
+		//velocidad en el salto en un determinado punto
+		float _speed;
 
 		// Pablo. Atributo que indica que acaba de empezar a saltar
 		bool _initialJump;
@@ -247,7 +251,17 @@ namespace Logic
 	
 		float _potenciaSalto;
 
-		float _potenciaSaltoInicial;
+		//float _potenciaSaltoInicial;
+
+		/**
+		Tiempo de juego en milisegundos.
+		*/
+		unsigned int _time;
+
+		/**
+		Tiempo inicio de salto.
+		*/
+		unsigned int _timeWhenStartJump;
 
 
 	}; // class CAngularMovement

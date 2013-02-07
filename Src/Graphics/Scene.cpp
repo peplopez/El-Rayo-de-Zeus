@@ -219,6 +219,13 @@ namespace Graphics
 		}
 
 	}//deleteSceneNode
+
+	//Pablo. Creacion de una particula
+	void CScene::createParticula(const std::string &name1, const std::string &name2 )
+	{
+
+
+	}//createParticleSystem
 	
 
 } // namespace Graphics

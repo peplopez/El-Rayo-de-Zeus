@@ -145,6 +145,8 @@ namespace Graphics
 		//Pablo
 		void deleteSceneNode(const std::string &name);
 
+		void createParticula(const std::string &name1, const std::string &name2);
+
 	protected:
 
 		/**

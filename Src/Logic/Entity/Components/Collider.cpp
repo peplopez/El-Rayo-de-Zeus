@@ -156,7 +156,7 @@ namespace Logic
 		entidad2->emitMessage(m,this);
 
 
-		if (entidad1->getType().compare("Player")==0)
+		if (entidad1->isPlayer())
 			m._type = Logic::Message::CONTROL;
 		if (entidad1->getType().compare("AnimatedEntity")==0)
 			m._type = Logic::Message::NPC_CONTROL;
@@ -173,7 +173,7 @@ namespace Logic
 			m._float=(((entidad1->getAngularBox()+entidad2->getAngularBox())/4));
 			entidad1->emitMessage(m,this);	
 			m._bool=!m._bool;
-			if (entidad2->getType().compare("Player")==0)
+			if (entidad2->isPlayer())
 				m._type = Logic::Message::CONTROL;
 			if (entidad2->getType().compare("AnimatedEntity")==0)
 				m._type = Logic::Message::NPC_CONTROL;
@@ -186,7 +186,7 @@ namespace Logic
 			m._string="walkStop";
 			entidad1->emitMessage(m,this);	
 			m._bool=!m._bool;
-			if (entidad2->getType().compare("Player")==0)
+			if (entidad2->isPlayer())
 				m._type = Logic::Message::CONTROL;
 			if (entidad2->getType().compare("AnimatedEntity")==0)
 				m._type = Logic::Message::NPC_CONTROL;
@@ -197,14 +197,14 @@ namespace Logic
 		m._string="changeDirection";
 			
 		m._bool=sentidoColision(entidad1,entidad2);
-			if (entidad1->getType().compare("Player")==0)
+			if (entidad1->isPlayer())
 				m._type = Logic::Message::CONTROL;
 			if (entidad1->getType().compare("AnimatedEntity")==0)
 				m._type = Logic::Message::NPC_CONTROL;
 
 		entidad1->emitMessage(m,this);	
 		m._bool=!m._bool;
-			if (entidad2->getType().compare("Player")==0)
+			if (entidad2->isPlayer())
 				m._type = Logic::Message::CONTROL;
 			if (entidad2->getType().compare("AnimatedEntity")==0)
 				m._type = Logic::Message::NPC_CONTROL;

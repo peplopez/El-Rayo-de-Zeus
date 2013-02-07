@@ -33,31 +33,30 @@ namespace Logic
 		//_angularSpeed=0.00625;
 
 
-		// Pablo. Si la entidad tiene el atributo jumpSpeed la capturamos y la guardamos en _jumpSpeed
+		// Pablo. Si la entidad tiene el atributo _jumpSpeed la capturamos y la guardamos en __jumpSpeed
 		// En ppio solo la va a tener el player
 		if(entityInfo->hasAttribute("initialJumpSpeed"))
-			jumpSpeed = entityInfo->getFloatAttribute("initialJumpSpeed");
+			_jumpSpeed = entityInfo->getFloatAttribute("initialJumpSpeed");
 
 		// Pablo. Inicializo la gravedad
 		if(entityInfo->hasAttribute("gravity"))
 			_gravity = entityInfo->getFloatAttribute("gravity");
 		//gravity = 9.8; //expresada en metros /seg
 
-		// velocidad inicial. es 28 m / seg
+		// velocidad inicial. es 25 m / seg
 
 		//Pablo. Calculo la altura maxima del salto
-		//Hmax = (jumpSpeed*jumpSpeed) / (2*gravity); // 40 m es la altura maxima del salto ( en nuestro caso son pixeles)
+		//Hmax = (_jumpSpeed*_jumpSpeed) / (2*gravity); 
+		// 31,88 m es la altura maxima del salto ( en nuestro caso son pixeles)
 		if(entityInfo->hasAttribute("Hmax"))
 			_Hmax = entityInfo->getFloatAttribute("Hmax");
-		//Hmax = 40;
 
 		//Pablo. Tiempo hasta alcanzar la máxima altura
 		// Vi - Vf / g (Velocidad inicial - Velocidad final / aceleracion). La Vf es 0 en altura max.
-		_Tmaxaltura = jumpSpeed / _gravity; // 2,857142 segundos --> 2857,142 milisegundos
-		_Tmax = _Tmaxaltura * 2; // 5,71428571 seg. --> 5714,28571 milisegundos.
-		_potenciaSalto=_potenciaSaltoInicial;
+		_Tmaxaltura = _jumpSpeed / _gravity; // 2,55 segundos
+		_Tmax = _Tmaxaltura * 2; // 5,10 seg. 
+		_potenciaSalto=_jumpSpeed;
 		_entity->setJumping(false);
-			//_isJumping=
 		return true;
 		}
 
@@ -65,8 +64,9 @@ namespace Logic
 	{
 		_sentidoDerecha=_entity->getSense();
 		
-		if (_entity->getType().compare("Player")!=0)
-		_entity->setJumping(false); // Pablo
+		//if (_entity->getType().compare("Player")!=0)
+		if (!_entity->isPlayer())
+			_entity->setJumping(false); // Pablo
 		if (_sentidoDerecha)
 		{
 			_walkingLeft=false;
@@ -77,7 +77,8 @@ namespace Logic
 			_walkingLeft=true;
 			_walkingRight=false;
 		}
-		if (_entity->getType().compare("Player")==0)
+		//if (_entity->getType().compare("Player")==0)
+		if (_entity->isPlayer())
 			stopMovement();
 		return true;
 	}
@@ -317,6 +318,9 @@ namespace Logic
 	{
 			IComponent::tick(msecs);
 
+			//Actualizo el tiempo en milisegundos (en cada tick)
+			//_time += msecs;
+
 			bool cierre=false;
 			unsigned int currentTime;
 			unsigned int endingTime;
@@ -336,7 +340,7 @@ namespace Logic
 
 			if (_changingBase || _changingRing)
 			{
-				if (_entity->getType().compare("Player")==0)
+				if(_entity->isPlayer())
 				{
 					Logic::TMessage m;		
 					m._string="transito";
@@ -347,65 +351,65 @@ namespace Logic
 			}
 			else
 			{
-			Vector3 direction(Vector3::ZERO);
-				
+				Vector3 direction(Vector3::ZERO);
 
-			if(_walkingLeft || _walkingRight || _initialJump || _entity->getJumping())
-			{
-				if(_walkingLeft || _walkingRight)
+				if(_walkingLeft || _walkingRight || _initialJump || _entity->getJumping())
 				{
-					direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
-					//Matrix4 orientacion = _entity->getOrientation();
-					//Math::yaw(Math::fromDegreesToRadians(_actualDegree),orientacion);
-					if(_walkingRight){
-						if(_sentidoDerecha==true)
-						{
-							_sentidoDerecha=false;
-							_entity->yaw(Math::PI);						
-						}
-						if (!_walkBack)
-						{
-							_entity->setDegree(_entity->getDegree()-_angularSpeed*msecs); 
-							_entity->yaw(Math::fromDegreesToRadians(_angularSpeed*msecs));
-						}
-					}
-					else
+					//si la entidad se mueve a la derecha o a la izquierda
+					if(_walkingLeft || _walkingRight)
 					{
-						if(_sentidoDerecha==false)
-						{
-							_entity->yaw(Math::PI);					
-							_sentidoDerecha=true;
+						direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
+						//Matrix4 orientacion = _entity->getOrientation();
+						//Math::yaw(Math::fromDegreesToRadians(_actualDegree),orientacion);
+						if(_walkingRight){
+							if(_sentidoDerecha==true)
+							{
+								_sentidoDerecha=false;
+								_entity->yaw(Math::PI);						
+							}
+							if (!_walkBack)
+							{
+								_entity->setDegree(_entity->getDegree()-_angularSpeed*msecs); 
+								_entity->yaw(Math::fromDegreesToRadians(_angularSpeed*msecs));
+							}
 						}
-						if (!_walkBack)
+						else
 						{
-							_entity->setDegree(_entity->getDegree()+_angularSpeed*msecs);
-							_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed*msecs));
-						}			
+							if(_sentidoDerecha==false)
+							{
+								_entity->yaw(Math::PI);					
+								_sentidoDerecha=true;
+							}
+							if (!_walkBack)
+							{
+								_entity->setDegree(_entity->getDegree()+_angularSpeed*msecs);
+								_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed*msecs));
+							}			
 					
-					}
-					/*if (!_walkingLeft && !_walkingRight && _jumping){
-							_entity->setDegree(_entity->getDegree()+_angularSpeed);
-							_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed));
-					}*/
+						}
 
-					/*
-					WALKBACK
-					*/
-					if(_walkingLeft)
-						direction *= -1;
-				}
+						/*
+						WALKBACK
+						*/
+						if(_walkingLeft)
+							direction *= -1;
+					} //fin if(_walkingLeft || _walkingRight)
 
 				direction.normalise();
 				//_entity->getPosition();
 
+
+
 				// SALTO
 
-				if (_entity->getType().compare("Player")==0)
-			{
+				if (_entity->isPlayer())
+				{
+					//si la entidad esta saltando
 					if(_initialJump==true && _entity->getJumping()==false)
 					{
+						 //std::cout << "Tiempo Inicial: " << _time  << "\n";
 						// Pablo. Inicializo a false _initialJump para que solo lo tenga en cuenta una vez.
-						_potenciaSalto=_potenciaSaltoInicial;
+						_potenciaSalto=_jumpSpeed;
 						_initialJump = false;
 						_entity->setJumping(true);
 						_timeJumping = 0;
@@ -417,38 +421,54 @@ namespace Logic
 			
 					}
 
-					//Pablo
+					//Pablo Si la entidad esta saltando
 					if(_entity->getJumping())
 					{
-						//std::cout << "inicialY: " << inicialY << "\n";
-						//std::cout << "posicionSalto.y: " << posicionSalto.y << "\n";
 
+
+						// std::cout << "_timeJumping: " << _timeJumping  << "\n";
 						//_timeJumping se incrementa en cada tick
-						//_timeJumping+= msecs;
+						_timeJumping+=msecs/1000.0; //tiempo en segundos
 
-						//Vector3 newPosition2=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
 
-						//float altura = jumpSpeed*_timeJumping -(gravity*(_timeJumping*_timeJumping)/2);
+						if(!_jumpingDown) //esta subiendo en el salto
+						{
+							//Velocidad = VelocidadInicial - g*t
+							//_speed es la velocidad que lleva el personaje en el salto en un determinado momento de tiempo
+							_speed = _jumpSpeed - (_gravity * _timeJumping);
+							_posicionSalto.y= _inicialY + (_jumpSpeed*_timeJumping) - (_gravity*(_timeJumping*_timeJumping))/2;
+						}
+						else{ //esta bajando en el salto
+							_speed = _jumpSpeed + (_gravity * _timeJumping);
+							_posicionSalto.y-= ( (_jumpSpeed*_timeJumping) + (_gravity*(_timeJumping*_timeJumping))/2);
+						}
 
-						//newPosition.y = inicialY + altura;
 
+
+						/*
 						//si esta saltando, y esta bajando decrementamos la y en 1 unidad cada tick de reloj
 						if(_jumpingDown){
-							_posicionSalto.y-= (_potenciaSaltoInicial-_potenciaSalto)*(0.05*msecs);
-							if (_potenciaSalto>0)_potenciaSalto-=0.3;
+							_posicionSalto.y-= (_jumpSpeed-_potenciaSalto)*(0.04*msecs);
+							if (_potenciaSalto>0)
+								_potenciaSalto-=0.3;
 						}
+						
 						else //si esta saltando y esta subiendo incrementamos la y en 1 unidad cada tick de reloj
 						{
-							_posicionSalto.y+= _potenciaSalto * (0.05*msecs);
-							if (_potenciaSalto>0)_potenciaSalto-=0.3;
-						}
+							_posicionSalto.y+= _potenciaSalto * (0.04*msecs);
 
+							if (_potenciaSalto>0)
+								_potenciaSalto-=0.3;
+						}*/
+						
 
+						
 						//control para que no suba más arriba que su inicialY + la altura maxima del salto
 						if(_posicionSalto.y>=_inicialY+_Hmax)
 						{
 							_jumpingDown=true;
-							_potenciaSalto=_potenciaSaltoInicial-0.5;
+							_timeJumping = 0;
+							////_potenciaSalto=_jumpSpeed-0.5;
 						}
 						//control para que no baje más que su inicialY
 						if(_posicionSalto.y<_inicialY)
@@ -457,19 +477,24 @@ namespace Logic
 							_jumpingDown=false;
 							_entity->setJumping(false);
 						}
+						
 
 
-						//_entity->setPosition(posicionSalto);
 						direction.normalise();
 
-						/*
-						if(_timeJumping >= Tmax ) {
-							_jumping = false;
-						}
-						*/
 
-					} //fin del if (_jumping)
-			}// FIN if (_entity->getType().compare("Player")!=0)
+						//Pablo 07-02-2013
+						/*if(_timeJumping >= _Tmaxaltura ) {
+							_jumpingDown=true;
+							_speed = _jumpSpeed;
+						}
+
+						if(_timeJumping >= _Tmax ) {
+							_entity->setJumping(false);
+						}*/
+
+					} //fin del if(_entity->getJumping())
+				}// FIN if(_entity->isPlayer())
 
 			// Fin Pablo. Salto
 

@@ -81,6 +81,7 @@
     <ClCompile Include="..\..\Src\Graphics\Camera.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Billboard.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Entity.cpp" />
+    <ClCompile Include="..\..\Src\Graphics\Particle.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Scene.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Server.cpp" />
     <ClCompile Include="..\..\Src\Graphics\StaticEntity.cpp" />
@@ -91,6 +92,7 @@
     <ClInclude Include="..\..\Src\Graphics\Billboard.h" />
     <ClInclude Include="..\..\Src\Graphics\Documentation.h" />
     <ClInclude Include="..\..\Src\Graphics\Entity.h" />
+    <ClInclude Include="..\..\Src\Graphics\Particle.h" />
     <ClInclude Include="..\..\Src\Graphics\Scene.h" />
     <ClInclude Include="..\..\Src\Graphics\Server.h" />
     <ClInclude Include="..\..\Src\Graphics\StaticEntity.h" />
