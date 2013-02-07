@@ -17,6 +17,11 @@ tel tipo parametrizado.
 #include <map>
 #include <exception>
 
+#include "Rtti.h"
+#include "City.h"
+
+
+
 // Declaración de la clase
 namespace BaseSubsystems
 {
@@ -84,8 +89,8 @@ namespace BaseSubsystems
 
 	protected:
 
-		typedef std::pair <std::string,FunctionPointer> TStringFunctionPointerPair;
-		typedef std::map<std::string,FunctionPointer> TFunctionPointerMap;
+		typedef std::pair <altTypeId,FunctionPointer> TStringFunctionPointerPair;
+		typedef std::map<altTypeId,FunctionPointer> TFunctionPointerMap;
 
 		/** 
 		Tabla con los punteros a función.
@@ -116,7 +121,9 @@ namespace BaseSubsystems
 	template <class T> 
 	inline void CFactory<T>::add(FunctionPointer function, const std::string& name)
 	{
-		TStringFunctionPointerPair element(name,function);
+		const char * c = name.c_str();
+		altTypeId typeId = BaseSubsystems::CityHash32(c,strlen(c));
+		TStringFunctionPointerPair element(typeId,function);
 		_table.insert(element);
 
 	} // add
@@ -126,7 +133,9 @@ namespace BaseSubsystems
 	template <class T> 
 	inline bool CFactory<T>::has(const std::string& name) const
 	{
-		return _table.count(name) > 0;
+		const char * c = name.c_str();
+		altTypeId typeId = BaseSubsystems::CityHash32(c,strlen(c));
+		return _table.count(typeId) > 0;
 
 	} // has
 
@@ -135,12 +144,14 @@ namespace BaseSubsystems
 	template <class T> 
 	inline T CFactory<T>::create(const std::string& name) const
 	{
+		const char * c = name.c_str();
+		altTypeId typeId = BaseSubsystems::CityHash32(c,strlen(c));
 		if(has(name))
 		{
 			TFunctionPointerMap::const_iterator it;
-			it = _table.find(name);
+			it = _table.find(typeId);
 			if( it != _table.end() )
-				return _table.find(name)->second();
+				return it->second();
 		}
 		throw new std::exception("No existe la función de creación que se solicitó.");
 
