@@ -56,7 +56,6 @@
     <Image Name="MiniTrayBR" XPos="186" YPos="103" Width="12" Height="12" />
     <Image Name="MiniTrayTL" XPos="166" YPos="83" Width="12" Height="12" />
     <Image Name="MiniTrayTR" XPos="186" YPos="83" Width="12" Height="12" />
-    <!--<Image Name="MouseArrow" XPos="1" YPos="100" Width="20" Height="23" />-->
 	<Image Name="MouseArrow" XPos="1" YPos="183" Width="26" Height="44" />
     <Image Name="SeparatorL" XPos="173" YPos="71" Width="20" Height="4" />
     <Image Name="SeparatorM" XPos="193" YPos="71" Width="10" Height="4" />
