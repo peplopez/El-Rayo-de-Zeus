@@ -103,7 +103,7 @@ namespace Logic
 		@param message Mensaje a chequear.
 		@return true si el mensaje es aceptado.
 		*/
-		bool accept(CMessage *message);
+		bool accept(const CMessage *message);
 
 		/**
 		Método virtual que procesa un mensaje.

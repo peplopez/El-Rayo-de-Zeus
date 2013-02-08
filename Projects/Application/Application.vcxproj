@@ -69,7 +69,7 @@
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>enet.lib;ws2_32.lib;Winmm.lib;OgreMain_d.lib;OIS_d.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>..\..\dependencies\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -68,7 +68,7 @@ namespace Logic {
 		return true;
 	}
 
-	bool CNetConnector::accept(CMessage *message)
+	bool CNetConnector::accept(const CMessage *message)
 	{
 		if(message->getType() == Message::CONTROL && !_entity->isPlayer() )  // CONTROL: sólo TX por red si lo ha generado el Player local (PlayerController)
 			return false;

@@ -90,7 +90,7 @@ namespace Logic
 	}
 
 	
-		 bool CLifeController::accept(CMessage *message)
+		 bool CLifeController::accept(const CMessage *message)
 		 {
 			//return message._type == Message::CONTROL; 
 			return message->getType() == Message::CONTACTO;

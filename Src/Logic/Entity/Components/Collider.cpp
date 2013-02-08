@@ -64,7 +64,7 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CCollider::accept(CMessage *message)
+	bool CCollider::accept(const CMessage *message)
 	{
 		
 		return message->getType() == Message::CONTACTO;

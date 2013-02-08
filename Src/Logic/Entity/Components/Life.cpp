@@ -45,7 +45,7 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CLife::accept(CMessage *message)
+	bool CLife::accept(const CMessage *message)
 	{
 		return message->getType() == Message::DAMAGED || 
 				message->getType() == Message::CONTACTO || // HACK provisional

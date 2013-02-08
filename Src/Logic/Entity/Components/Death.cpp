@@ -34,7 +34,7 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CDeath::accept(CMessage *message)
+	bool CDeath::accept(const CMessage *message)
 	{
 		return message->getType() == Message::DEAD;
 

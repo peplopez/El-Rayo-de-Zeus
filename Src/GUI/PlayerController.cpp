@@ -64,9 +64,9 @@ namespace GUI {
 		if(_controlledAvatar)
 		{
 			Logic::CMessage *m = new Logic::CMessage();
-			m->setType(Logic::Message::CONTROL);
+				m->setType(Logic::Message::CONTROL);
 			Logic::CMessageFloat *m2 = new Logic::CMessageFloat();
-			m2->setType(Logic::Message::CONTROL);
+				m2->setType(Logic::Message::CONTROL);
 			switch(key.keyId)
 			{
 			case GUI::Key::W: //subir anillo superior

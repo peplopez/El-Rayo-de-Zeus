@@ -48,7 +48,7 @@ namespace Logic
 		/**
 		Este componente sólo acepta mensajes de tipo DEAD.
 		*/
-		bool accept(CMessage *message);
+		bool accept(const CMessage *message);
 
 		/**
 		Al recibir un mensaje de tipo DEAD se elimina la entidad.

@@ -63,7 +63,7 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CAnimatedGraphics::accept(CMessage *message)
+	bool CAnimatedGraphics::accept(const CMessage *message)
 	{
 		return CGraphics::accept(message) ||
 			   message->getType() == Message::SET_ANIMATION ||

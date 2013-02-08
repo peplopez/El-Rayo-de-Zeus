@@ -94,7 +94,7 @@ namespace Logic
 	}
 
 		
-	bool CCamera::accept(CMessage *message)
+	bool CCamera::accept(const CMessage *message)
 	{
 		return message->getType() == Message::CAMERA;
 	}

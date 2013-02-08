@@ -57,7 +57,7 @@ namespace Logic
 		/**
 		Este componente sólo acepta mensajes de tipo DAMAGED.
 		*/
-		bool accept(CMessage *message);
+		bool accept(const CMessage *message);
 
 		/**
 		Al recibir un mensaje de tipo DAMAGED la vida de la entidad disminuye.

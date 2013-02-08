@@ -38,7 +38,7 @@ namespace Logic {
 
 	void CCommunicationPort::processMessages()
 	{
-		TMessageList::iterator it = _messages.begin();
+		TMessageList::const_iterator it = _messages.begin();
 		for(; it != _messages.end(); it++)
 		{
 			process(*it);

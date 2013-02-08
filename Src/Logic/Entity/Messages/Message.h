@@ -90,13 +90,13 @@ namespace Logic
 		/**
 		Constructor básico
 		*/
-		CMessage() : _classId(GetAltTypeIdOf(CMessage)),_refCount(0), _type(TMessageType::UNASSIGNED), _action(TActionType::UNDEF) {}
+		CMessage() : _classId(GetAltTypeIdOf(CMessage)),_refCount(0), _type(Message::UNASSIGNED), _action(Message::UNDEF) {}
 			
 		
 		/**
 		Constructor de la clase. 
 		*/
-		CMessage(altTypeId classId) :  _classId(classId), _refCount(0), _type(TMessageType::UNASSIGNED), _action(TActionType::UNDEF) {}
+		CMessage(altTypeId classId) :  _classId(classId), _refCount(0), _type(Message::UNASSIGNED), _action(Message::UNDEF) {}
 
 		/**
 		Destructor de la clase. El destructor se invoca cuando la cuenta
@@ -193,7 +193,7 @@ namespace Logic
 		No modifica la constancia lógica de la clase, por eso lo 
 		declaro como mutable
 		*/
-		mutable unsigned int _refCount;
+		mutable unsigned char _refCount;
 
 		/**
 		Tipo del mensaje.

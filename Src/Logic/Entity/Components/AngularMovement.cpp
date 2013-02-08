@@ -92,7 +92,7 @@ namespace Logic
 	void CAngularMovement::deactivate(){}
 
 	
-	bool CAngularMovement::accept(CMessage *message)
+	bool CAngularMovement::accept(const CMessage *message)
 	{
 		if (_entity->getType().compare("Player")==0)
 			return message->getType() == Message::CONTROL;

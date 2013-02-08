@@ -128,7 +128,7 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CGraphics::accept(CMessage *message)
+	bool CGraphics::accept(const CMessage *message)
 	{
 		return message->getType() == Message::SET_TRANSFORM || message->getType() == Message::SET_TRANSFORM_QUAT || message->getType() == Message::SET_SHADER ;
 
