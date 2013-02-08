@@ -5,7 +5,6 @@
 *.dll
 *.exe
 *.o
-*.suo
 # Compiled Object files
 *.slo
 *.lo
@@ -52,14 +51,19 @@ Thumbs.db
 #############
 *.orig
 
+# VISUAL STUDIO #
+#################
+ipch/
+vslog.txt
+*.sdf
+*.opensdf
+*.suo
+*.user
+*.ncb
 
 # ROOT #
 #######
-/Galeon.opensdf
-/Galeon.sdf
-/vslog.txt
-/ipch/
-/DocumentacionDoxygen/
+DocumentacionDoxygen/
 
 #EXES #
 #######
