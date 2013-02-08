@@ -58,8 +58,8 @@ vslog.txt
 *.sdf
 *.opensdf
 *.suo
-*.user
 *.ncb
+*.user # puede que alguno sea necesario para sinc config de proyecto
 
 # ROOT #
 #######

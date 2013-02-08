@@ -4,7 +4,7 @@
 namespace Net{
 
 	
-	void Serializable::serializeString(CBuffer& buffer, std::string s){
+	void Serializable::serialize(CBuffer& buffer, std::string s){
 		
 		unsigned int length = s.length();
 			buffer.write(&length, sizeof(length) );	

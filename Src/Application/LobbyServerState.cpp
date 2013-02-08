@@ -305,8 +305,8 @@ namespace Application {
 							txSerialMsg.write(&msgType, sizeof(msgType));	
 						Net::NetID playerNetID = id;
 							txSerialMsg.write(&playerNetID, sizeof(playerNetID));						
-						Net::Serializable::serializeString(txSerialMsg, _playerNicks[id]  );
-						Net::Serializable::serializeString(txSerialMsg, _playerModels[id] );
+						Net::Serializable::serialize(txSerialMsg, _playerNicks[id]  );
+						Net::Serializable::serialize(txSerialMsg, _playerModels[id] );
 					Net::CManager::getSingletonPtr()->send(txSerialMsg.getbuffer(),	txSerialMsg.getSize() );
 
 					LOG("TX LOAD_PLAYER " << id << " with Nick=" << _playerNicks[id] << " and Model=" << _playerModels[id] );

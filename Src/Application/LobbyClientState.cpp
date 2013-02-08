@@ -286,8 +286,8 @@ srand(time(0)); // HACK necesario subsistema random
 				Net::CBuffer txSerialMsg;
 					Net::NetMessageType msgType = Net::NetMessageType::MAP_LOADED; // Informamos de carga finalizada
 						txSerialMsg.write(&msgType, sizeof(msgType));
-					Net::Serializable::serializeString(txSerialMsg, playerNick);
-					Net::Serializable::serializeString(txSerialMsg, playerModel);				
+					Net::Serializable::serialize(txSerialMsg, playerNick);
+					Net::Serializable::serialize(txSerialMsg, playerModel);				
 				Net::CManager::getSingletonPtr()->send(txSerialMsg.getbuffer(),	txSerialMsg.getSize() );
 				
 				LOG("TX MAP_LOADED with Nick=" << playerNick << " and Model=" << playerModel );

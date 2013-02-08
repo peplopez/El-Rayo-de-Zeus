@@ -39,7 +39,7 @@ public:
 	/**
 	 * Serializar cadena en buffer
 	 */
-	static void serializeString(CBuffer& buffer,std::string cad);
+	static void serialize(CBuffer& buffer,std::string cad);
 
 	/**
 	 * Leer cadena desde buffer

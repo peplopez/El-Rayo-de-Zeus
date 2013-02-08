@@ -28,7 +28,7 @@ namespace Logic
 		txSerialMsg.write((void*) (&message._bool),	sizeof(message._bool));
 
 		// STRING
-		Net::Serializable::serializeString(txSerialMsg, message._string);
+		Net::Serializable::serialize(txSerialMsg, message._string);
 
 		// Serializamos el campo con una posicion
 		txSerialMsg.write((void*) &message._vector3.x, sizeof(message._vector3.x));
@@ -41,6 +41,8 @@ namespace Logic
 			for(int j = 0; j < 4; ++j)
 				txSerialMsg.write((void*)(&message._transform[i][j]), sizeof(message._transform[i][j]));
 		
+		txSerialMsg.write((void*) &message._quat, sizeof(message._quat));
+
 		/* ENTIDAD: Serializamos el campo con una entidad. 
 					Lo que hacemos es  mandar el ID para su recuperación */
 		Logic::TEntityID id;
@@ -80,6 +82,9 @@ namespace Logic
 		for(int i = 0; i < 4; ++i)
 			for(int j = 0; j < 4; ++j)
 				rxSerialMsg.read(&message._transform[i][j], sizeof(message._transform[i][j]));
+
+		rxSerialMsg.read((void*) &message._quat, sizeof(message._quat));
+
 		// TODO ENTIDAD: Deserializar el campo con una entidad. Con el id sacarla del mapa		 
 		//HACK 	// Si en algún momento hay más de un mapa habrá que modificar esto
 		Logic::TEntityID id;

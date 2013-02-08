@@ -182,18 +182,25 @@ namespace Logic
 
 			entidad2->emitMessage(m,this);	
 		}
-		else
-		{
-			m._string="walkStop";
-			entidad1->emitMessage(m,this);	
-			m._bool=!m._bool;
-			if (entidad2->getType().compare("Player")==0)
-				m._type = Logic::Message::CONTROL;
-			if (entidad2->getType().compare("AnimatedEntity")==0)
-				m._type = Logic::Message::NPC_CONTROL;
-
-
-			entidad2->emitMessage(m,this);	
+		else // HACK [ƒ®§] Si este componente está haciendo las veces de CPhysic, nunca jamás
+		{	// debería actuar sobre las animaciones (de ahi lo de separar el CAngularMovement 
+			// de animaciones mediante el CAvatarController).			
+			// Lo que suele hacer el CPhysic para detener un movimiento en colision
+			// en realidad es filtrar: el CPhysic se coloca antes de los receptores del SET_TRANSFORM, 
+			// recoge los SET_TRANS enviados, los filtra/capa y los reenvia a los gráficos. Luego
+			// tambien tiene un AVATAR_WALK que intenta ejecutar un movimiento y retransmite el SET_TRANSFORM 
+			// del resultado de ese movimiento. Eso es lo que crea el efecto de tio corriendo contra 
+			// una pared sin moverse. De momento, como me conviene arreglarlo rápido para que salgan
+			// animaciones de daños y muerte en el HITO 2, lo quito.
+			
+			//m._string="walkStop";
+			//entidad1->emitMessage(m,this);	
+			//m._bool=!m._bool;
+			//if (entidad2->getType().compare("Player")==0)
+			//	m._type = Logic::Message::CONTROL;
+			//if (entidad2->getType().compare("AnimatedEntity")==0)
+			//	m._type = Logic::Message::NPC_CONTROL;
+			//entidad2->emitMessage(m,this);	
 		}
 		m._string="changeDirection";
 			

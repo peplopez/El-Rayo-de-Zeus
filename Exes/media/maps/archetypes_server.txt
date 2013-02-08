@@ -29,7 +29,7 @@ Map = {
 	
 	Player = {
 		type = "Player",
-		msgList= "0,3",
+		msgList= "0,1,4",
 		blockedTime = 500,
 		orientation = 90,
 		life = 1000.0,

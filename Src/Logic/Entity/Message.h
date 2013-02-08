@@ -32,16 +32,16 @@ namespace Logic
 	{
 		enum TMessageType
 		{
-			UNASSIGNED 		= 0xFFFFFFFF,
-			SET_TRANSFORM 	= 0x00000000,
-			CONTROL			= 0x00000001,
-			NPC_CONTROL 	= 0x00000002,
-			DEAD 			= 0x00000003,
-			SET_TRANSFORM_QUAT,
+			UNASSIGNED 			= 0xFFFFFFFF,
+			SET_TRANSFORM 		= 0x00000000,			
+			SET_TRANSFORM_QUAT	= 0x00000001,			
+			CONTROL				= 0x00000002,
+			NPC_CONTROL 		= 0x00000003,
+			DEAD 				= 0x00000004,
+			SET_SHADER,
 			SET_ANIMATION,
 			STOP_ANIMATION,			 
-			CONTACTO,   // [Гоз] Spanglish nooo manches wayyy!!
-			SET_SHADER,			
+			CONTACTO,   // [Гоз] Spanglish nooo manches wayyy!!						
 			CAMERA,
 			AVATAR_WALK,
 			DAMAGED,			
