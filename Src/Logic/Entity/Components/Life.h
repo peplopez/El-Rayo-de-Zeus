@@ -14,6 +14,11 @@ Contiene la declaración del componente que controla la vida de una entidad.
 
 #include "Logic/Entity/Component.h"
 
+namespace Logic
+{
+	class CMessage;
+}
+
 //declaración de la clase
 namespace Logic 
 {
@@ -47,17 +52,17 @@ namespace Logic
 		Inicialización del componente usando la descripción de la entidad que hay en 
 		el fichero de mapa.
 		*/
-		virtual bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
+		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
 		/**
 		Este componente sólo acepta mensajes de tipo DAMAGED.
 		*/
-		virtual bool accept(const TMessage &message);
+		bool accept(CMessage *message);
 
 		/**
 		Al recibir un mensaje de tipo DAMAGED la vida de la entidad disminuye.
 		*/
-		virtual void process(const TMessage &message);
+		void process(CMessage *message);
 
 	protected:
 

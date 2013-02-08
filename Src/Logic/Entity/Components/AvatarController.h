@@ -10,10 +10,16 @@ de la entidad.
 @author David Llansó
 @date Agosto, 2010
 */
+/*
 #ifndef __Logic_AvatarController_H
 #define __Logic_AvatarController_H
 
 #include "Logic/Entity/Component.h"
+
+namespace Logic
+{
+	class CMessage;
+}
 
 //declaración de la clase
 namespace Logic 
@@ -32,6 +38,7 @@ namespace Logic
 	@author David Llansó García
 	@date Agosto, 2010
 */
+/*
 	class CAvatarController : public IComponent
 	{
 		DEC_FACTORY(CAvatarController);
@@ -40,7 +47,7 @@ namespace Logic
 		/**
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
-		*/
+		*//*
 		CAvatarController() : IComponent(), _walking(false), _walkingBack(false), 
 			_strafingLeft(false), _strafingRight(false), _speed(0.05f) {}
 		
@@ -54,7 +61,7 @@ namespace Logic
 		@param entityInfo Información de construcción del objeto leído del
 			fichero de disco.
 		@return Cierto si la inicialización ha sido satisfactoria.
-		*/
+		*//*
 		virtual bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
 		/**
@@ -66,7 +73,7 @@ namespace Logic
 		se reciban a partir de los eventos de teclado y ratón.
 
 		@return true si todo ha ido correctamente.
-		*/
+		*//*
 		virtual bool activate();
 		
 		/**
@@ -79,7 +86,7 @@ namespace Logic
 		se deregistra así mismo en el controlador del GUI para dejar de
 		recibir las ordenes dadas a partir de los eventos de teclado y ratón
 		(ver CEntity::deactivate() )
-		*/
+		*//*
 		virtual void deactivate();
 
 		/**
@@ -89,7 +96,7 @@ namespace Logic
 		necesario (cuando está andando o desplazándose lateralmente).
 
 		@param msecs Milisegundos transcurridos desde el último tick.
-		*/
+		*//*
 		virtual void tick(unsigned int msecs);
 
 		/**
@@ -98,44 +105,44 @@ namespace Logic
 
 		@param message Mensaje a chequear.
 		@return true si el mensaje es aceptado.
-		*/
-		virtual bool accept(const TMessage &message);
+		*//*
+		virtual bool accept(const CMessage *message);
 
 		/**
 		Método virtual que procesa un mensaje.
 
 		@param message Mensaje a procesar.
-		*/
-		virtual void process(const TMessage &message);
+		*//*
+		virtual void process(CMessage *message);
 
 		/**
 		Provoca que la entidad avance.
-		*/
+		*//*
 		void walk();
 		void walkBack();
 
 		/**
 		Provoca que la entidad cese el avance.
-		*/
+		*//*
 		void stopWalk();
 
 		/**
 		Provoca que la entidad se desplace lateralmente a la izquierda.
-		*/
+		*//*
 		void strafeLeft();
 
 		/**
 		Provoca que la entidad se desplace lateralmente a la derecha.
-		*/
+		*//*
 		void strafeRight();
 
 		/**
 		Provoca que la entidad cese el desplazamiento lateral.
-		*/
+		*//*
 		void stopStrafe();
 		/**
 		Acción especial para depuración.
-		*/
+		*//*
 		void specialAction();
 		/**
 		Provoca que la entidad gire. Números Positivos para	giro a 
@@ -143,36 +150,36 @@ namespace Logic
 
 		@param amount Cantidad de giro. Positivos giro a derechas,
 		negativos a izquierdas.
-		*/
+		*//*
 		void turn(float amount);
 
 	protected:
 
 		/**
 		Atributo para saber si la entidad está avanzando.
-		*/
+		*//*
 		bool _walking;
 
 		/**
 		Atributo para saber si la entidad está retrocediendo.
-		*/
+		*//*
 		bool _walkingBack;
 
 		/**
 		Atributo para saber si la entidad está moviendose lateralmente
 		a la izquierda.
-		*/
+		*//*
 		bool _strafingLeft;
 
 		/**
 		Atributo para saber si la entidad está moviendose lateralmente
 		a la derecha.
-		*/
+		*//*
 		bool _strafingRight;
 
 		/**
 		Atributo que indica la magnitud de velocidad de la entidad.
-		*/
+		*//*
 		float _speed;
 
 	}; // class CAvatarController
@@ -181,4 +188,4 @@ namespace Logic
 
 } // namespace Logic
 
-#endif // __Logic_AvatarController_H
+#endif // __Logic_AvatarController_H */

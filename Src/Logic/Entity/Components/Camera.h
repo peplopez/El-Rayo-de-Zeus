@@ -22,6 +22,10 @@ namespace Graphics
 	class CScene;
 }
 
+namespace Logic
+{
+	class CMessage;
+}
 //declaración de la clase
 namespace Logic 
 {
@@ -65,7 +69,7 @@ namespace Logic
 			fichero de disco.
 		@return Cierto si la inicialización ha sido satisfactoria.
 		*/
-		virtual bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
+		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
 		/**
 		Método que activa el componente; invocado cuando se activa
@@ -75,7 +79,7 @@ namespace Logic
 
 		@return true si todo ha ido correctamente.
 		*/
-		virtual bool activate();
+		bool activate();
 		
 		/**
 		Método que desactiva el componente; invocado cuando se
@@ -85,7 +89,7 @@ namespace Logic
 		<p>
 		Se pone el objetivo a seguir a NULL.
 		*/
-		virtual void deactivate();
+		void deactivate();
 
 		/**
 		Método llamado en cada frame que actualiza el estado del componente.
@@ -94,7 +98,7 @@ namespace Logic
 
 		@param msecs Milisegundos transcurridos desde el último tick.
 		*/
-		virtual void tick(unsigned int msecs);
+		void tick(unsigned int msecs);
 		
 		/**
 		Método que lleva la camara a una altura determinada. Se usará en saltos en la propia base, teletransporte a otra base y podría usarse tambien para visualizar otra base.
@@ -105,7 +109,7 @@ namespace Logic
 		@param base short para la base
 		@param ring LogicalPosition::Ring anillo
 		*/
-		virtual void changeHeight(const unsigned short &base, const LogicalPosition::Ring &ring);
+		void changeHeight(const unsigned short &base, const LogicalPosition::Ring &ring);
 
 				/**
 		Método virtual que elige que mensajes son aceptados. Son válidos
@@ -114,14 +118,14 @@ namespace Logic
 		@param message Mensaje a chequear.
 		@return true si el mensaje es aceptado.
 		*/
-		virtual bool accept(const TMessage &message);
+		bool accept(CMessage *message);
 
 		/**
 		Método virtual que procesa un mensaje.
 
 		@param message Mensaje a procesar.
 		*/
-		virtual void process(const TMessage &message);
+		void process(CMessage *message);
 
 
 	protected:

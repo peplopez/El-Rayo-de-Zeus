@@ -21,6 +21,10 @@ namespace Graphics
 {
 	class CAnimatedEntity;
 }
+namespace Logic
+{
+	class CMessage;
+}
 
 //declaración de la clase
 namespace Logic 
@@ -58,14 +62,14 @@ namespace Logic
 		@param message Mensaje a chequear.
 		@return true si el mensaje es aceptado.
 		*/
-		virtual bool accept(const TMessage &message);
+		bool accept(CMessage *message);
 
 		/**
 		Método virtual que procesa un mensaje.
 
 		@param message Mensaje a procesar.
 		*/
-		virtual void process(const TMessage &message);
+		void process(CMessage *message);
 		
 		////////////////////////////////////////
 		// Métodos de CAnimatedEntityListener //
@@ -88,7 +92,7 @@ namespace Logic
 			fichero de disco.
 		@return Entidad gráfica creada, NULL si hubo algún problema.
 		*/
-		virtual Graphics::CEntity* createGraphicsEntity(const Map::CEntity *entityInfo);
+		Graphics::CEntity* createGraphicsEntity(const Map::CEntity *entityInfo);
 		
 		/**
 		Entidad gráfica animada.

@@ -24,6 +24,11 @@ de juego. Es una colección de componentes.
 #include "GUI/PlayerController.h"
 #include "GUI/CameraController.h"
 
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageTF.h"
+#include "Logic/Entity/Messages/MessageBoolTF.h"
+
+
 
 
 namespace Logic 
@@ -413,20 +418,23 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	const bool CEntity::emitMessage(const TMessage &message, IComponent* emitter)
+	bool CEntity::emitMessage(CMessage *message, IComponent* emitter)
 	{
 		if(!_activated) // HACK Si la entidad no está activa, no recibe mensajes
 			return false;
 
 		// Interceptamos los mensajes que además de al resto de los
 		// componentes, interesan a la propia entidad.
-		switch(message._type)
+		switch(message->getType())
 		{
 		case Message::SET_TRANSFORM:
-			_transform = message._transform;
+			CMessageTF *maux = static_cast<CMessageTF*>(message);
+			_transform = maux->getTransform();
 		}
 
 		TComponentList::const_iterator it;
+
+		message->grab();
 		// Para saber si alguien quiso el mensaje.
 		bool anyReceiver = false;
 		for( it = _components.begin(); it != _components.end(); ++it )
@@ -435,6 +443,8 @@ namespace Logic
 			if( emitter != (*it) )
 				anyReceiver = (*it)->set(message) || anyReceiver;
 		}
+
+		message->release();
 		return anyReceiver;
 
 	} // emitMessage
@@ -446,10 +456,10 @@ namespace Logic
 		_transform = transform;
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		message._bool = true; // [ƒ®§] Interesante si sólo queremos comprobar colisiones en cambios de posición y no en todos los SET_TRANSFORM
+		CMessageBoolTF *message = new CMessageBoolTF();
+		message->setType(Message::SET_TRANSFORM);
+		message->setTransform(_transform);
+		message->setBool(true); // [ƒ®§] Interesante si sólo queremos comprobar colisiones en cambios de posición y no en todos los SET_TRANSFORM
 		emitMessage(message);
 
 	} // setTransform
@@ -461,10 +471,10 @@ namespace Logic
 		_transform.setTrans(position);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		message._bool = true; // [ƒ®§] Interesante si sólo queremos comprobar colisiones en cambios de posición y no en todos los SET_TRANSFORM
+		CMessageBoolTF *message = new CMessageBoolTF();
+		message->setType(Message::SET_TRANSFORM);
+		message->setTransform(_transform);
+		message->setBool(true); // [ƒ®§] Interesante si sólo queremos comprobar colisiones en cambios de posición y no en todos los SET_TRANSFORM
 		emitMessage(message);
 
 	} // setPosition
@@ -490,9 +500,9 @@ namespace Logic
 		_transform = orientation;
 		
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
+		CMessageTF *message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		message->setTransform(_transform);
 		emitMessage(message);
 
 	} // setOrientation
@@ -502,10 +512,10 @@ namespace Logic
 	{
 		_quat=quat;
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._quat = _quat;
-		message._transform = _transform;
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
 		emitMessage(message);	
 	}
 	
@@ -527,10 +537,11 @@ namespace Logic
 		Math::setYaw(yaw,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // setYaw
 
@@ -541,10 +552,11 @@ namespace Logic
 		Math::setRoll(roll,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // setRoll
 
@@ -553,10 +565,11 @@ namespace Logic
 		Math::setPitch(pitch,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // setPitch
 
@@ -567,10 +580,11 @@ namespace Logic
 		Math::setPitchYaw(pitch,yaw,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // setPitchYaw
 
@@ -579,10 +593,11 @@ namespace Logic
 		Math::yaw(yaw,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // yaw
 
@@ -591,10 +606,11 @@ namespace Logic
 		Math::roll(roll,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // roll
 
@@ -603,10 +619,11 @@ namespace Logic
 		Math::pitch(pitch,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // pitch
 

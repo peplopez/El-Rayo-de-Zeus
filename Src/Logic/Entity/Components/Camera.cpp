@@ -24,6 +24,9 @@ de una escena.
 #include "Logic/Entity/LogicalPosition.h"
 #include "GUI/InputManager.h"
 
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageBoolFloat.h"
+
 namespace Logic 
 {
 	IMP_FACTORY(CCamera);
@@ -91,17 +94,18 @@ namespace Logic
 	}
 
 		
-	bool CCamera::accept(const TMessage &message)
+	bool CCamera::accept(CMessage *message)
 	{
-		return message._type == Message::CAMERA;
+		return message->getType() == Message::CAMERA;
 	}
 
-	 void CCamera::process(const TMessage &message)
+	 void CCamera::process(CMessage *message)
 	{
-		if (message._bool)
-			_targetDistance+=message._float;
+		CMessageBoolFloat *maux = static_cast<CMessageBoolFloat*>(message);
+		if (maux->getBool())
+			_targetDistance+=maux->getFloat();
 		else
-			_targetDistance-=message._float;
+			_targetDistance-=maux->getFloat();
 	}
 
 	void CCamera::tick(unsigned int msecs)

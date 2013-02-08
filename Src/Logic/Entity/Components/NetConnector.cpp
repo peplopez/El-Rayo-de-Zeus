@@ -18,11 +18,13 @@ Contiene la implementación del componente que reenvia mensajes por la red.
 #include "Logic/Maps/Map.h"
 #include "Map/MapEntity.h"
 
-#include "Logic/Entity/Message.h"
+
 
 #include "Net/Manager.h"
 #include "Logic/GameNetMsgManager.h"
 #include "Net/buffer.h"
+
+#include "Logic/Entity/Messages/Message.h"
 
 #include <iostream>
 
@@ -52,6 +54,7 @@ namespace Logic {
 					std::getline(str, MsgTypeName, ' ');  // linea entre espacios
 				} while (MsgTypeName.size() == 0 && !str.eof());
 
+				
 				// ... y registramos el tipo en la lista
 				_forwardedMsgTypes.push_back((Logic::TMessageType)atoi(MsgTypeName.c_str())); // char[] -> int -> TMessageType
 
@@ -65,23 +68,23 @@ namespace Logic {
 		return true;
 	}
 
-	bool CNetConnector::accept(const TMessage &message)
+	bool CNetConnector::accept(CMessage *message)
 	{
-		if(message._type == Message::CONTROL && !_entity->isPlayer() )  // CONTROL: sólo TX por red si lo ha generado el Player local (PlayerController)
+		if(message->getType() == Message::CONTROL && !_entity->isPlayer() )  // CONTROL: sólo TX por red si lo ha generado el Player local (PlayerController)
 			return false;
 
 		// [ƒ®§] Vemos si es uno de los mensajes que debemos trasmitir 
 		// por red. Para eso usamos la lista de mensajes que se ha leido del mapa.
 		// Vemos si es uno de los mensajes que debemos trasmitir  por red.
-		else if (std::find(_forwardedMsgTypes.begin(),  _forwardedMsgTypes.end(), message._type) != _forwardedMsgTypes.end())
+		else if (std::find(_forwardedMsgTypes.begin(),  _forwardedMsgTypes.end(), message->getType()) != _forwardedMsgTypes.end())
 		{			
 			// Grano fino, en vez de aceptar el mensaje directamente
 			// solo se retransmitirá por la red si no se ha transmitido 
 			// hace poco (_timeOfBlocking milisegundos) un mensaje del mismo tipo
-			if(_timeToUnblockMsgDelivery.count(message._type) == 0) // TODO probar sin ajuste fino qué tal va de fino :P
+			if(_timeToUnblockMsgDelivery.count(message->getType()) == 0) // TODO probar sin ajuste fino qué tal va de fino :P
 			{
 				if(_timeOfBlocking)
-					_timeToUnblockMsgDelivery.insert(TTimeToUnblockMsgDeliveryPair(message._type,_timeOfBlocking));
+					_timeToUnblockMsgDelivery.insert(TTimeToUnblockMsgDeliveryPair(message->getType(),_timeOfBlocking));
 				return true;
 			}
 		}
@@ -92,7 +95,7 @@ namespace Logic {
 		
 	//---------------------------------------------------------------------------------
 
-	void CNetConnector::process(const TMessage &message)
+	void CNetConnector::process(CMessage *message)
 	{
 		// TODO Es un mensaje para enviar por el tubo.
 		// Lo enviamos por la red usando el front-end CGameNetMsgManager

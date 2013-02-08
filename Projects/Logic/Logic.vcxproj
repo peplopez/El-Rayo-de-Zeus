@@ -83,6 +83,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Death.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\Message.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBool.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloat.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolString.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolTF.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFactory.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFloat.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageString.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageTF.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageV3.cpp" />
     <ClCompile Include="..\..\Src\Logic\GameNetMsgManager.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AngularMovement.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Collider.cpp" />
@@ -94,7 +104,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\CommunicationPort.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Component.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Entity.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Message.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AnimatedGraphics.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AvatarController.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Camera.cpp" />
@@ -107,6 +116,16 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AngularMovement.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Collider.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Death.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBool.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloat.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\Message.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolString.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolTF.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFactory.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFloat.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageString.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageTF.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageV3.h" />
     <ClInclude Include="..\..\Src\Logic\GameNetMsgManager.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeController.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\LogicalPosition.h" />
@@ -120,7 +139,6 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Component.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Documentation.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Entity.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Message.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedGraphics.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AvatarController.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Camera.h" />
