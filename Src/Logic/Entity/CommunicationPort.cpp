@@ -27,8 +27,10 @@ namespace Logic {
 	{
 		bool accepted = accept(message);
 		if(accepted)
+		{
 			message->grab();
 			_messages.push_back(message);
+		}
 
 		return accepted;
 

@@ -30,47 +30,17 @@ namespace Logic
 		DEC_MFACTORY(CMessageFloat);
 	public:
 
-		/**
-		Constructor básico
-		*/
+
 		CMessageFloat() : CMessage(GetAltTypeIdOf(CMessageFloat)), _float(0.0f) {}
 			
-
-		/**
-		Destructor de la clase. El destructor se invoca cuando la cuenta
-		de referencias vuelve a 0.
-		*/
 		~CMessageFloat(){};
 
-		/**
-		Devuelve el float del Mensaje
 
-		@return float del mensaje.
-		*/
 		float getFloat() const { return _float; }
-
-		/**
-		Establece el float del mensaje
-
-		@return float del mensaje.
-		*/
 		void setFloat(const float valor) {_float=valor; }
 
 
-		/**
-		Serializa un mensaje. Genera un CBuffer a partir de 
-		un mensaje.
-
-		@param data CBuffer donde almacenar la deserialización.
-		*/
 		void serialize(Net::CBuffer &data);
-
-		/**
-		Deserializa un mensaje. A partir de un CBuffer genera
-		un nuevo mensaje.
-
-		@param message Mensaje resultante de la deserialización.
-		*/
 		void deserialize(Net::CBuffer &data);
 	
 

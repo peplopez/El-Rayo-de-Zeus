@@ -65,7 +65,7 @@ namespace GUI {
 		{
 			Logic::CMessageBoolFloat *m = new Logic::CMessageBoolFloat();
 			m->setType(Logic::Message::CAMERA);
-			m->setFloat(1.0f);
+			m->setFloat(0.10f);
 			switch(key.keyId)
 			{			
 			case GUI::Key::UPARROW:

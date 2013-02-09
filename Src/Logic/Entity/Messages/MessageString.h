@@ -32,12 +32,12 @@ namespace Logic
 
 
 		CMessageString() : CMessage(GetAltTypeIdOf(CMessageString)), _string("") {}	
+		
 		~CMessageString(){};
 
 
 
 		std::string getString() const { return _string; }
-
 		void setString(const std::string& valor) {_string=valor; }
 
 

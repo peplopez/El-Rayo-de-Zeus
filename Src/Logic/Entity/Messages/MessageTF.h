@@ -36,29 +36,13 @@ namespace Logic
 
 	public:
 
-		/**
-		Constructor por defecto
-		*/
-		CMessageTF() : CMessage(GetAltTypeIdOf(CMessageTF)), _transform(Matrix4::ZERO) {}
-			
-		/**
-		Destructor de la clase. El destructor se invoca cuando la cuenta
-		de referencias vuelve a 0.
-		*/
-		~CMessageTF(){};
 
-		/**
-		Devuelve el transform del Mensaje
+		CMessageTF() :  CMessage(GetAltTypeIdOf(CMessageTF)), _transform(Matrix4::ZERO) {}
+	
+		~CMessageTF(){}
 
-		@return transform del mensaje.
-		*/
-		Matrix4 getTransform() const { return _transform; }
 
-		/**
-		Establece el transform del mensaje
-
-		@param transform, transform del mensaje
-		*/
+		Matrix4 getTransform() { return _transform; }
 		void setTransform(const Matrix4 &transform) { _transform=transform; }
 
 		

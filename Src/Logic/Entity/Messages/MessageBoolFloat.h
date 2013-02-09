@@ -33,41 +33,17 @@ namespace Logic
 		/**
 		Constructor básico
 		*/
-		CMessageBoolFloat() : CMessage(GetAltTypeIdOf(CMessageBoolFloat)), _bool(false), _float(0.0f) {}
+		CMessageBoolFloat() :  CMessage(GetAltTypeIdOf(CMessageBoolFloat)), _bool(false), _float(0.0f) {}
 			
 
-		/**
-		Destructor de la clase. El destructor se invoca cuando la cuenta
-		de referencias vuelve a 0.
-		*/
 		~CMessageBoolFloat() {};
 
-		/**
-		Devuelve el float del Mensaje
 
-		@return float del mensaje.
-		*/
 		float getBool() const { return _bool; }
+		void setBool(const bool valor) {_bool=valor; }
 
-		/**
-		Establece el float del mensaje
 
-		@return float del mensaje.
-		*/
-		void setBool(const bool valor) {_float=valor; }
-
-		/**
-		Devuelve el float del Mensaje
-
-		@return float del mensaje.
-		*/
 		float getFloat() const { return _float; }
-
-		/**
-		Establece el float del mensaje
-
-		@return float del mensaje.
-		*/
 		void setFloat(const float valor) {_float=valor; }
 
 

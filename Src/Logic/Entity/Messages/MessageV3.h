@@ -36,29 +36,14 @@ namespace Logic
 
 	public:
 
-		/**
-		Constructor por defecto
-		*/
+
 		CMessageV3() : CMessage(GetAltTypeIdOf(CMessageV3)), _vector3(Vector3::ZERO) {}
 			
-		/**
-		Destructor de la clase. El destructor se invoca cuando la cuenta
-		de referencias vuelve a 0.
-		*/
+
 		~CMessageV3() {};
 
-		/**
-		Devuelve el transform del Mensaje
 
-		@return transform del mensaje.
-		*/
-		const Vector3 &getVector3() const { return _vector3; }
-
-		/**
-		Establece el transform del mensaje
-
-		@param transform, transform del mensaje
-		*/
+		Vector3 getVector3() { return _vector3; }
 		void setVector3(const Vector3 &vector3) { _vector3=vector3; }
 
 

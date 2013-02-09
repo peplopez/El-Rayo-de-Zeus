@@ -32,7 +32,7 @@ namespace Logic
 
 
 		CMessageBoolString() : CMessage(GetAltTypeIdOf(CMessageBoolString)), _bool(false), _string("") {}	
-		~CMessageBoolString() {};
+		~CMessageBoolString() {}
 
 
 		float getBool() const { return _bool; }
@@ -40,7 +40,6 @@ namespace Logic
 
 
 		std::string getString() const { return _string; }
-
 		void setString(const std::string& valor) {_string=valor; }
 
 
