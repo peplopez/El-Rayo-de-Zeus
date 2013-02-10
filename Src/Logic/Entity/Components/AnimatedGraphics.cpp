@@ -51,7 +51,7 @@ namespace Logic
 	{
 		return CGraphics::accept(message) ||
 			   message._type == Message::SET_ANIMATION ||
-			   message._type == Message::STOP_ANIMATION;
+			   message._type == Message::STOP_ANIMATION||message._type == Message::CONTROL||message._type == Message::NPC_CONTROL;
 
 	} // accept
 	
@@ -72,6 +72,42 @@ namespace Logic
 			break;
 		case Message::STOP_ANIMATION:
 			_animatedGraphicsEntity->stopAnimation(message._string);
+			break;
+		case Message::CONTROL:
+			if  (message._string.compare("changeDirection")==0||message._string.compare("changeBase")==0||message._string.compare("jump")==0||message._string.compare("goUp")==0||message._string.compare("goDown")==0||message._string.compare("turn")==0)
+				//mensajes que ignoro
+				break;
+			
+			_animatedGraphicsEntity->stopAllAnimations();
+			if  (message._string.compare("walkLeft")==0 || message._string.compare("walkRight")==0) 
+			{
+				_animatedGraphicsEntity->setAnimation("RunKatana",true);
+				break;
+			}
+			if  (message._string.compare("walkBack")==0 || message._string.compare("walkStop")==0) 
+			{
+				_animatedGraphicsEntity->setAnimation("IdleKatana",true);
+				break;
+			}
+			break;
+			
+		case Message::NPC_CONTROL:
+			if  (message._string.compare("changeDirection")==0||message._string.compare("changeBase")==0||message._string.compare("jump")==0||message._string.compare("goUp")==0||message._string.compare("goDown")==0||message._string.compare("turn")==0)
+				//mensajes que ignoro
+				break;
+			
+			_animatedGraphicsEntity->stopAllAnimations();
+			if  (message._string.compare("walkLeft")==0 || message._string.compare("walkRight")==0) 
+			{
+				_animatedGraphicsEntity->setAnimation("RunKatana",true);
+				break;
+			}
+			if  (message._string.compare("walkBack")==0 || message._string.compare("walkStop")==0) 
+			{
+				_animatedGraphicsEntity->setAnimation("IdleKatana",true);
+				break;
+			}
+			
 			break;
 		}
 

@@ -66,10 +66,13 @@ namespace GUI {
 			switch(key.keyId)
 			{
 			case GUI::Key::W: //subir anillo superior
+				if (_controlledAvatar->getRing()==Logic::LogicalPosition::ANILLO_SUPERIOR)
+					return false;
 				m._string = "goUp"; // Pablo
-				break;
-			
+				break;			
 			case GUI::Key::S: //bajar anillo inferior
+				if (_controlledAvatar->getRing()==Logic::LogicalPosition::ANILLO_INFERIOR)
+					return false;
 				m._string = "goDown";
 				break;
 			case GUI::Key::SPACE:
@@ -81,41 +84,60 @@ namespace GUI {
 			case GUI::Key::D:
 				m._string = "walkRight";
 				break;
-			case GUI::Key::NUMBER1:
+			case GUI::Key::NUMBER1:				
 				m._string = "changeBase";
 				m._float = 1;
+				if (_controlledAvatar->getBase()==m._float)
+					return false;
+
 				break;
 			case GUI::Key::NUMBER2:
 				m._string = "changeBase";
 				m._float = 2;
+				if (_controlledAvatar->getBase()==m._float)
+					return false;
 				break;			
 			case GUI::Key::NUMBER3:
 				m._string = "changeBase";
 				m._float = 3;
+				if (_controlledAvatar->getBase()==m._float)
+					return false;
 				break;
 			case GUI::Key::NUMBER4:
 				m._string = "changeBase";
 				m._float = 4;
+				if (_controlledAvatar->getBase()==m._float)
+					return false;
 				break;			
 			case GUI::Key::NUMBER5:
 				m._string = "changeBase";
 				m._float = 5;
+				if (_controlledAvatar->getBase()==m._float)
+					return false;
 				break;
 			case GUI::Key::NUMBER6:
 				m._string = "changeBase";
 				m._float = 6;
+				if (_controlledAvatar->getBase()==m._float)
+					return false;
 				break;			
 			case GUI::Key::NUMBER7:
 				m._string = "changeBase";
 				m._float = 7;
+				if (_controlledAvatar->getBase()==m._float)
+					return false;
 				break;
 			case GUI::Key::NUMBER8:
 				m._string = "changeBase";
 				m._float = 8;
+				if (_controlledAvatar->getBase()==m._float)
+					return false;
 				break;
 			case GUI::Key::NUMBER0:
 				m._string = "changeBase";
 				m._float = 0;
+				if (_controlledAvatar->getBase()==m._float)
+					return false;
 				break;
 			default:
 				return false;
@@ -132,17 +154,23 @@ namespace GUI {
 	bool CPlayerController::keyReleased(TKey key)
 	{
 		if(_controlledAvatar)
-		{
+		{//PEP: he estado mirando para que no se pare el personaje si tienes pulsada una tecla de dirección al juguetear con los controles
+			//TKey teclaA=TKey(65,GUI::Key::A);
+			//TKey teclaD=TKey(68,GUI::Key::D);				
 			Logic::TMessage m;
 			m._type = Logic::Message::CONTROL;
 			switch(key.keyId)
 			{
-			case GUI::Key::A:
+			case GUI::Key::A:				
+			//	if (!keyPressed(teclaD)){
+				m._string = "walkStop";				
+				break;
+			//	}
 			case GUI::Key::D:
-				//m._string = "stopStrafe";
+			//	if (!keyPressed(teclaA)){
 				m._string = "walkStop";
 				break;
-
+				//}
 			default:
 				return false;
 			}

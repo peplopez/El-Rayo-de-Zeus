@@ -166,28 +166,13 @@ namespace Logic
 		void CAngularMovement::walkRight()
 		{
 			_walkingRight = true;
-			// Cambiamos la animación
-			_entity->setSense(LogicalPosition::DERECHA);
-			TMessage message;
-			message._type = Message::SET_ANIMATION;
-			message._string = "RunKatana";
-			message._bool = true;
-			_entity->emitMessage(message,this);
-
+			_entity->setSense(LogicalPosition::DERECHA);			
 		}
 		
 		void CAngularMovement::walkLeft()
 		{
 			_walkingLeft = true;
-			
-			// Cambiamos la animación
-			_entity->setSense(LogicalPosition::IZQUIERDA);
-			TMessage message;
-			message._type = Message::SET_ANIMATION;
-			message._string = "RunKatana";
-			message._bool = true;
-			_entity->emitMessage(message,this);
-
+			_entity->setSense(LogicalPosition::IZQUIERDA);			
 		}
 
 		// Pablo
@@ -199,14 +184,7 @@ namespace Logic
 		void CAngularMovement::walkBack()
 		{			
 			_walkBack=true; //para retroceder en las colisiones   
-			// Cambiamos la animación
-			TMessage message;
-			message._type = Message::SET_ANIMATION;
-			message._string = "IdleKatana";
-			message._bool = true;
-			_entity->emitMessage(message,this);
-		}
-		
+		}		
 		
 		void CAngularMovement::goDown()
 		{
@@ -276,18 +254,7 @@ namespace Logic
 
 		void CAngularMovement::stopMovement()
 		{
-			//if(!_jumping)
-				
 			_walkingLeft = _walkingRight = false;
-
-		// Cambiamos la animación si no seguimos desplazándonos
-		// lateralmente
-		
-			TMessage message;
-			message._type = Message::SET_ANIMATION;
-			message._string = "IdleKatana";
-			message._bool = true;
-			_entity->emitMessage(message,this);
 		}
 		
 		
@@ -317,26 +284,6 @@ namespace Logic
 	void CAngularMovement::tick(unsigned int msecs)
 	{
 			IComponent::tick(msecs);
-
-			//Actualizo el tiempo en milisegundos (en cada tick)
-			//_time += msecs;
-
-			bool cierre=false;
-			unsigned int currentTime;
-			unsigned int endingTime;
-			/*while(_changingRing){
-				currentTime=Application::CBaseApplication::getSingletonPtr()->getAppTime();
-			
-			if (!cierre)
-			{
-				cierre=true;
-				endingTime=currentTime+3000;		
-			}
-			if (currentTime>endingTime)
-				_changingRing=false;
-			_entity->setRing(LogicalPosition::ANILLO_SUPERIOR);
-				IComponent::tick(msecs);
-			}*/
 
 			if (_changingBase || _changingRing)
 			{
