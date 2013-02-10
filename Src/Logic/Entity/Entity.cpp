@@ -456,10 +456,10 @@ namespace Logic
 		_transform = transform;
 
 		// Avisamos a los componentes del cambio.
-		CMessageBoolTF *message = new CMessageBoolTF();
+		CMessageTF *message = new CMessageTF();
 		message->setType(Message::SET_TRANSFORM);
 		message->setTransform(_transform);
-		message->setBool(true); // [ƒ®§] Interesante si sólo queremos comprobar colisiones en cambios de posición y no en todos los SET_TRANSFORM
+		//message->setBool(true); // [ƒ®§] Interesante si sólo queremos comprobar colisiones en cambios de posición y no en todos los SET_TRANSFORM
 		emitMessage(message);
 
 	} // setTransform
@@ -471,10 +471,10 @@ namespace Logic
 		_transform.setTrans(position);
 
 		// Avisamos a los componentes del cambio.
-		CMessageBoolTF *message = new CMessageBoolTF();
+		CMessageTF *message = new CMessageTF();
 		message->setType(Message::SET_TRANSFORM);
 		message->setTransform(_transform);
-		message->setBool(true); // [ƒ®§] Interesante si sólo queremos comprobar colisiones en cambios de posición y no en todos los SET_TRANSFORM
+		//message->setBool(true); // [ƒ®§] Interesante si sólo queremos comprobar colisiones en cambios de posición y no en todos los SET_TRANSFORM
 		emitMessage(message);
 
 	} // setPosition
