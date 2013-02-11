@@ -19,7 +19,7 @@ namespace Logic
 	IMP_MFACTORY(CMessage);
 	//---------------------------------------------------------
 		
-	CMessage::~CMessage() {std::cout << this << " no se necesita más" << std::endl;}
+	CMessage::~CMessage() {/*std::cout << this << " no se necesita más" << std::endl;*/}
 
 	//---------------------------------------------------------
 			

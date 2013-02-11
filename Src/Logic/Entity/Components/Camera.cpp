@@ -66,17 +66,10 @@ namespace Logic
 		_target = CServer::getSingletonPtr()->getPlayer(); 
 		//_target->setPosition(Math::fromPolarToCartesian(0,60)); //esto no está bien aquí, pero si no está no calcula bien el vector dirección.
 		//_target->fromLogicalToCartesian(0,60,_target->getBase(),_target->getRing()); //esto no está bien aquí, pero si no está no calcula bien el vector dirección.
-		
 		//anula lo que haya en el maps.txt sobre la posición del prota
-		if(_target) {
-		_currentPos = 4*_target->getPosition()+Vector3(0,_targetHeight*2,0);
+		_currentPos = Vector3(0,-1500,0);// Esto lo ponemos así de momento para que salga desde arriba la camara.
 		 _graphicsCamera->setCameraPosition(_currentPos);
-		}
-//		else {			
-			// UNDONE _entity->setIsPlayer(true); // TODO Activamos cámara en CamaraController para que reciba mensajes de control
-//}			
 		return true;
-
 	} // activate
 	
 	//---------------------------------------------------------

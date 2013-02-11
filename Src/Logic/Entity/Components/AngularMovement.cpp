@@ -132,6 +132,11 @@ namespace Logic
 					 _sentidoColision=maux->getBool();
 					changeDirection(_sentidoColision);
 				 }
+				else if(message->getAction() == Message::CHANGE_BASE)
+				 {	
+					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
+					changeBase(maux->getFloat());
+				 }
 			else if(message->getAction() == Message::TURN)
 				{
 					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
@@ -165,11 +170,7 @@ namespace Logic
 					_sentidoColision=maux->getBool();
 					changeDirection(_sentidoColision);
 				 }
-			else if(message->getAction() == Message::CHANGE_BASE)
-				 {	
-					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
-					changeBase(maux->getFloat());
-				 }
+
 			else if(message->getAction() == Message::TURN)
 				{
 					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
@@ -275,6 +276,12 @@ namespace Logic
 			if(_entity->getJumping()==false && !_walkingLeft && !_walkingRight)
 			{
 				_changingBase=true;	
+				if (_entity->getRing()==Ring::ANILLO_SUPERIOR)
+				{
+					_entity->setBase(base);
+					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+					_entity->setPosition(newPosition);
+				}
 				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
 				{
 					_entity->setBase(base);
@@ -307,7 +314,7 @@ namespace Logic
 		}
 		
 		
-	void CAngularMovement::changeDirection(bool newDirection)
+	void CAngularMovement::changeDirection(const bool newDirection)
 	{		
 				CMessageString *m = new CMessageString();
 				m->setType(Message::SET_SHADER);
@@ -318,13 +325,13 @@ namespace Logic
 	
 			//	if (_entity->getType().compare("AnimatedEntity")==0)
 				//{
-				if (!_walkingLeft && !_walkingRight)
-				{
+				//if (!_walkingLeft && !_walkingRight)
+			//	{
 					if (newDirection)
 						walkLeft();
 					else
 						walkRight();
-				}
+//}
 					//	}
 			}
 	
@@ -334,36 +341,52 @@ namespace Logic
 	{
 			IComponent::tick(msecs);
 
-			bool cierre=false;
-			unsigned int currentTime;
-			unsigned int endingTime;
-			/*while(_changingRing){
-				currentTime=Application::CBaseApplication::getSingletonPtr()->getAppTime();
-			
-			if (!cierre)
+		if (_changingBase || _changingRing)
 			{
-				cierre=true;
-				endingTime=currentTime+3000;		
-			}
-			if (currentTime>endingTime)
-				_changingRing=false;
-			_entity->setRing(LogicalPosition::ANILLO_SUPERIOR);
-				IComponent::tick(msecs);
-			}*/
-
-			if (_changingBase || _changingRing)
-			{
-				if (_entity->getType().compare("Player")==0)
+				if(_entity->isPlayer())
 				{
 					CMessageString *m = new CMessageString();	
 					m->setType(Message::SET_SHADER);
 					m->setString("transito");
 					_entity->emitMessage(m,this);
-					_changingBase=_changingRing=false;
+
+					if (_changingBase)
+					{
+						_changingBaseTime+=msecs;
+						if (_changingBaseTime>_maxChangingBaseTime)
+						{
+							_changingBase=false;
+							_changingBaseTime=0;
+							CMessageString *m2 = new CMessageString();	
+							m2->setType(Message::SET_SHADER);
+							m2->setString("marine");
+							_entity->emitMessage(m2,this);
+						}
+					}
+					if (_changingRing)
+						{
+						_changingRingTime+=msecs;
+						if (_changingRingTime>_maxChangingRingTime)
+						{
+							_changingRing=false;
+							_changingRingTime=0;
+							CMessageString *m3 = new CMessageString();	
+							m3->setType(Message::SET_SHADER);
+							m3->setString("marine");
+							_entity->emitMessage(m3,this);
+						}
+					}
 				}
 			}
 			else
 			{
+					//CMessageString *m = new CMessageString();	
+					//m->setType(Message::SET_SHADER);
+					//m->setString("transito");
+					//_entity->emitMessage(m,this);
+					//_changingBase=_changingRing=false;
+				
+			
 			Vector3 direction(Vector3::ZERO);
 				
 

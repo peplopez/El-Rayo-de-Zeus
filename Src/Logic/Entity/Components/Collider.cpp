@@ -190,27 +190,27 @@ namespace Logic
 				m4->setType(Logic::Message::NPC_CONTROL);
 
 
-			entidad2->emitMessage(m,this);	
+			entidad2->emitMessage(m4,this);	
 		}
 		else
 		{
 			CMessage *m5 = new CMessage();
 			CMessage *m6 = new CMessage();
-			m5->setType(Message::CONTROL);
+						if (entidad1->getType().compare("Player")==0)
+				m5->setType(Message::CONTROL);
+			if (entidad1->getType().compare("AnimatedEntity")==0)
+				m5->setType(Message::NPC_CONTROL);
 			m5->setAction(Message::WALK_STOP);
-			entidad1->emitMessage(m5,this);
-
-			
-			
+			entidad1->emitMessage(m5,this);				
 			m6->setAction(Message::WALK_STOP);
-			//m._bool=!m._bool;
+
 			if (entidad2->getType().compare("Player")==0)
 				m6->setType(Logic::Message::CONTROL);
 			if (entidad2->getType().compare("AnimatedEntity")==0)
 				m6->setType(Logic::Message::NPC_CONTROL);
 
 
-			entidad2->emitMessage(m,this);	
+			entidad2->emitMessage(m6,this);	
 		}
 		CMessageBool *m7 = new CMessageBool();
 		CMessageBool *m8 = new CMessageBool();
@@ -222,7 +222,7 @@ namespace Logic
 			if (entidad1->getType().compare("Player")==0)
 				m7->setType(Message::CONTROL);
 			if (entidad1->getType().compare("AnimatedEntity")==0)
-				m7->setType(Message::NPC_CONTROL);;
+				m7->setType(Message::NPC_CONTROL);
 
 		entidad1->emitMessage(m7,this);	
 			if (entidad2->getType().compare("Player")==0)
@@ -231,23 +231,6 @@ namespace Logic
 				m8->setType(Message::NPC_CONTROL);
 
 		entidad2->emitMessage(m8,this);	
-			
-		//}
-		/*
-
-		if (entidad2->getType().compare("Player")==0)
-			m._type = Logic::Message::CONTROL;
-		if (entidad2->getType().compare("AnimatedEntity")==0)
-			m._type = Logic::Message::NPC_CONTROL;
-
-		_sentidoColision=!_sentidoColision;
-		m._bool=_sentidoColision;
-		entidad2->emitMessage(m,this);
-
-		*/		
-
-
-		//_hit++;
 
 		return false;
 		}

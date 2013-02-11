@@ -70,11 +70,15 @@ namespace GUI {
 			switch(key.keyId)
 			{
 			case GUI::Key::W: //subir anillo superior
+				if (_controlledAvatar->getRing()==Logic::LogicalPosition::ANILLO_SUPERIOR)
+					return false;			
 				m->setAction(Logic::Message::GO_UP); // Pablo
 				_controlledAvatar->emitMessage(m);
 				break;
 			
 			case GUI::Key::S: //bajar anillo inferior
+				if (_controlledAvatar->getRing()==Logic::LogicalPosition::ANILLO_INFERIOR)
+					return false;			
 				m->setAction(Logic::Message::GO_DOWN); 
 				_controlledAvatar->emitMessage(m);
 				break;
@@ -98,41 +102,63 @@ namespace GUI {
 			case GUI::Key::NUMBER2:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setFloat(2);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;			
 			case GUI::Key::NUMBER3:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setFloat(3);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER4:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setFloat(4);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				
 				_controlledAvatar->emitMessage(m2);
 				break;			
 			case GUI::Key::NUMBER5:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setFloat(5);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				
 				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER6:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setFloat(6);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				
 				_controlledAvatar->emitMessage(m2);
 				break;			
 			case GUI::Key::NUMBER7:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setFloat(7);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				
 				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER8:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setFloat(8);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				
 				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER0:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setFloat(0);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				
 				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::E:
