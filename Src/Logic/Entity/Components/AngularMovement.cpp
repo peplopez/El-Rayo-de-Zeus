@@ -15,7 +15,13 @@ angular de entidades.
 
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
- #include "Application/BaseApplication.h"
+#include "Application/BaseApplication.h"
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageBoolFloat.h"
+#include "Logic/Entity/Messages/MessageBool.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
+#include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Entity/Messages/MessageString.h"
 
 //declaración de la clase
 namespace Logic 
@@ -33,30 +39,31 @@ namespace Logic
 		//_angularSpeed=0.00625;
 
 
-		// Pablo. Si la entidad tiene el atributo _jumpSpeed la capturamos y la guardamos en __jumpSpeed
+		// Pablo. Si la entidad tiene el atributo jumpSpeed la capturamos y la guardamos en _jumpSpeed
 		// En ppio solo la va a tener el player
 		if(entityInfo->hasAttribute("initialJumpSpeed"))
-			_jumpSpeed = entityInfo->getFloatAttribute("initialJumpSpeed");
+			jumpSpeed = entityInfo->getFloatAttribute("initialJumpSpeed");
 
 		// Pablo. Inicializo la gravedad
 		if(entityInfo->hasAttribute("gravity"))
 			_gravity = entityInfo->getFloatAttribute("gravity");
 		//gravity = 9.8; //expresada en metros /seg
 
-		// velocidad inicial. es 25 m / seg
+		// velocidad inicial. es 28 m / seg
 
 		//Pablo. Calculo la altura maxima del salto
-		//Hmax = (_jumpSpeed*_jumpSpeed) / (2*gravity); 
-		// 31,88 m es la altura maxima del salto ( en nuestro caso son pixeles)
+		//Hmax = (jumpSpeed*jumpSpeed) / (2*gravity); // 40 m es la altura maxima del salto ( en nuestro caso son pixeles)
 		if(entityInfo->hasAttribute("Hmax"))
 			_Hmax = entityInfo->getFloatAttribute("Hmax");
+		//Hmax = 40;
 
 		//Pablo. Tiempo hasta alcanzar la máxima altura
 		// Vi - Vf / g (Velocidad inicial - Velocidad final / aceleracion). La Vf es 0 en altura max.
-		_Tmaxaltura = _jumpSpeed / _gravity; // 2,55 segundos
-		_Tmax = _Tmaxaltura * 2; // 5,10 seg. 
-		_potenciaSalto=_jumpSpeed;
+		_Tmaxaltura = jumpSpeed / _gravity; // 2,857142 segundos --> 2857,142 milisegundos
+		_Tmax = _Tmaxaltura * 2; // 5,71428571 seg. --> 5714,28571 milisegundos.
+		_potenciaSalto=_potenciaSaltoInicial;
 		_entity->setJumping(false);
+			//_isJumping=
 		return true;
 		}
 
@@ -64,9 +71,8 @@ namespace Logic
 	{
 		_sentidoDerecha=_entity->getSense();
 		
-		//if (_entity->getType().compare("Player")!=0)
-		if (!_entity->isPlayer())
-			_entity->setJumping(false); // Pablo
+		if (_entity->getType().compare("Player")!=0)
+		_entity->setJumping(false); // Pablo
 		if (_sentidoDerecha)
 		{
 			_walkingLeft=false;
@@ -77,8 +83,7 @@ namespace Logic
 			_walkingLeft=true;
 			_walkingRight=false;
 		}
-		//if (_entity->getType().compare("Player")==0)
-		if (_entity->isPlayer())
+		if (_entity->getType().compare("Player")==0)
 			stopMovement();
 		return true;
 	}
@@ -87,46 +92,56 @@ namespace Logic
 	void CAngularMovement::deactivate(){}
 
 	
-	bool CAngularMovement::accept(const TMessage &message)
+	bool CAngularMovement::accept(const CMessage *message)
 	{
 		if (_entity->getType().compare("Player")==0)
-			return message._type == Message::CONTROL;
+			return message->getType() == Message::CONTROL;
 		 if (_entity->getType().compare("AnimatedEntity")==0)
-			return message._type == Message::NPC_CONTROL;
+			return message->getType() == Message::NPC_CONTROL;
 	}
 
 		
-	 void CAngularMovement::process(const TMessage &message)
+	 void CAngularMovement::process(CMessage *message)
 		 {
-		switch(message._type)
+		switch(message->getType())
 		{
 		case Message::CONTROL:
 			{
-			if(!message._string.compare("goUp"))
+			if(message->getAction() == Message::GO_UP)
 				goUp();
-			else if(!message._string.compare("goDown"))
+			else if(message->getAction() == Message::GO_DOWN)
 				goDown();
-			else if(!message._string.compare("walkLeft"))
+			else if(message->getAction() == Message::WALK_LEFT)
 				walkLeft();
-			else if(!message._string.compare("walkRight"))
+			else if(message->getAction() == Message::WALK_RIGHT)
 				walkRight();
-			else if(!message._string.compare("walkStop"))
+			else if(message->getAction() == Message::WALK_STOP)
 				stopMovement();
-			else if(!message._string.compare("jump")) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
+			else if(message->getAction() == Message::JUMP) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
 					jump();
-			else if(!message._string.compare("walkBack"))
+			else if(message->getAction() == Message::WALK_BACK)
 				 {	
-					_sentidoColision=message._bool;
-					_correccionGrados=message._float;
+					CMessageBoolFloat* maux = static_cast<CMessageBoolFloat*>(message);
+					_sentidoColision=maux->getBool();
+					_correccionGrados=maux->getFloat();
 					walkBack();
 				 }
-			else if(!message._string.compare("changeDirection"))
+			else if(message->getAction() == Message::CHANGE_DIRECTION)
 				 {	
-					 _sentidoColision=message._bool;
+					CMessageBool* maux = static_cast<CMessageBool*>(message);
+					 _sentidoColision=maux->getBool();
 					changeDirection(_sentidoColision);
 				 }
-			else if(!message._string.compare("turn"))
-				turn(message._float);
+				else if(message->getAction() == Message::CHANGE_BASE)
+				 {	
+					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
+					changeBase(maux->getFloat());
+				 }
+			else if(message->getAction() == Message::TURN)
+				{
+					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
+					turn(maux->getFloat());
+				}
 			}
 		case Message::NPC_CONTROL:
 			{
@@ -134,31 +149,33 @@ namespace Logic
 				goUp();
 			else if(!message._string.compare("goDown"))
 				goDown();
-			*/ if(!message._string.compare("walkLeft"))
+			*/ if(message->getAction() == Message::WALK_LEFT)
 				walkLeft();
-			else if(!message._string.compare("walkRight"))
+			else if(message->getAction() == Message::WALK_RIGHT)
 				walkRight();
-			else if(!message._string.compare("walkStop"))
+			else if(message->getAction() == Message::WALK_STOP)
 				stopMovement();
-			else if(!message._string.compare("jump")) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
+			else if(message->getAction() == Message::JUMP) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
 					jump();
-			else if(!message._string.compare("walkBack"))
+			else if(message->getAction() == Message::WALK_BACK)
 				 {	
-					_sentidoColision=message._bool;
-					_correccionGrados=message._float;
+					CMessageBoolFloat* maux = static_cast<CMessageBoolFloat*>(message);
+					_sentidoColision=maux->getBool();
+					_correccionGrados=maux->getFloat();
 					walkBack();
 				 }
-			else if(!message._string.compare("changeDirection"))
+			else if(message->getAction() == Message::CHANGE_DIRECTION)
 				 {	
-					_sentidoColision=message._bool;
+					CMessageBool* maux = static_cast<CMessageBool*>(message);
+					_sentidoColision=maux->getBool();
 					changeDirection(_sentidoColision);
 				 }
-			else if(!message._string.compare("changeBase"))
-				 {	
-					changeBase(message._float);
-				 }
-			else if(!message._string.compare("turn"))
-				turn(message._float);
+
+			else if(message->getAction() == Message::TURN)
+				{
+					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
+					turn(maux->getFloat());
+				}
 			}
 		}
 	}
@@ -166,13 +183,28 @@ namespace Logic
 		void CAngularMovement::walkRight()
 		{
 			_walkingRight = true;
-			_entity->setSense(LogicalPosition::DERECHA);			
+			// Cambiamos la animación
+			_entity->setSense(LogicalPosition::DERECHA);
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			message->setString("RunKatana");
+			message->setBool(true);
+			_entity->emitMessage(message,this);
+
 		}
 		
 		void CAngularMovement::walkLeft()
 		{
 			_walkingLeft = true;
-			_entity->setSense(LogicalPosition::IZQUIERDA);			
+			
+			// Cambiamos la animación
+			_entity->setSense(LogicalPosition::IZQUIERDA);
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			message->setString("RunKatana");
+			message->setBool(true);
+			_entity->emitMessage(message,this);
+
 		}
 
 		// Pablo
@@ -184,7 +216,14 @@ namespace Logic
 		void CAngularMovement::walkBack()
 		{			
 			_walkBack=true; //para retroceder en las colisiones   
-		}		
+			// Cambiamos la animación
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			message->setString("RunKatana");
+			message->setBool(true);
+			_entity->emitMessage(message,this);
+		}
+		
 		
 		void CAngularMovement::goDown()
 		{
@@ -237,6 +276,12 @@ namespace Logic
 			if(_entity->getJumping()==false && !_walkingLeft && !_walkingRight)
 			{
 				_changingBase=true;	
+				if (_entity->getRing()==Ring::ANILLO_SUPERIOR)
+				{
+					_entity->setBase(base);
+					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+					_entity->setPosition(newPosition);
+				}
 				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
 				{
 					_entity->setBase(base);
@@ -254,28 +299,39 @@ namespace Logic
 
 		void CAngularMovement::stopMovement()
 		{
+			//if(!_jumping)
+				
 			_walkingLeft = _walkingRight = false;
+
+		// Cambiamos la animación si no seguimos desplazándonos
+		// lateralmente
+		
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			message->setString("IdleKatana");
+			message->setBool(true);
+			_entity->emitMessage(message,this);
 		}
 		
 		
-	void CAngularMovement::changeDirection(bool newDirection)
+	void CAngularMovement::changeDirection(const bool newDirection)
 	{		
-				Logic::TMessage m;
-				m._string="marine";
-				m._type = Logic::Message::SET_SHADER;
+				CMessageString *m = new CMessageString();
+				m->setType(Message::SET_SHADER);
+				m->setString("marine");
 				_entity->emitMessage(m,this);
 				if (_entity->getType().compare("Player")==0)
-				return;
+					return;
 	
 			//	if (_entity->getType().compare("AnimatedEntity")==0)
 				//{
-				if (!_walkingLeft && !_walkingRight)
-				{
+				//if (!_walkingLeft && !_walkingRight)
+			//	{
 					if (newDirection)
 						walkLeft();
 					else
 						walkRight();
-				}
+//}
 					//	}
 			}
 	
@@ -285,15 +341,15 @@ namespace Logic
 	{
 			IComponent::tick(msecs);
 
-			if (_changingBase || _changingRing)
+		if (_changingBase || _changingRing)
 			{
 				if(_entity->isPlayer())
 				{
-					Logic::TMessage m;		
-					m._string="transito";
-					m._type = Logic::Message::SET_SHADER;
+					CMessageString *m = new CMessageString();	
+					m->setType(Message::SET_SHADER);
+					m->setString("transito");
 					_entity->emitMessage(m,this);
-					//_changingBase=_changingRing=false;
+
 					if (_changingBase)
 					{
 						_changingBaseTime+=msecs;
@@ -301,10 +357,10 @@ namespace Logic
 						{
 							_changingBase=false;
 							_changingBaseTime=0;
-							Logic::TMessage m;		
-							m._string="marine";
-							m._type = Logic::Message::SET_SHADER;
-							_entity->emitMessage(m,this);
+							CMessageString *m2 = new CMessageString();	
+							m2->setType(Message::SET_SHADER);
+							m2->setString("marine");
+							_entity->emitMessage(m2,this);
 						}
 					}
 					if (_changingRing)
@@ -314,75 +370,82 @@ namespace Logic
 						{
 							_changingRing=false;
 							_changingRingTime=0;
-							Logic::TMessage m;		
-							m._string="marine";
-							m._type = Logic::Message::SET_SHADER;
-							_entity->emitMessage(m,this);
+							CMessageString *m3 = new CMessageString();	
+							m3->setType(Message::SET_SHADER);
+							m3->setString("marine");
+							_entity->emitMessage(m3,this);
 						}
 					}
 				}
 			}
 			else
 			{
-				Vector3 direction(Vector3::ZERO);
+					//CMessageString *m = new CMessageString();	
+					//m->setType(Message::SET_SHADER);
+					//m->setString("transito");
+					//_entity->emitMessage(m,this);
+					//_changingBase=_changingRing=false;
+				
+			
+			Vector3 direction(Vector3::ZERO);
+				
 
-				if(_walkingLeft || _walkingRight || _initialJump || _entity->getJumping())
+			if(_walkingLeft || _walkingRight || _initialJump || _entity->getJumping())
+			{
+				if(_walkingLeft || _walkingRight)
 				{
-					//si la entidad se mueve a la derecha o a la izquierda
-					if(_walkingLeft || _walkingRight)
-					{
-						direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
-						//Matrix4 orientacion = _entity->getOrientation();
-						//Math::yaw(Math::fromDegreesToRadians(_actualDegree),orientacion);
-						if(_walkingRight){
-							if(_sentidoDerecha==true)
-							{
-								_sentidoDerecha=false;
-								_entity->yaw(Math::PI);						
-							}
-							if (!_walkBack)
-							{
-								_entity->setDegree(_entity->getDegree()-_angularSpeed*msecs); 
-								_entity->yaw(Math::fromDegreesToRadians(_angularSpeed*msecs));
-							}
-						}
-						else
+					direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
+					//Matrix4 orientacion = _entity->getOrientation();
+					//Math::yaw(Math::fromDegreesToRadians(_actualDegree),orientacion);
+					if(_walkingRight){
+						if(_sentidoDerecha==true)
 						{
-							if(_sentidoDerecha==false)
-							{
-								_entity->yaw(Math::PI);					
-								_sentidoDerecha=true;
-							}
-							if (!_walkBack)
-							{
-								_entity->setDegree(_entity->getDegree()+_angularSpeed*msecs);
-								_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed*msecs));
-							}			
-					
+							_sentidoDerecha=false;
+							_entity->yaw(Math::PI);						
 						}
+						if (!_walkBack)
+						{
+							_entity->setDegree(_entity->getDegree()-_angularSpeed*msecs); 
+							_entity->yaw(Math::fromDegreesToRadians(_angularSpeed*msecs));
+						}
+					}
+					else
+					{
+						if(_sentidoDerecha==false)
+						{
+							_entity->yaw(Math::PI);					
+							_sentidoDerecha=true;
+						}
+						if (!_walkBack)
+						{
+							_entity->setDegree(_entity->getDegree()+_angularSpeed*msecs);
+							_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed*msecs));
+						}			
+					
+					}
+					/*if (!_walkingLeft && !_walkingRight && _jumping){
+							_entity->setDegree(_entity->getDegree()+_angularSpeed);
+							_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed));
+					}*/
 
-						/*
-						WALKBACK
-						*/
-						if(_walkingLeft)
-							direction *= -1;
-					} //fin if(_walkingLeft || _walkingRight)
+					/*
+					WALKBACK
+					*/
+					if(_walkingLeft)
+						direction *= -1;
+				}
 
 				direction.normalise();
 				//_entity->getPosition();
 
-
-
 				// SALTO
 
-				if (_entity->isPlayer())
-				{
-					//si la entidad esta saltando
+				if (_entity->getType().compare("Player")==0)
+			{
 					if(_initialJump==true && _entity->getJumping()==false)
 					{
-						 //std::cout << "Tiempo Inicial: " << _time  << "\n";
 						// Pablo. Inicializo a false _initialJump para que solo lo tenga en cuenta una vez.
-						_potenciaSalto=_jumpSpeed;
+						_potenciaSalto=_potenciaSaltoInicial;
 						_initialJump = false;
 						_entity->setJumping(true);
 						_timeJumping = 0;
@@ -394,54 +457,38 @@ namespace Logic
 			
 					}
 
-					//Pablo Si la entidad esta saltando
+					//Pablo
 					if(_entity->getJumping())
 					{
+						//std::cout << "inicialY: " << inicialY << "\n";
+						//std::cout << "posicionSalto.y: " << posicionSalto.y << "\n";
 
-
-						// std::cout << "_timeJumping: " << _timeJumping  << "\n";
 						//_timeJumping se incrementa en cada tick
-						_timeJumping+=msecs/1000.0; //tiempo en segundos
+						//_timeJumping+= msecs;
 
+						//Vector3 newPosition2=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
 
-						if(!_jumpingDown) //esta subiendo en el salto
-						{
-							//Velocidad = VelocidadInicial - g*t
-							//_speed es la velocidad que lleva el personaje en el salto en un determinado momento de tiempo
-							_speed = _jumpSpeed - (_gravity * _timeJumping);
-							_posicionSalto.y= _inicialY + (_jumpSpeed*_timeJumping) - (_gravity*(_timeJumping*_timeJumping))/2;
-						}
-						else{ //esta bajando en el salto
-							_speed = _jumpSpeed + (_gravity * _timeJumping);
-							_posicionSalto.y-= ( (_jumpSpeed*_timeJumping) + (_gravity*(_timeJumping*_timeJumping))/2);
-						}
+						//float altura = jumpSpeed*_timeJumping -(gravity*(_timeJumping*_timeJumping)/2);
 
+						//newPosition.y = inicialY + altura;
 
-
-						/*
 						//si esta saltando, y esta bajando decrementamos la y en 1 unidad cada tick de reloj
 						if(_jumpingDown){
-							_posicionSalto.y-= (_jumpSpeed-_potenciaSalto)*(0.04*msecs);
-							if (_potenciaSalto>0)
-								_potenciaSalto-=0.3;
+							_posicionSalto.y-= (_potenciaSaltoInicial-_potenciaSalto)*(0.05*msecs);
+							if (_potenciaSalto>0)_potenciaSalto-=0.3;
 						}
-						
 						else //si esta saltando y esta subiendo incrementamos la y en 1 unidad cada tick de reloj
 						{
-							_posicionSalto.y+= _potenciaSalto * (0.04*msecs);
+							_posicionSalto.y+= _potenciaSalto * (0.05*msecs);
+							if (_potenciaSalto>0)_potenciaSalto-=0.3;
+						}
 
-							if (_potenciaSalto>0)
-								_potenciaSalto-=0.3;
-						}*/
-						
 
-						
 						//control para que no suba más arriba que su inicialY + la altura maxima del salto
 						if(_posicionSalto.y>=_inicialY+_Hmax)
 						{
 							_jumpingDown=true;
-							_timeJumping = 0;
-							////_potenciaSalto=_jumpSpeed-0.5;
+							_potenciaSalto=_potenciaSaltoInicial-0.5;
 						}
 						//control para que no baje más que su inicialY
 						if(_posicionSalto.y<_inicialY)
@@ -450,24 +497,19 @@ namespace Logic
 							_jumpingDown=false;
 							_entity->setJumping(false);
 						}
-						
 
 
+						//_entity->setPosition(posicionSalto);
 						direction.normalise();
 
-
-						//Pablo 07-02-2013
-						/*if(_timeJumping >= _Tmaxaltura ) {
-							_jumpingDown=true;
-							_speed = _jumpSpeed;
+						/*
+						if(_timeJumping >= Tmax ) {
+							_jumping = false;
 						}
+						*/
 
-						if(_timeJumping >= _Tmax ) {
-							_entity->setJumping(false);
-						}*/
-
-					} //fin del if(_entity->getJumping())
-				}// FIN if(_entity->isPlayer())
+					} //fin del if (_jumping)
+			}// FIN if (_entity->getType().compare("Player")!=0)
 
 			// Fin Pablo. Salto
 

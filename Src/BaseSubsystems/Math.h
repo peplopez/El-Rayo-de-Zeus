@@ -27,6 +27,7 @@ Se ofrecen también una serie de funciones auxiliares.
 #include <OgreQuaternion.h>
 #include <OgreMatrix3.h>
 #include <OgreMatrix4.h>
+#include <OgreRay.h>
 
 /**
 Definicion de matriz de 4x4. La definición del tipo de datos
@@ -71,6 +72,12 @@ el motor gráfico, por lo tanto es dependiente del motor usado.
 typedef Ogre::Quaternion Quaternion;
 
 /**
+Rayo. La definición del tipo de datos es la misma que la utilizada 
+por el motor gráfico, por lo tanto es dependiente del motor usado.
+ */
+typedef Ogre::Ray Ray;
+
+/**
 Namespace en el que ofrecemos alguna definición de constante
 matamática y métodos para convertir grados en radianes, etc.
 */
@@ -98,7 +105,6 @@ namespace Math
 	@return Ángulo en radianes.
 	*/
 	static float fromDegreesToRadians(float degrees) {return degrees*_deg2Rad;}
-
 
 	/**
 	Transforma radianes en grados.

@@ -41,6 +41,12 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -76,9 +82,20 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Death.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\Message.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBool.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloat.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolString.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolTF.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFactory.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFloat.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageString.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageTF.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageV3.cpp" />
+    <ClCompile Include="..\..\Src\Logic\GameNetMsgManager.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AngularMovement.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Collider.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeController.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeController.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\ComponentFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\EntityFactory.cpp" />
@@ -91,11 +108,25 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AvatarController.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Camera.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Graphics.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Life.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\NetConnector.cpp" />
     <ClCompile Include="..\..\Src\Logic\Server.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AngularMovement.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Collider.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Death.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBool.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloat.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\Message.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolString.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolTF.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFactory.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFloat.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageString.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageTF.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageV3.h" />
+    <ClInclude Include="..\..\Src\Logic\GameNetMsgManager.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeController.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\LogicalPosition.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\RingStruct.h" />
@@ -108,11 +139,12 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Component.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Documentation.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Entity.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Message.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedGraphics.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AvatarController.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Camera.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Graphics.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Life.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\NetConnector.h" />
     <ClInclude Include="..\..\Src\Logic\Documentation.h" />
     <ClInclude Include="..\..\Src\Logic\Server.h" />
   </ItemGroup>
@@ -131,6 +163,10 @@
     </ProjectReference>
     <ProjectReference Include="..\Map\Map.vcxproj">
       <Project>{599f27dc-a593-4e7c-a461-d7b3198118b0}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Net\Net.vcxproj">
+      <Project>{6517a543-d72a-4ed1-83be-104fe82dc59a}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

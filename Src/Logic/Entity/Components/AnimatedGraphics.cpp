@@ -19,6 +19,18 @@ gráfica de una entidad estática.
 
 #include "Graphics/Scene.h"
 
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Entity/Messages/MessageString.h"
+
+#define DEBUG 0
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "LOGIC::ANIMATED>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
+
 namespace Logic 
 {
 	IMP_FACTORY(CAnimatedGraphics);
@@ -40,6 +52,10 @@ namespace Logic
 			_animatedGraphicsEntity->setObserver(this);
 		}
 
+		float scale = 1.0;
+		if (entityInfo->hasAttribute("scale"))
+			scale = entityInfo->getFloatAttribute("scale");
+		_animatedGraphicsEntity->setScale(scale);
 
 		return _animatedGraphicsEntity;
 
@@ -47,68 +63,35 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CAnimatedGraphics::accept(const TMessage &message)
+	bool CAnimatedGraphics::accept(const CMessage *message)
 	{
 		return CGraphics::accept(message) ||
-			   message._type == Message::SET_ANIMATION ||
-			   message._type == Message::STOP_ANIMATION||message._type == Message::CONTROL||message._type == Message::NPC_CONTROL;
+			   message->getType() == Message::SET_ANIMATION ||
+			   message->getType() == Message::STOP_ANIMATION;
 
 	} // accept
 	
 	//---------------------------------------------------------
 
-	void CAnimatedGraphics::process(const TMessage &message)
+	void CAnimatedGraphics::process(CMessage *message)
 	{
 		CGraphics::process(message);
-
-		switch(message._type)
+		CMessageBoolString *maux = static_cast<CMessageBoolString*>(message);
+		CMessageString *maux2 = static_cast<CMessageString*>(message);
+		switch(message->getType())
 		{
-		case Message::SET_ANIMATION:
-			// Paramos todas las animaciones antes de poner una nueva.
-			// Un control más sofisticado debería permitir interpolación
-			// de animaciones. Galeon no lo plantea.
-			_animatedGraphicsEntity->stopAllAnimations();
-			_animatedGraphicsEntity->setAnimation(message._string,message._bool);
-			break;
-		case Message::STOP_ANIMATION:
-			_animatedGraphicsEntity->stopAnimation(message._string);
-			break;
-		case Message::CONTROL:
-			if  (message._string.compare("changeDirection")==0||message._string.compare("changeBase")==0||message._string.compare("jump")==0||message._string.compare("goUp")==0||message._string.compare("goDown")==0||message._string.compare("turn")==0)
-				//mensajes que ignoro
+			case Message::SET_ANIMATION:
+				// Paramos todas las animaciones antes de poner una nueva.
+				// Un control más sofisticado debería permitir interpolación
+				// de animaciones. Galeon no lo plantea.
+				_animatedGraphicsEntity->stopAllAnimations();
+				_animatedGraphicsEntity->setAnimation(maux->getString(),maux->getBool());
+				LOG("SET_ANIMATION: " << maux->getString());
 				break;
-			
-			_animatedGraphicsEntity->stopAllAnimations();
-			if  (message._string.compare("walkLeft")==0 || message._string.compare("walkRight")==0) 
-			{
-				_animatedGraphicsEntity->setAnimation("RunKatana",true);
+			case Message::STOP_ANIMATION:
+				_animatedGraphicsEntity->stopAnimation(maux->getString());
+				LOG("STOP_ANIMATION: " << maux2->getString());
 				break;
-			}
-			if  (message._string.compare("walkBack")==0 || message._string.compare("walkStop")==0) 
-			{
-				_animatedGraphicsEntity->setAnimation("IdleKatana",true);
-				break;
-			}
-			break;
-			
-		case Message::NPC_CONTROL:
-			if  (message._string.compare("changeDirection")==0||message._string.compare("changeBase")==0||message._string.compare("jump")==0||message._string.compare("goUp")==0||message._string.compare("goDown")==0||message._string.compare("turn")==0)
-				//mensajes que ignoro
-				break;
-			
-			_animatedGraphicsEntity->stopAllAnimations();
-			if  (message._string.compare("walkLeft")==0 || message._string.compare("walkRight")==0) 
-			{
-				_animatedGraphicsEntity->setAnimation("RunKatana",true);
-				break;
-			}
-			if  (message._string.compare("walkBack")==0 || message._string.compare("walkStop")==0) 
-			{
-				_animatedGraphicsEntity->setAnimation("IdleKatana",true);
-				break;
-			}
-			
-			break;
 		}
 
 	} // process
@@ -117,6 +100,12 @@ namespace Logic
 	
 	void CAnimatedGraphics::animationFinished(const std::string &animation)
 	{
+		// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
+		CMessageString *msg = new CMessageString();
+		msg->setType(Message::ANIMATION_FINISHED);
+		msg->setString(animation);
+		_entity->emitMessage(msg);		
+
 		// Si acaba una animación y tenemos una por defecto la ponemos
 		_animatedGraphicsEntity->stopAllAnimations();
 		_animatedGraphicsEntity->setAnimation(_defaultAnimation,true);

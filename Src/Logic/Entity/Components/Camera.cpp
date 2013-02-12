@@ -24,6 +24,9 @@ de una escena.
 #include "Logic/Entity/LogicalPosition.h"
 #include "GUI/InputManager.h"
 
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageBoolFloat.h"
+
 namespace Logic 
 {
 	IMP_FACTORY(CCamera);
@@ -59,17 +62,14 @@ namespace Logic
 	//---------------------------------------------------------
 
 	bool CCamera::activate()
-	{
-		_target = CServer::getSingletonPtr()->getPlayer();
+	{		
+		_target = CServer::getSingletonPtr()->getPlayer(); 
 		//_target->setPosition(Math::fromPolarToCartesian(0,60)); //esto no está bien aquí, pero si no está no calcula bien el vector dirección.
 		//_target->fromLogicalToCartesian(0,60,_target->getBase(),_target->getRing()); //esto no está bien aquí, pero si no está no calcula bien el vector dirección.
-		
 		//anula lo que haya en el maps.txt sobre la posición del prota
-
-		_currentPos = 4*_target->getPosition()+Vector3(0,_targetHeight*2,0);
+		_currentPos = Vector3(0,-1500,0);// Esto lo ponemos así de momento para que salga desde arriba la camara.
 		 _graphicsCamera->setCameraPosition(_currentPos);
 		return true;
-
 	} // activate
 	
 	//---------------------------------------------------------
@@ -86,75 +86,71 @@ namespace Logic
 		
 	}
 
-//aceptando mensajes que controlen la camara la hacemos menos independiente, quien quiera puede acceder a la camara.	
-	bool CCamera::accept(const TMessage &message)
+		
+	bool CCamera::accept(const CMessage *message)
 	{
-		return message._type == Message::CAMERA;
+		return message->getType() == Message::CAMERA;
 	}
 
-	 void CCamera::process(const TMessage &message)
+	 void CCamera::process(CMessage *message)
 	{
-		if (message._bool)
-		{
-			if (_targetDistance<6)
-				_targetDistance+=message._float;
-		}else
-		{
-			if (_targetDistance>2)
-				_targetDistance-=message._float;
-		}
+		CMessageBoolFloat *maux = static_cast<CMessageBoolFloat*>(message);
+		if (maux->getBool())
+			_targetDistance+=maux->getFloat();
+		else
+			_targetDistance-=maux->getFloat();
 	}
 
 	void CCamera::tick(unsigned int msecs)
 	{
 		IComponent::tick(msecs);
-		if(_target)
-		{			
-			// Actualizamos la posición de la cámara.
-			//este parrafo es para conseguir que el modelo mire en dirección perpendicular al vector centro camara
-			Vector3 centro=Vector3::NEGATIVE_UNIT_Y;
-		    centro.y=_target->getPosition().y;
-			//Vector3 centro=Vector3(0,-125-250,0);
+	
+		if(!_target)
+			return;
+
+		// Actualizamos la posición de la cámara.
+		//este parrafo es para conseguir que el modelo mire en dirección perpendicular al vector centro camara
+		Vector3 centro=Vector3::NEGATIVE_UNIT_Y; // TODO [ƒ®§] por que negative y no ZERO?
+		centro.y=_target->getPosition().y;
+		//Vector3 centro=Vector3(0,-125-250,0);
 			
 
-			Vector3 vectorCentroProtaCamara =  -(centro-_target->getPosition());
-			vectorCentroProtaCamara.normalise();
-			//Vector3 actualDirection=Math::getDirection(_target->getOrientation());
-			//Vector3 directionPerp= Vector3::UNIT_Y.crossProduct(vectorCentroProtaCamara);
-			//Quaternion rotacionDestino=actualDirection.getRotationTo(directionPerp);
+		Vector3 vectorCentroProtaCamara =  -(centro-_target->getPosition());
+		vectorCentroProtaCamara.normalise();
+		//Vector3 actualDirection=Math::getDirection(_target->getOrientation());
+		//Vector3 directionPerp= Vector3::UNIT_Y.crossProduct(vectorCentroProtaCamara); // [ƒ®§] Si no son necesarios, mejor limpiar (ya se buscarán en git)
+		//Quaternion rotacionDestino=actualDirection.getRotationTo(directionPerp);
 			
-			Matrix4 orientacion = _target->getOrientation();
-			//std::cout<<vectorCentroProtaCamara<<std::endl;
-			//std::cout<<Math::getDirection(orientacion)<<std::endl;
+		Matrix4 orientacion = _target->getOrientation();
+		//std::cout<<vectorCentroProtaCamara<<std::endl; // TODO Para estas cosillas es mejor usar la macro LOG (ver AnimatedGraphics)
+		//std::cout<<Math::getDirection(orientacion)<<std::endl;
 			
-			//Math::yaw(Math::fromDegreesToRadians(-90),orientacion);
-			Vector3 direction = vectorCentroProtaCamara; //-_distance * (Math::getDirection(orientacion))  ;
+		//Math::yaw(Math::fromDegreesToRadians(-90),orientacion);
+		Vector3 direction = vectorCentroProtaCamara; //-_distance * (Math::getDirection(orientacion))  ;
 		
-			direction.normalise();
-			direction.y = _targetHeight;
+		direction.normalise();
+		direction.y = _targetHeight;
 			
-			vectorCentroProtaCamara.normalise();
-			vectorCentroProtaCamara.y=direction.y;
-			//std::cout<<"vectorcentroprotacamara: "<<vectorCentroProtaCamara<<std::endl;
+		vectorCentroProtaCamara.normalise();
+		vectorCentroProtaCamara.y=direction.y;
+		//std::cout<<"vectorcentroprotacamara: "<<vectorCentroProtaCamara<<std::endl;
 		
-			//inercia de la camara
-			Vector3 cameraTarget=CServer::getSingletonPtr()->getRingPositions(_target->getBase(),_target->getRing());
-			_currentPos += ((Vector3(_target->getPosition().x*_targetDistance,cameraTarget.y+126,_target->getPosition().z*_targetDistance)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035*0.05*msecs;//0.05*
+		//inercia de la camara
+		Vector3 cameraTarget=CServer::getSingletonPtr()->getRingPositions(_target->getBase(),_target->getRing());
+		_currentPos += ((Vector3(_target->getPosition().x*_targetDistance,cameraTarget.y+126,_target->getPosition().z*_targetDistance)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035*0.05*msecs;//0.05*
 		
-			 _graphicsCamera->setCameraPosition(_currentPos);
+			_graphicsCamera->setCameraPosition(_currentPos);
 
 			
-			//_graphicsCamera->setCameraPosition( +4*position);
-			//anillo x=0 y=-125 z=0
-			// Y la posición hacia donde mira la cámara.
-			//direction = _targetDistance * Math::getDirection(orientacion);
+		//_graphicsCamera->setCameraPosition( +4*position);
+		//anillo x=0 y=-125 z=0
+		// Y la posición hacia donde mira la cámara.
+		//direction = _targetDistance * Math::getDirection(orientacion);
 
-			direction = _targetDistance * direction;
-			direction.y = _targetHeight;
-			cameraTarget.y+=126;
-			_graphicsCamera->setTargetCameraPosition(cameraTarget);
-			
-		}
+		direction = _targetDistance * direction;
+		direction.y = _targetHeight;
+		cameraTarget.y+=126;
+		_graphicsCamera->setTargetCameraPosition(cameraTarget);
 		
 	} // tick
 

@@ -140,9 +140,8 @@ namespace Logic
 			in >> b;
 			// Si no era una línea en blanco
 			if(!b.type.empty())
-			{
-				// Si el tipo ya estaba definido lo eliminamos.
-				if(_bluePrints.count(b.type))
+			{				
+				if(_bluePrints.count(b.type)) // Si el tipo ya estaba definido lo eliminamos.
 					_bluePrints.erase(b.type);
 				// Añadimos a la tabla
 				TStringBluePrintPair elem(b.type,b);
@@ -210,18 +209,19 @@ namespace Logic
 	{
 		TBluePrintMap::const_iterator it;
 
-		it = _bluePrints.find(type);
+		it = _bluePrints.find(type); // TBluePrintMap: mapa <"tipoEntidad", TBluePrint>
 		// si el tipo se encuentra registrado.
 		if (it != _bluePrints.end()) 
 		{
 			CEntity* ent = new CEntity(EntityID::NextID());
 			std::list<std::string>::const_iterator itc;
+			
 			// Añadimos todos sus componentes.
 			IComponent* comp;
-			for(itc = (*it).second.components.begin(); 
+			for(itc = (*it).second.components.begin(); // TBluePrintMap.second: TBluePrint: struct { type (string), components (list<string>) }
 				itc !=(*it).second.components.end(); itc++)
 			{
-				if(CComponentFactory::getSingletonPtr()->has((*itc)))
+				if(CComponentFactory::getSingletonPtr()->has((*itc))) // itc (string cName)
 				{
 					comp = CComponentFactory::getSingletonPtr()->create((*itc));
 				}
@@ -325,10 +325,8 @@ namespace Logic
 			entityInfo->mergeWithArchetype(it->second);
 		}
 
-		CEntity *ret = createEntity(entityInfo, map);
-		return ret;
-		
-
+		// UNDONE CEntity *ret = createEntity(entityInfo, map);
+		return createEntity(entityInfo, map); // [ƒ®§] No se optimiza más enchufando directamente la salida así?
 	} // createMergedEntity
 
 
@@ -351,11 +349,9 @@ namespace Logic
 
 	void CEntityFactory::deleteEntity(Logic::CEntity *entity)
 	{
-		assert(entity);
-		// Si la entidad estaba activada se desactiva al sacarla
-		// del mapa.
-		entity->getMap()->removeEntity(entity);
-		delete entity;
+		assert(entity);		
+		entity->getMap()->removeEntity(entity);// Si la entidad estaba activada se desactiva al sacarla del mapa.
+		delete entity; // El delete nos toca a nosotros
 
 	} // deleteEntity
 	

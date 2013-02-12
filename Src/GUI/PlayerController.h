@@ -64,6 +64,7 @@ namespace GUI
 		void setControlledAvatar(Logic::CEntity *controlledAvatar) 
 										{_controlledAvatar = controlledAvatar;} 
 
+		Logic::CEntity * getControlledAvatar() {return _controlledAvatar; } 
 		/**
 		Activa la la clase, se registra en el CInputManager y así empieza a 
 		escuchar eventos.

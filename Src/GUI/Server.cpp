@@ -95,6 +95,8 @@ namespace GUI {
 		CEGUI::FontManager::getSingleton().create("FairChar-30.font");
 		CEGUI::FontManager::getSingleton().create("Batang-26.font");
 
+		_GUISystem->setDefaultMouseCursor("OgreTrayImages","MouseArrow");
+
 #ifndef NON_EXCLUSIVE_MODE_IN_WINDOW_MODE 
 		// Establecemos cual será el puntero del ratón.
 		_GUISystem->setDefaultMouseCursor("OgreTrayImages","MouseArrow");

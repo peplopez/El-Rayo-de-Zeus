@@ -180,6 +180,8 @@ namespace Application
 		*/
 		bool exitReleased(const CEGUI::EventArgs& e);
 
+		bool multiplayerReleased(const CEGUI::EventArgs& e);
+
 	}; // CMenuState
 
 } // namespace Application
