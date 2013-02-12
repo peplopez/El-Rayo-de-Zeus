@@ -19,6 +19,10 @@ gráfica de una entidad estática.
 
 #include "Graphics/Scene.h"
 
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Entity/Messages/MessageString.h"
+
 #define DEBUG 0
 #if DEBUG
 #	include <iostream>
@@ -59,34 +63,35 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CAnimatedGraphics::accept(const TMessage &message)
+	bool CAnimatedGraphics::accept(const CMessage *message)
 	{
 		return CGraphics::accept(message) ||
-			   message._type == Message::SET_ANIMATION ||
-			   message._type == Message::STOP_ANIMATION;
+			   message->getType() == Message::SET_ANIMATION ||
+			   message->getType() == Message::STOP_ANIMATION;
 
 	} // accept
 	
 	//---------------------------------------------------------
 
-	void CAnimatedGraphics::process(const TMessage &message)
+	void CAnimatedGraphics::process(CMessage *message)
 	{
 		CGraphics::process(message);
-		
-		switch(message._type)
+		CMessageBoolString *maux = static_cast<CMessageBoolString*>(message);
+		CMessageString *maux2 = static_cast<CMessageString*>(message);
+		switch(message->getType())
 		{
-		case Message::SET_ANIMATION:
-			// Paramos todas las animaciones antes de poner una nueva.
-			// Un control más sofisticado debería permitir interpolación
-			// de animaciones. Galeon no lo plantea.
-			_animatedGraphicsEntity->stopAllAnimations();
-			_animatedGraphicsEntity->setAnimation(message._string,message._bool);
-			LOG("SET_ANIMATION: " << message._string << " for Entity " << _entity->getName() );
-			break;
-		case Message::STOP_ANIMATION:
-			_animatedGraphicsEntity->stopAnimation(message._string);
-			LOG("STOP_ANIMATION: " << message._string << " for Entity " << _entity->getName() );
-			break;
+			case Message::SET_ANIMATION:
+				// Paramos todas las animaciones antes de poner una nueva.
+				// Un control más sofisticado debería permitir interpolación
+				// de animaciones. Galeon no lo plantea.
+				_animatedGraphicsEntity->stopAllAnimations();
+				_animatedGraphicsEntity->setAnimation(maux->getString(),maux->getBool());
+				LOG("SET_ANIMATION: " << maux->getString());
+				break;
+			case Message::STOP_ANIMATION:
+				_animatedGraphicsEntity->stopAnimation(maux->getString());
+				LOG("STOP_ANIMATION: " << maux2->getString());
+				break;
 		}
 
 	} // process
@@ -96,9 +101,9 @@ namespace Logic
 	void CAnimatedGraphics::animationFinished(const std::string &animation)
 	{
 		// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
-		TMessage msg;
-		msg._type = Message::TMessageType::ANIMATION_FINISHED;
-		msg._string = animation;
+		CMessageString *msg = new CMessageString();
+		msg->setType(Message::ANIMATION_FINISHED);
+		msg->setString(animation);
 		_entity->emitMessage(msg);		
 
 		// Si acaba una animación y tenemos una por defecto la ponemos

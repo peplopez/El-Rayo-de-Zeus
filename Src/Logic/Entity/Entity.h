@@ -20,8 +20,6 @@ de juego. Es una colección de componentes.
 #include "LogicalPosition.h"
 
 
-// Mensaje
-#include "Message.h"
 
 #include <list>
 #include <string>
@@ -37,6 +35,7 @@ namespace Logic
 	class CMap;
 	class IComponent;
 	class CEntityFactory;
+	class CMessage;
 }
 
 // Declaración de la clase
@@ -168,7 +167,7 @@ namespace Logic
 		@param emitter Componente emisor, si lo hay. No se le enviará el mensaje.
 		@return true si al menos un componente aceptó el mensaje
 		*/
-		const bool emitMessage (const TMessage &message, IComponent* emitter = 0);
+		bool emitMessage (CMessage *message, IComponent* emitter = 0);
 
 		/**
 		Devuelve el identificador único de la entidad.

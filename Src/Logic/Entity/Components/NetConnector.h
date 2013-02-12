@@ -14,6 +14,9 @@ Contiene la declaración del componente que reenvia mensajes por la red.
 #define __Logic_NetConnector_H
 
 #include "Logic/Entity/Component.h"
+#include <vector>
+
+#include "Logic/Entity/Messages/Message.h"
 
 // Declaración de la clase
 namespace Logic {
@@ -63,7 +66,7 @@ namespace Logic {
 			fichero de disco.
 		@return Cierto si la inicialización ha sido satisfactoria.
 		*/
-		virtual bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
+		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
 		/**
 		Método virtual que elige que mensajes son aceptados. Son válidos
@@ -72,14 +75,14 @@ namespace Logic {
 		@param message Mensaje a chequear.
 		@return true si el mensaje es aceptado.
 		*/
-		virtual bool accept(const TMessage &message);
+		bool accept(const CMessage *message);
 
 		/**
 		Método virtual que procesa un mensaje.
 
 		@param message Mensaje a procesar.
 		*/
-		virtual void process(const TMessage &message);
+		void process(CMessage *message);
 
 		/**
 		Método llamado en cada frame que actualiza el estado del componente.
@@ -88,20 +91,20 @@ namespace Logic {
 
 		@param msecs Milisegundos transcurridos desde el último tick.
 		*/
-		virtual void tick(unsigned int msecs);
+		void tick(unsigned int msecs);
 
 	protected:
 
 		/// Vector que contiene los TMessageType de los mensajes
 		/// que debemos propagar por la red.
-		std::vector<Logic::TMessageType>	_forwardedMsgTypes;
+		std::vector<Logic::TMessageType> _forwardedMsgTypes;
 
 		/// Map que contiene los TMessageType de los mensajes
 		/// que están bloqueados (no se envían) debido a que se 
 		/// acaba de enviar un mensaje del mismo tipo. El otro
 		/// valor es el tiempo que falta para el desbloqueo.
-		typedef std::map<Logic::TMessageType, int> TTimeToUnblockMsgDelivery;
-		typedef std::pair<Logic::TMessageType, int> TTimeToUnblockMsgDeliveryPair;
+		typedef std::map<Logic::Message::TMessageType, int> TTimeToUnblockMsgDelivery;
+		typedef std::pair<Logic::Message::TMessageType, int> TTimeToUnblockMsgDeliveryPair;
 		TTimeToUnblockMsgDelivery _timeToUnblockMsgDelivery;
 
 		/// Milisegundos que se esperan entre envios de mensajes del mismo tipo

@@ -16,6 +16,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Maps/EntityFactory.h"
 #include "Application/BaseApplication.h"
 
+#include "Logic/Entity/Messages/Message.h"
 
 namespace Logic 
 {
@@ -33,17 +34,17 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CDeath::accept(const TMessage &message)
+	bool CDeath::accept(const CMessage *message)
 	{
-		return message._type == Message::DEAD;
+		return message->getType() == Message::DEAD;
 
 	} // accept
 	
 	//---------------------------------------------------------
 
-	void CDeath::process(const TMessage &message)
+	void CDeath::process(CMessage *message)
 	{
-		switch(message._type)
+		switch(message->getType())
 		{
 
 		case Message::DEAD:			

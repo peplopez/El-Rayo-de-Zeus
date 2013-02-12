@@ -11,6 +11,7 @@ de los mensajes.
 */
 
 #include "CommunicationPort.h"
+#include "Logic/Entity/Messages/Message.h"
 
 namespace Logic {
 
@@ -22,11 +23,14 @@ namespace Logic {
 	
 	//---------------------------------------------------------
 
-	bool CCommunicationPort::set(const TMessage &message)
+	bool CCommunicationPort::set(CMessage *message)
 	{
 		bool accepted = accept(message);
 		if(accepted)
+		{
+			message->grab();
 			_messages.push_back(message);
+		}
 
 		return accepted;
 
@@ -38,7 +42,10 @@ namespace Logic {
 	{
 		TMessageList::const_iterator it = _messages.begin();
 		for(; it != _messages.end(); it++)
+		{
 			process(*it);
+			(*it)->release();
+		}
 
 		_messages.clear();
 

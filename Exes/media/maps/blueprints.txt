@@ -3,5 +3,5 @@ Camera CCamera
 SkyBox CGraphics
 Altar CGraphics
 Entity CGraphics
-Player CAnimatedGraphics CAngularMovement CCollider CLifeController CLife CDeath
-AnimatedEntity CAnimatedGraphics CAngularMovement CCollider CLifeController CLife CDeath
+Player CAnimatedGraphics CAngularMovement CCollider
+AnimatedEntity CAnimatedGraphics CAngularMovement CCollider

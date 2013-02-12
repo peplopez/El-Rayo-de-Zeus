@@ -15,7 +15,13 @@ angular de entidades.
 
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
- #include "Application/BaseApplication.h"
+#include "Application/BaseApplication.h"
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageBoolFloat.h"
+#include "Logic/Entity/Messages/MessageBool.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
+#include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Entity/Messages/MessageString.h"
 
 //declaración de la clase
 namespace Logic 
@@ -86,46 +92,56 @@ namespace Logic
 	void CAngularMovement::deactivate(){}
 
 	
-	bool CAngularMovement::accept(const TMessage &message)
+	bool CAngularMovement::accept(const CMessage *message)
 	{
 		if (_entity->getType().compare("Player")==0)
-			return message._type == Message::CONTROL;
+			return message->getType() == Message::CONTROL;
 		 if (_entity->getType().compare("AnimatedEntity")==0)
-			return message._type == Message::NPC_CONTROL;
+			return message->getType() == Message::NPC_CONTROL;
 	}
 
 		
-	 void CAngularMovement::process(const TMessage &message)
+	 void CAngularMovement::process(CMessage *message)
 		 {
-		switch(message._type)
+		switch(message->getType())
 		{
 		case Message::CONTROL:
 			{
-			if(!message._string.compare("goUp"))
+			if(message->getAction() == Message::GO_UP)
 				goUp();
-			else if(!message._string.compare("goDown"))
+			else if(message->getAction() == Message::GO_DOWN)
 				goDown();
-			else if(!message._string.compare("walkLeft"))
+			else if(message->getAction() == Message::WALK_LEFT)
 				walkLeft();
-			else if(!message._string.compare("walkRight"))
+			else if(message->getAction() == Message::WALK_RIGHT)
 				walkRight();
-			else if(!message._string.compare("walkStop"))
+			else if(message->getAction() == Message::WALK_STOP)
 				stopMovement();
-			else if(!message._string.compare("jump")) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
+			else if(message->getAction() == Message::JUMP) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
 					jump();
-			else if(!message._string.compare("walkBack"))
+			else if(message->getAction() == Message::WALK_BACK)
 				 {	
-					_sentidoColision=message._bool;
-					_correccionGrados=message._float;
+					CMessageBoolFloat* maux = static_cast<CMessageBoolFloat*>(message);
+					_sentidoColision=maux->getBool();
+					_correccionGrados=maux->getFloat();
 					walkBack();
 				 }
-			else if(!message._string.compare("changeDirection"))
+			else if(message->getAction() == Message::CHANGE_DIRECTION)
 				 {	
-					 _sentidoColision=message._bool;
+					CMessageBool* maux = static_cast<CMessageBool*>(message);
+					 _sentidoColision=maux->getBool();
 					changeDirection(_sentidoColision);
 				 }
-			else if(!message._string.compare("turn"))
-				turn(message._float);
+				else if(message->getAction() == Message::CHANGE_BASE)
+				 {	
+					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
+					changeBase(maux->getFloat());
+				 }
+			else if(message->getAction() == Message::TURN)
+				{
+					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
+					turn(maux->getFloat());
+				}
 			}
 		case Message::NPC_CONTROL:
 			{
@@ -133,31 +149,33 @@ namespace Logic
 				goUp();
 			else if(!message._string.compare("goDown"))
 				goDown();
-			*/ if(!message._string.compare("walkLeft"))
+			*/ if(message->getAction() == Message::WALK_LEFT)
 				walkLeft();
-			else if(!message._string.compare("walkRight"))
+			else if(message->getAction() == Message::WALK_RIGHT)
 				walkRight();
-			else if(!message._string.compare("walkStop"))
+			else if(message->getAction() == Message::WALK_STOP)
 				stopMovement();
-			else if(!message._string.compare("jump")) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
+			else if(message->getAction() == Message::JUMP) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
 					jump();
-			else if(!message._string.compare("walkBack"))
+			else if(message->getAction() == Message::WALK_BACK)
 				 {	
-					_sentidoColision=message._bool;
-					_correccionGrados=message._float;
+					CMessageBoolFloat* maux = static_cast<CMessageBoolFloat*>(message);
+					_sentidoColision=maux->getBool();
+					_correccionGrados=maux->getFloat();
 					walkBack();
 				 }
-			else if(!message._string.compare("changeDirection"))
+			else if(message->getAction() == Message::CHANGE_DIRECTION)
 				 {	
-					_sentidoColision=message._bool;
+					CMessageBool* maux = static_cast<CMessageBool*>(message);
+					_sentidoColision=maux->getBool();
 					changeDirection(_sentidoColision);
 				 }
-			else if(!message._string.compare("changeBase"))
-				 {	
-					changeBase(message._float);
-				 }
-			else if(!message._string.compare("turn"))
-				turn(message._float);
+
+			else if(message->getAction() == Message::TURN)
+				{
+					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
+					turn(maux->getFloat());
+				}
 			}
 		}
 	}
@@ -167,10 +185,10 @@ namespace Logic
 			_walkingRight = true;
 			// Cambiamos la animación
 			_entity->setSense(LogicalPosition::DERECHA);
-			TMessage message;
-			message._type = Message::SET_ANIMATION;
-			message._string = "RunKatana";
-			message._bool = true;
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			message->setString("RunKatana");
+			message->setBool(true);
 			_entity->emitMessage(message,this);
 
 		}
@@ -181,10 +199,10 @@ namespace Logic
 			
 			// Cambiamos la animación
 			_entity->setSense(LogicalPosition::IZQUIERDA);
-			TMessage message;
-			message._type = Message::SET_ANIMATION;
-			message._string = "RunKatana";
-			message._bool = true;
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			message->setString("RunKatana");
+			message->setBool(true);
 			_entity->emitMessage(message,this);
 
 		}
@@ -199,10 +217,10 @@ namespace Logic
 		{			
 			_walkBack=true; //para retroceder en las colisiones   
 			// Cambiamos la animación
-			TMessage message;
-			message._type = Message::SET_ANIMATION;
-			message._string = "IdleKatana";
-			message._bool = true;
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			message->setString("RunKatana");
+			message->setBool(true);
 			_entity->emitMessage(message,this);
 		}
 		
@@ -258,6 +276,12 @@ namespace Logic
 			if(_entity->getJumping()==false && !_walkingLeft && !_walkingRight)
 			{
 				_changingBase=true;	
+				if (_entity->getRing()==Ring::ANILLO_SUPERIOR)
+				{
+					_entity->setBase(base);
+					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+					_entity->setPosition(newPosition);
+				}
 				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
 				{
 					_entity->setBase(base);
@@ -282,32 +306,32 @@ namespace Logic
 		// Cambiamos la animación si no seguimos desplazándonos
 		// lateralmente
 		
-			TMessage message;
-			message._type = Message::SET_ANIMATION;
-			message._string = "IdleKatana";
-			message._bool = true;
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			message->setString("IdleKatana");
+			message->setBool(true);
 			_entity->emitMessage(message,this);
 		}
 		
 		
-	void CAngularMovement::changeDirection(bool newDirection)
+	void CAngularMovement::changeDirection(const bool newDirection)
 	{		
-				Logic::TMessage m;
-				m._string="marine";
-				m._type = Logic::Message::SET_SHADER;
+				CMessageString *m = new CMessageString();
+				m->setType(Message::SET_SHADER);
+				m->setString("marine");
 				_entity->emitMessage(m,this);
 				if (_entity->getType().compare("Player")==0)
-				return;
+					return;
 	
 			//	if (_entity->getType().compare("AnimatedEntity")==0)
 				//{
-				if (!_walkingLeft && !_walkingRight)
-				{
+				//if (!_walkingLeft && !_walkingRight)
+			//	{
 					if (newDirection)
 						walkLeft();
 					else
 						walkRight();
-				}
+//}
 					//	}
 			}
 	
@@ -317,36 +341,52 @@ namespace Logic
 	{
 			IComponent::tick(msecs);
 
-			bool cierre=false;
-			unsigned int currentTime;
-			unsigned int endingTime;
-			/*while(_changingRing){
-				currentTime=Application::CBaseApplication::getSingletonPtr()->getAppTime();
-			
-			if (!cierre)
+		if (_changingBase || _changingRing)
 			{
-				cierre=true;
-				endingTime=currentTime+3000;		
-			}
-			if (currentTime>endingTime)
-				_changingRing=false;
-			_entity->setRing(LogicalPosition::ANILLO_SUPERIOR);
-				IComponent::tick(msecs);
-			}*/
-
-			if (_changingBase || _changingRing)
-			{
-				if (_entity->getType().compare("Player")==0)
+				if(_entity->isPlayer())
 				{
-					Logic::TMessage m;		
-					m._string="transito";
-					m._type = Logic::Message::SET_SHADER;
+					CMessageString *m = new CMessageString();	
+					m->setType(Message::SET_SHADER);
+					m->setString("transito");
 					_entity->emitMessage(m,this);
-					_changingBase=_changingRing=false;
+
+					if (_changingBase)
+					{
+						_changingBaseTime+=msecs;
+						if (_changingBaseTime>_maxChangingBaseTime)
+						{
+							_changingBase=false;
+							_changingBaseTime=0;
+							CMessageString *m2 = new CMessageString();	
+							m2->setType(Message::SET_SHADER);
+							m2->setString("marine");
+							_entity->emitMessage(m2,this);
+						}
+					}
+					if (_changingRing)
+						{
+						_changingRingTime+=msecs;
+						if (_changingRingTime>_maxChangingRingTime)
+						{
+							_changingRing=false;
+							_changingRingTime=0;
+							CMessageString *m3 = new CMessageString();	
+							m3->setType(Message::SET_SHADER);
+							m3->setString("marine");
+							_entity->emitMessage(m3,this);
+						}
+					}
 				}
 			}
 			else
 			{
+					//CMessageString *m = new CMessageString();	
+					//m->setType(Message::SET_SHADER);
+					//m->setString("transito");
+					//_entity->emitMessage(m,this);
+					//_changingBase=_changingRing=false;
+				
+			
 			Vector3 direction(Vector3::ZERO);
 				
 

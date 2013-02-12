@@ -21,6 +21,12 @@ de la entidad.
 #include "Logic/Maps/EntityFactory.h"
 #include "Logic/Entity/Component.h"
 
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
+#include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageBoolFloat.h"
+#include "Logic/Entity/Messages/MessageBool.h"
+
 
 #include "Map/MapParser.h"
 
@@ -58,17 +64,17 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CCollider::accept(const TMessage &message)
+	bool CCollider::accept(const CMessage *message)
 	{
 		
-		return message._type == Message::CONTACTO;
+		return message->getType() == Message::CONTACTO;
 	} // accept
 	
 	//---------------------------------------------------------
 
-	void CCollider::process(const TMessage &message)
+	void CCollider::process(CMessage *message)
 	{
-		switch(message._type)
+		switch(message->getType())
 		{
 		case Message::CONTACTO:  //[ƒ®§] Pero..?
 			//Contacto();
@@ -139,50 +145,55 @@ namespace Logic
 
 	bool CCollider::contacto( CEntity* entidad1, CEntity* entidad2)
 	{
-			
+		CMessageFloat *m = new CMessageFloat();
 
-		Logic::TMessage m;
 
 		//_Vida--; si tiene vida se le disminuye, si es un proyectil no tiene vida
 		// Pablo 28-01-2013
-		m._type = Logic::Message::CONTACTO;
-		m._string="updateLife";
-		m._float=10.0;
+		m->setType(Message::CONTACTO);
+		m->setAction(Message::UPDATE_LIFE);
+		m->setFloat(10.0f);
 		entidad1->emitMessage(m,this);
 		//entidad2->emitMessage(m,this);
 		//fin emision mensaje de vida
 
-		m._type = Logic::Message::SET_SHADER;
-		m._string="luminoso";		
-		entidad1->emitMessage(m,this);
-		entidad2->emitMessage(m,this);
+		CMessageString *m2 = new CMessageString();
+		m2->setString("luminoso");
+		m2->setType(Message::SET_SHADER);
+		entidad1->emitMessage(m2,this);
+		entidad2->emitMessage(m2,this);
 
+		CMessageBoolFloat *m3 = new CMessageBoolFloat();
+		CMessageBoolFloat *m4 = new CMessageBoolFloat();
 		if (entidad1->getType().compare("Player")==0)
-			m._type = Logic::Message::CONTROL;
+			m3->setType(Message::CONTROL);
 		if (entidad1->getType().compare("AnimatedEntity")==0)
-			m._type = Logic::Message::NPC_CONTROL;
+			m3->setType(Message::NPC_CONTROL);
 
 
 	//	_sentidoColision=sentidoColision(entidad1,entidad2);
-        m._bool=sentidoColision(entidad1,entidad2);
+        m3->setBool(sentidoColision(entidad1,entidad2));
+		m4->setBool(!m3->getBool());
 //		m._bool=_sentidoColision;
 
 		//corrección para cuerpos superspuestos
 		if (contactoExtremo(entidad1,entidad2))
 		{
-			m._string="walkBack";
-			m._float=(((entidad1->getAngularBox()+entidad2->getAngularBox())/4));
-			entidad1->emitMessage(m,this);	
-			m._bool=!m._bool;
+			m3->setAction(Message::WALK_BACK);
+			m4->setAction(Message::WALK_BACK);
+			m3->setFloat(((entidad1->getAngularBox()+entidad2->getAngularBox())/4));
+			m4->setFloat(((entidad1->getAngularBox()+entidad2->getAngularBox())/4));
+			entidad1->emitMessage(m3,this);	
+
 			if (entidad2->getType().compare("Player")==0)
-				m._type = Logic::Message::CONTROL;
+				m4->setType(Logic::Message::CONTROL);
 			if (entidad2->getType().compare("AnimatedEntity")==0)
-				m._type = Logic::Message::NPC_CONTROL;
+				m4->setType(Logic::Message::NPC_CONTROL);
 
 
-			entidad2->emitMessage(m,this);	
+			entidad2->emitMessage(m4,this);	
 		}
-		else // HACK [ƒ®§] Si este componente está haciendo las veces de CPhysic, nunca jamás
+		else    // HACK [ƒ®§] Si este componente está haciendo las veces de CPhysic, nunca jamás
 		{	// debería actuar sobre las animaciones (de ahi lo de separar el CAngularMovement 
 			// de animaciones mediante el CAvatarController).			
 			// Lo que suele hacer el CPhysic para detener un movimiento en colision
@@ -192,8 +203,24 @@ namespace Logic
 			// del resultado de ese movimiento. Eso es lo que crea el efecto de tio corriendo contra 
 			// una pared sin moverse. De momento, como me conviene arreglarlo rápido para que salgan
 			// animaciones de daños y muerte en el HITO 2, lo quito.
+			CMessage *m5 = new CMessage();
+			CMessage *m6 = new CMessage();
+						if (entidad1->getType().compare("Player")==0)
+				m5->setType(Message::CONTROL);
+			if (entidad1->getType().compare("AnimatedEntity")==0)
+				m5->setType(Message::NPC_CONTROL);
+			m5->setAction(Message::WALK_STOP);
+			entidad1->emitMessage(m5,this);				
+			m6->setAction(Message::WALK_STOP);
+
+			if (entidad2->getType().compare("Player")==0)
+				m6->setType(Logic::Message::CONTROL);
+			if (entidad2->getType().compare("AnimatedEntity")==0)
+				m6->setType(Logic::Message::NPC_CONTROL);
 			
-			//m._string="walkStop";
+
+
+			entidad2->emitMessage(m6,this);	
 			//entidad1->emitMessage(m,this);	
 			//m._bool=!m._bool;
 			//if (entidad2->getType().compare("Player")==0)
@@ -202,39 +229,25 @@ namespace Logic
 			//	m._type = Logic::Message::NPC_CONTROL;
 			//entidad2->emitMessage(m,this);	
 		}
-		m._string="changeDirection";
+		CMessageBool *m7 = new CMessageBool();
+		CMessageBool *m8 = new CMessageBool();
+		m7->setAction(Message::CHANGE_DIRECTION);
+		m8->setAction(Message::CHANGE_DIRECTION);
 			
-		m._bool=sentidoColision(entidad1,entidad2);
+		m7->setBool(sentidoColision(entidad1,entidad2));
+		m8->setBool(!m7->getBool());
 			if (entidad1->getType().compare("Player")==0)
-				m._type = Logic::Message::CONTROL;
+				m7->setType(Message::CONTROL);
 			if (entidad1->getType().compare("AnimatedEntity")==0)
-				m._type = Logic::Message::NPC_CONTROL;
+				m7->setType(Message::NPC_CONTROL);
 
-		entidad1->emitMessage(m,this);	
-		m._bool=!m._bool;
+		entidad1->emitMessage(m7,this);	
 			if (entidad2->getType().compare("Player")==0)
-				m._type = Logic::Message::CONTROL;
+				m8->setType(Message::CONTROL);
 			if (entidad2->getType().compare("AnimatedEntity")==0)
-				m._type = Logic::Message::NPC_CONTROL;
+				m8->setType(Message::NPC_CONTROL);
 
-		entidad2->emitMessage(m,this);	
-			
-		//}
-		/*
-
-		if (entidad2->getType().compare("Player")==0)
-			m._type = Logic::Message::CONTROL;
-		if (entidad2->getType().compare("AnimatedEntity")==0)
-			m._type = Logic::Message::NPC_CONTROL;
-
-		_sentidoColision=!_sentidoColision;
-		m._bool=_sentidoColision;
-		entidad2->emitMessage(m,this);
-
-		*/		
-
-
-		//_hit++;
+		entidad2->emitMessage(m8,this);	
 
 		// HACK [ƒ®§0207] No sé lo que  viene encima y miedo me da meterme ^^", ¿pero lo suyo no sería enviar un mensaje de daño y que lo reciba quien pueda ser dañado?
 		// Aunque para independizar este detector de físicas de daños, debería ser el componente dañino del entity2 el que, tras ser avisado de que ha contactado

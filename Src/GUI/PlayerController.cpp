@@ -16,7 +16,8 @@ mover al jugador.
 #include "InputManager.h"
 
 #include "Logic/Entity/Entity.h"
-#include "Logic/Entity/Message.h"
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
 
 #include <cassert>
 
@@ -62,69 +63,111 @@ namespace GUI {
 		// TODO Preguntar al CServer quién es el player si es null y dejarlo guardado
 		if(_controlledAvatar)
 		{
-			Logic::TMessage m;
-			m._type = Logic::Message::CONTROL;
+			Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
+			Logic::CMessageFloat *m2 = new Logic::CMessageFloat();
+				m2->setType(Logic::Message::CONTROL);
 			switch(key.keyId)
 			{
 			case GUI::Key::W: //subir anillo superior
-				m._string = "goUp"; // Pablo
+				if (_controlledAvatar->getRing()==Logic::LogicalPosition::ANILLO_SUPERIOR)
+					return false;			
+				m->setAction(Logic::Message::GO_UP); // Pablo
+				_controlledAvatar->emitMessage(m);
 				break;
 			
 			case GUI::Key::S: //bajar anillo inferior
-				m._string = "goDown";
+				if (_controlledAvatar->getRing()==Logic::LogicalPosition::ANILLO_INFERIOR)
+					return false;			
+				m->setAction(Logic::Message::GO_DOWN); 
+				_controlledAvatar->emitMessage(m);
 				break;
 			case GUI::Key::SPACE:
-				m._string = "jump"; // Pablo
+				m->setAction(Logic::Message::JUMP);  // Pablo
+				_controlledAvatar->emitMessage(m);
 				break;
 			case GUI::Key::A:
-				m._string = "walkLeft";
+				m->setAction(Logic::Message::WALK_LEFT);
+				_controlledAvatar->emitMessage(m);
 				break;
 			case GUI::Key::D:
-				m._string = "walkRight";
+				m->setAction(Logic::Message::WALK_RIGHT);
+				_controlledAvatar->emitMessage(m);
 				break;
 			case GUI::Key::NUMBER1:
-				m._string = "changeBase";
-				m._float = 1;
+				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setFloat(1);
+				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER2:
-				m._string = "changeBase";
-				m._float = 2;
+				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setFloat(2);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				_controlledAvatar->emitMessage(m2);
 				break;			
 			case GUI::Key::NUMBER3:
-				m._string = "changeBase";
-				m._float = 3;
+				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setFloat(3);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER4:
-				m._string = "changeBase";
-				m._float = 4;
+				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setFloat(4);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				
+				_controlledAvatar->emitMessage(m2);
 				break;			
 			case GUI::Key::NUMBER5:
-				m._string = "changeBase";
-				m._float = 5;
+				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setFloat(5);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				
+				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER6:
-				m._string = "changeBase";
-				m._float = 6;
+				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setFloat(6);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				
+				_controlledAvatar->emitMessage(m2);
 				break;			
 			case GUI::Key::NUMBER7:
-				m._string = "changeBase";
-				m._float = 7;
+				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setFloat(7);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				
+				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER8:
-				m._string = "changeBase";
-				m._float = 8;
+				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setFloat(8);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				
+				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER0:
-				m._string = "changeBase";
-				m._float = 0;
+				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setFloat(0);
+				if (_controlledAvatar->getBase()==m2->getFloat())
+					return false;
+				
+				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::E:
-				m._string = "specialAction";
+				//m._string = "specialAction";
 				break;
 			default:
 				return false;
 			}
-			_controlledAvatar->emitMessage(m);
+			
 			return true;
 		}
 		return false;
@@ -137,14 +180,14 @@ namespace GUI {
 	{
 		if(_controlledAvatar)
 		{
-			Logic::TMessage m;
-			m._type = Logic::Message::CONTROL;
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
 			switch(key.keyId)
 			{
 			case GUI::Key::A:
 			case GUI::Key::D:
 				//m._string = "stopStrafe";
-				m._string = "walkStop";
+				m->setAction(Logic::Message::WALK_STOP);
 				break;
 
 			default:
@@ -163,10 +206,10 @@ namespace GUI {
 	{
 		if(_controlledAvatar)
 		{
-			Logic::TMessage m;
-			m._type = Logic::Message::CONTROL;
-			m._string = "turn";
-			m._float = -(float)mouseState.movX * TURN_FACTOR;
+			Logic::CMessageFloat *m = new Logic::CMessageFloat();
+			m->setType(Logic::Message::CONTROL);
+			m->setAction(Logic::Message::TURN);
+			m->setFloat(-(float)mouseState.movX * TURN_FACTOR);
 			_controlledAvatar->emitMessage(m);
 			return true;
 		}

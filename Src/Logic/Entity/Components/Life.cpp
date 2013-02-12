@@ -20,6 +20,9 @@ Contiene la implementación del componente que controla la vida de una entidad.
 
 // Para informar por red que se ha acabado el juego
 #include "Net/Manager.h"
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
 
 
 namespace Logic 
@@ -42,31 +45,34 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CLife::accept(const TMessage &message)
+	bool CLife::accept(const CMessage *message)
 	{
-		return message._type == Message::DAMAGED || 			
-				message._type == Message::ANIMATION_FINISHED;
+		return message->getType() == Message::DAMAGED || 
+				message->getType() == Message::CONTACTO || // HACK provisional
+				message->getType() == Message::ANIMATION_FINISHED;
 
 	} // accept
 	
 	//---------------------------------------------------------
 
-	void CLife::process(const TMessage &message)
+	void CLife::process(CMessage *message)
 	{
-		switch(message._type)
+		switch(message->getType())
 		{
-
-			case Message::DAMAGED:			
+			
+			case Message::DAMAGED:
+			case Message::CONTACTO:
 			{
+				CMessageFloat *maux = static_cast<CMessageFloat*>(message);
 				// Disminuir la vida de la entidad
-				_life -= message._int;
+				_life -= maux->getFloat();
 				
-				TMessage msg;
-					msg._type = TMessageType::SET_ANIMATION;						
+				CMessageString *msg = new CMessageString();
+					msg->setType(TMessageType::SET_ANIMATION)	;					
 				if(_life > 0)  // TODO Poner la animación de herido.
-					msg._string = "Damage";
+					msg->setString("Damage");
 				else  // TODO Si la vida es menor que 0 poner animación de morir.
-					msg._string = "Death";
+					msg->setString("Death");
 				_entity->emitMessage(msg, this);
 			
 			} break;
@@ -74,12 +80,13 @@ namespace Logic
 			// ANIMACION FINALIZADA
 			case Message::ANIMATION_FINISHED: 
 			{	
+				CMessageString *maux = static_cast<CMessageString*>(message);
 				// TODO Si matan a un jugador habrá que avisarle que, para él, el 
 					// juego ha terminado. Si hubiese más jugadores también deberían
 					// enterarse de que ese jugador ha muerto para que eliminen su entidad...
-				if(message._string == "Death") { // Completada animación de muerte -> END_GAME
-					TMessage msg;
-						msg._type = TMessageType::DEAD;
+				if(maux->getString() == "Death") { // Completada animación de muerte -> END_GAME
+					CMessage *msg = new CMessage();
+						msg->setType(TMessageType::DEAD);
 					_entity->emitMessage(msg, this);	
 				}
 
