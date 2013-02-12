@@ -41,7 +41,7 @@ namespace Logic
 		void setBool(const bool valor) {_bool=valor; }
 
 
-		Matrix4 getTransform() { return _transform; }
+		const Matrix4& getTransform() { return _transform; }
 		void setTransform(const Matrix4 &transform) { _transform=transform; }
 
 

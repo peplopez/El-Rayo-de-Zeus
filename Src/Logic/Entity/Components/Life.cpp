@@ -22,6 +22,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Net/Manager.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageBoolString.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
 
 
@@ -67,8 +68,9 @@ namespace Logic
 				// Disminuir la vida de la entidad
 				_life -= maux->getFloat();
 				
-				CMessageString *msg = new CMessageString();
-					msg->setType(TMessageType::SET_ANIMATION)	;					
+				CMessageBoolString *msg = new CMessageBoolString();
+					msg->setType(TMessageType::SET_ANIMATION);	
+					msg->setBool(true);
 				if(_life > 0)  // TODO Poner la animación de herido.
 					msg->setString("Damage");
 				else  // TODO Si la vida es menor que 0 poner animación de morir.

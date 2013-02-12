@@ -43,7 +43,7 @@ namespace Logic
 		~CMessageV3() {};
 
 
-		Vector3 getVector3() { return _vector3; }
+		const Vector3& getVector3() { return _vector3; }
 		void setVector3(const Vector3 &vector3) { _vector3=vector3; }
 
 
