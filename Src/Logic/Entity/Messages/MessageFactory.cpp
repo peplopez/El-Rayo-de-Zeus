@@ -12,7 +12,7 @@ los punteros a función de funciones de creación componentes (CMessage).
 @date Julio, 2010
 */
 #include "MessageFactory.h"
-#include "Logic/Entity/Component.h"
+
 
 #include <cassert>
 
