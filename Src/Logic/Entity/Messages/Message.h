@@ -37,17 +37,19 @@ namespace Logic
 			SET_TRANSFORM_QUAT	= 0x04,
 			SET_ANIMATION		= 0x05,
 			STOP_ANIMATION		= 0x06,			 
-			CONTACTO			= 0x07,   // Spanglish nooo manches wayyy!!
+			CONTACT				= 0x07,   // PEP: Ya lo desSpanglishao
 			SET_SHADER			= 0x08,			
 			CAMERA				= 0x09,
 			AVATAR_WALK			= 0x10,
 			DAMAGED				= 0x11,			
-			ANIMATION_FINISHED	= 0x12	
+			ANIMATION_FINISHED	= 0x12,
+			COMBAT				= 0x13,
+			CHANGE_RING			= 0x14,
 		};
 
 		enum TActionType : unsigned char
 		{
-			UNDEF				= 0xFF,
+			UNDEF				= 0xFF,//pep: esto es hexadecimal? no parece que llevemos un orden en la numeración hexadecimal
 			GO_UP				= 0x0F,
 			GO_DOWN				= 0x10,
 			WALK_LEFT			= 0x11,
@@ -58,7 +60,9 @@ namespace Logic
 			TURN				= 0x16,
 			CHANGE_DIRECTION	= 0x17,
 			CHANGE_BASE			= 0x18,
-			UPDATE_LIFE			= 0x19
+			UPDATE_LIFE			= 0x19,
+			LIGHT_ATTACK		= 0x20,
+			HEAVY_ATTACK		= 0x21
 		};
 	}
 

@@ -343,6 +343,7 @@ Map ={
 		ring=2,
 	},
 	
+	
 	bioshockLOGICO3 = {
 		type = "Bigdaddy",
 		base=1,
@@ -582,5 +583,5 @@ Map ={
 		offsetLife = 30.0,
 		widthLife = 20.0,
 		heightLife = 2.0,		
-	},	
+	},		
 }

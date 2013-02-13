@@ -43,7 +43,7 @@ namespace GUI {
 	void CPlayerController::activate()
 	{		
 		CInputManager::getSingletonPtr()->addKeyListener(this);
-	//	CInputManager::getSingletonPtr()->addMouseListener(this);
+		CInputManager::getSingletonPtr()->addMouseListener(this);
 
 	} // activate
 
@@ -52,7 +52,7 @@ namespace GUI {
 	void CPlayerController::deactivate()
 	{
 		CInputManager::getSingletonPtr()->removeKeyListener(this);
-	//	CInputManager::getSingletonPtr()->removeMouseListener(this);
+		CInputManager::getSingletonPtr()->removeMouseListener(this);
 
 	} // deactivate
 
@@ -221,8 +221,24 @@ namespace GUI {
 		
 	bool CPlayerController::mousePressed(const CMouseState &mouseState)
 	{
-		return false;
-
+		if(_controlledAvatar)
+		{
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::COMBAT);
+			switch(mouseState.button)
+			{			
+			case GUI::Button::LEFT:				
+			m->setAction(Logic::Message::LIGHT_ATTACK);						
+				break;
+			case GUI::Button::RIGHT:				
+			m->setAction(Logic::Message::HEAVY_ATTACK);
+				break;			
+			default:
+				return false;
+			}
+			_controlledAvatar->emitMessage(m);
+			return true;
+		}
 	} // mousePressed
 
 	//--------------------------------------------------------

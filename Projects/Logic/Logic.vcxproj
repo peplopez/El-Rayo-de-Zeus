@@ -82,7 +82,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\BaseTraveler.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Death.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\RingTraveler.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\Message.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBool.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloat.cpp" />
@@ -114,8 +116,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AngularMovement.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\BaseTraveler.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Collider.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Death.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\RingTraveler.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBool.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloat.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\Message.h" />

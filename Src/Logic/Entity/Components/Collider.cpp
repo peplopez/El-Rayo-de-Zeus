@@ -67,7 +67,7 @@ namespace Logic
 	bool CCollider::accept(const CMessage *message)
 	{
 		
-		return message->getType() == Message::CONTACTO;
+		return message->getType() == Message::CONTACT;
 	} // accept
 	
 	//---------------------------------------------------------
@@ -76,10 +76,10 @@ namespace Logic
 	{
 		switch(message->getType())
 		{
-		case Message::CONTACTO:  //[ƒ®§] Pero..?
-			//Contacto();
+		case Message::CONTACT:  //[ƒ®§] Pero..?   PeP: ^.^'
+			//CONTACT();
 			break;
-		 //PROCESAR EL CONTACTO, PARAR A LAS ENTIDADES IMPLICADAS
+		 //PROCESAR EL CONTACT, PARAR A LAS ENTIDADES IMPLICADAS
 		
 		}
 
@@ -112,7 +112,7 @@ namespace Logic
 		float angularBoxAmount=entidad1->getAngularBox()+entidad2->getAngularBox();
 		//if (this->getType().compare("AnimatedEntity")==0)
 		//	int i=0;
-		if (logicalCenterDistance<=angularBoxAmount) //si la distancia de los centros es menor que la suma de los radios hay contacto
+		if (logicalCenterDistance<=angularBoxAmount) //si la distancia de los centros es menor que la suma de los radios hay CONTACT
 		{	
 			return true;		
 		}
@@ -135,7 +135,7 @@ namespace Logic
 		float angularBoxAmount=entidad1->getAngularBox()+entidad2->getAngularBox();
 		//if (this->getType().compare("AnimatedEntity")==0)
 		//	int i=0;
-		if (logicalCenterDistance<=angularBoxAmount) //si la distancia de los centros es menor que la suma de los radios hay contacto
+		if (logicalCenterDistance<=angularBoxAmount) //si la distancia de los centros es menor que la suma de los radios hay CONTACT
 		{	
 			return true;		
 		}
@@ -150,7 +150,7 @@ namespace Logic
 
 		//_Vida--; si tiene vida se le disminuye, si es un proyectil no tiene vida
 		// Pablo 28-01-2013
-		m->setType(Message::CONTACTO);
+		m->setType(Message::CONTACT);
 		m->setAction(Message::UPDATE_LIFE);
 		m->setFloat(10.0f);
 		entidad1->emitMessage(m,this);
@@ -203,6 +203,7 @@ namespace Logic
 			// del resultado de ese movimiento. Eso es lo que crea el efecto de tio corriendo contra 
 			// una pared sin moverse. De momento, como me conviene arreglarlo rápido para que salgan
 			// animaciones de daños y muerte en el HITO 2, lo quito.
+			// pEp: Tus deseos son ordenes, AvatarController ha vuelto y viene para quedarse!!
 			CMessage *m5 = new CMessage();
 			CMessage *m6 = new CMessage();
 						if (entidad1->getType().compare("Player")==0)
@@ -307,7 +308,7 @@ namespace Logic
 					break;
 				}
 				//Logic::TMessage m;
-				//m._type = Logic::Message::CONTACTO;				
+				//m._type = Logic::Message::CONTACT;				
 				//_entity->emitMessage(m,this);				
 			}
 			} // tick

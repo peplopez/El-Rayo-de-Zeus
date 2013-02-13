@@ -33,10 +33,10 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 		
-		if(entityInfo->hasAttribute("angularSpeed"))
-			_angularSpeed = entityInfo->getFloatAttribute("angularSpeed");
 		
-		//_angularSpeed=0.00625;
+		
+		if(entityInfo->hasAttribute("angularSpeed"))
+			_angularSpeed=entityInfo->getFloatAttribute("angularSpeed");;
 
 
 		// Pablo. Si la entidad tiene el atributo jumpSpeed la capturamos y la guardamos en _jumpSpeed
@@ -93,9 +93,11 @@ namespace Logic
 
 	
 	bool CAngularMovement::accept(const CMessage *message)
-	{
-		if (_entity->getType().compare("Player")==0)
-			return message->getType() == Message::CONTROL;
+	{//aviso de que tanto accept como process son un poco hack, pero es es solo hasta tener un componente NPCCONTROLLER
+		if (_entity->isPlayer())
+		return message->getType() == Message::AVATAR_WALK;
+		/*if (_entity->getType().compare("Player")==0)
+			return message->getType() == Message::CONTROL;*/
 		 if (_entity->getType().compare("AnimatedEntity")==0)
 			return message->getType() == Message::NPC_CONTROL;
 	}
@@ -105,13 +107,10 @@ namespace Logic
 		 {
 		switch(message->getType())
 		{
-		case Message::CONTROL:
+		case Message::AVATAR_WALK:
 			{
-			if(message->getAction() == Message::GO_UP)
-				goUp();
-			else if(message->getAction() == Message::GO_DOWN)
-				goDown();
-			else if(message->getAction() == Message::WALK_LEFT)
+			
+			if(message->getAction() == Message::WALK_LEFT)
 				walkLeft();
 			else if(message->getAction() == Message::WALK_RIGHT)
 				walkRight();
@@ -131,12 +130,7 @@ namespace Logic
 					CMessageBool* maux = static_cast<CMessageBool*>(message);
 					 _sentidoColision=maux->getBool();
 					changeDirection(_sentidoColision);
-				 }
-				else if(message->getAction() == Message::CHANGE_BASE)
-				 {	
-					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
-					changeBase(maux->getFloat());
-				 }
+				 }				
 			else if(message->getAction() == Message::TURN)
 				{
 					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
@@ -182,120 +176,26 @@ namespace Logic
 
 		void CAngularMovement::walkRight()
 		{
-			_walkingRight = true;
-			// Cambiamos la animación
-			_entity->setSense(LogicalPosition::DERECHA);
-			CMessageBoolString *message = new CMessageBoolString();
-			message->setType(Message::SET_ANIMATION);
-			message->setString("RunKatana");
-			message->setBool(true);
-			_entity->emitMessage(message,this);
-
+			_walkingRight = true;			
 		}
 		
 		void CAngularMovement::walkLeft()
 		{
-			_walkingLeft = true;
-			
-			// Cambiamos la animación
-			_entity->setSense(LogicalPosition::IZQUIERDA);
-			CMessageBoolString *message = new CMessageBoolString();
-			message->setType(Message::SET_ANIMATION);
-			message->setString("RunKatana");
-			message->setBool(true);
-			_entity->emitMessage(message,this);
-
+			_walkingLeft = true;		
 		}
 
-		// Pablo
-		void CAngularMovement::jump()
-		{
-			_initialJump = true;
-		}
+	// Pablo
+	void CAngularMovement::jump()
+	{
+		_initialJump = true;
+	}
 	
 		void CAngularMovement::walkBack()
 		{			
-			_walkBack=true; //para retroceder en las colisiones   
-			// Cambiamos la animación
-			CMessageBoolString *message = new CMessageBoolString();
-			message->setType(Message::SET_ANIMATION);
-			message->setString("RunKatana");
-			message->setBool(true);
-			_entity->emitMessage(message,this);
+			_walkBack=true; //para retroceder en las colisiones   			
 		}
 		
 		
-		void CAngularMovement::goDown()
-		{
-			_changingRing=true;
-			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
-			if(_entity->getJumping()==false)
-			{
-				_changingRing=true;
-				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
-				{
-					_entity->setRing(Ring::ANILLO_INFERIOR);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				}
-				if (_entity->getRing()==Ring::ANILLO_SUPERIOR)
-				{
-					_entity->setRing(Ring::ANILLO_CENTRAL);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				}
-			}			
-		}
-		
-		void CAngularMovement::goUp()
-		{
-			_changingRing=true;
-			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
-			if(_entity->getJumping()==false)
-			{
-				_changingRing=true;	
-				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
-				{
-					_entity->setRing(Ring::ANILLO_SUPERIOR);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				}
-				if (_entity->getRing()==Ring::ANILLO_INFERIOR)
-				{
-					_entity->setRing(Ring::ANILLO_CENTRAL);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				}
-			}			
-		}
-		
-		void CAngularMovement::changeBase(int base)
-		{
-			_changingBase=true;
-			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
-			if(_entity->getJumping()==false && !_walkingLeft && !_walkingRight)
-			{
-				_changingBase=true;	
-				if (_entity->getRing()==Ring::ANILLO_SUPERIOR)
-				{
-					_entity->setBase(base);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				}
-				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
-				{
-					_entity->setBase(base);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				}
-				if (_entity->getRing()==Ring::ANILLO_INFERIOR)
-				{
-					_entity->setBase(base);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				}
-			}
-		}
 
 		void CAngularMovement::stopMovement()
 		{
@@ -304,13 +204,7 @@ namespace Logic
 			_walkingLeft = _walkingRight = false;
 
 		// Cambiamos la animación si no seguimos desplazándonos
-		// lateralmente
-		
-			CMessageBoolString *message = new CMessageBoolString();
-			message->setType(Message::SET_ANIMATION);
-			message->setString("IdleKatana");
-			message->setBool(true);
-			_entity->emitMessage(message,this);
+	
 		}
 		
 		
@@ -341,7 +235,7 @@ namespace Logic
 	{
 			IComponent::tick(msecs);
 
-		if (_changingBase || _changingRing)
+		/*if (_changingBase || _changingRing)
 			{
 				if(_entity->isPlayer())
 				{
@@ -379,7 +273,7 @@ namespace Logic
 				}
 			}
 			else
-			{
+			{*/
 					//CMessageString *m = new CMessageString();	
 					//m->setType(Message::SET_SHADER);
 					//m->setString("transito");
@@ -388,7 +282,6 @@ namespace Logic
 				
 			
 			Vector3 direction(Vector3::ZERO);
-				
 
 			if(_walkingLeft || _walkingRight || _initialJump || _entity->getJumping())
 			{
@@ -553,15 +446,14 @@ namespace Logic
 					newPositionWalkBack.y=_posicionSalto.y;
 				_entity->setPosition(newPositionWalkBack);
 
-			}
-		}
+			}		
+	
 	} //fin de CAngularMovement:tick
 
-
-
-		void CAngularMovement::turn(float amount)
+	void CAngularMovement::turn(float amount)
 		{
 				_entity->yaw(amount);		
 		}
+
 
 } // namespace Logic

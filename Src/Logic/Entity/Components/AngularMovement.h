@@ -47,8 +47,8 @@ namespace Logic
 		defecto.
 		*/
 		// Pablo. Añadido la inicialización de _jumping y _timeJumping
-		CAngularMovement() : IComponent(), _sentidoColision(false),_changingRing(false),_changingBase(false), _walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false), _goingDown(false),
-			_angularSpeed(0.00625f), _actualRadius(-55), _actualDegree(-90), _jumpingDown(false), _initialJump(false), _timeJumping(0), _potenciaSaltoInicial(5)/*5*/, _correccionGrados(0),_changingRingTime(0),_maxChangingRingTime(2000),_changingBaseTime(0),_maxChangingBaseTime(5000){}
+		CAngularMovement() : IComponent(), _sentidoColision(false), _walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false), _goingDown(false),
+			_angularSpeed(0.00625f), _jumpingDown(false), _initialJump(false), _timeJumping(0), _potenciaSaltoInicial(5)/*5*/, _correccionGrados(0){}
 		// divididio entre 32
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -129,21 +129,6 @@ namespace Logic
 		*/
 		void walkLeft();
 
-		//Pablo
-		/**
-		Provoca que la entidad salte.
-		*/
-		void jump();
-		
-		/**
-		Provoca que la entidad baje de anillo. Conlleva un cambio del eje de giro en su coordenada y
-		*/
-		void goDown();
-
-		/**
-		Provoca que la entidad suba de anillo. Conlleva un cambio del eje de giro en su coordenada y
-		*/
-		void goUp();
 
 		/**
 		Provoca que la entidad cese el desplazamiento.
@@ -166,9 +151,12 @@ namespace Logic
 		*/
 		void changeDirection(const bool newDirection);
 
-				
-		void changeBase(int base);
-
+		//Pablo
+		/**
+		Provoca que la entidad salte.
+		*/
+		void jump();
+		
 
 
 	
@@ -209,11 +197,6 @@ namespace Logic
 		*/
 		float _angularSpeed;
 
-
-		float _actualRadius;
-
-		float _actualDegree;
-
 		float _correccionGrados;
 
 		bool _sentidoDerecha;
@@ -246,23 +229,11 @@ namespace Logic
 		//Pablo. posicion Vector3 (x,y,z) en el momento de saltar
 		Vector3 _posicionSalto;
 
-		bool _changingRing;
-
-		bool _changingBase;
-	
 		float _potenciaSalto;
 
 		float _potenciaSaltoInicial;
-
 		
-		float _changingRingTime;
-
-		float _changingBaseTime;
 		
-		float _maxChangingRingTime;
-
-		float _maxChangingBaseTime;
-
 	}; // class CAngularMovement
 
 	REG_FACTORY(CAngularMovement);

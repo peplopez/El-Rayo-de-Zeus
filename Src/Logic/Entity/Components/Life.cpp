@@ -48,7 +48,7 @@ namespace Logic
 	bool CLife::accept(const CMessage *message)
 	{
 		return message->getType() == Message::DAMAGED || 
-				message->getType() == Message::CONTACTO || // HACK provisional
+				message->getType() == Message::CONTACT || // HACK provisional
 				message->getType() == Message::ANIMATION_FINISHED;
 
 	} // accept
@@ -61,7 +61,7 @@ namespace Logic
 		{
 			
 			case Message::DAMAGED:
-			case Message::CONTACTO:
+			case Message::CONTACT:
 			{
 				CMessageFloat *maux = static_cast<CMessageFloat*>(message);
 				// Disminuir la vida de la entidad
@@ -87,7 +87,7 @@ namespace Logic
 				if(maux->getString() == "Death") { // Completada animación de muerte -> END_GAME
 					CMessage *msg = new CMessage();
 						msg->setType(TMessageType::DEAD);
-					_entity->emitMessage(msg, this);	
+					_entity->emitMessage(msg, this);
 				}
 
 			}break;

@@ -44,7 +44,7 @@ namespace GUI {
 	void CCameraController::activate()
 	{		
 		CInputManager::getSingletonPtr()->addKeyListener(this);
-		CInputManager::getSingletonPtr()->addMouseListener(this);
+	//	CInputManager::getSingletonPtr()->addMouseListener(this);
 
 	} // activate
 
@@ -53,7 +53,7 @@ namespace GUI {
 	void CCameraController::deactivate()
 	{
 		CInputManager::getSingletonPtr()->removeKeyListener(this);
-		CInputManager::getSingletonPtr()->removeMouseListener(this);
+	//	CInputManager::getSingletonPtr()->removeMouseListener(this);
 
 	} // deactivate
 

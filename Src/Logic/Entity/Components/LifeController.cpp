@@ -93,7 +93,7 @@ namespace Logic
 		 bool CLifeController::accept(const CMessage *message)
 		 {
 			//return message._type == Message::CONTROL; 
-			return message->getType() == Message::CONTACTO;
+			return message->getType() == Message::CONTACT;
 			//De momento, luego tendrá que aceptar de otras entidades NPC
 			 return false;
 		 }
@@ -103,7 +103,7 @@ namespace Logic
 		 {
 			switch(message->getType())
 			{
-			case Message::CONTACTO:
+			case Message::CONTACT:
 				CMessageFloat *maux = static_cast<CMessageFloat*>(message);
 				if(message->getAction() == Message::UPDATE_LIFE)
 					updateLife(maux->getFloat());
