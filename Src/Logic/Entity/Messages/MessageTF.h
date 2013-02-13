@@ -42,7 +42,7 @@ namespace Logic
 		~CMessageTF(){}
 
 
-		Matrix4 getTransform() { return _transform; }
+		const Matrix4 &getTransform() { return _transform; }
 		void setTransform(const Matrix4 &transform) { _transform=transform; }
 
 		

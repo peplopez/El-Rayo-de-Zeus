@@ -26,6 +26,7 @@ de la entidad.
 #include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageBoolFloat.h"
 #include "Logic/Entity/Messages/MessageBool.h"
+#include "Logic/Entity/Messages/MessageInt.h"
 
 
 #include "Map/MapParser.h"
@@ -253,10 +254,11 @@ namespace Logic
 		// HACK [ƒ®§0207] No sé lo que  viene encima y miedo me da meterme ^^", ¿pero lo suyo no sería enviar un mensaje de daño y que lo reciba quien pueda ser dañado?
 		// Aunque para independizar este detector de físicas de daños, debería ser el componente dañino del entity2 el que, tras ser avisado de que ha contactado
 		// con el entity1, le enviara un mensaje DAMAGED con el CDamage::_DAMAGE que sólo él conoce (el CDamage de entity2)		
-		//TMessage msg;
-		//	msg._type = TMessageType::DAMAGED;
-		//	msg._int = 10; // los hp suelen ser enteros
-		//entidad1->emitMessage(msg, this);	
+		CMessageFloat *msg = new CMessageFloat();
+			msg->setType(Message::DAMAGED);
+			msg->setFloat(10); //los hp suelen ser enteros?
+			entidad1->emitMessage(msg, this); 
+
 
 		return false;
 		}

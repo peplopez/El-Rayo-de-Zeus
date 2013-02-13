@@ -11,7 +11,7 @@ Contiene definición de funciones de serialización y deserialización de mensajes.
 
 
 #include "MessageBoolTF.h"
-#include "Logic/Entity/Entity.h"
+
 
 
 namespace Logic 

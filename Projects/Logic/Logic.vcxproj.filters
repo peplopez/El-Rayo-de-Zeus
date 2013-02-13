@@ -126,9 +126,28 @@
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolTF.cpp">
       <Filter>Entity\Messages\Source Files</Filter>
+          </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\RingTraveler.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\BaseTraveler.h">
+      <Filter>Entity\Components\Header Files</Filter>
+
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\RingTraveler.cpp">
+       <Filter>Entity\Messages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageInt.h">
+
+<ClCompile Include="..\..\Src\Logic\Entity\Components\RingTraveler.cpp">
       <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\BaseTraveler.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageInt.cpp">
+      <Filter>Entity\Messages\Source Files</Filter>
+    </ClCompile>
+
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BaseTraveler.cpp">
       <Filter>Entity\Components\Source Files</Filter>
@@ -234,6 +253,9 @@
       <Filter>Entity\Messages\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolTF.h">
+      <Filter>Entity\Messages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageInt.h">
       <Filter>Entity\Messages\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\RingTraveler.h">
