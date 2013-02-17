@@ -12,18 +12,16 @@ Contiene la implementación del componente que controla la vida de una entidad.
 
 #include "Life.h"
 
-#include "Logic/Entity/Entity.h"
-
-#include "Logic/Maps/Map.h"
-#include "Map/MapEntity.h"
-#include "Application/BaseApplication.h"
-
 // Para informar por red que se ha acabado el juego
-#include "Net/Manager.h"
+
+#include "BaseSubsystems/Math.h"
+#include "Graphics/Server.h" //Pablo 04-02-2013
+
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageInt.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
-#include "Logic/Entity/Messages/MessageFloat.h"
+
+#include "Map/MapEntity.h"
 
 
 namespace Logic 
@@ -37,9 +35,20 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
-		if(entityInfo->hasAttribute("life"))
-			_life = entityInfo->getFloatAttribute("life");
+		if(entityInfo->hasAttribute("lifeMax"))
+			_life = _LIFE_MAX = entityInfo->getFloatAttribute("lifeMax");
+		if(entityInfo->hasAttribute("lifeBarPosition"))		
+			_lifeBarPosition = entityInfo->getFloatAttribute("lifeBarPosition");		
+		if(entityInfo->hasAttribute("lifeBarWidth"))		
+			_lifeBarWidth = entityInfo->getFloatAttribute("lifeBarWidth");	
+		if(entityInfo->hasAttribute("lifeBarHeight"))
+			_lifeBarHeight = entityInfo->getFloatAttribute("lifeBarHeight");
 
+		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
+		_lifeBar = Graphics::CBillboard( entity->getName(), _lifeBarPosition);  //le paso un string con el nombre de la entidad			
+			_lifeBar.setDimensions(_lifeBarWidth,_lifeBarHeight);  //Pablo. 01-02-2013- Ancho y alto de la barra de vida dirigido por datos
+			_lifeBar.setCoordenadas(0.0f, 0.0f, 0.5f, 1.0f);
+		
 		return true;
 
 	} // spawn
@@ -48,9 +57,7 @@ namespace Logic
 
 	bool CLife::accept(const CMessage *message)
 	{
-		return message->getType() == Message::DAMAGED || 
-				message->getType() == Message::CONTACT || // HACK provisional
-				message->getType() == Message::ANIMATION_FINISHED;
+		return message->getType() == Message::LIFE_MODIFIER;		
 
 	} // accept
 	
@@ -58,48 +65,48 @@ namespace Logic
 
 	void CLife::process(CMessage *message)
 	{
-		switch(message->getType())
-		{
-			
-			case Message::DAMAGED:
-			case Message::CONTACT:
-			{
-				CMessageFloat *maux = static_cast<CMessageFloat*>(message);
-				// Disminuir la vida de la entidad
-				_life -= maux->getFloat();
-				
-				CMessageBoolString *msg = new CMessageBoolString();
-					msg->setType(TMessageType::SET_ANIMATION);	
-					msg->setBool(false);
-				if(_life > 0)  // TODO Poner la animación de herido.
-					msg->setString("Damage");
-				else  // TODO Si la vida es menor que 0 poner animación de morir.
-					msg->setString("Death");
-				_entity->emitMessage(msg, this);
-			
-			} break;
-		
-			// ANIMACION FINALIZADA
-			case Message::ANIMATION_FINISHED: 
-			{	
-				CMessageString *maux = static_cast<CMessageString*>(message);
-				// TODO Si matan a un jugador habrá que avisarle que, para él, el 
-					// juego ha terminado. Si hubiese más jugadores también deberían
-					// enterarse de que ese jugador ha muerto para que eliminen su entidad...
-				if(maux->getString() == "Death") { // Completada animación de muerte -> END_GAME
-					CMessage *msg = new CMessage();
-						msg->setType(TMessageType::DEAD);
-					_entity->emitMessage(msg, this);
-				}
-
-			}break;
-
-		}
-
-
-
-
+		modifyLife( static_cast<CMessageInt*>(message)->getInt() );
 	} // process
+
+	void CLife::modifyLife(int lifeModifier) {
+
+		Math::delimit( _life += lifeModifier, 0, _LIFE_MAX); // Disminuir/ aumentar la vida de la entidad
+			
+		// DIES
+		if(_life <= 0) {
+	
+			_lifeBar.deactivateBillboard( _entity->getName() ); //Eliminacion del billboard de la entidad
+
+			CMessage *msg = new CMessage();
+				msg->setType(TMessageType::DEAD);
+				_entity->emitMessage(msg, this);
+		
+		// DAMAGE / HEAL 
+		} else { // Solo animaciones
+
+			CMessageBoolString *msg = new CMessageBoolString();
+				msg->setType(TMessageType::SET_ANIMATION);	
+				msg->setBool(false);
+
+			if(lifeModifier < 0)
+				msg->setString("Damage"); //Poner la animación de herido.
+			else if(lifeModifier > 0)
+				msg->setString("Heal"); // Poner la animación de curacion
+
+			_entity->emitMessage(msg, this);
+		}		
+
+		// LIFEBAR CONTROL
+		float ratio = _life / _LIFE_MAX;
+			_lifeBar.setCoordenadas(
+				(1.0f - ratio) / 2.0f,			// u1
+				0.0f,							// v1
+				0.5f + (1.0f - ratio) / 2.0f,	// u2
+				1.0f							// v2
+			);
+
+	
+	} // modifyLife
 
 
 } // namespace Logic

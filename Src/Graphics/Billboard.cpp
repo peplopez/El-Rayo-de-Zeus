@@ -1,18 +1,3 @@
-//David Llanso Tutoria
-/*
-
-//Constructor
-CBillboard(name){
-
-	_bbset = CServer::getSingletonPtr()->getActiveScene()->createBillboard(name);
-}
-
-// Destructor 
-
-*/
-//metodos de setDimensions....activate, deactivate, setcoord...
-//Dentro se utilizaria. _bbset->getBillboard(0) para acceder al primer billboard del conjunto de billboards.
-
 //---------------------------------------------------------------------------
 // Billboard.cpp
 //---------------------------------------------------------------------------
@@ -45,25 +30,16 @@ Contiene la implementación de la clase que maneja el billboard.
 namespace Graphics 
 {
 	//Constructor de la clase CBillboard. Donde se crea un BillboardSet (de momento con 1 sólo Billboard)
-	//CBillboard::CBillboard(const std::string &name, Vector3 position) //le paso un string y la posicion de la entidad
-	CBillboard::CBillboard(const std::string &name, const float offset) //le paso un string y el offset de la pos del billboard
+	CBillboard::CBillboard(const std::string &name, const float offset)  //le paso un string y el offset de la pos del billboard
 	{
-		//Graphics::CServer::getSingletonPtr()->getActiveScene()->createBillboard();
-		//Desde el singletonPtr del Server grafico, puedo llamar al metodo getActiveScene para
-		//conseguir la escena actual. Y desde la escena puedo llamar al método createBillboard
-		//para crear el BillBoardSet desde la escena
-		//le paso un string y la position
-		//_bbSet = Graphics::CServer::getSingletonPtr()->getActiveScene()->createBillboard(name,position);
-
-		// Pablo 28-01-2013. Indico que la escena activa es map.txt (no dummy_scene)
-		//Graphics::CServer::getSingletonPtr()->setScene("map.txt");
-
 		//le paso un string
 		//_bbSet = Graphics::CServer::getSingletonPtr()->getActiveScene()->createBillboard(name); 
 		Graphics::CScene* _scen = Graphics::CServer::getSingletonPtr()->getActiveScene();
-		_bbSet = _scen->createBillboard(name,offset); 
-
-
+			_bbSet = _scen->createBillboard(name,offset);  
+		//Desde el singletonPtr del Server grafico, puedo llamar al metodo getActiveScene para
+		//conseguir la escena actual. Y desde la escena puedo llamar al método createBillboard
+		//para crear el BillBoardSet desde la escena le paso un string y la position
+			_bbSet->setMaterialName("lifeBar"); // material por defecto
 	} // CBillboard
 
 	//--------------------------------------------------------
@@ -71,11 +47,6 @@ namespace Graphics
 	void CBillboard::deactivateBillboard(const std::string &name) 
 	{
 		// desacoplamos el billboard de su entidad
-		/*_cameraNode->detachAllObjects();
-		_scene->getSceneMgr()->destroyCamera(_camera);
-		_scene->getSceneMgr()->destroySceneNode(_cameraNode);
-		_scene->getSceneMgr()->destroySceneNode(_targetNode);
-		*/
 		Graphics::CScene* _scen = Graphics::CServer::getSingletonPtr()->getActiveScene();
 		_scen->deleteBillboard(name);
 
@@ -92,11 +63,6 @@ namespace Graphics
 		_bbSet->getBillboard(0)->setDimensions(width,height);
 
 	}
-
-	//aqui debería de colocarse encima de la entidad.
-	/*void CBillboard::setPosition(const Vector3 v){ //x,y,z
-		
-	}*/
 
 	//El material se realiza sobre el BillboardSet
 	void CBillboard::setMaterial(const std::string &name){

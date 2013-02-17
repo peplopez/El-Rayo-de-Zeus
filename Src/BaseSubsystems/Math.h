@@ -170,7 +170,7 @@ namespace Math
 
 	} // pitch
 
-		static void pitchYaw(float turnPitch, float turnYaw, Matrix4& transform) 
+	static void pitchYaw(float turnPitch, float turnYaw, Matrix4& transform) 
 	{
 		Matrix3 rotation;
 		transform.extract3x3Matrix(rotation);
@@ -280,13 +280,21 @@ namespace Math
 	} // de cartesianas a cilindricas
 
 	static Vector3 fromCylindricalToCartesian(const float grados, const float radio, const float y) 
-	{
+	{		
 		Vector3 retorno=Vector3::ZERO;
 		retorno.x = radio * cos(fromDegreesToRadians(grados));
 		retorno.y = y;
 		retorno.z = radio * sin(fromDegreesToRadians(grados));
 		return retorno;
 	} // de cilindricas a cartesianas
+
+
+	static void delimit(float& number, float min, float max) {
+		number = std::min(std::max(number, min), max);	
+	}
+	
+	
+
 
 } // namespace Math
 

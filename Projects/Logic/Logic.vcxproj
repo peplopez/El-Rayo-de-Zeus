@@ -103,7 +103,6 @@
     <ClCompile Include="..\..\Src\Logic\GameNetMsgManager.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Collider.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeController.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\ComponentFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\EntityFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\EntityID.cpp" />
@@ -142,7 +141,6 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageTF.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageV3.h" />
     <ClInclude Include="..\..\Src\Logic\GameNetMsgManager.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeController.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\LogicalPosition.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\RingStruct.h" />
     <ClInclude Include="..\..\Src\Logic\Maps\ComponentFactory.h" />

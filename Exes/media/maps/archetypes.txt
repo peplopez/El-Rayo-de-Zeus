@@ -27,10 +27,10 @@ Map = {
 	
 	Player = {
 		type = "Player",
-		life = 100.0,
-		offsetLife = 14.0,
-		widthLife = 10.0,
-		heightLife = 1.0,
+		lifeMax = 100.0,
+		lifeBarPosition = 14.0,
+		lifeBarWidth = 10.0,
+		lifeBarHeight = 1.0,
 		model = "marine.mesh",
 		angularSpeed = 0.0325,
 		defaultAnimation = "Idle",

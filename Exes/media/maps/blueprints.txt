@@ -3,5 +3,5 @@ Camera CCamera
 SkyBox CGraphics
 Altar CGraphics
 Entity CGraphics
-Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CPhysicController CLifeController CLife CDeath CHudOverlay
-AnimatedEntity CAnimatedGraphics CAvatarController CLifeController CPhysicController CLife CDeath
+Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CPhysicController CLife CDeath CHudOverlay
+AnimatedEntity CAnimatedGraphics CAvatarController CPhysicController CLife CDeath
