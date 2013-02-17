@@ -492,6 +492,13 @@ namespace Logic
 		
 		void setJumping(bool jumping){_jumping=jumping;}
 
+		/**
+		Indica el numero de enemigos en la base del Player.
+
+		@return el numero de enemigos que hay en la base donde se encuentra el Player
+		*/
+		const int getEnemiesPlayerBase() const { return _enemiesPlayerBase; }
+
 	protected:
 
 		/**
@@ -584,6 +591,11 @@ namespace Logic
 		Atributo para saber si la entidad está saltando dentro de un anillo
 		*/
 		bool _jumping;
+
+		/**
+		Atributo que indica el numero de enemigos en una base
+		*/
+		int _enemiesPlayerBase;
 
 	}; // class CEntity
 

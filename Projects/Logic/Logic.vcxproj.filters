@@ -147,6 +147,10 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageShort.cpp">
       <Filter>Entity\Messages\Source Files</Filter>
     </ClCompile>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\CeguiHud.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Maps\ComponentFactory.h">
@@ -263,6 +267,12 @@
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Physics.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\HudOverlay.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\CeguiHud.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageShort.h">
