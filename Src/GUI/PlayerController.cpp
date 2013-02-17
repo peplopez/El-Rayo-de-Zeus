@@ -117,6 +117,15 @@ namespace GUI {
 				m._string = "changeBase";
 				m._float = 0;
 				break;
+			case GUI::Key::V:
+				m._string = "displayVisor";
+				break;
+			case GUI::Key::ADD:
+				m._string = "addPlayerToBase";
+				break;
+			case GUI::Key::M:
+				m._string = "minusPlayerToBase";
+				break;
 			default:
 				return false;
 			}

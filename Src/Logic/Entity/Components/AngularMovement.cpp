@@ -255,7 +255,7 @@ namespace Logic
 		void CAngularMovement::changeBase(int base)
 		{
 			_changingBase=true;
-			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
+			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de base.
 			if(_entity->getJumping()==false && !_walkingLeft && !_walkingRight)
 			{
 				_changingBase=true;	
@@ -271,6 +271,15 @@ namespace Logic
 					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
 				}
+				//Pablo. Se envia un mensaje para que se aumente el numero de players en el HUD del 
+				//jugador cuya base es esa.
+				/*
+				TMessage message;
+				message._type = Message::PLAYERINBASE;
+				message._string = "addPlayerToBase";
+				message._bool = true;
+				_entity->emitMessage(message,this);
+				*/
 			}
 		}
 
@@ -457,17 +466,17 @@ namespace Logic
 						_timeJumping+=msecs/1000.0; //tiempo en segundos
 
 
-						if(!_jumpingDown) //esta subiendo en el salto
-						{
+						/*if(!_jumpingDown) //esta subiendo en el salto
+						{*/
 							//Velocidad = VelocidadInicial - g*t
 							//_speed es la velocidad que lleva el personaje en el salto en un determinado momento de tiempo
 							_speed = _jumpSpeed - (_gravity * _timeJumping);
 							_posicionSalto.y= _inicialY + (_jumpSpeed*_timeJumping) - (_gravity*(_timeJumping*_timeJumping))/2;
-						}
+						/*}
 						else{ //esta bajando en el salto
 							_speed = _jumpSpeed + (_gravity * _timeJumping);
 							_posicionSalto.y-= ( (_jumpSpeed*_timeJumping) + (_gravity*(_timeJumping*_timeJumping))/2);
-						}
+						}*/
 
 
 
@@ -488,7 +497,7 @@ namespace Logic
 						}*/
 						
 
-						
+						/*
 						//control para que no suba más arriba que su inicialY + la altura maxima del salto
 						if(_posicionSalto.y>=_inicialY+_Hmax)
 						{
@@ -503,21 +512,21 @@ namespace Logic
 							_jumpingDown=false;
 							_entity->setJumping(false);
 						}
-						
+						*/
 
 
 						direction.normalise();
 
 
 						//Pablo 07-02-2013
-						/*if(_timeJumping >= _Tmaxaltura ) {
+						if(_timeJumping >= _Tmaxaltura ) {
 							_jumpingDown=true;
 							_speed = _jumpSpeed;
 						}
 
 						if(_timeJumping >= _Tmax ) {
 							_entity->setJumping(false);
-						}*/
+						}
 
 					} //fin del if(_entity->getJumping())
 				}// FIN if(_entity->isPlayer())

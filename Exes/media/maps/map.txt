@@ -183,6 +183,7 @@ Map ={
 		initialJumpSpeed = 35,
 		gravity = 10,
 		Hmax = 20,
+		lifeBase = 3,
 	},
 	
 	Camera = {

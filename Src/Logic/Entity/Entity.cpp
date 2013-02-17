@@ -129,8 +129,6 @@ namespace Logic
 			}
 
 
-
-
 			if(entityInfo->hasAttribute("angularBox"))					
 				_angularBox = entityInfo->getFloatAttribute("angularBox");
 
