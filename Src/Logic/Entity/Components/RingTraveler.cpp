@@ -49,7 +49,10 @@ namespace Logic
 	
 	bool CRingTraveler::accept(const CMessage *message)
 	{//que no os confunda el nombre de mensaje CHANGE_PLANE es tanto para cambiar de base como de anillo dentro de la base. Apreciad que en cualquier caso siempre es un cambio de anillo, de ahí el nombre
-		return message->getType() == Message::CHANGE_PLANE;
+		return (message->getType() == Message::CONTROL &&
+					(message->getAction() == Message::GO_DOWN || 
+					message->getAction() == Message::GO_UP));
+				
 
 	} // accept
 	
@@ -60,7 +63,7 @@ namespace Logic
 		CMessage *maux = static_cast<CMessage*>(message);
 		switch(message->getType())
 		{
-		case Message::CHANGE_PLANE:
+		case Message::CONTROL:
 			if(message->getAction() == Message::GO_UP)
 				goUp();
 		else if(message->getAction() == Message::GO_DOWN)
