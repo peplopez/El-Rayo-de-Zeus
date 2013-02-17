@@ -277,7 +277,7 @@ namespace Logic {
 		if(model.length() > 0)
 			playerInfo.setAttribute("model", model);
 			playerInfo.setAttribute("isPlayer", isLocalPlayer? "true" : "false");
-
+			
 		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createMergedEntity(&playerInfo, this);
 			//newPlayer->setPosition( newPlayer->getPosition() + (rand()%50-25) * Vector3(1, 0, 1) ); // TODO calibrar esta pos
 	}

@@ -12,8 +12,6 @@ gráfica de la entidad.
 */
 
 #include "Graphics.h"
-#include "LifeController.h"
-
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/Map.h"

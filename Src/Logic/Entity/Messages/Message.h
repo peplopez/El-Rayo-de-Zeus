@@ -40,6 +40,7 @@ namespace Logic
 			CONTACT				= 0x07,   // PEP: Ya lo desSpanglishao
 			SET_SHADER			= 0x08,			
 			CAMERA				= 0x09,
+			LIFE_MODIFIER		= 0x0A,
 			AVATAR_MOVE			= 0x10,
 			DAMAGED				= 0x11,			
 			ANIMATION_FINISHED	= 0x12,
