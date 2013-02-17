@@ -42,6 +42,7 @@ Map = {
 		angularBox=2.5,
 		jumpPower = 0.08,
 		gravity = 0.1,
+		lifeBase = 3,
 	},
 	
 }

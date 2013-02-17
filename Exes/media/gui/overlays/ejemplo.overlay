@@ -1,0 +1,84 @@
+OverlayEjemplo
+{
+	zorder 100
+ 
+	container Panel(OverlayContainerA)
+	{
+		metrix_mode pixels
+		left 0
+		top 0
+		width 800
+		height 600
+ 
+		container Panel(OverlayContainerB)
+		{
+			metrix_mode pixels
+			top 0
+			right 0
+			width 400
+			height 300
+ 
+			element textArea(TextAreaOverlayElementA)
+			{
+				metrics_mode relative
+				left 0
+				top 0.6
+				width 1.0
+				height 0.4
+ 
+				font_name ubuntu
+				char_height 0.5
+				colour 1.0 0.0 0.0
+				caption Hola muy buenas
+			}
+		}
+ 
+		container Panel(OverlayContainerC)
+		{
+			metrix_mode pixels
+			top 0
+			right 0
+			width 400
+			height 300
+ 
+			element textArea(TextAreaOverlayElementB)
+			{
+				metrics_mode relative
+				left 0
+				top 0.6
+				width 1.0
+				height 0.4
+ 
+				font_name ubuntu
+				char_height 0.5
+				colour 0.0 1.0 0.0
+				caption Espero que te esté gustando este artículo
+			}
+		}
+ 
+		container Panel(OverlayContainerD)
+		{
+			metrix_mode relative
+			left 0
+			top 0.6
+			width 1.0
+			height 0.4
+ 
+			element TextArea(TextAreaOverlayElementC)
+			{
+				metrics_mode pixels
+				left 0
+				top 0
+				width 800
+				height 200
+ 
+				font_name ubuntu
+				char_height 0.5
+				colour 0.0 0.0 1.0
+				caption Estás aprendiendo a usar los overlays
+			}
+		}
+ 
+ 
+	}
+}
