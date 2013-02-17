@@ -11,14 +11,11 @@ gráfica de la entidad.
 @date Febrero, 2013
 */
 #include "Logic/Entity/Entity.h"
-//#include "Logic/Maps/Map.h"
-//#include "Map/MapEntity.h"
 #include "Logic/Entity/Components/BaseTraveler.h"
 
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageString.h"
-#include "Logic/Entity/Messages/MessageFloat.h"
-#include "Logic/Entity/Messages/MessageInt.h"
+#include "Logic/Entity/Messages/MessageShort.h"
 
 namespace Logic 
 {
@@ -28,8 +25,6 @@ namespace Logic
 
 	CBaseTraveler::~CBaseTraveler() 
 	{
-
-
 	} // ~CGraphics
 	
 	//---------------------------------------------------------
@@ -48,21 +43,21 @@ namespace Logic
 	
 	bool CBaseTraveler::accept(const CMessage *message)
 	{//que no os confunda el nombre de mensaje CHANGE_PLANE es tanto para cambiar de base como de anillo dentro de la base. Apreciad que en cualquier caso siempre es un cambio de anillo, de ahí el nombre
-		return CRingTraveler::accept(message)||message->getType() == Message::CHANGE_PLANE;
+		return CRingTraveler::accept(message)||message->getType() == Message::CONTROL;
 
 	} // accept
 	
 	//---------------------------------------------------------
 
 	void CBaseTraveler::process(CMessage *message)
-	{
+	{		
 		CRingTraveler::process(message);
-		CMessageFloat *maux = static_cast<CMessageFloat*>(message);
+		CMessageShort* maux = static_cast<CMessageShort*>(message);
 		switch(message->getType())
 		{
-		case Message::CHANGE_PLANE:
+		case Message::CONTROL:
 			if(message->getAction() == Message::CHANGE_BASE)
-				CBaseTraveler::changeBase(maux->getFloat());		
+				CBaseTraveler::changeBase(maux->getShort());	
 		}
 
 	} // process
@@ -72,30 +67,11 @@ namespace Logic
 		{
 			_changingBase=true;
 
-				CMessageInt *m = new CMessageInt();	
+				CMessageShort *m = new CMessageShort();	
 				m->setType(Message::AVATAR_MOVE);
 				m->setAction(Message::CHANGE_BASE);
-				m->setInt(base);
+				m->setShort(base);
 				_entity->emitMessage(m,this);
-			/*	if (_entity->getRing()==Ring::ANILLO_SUPERIOR)
-				{
-					_entity->setBase(base);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				}
-				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
-				{
-					_entity->setBase(base);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				}
-				if (_entity->getRing()==Ring::ANILLO_INFERIOR)
-				{
-					_entity->setBase(base);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				}*/
-
 		}
 
 

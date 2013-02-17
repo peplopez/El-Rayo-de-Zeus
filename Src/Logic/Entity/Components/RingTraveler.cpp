@@ -27,8 +27,6 @@ namespace Logic
 
 	CRingTraveler::~CRingTraveler() 
 	{
-
-
 	} // ~CGraphics
 	
 	//---------------------------------------------------------
@@ -38,18 +36,14 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 		
-		
-
 		return true;
-
 	} // spawn
 	
 	//---------------------------------------------------------
-
-	
+		
 	bool CRingTraveler::accept(const CMessage *message)
 	{//que no os confunda el nombre de mensaje CHANGE_PLANE es tanto para cambiar de base como de anillo dentro de la base. Apreciad que en cualquier caso siempre es un cambio de anillo, de ahí el nombre
-		return message->getType() == Message::CHANGE_PLANE;
+		return message->getType() == Message::CONTROL;
 
 	} // accept
 	
@@ -60,7 +54,7 @@ namespace Logic
 		CMessage *maux = static_cast<CMessage*>(message);
 		switch(message->getType())
 		{
-		case Message::CHANGE_PLANE:
+		case Message::CONTROL:
 			if(message->getAction() == Message::GO_UP)
 				goUp();
 		else if(message->getAction() == Message::GO_DOWN)
@@ -84,17 +78,11 @@ namespace Logic
 				
 				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
 				{
-					/*_entity->setRing(Ring::ANILLO_INFERIOR);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-					*/m->setInt(Ring::ANILLO_INFERIOR);				
+					m->setInt(Ring::ANILLO_INFERIOR);				
 				}
 				if (_entity->getRing()==Ring::ANILLO_SUPERIOR)
 				{
-					/*_entity->setRing(Ring::ANILLO_CENTRAL);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-					*/m->setInt(Ring::ANILLO_CENTRAL);
+					m->setInt(Ring::ANILLO_CENTRAL);
 				}
 				_entity->emitMessage(m,this);
 			}			
@@ -112,17 +100,11 @@ namespace Logic
 				_changingRing=true;	
 				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
 				{
-					/*_entity->setRing(Ring::ANILLO_SUPERIOR);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				*/m->setInt(Ring::ANILLO_SUPERIOR);	
+					m->setInt(Ring::ANILLO_SUPERIOR);	
 				}
 				if (_entity->getRing()==Ring::ANILLO_INFERIOR)
-				{/*
-					_entity->setRing(Ring::ANILLO_CENTRAL);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				*/m->setInt(Ring::ANILLO_CENTRAL);	
+				{
+					m->setInt(Ring::ANILLO_CENTRAL);	
 				}
 				_entity->emitMessage(m,this);
 			}			
