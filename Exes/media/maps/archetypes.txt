@@ -25,4 +25,25 @@ Map = {
 		angularBox=5,
 	},
 	
+	Player = {
+		type = "Player",
+		orientation = 90,
+		life = 100.0,
+		offsetLife = 14.0,
+		widthLife = 10.0,
+		heightLife = 1.0,
+		model = "marine.mesh",
+		angularSpeed = 0.0325,
+		defaultAnimation = "Idle",
+		degrees=0,
+		base=3,
+		ring=1,
+		logicInput=true,
+		sense=0,
+		angularBox=2.5,
+		jumpPower = 0.08,
+		gravity = 0.1,
+		lifeBase = 3,
+	},
+	
 }

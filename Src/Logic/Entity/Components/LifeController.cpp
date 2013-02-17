@@ -19,6 +19,9 @@ angular de entidades.
 #include "Graphics/Scene.h" //Pablo 03-02-2013
 #include "Graphics/Server.h" //Pablo 04-02-2013
 
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
+
 
 //declaración de la clase
 namespace Logic 
@@ -87,22 +90,23 @@ namespace Logic
 	}
 
 	
-		 bool CLifeController::accept(const TMessage &message)
+		 bool CLifeController::accept(const CMessage *message)
 		 {
 			//return message._type == Message::CONTROL; 
-			return message._type == Message::CONTACTO;
+			return message->getType() == Message::CONTACT;
 			//De momento, luego tendrá que aceptar de otras entidades NPC
 			 return false;
 		 }
 
 		
-		 void CLifeController::process(const TMessage &message)
+		 void CLifeController::process(CMessage *message)
 		 {
-			switch(message._type)
+			switch(message->getType())
 			{
-			case Message::CONTACTO:
-				if(!message._string.compare("updateLife"))
-					updateLife(message._float);
+			case Message::CONTACT:
+				CMessageFloat *maux = static_cast<CMessageFloat*>(message);
+				if(message->getAction() == Message::UPDATE_LIFE)
+					updateLife(maux->getFloat());
 			}
 
 		 }

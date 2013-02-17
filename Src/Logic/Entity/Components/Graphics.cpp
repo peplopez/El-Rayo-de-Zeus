@@ -24,6 +24,10 @@ gráfica de la entidad.
 #include "Graphics/StaticEntity.h"
 #include "Logic/Maps/EntityFactory.h"
 
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageTF.h"
+#include "Logic/Entity/Messages/MessageString.h"
+
 namespace Logic 
 {
 	IMP_FACTORY(CGraphics);
@@ -97,6 +101,10 @@ namespace Logic
 		if(entityInfo->hasAttribute("static"))
 			isStatic = entityInfo->getBoolAttribute("static");
 
+		float scale = 1.0;
+		if (entityInfo->hasAttribute("scale"))
+			scale = entityInfo->getFloatAttribute("scale");
+
 		if(isStatic)
 		{
 			_graphicsEntity = new Graphics::CStaticEntity(_entity->getName(),_model);
@@ -110,6 +118,7 @@ namespace Logic
 				return 0;
 		}
 
+		_graphicsEntity->setScale(scale);
 		_graphicsEntity->setTransform(_entity->getTransform());
 		
 
@@ -119,26 +128,28 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CGraphics::accept(const TMessage &message)//Pep: esto del QUAT lo puse yo pero creo que no se usa, los mensajes de QUAT como si no existieran
+	bool CGraphics::accept(const CMessage *message)
 	{
-		return message._type == Message::SET_TRANSFORM || message._type == Message::SET_TRANSFORM_QUAT || message._type == Message::SET_SHADER ;
+		return message->getType() == Message::SET_TRANSFORM || message->getType() == Message::SET_TRANSFORM_QUAT || message->getType() == Message::SET_SHADER ;
 
 	} // accept
 	
 	//---------------------------------------------------------
 
-	void CGraphics::process(const TMessage &message)
+	void CGraphics::process(CMessage *message)
 	{
-		switch(message._type)
+		CMessageTF *maux = static_cast<CMessageTF*>(message);
+		CMessageString *maux2 = static_cast<CMessageString*>(message);
+		switch(message->getType())
 		{
 		case Message::SET_TRANSFORM:
-			_graphicsEntity->setTransform(message._transform);
+			_graphicsEntity->setTransform(maux->getTransform());
 			break;
 		case Message::SET_TRANSFORM_QUAT:
-			_graphicsEntity->setTransform(message._quat);
+			//graphicsEntity->setTransform(message._quat);
 			break;
 		case Message::SET_SHADER:
-			_graphicsEntity->setMaterial(message._string);
+			_graphicsEntity->setMaterial(maux2->getString());
 			break;
 		}
 

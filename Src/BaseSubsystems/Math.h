@@ -27,6 +27,7 @@ Se ofrecen también una serie de funciones auxiliares.
 #include <OgreQuaternion.h>
 #include <OgreMatrix3.h>
 #include <OgreMatrix4.h>
+#include <OgreRay.h>
 
 /**
 Definicion de matriz de 4x4. La definición del tipo de datos
@@ -71,6 +72,12 @@ el motor gráfico, por lo tanto es dependiente del motor usado.
 typedef Ogre::Quaternion Quaternion;
 
 /**
+Rayo. La definición del tipo de datos es la misma que la utilizada 
+por el motor gráfico, por lo tanto es dependiente del motor usado.
+ */
+typedef Ogre::Ray Ray;
+
+/**
 Namespace en el que ofrecemos alguna definición de constante
 matamática y métodos para convertir grados en radianes, etc.
 */
@@ -98,7 +105,6 @@ namespace Math
 	@return Ángulo en radianes.
 	*/
 	static float fromDegreesToRadians(float degrees) {return degrees*_deg2Rad;}
-
 
 	/**
 	Transforma radianes en grados.
@@ -262,20 +268,22 @@ namespace Math
 
 	} // getDirection
 
-	static std::pair<float,float> fromCartesianToPolar(const Vector3 coordenadas) 
-	{
-		std::pair <float,float> retorno;
+	static Vector3 fromCartesianToCylindrical(const Vector3 coordenadas) 
+	{//el Vector3 de retorno contiene const float grados, const float radio, const float y
+		Vector3 retorno=Vector3::ZERO;
 		
-		retorno.first = sqrtf( powf(coordenadas.x,2) +  powf(coordenadas.z, 2) );
-		retorno.second = atan(coordenadas.z/coordenadas.x);
+		retorno.x= sqrtf( powf(coordenadas.x,2) +  powf(coordenadas.z, 2) );//grados
+		retorno.y= coordenadas.y;//altura
+		retorno.z= atan(coordenadas.z/coordenadas.x); //radio
 		
 		return retorno;
 	} // de cartesianas a polares
 
-	static Vector3 fromPolarToCartesian(const float grados, const float radio) 
+	static Vector3 fromCylindricalToCartesian(const float grados, const float radio, const float y) 
 	{
 		Vector3 retorno=Vector3::ZERO;
 		retorno.x = radio * cos(fromDegreesToRadians(grados));
+		retorno.y = y;
 		retorno.z = radio * sin(fromDegreesToRadians(grados));
 		return retorno;
 	} // de polares a cartesianas

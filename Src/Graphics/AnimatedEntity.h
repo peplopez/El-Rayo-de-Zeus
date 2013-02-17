@@ -48,10 +48,10 @@ namespace Graphics
 	public:
 
 		/**
-		Método que será invocado siempre que se termine una animación.
-		Las animaciones en cíclicas no invocarán nunca este método.
+		M?todo que ser? invocado siempre que se termine una animaci?n.
+		Las animaciones en c?clicas no invocar?n nunca este m?todo.
 
-		@param animation Nombre de la animación terminada.
+		@param animation Nombre de la animaci?n terminada.
 		*/
 		virtual void animationFinished(const std::string &animation) {}
 
@@ -115,15 +115,15 @@ namespace Graphics
 		void stopAllAnimations();
 
 		/**
-		Función que registra al oyente de la entidad gráfica. Por 
-		simplicidad solo habrá un oyente por entidad.
+		Funcin que registra al oyente de la entidad grfica. Por 
+		simplicidad solo habr un oyente por entidad.
 		*/
 		void setObserver(CAnimatedEntityListener *observer)
 											{_observer = observer;}
 
 		/**
-		Función que quita al oyente de la entidad gráfica. Por 
-		simplicidad solo habrá un oyente por entidad.
+		Funci?n que quita al oyente de la entidad gr?fica. Por 
+		simplicidad solo habr? un oyente por entidad.
 		*/
 		void removeObserver(CAnimatedEntityListener *observer)
 							{if(_observer = observer) _observer = 0;}
@@ -132,10 +132,10 @@ namespace Graphics
 
 		/**
 		Objeto oyente que es informado de cambios en la entidad como 
-		la terminación de las animaciones. Por simplicidad solo habrá
+		la terminaci?n de las animaciones. Por simplicidad solo habr?
 		un oyente por entidad.
 		*/
-		CAnimatedEntityListener *_observer;
+		CAnimatedEntityListener *_observer;	
 
 		// Cada entidad debe pertenecer a una escena. Solo permitimos
 		// a la escena actualizar el estado.

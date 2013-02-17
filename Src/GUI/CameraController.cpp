@@ -1,6 +1,5 @@
 /**
-RECUERDOS DE MERCHE
-@file PlayerController.cpp
+@file CameraController.cpp
 
 Contiene la implementación de la clase CCameraController. Se encarga de
 recibir eventos del teclado y del ratón y de interpretarlos para
@@ -8,15 +7,16 @@ mover al jugador.
 
 @see GUI::CCameraController
 
-@author David Llansó
-@date Agosto, 2010
+@author Jose Luis López Sánchez
+@date Febrero, 2013
 */
 
 #include "CameraController.h"
 #include "InputManager.h"
 
 #include "Logic/Entity/Entity.h"
-#include "Logic/Entity/Message.h"
+#include "Logic/Entity/Messages/MessageBoolFloat.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
 
 #include <cassert>
 
@@ -27,7 +27,7 @@ namespace GUI {
 	CCameraController::CCameraController() : _controlledCamera(0)
 	{
 		activate();
-		/*¿Alquien es capaz de explicarme por qué me he visto forzado a hacer esta ñapa para que se ejecute el Activate()?*/
+		/*PeP: ¿Alquien es capaz de explicarme por qué me he visto forzado a hacer esta ñapa para que se ejecute el Activate()?*/
 	} // CCameraController
 
 	//--------------------------------------------------------
@@ -43,7 +43,7 @@ namespace GUI {
 	void CCameraController::activate()
 	{		
 		CInputManager::getSingletonPtr()->addKeyListener(this);
-		CInputManager::getSingletonPtr()->addMouseListener(this);
+	//	CInputManager::getSingletonPtr()->addMouseListener(this);
 
 	} // activate
 
@@ -52,7 +52,7 @@ namespace GUI {
 	void CCameraController::deactivate()
 	{
 		CInputManager::getSingletonPtr()->removeKeyListener(this);
-		CInputManager::getSingletonPtr()->removeMouseListener(this);
+	//	CInputManager::getSingletonPtr()->removeMouseListener(this);
 
 	} // deactivate
 
@@ -62,18 +62,16 @@ namespace GUI {
 	{
 		if(_controlledCamera)
 		{
-			Logic::TMessage m;
-			m._type = Logic::Message::CAMERA;
+			Logic::CMessageBoolFloat *m = new Logic::CMessageBoolFloat();
+			m->setType(Logic::Message::CAMERA);
+			m->setFloat(1.0f);
 			switch(key.keyId)
 			{			
-						
 			case GUI::Key::UPARROW:
-				m._bool = false;		
-				m._float = 1;
+				m->setBool(false);		
 				break;
 			case GUI::Key::DOWNARROW:
-				m._float = 1;
-				m._bool = true;
+				m->setBool(true);
 				break;			
 			default:
 				return false;
@@ -91,14 +89,14 @@ namespace GUI {
 	{
 		if(_controlledCamera)
 		{
-			Logic::TMessage m;
-			m._type = Logic::Message::CONTROL;
+			Logic::CMessageBoolFloat *m = new Logic::CMessageBoolFloat();
+			m->setType(Logic::Message::CONTROL);
 			switch(key.keyId)
 			{
 			case GUI::Key::A:
 			case GUI::Key::D:
 				//m._string = "stopStrafe";
-				m._string = "walkStop";
+				m->setAction(Logic::Message::WALK_STOP);
 				break;
 
 			default:
@@ -115,15 +113,7 @@ namespace GUI {
 	
 	bool CCameraController::mouseMoved(const CMouseState &mouseState)
 	{
-		if(_controlledCamera)
-		{
-			Logic::TMessage m;
-			m._type = Logic::Message::CONTROL;
-			m._string = "turn";
-			m._float = -(float)mouseState.movX * TURN_FACTOR;
-			_controlledCamera->emitMessage(m);
-			return true;
-		}
+		
 		return false;
 
 	} // mouseMoved
@@ -131,22 +121,19 @@ namespace GUI {
 	//--------------------------------------------------------
 		
 	bool CCameraController::mousePressed(const CMouseState &mouseState)
-	{
-		if(_controlledCamera)
+	{if(_controlledCamera)
 		{
-			Logic::TMessage m;
-			m._type = Logic::Message::CAMERA;
+			Logic::CMessageBoolFloat *m = new Logic::CMessageBoolFloat();
+			m->setType(Logic::Message::CAMERA);
+			m->setFloat(1.0f);
 			switch(mouseState.button)
-			{
+			{			
 			case GUI::Button::LEFT:
-				m._bool = false;		
-				m._float = 1;
+				m->setBool(false);		
 				break;
 			case GUI::Button::RIGHT:
-				m._bool = true;		
-				m._float = 1;			
-				break;		
-			
+				m->setBool(true);
+				break;			
 			default:
 				return false;
 			}

@@ -1,7 +1,7 @@
-Altar CGraphics
 World CGraphics
-SkyBox CGraphics
-Player CAnimatedGraphics CAngularMovement CCollider CLifeController CHudOverlay
-Entity CGraphics
-AnimatedEntity CAnimatedGraphics CCollider CAngularMovement CLifeController
 Camera CCamera
+SkyBox CGraphics
+Altar CGraphics
+Entity CGraphics
+Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CPhysicController CLifeController CLife CDeath CHudOverlay
+AnimatedEntity CAnimatedGraphics CAvatarController CLifeController CPhysicController CLife CDeath

@@ -163,29 +163,6 @@ Map ={
 		base=3,		
 	},
 	
-	PeP = {
-		type = "Player",
-		orientation = 90,
-		life = 1000.0,
-		offsetLife = 14.0,
-		widthLife = 10.0,
-		heightLife = 1.0,
-		isPlayer = true,
-		model = "marine.mesh",
-		angularSpeed = 0.0325,
-		defaultAnimation = "Idle",
-		degrees=0,
-		base=3,
-		ring=1,
-		logicInput=true,
-		sense=0,
-		angularBox=2.5,
-		initialJumpSpeed = 35,
-		gravity = 10,
-		Hmax = 20,
-		lifeBase = 3,
-	},
-	
 	Camera = {
 		type = "Camera",
 		distance = 150,
@@ -194,7 +171,7 @@ Map ={
 		targetHeight = 7,
 		angularSpeed = 1,
 		ring=1,
-		base=0,
+		base=9,
 		degrees=0;
 		sense=0,
 		logicInput=true,
@@ -366,6 +343,7 @@ Map ={
 		ring=2,
 	},
 	
+	
 	bioshockLOGICO3 = {
 		type = "Bigdaddy",
 		base=1,
@@ -383,7 +361,7 @@ Map ={
 		base=0,
 		ring=0,
 		degrees=150,
-		sense=0,
+		sense=1,
 		life = 500.0,
 		offsetLife = 30.0,
 		widthLife = 20.0,
@@ -605,5 +583,5 @@ Map ={
 		offsetLife = 30.0,
 		widthLife = 20.0,
 		heightLife = 2.0,		
-	},	
+	},		
 }

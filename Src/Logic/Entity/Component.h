@@ -14,6 +14,7 @@ Contiene la declaración de la clase base de los componentes.
 
 #include "CommunicationPort.h"
 #include "Logic/Maps/ComponentFactory.h"
+#include "BaseSubsystems/Rtti.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Map
@@ -204,9 +205,10 @@ IComponent* Class::create() \
 } \
 bool Class::regist() \
 { \
-	if (!CComponentFactory::getSingletonPtr()->has(#Class)) \
+	altTypeId name = TAltTypeIdGenerator<Class>::GetAltTypeId(); \
+	if (!CComponentFactory::getSingletonPtr()->has(name)) \
 	{ \
-		CComponentFactory::getSingletonPtr()->add(Class::create, #Class); \
+		CComponentFactory::getSingletonPtr()->add(Class::create, name); \
 	} \
 	return true; \
 }

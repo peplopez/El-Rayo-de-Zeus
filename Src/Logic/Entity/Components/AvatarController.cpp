@@ -16,6 +16,14 @@ de la entidad.
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
 
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageBoolFloat.h"
+#include "Logic/Entity/Messages/MessageBool.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
+#include "Logic/Entity/Messages/MessageInt.h"
+#include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Entity/Messages/MessageString.h"
+
 
 namespace Logic 
 {
@@ -26,10 +34,10 @@ namespace Logic
 	bool CAvatarController::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
-			return false;
+			return false;				
 		
-		if(entityInfo->hasAttribute("speed"))
-			_speed = entityInfo->getFloatAttribute("speed");
+		if(entityInfo->hasAttribute("angularSpeed"))
+			_angularSpeed=entityInfo->getFloatAttribute("angularSpeed");
 
 		return true;
 
@@ -39,182 +47,389 @@ namespace Logic
 
 	bool CAvatarController::activate()
 	{
+		_sentidoDerecha=_entity->getSense();
+		
+		if (_entity->isPlayer())
+		_entity->setJumping(false); // Pablo
+		if (_sentidoDerecha)
+		{
+			_walkingLeft=false;
+			_walkingRight=true;
+		}
+		else
+		{
+			_walkingLeft=true;
+			_walkingRight=false;
+		}
+		if (_entity->isPlayer())
+			stopMovement();
 		return true;
 	} // activate
 	
 	//---------------------------------------------------------
 
-	void CAvatarController::deactivate()
-	{
-
-	} // deactivate
+	void CAvatarController::deactivate(){} // deactivate
 	
 	//---------------------------------------------------------
 
-	bool CAvatarController::accept(const TMessage &message)
+	bool CAvatarController::accept(const CMessage *message)
 	{
-		return false;   //ANULACION
-		return message._type == Message::SET_TRANSFORM;
-
+		if (_entity->isPlayer())
+		return message->getType() == Message::CONTROL ||
+			   message->getType() == Message::ANIMATION_FINISHED;
+			//notese que quito NPC_CONTROL
 	} // accept
 	
 	//---------------------------------------------------------
 
-	void CAvatarController::process(const TMessage &message)
+	void CAvatarController::process(CMessage *message)
 	{
-		switch(message._type)
+		switch(message->getType())
 		{
 		case Message::CONTROL:
-			if(!message._string.compare("walk"))
-				walk();			
-			else if(!message._string.compare("stopWalk"))
-				stopWalk();
-			else if(!message._string.compare("strafeLeft"))
-				strafeLeft();
-			else if(!message._string.compare("strafeRight"))
-				strafeRight();
-			else if(!message._string.compare("stopStrafe"))
-				stopStrafe();
-			else if(!message._string.compare("turn"))
-				turn(message._float);
+			{
+			if(message->getAction() == Message::GO_UP)
+				goUp();
+			else if(message->getAction() == Message::GO_DOWN)
+				goDown();
+			else if(message->getAction() == Message::WALK_LEFT)
+			{
+				if (!_lightAttack&&!_heavyAttack)
+					walkLeft();
+			}
+			else if(message->getAction() == Message::WALK_RIGHT)
+			{	
+				if (!_lightAttack&&!_heavyAttack)
+					walkRight();
+			}
+			else if(message->getAction() == Message::WALK_STOP)
+			{
+			//	if (!_lightAttack&&!_heavyAttack)
+					stopMovement();
+			}
+			else if(message->getAction() == Message::JUMP) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
+				jump();
+			else if(message->getAction() == Message::WALK_BACK)
+				 {	
+					CMessageBoolFloat* maux = static_cast<CMessageBoolFloat*>(message);
+					_sentidoColision=maux->getBool();
+					_correccionGrados=maux->getFloat();
+					walkBack();
+				 }
+			else if(message->getAction() == Message::CHANGE_DIRECTION)
+				 {	
+					CMessageBool* maux = static_cast<CMessageBool*>(message);
+					 _sentidoColision=maux->getBool();
+					changeDirection(_sentidoColision);
+				 }
+			else if(message->getAction() == Message::CHANGE_BASE)
+				 {	
+					CMessageInt* maux = static_cast<CMessageInt*>(message);
+					changeBase(maux->getInt());
+				 }
+			else if(message->getAction() == Message::TURN)
+				{
+					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
+					turn(maux->getFloat());
+				}
+			else if(message->getAction() == Message::LIGHT_ATTACK)
+			{
+				if (!_lightAttack&&!_heavyAttack)
+					lightAttack();
+			}
+			else if(message->getAction() == Message::HEAVY_ATTACK)
+			{
+				if (!_lightAttack&&!_heavyAttack)
+				heavyAttack();
+			}
+			break;
 		}
+			case Message::ANIMATION_FINISHED:
+			{
+					CMessageString* maux = static_cast<CMessageString*>(message);
+					if (maux->getString().compare("FireKatana")==0)
+						_lightAttack=_heavyAttack=false;stopMovement();
+			}
+	}
 
 	} // process
 	
 	//---------------------------------------------------------
 
+		// Pablo
+	void CAvatarController::jump()
+	{
+		Logic::CMessage *m = new Logic::CMessage();
+		m->setType(Logic::Message::CHANGE_HEIGHT);
+		m->setAction(Logic::Message::JUMP);  // Pablo
+		_entity->emitMessage(m);
+		//_initialJump = true;
+	}
+	
 	void CAvatarController::turn(float amount) 
 	{
 		_entity->yaw(amount);
 
 	} // turn
 	
-	//---------------------------------------------------------
 
-	void CAvatarController::walk() 
+	void CAvatarController::lightAttack() 
 	{
-		_walking = true;
-
-		// Cambiamos la animación
-		TMessage message;
-		message._type = Message::SET_ANIMATION;
-		message._string = "Walk";
-		message._bool = true;
+		_lightAttack=true;
+		CMessageBoolString *message = new CMessageBoolString();
+		message->setType(Message::SET_ANIMATION);
+		message->setString("FireKatana");
+		message->setBool(false);
 		_entity->emitMessage(message,this);
 
-	} // walk
+	} // turn
+
+	void CAvatarController::heavyAttack() 
+	{		
+		_heavyAttack=true;
+		CMessageBoolString *message = new CMessageBoolString();
+		message->setType(Message::SET_ANIMATION);
+		message->setString("FireKatana");
+		message->setBool(false);
+		_entity->emitMessage(message,this);
+
+	} // turn
+
+
+	//---------------------------------------------------------
+
+
+		void CAvatarController::walkRight()
+		{
+			_walkingRight = true;
+			// Cambiamos la animación
+			/*Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::AVATAR_MOVE);
+			m->setAction(Logic::Message::WALK_RIGHT);
+			_entity->emitMessage(m);
+			*/
+			_entity->setSense(LogicalPosition::DERECHA);
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			message->setString("RunKatana");
+			message->setBool(true);
+			_entity->emitMessage(message,this);
+
+		}
+		
+		void CAvatarController::walkLeft()
+		{
+			
+			if (_lightAttack || _heavyAttack)
+				return;
+			_walkingLeft = true;
+			
+
+			/*Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::AVATAR_MOVE);
+			m->setAction(Logic::Message::WALK_LEFT);
+			_entity->emitMessage(m);*/
+
+
+			// Cambiamos la animación
+			_entity->setSense(LogicalPosition::IZQUIERDA);
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			message->setString("RunKatana");
+			message->setBool(true);
+			_entity->emitMessage(message,this);
+
+		}
+
+	//---------------------------------------------------------
+
+		void CAvatarController::walkBack()
+		{			
+			_walkBack=true; //para retroceder en las colisiones   
+			/*
+					CMessageBoolFloat* maux = static_cast<CMessageBoolFloat*>(message);
+					_sentidoColision=maux->getBool();
+					_correccionGrados=maux->getFloat();
+			*/
+			Logic::CMessageBoolFloat *m = new Logic::CMessageBoolFloat();
+			m->setType(Logic::Message::AVATAR_MOVE);
+			m->setAction(Logic::Message::WALK_BACK);
+			m->setBool(_sentidoColision);
+			m->setFloat(_correccionGrados);
+			_entity->emitMessage(m);
+
+
+			// Cambiamos la animación
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			message->setString("RunKatana");
+			message->setBool(true);
+			_entity->emitMessage(message,this);
+		}
 	
 	//---------------------------------------------------------
 
-	void CAvatarController::stopWalk() 
+	void CAvatarController::stopMovement() 
 	{
-		_walking = _walkingBack = false;
+		_walkingLeft = _walkingRight = _lightAttack=_heavyAttack= false;
 
 		// Cambiamos la animación si no seguimos desplazándonos
 		// lateralmente
-		if(!(_strafingLeft || _strafingRight))
-		{
-			TMessage message;
-			message._type = Message::SET_ANIMATION;
-			message._string = "Idle";
-			message._bool = true;
+		
+		Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::AVATAR_MOVE);
+		m->setAction(Logic::Message::WALK_STOP);
+		_entity->emitMessage(m,this);
+
+
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			message->setString("IdleKatana");
+			message->setBool(true);
 			_entity->emitMessage(message,this);
-		}
 
 	} // stopWalk
 	
-	//---------------------------------------------------------
-
-	void CAvatarController::strafeLeft() 
-	{
-		//_strafingLeft = true;
-			_walking = true;
-		// Cambiamos la animación
-		TMessage message;
-		message._type = Message::SET_ANIMATION;
-		message._string = "Walk";
-		message._bool = true;
-		_entity->emitMessage(message,this);
-
-	} // walk
+	void CAvatarController::changeDirection(const bool newDirection)
+	{		
+				CMessageString *m = new CMessageString();
+				m->setType(Message::SET_SHADER);
+				m->setString("marine");
+				_entity->emitMessage(m,this);
+				if (_entity->getType().compare("Player")==0)
+					return;
 	
-	//---------------------------------------------------------
-
-	void CAvatarController::strafeRight() 
-	{
-		//_strafingRight = true;
-			_walking = true;
-		// Cambiamos la animación
-		TMessage message;
-		message._type = Message::SET_ANIMATION;
-		message._string = "Walk";
-		message._bool = true;
-		_entity->emitMessage(message,this);
-
-	} // walkBack
+			//	if (_entity->getType().compare("AnimatedEntity")==0)
+				//{
+				//if (!_walkingLeft && !_walkingRight)
+			//	{
+					if (newDirection)
+						walkLeft();
+					else
+						walkRight();
+//}
+					//	}
+			}
 	
-	//---------------------------------------------------------
-
-	void CAvatarController::stopStrafe() 
+	void CAvatarController::changeBase(int base)
 	{
-		_strafingLeft = _strafingRight = false;
-
-		// Cambiamos la animación si no seguimos andando
-		if(!(_walking || _walkingBack))
-		{
-			TMessage message;
-			message._type = Message::SET_ANIMATION;
-			message._string = "Idle";
-			message._bool = true;
-			_entity->emitMessage(message,this);
+		if(_entity->getJumping()==false && !_walkingLeft && !_walkingRight)
+			{
+		Logic::CMessageFloat *m = new Logic::CMessageFloat();
+			m->setType(Logic::Message::CHANGE_PLANE);
+			m->setFloat(base);
+			m->setAction(Logic::Message::CHANGE_BASE);
+		_entity->emitMessage(m,this);
 		}
+	}
 
-	} // stopWalk
 	
+	void CAvatarController::goUp()
+	{
+		Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CHANGE_PLANE);
+		m->setAction(Logic::Message::GO_UP);
+		_entity->emitMessage(m,this);
+
+	}
+
+	
+	void CAvatarController::goDown()
+	{
+		
+		Logic::CMessage *m = new Logic::CMessage();
+		m->setType(Logic::Message::CHANGE_PLANE);
+		m->setAction(Logic::Message::GO_DOWN);
+		_entity->emitMessage(m,this);
+
+	}
+
 	//---------------------------------------------------------
 
 	void CAvatarController::tick(unsigned int msecs)
 	{
 		IComponent::tick(msecs);
-
-		// Si nos estamos desplazando calculamos la próxima posición
-		// Calculamos si hay vectores de dirección de avance y strafe,
-		// hayamos la dirección de la suma y escalamos según la
-		// velocidad y el tiempo transcurrido.
-		if(_walking || _walkingBack || _strafingLeft || _strafingRight)
-		{
+			
 			Vector3 direction(Vector3::ZERO);
-			Vector3 directionStrafe(Vector3::ZERO);
 
-			if(_walking || _walkingBack)
+			if(_walkingLeft || _walkingRight || /*_initialJump*/ _entity->getJumping())
 			{
-				direction = Math::getDirection(_entity->getYaw());
-				//_entity->setYaw(Math::fro);
-				//_entity->setOrientation(0-_entity->getPosition().x,(-125)-_entity->getPosition().y,0-_entity->getPosition().z);
-				if(_walkingBack)
-					direction *= -1;
+				if(_walkingLeft || _walkingRight)
+				{
+					direction = Math::getDirection(_entity->getYaw() + Math::PI/2);
+					//Matrix4 orientacion = _entity->getOrientation();
+					//Math::yaw(Math::fromDegreesToRadians(_actualDegree),orientacion);
+					if(_walkingRight){
+						if(_sentidoDerecha==true)
+						{
+							_sentidoDerecha=false;
+							_entity->yaw(Math::PI);
+						}
+						if (!_walkBack)
+						{
+							//_entity->setDegree(_entity->getDegree()-_angularSpeed*msecs); 
+							Logic::CMessageFloat *m = new Logic::CMessageFloat();
+							m->setType(Logic::Message::AVATAR_MOVE);
+							m->setAction(Logic::Message::WALK_RIGHT);
+							m->setFloat(_entity->getDegree()-_angularSpeed*msecs);
+							_entity->emitMessage(m);
+							_entity->yaw(Math::fromDegreesToRadians(_angularSpeed*msecs));
+						}
+					}
+					else
+					{
+						if(_sentidoDerecha==false)
+						{
+							_entity->yaw(Math::PI);					
+							_sentidoDerecha=true;
+						}
+						if (!_walkBack)
+						{
+							Logic::CMessageFloat *m = new Logic::CMessageFloat();
+							m->setType(Logic::Message::AVATAR_MOVE);
+							m->setAction(Logic::Message::WALK_LEFT);
+							m->setFloat(_entity->getDegree()+_angularSpeed*msecs);
+							_entity->emitMessage(m);
+
+							//_entity->setDegree(_entity->getDegree()+_angularSpeed*msecs);
+							_entity->yaw(Math::fromDegreesToRadians(-_angularSpeed*msecs));
+						}			
+					
+					}
+				
+					if(_walkingLeft)
+						direction *= -1;
+				}
+
+				direction.normalise();
+
+			//	Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
+			
+				//_entity->setPosition(newPosition);
+				
 			}
 
-			if(_strafingLeft || _strafingRight)
+			if (_walkBack)
 			{
-				directionStrafe = 
-						Math::getDirection(_entity->getYaw() + Math::PI/2);
-				if(_strafingRight)
-					directionStrafe *= -1;
-			}
+				//stopMovement();   
+				_walkBack=false;
 
-			direction += directionStrafe;
-			direction.normalise();
-			direction *= msecs * _speed;
-			Vector3 newPosition = _entity->getPosition() + direction;
-			_entity->setPosition(newPosition);
+				if (_sentidoColision) // la direccion
+				{
+					_entity->setDegree(_entity->getDegree()+((_angularSpeed+(_correccionGrados/msecs))*msecs)); 
+					_entity->yaw(Math::fromDegreesToRadians(-(_angularSpeed*msecs)));
+				}
+				else
+				{
+					_entity->setDegree(_entity->getDegree()-((_angularSpeed+(_correccionGrados/msecs))*msecs)); 
+					_entity->yaw(Math::fromDegreesToRadians((_angularSpeed)));
+				}							
+				
+				_sentidoColision=false;
+				Vector3 newPositionWalkBack=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());		
+				
+				_entity->setPosition(newPositionWalkBack);
 
-
-			//_entity->setRadio(Math::fromCartesianToPolar(newPosition).second);
-
-		}
-
+			}		
 	} // tick
-
 } // namespace Logic
-

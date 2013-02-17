@@ -20,8 +20,6 @@ de juego. Es una colección de componentes.
 #include "LogicalPosition.h"
 
 
-// Mensaje
-#include "Message.h"
 
 #include <list>
 #include <string>
@@ -37,6 +35,7 @@ namespace Logic
 	class CMap;
 	class IComponent;
 	class CEntityFactory;
+	class CMessage;
 }
 
 // Declaración de la clase
@@ -168,7 +167,7 @@ namespace Logic
 		@param emitter Componente emisor, si lo hay. No se le enviará el mensaje.
 		@return true si al menos un componente aceptó el mensaje
 		*/
-		const bool emitMessage (const TMessage &message, IComponent* emitter = 0);
+		bool emitMessage (CMessage *message, IComponent* emitter = 0);
 
 		/**
 		Devuelve el identificador único de la entidad.
@@ -187,6 +186,17 @@ namespace Logic
 		@return true si la entidad es el jugador.
 		*/
 		bool isPlayer() { return _isPlayer; }
+
+		/**
+		Método que indica si la entidad es o no el jugador.
+		Seguro que hay formas mejores desde el punto de vista de
+		diseño de hacerlo, pero esta es la más rápida: la entidad 
+		con la descripción de la entidad tiene esta descripción que
+		establece en el spawn().
+		
+		@return true si la entidad es el jugador.
+		*/
+		void setIsPlayer(bool isPlayer);
 
 		/**
 		Devuelve el mapa donde está la entidad.
@@ -301,6 +311,28 @@ namespace Logic
 			}
 		}
 
+
+
+		/**
+		Establece la altura de la entidad con respeto al plano XZ (ANILLO) sobre el que se encuentra
+
+		@param height, nueva altura
+		*/
+		void setHeight(const float &height)
+		{
+			_pos._height=height;
+		}
+
+		/**
+		Devuelve la altura de la entidad.
+		
+		@return Height de la entidad con respecto al anillo actual.
+		*/
+		const float getHeight() const { 
+		    return	_pos._height;
+		}
+
+
 		/**
 		Establece la base de la entidad. 
 		NO Avisa a los componentes
@@ -405,7 +437,7 @@ namespace Logic
 
 		@return Orientación en el entorno.
 		*/
-		 Matrix3 getOrientation() ;
+		 Matrix3 getOrientation() const;
 
 		/**
 		Establece el viraje de la entidad. Avisa a los componentes
@@ -454,7 +486,7 @@ namespace Logic
 
 		const Map::CEntity* getEntityInfo() {return _entityInfo; }
 
-		const Vector3 fromLogicalToCartesian(const float grados, const unsigned short base, const Logic::LogicalPosition::Ring ring);
+		const Vector3 fromLogicalToCartesian(const float grados,const float altura, const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
 		bool getJumping() {return _jumping;}
 		

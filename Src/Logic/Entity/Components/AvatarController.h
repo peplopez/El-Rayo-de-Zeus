@@ -10,10 +10,15 @@ de la entidad.
 @author David Llansó
 @date Agosto, 2010
 */
+
 #ifndef __Logic_AvatarController_H
 #define __Logic_AvatarController_H
-
 #include "Logic/Entity/Component.h"
+
+namespace Logic
+{
+	class CMessage;
+}
 
 //declaración de la clase
 namespace Logic 
@@ -32,6 +37,7 @@ namespace Logic
 	@author David Llansó García
 	@date Agosto, 2010
 */
+
 	class CAvatarController : public IComponent
 	{
 		DEC_FACTORY(CAvatarController);
@@ -41,8 +47,10 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAvatarController() : IComponent(), _walking(false), _walkingBack(false), 
-			_strafingLeft(false), _strafingRight(false), _speed(0.05f) {}
+		CAvatarController() : IComponent(), _angularSpeed(0.00625f),_sentidoColision(false),_walkingRight(false), _walkBack(false),_lightAttack(false),_heavyAttack(false), 
+				_walkingLeft(false),_correccionGrados(0)
+			 //_jumpingDown(false), _initialJump(false), _timeJumping(0), _potenciaSaltoInicial(5)
+		{}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -77,7 +85,8 @@ namespace Logic
 		<p>
 		Si el componente pertenece a la entidad del jugador, el componente
 		se deregistra así mismo en el controlador del GUI para dejar de
-		recibir las ordenes dadas a partir de los eventos de teclado y ratón.
+		recibir las ordenes dadas a partir de los eventos de teclado y ratón
+		(ver CEntity::deactivate() )
 		*/
 		virtual void deactivate();
 
@@ -98,82 +107,143 @@ namespace Logic
 		@param message Mensaje a chequear.
 		@return true si el mensaje es aceptado.
 		*/
-		virtual bool accept(const TMessage &message);
+		virtual bool accept(const CMessage *message);
 
 		/**
 		Método virtual que procesa un mensaje.
 
 		@param message Mensaje a procesar.
 		*/
-		virtual void process(const TMessage &message);
+		virtual void process(CMessage *message);
+
 
 		/**
-		Provoca que la entidad avance.
-		*/
-		void walk();
+		Provoca que la entidad retroceda al chocarse con otra entidad en lugar de simplemente pararse, 
+		así ya no está colisionando y se puede mover.
+		*/	
+		void walkBack();
 
 		/**
-		Provoca que la entidad cese el avance.
+		Provoca que la entidad avance a la derecha.
 		*/
-		void stopWalk();
+		void walkRight();
 
 		/**
-		Provoca que la entidad se desplace lateralmente a la izquierda.
+		Provoca que la entidad avance a la izquierda
 		*/
-		void strafeLeft();
+		void walkLeft();
 
 		/**
-		Provoca que la entidad se desplace lateralmente a la derecha.
+		Provoca que la entidad cese el desplazamiento.
 		*/
-		void strafeRight();
-
-		/**
-		Provoca que la entidad cese el desplazamiento lateral.
-		*/
-		void stopStrafe();
+		void stopMovement();
 		
-		/**
-		Provoca que la entidad gire. Números Positivos para	giro a 
-		derechas, negativos para giro izquierdas.
+		
+		void lightAttack();
 
+		
+		void heavyAttack();
+		/**
+		Provoca que la entidad cambie de dirección.
 		@param amount Cantidad de giro. Positivos giro a derechas,
 		negativos a izquierdas.
 		*/
+		void changeDirection(const bool newDirection);
+
+				/**
+		Provoca que la entidad salte.
+		*/
+		void jump();
+		
+		/**
+		Provoca que la entidad baje de anillo. Conlleva un cambio del eje de giro en su coordenada y
+		*/
+		void goDown();
+
+		/**
+		Provoca que la entidad suba de anillo. Conlleva un cambio del eje de giro en su coordenada y
+		*/
+		void goUp();
+
+
+		void changeBase(int base);
+
+
 		void turn(float amount);
 
 	protected:
 
 		/**
-		Atributo para saber si la entidad está avanzando.
+		Atributo para saber si la entidad está andando a la derecha.
 		*/
-		bool _walking;
+		bool _walkingRight;
 
 		/**
-		Atributo para saber si la entidad está retrocediendo.
+		Atributo para saber si la entidad está andando a la izquierda.
 		*/
-		bool _walkingBack;
+		bool _walkingLeft;
 
 		/**
-		Atributo para saber si la entidad está moviendose lateralmente
-		a la izquierda.
+		Atributo para saber si la entidad tiene que hacer una recolocación de posición
+		seguramente debido a una colisión
 		*/
-		bool _strafingLeft;
+		bool _walkBack;
 
-		/**
-		Atributo para saber si la entidad está moviendose lateralmente
-		a la derecha.
-		*/
-		bool _strafingRight;
+
+		bool _lightAttack;
+
+		
+		bool _heavyAttack;
+
+
+		bool _sentidoColision;
+
+		bool _sentidoDerecha;
+
+		float _correccionGrados;
 
 		/**
 		Atributo que indica la magnitud de velocidad de la entidad.
 		*/
-		float _speed;
+		float _angularSpeed;
 
+		// Pablo. Atributo que indica la velocidad de salto de la entidad
+		
+		/*float jumpSpeed;
+
+		// Pablo. Atributo que indica que acaba de empezar a saltar
+		bool _initialJump;
+
+		float _timeJumping;
+
+		// Pablo. Atributo que indica la velocidad de la fuerza de gravedad
+		float _gravity;
+
+		//Pablo. Altura maxima del salto
+		float _Hmax;
+
+		//Pablo. Tiempo máximo en el aire
+		float _Tmax;
+
+		//Pablo. Tiempo hasta alcanzar la máxima altura
+		float _Tmaxaltura;
+
+		//Pablo. Y inicial en el momento de saltar
+		float _inicialY;
+
+		//Pablo. posicion Vector3 (x,y,z) en el momento de saltar
+		Vector3 _posicionSalto;
+
+		float _potenciaSalto;
+
+		float _potenciaSaltoInicial;
+
+		bool _jumpingDown;
+		*/
 	}; // class CAvatarController
 
 	REG_FACTORY(CAvatarController);
 
 } // namespace Logic
 
-#endif // __Logic_AvatarController_H
+#endif // __Logic_AvatarController_H */

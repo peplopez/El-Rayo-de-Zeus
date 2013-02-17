@@ -80,8 +80,13 @@ namespace Logic
 			Grados
 		*/	
 		float _degrees;
+		/**
+			Altura
+		*/	
+		float _height;
 
-		TLogicalPosition() : _ring(LogicalPosition::ANILLO_CENTRAL), _sense(LogicalPosition::IZQUIERDA), _base(0), _degrees(0){}
+
+		TLogicalPosition() : _ring(LogicalPosition::ANILLO_CENTRAL), _sense(LogicalPosition::IZQUIERDA), _base(0), _degrees(0),_height(0){}
 	
 	}; 
 

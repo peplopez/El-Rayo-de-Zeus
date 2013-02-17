@@ -44,6 +44,9 @@ namespace Graphics
 			return false;
 		Ogre::AnimationState *animation = _entity->getAnimationState(anim);
 		animation->setEnabled(false);
+		if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
+			animation->setTimePosition(0);  // De lo contrario, no dejan de lanzar el evento finished a los observers
+
 		// Si la animación a parar es la animación activa ya no lo estará.
 		if(animation == _currentAnimation)
 			_currentAnimation = 0;
@@ -66,6 +69,8 @@ namespace Graphics
 			{
 				animation = it.getNext();
 				animation->setEnabled(false);
+				if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
+					animation->setTimePosition(0);  // De lo contrario, no dejan de lanzar el evento finished a los observers
 			}
 
 			// Si había animación activa ya no lo está.
@@ -75,19 +80,19 @@ namespace Graphics
 	} // stopAllAnimations
 
 	//--------------------------------------------------------
-		
+	
+	
 	void CAnimatedEntity::tick(float secs)
 	{
 		if(_currentAnimation)
 		{
 			_currentAnimation->addTime(secs);
-			// Comprobamos si la animación ha terminado para avisar
+			// Comprobamos si la animaci?n ha terminado para avisar
 			if(_observer && _currentAnimation->hasEnded())
 				_observer->animationFinished
 							(_currentAnimation->getAnimationName());
 		}
 
 	} // tick
-
 
 } // namespace Graphics

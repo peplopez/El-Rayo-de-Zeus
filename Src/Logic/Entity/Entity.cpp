@@ -24,6 +24,11 @@ de juego. Es una colección de componentes.
 #include "GUI/PlayerController.h"
 #include "GUI/CameraController.h"
 
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageTF.h"
+#include "Logic/Entity/Messages/MessageBoolTF.h"
+
+
 
 
 namespace Logic 
@@ -51,17 +56,20 @@ namespace Logic
 	{
 		// Leemos las propiedades comunes
 		_map = map;
-		_entityInfo=entityInfo;
+		_entityInfo=entityInfo; // TODO [ƒ®§] Esto para qué es necesario?
 		_type = entityInfo->getType();
 		_logicInput=false;
 		Vector3 posicion=Vector3::ZERO;	
-		
+		_pos._height=0;
 		if(entityInfo->hasAttribute("name"))
 			_name = entityInfo->getStringAttribute("name");		
 
 		if(entityInfo->hasAttribute("logicInput"))
 			_logicInput = entityInfo->getBoolAttribute("logicInput");
 
+		
+		//if(entityInfo->hasAttribute("height"))//se puede definir la altura, pero logicamente, este valor por norma general valdrá 0 de inicio
+			//_pos._height = entityInfo->getBoolAttribute("height");
 
 		if (_logicInput)
 		{
@@ -119,13 +127,13 @@ namespace Logic
 					}
 					default:
 						{
-						_pos._ring= Logic::LogicalPosition::ANILLO_CENTRAL;			
+						_pos._ring= Logic::LogicalPosition::ANILLO_CENTRAL;  // TODO [ƒ®§] Esto de mezclar spanglish no queda muy fino, va a haber que normalizar todo al inglés...
 						//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
 						//pese a todo no pete.
 						}
 			}
 			//	posicion=CServer::getSingletonPtr()->getRingPositions(_pos._base,_pos._ring);
-				posicion=this->fromLogicalToCartesian(_pos._degrees,_pos._base,_pos._ring);
+				posicion=this->fromLogicalToCartesian(_pos._degrees,_pos._height,_pos._base,_pos._ring);
 			}
 
 
@@ -211,6 +219,7 @@ namespace Logic
 					}				
 			}
 		
+		// TODO limpiar comentarios, por seguridad ya estamos usando git 
 		/* arreglamos la orientación */
 		/*Vector3 centro=Vector3(0,-125,0);
 		Vector3 vectorCentroEntidad = -(centro-_transform.getTrans());
@@ -241,12 +250,11 @@ namespace Logic
 		if(entityInfo->hasAttribute("orientation"))
 		{
 			float yaw = Math::fromDegreesToRadians(entityInfo->getFloatAttribute("orientation"));
-			Math::yaw(yaw,_transform); //revisar
+			Math::yaw(yaw,_transform); // HACK revisar
 		}
 
 		if(entityInfo->hasAttribute("isPlayer"))
-			_isPlayer = entityInfo->getBoolAttribute("isPlayer");
-		
+			setIsPlayer( entityInfo->getBoolAttribute("isPlayer") );		
 
 		// Inicializamos los componentes
 		TComponentList::const_iterator it;
@@ -264,23 +272,12 @@ namespace Logic
 
 	bool CEntity::activate() 
 	{
-		// Si somos jugador, se lo decimos al servidor
-		// y nos registramos para que nos informen
-		// de los movimientos que debemos realizar
-		if (isPlayer())
-		{
-			CServer::getSingletonPtr()->setPlayer(this);
-			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);
-		}
-		
-		if (this->getType().compare("Camera")==0)
+		if (this->getType().compare("Camera")==0) // TODO [ƒ®§] El compare es más eficiente que el == "Camera"?
 		{
 			//CServer::getSingletonPtr()->setPlayer(this);
 			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);
 			int i=0;
 		}
-		
-
 
 		// Activamos los componentes
 		TComponentList::const_iterator it;
@@ -288,11 +285,8 @@ namespace Logic
 		// Solo si se activan todos los componentes correctamente nos
 		// consideraremos activados.
 		_activated = true;
-
-		for( it = _components.begin(); it != _components.end(); ++it )
-			_activated = (*it)->activate() && _activated;
-
-
+			for( it = _components.begin(); it != _components.end(); ++it )
+				_activated = (*it)->activate() && _activated;
 		return _activated;
 
 	} // activate
@@ -305,11 +299,7 @@ namespace Logic
 		// y evitamos que se nos siga informando de los movimientos que 
 		// debemos realizar
 		if (isPlayer())
-		{
-			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(0);
-			CServer::getSingletonPtr()->setPlayer(0);
-		}
-
+			setIsPlayer(false);
 
 		TComponentList::const_iterator it;
 
@@ -322,19 +312,34 @@ namespace Logic
 	} // deactivate
 
 	//---------------------------------------------------------
+	void CEntity::setIsPlayer(bool isPlayer) 
+	{ 		
+		if(isPlayer == _isPlayer)
+			return;
 
-	 const Vector3 CEntity::fromLogicalToCartesian(const float grados, const unsigned short base, const Logic::LogicalPosition::Ring ring)
+		_isPlayer = isPlayer; 
+		if(_isPlayer) {
+			CServer::getSingletonPtr()->setPlayer(this);
+			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);		
+		} else {
+			if(CServer::getSingletonPtr()->getPlayer() == this)
+				CServer::getSingletonPtr()->setPlayer(0);
+			if(GUI::CServer::getSingletonPtr()->getPlayerController()->getControlledAvatar() == this)
+				GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(0);
+		}
+	} // setIsPlayer
+
+	//---------------------------------------------------------
+	 const Vector3 CEntity::fromLogicalToCartesian(const float grados,const float altura, const unsigned short base, const Logic::LogicalPosition::Ring ring)
 	 {		 
-		float offset=0;
+		float offset=0;// se trata de un offset de radio, no de altura
 
 		if (this->getType().compare("Altar")==0){
 			offset=-9;
 		}
 
 		Vector3 resultado=Vector3::ZERO;
-		resultado=Math::fromPolarToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset);
-		resultado.y=CServer::getSingletonPtr()->getRingPositions(base,ring).y+126;
-
+		resultado=Math::fromCylindricalToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset,CServer::getSingletonPtr()->getRingPositions(base,ring).y+altura+126);
 		return resultado;
 	 }
 	 
@@ -345,12 +350,12 @@ namespace Logic
 		  return position.y;
 	  }
 
-	  const float CEntity::getYJump(const unsigned short base, const Logic::LogicalPosition::Ring ring)
+	  /*const float CEntity::getYJump(const unsigned short base, const Logic::LogicalPosition::Ring ring)
 	  { 	
 		  Vector3 position=Vector3::ZERO;
 		  position=CServer::getSingletonPtr()->getRingPositions(base,ring);	
 		  return position.y+5;
-	  }
+	  }*/
 
 	void CEntity::tick(unsigned int msecs) 
 	{
@@ -412,25 +417,33 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	const bool CEntity::emitMessage (const TMessage &message, IComponent* emitter)
+	bool CEntity::emitMessage(CMessage *message, IComponent* emitter)
 	{
+		if(!_activated) // HACK Si la entidad no está activa, no recibe mensajes
+			return false;
+
 		// Interceptamos los mensajes que además de al resto de los
 		// componentes, interesan a la propia entidad.
-		switch(message._type)
+		switch(message->getType())
 		{
 		case Message::SET_TRANSFORM:
-			_transform = message._transform;
+			CMessageTF *maux = static_cast<CMessageTF*>(message);
+			_transform = maux->getTransform();
 		}
 
 		TComponentList::const_iterator it;
+
+		message->grab();
 		// Para saber si alguien quiso el mensaje.
 		bool anyReceiver = false;
 		for( it = _components.begin(); it != _components.end(); ++it )
 		{
 			// Al emisor no se le envia el mensaje.
-			if( emitter != (*it))
+			if( emitter != (*it) )
 				anyReceiver = (*it)->set(message) || anyReceiver;
 		}
+
+		message->release();
 		return anyReceiver;
 
 	} // emitMessage
@@ -442,9 +455,10 @@ namespace Logic
 		_transform = transform;
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
+		CMessageTF *message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		message->setTransform(_transform);
+		//message->setBool(true); // [ƒ®§] Interesante si sólo queremos comprobar colisiones en cambios de posición y no en todos los SET_TRANSFORM
 		emitMessage(message);
 
 	} // setTransform
@@ -456,9 +470,10 @@ namespace Logic
 		_transform.setTrans(position);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
+		CMessageTF *message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		message->setTransform(_transform);
+		//message->setBool(true); // [ƒ®§] Interesante si sólo queremos comprobar colisiones en cambios de posición y no en todos los SET_TRANSFORM
 		emitMessage(message);
 
 	} // setPosition
@@ -470,8 +485,9 @@ namespace Logic
 		_pos._degrees=pos._degrees;
 		_pos._ring=pos._ring;
 		_pos._sense=pos._sense;
-		
-		const Vector3 position=fromLogicalToCartesian(_pos._degrees,_pos._base,_pos._ring);
+		_pos._height=pos._height;
+
+		const Vector3 position=fromLogicalToCartesian(_pos._degrees,_pos._height,_pos._base,_pos._ring);
 		setPosition(position);
 
 
@@ -484,9 +500,9 @@ namespace Logic
 		_transform = orientation;
 		
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
+		CMessageTF *message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		message->setTransform(_transform);
 		emitMessage(message);
 
 	} // setOrientation
@@ -496,17 +512,17 @@ namespace Logic
 	{
 		_quat=quat;
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._quat = _quat;
-		message._transform = _transform;
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
 		emitMessage(message);	
 	}
 	
 
 	//---------------------------------------------------------
 
-	Matrix3 CEntity::getOrientation() 
+	Matrix3 CEntity::getOrientation() const
 	{
 		Matrix3 orientation;
 		_transform.extract3x3Matrix(orientation);
@@ -521,10 +537,11 @@ namespace Logic
 		Math::setYaw(yaw,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // setYaw
 
@@ -535,10 +552,11 @@ namespace Logic
 		Math::setRoll(roll,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // setRoll
 
@@ -547,10 +565,11 @@ namespace Logic
 		Math::setPitch(pitch,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // setPitch
 
@@ -561,10 +580,11 @@ namespace Logic
 		Math::setPitchYaw(pitch,yaw,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // setPitchYaw
 
@@ -573,10 +593,11 @@ namespace Logic
 		Math::yaw(yaw,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // yaw
 
@@ -585,10 +606,11 @@ namespace Logic
 		Math::roll(roll,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // roll
 
@@ -597,10 +619,11 @@ namespace Logic
 		Math::pitch(pitch,_transform);
 
 		// Avisamos a los componentes del cambio.
-		TMessage message;
-		message._type = Message::SET_TRANSFORM;
-		message._transform = _transform;
-		emitMessage(message);
+		CMessageTF* message = new CMessageTF();
+		message->setType(Message::SET_TRANSFORM);
+		//message._quat = _quat;
+		message->setTransform(_transform);
+		emitMessage(message);	
 
 	} // pitch
 
