@@ -46,10 +46,6 @@ namespace Logic
 	bool CJump::activate()
 	{
 		_jumping=false;
-		if (_entity->isPlayer())
-		{
-			_entity->setJumping(false); // QUITAR SETJUMPING, NO SE TIENE EN CUENTA.
-		}
 		return true;
 	}
 		
@@ -61,8 +57,9 @@ namespace Logic
 	{//aviso de que tanto accept como process son un poco hack, pero es es solo hasta tener un componente NPCCONTROLLER
 		//return false; //de momento no recibo mensajes,luego lo kito
 		
-		if (_entity->isPlayer())
-		return message->getType() == Message::CHANGE_HEIGHT;
+		//if (_entity->isPlayer())
+		return message->getType() == Message::CONTROL;
+
 		/*if (_entity->getType().compare("Player")==0)
 			return message->getType() == Message::CONTROL;*/
 		 if (_entity->getType().compare("AnimatedEntity")==0)
@@ -74,7 +71,7 @@ namespace Logic
 		 {
 		switch(message->getType())
 		{
-		case Message::CHANGE_HEIGHT:
+		case Message::CONTROL:
 			{			
 			if(message->getAction() == Message::JUMP) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
 					jump();

@@ -46,7 +46,8 @@ namespace Logic
 			ANIMATION_FINISHED	= 0x12,
 			COMBAT				= 0x13,
 			CHANGE_PLANE		= 0x14,
-			CHANGE_HEIGHT		= 0x15
+			CHANGE_HEIGHT		= 0x15,
+			HUD					= 0x16
 		};
 
 		enum TActionType : unsigned char
@@ -65,7 +66,8 @@ namespace Logic
 			CHANGE_RING			= 0x19,
 			UPDATE_LIFE			= 0x20,
 			LIGHT_ATTACK		= 0x21,
-			HEAVY_ATTACK		= 0x22
+			HEAVY_ATTACK		= 0x22,
+			DISPLAY_HUD			= 0x23
 		};
 	}
 

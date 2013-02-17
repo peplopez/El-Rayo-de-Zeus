@@ -1,0 +1,386 @@
+material material1
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 0.100300 0.447672 0.000000 1.000000
+			specular 0.338710 0.338710 0.338710 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+		}
+	}
+}
+
+material material2
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 0.97 0.798 0.000000 1.000000
+			specular 0.9 0.9 0.9 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+		}
+	}
+}
+
+material material3
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 1.000000 1.000000 1.000000
+			diffuse 0.97 0.0 0.000000 1.000000
+			specular 0.9 0.9 0.9 1.000000 12.500000
+			emissive 0.8 0.0 0.1 1.000000
+		}
+	}
+}
+
+material material4
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			
+            specular 0.0 0.0 0.0 1.000000 12.500000
+            
+            texture_unit
+            {
+                texture mundo.png
+            }
+		}
+	}
+}
+
+material material5
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			specular 1.0 1.0 1.0 1.000000 12.500000
+            
+            texture_unit
+            {
+                texture mundo.png
+                tex_address_mode wrap
+            }
+		}
+	}
+}
+
+
+
+material transparenterojo
+ {
+   technique
+   {
+     pass
+     {
+       scene_blend alpha_blend
+       depth_write off
+ 
+       texture_unit
+       {
+         colour_op_ex source1 src_manual src_current 1 0 0
+         alpha_op_ex source1 src_manual src_current 0.5
+       }
+     }
+   }
+ }
+ 
+ material transparenteverde
+ {
+   technique
+   {
+     pass
+     {
+       scene_blend alpha_blend
+       depth_write off
+ 
+       texture_unit
+       {
+         colour_op_ex source1 src_manual src_current 0 1 0
+         alpha_op_ex source1 src_manual src_current 0.5
+       }
+     }
+   }
+ }
+ 
+ 
+ 
+ material hudMira
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			scene_blend alpha_blend
+			lighting off
+			cull_hardware none
+			cull_software none
+			
+			texture_unit mira1
+			{
+				texture mira1.png 2d
+			}
+		}
+	}
+}
+
+material hudHealth
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			scene_blend alpha_blend
+			lighting off
+			cull_hardware none
+			cull_software none
+			
+			texture_unit shield2
+			{
+				texture shield2.png 2d
+			}
+		}
+	}
+}
+material hudHealthBase
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			scene_blend alpha_blend
+			lighting off
+			cull_hardware none
+			cull_software none
+			
+			texture_unit rayo3
+			{
+				texture rayo3.png 2d
+			}
+		}
+	}
+}
+material hudAmmo
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			scene_blend alpha_blend
+			lighting off
+			cull_hardware none
+			cull_software none
+			
+			texture_unit ammo1
+			{
+				texture ammo1.png 2d
+			}
+		}
+	}
+}
+
+material hudPlayers
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			scene_blend alpha_blend
+			lighting off
+			cull_hardware none
+			cull_software none
+			
+			texture_unit enemies2
+			{
+				texture enemies2.png 2d
+			}
+		}
+	}
+}
+
+material cuadroArmas
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			scene_blend alpha_blend
+			lighting off
+			cull_hardware none
+			cull_software none
+			
+			texture_unit cuadro
+			{
+				texture cuadro.png 2d
+			}
+		}
+	}
+}
+
+material katana
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			scene_blend alpha_blend
+			lighting off
+			cull_hardware none
+			cull_software none
+			
+			texture_unit katana
+			{
+				texture katana.png 2d
+			}
+		}
+	}
+}
+material francotirador
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			scene_blend alpha_blend
+			lighting off
+			cull_hardware none
+			cull_software none
+			
+			texture_unit katana
+			{
+				texture francotirador.png 2d
+			}
+		}
+	}
+}
+material francotiradorBN
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			scene_blend alpha_blend
+			lighting off
+			cull_hardware none
+			cull_software none
+			
+			texture_unit katana
+			{
+				texture francotiradorBN.png 2d
+			}
+		}
+	}
+}
+material francotiradorSinBalas
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			scene_blend alpha_blend
+			lighting off
+			cull_hardware none
+			cull_software none
+			
+			texture_unit katana
+			{
+				texture francotiradorSinBalas.png 2d
+			}
+		}
+	}
+}
+
+material escopeta
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			scene_blend alpha_blend
+			lighting off
+			cull_hardware none
+			cull_software none
+			
+			texture_unit escopeta
+			{
+				texture escopetas.png 2d
+			}
+		}
+	}
+}
+material escopetaBN
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			scene_blend alpha_blend
+			lighting off
+			cull_hardware none
+			cull_software none
+			
+			texture_unit escopeta
+			{
+				texture escopetasBN.png 2d
+			}
+		}
+	}
+}
+material escopetaSinBalas
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+			depth_write off
+			scene_blend alpha_blend
+			lighting off
+			cull_hardware none
+			cull_software none
+			
+			texture_unit escopeta
+			{
+				texture escopetasSinBalas.png 2d
+			}
+		}
+	}
+}

@@ -27,7 +27,6 @@ Map = {
 	
 	Player = {
 		type = "Player",
-		orientation = 90,
 		lifeMax = 100.0,
 		lifeBarPosition = 14.0,
 		lifeBarWidth = 10.0,
@@ -39,10 +38,11 @@ Map = {
 		base=3,
 		ring=1,
 		logicInput=true,
-		sense=0,
+		sense=1,
 		angularBox=2.5,
 		jumpPower = 0.08,
 		gravity = 0.1,
+		lifeBase = 3,
 	},
 	
 }

@@ -100,8 +100,8 @@ namespace Logic
 			return false;
 	
 
-		if (entidad1->getJumping()==true || entidad2->getJumping()==true)
-			return false;
+		//if (entidad1->getJumping()==true || entidad2->getJumping()==true)
+		//	return false;
 
 
 		if (entidad2->getAngularBox()==0)

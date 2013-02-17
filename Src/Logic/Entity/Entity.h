@@ -402,14 +402,14 @@ namespace Logic
 		Establece la anchura de la entidad gráfica
 		@param angularBox nuevo
 		*/
-		void setSense(const LogicalPosition::Sense &sense);
+		void setSense(const Logic::Sense sense) {_pos._sense = sense; }
 
 		/**
 		Devuelve la anchura de la entidad gráfica.
 		
 		@return AngularBox de la entidad en el entorno.
 		*/
-		const LogicalPosition::Sense getSense() const { return _pos._sense; }
+		const Logic::Sense getSense() const { return _pos._sense; }
 
 
 		/**
@@ -484,13 +484,10 @@ namespace Logic
 		*/
 		bool isActivated() {return _activated;}
 
-		const Map::CEntity* getEntityInfo() {return _entityInfo; }
-
+		/**
+		*/
 		const Vector3 fromLogicalToCartesian(const float grados,const float altura, const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
-		bool getJumping() {return _jumping;}
-		
-		void setJumping(bool jumping){_jumping=jumping;}
 
 	protected:
 
@@ -499,7 +496,6 @@ namespace Logic
 		usa para modificar el mapa.
 		*/
 		friend class CMap;
-		friend class CCollider;
 
 		/**
 		Identificador único de la entidad.
@@ -552,7 +548,6 @@ namespace Logic
 		*/
 		Matrix4 _transform;
 
-		Quaternion _quat;
 		/*
 		Posición de la entidad.
 		*
@@ -570,20 +565,9 @@ namespace Logic
 		bool _isPlayer;
 
 		/**
-		Copia de la definición de la entidad leida del mapa.
-		*/
-		const Map::CEntity *_entityInfo;
-					
-		/**
 			Anchura de la entidad gráfica en grados
 		*/	
 		float _angularBox;
-
-		// Pablo
-		/**
-		Atributo para saber si la entidad está saltando dentro de un anillo
-		*/
-		bool _jumping;
 
 	}; // class CEntity
 

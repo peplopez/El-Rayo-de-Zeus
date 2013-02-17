@@ -277,7 +277,7 @@ namespace Math
 		retorno.z= atan(coordenadas.z/coordenadas.x); //radio
 		
 		return retorno;
-	} // de cartesianas a polares
+	} // de cartesianas a cilindricas
 
 	static Vector3 fromCylindricalToCartesian(const float grados, const float radio, const float y) 
 	{		
@@ -286,7 +286,7 @@ namespace Math
 		retorno.y = y;
 		retorno.z = radio * sin(fromDegreesToRadians(grados));
 		return retorno;
-	} // de polares a cartesianas
+	} // de cilindricas a cartesianas
 
 
 	static void delimit(float& number, float min, float max) {

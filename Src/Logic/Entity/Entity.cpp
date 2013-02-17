@@ -56,203 +56,59 @@ namespace Logic
 	{
 		// Leemos las propiedades comunes
 		_map = map;
-		_entityInfo=entityInfo; // TODO [ƒ®§] Esto para qué es necesario?
 		_type = entityInfo->getType();
 		_logicInput=false;
-		Vector3 posicion=Vector3::ZERO;	
-		_pos._height=0;
+		Vector3 position=Vector3::ZERO;	
+		
 		if(entityInfo->hasAttribute("name"))
-			_name = entityInfo->getStringAttribute("name");		
+			_name = entityInfo->getStringAttribute("name");	
 
 		if(entityInfo->hasAttribute("logicInput"))
 			_logicInput = entityInfo->getBoolAttribute("logicInput");
 
-		
-		//if(entityInfo->hasAttribute("height"))//se puede definir la altura, pero logicamente, este valor por norma general valdrá 0 de inicio
-			//_pos._height = entityInfo->getBoolAttribute("height");
+		if(entityInfo->hasAttribute("degrees"))
+			_pos._degrees = entityInfo->getFloatAttribute("degrees");
+			
+		if(entityInfo->hasAttribute("sense"))
+			_pos._sense = static_cast<Logic::Sense>(entityInfo->getIntAttribute("sense"));
+		else
+			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna por defecto dirección LEFT
+			_pos._sense = Logic::Sense::LEFT;
+
+		if(entityInfo->hasAttribute("base"))					
+			_pos._base = entityInfo->getIntAttribute("base");
+
+		if(entityInfo->hasAttribute("ring"))
+			_pos._ring = static_cast<Logic::Ring>(entityInfo->getIntAttribute("ring"));
+		else
+			// TODO [ƒ®§] Esto de mezclar spanglish no queda muy fino, va a haber que normalizar todo al inglés...
+			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
+			//pese a todo no pete.
+			_pos._ring= Logic::Ring::CENTRAL_RING;  
+
+		_pos._height = 0;
+
+		if(entityInfo->hasAttribute("angularBox"))					
+			_angularBox = entityInfo->getFloatAttribute("angularBox");
 
 		if (_logicInput)
 		{
-			if(entityInfo->hasAttribute("degrees"))
-				_pos._degrees = entityInfo->getFloatAttribute("degrees");
+			position=fromLogicalToCartesian(_pos._degrees,_pos._height, _pos._base,_pos._ring);
+			_transform.setTrans(position);
+			float yaw = Math::fromDegreesToRadians(getDegree());
+			Math::yaw(yaw,_transform);
 
-			//if(entityInfo->hasAttribute("radio")) //LO podremos poner en "ring" en el futuro y ahorrarnoslo
-				//_pos._radio = entityInfo->getFloatAttribute("radio");
-			
-			if(entityInfo->hasAttribute("sense"))
-				switch (entityInfo->getIntAttribute("sense"))
-				{
-					case Logic::LogicalPosition::IZQUIERDA:
-					{
-						_pos._sense = Logic::LogicalPosition::IZQUIERDA;						
-						break;
-					}
-					case Logic::LogicalPosition::DERECHA:
-					{
-						_pos._sense = Logic::LogicalPosition::DERECHA;
-						break;
-					}
-					default:
-						{
-						_pos._sense= Logic::LogicalPosition::IZQUIERDA;
-						//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna por defecto dirección izquierda
-						//pese a todo no pete.
-						}
-			}
-
-			if(entityInfo->hasAttribute("base"))					
-				_pos._base = entityInfo->getIntAttribute("base");
-			// ahora empezamos a hacer la composicion de la posición, calculamos x, z
-			Vector3 posicion=Vector3::ZERO;
-				//Math::fromPolarToCartesian(_pos._degrees,_pos._radio);
-
-			if(entityInfo->hasAttribute("ring"))
-			{
-				switch (entityInfo->getIntAttribute("ring"))
-				{
-					case Logic::LogicalPosition::ANILLO_INFERIOR:
-					{
-						_pos._ring = Logic::LogicalPosition::ANILLO_INFERIOR;
-						break;
-					}
-					case Logic::LogicalPosition::ANILLO_CENTRAL:
-					{
-						_pos._ring = Logic::LogicalPosition::ANILLO_CENTRAL;				
-						break;
-					}
-					case Logic::LogicalPosition::ANILLO_SUPERIOR:
-					{
-						_pos._ring = Logic::LogicalPosition::ANILLO_SUPERIOR;
-						break;
-					}
-					default:
-						{
-						_pos._ring= Logic::LogicalPosition::ANILLO_CENTRAL;  // TODO [ƒ®§] Esto de mezclar spanglish no queda muy fino, va a haber que normalizar todo al inglés...
-						//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
-						//pese a todo no pete.
-						}
-			}
-			//	posicion=CServer::getSingletonPtr()->getRingPositions(_pos._base,_pos._ring);
-				posicion=this->fromLogicalToCartesian(_pos._degrees,_pos._height,_pos._base,_pos._ring);
-			}
-
-
-
-
-			if(entityInfo->hasAttribute("angularBox"))					
-				_angularBox = entityInfo->getFloatAttribute("angularBox");
-
-
-			if(entityInfo->hasAttribute("sense"))
-				switch (entityInfo->getIntAttribute("sense"))
-				{//	_pos._sense = entityInfo->getIntAttribute("sense");		
-				case Logic::LogicalPosition::IZQUIERDA:
-					{
-						_pos._sense = Logic::LogicalPosition::IZQUIERDA;
-						float yaw = Math::fromDegreesToRadians(90);
-						Math::yaw(yaw,_transform);
-						break;
-					}
-					case Logic::LogicalPosition::DERECHA:
-					{
-						_pos._sense = Logic::LogicalPosition::DERECHA;
-						float yaw = Math::fromDegreesToRadians(0);
-						Math::yaw(yaw,_transform);
-						break;
-					}
-					default:
-						{
-						_pos._sense= Logic::LogicalPosition::IZQUIERDA;
-						float yaw = Math::fromDegreesToRadians(90);
-						Math::yaw(yaw,_transform);
-						//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el sentido izquierda 					
-						}
-			}		
-			
-			//aplicamos la transformación, las coordenadas
-			_transform.setTrans(posicion);
-
-			}
-		else//logicInput=false
-			{
-					Vector3 position =Vector3::ZERO;
-					if (this->getType().compare("World")==0)
-					{			
-						if(entityInfo->hasAttribute("base"))					
-							_pos._base = entityInfo->getIntAttribute("base");
-						if(entityInfo->hasAttribute("ring"))
-						{
-							switch (entityInfo->getIntAttribute("ring"))
-							{
-								case Logic::LogicalPosition::ANILLO_INFERIOR:
-								{
-									_pos._ring = Logic::LogicalPosition::ANILLO_INFERIOR;									
-									break;
-								}
-								case Logic::LogicalPosition::ANILLO_CENTRAL:
-								{
-									_pos._ring = Logic::LogicalPosition::ANILLO_CENTRAL;
-									break;
-								}
-								case Logic::LogicalPosition::ANILLO_SUPERIOR:
-								{
-									_pos._ring = Logic::LogicalPosition::ANILLO_SUPERIOR;
-									break;
-								}
-								default:
-									{
-									_pos._ring= Logic::LogicalPosition::ANILLO_CENTRAL;
-									//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
-									//pese a todo no pete.
-									}								
-							}
-
-						}
-						position=CServer::getSingletonPtr()->getRingPositions(_pos._base,_pos._ring);						
-						_transform.setTrans(position);
-					}
-					else
-					{
-						if(entityInfo->hasAttribute("position"))
-						{
-							Vector3 position = entityInfo->getVector3Attribute("position");
-							_transform.setTrans(position);
-						}
-					}				
-			}
-		
-		// TODO limpiar comentarios, por seguridad ya estamos usando git 
-		/* arreglamos la orientación */
-		/*Vector3 centro=Vector3(0,-125,0);
-		Vector3 vectorCentroEntidad = -(centro-_transform.getTrans());
-		vectorCentroEntidad.normalise();
-		Vector3 actualDirection=Math::getDirection(this->getYaw());
-		Vector3 directionPerp= Vector3::UNIT_Y.crossProduct(vectorCentroEntidad);
-		directionPerp.normalise();
-		Quaternion rotacionDestino=actualDirection.getRotationTo(directionPerp);
-		*/
-	//	Matrix4 orientacion = this->getOrientation();
-		if (this->getType().compare("AnimatedEntity")==0)
-		{
-			//_entity->setDegree(_entity->getDegree()-_angularSpeed); 
-			if (this->getSense()==LogicalPosition::DERECHA)
-				this->setYaw(-Math::fromDegreesToRadians(this->getDegree()));
-			else
-				this->setYaw(Math::fromDegreesToRadians(360-this->getDegree()+180));
-			
 		}
-		
-		if (this->getType().compare("Player")==0)
-			this->yaw(Math::PI);
-		
-		//	this->setOrientation(rotacionDestino);
-		//this->setYaw(Math::fromDegreesToRadians(-90));
-		//this->setYaw(rotacionDestino);
-		// Por comodidad en el mapa escribimos los ángulos en grados.
-		if(entityInfo->hasAttribute("orientation"))
+		else //logicInput=false
 		{
-			float yaw = Math::fromDegreesToRadians(entityInfo->getFloatAttribute("orientation"));
-			Math::yaw(yaw,_transform); // HACK revisar
+			position=CServer::getSingletonPtr()->getRingPositions(_pos._base,_pos._ring);						
+			_transform.setTrans(position);
+		}
+
+		if(entityInfo->hasAttribute("position"))
+		{
+			position = entityInfo->getVector3Attribute("position");
+			_transform.setTrans(position);
 		}
 
 		if(entityInfo->hasAttribute("isPlayer"))
@@ -336,7 +192,8 @@ namespace Logic
 	 {		 
 		float offset=0;// se trata de un offset de radio, no de altura
 
-		if (this->getType().compare("Altar")==0){
+		if (this->getType().compare("Altar")==0)
+		{
 			offset=-9;
 		}
 
@@ -352,13 +209,7 @@ namespace Logic
 		  return position.y;
 	  }
 
-	  /*const float CEntity::getYJump(const unsigned short base, const Logic::LogicalPosition::Ring ring)
-	  { 	
-		  Vector3 position=Vector3::ZERO;
-		  position=CServer::getSingletonPtr()->getRingPositions(base,ring);	
-		  return position.y+5;
-	  }*/
-
+	//---------------------------------------------------------
 	void CEntity::tick(unsigned int msecs) 
 	{
 		TComponentList::const_iterator it;
@@ -480,6 +331,7 @@ namespace Logic
 
 	} // setPosition
 
+	//---------------------------------------------------------
 
 	void CEntity::setLogicalPosition(const Logic::TLogicalPosition &pos)
 	{
@@ -508,19 +360,6 @@ namespace Logic
 		emitMessage(message);
 
 	} // setOrientation
-
-
-	void CEntity::setOrientation(const Quaternion &quat)
-	{
-		_quat=quat;
-		// Avisamos a los componentes del cambio.
-		CMessageTF* message = new CMessageTF();
-		message->setType(Message::SET_TRANSFORM);
-		//message._quat = _quat;
-		message->setTransform(_transform);
-		emitMessage(message);	
-	}
-	
 
 	//---------------------------------------------------------
 
@@ -562,6 +401,8 @@ namespace Logic
 
 	} // setRoll
 
+	//---------------------------------------------------------
+
 	void CEntity::setPitch(float pitch) 
 	{
 		Math::setPitch(pitch,_transform);
@@ -575,7 +416,7 @@ namespace Logic
 
 	} // setPitch
 
-
+	//---------------------------------------------------------
 
 	void CEntity::setPitchYaw(float pitch,float yaw) 
 	{
@@ -590,6 +431,8 @@ namespace Logic
 
 	} // setPitchYaw
 
+	//---------------------------------------------------------
+
 	void CEntity::yaw(float yaw) 
 	{
 		Math::yaw(yaw,_transform);
@@ -602,6 +445,8 @@ namespace Logic
 		emitMessage(message);	
 
 	} // yaw
+
+	//---------------------------------------------------------
 
 	void CEntity::roll(float roll) 
 	{
@@ -616,6 +461,8 @@ namespace Logic
 
 	} // roll
 
+	//---------------------------------------------------------
+
 	void CEntity::pitch(float pitch)
 	{
 		Math::pitch(pitch,_transform);
@@ -629,28 +476,25 @@ namespace Logic
 
 	} // pitch
 
+	//---------------------------------------------------------
+
 	void CEntity::setDegree(const float &degree)
 	{
 		_pos._degrees=degree;
 	}
 
-	void CEntity::setSense(const LogicalPosition::Sense &sense)
-	{
-		_pos._sense=sense;
-	}
+	//---------------------------------------------------------
 	
 	void CEntity::setRing(const LogicalPosition::Ring &ring)
 	{
 		_pos._ring=ring;
 	}
+
+	//---------------------------------------------------------
+
 	const float CEntity::getRadio()
 	{
 		
 		return CServer::getSingletonPtr()->getRingRadio(_pos._base,_pos._ring);
 	}
-
-	/*void CEntity::setIsJumping(bool &isJumpingPointer)
-	{		
-		_isJumping=&isJumpingPointer;
-	}*/
 } // namespace Logic
