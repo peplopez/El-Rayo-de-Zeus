@@ -4,4 +4,4 @@ SkyBox CGraphics
 Altar CGraphics
 Entity CGraphics
 Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CPhysicController CLife CDeath CHudOverlay
-AnimatedEntity CAnimatedGraphics CAvatarController CPhysicController CLife CDeath
+AnimatedEntity CAnimatedGraphics CAvatarController CPhysicController CLife CLifeModifier CDeath 

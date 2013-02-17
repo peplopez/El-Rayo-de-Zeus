@@ -47,6 +47,8 @@ namespace Logic
 		CLife() : IComponent(), _LIFE_MAX(0), _life(0), _lifeBarPosition(0), _lifeBarWidth(0), _lifeBarHeight(0){}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
+
+		void deactivate();
 		
 		bool accept(const CMessage *message);
 
@@ -63,10 +65,10 @@ namespace Logic
 		/**
 		Vida máxima de la entidad
 		*/
-		float _LIFE_MAX;
+		int _LIFE_MAX;
 
 		/**Atributo que indica la magnitud de la vida de la entidad.*/
-		float _life;
+		int _life;
 
 		/** Atributo que indica el offset de la Y del posicionamiento del billboard de vida.*/
 		float _lifeBarPosition;

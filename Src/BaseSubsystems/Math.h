@@ -289,9 +289,15 @@ namespace Math
 	} // de cilindricas a cartesianas
 
 
+	static void delimit(int& number, int min, int max) {
+		number = std::min(std::max(number, min), max);	
+	}
+
 	static void delimit(float& number, float min, float max) {
 		number = std::min(std::max(number, min), max);	
 	}
+
+	
 	
 	
 

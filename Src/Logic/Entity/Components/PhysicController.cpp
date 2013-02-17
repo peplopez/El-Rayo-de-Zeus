@@ -25,8 +25,8 @@ el mundo físico usando character controllers.
 //#include <PxPhysicsAPI.h>
 
 using namespace Logic;
-using namespace Physics;
-using namespace physx; 
+//using namespace Physics;
+//using namespace physx; 
 
 IMP_FACTORY(CPhysicController);
 

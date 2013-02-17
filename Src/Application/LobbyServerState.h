@@ -165,7 +165,7 @@ namespace Application
 
 
 		/******************
-			IOBSERVER
+			NET::IOBSERVER
 		******************/
 		virtual void dataPacketReceived(Net::CPaquete* packet);
 		virtual void connexionPacketReceived(Net::CPaquete* packet);
