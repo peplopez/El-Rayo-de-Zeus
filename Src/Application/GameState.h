@@ -188,6 +188,11 @@ namespace Application
 		CEGUI::Window* _timeWindow;
 
 		/**
+		Ventana que muestra el HUD con informacion para el player.
+		*/
+		//CEGUI::Window* _hudWindow;
+
+		/**
 		Tiempo de juego en milisegundos.
 		*/
 		unsigned int _time;

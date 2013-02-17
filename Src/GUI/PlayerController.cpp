@@ -18,6 +18,7 @@ mover al jugador.
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageInt.h"
+#include "Logic/Entity/Messages/MessageString.h"
 
 #include <cassert>
 
@@ -65,8 +66,13 @@ namespace GUI {
 		{
 			Logic::CMessage *m = new Logic::CMessage();
 				m->setType(Logic::Message::CONTROL);
+
 			Logic::CMessageInt *m2 = new Logic::CMessageInt();
 				m2->setType(Logic::Message::CONTROL);
+
+			Logic::CMessage *m3 = new Logic::CMessage();
+				m3->setType(Logic::Message::HUD);
+
 			switch(key.keyId)
 			{
 			case GUI::Key::W: //subir anillo superior
@@ -82,18 +88,22 @@ namespace GUI {
 				m->setAction(Logic::Message::GO_DOWN); 
 				_controlledAvatar->emitMessage(m);
 				break;
+
 			case GUI::Key::SPACE:
 				m->setAction(Logic::Message::JUMP);  // Pablo
 				_controlledAvatar->emitMessage(m);
 				break;
+
 			case GUI::Key::A:
 				m->setAction(Logic::Message::WALK_LEFT);
 				_controlledAvatar->emitMessage(m);
 				break;
+
 			case GUI::Key::D:
 				m->setAction(Logic::Message::WALK_RIGHT);
 				_controlledAvatar->emitMessage(m);
 				break;
+
 			case GUI::Key::NUMBER1:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setInt(1);								
@@ -101,13 +111,15 @@ namespace GUI {
 					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;
+
 			case GUI::Key::NUMBER2:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setInt(2);
 				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
 				_controlledAvatar->emitMessage(m2);
-				break;			
+				break;	
+
 			case GUI::Key::NUMBER3:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setInt(3);
@@ -115,63 +127,65 @@ namespace GUI {
 					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;
+
 			case GUI::Key::NUMBER4:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setInt(4);
 				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
-				
 				_controlledAvatar->emitMessage(m2);
-				break;			
+				break;	
+
 			case GUI::Key::NUMBER5:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setInt(5);
 				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
-				
 				_controlledAvatar->emitMessage(m2);
 				break;
+
 			case GUI::Key::NUMBER6:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setInt(6);
 				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
-				
 				_controlledAvatar->emitMessage(m2);
-				break;			
+				break;	
+
 			case GUI::Key::NUMBER7:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setInt(7);
 				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
-				
 				_controlledAvatar->emitMessage(m2);
 				break;
+
 			case GUI::Key::NUMBER8:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setInt(8);
 				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
-				
 				_controlledAvatar->emitMessage(m2);
 				break;
+
 			case GUI::Key::NUMBER0:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setInt(0);
 				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
-				
 				_controlledAvatar->emitMessage(m2);
-				break;			
+				break;	
+
 			case GUI::Key::V:
-				m._string = "displayVisor";
+				m3->setAction(Logic::Message::DISPLAY_HUD);
+				_controlledAvatar->emitMessage(m3);
 				break;
-			case GUI::Key::ADD:
+			/*case GUI::Key::ADD:
 				m._string = "addPlayerToBase";
 				break;
 			case GUI::Key::M:
 				m._string = "minusPlayerToBase";
-				break;
+				break;*/
 			default:
 				return false;
 			}

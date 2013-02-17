@@ -28,13 +28,13 @@ Contiene la implementación del componente que controla el HUD mediante overlays.
 #include <OgreTextAreaOverlayElement.h>
 
 
-/*#include "Logic/Messages/Message.h"
-#include "Logic/Messages/MessageHudLife.h"
-#include "Logic/Messages/MessageHudShield.h"
-#include "Logic/Messages/MessageHudAmmo.h"
-#include "Logic/Messages/MessageHudWeapon.h"
-#include "Logic/Messages/MessageHudSpawn.h"
-*/
+#include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
+#include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageBoolFloat.h"
+#include "Logic/Entity/Messages/MessageBool.h"
+#include "Logic/Entity/Messages/MessageInt.h"
+
 
 namespace Logic 
 {
@@ -69,25 +69,15 @@ namespace Logic
 		
 		_playersInBase = 0;
 
-		//_numWeapons = entityInfo->getIntAttribute("numWeapons");
-		_numWeapons = 3;
-
-		int _actualWeapon;
-
-		
 
 		//Se crea un manager de overlays. _overlayPlay
 		Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
 		_overlayPlay = overlayManager.create("_overlayPlay");
 
 
-		/*
-		float height = overlayManager.getViewportHeight();
-		float width = overlayManager.getViewportWidth();
-		*/
 
-		float height = 800;
-		float width = 600;
+		float height = (float)overlayManager.getViewportHeight();
+		float width = (float)overlayManager.getViewportWidth();
 		
 
 		float relativeWidth = width/26;
@@ -99,7 +89,6 @@ namespace Logic
 		panelDummy->setMetricsMode(Ogre::GMM_PIXELS);
 		panelDummy->setPosition(-1,-1);
 		panelDummy->setDimensions(1,1);
-        //panelDummy->setMaterialName("hudHealth");
 
 
 		_textBoxArea[DUMMY] = static_cast<Ogre::TextAreaOverlayElement*>(
@@ -222,8 +211,6 @@ namespace Logic
 		 //////////////////////////////////////AQUI ME CREO EL OVERLAY PARA CUANDO SE MUERA
 
 
-
-		 /*
 		 _overlayDie = overlayManager.create( "_overlayDie" );
 
 
@@ -249,7 +236,7 @@ namespace Logic
 
 		_overlayDie->add2D( panelDie );
 
-		_overlayDie->show();*/
+		_overlayDie->show();
 
 		 
 
@@ -259,61 +246,44 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CHudOverlay::accept(const TMessage &message)
+	bool CHudOverlay::accept(const CMessage *message)
 	{
-		/*return message->getMessageType() == Message::HUD_LIFE
-			|| message->getMessageType() == Message::HUD_SHIELD
-			|| message->getMessageType() == Message::HUD_AMMO
-			|| message->getMessageType() == Message::HUD_WEAPON
-			|| message->getMessageType() == Message::HUD_SPAWN;
-			*/
-		return message._type == Message::CONTACTO || message._type == Message::CONTROL ;
-		//return true;
+		return message->getType() == Message::HUD || message->getType() == Message::CONTROL;
 	} // accept
 	
 	//---------------------------------------------------------
 
-	void CHudOverlay::process(const TMessage &message)
+	void CHudOverlay::process(CMessage *message)
 	{
-		/*switch(message->getMessageType())
-		{
-		case Message::HUD_LIFE: hudLife(((CMessageHudLife*)message)->getLife());
-			break;
-		case Message::HUD_SHIELD: hudShield(((CMessageHudShield*)message)->getShield());
-			break;
-		case Message::HUD_AMMO: hudAmmo( ((CMessageHudAmmo*)message)->getAmmo(), ((CMessageHudAmmo*)message)->getWeapon());
-			break;
-		case Message::HUD_WEAPON: hudWeapon(((CMessageHudWeapon*)message)->getAmmo(), ((CMessageHudWeapon*)message)->getWeapon());
-			break;
-		case Message::HUD_SPAWN: hudSpawn(((CMessageHudSpawn*)message)->getTime());
-			break;
-		}
-		*/
 
-			switch(message._type)
+			switch(message->getType())
 			{
-				case Message::CONTACTO:
-					if(!message._string.compare("updateLife"))
-						hudLife(message._float);
-				case Message::CONTROL:
-					if(!message._string.compare("displayVisor"))
+				/*case Message::CONTACT:
+						hudLife(message._float);*/
+				case Message::HUD:
+					//CMessageFloat *maux = static_cast<CMessageFloat*>(message);
+					if(message->getAction() == Message::DISPLAY_HUD)
 						hudVisor();
-					if(!message._string.compare("addPlayerToBase"))
+					/*if(!message._string.compare("addPlayerToBase"))
 						hudPlayers(1);
 					if(!message._string.compare("minusPlayerToBase"))
 						hudPlayers(-1);
+						*/
+					break;
 			}
 
 	} // process
 
-	void CHudOverlay::hudLife(float health){
-		//_health = health;
-		_health-= health;
+
+	//float value: may be positive (increase health) or negative(decrease health)
+	void CHudOverlay::hudLife(float value){
+		_health+= value;
 		std::stringstream sHealth;
 		sHealth << _health;
 		_textBoxArea[HEALTH]->setCaption(sHealth.str());
 	}
 
+	//short int valor: may be 1 or -1. Depends if a player has dead or another player has enter in the base player.
 	void CHudOverlay::hudPlayers(short int valor){
 		_playersInBase+= valor;
 		std::stringstream sPlayers;
@@ -338,9 +308,10 @@ namespace Logic
 
 			_overlayDie->hide();
 			//reset para volver a mostrar solo el arma inicial al hacer show
-			for(int i=1; i<_numWeapons;++i){
+			/*for(int i=1; i<_numWeapons;++i){
 				_weaponsBox[i][NO_WEAPON]->show();
 			}
+			*/
 			_overlayPlay->show();
 		}
 

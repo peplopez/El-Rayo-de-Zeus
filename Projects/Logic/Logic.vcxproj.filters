@@ -98,10 +98,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\RingTraveler.cpp">
       <Filter>Entity\Components\Source Files</Filter>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeController.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp">
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BaseTraveler.cpp">
       <Filter>Entity\Components\Source Files</Filter>
@@ -146,6 +142,12 @@
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicController.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\CeguiHud.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -219,7 +221,6 @@
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\RingTraveler.h">
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\HudOverlay.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BaseTraveler.h">
@@ -265,6 +266,12 @@
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Physics.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\HudOverlay.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\CeguiHud.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
