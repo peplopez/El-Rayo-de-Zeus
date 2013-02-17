@@ -311,6 +311,28 @@ namespace Logic
 			}
 		}
 
+
+
+		/**
+		Establece la altura de la entidad con respeto al plano XZ (ANILLO) sobre el que se encuentra
+
+		@param height, nueva altura
+		*/
+		void setHeight(const float &height)
+		{
+			_pos._height=height;
+		}
+
+		/**
+		Devuelve la altura de la entidad.
+		
+		@return Height de la entidad con respecto al anillo actual.
+		*/
+		const float getHeight() const { 
+		    return	_pos._height;
+		}
+
+
 		/**
 		Establece la base de la entidad. 
 		NO Avisa a los componentes
@@ -464,7 +486,7 @@ namespace Logic
 
 		const Map::CEntity* getEntityInfo() {return _entityInfo; }
 
-		const Vector3 fromLogicalToCartesian(const float grados, const unsigned short base, const Logic::LogicalPosition::Ring ring);
+		const Vector3 fromLogicalToCartesian(const float grados,const float altura, const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
 		bool getJumping() {return _jumping;}
 		

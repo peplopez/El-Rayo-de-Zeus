@@ -51,7 +51,7 @@ namespace Logic
 
 		/**
 		Método virtual que elige que mensajes son aceptados. Son válidos
-		CHANGE_RING.
+		CHANGE_PLANE.
 
 		@param message Mensaje a chequear.
 		@return true si el mensaje es aceptado.

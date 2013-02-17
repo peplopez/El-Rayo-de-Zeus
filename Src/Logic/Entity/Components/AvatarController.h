@@ -47,8 +47,10 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAvatarController() : IComponent(), _angularSpeed(0.00625f),_sentidoColision(false),_walkingRight(false), _walkBack(false), 
-			_walkingLeft(false),_correccionGrados(0) {}
+		CAvatarController() : IComponent(), _angularSpeed(0.00625f),_sentidoColision(false),_walkingRight(false), _walkBack(false),_lightAttack(false),_heavyAttack(false), 
+				_walkingLeft(false),_correccionGrados(0)
+			 //_jumpingDown(false), _initialJump(false), _timeJumping(0), _potenciaSaltoInicial(5)
+		{}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -137,6 +139,10 @@ namespace Logic
 		void stopMovement();
 		
 		
+		void lightAttack();
+
+		
+		void heavyAttack();
 		/**
 		Provoca que la entidad cambie de dirección.
 		@param amount Cantidad de giro. Positivos giro a derechas,
@@ -183,6 +189,13 @@ namespace Logic
 		*/
 		bool _walkBack;
 
+
+		bool _lightAttack;
+
+		
+		bool _heavyAttack;
+
+
 		bool _sentidoColision;
 
 		bool _sentidoDerecha;
@@ -194,6 +207,39 @@ namespace Logic
 		*/
 		float _angularSpeed;
 
+		// Pablo. Atributo que indica la velocidad de salto de la entidad
+		
+		/*float jumpSpeed;
+
+		// Pablo. Atributo que indica que acaba de empezar a saltar
+		bool _initialJump;
+
+		float _timeJumping;
+
+		// Pablo. Atributo que indica la velocidad de la fuerza de gravedad
+		float _gravity;
+
+		//Pablo. Altura maxima del salto
+		float _Hmax;
+
+		//Pablo. Tiempo máximo en el aire
+		float _Tmax;
+
+		//Pablo. Tiempo hasta alcanzar la máxima altura
+		float _Tmaxaltura;
+
+		//Pablo. Y inicial en el momento de saltar
+		float _inicialY;
+
+		//Pablo. posicion Vector3 (x,y,z) en el momento de saltar
+		Vector3 _posicionSalto;
+
+		float _potenciaSalto;
+
+		float _potenciaSaltoInicial;
+
+		bool _jumpingDown;
+		*/
 	}; // class CAvatarController
 
 	REG_FACTORY(CAvatarController);

@@ -41,9 +41,8 @@ Map = {
 		logicInput=true,
 		sense=0,
 		angularBox=2.5,
-		initialJumpSpeed = 28,
-		gravity = 0.98,
-		Hmax = 40,
+		jumpPower = 0.08,
+		gravity = 0.1,
 	},
 	
 }

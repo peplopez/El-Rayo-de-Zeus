@@ -1,6 +1,5 @@
 /**
-RECUERDOS DE MERCHE
-@file PlayerController.cpp
+@file CameraController.cpp
 
 Contiene la implementación de la clase CCameraController. Se encarga de
 recibir eventos del teclado y del ratón y de interpretarlos para
@@ -8,8 +7,8 @@ mover al jugador.
 
 @see GUI::CCameraController
 
-@author David Llansó
-@date Agosto, 2010
+@author Jose Luis López Sánchez
+@date Febrero, 2013
 */
 
 #include "CameraController.h"
@@ -28,7 +27,7 @@ namespace GUI {
 	CCameraController::CCameraController() : _controlledCamera(0)
 	{
 		activate();
-		/*¿Alquien es capaz de explicarme por qué me he visto forzado a hacer esta ñapa para que se ejecute el Activate()?*/
+		/*PeP: ¿Alquien es capaz de explicarme por qué me he visto forzado a hacer esta ñapa para que se ejecute el Activate()?*/
 	} // CCameraController
 
 	//--------------------------------------------------------

@@ -40,11 +40,12 @@ namespace Logic
 			CONTACT				= 0x07,   // PEP: Ya lo desSpanglishao
 			SET_SHADER			= 0x08,			
 			CAMERA				= 0x09,
-			AVATAR_WALK			= 0x10,
+			AVATAR_MOVE			= 0x10,
 			DAMAGED				= 0x11,			
 			ANIMATION_FINISHED	= 0x12,
 			COMBAT				= 0x13,
-			CHANGE_RING			= 0x14,
+			CHANGE_PLANE		= 0x14,
+			CHANGE_HEIGHT		= 0x15
 		};
 
 		enum TActionType : unsigned char
@@ -60,9 +61,10 @@ namespace Logic
 			TURN				= 0x16,
 			CHANGE_DIRECTION	= 0x17,
 			CHANGE_BASE			= 0x18,
-			UPDATE_LIFE			= 0x19,
-			LIGHT_ATTACK		= 0x20,
-			HEAVY_ATTACK		= 0x21
+			CHANGE_RING			= 0x19,
+			UPDATE_LIFE			= 0x20,
+			LIGHT_ATTACK		= 0x21,
+			HEAVY_ATTACK		= 0x22
 		};
 	}
 

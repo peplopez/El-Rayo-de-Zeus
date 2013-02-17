@@ -70,7 +70,7 @@ namespace Logic
 				
 				CMessageBoolString *msg = new CMessageBoolString();
 					msg->setType(TMessageType::SET_ANIMATION);	
-					msg->setBool(true);
+					msg->setBool(false);
 				if(_life > 0)  // TODO Poner la animación de herido.
 					msg->setString("Damage");
 				else  // TODO Si la vida es menor que 0 poner animación de morir.

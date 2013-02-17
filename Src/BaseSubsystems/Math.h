@@ -268,20 +268,22 @@ namespace Math
 
 	} // getDirection
 
-	static std::pair<float,float> fromCartesianToPolar(const Vector3 coordenadas) 
-	{
-		std::pair <float,float> retorno;
+	static Vector3 fromCartesianToCylindrical(const Vector3 coordenadas) 
+	{//el Vector3 de retorno contiene const float grados, const float radio, const float y
+		Vector3 retorno=Vector3::ZERO;
 		
-		retorno.first = sqrtf( powf(coordenadas.x,2) +  powf(coordenadas.z, 2) );
-		retorno.second = atan(coordenadas.z/coordenadas.x);
+		retorno.x= sqrtf( powf(coordenadas.x,2) +  powf(coordenadas.z, 2) );//grados
+		retorno.y= coordenadas.y;//altura
+		retorno.z= atan(coordenadas.z/coordenadas.x); //radio
 		
 		return retorno;
 	} // de cartesianas a polares
 
-	static Vector3 fromPolarToCartesian(const float grados, const float radio) 
+	static Vector3 fromCylindricalToCartesian(const float grados, const float radio, const float y) 
 	{
 		Vector3 retorno=Vector3::ZERO;
 		retorno.x = radio * cos(fromDegreesToRadians(grados));
+		retorno.y = y;
 		retorno.z = radio * sin(fromDegreesToRadians(grados));
 		return retorno;
 	} // de polares a cartesianas

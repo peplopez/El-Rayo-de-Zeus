@@ -17,7 +17,7 @@ mover al jugador.
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageFloat.h"
+#include "Logic/Entity/Messages/MessageInt.h"
 
 #include <cassert>
 
@@ -65,7 +65,7 @@ namespace GUI {
 		{
 			Logic::CMessage *m = new Logic::CMessage();
 				m->setType(Logic::Message::CONTROL);
-			Logic::CMessageFloat *m2 = new Logic::CMessageFloat();
+			Logic::CMessageInt *m2 = new Logic::CMessageInt();
 				m2->setType(Logic::Message::CONTROL);
 			switch(key.keyId)
 			{
@@ -96,74 +96,73 @@ namespace GUI {
 				break;
 			case GUI::Key::NUMBER1:
 				m2->setAction(Logic::Message::CHANGE_BASE);
-				m2->setFloat(1);
+				m2->setInt(1);								
+				if (_controlledAvatar->getBase()==m2->getInt())
+					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER2:
 				m2->setAction(Logic::Message::CHANGE_BASE);
-				m2->setFloat(2);
-				if (_controlledAvatar->getBase()==m2->getFloat())
+				m2->setInt(2);
+				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;			
 			case GUI::Key::NUMBER3:
 				m2->setAction(Logic::Message::CHANGE_BASE);
-				m2->setFloat(3);
-				if (_controlledAvatar->getBase()==m2->getFloat())
+				m2->setInt(3);
+				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER4:
 				m2->setAction(Logic::Message::CHANGE_BASE);
-				m2->setFloat(4);
-				if (_controlledAvatar->getBase()==m2->getFloat())
+				m2->setInt(4);
+				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
 				
 				_controlledAvatar->emitMessage(m2);
 				break;			
 			case GUI::Key::NUMBER5:
 				m2->setAction(Logic::Message::CHANGE_BASE);
-				m2->setFloat(5);
-				if (_controlledAvatar->getBase()==m2->getFloat())
+				m2->setInt(5);
+				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
 				
 				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER6:
 				m2->setAction(Logic::Message::CHANGE_BASE);
-				m2->setFloat(6);
-				if (_controlledAvatar->getBase()==m2->getFloat())
+				m2->setInt(6);
+				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
 				
 				_controlledAvatar->emitMessage(m2);
 				break;			
 			case GUI::Key::NUMBER7:
 				m2->setAction(Logic::Message::CHANGE_BASE);
-				m2->setFloat(7);
-				if (_controlledAvatar->getBase()==m2->getFloat())
+				m2->setInt(7);
+				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
 				
 				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER8:
 				m2->setAction(Logic::Message::CHANGE_BASE);
-				m2->setFloat(8);
-				if (_controlledAvatar->getBase()==m2->getFloat())
+				m2->setInt(8);
+				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
 				
 				_controlledAvatar->emitMessage(m2);
 				break;
 			case GUI::Key::NUMBER0:
 				m2->setAction(Logic::Message::CHANGE_BASE);
-				m2->setFloat(0);
-				if (_controlledAvatar->getBase()==m2->getFloat())
+				m2->setInt(0);
+				if (_controlledAvatar->getBase()==m2->getInt())
 					return false;
 				
 				_controlledAvatar->emitMessage(m2);
-				break;
-			case GUI::Key::E:
-				//m._string = "specialAction";
-				break;
+				break;			
 			default:
 				return false;
 			}
@@ -204,7 +203,7 @@ namespace GUI {
 	
 	bool CPlayerController::mouseMoved(const CMouseState &mouseState)
 	{
-		if(_controlledAvatar)
+		/*if(_controlledAvatar)
 		{
 			Logic::CMessageFloat *m = new Logic::CMessageFloat();
 			m->setType(Logic::Message::CONTROL);
@@ -212,7 +211,7 @@ namespace GUI {
 			m->setFloat(-(float)mouseState.movX * TURN_FACTOR);
 			_controlledAvatar->emitMessage(m);
 			return true;
-		}
+		}*/
 		return false;
 
 	} // mouseMoved
@@ -224,9 +223,9 @@ namespace GUI {
 		if(_controlledAvatar)
 		{
 			Logic::CMessage *m = new Logic::CMessage();
-			m->setType(Logic::Message::COMBAT);
+			m->setType(Logic::Message::CONTROL);
 			switch(mouseState.button)
-			{			
+			{
 			case GUI::Button::LEFT:				
 			m->setAction(Logic::Message::LIGHT_ATTACK);						
 				break;

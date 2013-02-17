@@ -7,8 +7,8 @@ de la entidad.
 @see Logic::CCollider
 @see Logic::IComponent
 
-@author David Llansó
-@date Agosto, 2010
+@author Jose Luis López Sánchez
+@date Febrero, 2013
 */
 
 #include "Collider.h"
@@ -78,7 +78,7 @@ namespace Logic
 		switch(message->getType())
 		{
 		case Message::CONTACT:  //[ƒ®§] Pero..?   PeP: ^.^'
-			//CONTACT();
+			//CONTACT();r
 			break;
 		 //PROCESAR EL CONTACT, PARAR A LAS ENTIDADES IMPLICADAS
 		
@@ -195,12 +195,12 @@ namespace Logic
 			entidad2->emitMessage(m4,this);	
 		}
 		else    // HACK [ƒ®§] Si este componente está haciendo las veces de CPhysic, nunca jamás
-		{	// debería actuar sobre las animaciones (de ahi lo de separar el CAngularMovement 
+		{	// debería actuar sobre las animaciones (de ahi lo de separar el CJump 
 			// de animaciones mediante el CAvatarController).			
 			// Lo que suele hacer el CPhysic para detener un movimiento en colision
 			// en realidad es filtrar: el CPhysic se coloca antes de los receptores del SET_TRANSFORM, 
 			// recoge los SET_TRANS enviados, los filtra/capa y los reenvia a los gráficos. Luego
-			// tambien tiene un AVATAR_WALK que intenta ejecutar un movimiento y retransmite el SET_TRANSFORM 
+			// tambien tiene un AVATAR_MOVE que intenta ejecutar un movimiento y retransmite el SET_TRANSFORM 
 			// del resultado de ese movimiento. Eso es lo que crea el efecto de tio corriendo contra 
 			// una pared sin moverse. De momento, como me conviene arreglarlo rápido para que salgan
 			// animaciones de daños y muerte en el HITO 2, lo quito.

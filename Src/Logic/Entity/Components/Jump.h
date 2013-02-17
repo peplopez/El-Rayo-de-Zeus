@@ -1,17 +1,17 @@
 /**
-@file AngularMovement.h
+@file Jump.h
 
 Contiene la declaración del componente que controla el movimiento 
 angular de entidades.
 
-@see Logic::CAngularMovement
+@see Logic::CJump
 @see Logic::IComponent
 
 @author José Luis López
 @date Diciembre, 2012
 */
-#ifndef __Logic_AngularMovement_H
-#define __Logic_AngularMovement_H
+#ifndef __Logic_Jump_H
+#define __Logic_Jump_H
 
 #include "Logic/Entity/Component.h"
 #include "BaseSubsystems/Math.h"
@@ -37,9 +37,9 @@ namespace Logic
 	@author David Llansó García
 	@date Agosto, 2010
 */
-	class CAngularMovement : public IComponent
+	class CJump : public IComponent
 	{
-		DEC_FACTORY(CAngularMovement);
+		DEC_FACTORY(CJump);
 	public:
 
 		/**
@@ -47,8 +47,7 @@ namespace Logic
 		defecto.
 		*/
 		// Pablo. Añadido la inicialización de _jumping y _timeJumping
-		CAngularMovement() : IComponent(), _sentidoColision(false), _walkBack(false), _walkingRight(false), _walkingLeft(false), _goingUp(false), _goingDown(false),
-			_angularSpeed(0.00625f), _jumpingDown(false), _initialJump(false), _timeJumping(0), _potenciaSaltoInicial(5)/*5*/, _correccionGrados(0){}
+		CJump() : IComponent(), _jumping(false),_jumpPower(0),_initialGravity(0),_gravity(0.01){}
 		// divididio entre 32
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -113,131 +112,29 @@ namespace Logic
 		*/
 		void process(CMessage *message);
 
-			/**
-		Provoca que la entidad retroceda al chocarse con otra entidad en lugar de simplemente pararse, 
-		así ya no está colisionando y se puede mover.
-		*/	
-		void walkBack();
-
-		/**
-		Provoca que la entidad avance a la derecha.
-		*/
-		void walkRight();
-
-		/**
-		Provoca que la entidad avance a la izquierda
-		*/
-		void walkLeft();
-
-
-		/**
-		Provoca que la entidad cese el desplazamiento.
-		*/
-		void stopMovement();
-		
-		/**
-		Provoca que la entidad gire. Números Positivos para	giro a 
-		derechas, negativos para giro izquierdas.
-
-		@param amount Cantidad de giro. Positivos giro a derechas,
-		negativos a izquierdas.
-		*/
-		void turn(float amount);
-
-		/**
-		Provoca que la entidad cambie de dirección.
-		@param amount Cantidad de giro. Positivos giro a derechas,
-		negativos a izquierdas.
-		*/
-		void changeDirection(const bool newDirection);
-
-		//Pablo
 		/**
 		Provoca que la entidad salte.
 		*/
 		void jump();
-		
-
-
 	
+
 	protected:
 
-		/**
-		Atributo para hacer que retroceda ante una colisión.
-		*/
-		bool _walkBack;
-
-		/**
-		Atributo para saber si la entidad está avanzando a la derecha.
-		*/
-		bool _walkingRight;
-
-		/**
-		Atributo para saber si la entidad está avanzando a la izquierda
-		*/
-		bool _walkingLeft;
-
-
-		/**
-		Atributo para saber si la entidad está bajando en el salto dentro de un anillo
-		*/
-		bool _jumpingDown;
-
-		/**
-			Atributo para saber si la entidad está bajando de anillo
-		*/
-		bool _goingUp;
-		/**
-		Atributo para saber si la entidad está subiendo de anillo
-		*/
-		bool _goingDown;
-
-		/**
-		Atributo que indica la magnitud de velocidad de la entidad.
-		*/
-		float _angularSpeed;
-
-		float _correccionGrados;
-
-		bool _sentidoDerecha;
-
-		bool _sentidoColision;
-
-		// Pablo. Atributo que indica la velocidad de salto de la entidad
-		float jumpSpeed;
-
-		// Pablo. Atributo que indica que acaba de empezar a saltar
-		bool _initialJump;
-
-		float _timeJumping;
 
 		// Pablo. Atributo que indica la velocidad de la fuerza de gravedad
-		float _gravity;
+		float _initialGravity;
 
-		//Pablo. Altura maxima del salto
-		float _Hmax;
-
-		//Pablo. Tiempo máximo en el aire
-		float _Tmax;
-
-		//Pablo. Tiempo hasta alcanzar la máxima altura
-		float _Tmaxaltura;
-
-		//Pablo. Y inicial en el momento de saltar
-		float _inicialY;
-
-		//Pablo. posicion Vector3 (x,y,z) en el momento de saltar
-		Vector3 _posicionSalto;
-
-		float _potenciaSalto;
-
-		float _potenciaSaltoInicial;
+		float _gravity;		
 		
+		float _jumpPower;
 		
-	}; // class CAngularMovement
+		bool _jumping;
 
-	REG_FACTORY(CAngularMovement);
+
+	}; // class CJump
+
+	REG_FACTORY(CJump);
 
 } // namespace Logic
 
-#endif // __Logic_AngularMovement_H
+#endif // __Logic_Jump_H

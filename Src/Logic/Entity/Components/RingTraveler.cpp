@@ -17,6 +17,7 @@ gráfica de la entidad.
 
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageInt.h"
 
 namespace Logic 
 {
@@ -47,8 +48,8 @@ namespace Logic
 
 	
 	bool CRingTraveler::accept(const CMessage *message)
-	{//que no os confunda el nombre de mensaje CHANGE_RING es tanto para cambiar de base como de anillo dentro de la base. Apreciad que en cualquier caso siempre es un cambio de anillo, de ahí el nombre
-		return message->getType() == Message::CHANGE_RING;
+	{//que no os confunda el nombre de mensaje CHANGE_PLANE es tanto para cambiar de base como de anillo dentro de la base. Apreciad que en cualquier caso siempre es un cambio de anillo, de ahí el nombre
+		return message->getType() == Message::CHANGE_PLANE;
 
 	} // accept
 	
@@ -59,7 +60,7 @@ namespace Logic
 		CMessage *maux = static_cast<CMessage*>(message);
 		switch(message->getType())
 		{
-		case Message::CHANGE_RING:
+		case Message::CHANGE_PLANE:
 			if(message->getAction() == Message::GO_UP)
 				goUp();
 		else if(message->getAction() == Message::GO_DOWN)
@@ -73,43 +74,57 @@ namespace Logic
 		{
 			_changingRing=true;
 			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
+
 			if(_entity->getJumping()==false)
 			{
 				_changingRing=true;
+				CMessageInt *m = new CMessageInt();	
+				m->setType(Message::AVATAR_MOVE);
+				m->setAction(Message::CHANGE_RING);		
+				
 				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
 				{
-					_entity->setRing(Ring::ANILLO_INFERIOR);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+					/*_entity->setRing(Ring::ANILLO_INFERIOR);
+					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
+					*/m->setInt(Ring::ANILLO_INFERIOR);				
 				}
 				if (_entity->getRing()==Ring::ANILLO_SUPERIOR)
 				{
-					_entity->setRing(Ring::ANILLO_CENTRAL);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+					/*_entity->setRing(Ring::ANILLO_CENTRAL);
+					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
+					*/m->setInt(Ring::ANILLO_CENTRAL);
 				}
+				_entity->emitMessage(m,this);
 			}			
 		}
 		
 		void CRingTraveler::goUp()
 		{
 			_changingRing=true;
+			CMessageInt *m = new CMessageInt();	
+			m->setType(Message::AVATAR_MOVE);
+			m->setAction(Message::CHANGE_RING);		
 			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
 			if(_entity->getJumping()==false)
 			{
 				_changingRing=true;	
 				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
 				{
-					_entity->setRing(Ring::ANILLO_SUPERIOR);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+					/*_entity->setRing(Ring::ANILLO_SUPERIOR);
+					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
+				*/m->setInt(Ring::ANILLO_SUPERIOR);	
 				}
 				if (_entity->getRing()==Ring::ANILLO_INFERIOR)
-				{
+				{/*
 					_entity->setRing(Ring::ANILLO_CENTRAL);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getBase(),_entity->getRing());
+					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
+				*/m->setInt(Ring::ANILLO_CENTRAL);	
 				}
+				_entity->emitMessage(m,this);
 			}			
 		}
 		void CRingTraveler::tick(unsigned int msecs)

@@ -60,13 +60,16 @@ namespace Logic
 		_type = entityInfo->getType();
 		_logicInput=false;
 		Vector3 posicion=Vector3::ZERO;	
-		
+		_pos._height=0;
 		if(entityInfo->hasAttribute("name"))
 			_name = entityInfo->getStringAttribute("name");		
 
 		if(entityInfo->hasAttribute("logicInput"))
 			_logicInput = entityInfo->getBoolAttribute("logicInput");
 
+		
+		//if(entityInfo->hasAttribute("height"))//se puede definir la altura, pero logicamente, este valor por norma general valdrá 0 de inicio
+			//_pos._height = entityInfo->getBoolAttribute("height");
 
 		if (_logicInput)
 		{
@@ -130,7 +133,7 @@ namespace Logic
 						}
 			}
 			//	posicion=CServer::getSingletonPtr()->getRingPositions(_pos._base,_pos._ring);
-				posicion=this->fromLogicalToCartesian(_pos._degrees,_pos._base,_pos._ring);
+				posicion=this->fromLogicalToCartesian(_pos._degrees,_pos._height,_pos._base,_pos._ring);
 			}
 
 
@@ -329,18 +332,16 @@ namespace Logic
 	} // setIsPlayer
 
 	//---------------------------------------------------------
-	 const Vector3 CEntity::fromLogicalToCartesian(const float grados, const unsigned short base, const Logic::LogicalPosition::Ring ring)
+	 const Vector3 CEntity::fromLogicalToCartesian(const float grados,const float altura, const unsigned short base, const Logic::LogicalPosition::Ring ring)
 	 {		 
-		float offset=0;
+		float offset=0;// se trata de un offset de radio, no de altura
 
 		if (this->getType().compare("Altar")==0){
 			offset=-9;
 		}
 
 		Vector3 resultado=Vector3::ZERO;
-		resultado=Math::fromPolarToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset);
-		resultado.y=CServer::getSingletonPtr()->getRingPositions(base,ring).y+126;
-
+		resultado=Math::fromCylindricalToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset,CServer::getSingletonPtr()->getRingPositions(base,ring).y+altura+126);
 		return resultado;
 	 }
 	 
@@ -351,12 +352,12 @@ namespace Logic
 		  return position.y;
 	  }
 
-	  const float CEntity::getYJump(const unsigned short base, const Logic::LogicalPosition::Ring ring)
+	  /*const float CEntity::getYJump(const unsigned short base, const Logic::LogicalPosition::Ring ring)
 	  { 	
 		  Vector3 position=Vector3::ZERO;
 		  position=CServer::getSingletonPtr()->getRingPositions(base,ring);	
 		  return position.y+5;
-	  }
+	  }*/
 
 	void CEntity::tick(unsigned int msecs) 
 	{
@@ -486,8 +487,9 @@ namespace Logic
 		_pos._degrees=pos._degrees;
 		_pos._ring=pos._ring;
 		_pos._sense=pos._sense;
-		
-		const Vector3 position=fromLogicalToCartesian(_pos._degrees,_pos._base,_pos._ring);
+		_pos._height=pos._height;
+
+		const Vector3 position=fromLogicalToCartesian(_pos._degrees,_pos._height,_pos._base,_pos._ring);
 		setPosition(position);
 
 
