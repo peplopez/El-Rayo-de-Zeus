@@ -145,17 +145,17 @@ namespace Logic {
 		Vector3 retorno= Vector3::ZERO;
 			switch (ring)
 			{
-				case Logic::LogicalPosition::ANILLO_INFERIOR:
+				case Logic::LogicalPosition::LOWER_RING:
 				{
 					//return Logic::base.posBase[base]._down+Vector3(0,126,0);
 					return Logic::base.posBase[base]._down;
 				}
-				case Logic::LogicalPosition::ANILLO_CENTRAL:
+				case Logic::LogicalPosition::CENTRAL_RING:
 				{
 					//return Logic::base.posBase[base]._center+Vector3(0,126,0);
 					return Logic::base.posBase[base]._center;
 				}
-				case Logic::LogicalPosition::ANILLO_SUPERIOR:
+				case Logic::LogicalPosition::UPPER_RING:
 				{
 					//return Logic::base.posBase[base]._up+Vector3(0,126,0);
 					return Logic::base.posBase[base]._up;
@@ -174,15 +174,15 @@ namespace Logic {
 	{
 			switch (ring)
 			{
-				case Logic::LogicalPosition::ANILLO_INFERIOR:
+				case Logic::LogicalPosition::LOWER_RING:
 				{
 					return Logic::RADIO_MENOR;
 				}
-				case Logic::LogicalPosition::ANILLO_CENTRAL:
+				case Logic::LogicalPosition::CENTRAL_RING:
 				{
 					return Logic::RADIO_MAYOR;
 				}
-				case Logic::LogicalPosition::ANILLO_SUPERIOR:
+				case Logic::LogicalPosition::UPPER_RING:
 				{
 					return Logic::RADIO_MENOR;
 				}

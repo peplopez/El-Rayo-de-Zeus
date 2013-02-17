@@ -46,10 +46,6 @@ namespace Logic
 	bool CJump::activate()
 	{
 		_jumping=false;
-		if (_entity->isPlayer())
-		{
-			_entity->setJumping(false); // QUITAR SETJUMPING, NO SE TIENE EN CUENTA.
-		}
 		return true;
 	}
 		

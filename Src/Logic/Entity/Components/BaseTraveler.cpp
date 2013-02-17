@@ -77,19 +77,19 @@ namespace Logic
 				m->setAction(Message::CHANGE_BASE);
 				m->setInt(base);
 				_entity->emitMessage(m,this);
-			/*	if (_entity->getRing()==Ring::ANILLO_SUPERIOR)
+			/*	if (_entity->getRing()==Ring::UPPER_RING)
 				{
 					_entity->setBase(base);
 					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
 				}
-				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
+				if (_entity->getRing()==Ring::CENTRAL_RING)
 				{
 					_entity->setBase(base);
 					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
 				}
-				if (_entity->getRing()==Ring::ANILLO_INFERIOR)
+				if (_entity->getRing()==Ring::LOWER_RING)
 				{
 					_entity->setBase(base);
 					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());

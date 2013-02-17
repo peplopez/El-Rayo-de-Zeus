@@ -70,14 +70,14 @@ namespace GUI {
 			switch(key.keyId)
 			{
 			case GUI::Key::W: //subir anillo superior
-				if (_controlledAvatar->getRing()==Logic::LogicalPosition::ANILLO_SUPERIOR)
+				if (_controlledAvatar->getRing()==Logic::LogicalPosition::UPPER_RING)
 					return false;			
 				m->setAction(Logic::Message::GO_UP); // Pablo
 				_controlledAvatar->emitMessage(m);
 				break;
 			
 			case GUI::Key::S: //bajar anillo inferior
-				if (_controlledAvatar->getRing()==Logic::LogicalPosition::ANILLO_INFERIOR)
+				if (_controlledAvatar->getRing()==Logic::LogicalPosition::LOWER_RING)
 					return false;			
 				m->setAction(Logic::Message::GO_DOWN); 
 				_controlledAvatar->emitMessage(m);

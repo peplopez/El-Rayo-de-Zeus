@@ -75,26 +75,26 @@ namespace Logic
 			_changingRing=true;
 			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
 
-			if(_entity->getJumping()==false)
+			//if(_entity->getJumping()==false)
 			{
 				_changingRing=true;
 				CMessageInt *m = new CMessageInt();	
 				m->setType(Message::AVATAR_MOVE);
 				m->setAction(Message::CHANGE_RING);		
 				
-				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
+				if (_entity->getRing()==Ring::CENTRAL_RING)
 				{
-					/*_entity->setRing(Ring::ANILLO_INFERIOR);
+					/*_entity->setRing(Ring::LOWER_RING);
 					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
-					*/m->setInt(Ring::ANILLO_INFERIOR);				
+					*/m->setInt(Ring::LOWER_RING);				
 				}
-				if (_entity->getRing()==Ring::ANILLO_SUPERIOR)
+				if (_entity->getRing()==Ring::UPPER_RING)
 				{
-					/*_entity->setRing(Ring::ANILLO_CENTRAL);
+					/*_entity->setRing(Ring::CENTRAL_RING);
 					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
-					*/m->setInt(Ring::ANILLO_CENTRAL);
+					*/m->setInt(Ring::CENTRAL_RING);
 				}
 				_entity->emitMessage(m,this);
 			}			
@@ -107,22 +107,22 @@ namespace Logic
 			m->setType(Message::AVATAR_MOVE);
 			m->setAction(Message::CHANGE_RING);		
 			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
-			if(_entity->getJumping()==false)
+			//if(_entity->getJumping()==false)
 			{
 				_changingRing=true;	
-				if (_entity->getRing()==Ring::ANILLO_CENTRAL)
+				if (_entity->getRing()==Ring::CENTRAL_RING)
 				{
-					/*_entity->setRing(Ring::ANILLO_SUPERIOR);
+					/*_entity->setRing(Ring::UPPER_RING);
 					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
-				*/m->setInt(Ring::ANILLO_SUPERIOR);	
+				*/m->setInt(Ring::UPPER_RING);	
 				}
-				if (_entity->getRing()==Ring::ANILLO_INFERIOR)
+				if (_entity->getRing()==Ring::LOWER_RING)
 				{/*
-					_entity->setRing(Ring::ANILLO_CENTRAL);
+					_entity->setRing(Ring::CENTRAL_RING);
 					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
 					_entity->setPosition(newPosition);
-				*/m->setInt(Ring::ANILLO_CENTRAL);	
+				*/m->setInt(Ring::CENTRAL_RING);	
 				}
 				_entity->emitMessage(m,this);
 			}			

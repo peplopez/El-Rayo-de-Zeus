@@ -119,10 +119,10 @@ namespace Logic
 		
 		/**
 		Provoca que la entidad gire. Números Positivos para	giro a 
-		derechas, negativos para giro izquierdas.
+		RIGHTs, negativos para giro LEFTs.
 
-		@param amount Cantidad de giro. Positivos giro a derechas,
-		negativos a izquierdas.
+		@param amount Cantidad de giro. Positivos giro a RIGHTs,
+		negativos a LEFTs.
 		*/
 		void setLife(float life);
 

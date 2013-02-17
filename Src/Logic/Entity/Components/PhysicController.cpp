@@ -82,9 +82,9 @@ void CPhysicController::process(CMessage *message)
 		if(message->getAction() == Message::WALK_LEFT || message->getAction() == Message::WALK_RIGHT)
 		{
 			if(message->getAction() == Message::WALK_LEFT)
-				_logicalPosReceived._sense=Sense::IZQUIERDA;
+				_logicalPosReceived._sense=Sense::LEFT;
 			else
-				_logicalPosReceived._sense=Sense::DERECHA;			
+				_logicalPosReceived._sense=Sense::RIGHT;			
 			
 			CMessageFloat* maux = static_cast<CMessageFloat*>(message);
 			_logicalPosReceived._degrees=maux->getFloat();
@@ -99,24 +99,24 @@ void CPhysicController::process(CMessage *message)
 			
 			switch (maux->getInt())
 				{
-					case Logic::LogicalPosition::ANILLO_INFERIOR:
+					case Logic::LogicalPosition::LOWER_RING:
 					{
-						_logicalPosReceived._ring= Logic::LogicalPosition::ANILLO_INFERIOR;
+						_logicalPosReceived._ring= Logic::LogicalPosition::LOWER_RING;
 						break;
 					}
-					case Logic::LogicalPosition::ANILLO_CENTRAL:
+					case Logic::LogicalPosition::CENTRAL_RING:
 					{
-						_logicalPosReceived._ring = Logic::LogicalPosition::ANILLO_CENTRAL;				
+						_logicalPosReceived._ring = Logic::LogicalPosition::CENTRAL_RING;				
 						break;
 					}
-					case Logic::LogicalPosition::ANILLO_SUPERIOR:
+					case Logic::LogicalPosition::UPPER_RING:
 					{
-						_logicalPosReceived._ring = Logic::LogicalPosition::ANILLO_SUPERIOR;
+						_logicalPosReceived._ring = Logic::LogicalPosition::UPPER_RING;
 						break;
 					}
 					default:
 					{
-						_logicalPosReceived._ring = Logic::LogicalPosition::ANILLO_CENTRAL;
+						_logicalPosReceived._ring = Logic::LogicalPosition::CENTRAL_RING;
 						break;
 					}
 			}
