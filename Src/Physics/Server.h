@@ -24,7 +24,6 @@ namespace Logic {
 };
 
 namespace Physics {
-	class CCollisionManager;
 	class Scene;
 	class Actor;
 };
