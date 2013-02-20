@@ -70,10 +70,18 @@ namespace Logic
 		_playersInBase = 0;
 
 
+
+
+		return true;
+
+	} // spawn
+
+	bool CHudOverlay::activate()
+	{
+
 		//Se crea un manager de overlays. _overlayPlay
 		Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
 		_overlayPlay = overlayManager.create("_overlayPlay");
-
 
 
 		float height = (float)overlayManager.getViewportHeight();
@@ -85,17 +93,18 @@ namespace Logic
 
 
 		///// panel DUMMY
-		Ogre::OverlayContainer* panelDummy = static_cast<Ogre::OverlayContainer*>( overlayManager.createOverlayElement( "Panel", "panelDummy" ) );
-		panelDummy->setMetricsMode(Ogre::GMM_PIXELS);
-		panelDummy->setPosition(-1,-1);
-		panelDummy->setDimensions(1,1);
+			Ogre::OverlayContainer* panelDummy = static_cast<Ogre::OverlayContainer*>( overlayManager.createOverlayElement( "Panel", "panelDummy" ) );
+			panelDummy->setMetricsMode(Ogre::GMM_PIXELS);
+			panelDummy->setPosition(-1,-1);
+			panelDummy->setDimensions(1,1);
 
 
-		_textBoxArea[DUMMY] = static_cast<Ogre::TextAreaOverlayElement*>(
-		overlayManager.createOverlayElement("TextArea", "textAreaPanelDummy"));
-		_textBoxArea[DUMMY]->setMetricsMode(Ogre::GMM_PIXELS);
-		_textBoxArea[DUMMY]->setPosition(0,0);
-		_textBoxArea[DUMMY]->setDimensions(1,1);
+			_textBoxArea[DUMMY] = static_cast<Ogre::TextAreaOverlayElement*>(
+			overlayManager.createOverlayElement("TextArea", "textAreaPanelDummy"));
+			_textBoxArea[DUMMY]->setMetricsMode(Ogre::GMM_PIXELS);
+			_textBoxArea[DUMMY]->setPosition(0,0);
+			_textBoxArea[DUMMY]->setDimensions(1,1);
+
 
 		std::stringstream sDummy;//create a stringstream
 		sDummy << "d";
@@ -112,18 +121,18 @@ namespace Logic
 
 
 		///// panel health(para la vida del Jugador)
-		Ogre::OverlayContainer* panelHealth = static_cast<Ogre::OverlayContainer*>( overlayManager.createOverlayElement( "Panel", "panelHealth" ) );
-		panelHealth->setMetricsMode(Ogre::GMM_PIXELS);
-		panelHealth->setPosition( 20, 20);
-		panelHealth->setDimensions( 40, 40 );
-        panelHealth->setMaterialName("hudHealth");
+			Ogre::OverlayContainer* panelHealth = static_cast<Ogre::OverlayContainer*>( overlayManager.createOverlayElement( "Panel", "panelHealth" ) );
+			panelHealth->setMetricsMode(Ogre::GMM_PIXELS);
+			panelHealth->setPosition( 20, 20);
+			panelHealth->setDimensions( 40, 40 );
+			panelHealth->setMaterialName("hudHealth");
 
 
-		_textBoxArea[HEALTH] = static_cast<Ogre::TextAreaOverlayElement*>(
-		overlayManager.createOverlayElement("TextArea", "textAreaPanelHealth"));
-		_textBoxArea[HEALTH]->setMetricsMode(Ogre::GMM_PIXELS);
-		_textBoxArea[HEALTH]->setPosition(45, 10);
-		_textBoxArea[HEALTH]->setDimensions(20, 20);
+			_textBoxArea[HEALTH] = static_cast<Ogre::TextAreaOverlayElement*>(
+			overlayManager.createOverlayElement("TextArea", "textAreaPanelHealth"));
+			_textBoxArea[HEALTH]->setMetricsMode(Ogre::GMM_PIXELS);
+			_textBoxArea[HEALTH]->setPosition(45, 10);
+			_textBoxArea[HEALTH]->setDimensions(20, 20);
 
 		std::stringstream sHealth;//create a stringstream
 		sHealth << _health;//add number to the stream
@@ -148,13 +157,12 @@ namespace Logic
 		panelHealthBase->setDimensions( 40, 40 );
         panelHealthBase->setMaterialName("hudHealthBase");
 
-		_textBoxArea[HEALTHBASE] = static_cast<Ogre::TextAreaOverlayElement*>(
-		overlayManager.createOverlayElement("TextArea", "textAreaPanelHealthBase"));
-				
-		
-		_textBoxArea[HEALTHBASE]->setMetricsMode(Ogre::GMM_PIXELS);
-		_textBoxArea[HEALTHBASE]->setPosition(45, 10);
-		_textBoxArea[HEALTHBASE]->setDimensions(40, 20);
+
+			_textBoxArea[HEALTHBASE] = static_cast<Ogre::TextAreaOverlayElement*>(
+			overlayManager.createOverlayElement("TextArea", "textAreaPanelHealthBase"));
+			_textBoxArea[HEALTHBASE]->setMetricsMode(Ogre::GMM_PIXELS);
+			_textBoxArea[HEALTHBASE]->setPosition(45, 10);
+			_textBoxArea[HEALTHBASE]->setDimensions(40, 20);
 
 		std::stringstream sHealthBase;//create a stringstream
 		sHealthBase << _healthBase;//add number to the stream
@@ -171,19 +179,19 @@ namespace Logic
 
 		///// panel Enemies (numero de enemigos de la base)
 		
-		Ogre::OverlayContainer* panelPlayers = static_cast<Ogre::OverlayContainer*>( overlayManager.createOverlayElement( "Panel", "panelEnemies" ) );
+		Ogre::OverlayContainer* panelPlayers = static_cast<Ogre::OverlayContainer*>( overlayManager.createOverlayElement( "Panel", "panelPlayers" ) );
 		panelPlayers->setMetricsMode(Ogre::GMM_PIXELS);
 		panelPlayers->setPosition( 20, 125);
 		panelPlayers->setDimensions( 40, 40 );
         panelPlayers->setMaterialName("hudPlayers");
 
-		_textBoxArea[PLAYERS] = static_cast<Ogre::TextAreaOverlayElement*>(
-		overlayManager.createOverlayElement("TextArea", "textAreaPanelPlayers"));
-				
-		
-		_textBoxArea[PLAYERS]->setMetricsMode(Ogre::GMM_PIXELS);
-		_textBoxArea[PLAYERS]->setPosition(45, 10);
-		_textBoxArea[PLAYERS]->setDimensions(40, 20);
+
+			_textBoxArea[PLAYERS] = static_cast<Ogre::TextAreaOverlayElement*>(
+			overlayManager.createOverlayElement("TextArea", "textAreaPanelPlayers"));
+			_textBoxArea[PLAYERS]->setMetricsMode(Ogre::GMM_PIXELS);
+			_textBoxArea[PLAYERS]->setPosition(45, 10);
+			_textBoxArea[PLAYERS]->setDimensions(40, 20);
+
 
 		std::stringstream sPlayers;//create a stringstream
 		sPlayers << _playersInBase;//add number to the stream
@@ -238,11 +246,18 @@ namespace Logic
 
 		_overlayDie->show();
 
-		 
-
 		return true;
 
-	} // spawn
+	} //activate
+
+
+	void CHudOverlay::deactivate()
+	{
+
+		//overlayManager.destroyAllOverlayElements();
+		//overlayManager.destroyAll();
+
+	}//deactivate
 	
 	//---------------------------------------------------------
 
@@ -324,6 +339,8 @@ namespace Logic
 		else
 			_overlayPlay->show();
 	}
+
+
 
 
 } // namespace Logic

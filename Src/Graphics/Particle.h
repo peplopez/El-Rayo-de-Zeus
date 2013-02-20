@@ -17,14 +17,13 @@ Contiene la declaración de la clase que maneja el Particle.
 #define __Graphics_Particle_H
 
 #include "BaseSubsystems/Math.h"
-#include "Logic\Entity\Entity.h" // Pablo. al cambiar el CParticle(string) por CParticle(entity)
+#include "Logic\Entity\Entity.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 
 {
 	class SceneNode;
 	class ParticleSystem;
-	class Particle;
 
 }
 namespace Graphics 
@@ -52,41 +51,20 @@ namespace Graphics
 
 		@param name Nombre del Particle.
 		*/
-		//CParticle(const std::string &name, Vector3 position); // le paso un string y la posicion de la entidad
-		CParticle(const std::string &name, const float offset); // le paso un string
+		CParticle(const std::string &name, const std::string &templateName);
 
 		/**
-		Destructor de la aplicación.
+		Destructor de la partícula.
 		*/
-		//virtual ~CParticle();
+		~CParticle();
 		
-
-		//TUTORIA
-
-		//Poner coordenadas
-		//_lifeBar->setTexcoordRect(0.0f, 0.0f, 0.5f, 1.0f);
-		void setCoordenadas(const float,const float,const float,const float);
-
-		//Poner dimensiones
-		//_lifeBar->setDimensions(40, 2);
-		void setDimensions(const float,const float);
-
-		//... activate, deactivate...
-
-		void activateParticle();
-
-		void deactivateParticle(const std::string &name);
-
-		//void setPosition(const Vector3);
-
-		void setMaterial(const std::string &name);
 
 		Ogre::ParticleSystem* getParticleSystem() {return _particleSystem;}
 
 
 	protected:
 		/** 
-		ParticleSystem _bbSet(conjunto de Particles)
+		ParticleSystem _particleSystem(sistema de Particulas)
 		*/
 		Ogre::ParticleSystem* _particleSystem;
 

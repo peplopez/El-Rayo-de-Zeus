@@ -34,7 +34,6 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		//CHudOverlay() : IComponent(), _health(0), _shield(0), _ammo(1), _actualWeapon(0), _numWeapons(0) {}
 		CHudOverlay() : IComponent(), _health(1000.0), _shield(200), _playersInBase(0),_visibleHud(false) {}
 		
 		/**
@@ -47,14 +46,29 @@ namespace Logic
 		Este componente sólo acepta mensajes de tipo DAMAGED.
 		*/
 		bool accept(const CMessage *message);
-		//virtual bool accept(const TMessage &message);
 
 		/**
 		Al recibir un mensaje de tipo DAMAGED la vida de la entidad disminuye.
 		*/
 		void process(CMessage *message);	
 
-		//virtual void process(const TMessage &message);
+		/**
+		Método que activa el componente; invocado cuando se activa
+		el mapa donde está la entidad a la que pertenece el componente.
+		<p>
+
+		@return true si todo ha ido correctamente.
+		*/
+		bool activate();
+		
+		/**
+		Método que desactiva el componente; invocado cuando se
+		desactiva el mapa donde está la entidad a la que pertenece el
+		componente. Se invocará siempre, independientemente de si estamos
+		activados o no.
+		<p>
+		*/
+		void deactivate();;
 
 		bool getVisibleHud(){return _visibleHud; }
 
@@ -91,6 +105,7 @@ namespace Logic
 
 		// En vez de 4 deberia de ir el numero de armas pero no tengo cojones U.U
 		Ogre::OverlayContainer *_weaponsBox[4][3];
+
 
 	}; // class CHudOverlay
 

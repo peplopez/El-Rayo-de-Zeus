@@ -29,14 +29,16 @@ de una escena.
 #include <OgreViewport.h>
 #include <OgreStaticGeometry.h>
 #include <OgreColourValue.h>
-#include <OgreBillboardSet.h> //Pablo
-#include "Graphics/Entity.h" // Pablo. Graphics/Entity.h
+//PT
+#include <OgreBillboardSet.h>
+#include "Graphics/Entity.h"
+#include <OgreParticleSystem.h>
 
 namespace Graphics 
 {
 
 	CScene::CScene(const std::string& name) : _viewport(0), 
-			_staticGeometry(0), _directionalLight(0)
+			_staticGeometry(0), _directionalLight(0), counterParticles(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
@@ -198,7 +200,7 @@ namespace Graphics
 
 	}//createBillboard
 
-	//Pablo. Eliminacion del billboard grafico
+	//PT. Eliminacion del billboard grafico
 	void CScene::deleteBillboard(const std::string &name) 
 	{
 
@@ -210,7 +212,7 @@ namespace Graphics
 		}
 	}//deleteBillboard
 
-	//Pablo. Eliminacion de un sceneNode
+	//PT. Eliminacion de un sceneNode
 	void CScene::deleteSceneNode(const std::string &name)
 	{
 		if(_sceneMgr->hasSceneNode(name+"_node"))
@@ -220,12 +222,44 @@ namespace Graphics
 
 	}//deleteSceneNode
 
-	//Pablo. Creacion de una particula
-	void CScene::createParticula(const std::string &name1, const std::string &name2 )
+
+
+	//PT. Creacion de una particula
+	Ogre::ParticleSystem* CScene::createParticula(const std::string &name1, const std::string &name2)
 	{
 
+	char numstr[21]; // enough to hold all numbers up to 64-bits
+	sprintf(numstr, "%d", counterParticles);
 
-	}//createParticleSystem
+	// Creamos nuestro sistema de partículas :)
+	Ogre::ParticleSystem *pssmoke;
+	pssmoke = _sceneMgr->createParticleSystem(name1+numstr, name2);
+
+	// Creamos un nodo y atachamos la particula pssmoke a ese scenenode
+	Ogre::SceneNode* sceneNode = _sceneMgr->createSceneNode(name1+"_particleSystemNode_"+numstr);
+	sceneNode->attachObject(pssmoke);
+
+	if(_sceneMgr->hasSceneNode(name1+"_node"))
+	{
+		_sceneMgr->getSceneNode(name1+"_node")->addChild(sceneNode);
+	}
+
+	// Desvinculamos el sistema de partículas del nodo
+	/*
+	sceneNode->detachObject(pssmoke);
+ 
+	// Destruimos el nodo
+	_sceneMgr->destroySceneNode(sceneNode);
+ 
+	// Destruimos el sistema de partículas
+	_sceneMgr->destroyParticleSystem(pssmoke);
+	*/
+
+	counterParticles++;
+
+	return pssmoke;
+
+	}//createParticula
 	
 
 } // namespace Graphics
