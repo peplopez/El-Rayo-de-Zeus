@@ -90,9 +90,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Collider.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeController.cpp">
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\RingTraveler.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
@@ -138,13 +135,14 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicController.cpp">
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageShort.cpp">
       <Filter>Entity\Messages\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\CeguiHud.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicCharacter.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -256,12 +254,6 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Jump.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicController.h">
-      <Filter>Entity\Components\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\Physics.h">
-      <Filter>Entity\Components\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\HudOverlay.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
@@ -270,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageShort.h">
       <Filter>Entity\Messages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicCharacter.h">
+      <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -26,7 +26,7 @@ namespace Net {
 	class CFactoriaRed;
 	class CFactoriaRedEnet;
 	class CPaquete;
-};
+}
 
 /**
 Namespace que engloba lo relacionado con la parte de red.

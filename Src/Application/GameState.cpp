@@ -36,7 +36,6 @@ namespace Application {
 		// Cargamos la ventana que muestra el tiempo de juego transcurrido.
 		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Time.layout");
 		//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
-		_timeWindow = CEGUI::WindowManager::getSingleton().getWindow("Time");
 		//_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
 
 		return true;
@@ -67,12 +66,7 @@ namespace Application {
 
 		// Queremos que el GUI maneje al jugador.
 		GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
-
-		// Activamos la ventana que nos muestra el tiempo transcurrido.
-		//CEGUI::System::getSingletonPtr()->setGUISheet(_timeWindow);
-		//_timeWindow->setVisible(true);
-		//_timeWindow->activate();
-
+		
 		// Activamos la ventana que nos muestra el HUD.
 		/*
 		CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
@@ -86,10 +80,6 @@ namespace Application {
 
 	void CGameState::deactivate() 
 	{
-		// Desactivamos la ventana de tiempo.
-		_timeWindow->deactivate();
-		_timeWindow->setVisible(false);
-
 		// Desactivamos la ventana de HUD.
 		//_hudWindow->deactivate();
 		//_hudWindow->setVisible(false);
@@ -118,7 +108,7 @@ namespace Application {
 		
 		std::stringstream text;
 		//text << "Time: " << _time/1000;
-		//_timeWindow->setText(text.str());
+		//_hudWindow->setText(text.str());
 
 	} // tick
 

@@ -20,7 +20,10 @@ Contiene la declaración del gestor de los mensajes de red durante la partida.
 #include "Net/Manager.h"
 
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Maps/EntityID.h"
+
+namespace Logic {
+	typedef unsigned int TEntityID;
+}
 
 namespace Logic 
 {

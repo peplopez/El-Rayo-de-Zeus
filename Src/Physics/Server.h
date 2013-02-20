@@ -12,21 +12,13 @@ Contiene la declaración del servidor de física.
 #ifndef __Physics_Server_H
 #define __Physics_Server_H
 
-#include "BaseSubsystems/Math.h"
-#include "Logic/Entity/LogicalPosition.h"
+#include "Logic/Entity/LogicalPosition.h" // ƒ®§ Si se usan refs no se puede predeclarar?
 
 // Predeclaración de tipos
-namespace Logic {
-	class CEntity;
-	class CPhysicCharacter;
-	class CPhysicEntity;
-	class IPhysics;
-};
-
 namespace Physics {
 	class CScene;
 	class CActor;
-};
+}
 
 
 // Namespace que contiene las clases relacionadas con la parte física. 
@@ -39,6 +31,26 @@ namespace Physics {
 	class CServer 
 	{
 	public:
+
+		/**Clase abstracta de la que deben heredar todos los componentes físicos. 
+		Proporciona un interfaz	común para recibir eventos desde el motor de física.
+		@author ƒ®§
+		@date Febrero, 2013
+		*/
+		class IObserver
+		{
+		public: 		
+			/**Este método es invocado desde el motor de física cuando una entidad entra o sale de un
+			trigger físico. Se notifica tanto al componente asociado al trigger como al componente
+			asociado a la otra entidad.
+			@param otherComponent Componente asociado al trigger o a la otra entidad, 
+					dependiendode a quién se esté notificando.
+			@param enter True si la entidad entra en el trigger y false si sale. 
+			*/
+			virtual void onTrigger(IObserver *otherComponent, bool enter) {};
+			virtual void onCollision(IObserver *otherComponent) {};
+
+		}; // class IObserver
 
 		/**
 		Devuelve la única instancia de la clase.
@@ -90,7 +102,7 @@ namespace Physics {
 
 
 		Physics::CActor* createActor(const Logic::TLogicalPosition &position, const float angularWidth, 
-			                                    const float height, bool trigger, const Logic::IPhysics *component); 
+			                                    const float height, bool trigger, const IObserver *component); 
 
 		void destroyActor(Physics::CActor* actor);
 
@@ -101,7 +113,8 @@ namespace Physics {
 		//¿Por qué llamar al server y no directamente al actor->move?
 		void moveActor(Physics::CActor *actor, const Logic::TLogicalPosition &position);
 
-		void moveActor(Physics::CActor *actor, const float degress);
+		// UNDONE ƒ®§ En principio no haría falta sobrecarga, si desde el CPhysicCharacter tenemos el  TLogical entero y esto es una simple llamada (no mensaje)
+		//void moveActor(Physics::Actor *actor, const float degress);
 
 		void moveActor(Physics::CActor *actor, const float degrees, const float height);
 
@@ -126,6 +139,6 @@ namespace Physics {
 
 	}; // class CServer
 
-}; // namespace Physics
+} // namespace Physics
 
 #endif // __Physics_Server_H
