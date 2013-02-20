@@ -21,9 +21,9 @@ Contiene la declaración de la clase que representa una entidad física.
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 
-namespace Logic 
+namespace Physics 
 {
-	class IPhysics;
+	class IObserver;
 }
 
 namespace Physics
@@ -33,27 +33,42 @@ namespace Physics
 	{
 	public:
 
-
+		CActor();
 		CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
-			bool trigger, Logic::IPhysics *component) : _logicPosition(position), _width(angularWidth), _height(height), _trigger(trigger), _component(component){}
+					bool trigger, IObserver *component);
 
 		~CActor();
 
+		void setLogicPos(const Logic::TLogicalPosition &position) {_logicPosition=position;}
+		Logic::TLogicalPosition &getLogicPos() {return _logicPosition;}
 
+		void setWidth(const float angularWidth) {_width=angularWidth;}
+		float getWidth() {return _width;}
+
+		void setHeight(const float height) {_height=height;}
+		float getHeight() {return _height;}
 		
+		void setTrigger(const bool trigger) {_trigger=trigger;}
+		bool getTrigger() {return _trigger;}
+
+		void setIObserver(IObserver* component) {_component=component;}
+		IObserver *getIObserver() {return _component;}
+
+		void release();
+
 		void move(const Logic::TLogicalPosition &pos);
 
-		bool intersects(const CActor &actor);
+		bool intersects(const CActor *actor);
 
-		Logic::TLogicalPosition getGlobalPose() {return _logicPosition;}
+		Logic::TLogicalPosition& getGlobalPose() {return _logicPosition;}
 
 	protected:
 
 		// CScene es la única que puede añadir o eliminar actores.
 
-		friend class CScene;
+		//friend class CScene;
 
-		CScene *_scene;
+		//CScene *_scene;
 
 		Logic::TLogicalPosition _logicPosition;
 
@@ -62,7 +77,7 @@ namespace Physics
 
 		bool _trigger;
 
-		Logic::IPhysics* _component;
+		IObserver* _component;
 
 
 	}; // class CActor

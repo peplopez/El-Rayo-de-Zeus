@@ -11,7 +11,6 @@ Contiene la implementación del servidor de física.
 
 #include "Server.h"
 #include "CollisionManager.h"
-#include "Logic/Entity/Components/Physics.h"
 #include "Actor.h"
 #include "Scene.h"
 
@@ -59,9 +58,8 @@ namespace Physics {
 	{
 		assert(_instance);
 	
-
 		// Crear la escena física
-	_scene = new CScene();
+		_scene = new CScene();
 	}
 
 	//--------------------------------------------------------
@@ -90,31 +88,28 @@ namespace Physics {
 
 	//--------------------------------------------------------
 
-Physics::CActor* CServer::createActor(const Logic::TLogicalPosition &position, const float angularWidth, 
-											  const float height, bool trigger, 
-													const Logic::IPhysics *component) 
+	Physics::CActor* CServer::createActor(const Logic::TLogicalPosition &position, const float angularWidth, 
+											  const float height, bool trigger, IObserver *component) 
 	{
 		assert(_scene);
 
-
-	Physics::CActor *actor = new Physics::CActor(position, angularWidth, height, trigger, component);
+		Physics::CActor *actor = new Physics::CActor(position, angularWidth, height, trigger, component);
 
 		// Añadir el actor a la escena
-		_scene->addActor(*actor);
+		_scene->addActor(actor);
 
 		return actor;
 	}
 
 
-
 	//--------------------------------------------------------
 
-void CServer::destroyActor(Physics::CActor *actor)
+	void CServer::destroyActor(Physics::CActor *actor)
 	{
 		assert(_scene);
 
 		// Eliminar el actor de la escena
-	_scene->removeActor(actor);
+		_scene->removeActor(actor);
 
 		// Liberar recursos
 		actor->release();
@@ -122,7 +117,7 @@ void CServer::destroyActor(Physics::CActor *actor)
 
 	//--------------------------------------------------------
 
-Logic::TLogicalPosition CServer::getActorLogicPosition(const CActor *actor)
+	Logic::TLogicalPosition CServer::getActorLogicPosition(const CActor *actor)
 	{
 		assert(actor);
 
@@ -132,7 +127,7 @@ Logic::TLogicalPosition CServer::getActorLogicPosition(const CActor *actor)
 
 	//--------------------------------------------------------
 
-void CServer::moveActor(CActor *actor, const Logic::TLogicalPosition &pos)
+	void CServer::moveActor(CActor *actor, const Logic::TLogicalPosition &pos)
 	{
 		assert(actor);
 
@@ -142,7 +137,7 @@ void CServer::moveActor(CActor *actor, const Logic::TLogicalPosition &pos)
 
 	//--------------------------------------------------------
 
-void CServer::moveActor(CActor *actor, const float degrees)
+	void CServer::moveActor(CActor *actor, const float degrees)
 	{
 		assert(actor);
 
@@ -152,7 +147,7 @@ void CServer::moveActor(CActor *actor, const float degrees)
 		actor->move(pos);
 	}
 
-void CServer::moveActor(CActor *actor, const float degrees, const float height)
+	void CServer::moveActor(CActor *actor, const float degrees, const float height)
 	{
 		assert(actor);
 

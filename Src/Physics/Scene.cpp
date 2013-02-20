@@ -41,22 +41,34 @@ namespace Physics
 
 	void CScene::addActor(CActor* actor)
 	{
+		_actors.push_back(actor);
 
-		_actors.push_back(*actor);
-	
-
-	} // addEntity
+	} // addActor
 
 	//--------------------------------------------------------
 
 
 	void CScene::removeActor(CActor* actor)
 	{
-		std::vector<CActor>::iterator position = std::find(_actors.begin(), _actors.end(), actor);
-		if (position != _actors.end()) 
+		std::vector<CActor*>::iterator position = std::find(_actors.begin(), _actors.end(), actor);
+		if (position != _actors.end())
+		{
+			(*position)->release();
 			_actors.erase(position);
+		}
+	} // removeActor
 
-	} // addEntity
+	//--------------------------------------------------------
+	void CScene::release()
+	{
+		TActorVector::iterator itr = _actors.begin();
+		for ( ; itr != _actors.end(); ++itr) 
+		{
+			(*itr)->release();
+		}
+
+		_actors.clear();
+	}
 
 	//--------------------------------------------------------
 
@@ -80,11 +92,11 @@ namespace Physics
 		//WTF!!
 		for (int i = 0; i < _actors.size() - 1; ++i)
 			for (int j = i + 1; j < _actors.size(); ++j)
-				if(_actors[i].intersects(_actors[j]))
+				if (_actors[i]->intersects(_actors[j]))
 				{
-					// tratar colision
+						updateLogicPos(_actors[i], _actors[j]);
 				}
-	} // tick	
+	} // simulate	
 
 	//--------------------------------------------------------
 

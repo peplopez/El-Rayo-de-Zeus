@@ -40,6 +40,8 @@ namespace Physics
 
 		//void removeStaticActor(CStaticActor* actor);
 
+		void release();
+
 	protected:
 
 		/**
@@ -88,7 +90,7 @@ namespace Physics
 		/**
 		Tipos para el vector de actores (a mejorar)
 		*/
-		typedef std::vector<CActor> TActorVector;
+		typedef std::vector<CActor*> TActorVector;
 
 		TActorVector _actors;
 		
