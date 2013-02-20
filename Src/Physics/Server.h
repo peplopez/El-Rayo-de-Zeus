@@ -24,8 +24,8 @@ namespace Logic {
 };
 
 namespace Physics {
-	class Scene;
-	class Actor;
+	class CScene;
+	class CActor;
 };
 
 
@@ -64,7 +64,7 @@ namespace Physics {
 		Realiza la simulación física y actualiza la posición de todas las 
 		entidades físicas. 
 		*/
-		bool tick(unsigned int msecs);
+		void tick(unsigned int msecs);
 
 
 		//----------------------
@@ -89,20 +89,21 @@ namespace Physics {
 
 
 
-		Physics::Actor* createActor(const Logic::TLogicalPosition &position, const float angularBox, 
+		Physics::CActor* createActor(const Logic::TLogicalPosition &position, const float angularWidth, 
 			                                    const float height, bool trigger, const Logic::IPhysics *component); 
 
+		void destroyActor(Physics::CActor* actor);
 
-		void destroyActor(Physics::Actor* *actor);
+		
+		Logic::TLogicalPosition getActorLogicPosition(const Physics::CActor* actor);
 
-		Logic::TLogicalPosition getActorLogicPosition(const Physics::Actor* actor);
 
+		//¿Por qué llamar al server y no directamente al actor->move?
+		void moveActor(Physics::CActor *actor, const Logic::TLogicalPosition &position);
 
-		void moveActor(Physics::Actor *actor, const Logic::TLogicalPosition &position);
+		void moveActor(Physics::CActor *actor, const float degress);
 
-		void moveActor(Physics::Actor *actor, const float degress);
-
-		void moveActor(Actor *actor, const float degrees, const float height);
+		void moveActor(Physics::CActor *actor, const float degrees, const float height);
 
 	private:
 
@@ -120,7 +121,7 @@ namespace Physics {
 		static CServer *_instance;
 
 		// Escena física
-		Scene *_scene;
+		CScene *_scene;
 
 
 	}; // class CServer
