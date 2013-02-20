@@ -94,7 +94,7 @@ namespace Physics
 			for (int j = i + 1; j < _actors.size(); ++j)
 				if (_actors[i]->intersects(_actors[j]))
 				{
-						updateLogicPos(_actors[i], _actors[j]);
+						updateLogicPos(_actors[i], _actors[j], msecs);
 				}
 	} // simulate	
 

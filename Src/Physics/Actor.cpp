@@ -22,19 +22,24 @@
 namespace Physics
 {
 		CActor::CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
-					bool trigger, IObserver *component) : _logicPosition(position), _width(angularWidth), _height(height), _trigger(trigger), _component(component)
+					bool trigger, IObserver *component) : _logicPosition(position), _boxWidth(angularWidth), _boxHeight(height), _trigger(trigger), _component(component)
 		{
 		}
 
 		//--------------------------------------------------------
 		void CActor::move(const Logic::TLogicalPosition &pos)
 		{
+			_logicPosition  = pos;
 		}
 		
 		//--------------------------------------------------------
 
-		bool CActor::intersects(const CActor *actor)
+		bool CActor::intersects(CActor *otherActor)
 		{
+			return  (_logicPosition._degrees < otherActor->getLogicPos()._degrees + otherActor->getBoxWidth()) && 
+            (otherActor->getLogicPos()._degrees < _logicPosition._degrees + _boxWidth)            && 
+            (_logicPosition._height < otherActor->getLogicPos()._height + otherActor->getBoxHeight()) && 
+            (otherActor->getLogicPos()._height < _logicPosition._height + _boxHeight);              
 		}
 
 		//--------------------------------------------------------

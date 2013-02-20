@@ -42,11 +42,11 @@ namespace Physics
 		void setLogicPos(const Logic::TLogicalPosition &position) {_logicPosition=position;}
 		Logic::TLogicalPosition &getLogicPos() {return _logicPosition;}
 
-		void setWidth(const float angularWidth) {_width=angularWidth;}
-		float getWidth() {return _width;}
+		void setBoxWidth(const float angularWidth) {_boxWidth=angularWidth;}
+		float getBoxWidth() {return _boxWidth;}
 
-		void setHeight(const float height) {_height=height;}
-		float getHeight() {return _height;}
+		void setBoxHeight(const float height) {_boxHeight=height;}
+		float getBoxHeight() {return _boxHeight;}
 		
 		void setTrigger(const bool trigger) {_trigger=trigger;}
 		bool getTrigger() {return _trigger;}
@@ -58,7 +58,7 @@ namespace Physics
 
 		void move(const Logic::TLogicalPosition &pos);
 
-		bool intersects(const CActor *actor);
+		bool intersects(CActor *otherActor);
 
 		Logic::TLogicalPosition& getGlobalPose() {return _logicPosition;}
 
@@ -72,8 +72,8 @@ namespace Physics
 
 		Logic::TLogicalPosition _logicPosition;
 
-		float _width;
-		float _height;
+		float _boxWidth;
+		float _boxHeight;
 
 		bool _trigger;
 
