@@ -1,35 +1,26 @@
 /**
-@file PhysicController.h
+@file PhysicCharacter.h
 
 Contiene la declaración del componente que se utiliza para representar jugadores y enemigos en
 el mundo físico.
 
-@see Logic::PhysicController
-@see Logic::CPhysicEntity
-@see Logic::IPhysics
+@see Logic::PhysicCharacter
 
 @author Jose Luis López Sánchez
 @date Febrero, 2013
 */
 
-#ifndef __Logic_PhysicController_H
-#define __Logic_PhysicController_H
+#ifndef __Logic_PhysicCharacter_H
+#define __Logic_PhysicCharacter_H
 
-#include "Physics.h"
+
+#include "Logic/Entity/Component.h"
 #include "Logic/Entity/LogicalPosition.h"
+#include "Physics/Server.h"
 
-// Predeclaración de tipos
-/*namespace physx {
-	class PxCapsuleController;
-	struct PxControllersHit;
-	struct PxControllerShapeHit;
-};
-*/
-namespace Physics {
-	class CServer;
-};
 
 // Los componentes se definen dentro del namespace Logica
+// TODO corregir comentarios
 namespace Logic 
 {
 	/**
@@ -50,20 +41,20 @@ namespace Logic
 	@author Antonio Sánchez Ruiz-Granados
 	@date Noviembre, 2012
 	*/
-	class CPhysicController : public IPhysics
+	class CPhysicCharacter : public IComponent, public Physics::CServer::IObserver
 	{
-		DEC_FACTORY(CPhysicController);
+		DEC_FACTORY(CPhysicCharacter);
 	public:
 
 		/**
 		Constructor por defecto.
 		*/
-		CPhysicController();
+		CPhysicCharacter();
 
 		/**
 		Destructor.
 		*/
-		virtual ~CPhysicController();
+		virtual ~CPhysicCharacter();
 		
 		/**
 		Inicializa el componente usando los atributos definidos en el fichero de mapa.
@@ -96,7 +87,7 @@ namespace Logic
 		/**
 		Se invoca cuando se produce una colisión entre una entidad física y un trigger.
 		*/
-		void  onTrigger (IPhysics *otherComponent, bool enter);
+		void  onTrigger (Physics::CServer::IObserver *otherComponent, bool enter);
 
 		/**
 		Se invoca cuando se produce una colisión entre un character controller y una entidad física.
@@ -133,10 +124,10 @@ namespace Logic
 		// Indica si el character controller esta apoyado sobre una superficie o cayendo.
 		bool _falling;  //_entity->getHeight() también nos proporciona la misma info, si es 0 está en el suelo.
 
-	}; // class CPhysicController
+	}; // class CPhysicCharacter
 
-	REG_FACTORY(CPhysicController);
+	REG_FACTORY(CPhysicCharacter);
 
 } // namespace Logic
 
-#endif // __Logic_PhysicController_H
+#endif // __Logic_PhysicCharacter_H
