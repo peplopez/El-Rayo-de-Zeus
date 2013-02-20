@@ -13,6 +13,7 @@ Contiene la declaración del componente que controla la vida de una entidad.
 #define __Logic_Life_H
 
 #include "Logic/Entity/Component.h"
+#include "Graphics/Billboard.h" //Pablo
 
 namespace Logic
 {
@@ -43,33 +44,45 @@ namespace Logic
 		DEC_FACTORY(CLife);
 	public:
 
-		/**
-		Constructor por defecto; en la clase base no hace nada.
-		*/
-		CLife() : IComponent(), _life(100.f) {}
-		
-		/**
-		Inicialización del componente usando la descripción de la entidad que hay en 
-		el fichero de mapa.
-		*/
+		CLife() : IComponent(), _LIFE_MAX(0), _life(0), _lifeBarPosition(0), _lifeBarWidth(0), _lifeBarHeight(0){}
+
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
-		/**
-		Este componente sólo acepta mensajes de tipo DAMAGED.
-		*/
+		void deactivate();
+		
 		bool accept(const CMessage *message);
 
-		/**
-		Al recibir un mensaje de tipo DAMAGED la vida de la entidad disminuye.
-		*/
 		void process(CMessage *message);
+
+		void updateLife(float);
+
 
 	protected:
 
+
+		// Billboard
+		Graphics::CBillboard _lifeBar;
 		/**
-		Vida de la entidad
+		Vida máxima de la entidad
 		*/
-		float _life;
+		int _LIFE_MAX;
+
+		/**Atributo que indica la magnitud de la vida de la entidad.*/
+		int _life;
+
+		/** Atributo que indica el offset de la Y del posicionamiento del billboard de vida.*/
+		float _lifeBarPosition;
+
+		/** Pablo. 01-02-2013
+		Atributo que indica la anchura del billboard
+		*/
+		float _lifeBarWidth;
+
+		/** Atributo que indica la altura del billboard		*/
+		float _lifeBarHeight;
+
+
+		void CLife::modifyLife(int);
 
 	}; // class CLife
 

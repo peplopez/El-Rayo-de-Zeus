@@ -108,9 +108,9 @@ namespace Net
 		*/
 		class IObserver{
 		public:
-			virtual void dataPacketReceived(Net::CPaquete* packet)=0;
-			virtual void connexionPacketReceived(Net::CPaquete* packet)=0;
-			virtual void disconnexionPacketReceived(Net::CPaquete* packet)=0;
+			virtual void dataPacketReceived(Net::CPaquete* packet) {};
+			virtual void connexionPacketReceived(Net::CPaquete* packet) {};
+			virtual void disconnexionPacketReceived(Net::CPaquete* packet) {};
 		};
 
 		/**

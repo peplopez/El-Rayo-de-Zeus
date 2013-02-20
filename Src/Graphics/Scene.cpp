@@ -183,7 +183,7 @@ namespace Graphics
 		Ogre::BillboardSet* _bbSet;
 
 		_bbSet = _sceneMgr->createBillboardSet(name+"_billboard");
-		//Vector3 posAnilloCentral=Logic::CServer::getSingletonPtr()->getRingPositions(3,Logic::Ring::ANILLO_CENTRAL);
+		//Vector3 posAnilloCentral=Logic::CServer::getSingletonPtr()->getRingPositions(3,Logic::Ring::CENTRAL_RING);
 
 		_bbSet->createBillboard(Vector3(0,offset,0));
 

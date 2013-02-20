@@ -120,7 +120,7 @@ namespace Logic
 		bool contacto( CEntity* entidad1, CEntity* entidad2);
 
 		/**
-		Método virtual que determina en una colisión quien está a la izquierda y quien a la derecha
+		Método virtual que determina en una colisión quien está a la LEFT y quien a la RIGHT
 		*/
 		bool sentidoColision(const CEntity* entidad1,const CEntity* entidad2);
 
@@ -130,12 +130,12 @@ namespace Logic
 
 	protected:
 		/**
-			false si en una colisión, está a la izquierda
+			false si en una colisión, está a la LEFT
 		*/
 		bool _sentidoColision;
 		
 		/**
-			false si en una colisión, está a la izquierda
+			false si en una colisión, está a la LEFT
 		*/
 		short _hit;
 

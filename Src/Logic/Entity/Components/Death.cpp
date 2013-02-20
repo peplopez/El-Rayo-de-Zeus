@@ -17,6 +17,8 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Application/BaseApplication.h"
 
 #include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageBoolString.h"
 
 namespace Logic 
 {
@@ -36,26 +38,48 @@ namespace Logic
 
 	bool CDeath::accept(const CMessage *message)
 	{
-		return message->getType() == Message::DEAD;
+		return	message->getType() == Message::DEAD ||
+				message->getType() == Message::ANIMATION_FINISHED;
 
 	} // accept
 	
 	//---------------------------------------------------------
 
+	// TODO separar en funciones / tipo
 	void CDeath::process(CMessage *message)
 	{
 		switch(message->getType())
 		{
 
-		case Message::DEAD:			
-			if(_entity->isPlayer() ) // PLAYER MUERTO -> GameOver
-				Application::CBaseApplication::getSingletonPtr()->setState("gameOver");
+		// MUERTO
+		case Message::DEAD:		{
 				
-			else // Resto de entidades
-				CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
-			break;		
+			CMessageBoolString *txMsg = new CMessageBoolString(); // Poner la animación de muerte
+				txMsg->setType(TMessageType::SET_ANIMATION);	
+				txMsg->setBool(false);
+				txMsg->setString("Death");
+			
+		} break;	
 		
-		}
+		// ANIMACION FINALIZADA		
+		case Message::ANIMATION_FINISHED: {
+			
+			CMessageString *rxMsg = static_cast<CMessageString*>(message);
+
+				if(rxMsg->getString() == "Death") { // Completada animación de muerte? -> END_GAME
+					
+					if(_entity->isPlayer() ) // PLAYER MUERTO -> GameOver
+						Application::CBaseApplication::getSingletonPtr()->setState("gameOver"); // HACK Player muerto -> respawn es distinto de base muerta
+				
+					else // Resto de entidades
+						CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
+				}
+
+		 }break;
+		
+		} // switch
+
+
 	} // process
 
 

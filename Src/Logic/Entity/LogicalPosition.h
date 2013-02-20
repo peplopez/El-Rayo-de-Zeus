@@ -30,14 +30,18 @@ namespace Logic
 		/**
 			Ambito actual hasta que se cambie de base y/o anillo
 		*/
-		enum Ring{	
-			ANILLO_INFERIOR=0,
-			ANILLO_CENTRAL=1,
-			ANILLO_SUPERIOR=2
+		enum Ring : unsigned short
+		{	
+			LOWER_RING		=0,
+			CENTRAL_RING	=1,
+			UPPER_RING		=2
 		};
-		enum Sense{ //Quizá mejor sentido angunos positivos/negativos?	
-			IZQUIERDA=0,
-			DERECHA=1
+		enum Sense : unsigned short
+		{ //Quizá mejor sentido angunos positivos/negativos?	
+			LEFT=			0,
+			RIGHT=			1,
+			ROTATING_LEFT=	2,
+			ROTATING_RIGHT=	3
 		};
 		
 
@@ -86,7 +90,7 @@ namespace Logic
 		float _height;
 
 
-		TLogicalPosition() : _ring(LogicalPosition::ANILLO_CENTRAL), _sense(LogicalPosition::IZQUIERDA), _base(0), _degrees(0),_height(0){}
+		TLogicalPosition() : _ring(Logic::LogicalPosition::CENTRAL_RING), _sense(Logic::LogicalPosition::LEFT), _base(0), _degrees(0),_height(0){}
 	
 	}; 
 

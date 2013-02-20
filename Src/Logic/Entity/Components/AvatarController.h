@@ -13,7 +13,9 @@ de la entidad.
 
 #ifndef __Logic_AvatarController_H
 #define __Logic_AvatarController_H
+
 #include "Logic/Entity/Component.h"
+#include "Logic/Entity/LogicalPosition.h"
 
 namespace Logic
 {
@@ -47,10 +49,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAvatarController() : IComponent(), _angularSpeed(0.00625f),_sentidoColision(false),_walkingRight(false), _walkBack(false),_lightAttack(false),_heavyAttack(false), 
-				_walkingLeft(false),_correccionGrados(0)
-			 //_jumpingDown(false), _initialJump(false), _timeJumping(0), _potenciaSaltoInicial(5)
-		{}
+		CAvatarController() : IComponent(), _angularSpeed(0.00625f),_sense(Logic::Sense::RIGHT),_walkingRight(false), _walkingLeft(false), _acumRotation(0){}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -118,18 +117,12 @@ namespace Logic
 
 
 		/**
-		Provoca que la entidad retroceda al chocarse con otra entidad en lugar de simplemente pararse, 
-		así ya no está colisionando y se puede mover.
-		*/	
-		void walkBack();
-
-		/**
-		Provoca que la entidad avance a la derecha.
+		Provoca que la entidad avance a la RIGHT.
 		*/
 		void walkRight();
 
 		/**
-		Provoca que la entidad avance a la izquierda
+		Provoca que la entidad avance a la LEFT
 		*/
 		void walkLeft();
 
@@ -138,108 +131,32 @@ namespace Logic
 		*/
 		void stopMovement();
 		
-		
-		void lightAttack();
-
-		
-		void heavyAttack();
-		/**
-		Provoca que la entidad cambie de dirección.
-		@param amount Cantidad de giro. Positivos giro a derechas,
-		negativos a izquierdas.
-		*/
-		void changeDirection(const bool newDirection);
-
-				/**
-		Provoca que la entidad salte.
-		*/
-		void jump();
-		
-		/**
-		Provoca que la entidad baje de anillo. Conlleva un cambio del eje de giro en su coordenada y
-		*/
-		void goDown();
-
-		/**
-		Provoca que la entidad suba de anillo. Conlleva un cambio del eje de giro en su coordenada y
-		*/
-		void goUp();
-
-
-		void changeBase(int base);
-
-
-		void turn(float amount);
 
 	protected:
 
 		/**
-		Atributo para saber si la entidad está andando a la derecha.
+		Atributo para saber si la entidad está andando a la RIGHT.
 		*/
 		bool _walkingRight;
 
 		/**
-		Atributo para saber si la entidad está andando a la izquierda.
+		Atributo para saber si la entidad está andando a la LEFT.
 		*/
 		bool _walkingLeft;
 
 		/**
-		Atributo para saber si la entidad tiene que hacer una recolocación de posición
-		seguramente debido a una colisión
 		*/
-		bool _walkBack;
-
-
-		bool _lightAttack;
-
-		
-		bool _heavyAttack;
-
-
-		bool _sentidoColision;
-
-		bool _sentidoDerecha;
-
-		float _correccionGrados;
+		Logic::Sense _sense;
 
 		/**
 		Atributo que indica la magnitud de velocidad de la entidad.
 		*/
 		float _angularSpeed;
-
-		// Pablo. Atributo que indica la velocidad de salto de la entidad
 		
-		/*float jumpSpeed;
-
-		// Pablo. Atributo que indica que acaba de empezar a saltar
-		bool _initialJump;
-
-		float _timeJumping;
-
-		// Pablo. Atributo que indica la velocidad de la fuerza de gravedad
-		float _gravity;
-
-		//Pablo. Altura maxima del salto
-		float _Hmax;
-
-		//Pablo. Tiempo máximo en el aire
-		float _Tmax;
-
-		//Pablo. Tiempo hasta alcanzar la máxima altura
-		float _Tmaxaltura;
-
-		//Pablo. Y inicial en el momento de saltar
-		float _inicialY;
-
-		//Pablo. posicion Vector3 (x,y,z) en el momento de saltar
-		Vector3 _posicionSalto;
-
-		float _potenciaSalto;
-
-		float _potenciaSaltoInicial;
-
-		bool _jumpingDown;
+		/**
 		*/
+		float _acumRotation;
+
 	}; // class CAvatarController
 
 	REG_FACTORY(CAvatarController);

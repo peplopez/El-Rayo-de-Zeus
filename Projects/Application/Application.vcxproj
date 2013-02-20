@@ -158,11 +158,7 @@
     <ProjectReference Include="..\Net\Net.vcxproj">
       <Project>{6517a543-d72a-4ed1-83be-104fe82dc59a}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\Physics\Physics.vcxproj">
-      <Project>{a1554577-63ca-4dd9-a007-9823e649226f}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
+    </ProjectReference>  
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
