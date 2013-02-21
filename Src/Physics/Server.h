@@ -24,26 +24,6 @@ namespace Physics {
 // Namespace que contiene las clases relacionadas con la parte física. 
 namespace Physics {
 
-	/**Clase abstracta de la que deben heredar todos los componentes físicos. 
-	Proporciona un interfaz	común para recibir eventos desde el motor de física.
-	@author ƒ®§
-	@date Febrero, 2013
-	*/
-	class IObserver
-	{
-	public: 		
-		/**Este método es invocado desde el motor de física cuando una entidad entra o sale de un
-		trigger físico. Se notifica tanto al componente asociado al trigger como al componente
-		asociado a la otra entidad.
-		@param otherComponent Componente asociado al trigger o a la otra entidad, 
-				dependiendode a quién se esté notificando.
-		@param enter True si la entidad entra en el trigger y false si sale. 
-		*/
-		virtual void onTrigger(IObserver *otherComponent, bool enter) {};
-		virtual void onCollision(IObserver *otherComponent) {};
-
-	}; // class IObserver
-
 	/**
 	Servidor de física. Se encarga de gestionar las entidades físicas y simular su 
 	comportamiento.
@@ -115,8 +95,7 @@ namespace Physics {
 
 		// UNDONE ƒ®§ En principio no haría falta sobrecarga, si desde el CPhysicCharacter tenemos el  TLogical entero y esto es una simple llamada (no mensaje)
 		//void moveActor(Physics::Actor *actor, const float degress);
-
-		void moveActor(Physics::CActor *actor, const float degrees, const float height);
+		//void moveActor(Physics::CActor *actor, const float degrees, const float height);
 
 	private:
 

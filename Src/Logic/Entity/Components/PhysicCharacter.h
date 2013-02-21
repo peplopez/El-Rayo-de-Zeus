@@ -16,7 +16,7 @@ el mundo físico.
 
 #include "Logic/Entity/Component.h"
 #include "Logic/Entity/LogicalPosition.h"
-#include "Physics/Server.h"
+#include "Physics/IObserver.h"
 
 
 // Los componentes se definen dentro del namespace Logica
@@ -38,10 +38,10 @@ namespace Logic
 	
     @ingroup logicGroup
 
-	@author Antonio Sánchez Ruiz-Granados
-	@date Noviembre, 2012
+	@author Jose Luis López Sánchez
+	@date Febrero, 2013
 	*/
-	class CPhysicCharacter : public IComponent, public Physics::CServer::IObserver
+	class CPhysicCharacter : public IComponent, public Physics::IObserver
 	{
 		DEC_FACTORY(CPhysicCharacter);
 	public:
@@ -87,7 +87,7 @@ namespace Logic
 		/**
 		Se invoca cuando se produce una colisión entre una entidad física y un trigger.
 		*/
-		void  onTrigger (Physics::CServer::IObserver *otherComponent, bool enter);
+		void  onTrigger (Physics::IObserver *otherComponent, bool enter);
 
 		/**
 		Se invoca cuando se produce una colisión entre un character controller y una entidad física.

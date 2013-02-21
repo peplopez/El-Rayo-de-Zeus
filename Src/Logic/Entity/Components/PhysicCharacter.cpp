@@ -16,10 +16,9 @@ el mundo físico usando character controllers.
 
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
-//#include "Physics/Server.h"
 
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageInt.h" //PeP: sería óptimo enviar un unsigned short???
+#include "Logic/Entity/Messages/MessageInt.h" // TODO PeP: sería óptimo enviar un unsigned short???
 #include "Logic/Entity/Messages/MessageFloat.h"
 
 
