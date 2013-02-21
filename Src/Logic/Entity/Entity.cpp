@@ -35,7 +35,7 @@ namespace Logic
 {
 	CEntity::CEntity(TEntityID entityID) : _entityID(entityID), 
 				_map(0), _type(""), _name(""), _transform(Matrix4::IDENTITY),
-				_isPlayer(false), _activated(false), _pos(TLogicalPosition())
+				_isPlayer(false), _activated(false) // UNDONE ƒ®§ _pos(TLogicalPosition()) ya llama al ctro por defecto, por defecto, valga la rebuznancia
 	{
 
 	} // CEntity
@@ -80,8 +80,7 @@ namespace Logic
 
 		if(entityInfo->hasAttribute("ring"))
 			_pos._ring = static_cast<Logic::Ring>(entityInfo->getIntAttribute("ring"));
-		else
-			// TODO [ƒ®§] Esto de mezclar spanglish no queda muy fino, va a haber que normalizar todo al inglés...
+		else			
 			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
 			//pese a todo no pete.
 			_pos._ring= Logic::Ring::CENTRAL_RING;  
@@ -115,13 +114,10 @@ namespace Logic
 			setIsPlayer( entityInfo->getBoolAttribute("isPlayer") );		
 
 		// Inicializamos los componentes
-		TComponentList::const_iterator it;
-
 		bool correct = true;
-
-		for( it = _components.begin(); it != _components.end() && correct; ++it )
-			correct = (*it)->spawn(this,map,entityInfo) && correct;
-
+		TComponentList::const_iterator it;		
+			for( it = _components.begin(); it != _components.end() && correct; ++it )
+				correct = (*it)->spawn(this,map,entityInfo) && correct;
 		return correct;
 
 	} // spawn
@@ -130,7 +126,7 @@ namespace Logic
 
 	bool CEntity::activate() 
 	{
-		if (this->getType().compare("Camera")==0) // TODO [ƒ®§] El compare es más eficiente que el == "Camera"?
+		if ( this->getType() == "Camera" )
 		{
 			//CServer::getSingletonPtr()->setPlayer(this);
 			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);

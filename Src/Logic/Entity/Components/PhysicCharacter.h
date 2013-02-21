@@ -18,6 +18,11 @@ el mundo físico.
 #include "Logic/Entity/LogicalPosition.h"
 #include "Physics/IObserver.h"
 
+namespace Physics{
+	class CServer;
+	class CActor;
+}
+
 
 // Los componentes se definen dentro del namespace Logica
 // TODO corregir comentarios
@@ -38,7 +43,7 @@ namespace Logic
 	
     @ingroup logicGroup
 
-	@author Jose Luis López Sánchez
+	@author Jose Luis López Sánchez & ƒ®§
 	@date Febrero, 2013
 	*/
 	class CPhysicCharacter : public IComponent, public Physics::IObserver
@@ -81,48 +86,47 @@ namespace Logic
 		     el motor de física. </li>
 		<li> Mueve el character controller de acuerdo al último mensaje AVATAR_WALK recibido. </li>
 		</ul>
+		<p>
+		Los character controllers no tienen orientación, sólo posición
 		*/
 		virtual void tick(unsigned int msecs);
 
-		/**
-		Se invoca cuando se produce una colisión entre una entidad física y un trigger.
-		*/
-		void  onTrigger (Physics::IObserver *otherComponent, bool enter);
-
-		/**
-		Se invoca cuando se produce una colisión entre un character controller y una entidad física.
-		*/
+		// TODO que metodos va a necesitar un character?
+		///**
+		//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
+		//*/
+		//void  onTrigger (TEntityID otherEntity, bool enter);
+		///**
+		//Se invoca cuando se produce una colisión entre un character controller y una entidad física.
+		//*/
 		//void onShapeHit (const physx::PxControllerShapeHit &hit);
 
-		/**
-		Se invoca cuando se produce una colisión entre dos character controllers.
-		*/
-	//	void onControllerHit (const physx::PxControllersHit &hit);
+		///**
+		//Se invoca cuando se produce una colisión entre dos character controllers.
+		//*/
+		//void onControllerHit (const physx::PxControllersHit &hit);
 
 	private:
 
-		/**
-		Crea el character controller de PhysX que representa la entidad física a partir de la
-		información del mapa.
-		*/
-	//	physx::PxCapsuleController* createController(const Map::CEntity *entityInfo);
-
 		// Servidor de física
-	//	Physics::CServer *_server;
+		Physics::CServer *_server;
 
 		// Character controller que representa la entidad física en PhysX
-	//	physx::PxCapsuleController *_controller;
+		//	physx::PxCapsuleController *_controller;
+		Physics::CActor* _physicActor;
 
-		// Vector de desplazamiento recibido en el último mensaje de tipo AVATAR_WALK. 
-		Vector3 _movement;
+		///**
+		//Crea el character controller de PhysX que representa la entidad física a partir de la
+		//información del mapa.
+		//*/
+		//physx::PxCapsuleController* createController(const Map::CEntity *entityInfo);
+		Physics::CActor* createActor(const Map::CEntity* entityInfo);
 
-				/**
-		Estructura de datos que contiene la posición lógica
-		*/
-		Logic::TLogicalPosition _logicalPosReceived;
-		
+		// Estructura de desplazamiento acumulado durante los últimos mensajes de tipo AVATAR_WALK. 
+		Logic::TLogicalPosition _movement;
+
 		// Indica si el character controller esta apoyado sobre una superficie o cayendo.
-		bool _falling;  //_entity->getHeight() también nos proporciona la misma info, si es 0 está en el suelo.
+		bool _falling;  // PeP: _entity->getHeight() también nos proporciona la misma info, si es 0 está en el suelo.
 
 	}; // class CPhysicCharacter
 

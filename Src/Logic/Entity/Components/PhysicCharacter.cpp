@@ -1,26 +1,28 @@
 /**
-@file PhysicController.cpp
+@file PhysicCharacter.cpp
 
 Contiene la implementación del componente que se utiliza para representar jugadores y enemigos en
 el mundo físico usando character controllers.
 
 @see Logic::CPhysicCharacter
 @see Logic::CPhysicEntity
-@see Logic::IPhysics
+@see Physics::IObserver
 
-@author Antonio Sánchez Ruiz-Granados
-@date Noviembre, 2012
+@author ƒ®§
+@date 21-02-2013
 */
 
 #include "PhysicCharacter.h"
 
 #include "Logic/Entity/Entity.h"
-#include "Map/MapEntity.h"
+//#include "Map/MapEntity.h"
 
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageInt.h" // TODO PeP: sería óptimo enviar un unsigned short???
-#include "Logic/Entity/Messages/MessageFloat.h"
+//#include "Logic/Entity/Messages/MessageInt.h" // TODO PeP: sería óptimo enviar un unsigned short???
+//#include "Logic/Entity/Messages/MessageFloat.h"
 
+#include "Physics/Server.h"
+#include "Physics/Actor.h"
 
 namespace Logic {
 
@@ -28,35 +30,31 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	CPhysicCharacter::CPhysicCharacter() : IComponent(),// _Character(NULL), 
-										   _movement(0,0,0), _falling(false)
-	{	//dejo la creación del proyecto de física para el domingo
-		//_server = CServer::getSingletonPtr();
+	CPhysicCharacter::CPhysicCharacter() : IComponent(), _physicActor(0), _falling(false)
+	{	
+		_server = Physics::CServer::getSingletonPtr();
 	}
 
 	//---------------------------------------------------------
 
 	CPhysicCharacter::~CPhysicCharacter() 
-	{//para el domingo
-		/*if (_controller) {
-			_controller->release();
-			_controller = NULL;
+	{
+		if (_physicActor) {
+			_physicActor->release();
+			_physicActor = 0;
 		}
-
-		_server = NULL;*/
+		_server = 0;
 	} 
 
 	//---------------------------------------------------------
 
 	bool CPhysicCharacter::spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo)
 	{
-		// Invocar al método de la clase padre
-		if(!IComponent::spawn(entity,map,entityInfo))
+		if(!IComponent::spawn(entity,map,entityInfo)) // Invocar al método de la clase padre
 			return false;
 
-			_logicalPosReceived=_entity->getLogicalPosition();
-		// Crear el character controller asociado al componente
-	//	_controller = createController(entityInfo);
+		_entityID = _entity->getEntityID();		
+		_physicActor = createActor(entityInfo); // Crear el actor asociado al componente
 
 		return true;
 	}
@@ -125,6 +123,8 @@ namespace Logic {
 			//es posible enviarla entera, enviar _logicalPosReceived, o enviar sólamente lo que haya cambiado respecto al tick anterior
 			//eso se conseguiría de varias maneras, la primera que se me ocurre es guardar la posición lógica anterior con la que se 
 			//acaba de obtener y enviar sólamente lo que haya cambiado.
+			//ƒ®§ Hombre, lo suyo es que los AVATAR_WALK que se reciban sean diferenciales ya de por sí (a partir de "vectores lógicos unitarios")
+			//De ese modo te evitas tener que almacenar la ultima posicion...
 
 			// Anotamos el vector de desplazamiento para usarlo posteriormente en 
 			// el método tick. De esa forma, si recibimos varios mensajes AVATAR_WALK
@@ -172,7 +172,7 @@ namespace Logic {
 
 	//---------------------------------------------------------
 	/*
-	PxCapsuleController* CPhysicController::createController(const Map::CEntity *entityInfo)
+	PxCapsuleController* CPhysicCharacter::createController(const Map::CEntity *entityInfo)
 	{
 		// Obtenemos la posición de la entidad. Inicialmente colocaremos el controller
 		// un poco por encima del suelo, porque si lo ponemos justo en el suelo a veces
@@ -199,11 +199,6 @@ namespace Logic {
 	} 
 	*/
 	//---------------------------------------------------------
-
-	void CPhysicCharacter::onTrigger(Physics::CServer::IObserver *otherComponent, bool enter)
-	{
-
-	}
 
 	//---------------------------------------------------------
 	/*
