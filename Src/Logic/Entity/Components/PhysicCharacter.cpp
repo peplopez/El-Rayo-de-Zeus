@@ -15,7 +15,7 @@ el mundo físico usando character controllers.
 #include "PhysicCharacter.h"
 
 #include "Logic/Entity/Entity.h"
-//#include "Map/MapEntity.h"
+#include "Map/MapEntity.h"
 
 #include "Logic/Entity/Messages/Message.h"
 //#include "Logic/Entity/Messages/MessageInt.h" // TODO PeP: sería óptimo enviar un unsigned short???
@@ -171,34 +171,25 @@ namespace Logic {
 	}
 
 	//---------------------------------------------------------
-	/*
-	PxCapsuleController* CPhysicCharacter::createController(const Map::CEntity *entityInfo)
-	{
-		// Obtenemos la posición de la entidad. Inicialmente colocaremos el controller
-		// un poco por encima del suelo, porque si lo ponemos justo en el suelo a veces
-		// lo atraviesa en el primer ciclo de simulación.
-		Vector3 position = _entity->getPosition() + Vector3(0, 0.5f, 0);
 	
-		// Leer el volumen de colisión del controller. Por ahora sólo admitimos cápsulas.
-		std::string shape = "capsule";
-		if (entityInfo->hasAttribute("physic_shape")) {
-			shape = entityInfo->getStringAttribute("physic_shape");
-			assert(shape == "capsule");
-		}
+	Physics::CActor* CPhysicCharacter::createActor(const Map::CEntity *entityInfo)
+	{
+		// Obtenemos la posición de la entidad. 
+		TLogicalPosition logicalPos = _entity->getLogicalPosition();
+	
+		// Leer el ancho del angular box
+		assert(entityInfo->hasAttribute("physicWidth")); // TODO ƒ®§ Por qué se hacen asserts en lugar de simples if como en el spawn normal?
+		float physicWidth = entityInfo->getFloatAttribute("physicWidth");
 
-		// Leer el radio de la cápsula
-		assert(entityInfo->hasAttribute("physic_radius"));
-		float radius = entityInfo->getFloatAttribute("physic_radius");
-
-		// Leer la altura de la cápsula
-		assert(entityInfo->hasAttribute("physic_height"));
-		float height = entityInfo->getFloatAttribute("physic_height");
+		// Leer la altura del angular box
+		assert(entityInfo->hasAttribute("physicHeight"));
+		float height = entityInfo->getFloatAttribute("physicHeight");
 
 		// Crear el controller de tipo cápsula
-		return _server->createCapsuleController(position, radius, height, this);
-	} 
-	*/
-	//---------------------------------------------------------
+		return _server->createActor(logicalPos, physicWidth, height, false, this);
+	} // createActor 
+	
+	
 
 	//---------------------------------------------------------
 	/*
@@ -216,14 +207,7 @@ namespace Logic {
 		// Aplicar una fuerza a la entidad en la dirección del movimiento
 		actor->addForce(hit.dir * hit.length * 1000.0f);
 	}*/
-
-	//---------------------------------------------------------
-	/*
-	void CPhysicCharacter::onControllerHit (const PxControllersHit &hit)
-	{
-
-	}
-	*/
+	
 	//---------------------------------------------------------
 
 }

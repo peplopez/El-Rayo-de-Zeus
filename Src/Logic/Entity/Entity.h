@@ -385,18 +385,19 @@ namespace Logic
 
 
 
+		// UNDONE ƒ®§ En principio no debería ser necesaria esta info, salvo para fisicas...
 		/**
-		Establece la anchura de la entidad gráfica
-		@param angularBox nuevo
-		*/
-		void setAngularBox(const float &angularBox);
+		//Establece la anchura de la entidad gráfica
+		//@param angularBox nuevo
+		//*/
+		//void setAngularBox(const float &angularBox);
 
-		/**
-		Devuelve la anchura de la entidad gráfica.
-		
-		@return AngularBox de la entidad en el entorno.
-		*/
-		const float getAngularBox() const { return _angularBox; }
+		///**
+		//Devuelve la anchura de la entidad gráfica.
+		//
+		//@return AngularBox de la entidad en el entorno.
+		//*/
+		//const float getAngularBox() const { return _angularBox; }
 
 		/**
 		Establece la anchura de la entidad gráfica
@@ -564,10 +565,11 @@ namespace Logic
 		*/
 		bool _isPlayer;
 
-		/**
-			Anchura de la entidad gráfica en grados
-		*/	
-		float _angularBox;
+		// UNDONE ƒ®§
+		///**
+		//	Anchura de la entidad gráfica en grados
+		//*/	
+		//float _angularBox;
 
 	}; // class CEntity
 

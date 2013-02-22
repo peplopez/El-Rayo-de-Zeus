@@ -85,10 +85,12 @@ namespace Logic
 			//pese a todo no pete.
 			_pos._ring= Logic::Ring::CENTRAL_RING;  
 
-		_pos._height = 0;
+		// UNDONE ƒ®§ Este height ya se inicializa a 0 en el ctor por defecto de TLogicalPosition
+		//_pos._height = 0;
 
-		if(entityInfo->hasAttribute("angularBox"))					
-			_angularBox = entityInfo->getFloatAttribute("angularBox");
+		// UNDONE ƒ®§: Esta información de física es necesaria para alguien más?
+		//if(entityInfo->hasAttribute("angularBox"))					
+		//	_angularBox = entityInfo->getFloatAttribute("angularBox");
 
 		if (_logicInput)
 		{
