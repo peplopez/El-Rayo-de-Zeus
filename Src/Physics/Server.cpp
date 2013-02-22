@@ -127,36 +127,41 @@ namespace Physics {
 
 	//--------------------------------------------------------
 
+	// TODO ƒ®§ Tomando como ejemplo el moveController del CPhysicController, 
+	// deberíamos añadir msecs como argumento, ¿o no?
+	// TODO ƒ®§ Devolver flags de sucesos? -> p.e  PxControllerFlag::eCOLLISION_DOWN
 	void CServer::moveActor(CActor *actor, const Logic::TLogicalPosition &pos)
 	{
 		assert(actor);
-
 		// Mover el actor tras transformar el destino a coordenadas lógicas
 		actor->move(pos);
 	}
 
+
 	//--------------------------------------------------------
 
-	void CServer::moveActor(CActor *actor, const float degrees)
-	{
-		assert(actor);
+	// UNDONE ƒ®§ Comprobar si son necesarias las sobrecargas... En principio no.
 
-		// Desplazar el actor
-		Logic::TLogicalPosition pos = actor->getGlobalPose();
-		pos._degrees += degrees;
-		actor->move(pos);
-	}
+	//void CServer::moveActor(CActor *actor, const float degrees)
+	//{
+	//	assert(actor);
 
-	void CServer::moveActor(CActor *actor, const float degrees, const float height)
-	{
-		assert(actor);
+	//	// Desplazar el actor
+	//	Logic::TLogicalPosition pos = actor->getGlobalPose();
+	//	pos._degrees += degrees;
+	//	actor->move(pos);
+	//}
 
-		// Desplazar el actor
-		Logic::TLogicalPosition pos = actor->getGlobalPose();
-		pos._degrees += degrees;
-		pos._height += height;
-		actor->move(pos);
-	}
+	//void CServer::moveActor(CActor *actor, const float degrees, const float height)
+	//{
+	//	assert(actor);
+
+	//	// Desplazar el actor
+	//	Logic::TLogicalPosition pos = actor->getGlobalPose();
+	//	pos._degrees += degrees;
+	//	pos._height += height;
+	//	actor->move(pos);
+	//}
 
 	//--------------------------------------------------------
 

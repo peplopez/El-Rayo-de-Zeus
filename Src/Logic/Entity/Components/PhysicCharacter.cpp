@@ -18,8 +18,8 @@ el mundo físico usando character controllers.
 #include "Map/MapEntity.h"
 
 #include "Logic/Entity/Messages/Message.h"
-//#include "Logic/Entity/Messages/MessageInt.h" // TODO PeP: sería óptimo enviar un unsigned short???
-//#include "Logic/Entity/Messages/MessageFloat.h"
+#include "Logic/Entity/Messages/MessageInt.h" // TODO PeP: sería óptimo enviar un unsigned short???
+#include "Logic/Entity/Messages/MessageFloat.h"
 
 #include "Physics/Server.h"
 #include "Physics/Actor.h"
@@ -68,71 +68,44 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
+	// Acumulamos las diferentes coordenadas vector de desplazamiento para usarlo posteriormente en  el método tick.
+	// De esa forma, si recibimos varios mensajes AVATAR_WALK tendremos la última coordenada de cada tipo (degrees, height, ring, base)
 	void CPhysicCharacter::process(CMessage *message)
 	{
-		switch(message->getType())
-		{
-		case Message::AVATAR_MOVE:
-			if(message->getAction() == Message::WALK_LEFT || message->getAction() == Message::WALK_RIGHT)
-			{
-				if(message->getAction() == Message::WALK_LEFT)
-					_logicalPosReceived._sense=Sense::LEFT;
-				else
-					_logicalPosReceived._sense=Sense::RIGHT;			
-			
-				CMessageFloat* maux = static_cast<CMessageFloat*>(message);
-				_logicalPosReceived._degrees=maux->getFloat();
-			
-			} else if(message->getAction() == Message::JUMP)
-			{
-				CMessageFloat* maux = static_cast<CMessageFloat*>(message);
-				_logicalPosReceived._height=maux->getFloat();
-			} else if(message->getAction()== Message::CHANGE_RING)
-			{
-				CMessageInt* maux = static_cast<CMessageInt*>(message);
-			
-				switch (maux->getInt())
-					{
-						case Logic::LogicalPosition::LOWER_RING:
-						{
-							_logicalPosReceived._ring= Logic::LogicalPosition::LOWER_RING;
-							break;
-						}
-						case Logic::LogicalPosition::CENTRAL_RING:
-						{
-							_logicalPosReceived._ring = Logic::LogicalPosition::CENTRAL_RING;				
-							break;
-						}
-						case Logic::LogicalPosition::UPPER_RING:
-						{
-							_logicalPosReceived._ring = Logic::LogicalPosition::UPPER_RING;
-							break;
-						}
-						default:
-						{
-							_logicalPosReceived._ring = Logic::LogicalPosition::CENTRAL_RING;
-							break;
-						}
-				}
-			}else if(message->getAction()== Message::CHANGE_BASE)
-			{
-				CMessageInt* maux = static_cast<CMessageInt*>(message);
-				_logicalPosReceived._base= maux->getInt();	
-			}
+		switch( message->getAction() ) {
+
+		// UNDONE ƒ®§: Necesitamos la orientación para alguna comprobación física? => setSense directamente en AvatarController
+		//if(message->getAction() == Message::WALK_LEFT)
+		//_movement._sense=Sense::LEFT;
+		//else
+		//_movement._sense=Sense::RIGHT;
+
+		case Message::WALK_LEFT: 			// TODO Unificar walks en un action WALK a secas?
+		case Message::WALK_RIGHT:
+			_movement._degrees = static_cast<CMessageFloat*>(message)->getFloat();	
+			break;
+
+		case Message::JUMP:
+			_movement._height = static_cast<CMessageFloat*>(message)->getFloat();
+			break;
+
+		case Message::CHANGE_RING:		
+			_movement._ring = (Ring) static_cast<CMessageInt*>(message)->getInt();
+			break;
+
+		case Message::CHANGE_BASE:
+			_movement._base= static_cast<CMessageInt*>(message)->getInt();	
+			break;
+
+		} // switch message action
+
 			//PEP: y ahora ya tenemos la posición lógica completa
 			//es posible enviarla entera, enviar _logicalPosReceived, o enviar sólamente lo que haya cambiado respecto al tick anterior
 			//eso se conseguiría de varias maneras, la primera que se me ocurre es guardar la posición lógica anterior con la que se 
 			//acaba de obtener y enviar sólamente lo que haya cambiado.
-			//ƒ®§ Hombre, lo suyo es que los AVATAR_WALK que se reciban sean diferenciales ya de por sí (a partir de "vectores lógicos unitarios")
+			
+			//ƒ®§ Hombre, lo suyo es que los AVATAR_WALK que se reciban sean diferenciales ya de por sí ("vectores de 4 coordenadas" lógicos unitarios)
 			//De ese modo te evitas tener que almacenar la ultima posicion...
-
-			// Anotamos el vector de desplazamiento para usarlo posteriormente en 
-			// el método tick. De esa forma, si recibimos varios mensajes AVATAR_WALK
-			// en el mismo ciclo sólo tendremos en cuenta el último.
-			//_movement = message._vector3;
-			break;
-		}
-
 	} 
 
 	//---------------------------------------------------------
@@ -142,32 +115,23 @@ namespace Logic {
 		// Llamar al método de la clase padre (IMPORTANTE).
 		IComponent::tick(msecs);
 
+		// Actualizar la posición y orientación de la entidad lógica 
+		// usando la información proporcionada por el motor de física	
+		// Este a genera  SET_TRANSFORM por debajo que informa al CGraphics
+		_entity->setLogicalPosition( _server->getActorLogicPosition(_physicActor) );  
 
-
-		// Actualizar la posición y orientación de la entidad lógica usando la 
-		// información proporcionada por el motor de física	
-		//_entity->setPosition(_server->getControllerPosition(_controller));
-
-		// Si estamos cayendo modificar el vector de desplazamiento para simular el 
-		// efecto de la gravedad. Lo hacemos de manera sencilla y pero poco realista.
+		// TODO Efecto de la gravedad quizá sea necesario..?
 		//if (_falling) {
-			//_movement += Vector3(0,-1,0);
-	//	}
+		//	_movement += Vector3(0,-1,0);
+		//}
 
-		// Intentamos mover el controller a la posición recibida en el último mensaje 
-		// de tipo AVATAR_WALK. 
-		//unsigned flags = _server->moveController(_controller, _movement, msecs);
+		// Intentamos mover el actor según los AVATAR_MOVE acumulados. 
+		 _server->moveActor(_physicActor, _movement); // TODO añadir msecs);
 
-		// Actualizamos el flag que indica si estamos cayendo
+		// TODO Actualizamos el flag que indica si estamos cayendo
 		//_falling =  !(flags & PxControllerFlag::eCOLLISION_DOWN);
-
-		// Ponemos el movimiento a cero
-		//_movement = Vector3::ZERO;
-		/* y aquí pone la posición final, ahora sin comprobación física pero recogiendo todos los datos de los componentes de la entidad*/
-		_entity->setLogicalPosition(_logicalPosReceived);
-	
-		Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-		_entity->setPosition(newPosition);
+		
+		_movement = TLogicalPosition(); // Ponemos el movimiento a cero
 	}
 
 	//---------------------------------------------------------

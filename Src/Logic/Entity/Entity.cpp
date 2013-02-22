@@ -333,15 +333,20 @@ namespace Logic
 
 	void CEntity::setLogicalPosition(const Logic::TLogicalPosition &pos)
 	{
-		_pos._base=pos._base;
-		_pos._degrees=pos._degrees;
-		_pos._ring=pos._ring;
-		_pos._sense=pos._sense;
-		_pos._height=pos._height;
+		_pos._base		= pos._base;
+		_pos._degrees	= pos._degrees;
+		_pos._ring		= pos._ring;
+		_pos._sense		= pos._sense;
+		_pos._height	= pos._height;
 
-		const Vector3 position=fromLogicalToCartesian(_pos._degrees,_pos._height,_pos._base,_pos._ring);
-		setPosition(position);
-
+		setPosition(
+			fromLogicalToCartesian(
+				_pos._degrees,
+				_pos._height,
+				_pos._base,
+				_pos._ring
+			)
+		);
 
 	} //setLogicalPosition
 		
