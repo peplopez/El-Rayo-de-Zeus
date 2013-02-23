@@ -87,7 +87,7 @@ namespace Physics {
 		void destroyActor(Physics::CActor* actor);
 
 		
-		Logic::TLogicalPosition getActorLogicPosition(const Physics::CActor* actor);
+		Logic::TLogicalPosition& getActorLogicPosition(Physics::CActor* actor);
 
 
 		//¿Por qué llamar al server y no directamente al actor->move?

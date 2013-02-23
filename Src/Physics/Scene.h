@@ -73,19 +73,12 @@ namespace Physics
 		/**
 		Actualiza el estado de la escena cada ciclo.
 		*/
-		void simulate(int msecs);
-
-
-		//Physics::CollisionManager *getCollisionMgr() {return _collisionMgr;}
-		
-
-		//Physics::CollisionManager*_collisionMgr;
-		
+		void simulate();
 
 		/**
-		Tipos para la lista de entidades.
+		Corrige la posición de 2 actores que colisionan.
 		*/
-		//typedef std::list<CStaticActor*> TStaticActorList;
+		void updateLogicPostion(Physics::CActor *actor1, Physics::CActor *actor2);
 
 		/**
 		Tipos para el vector de actores (a mejorar)
@@ -93,7 +86,6 @@ namespace Physics
 		typedef std::vector<CActor*> TActorVector;
 
 		TActorVector _actors;
-		
 
 	}; // class CScene
 

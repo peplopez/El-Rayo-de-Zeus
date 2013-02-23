@@ -27,6 +27,7 @@ namespace Physics
 		}
 
 		//--------------------------------------------------------
+
 		void CActor::move(const Logic::TLogicalPosition &pos)
 		{
 			_logicPosition  = pos;
@@ -36,17 +37,22 @@ namespace Physics
 
 		bool CActor::intersects(CActor *otherActor)
 		{
-			return  (_logicPosition._degrees < otherActor->getLogicPos()._degrees + otherActor->getBoxWidth()) && 
-            (otherActor->getLogicPos()._degrees < _logicPosition._degrees + _boxWidth)            && 
-            (_logicPosition._height < otherActor->getLogicPos()._height + otherActor->getBoxHeight()) && 
-            (otherActor->getLogicPos()._height < _logicPosition._height + _boxHeight);              
+			
+			float centerDistance = abs(_logicPosition._degrees - otherActor->getLogicPos()._degrees);
+			if (centerDistance>180) //
+				centerDistance=360-centerDistance;	
+			return  centerDistance < (_boxWidth + otherActor->getBoxWidth()) && 
+						abs(_logicPosition._height - otherActor->getLogicPos()._height) < (+ _boxHeight + otherActor->getBoxHeight());            
 		}
 
 		//--------------------------------------------------------
+		
 		Logic::TLogicalPosition& CActor::getGlobalPose()
 		{
+			return _logicPosition;
 		}
-
+		
+		//--------------------------------------------------------
 		void CActor::release()
 		{
 			delete this;
