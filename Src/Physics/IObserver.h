@@ -10,15 +10,10 @@
 
 // Namespace que contiene las clases relacionadas con la parte física. 
 namespace Physics {
-
-	typedef unsigned int TEntityID;
 	
 	class IObserver
 	{
 	public: 		
-
-		IObserver() : _entityID(0) {};
-
 		/**Este método es invocado desde el motor de física cuando una entidad entra o sale de un
 		trigger físico. Se notifica tanto al componente asociado al trigger como al componente
 		asociado a la otra entidad.
@@ -26,15 +21,8 @@ namespace Physics {
 				dependiendode a quién se esté notificando.
 		@param enter True si la entidad entra en el trigger y false si sale. 
 		*/
-		virtual void onTrigger(TEntityID otherEntity, bool enter) {};
-		virtual void onCollision(TEntityID otherEntity) {};
-		
-		TEntityID getEntityID() { return _entityID; };
-
-	protected:
-
-		TEntityID _entityID;
-
+		virtual void onTrigger(IObserver* other, bool enter) {};
+		virtual void onCollision(IObserver* other) {};
 	}; // class IObserver
 
 } // namespace Physics
