@@ -12,6 +12,7 @@
 @date Febrero 2013
 */
 
+#include "IObserver.h"
 #include "Scene.h"
 #include "Logic\Server.h"
 #include "Server.h"
@@ -87,18 +88,35 @@ namespace Physics
 	//--------------------------------------------------------
 
 	
-	void CScene::simulate(int msecs)
+	void CScene::simulate()
 	{	
 		//WTF!!
 		for (int i = 0; i < _actors.size() - 1; ++i)
 			for (int j = i + 1; j < _actors.size(); ++j)
-				if (_actors[i]->intersects(_actors[j]))
+				if ( _actors[i]->intersects(_actors[j]) )
 				{
-						updateLogicPos(_actors[i], _actors[j], msecs);
+					if (!(_actors[i]->isTrigger() || _actors[j]->isTrigger()))
+					{
+						updateLogicPos(_actors[i], _actors[j]);
+						_actors[i]->getIObserver()->onCollision(_actors[j]->getIObserver());
+						_actors[j]->getIObserver()->onCollision(_actors[i]->getIObserver());
+
+					}
+					else
+					{
+						_actors[i]->getIObserver()->onTrigger(_actors[j]->getIObserver(), true);
+						_actors[j]->getIObserver()->onTrigger(_actors[i]->getIObserver(), true);
+					}
 				}
 	} // simulate	
 
 	//--------------------------------------------------------
+
+	void CScene::updateLogicPostion(Physics::CActor *actor1, Physics::CActor *actor2)
+	{
+
+
+	}
 
 
 } // namespace Physics

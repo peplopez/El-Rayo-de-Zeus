@@ -9,6 +9,7 @@ Contiene la implementación del servidor de física.
 @date Marzo, 2013
 */
 
+#include "IObserver.h"
 #include "Server.h"
 #include "CollisionManager.h"
 #include "Actor.h"
@@ -82,7 +83,7 @@ namespace Physics {
 
 		// Empezar la simulación física.
 
-		_scene->simulate(msecs);
+		_scene->simulate();
 
 	} 
 
@@ -117,7 +118,7 @@ namespace Physics {
 
 	//--------------------------------------------------------
 
-	Logic::TLogicalPosition CServer::getActorLogicPosition(const CActor *actor)
+	Logic::TLogicalPosition& CServer::getActorLogicPosition(CActor *actor)
 	{
 		assert(actor);
 
@@ -136,34 +137,5 @@ namespace Physics {
 		// Mover el actor tras transformar el destino a coordenadas lógicas
 		actor->move(pos);
 	}
-
-
-	//--------------------------------------------------------
-
-	// UNDONE ƒ®§ Comprobar si son necesarias las sobrecargas... En principio no.
-
-	//void CServer::moveActor(CActor *actor, const float degrees)
-	//{
-	//	assert(actor);
-
-	//	// Desplazar el actor
-	//	Logic::TLogicalPosition pos = actor->getGlobalPose();
-	//	pos._degrees += degrees;
-	//	actor->move(pos);
-	//}
-
-	//void CServer::moveActor(CActor *actor, const float degrees, const float height)
-	//{
-	//	assert(actor);
-
-	//	// Desplazar el actor
-	//	Logic::TLogicalPosition pos = actor->getGlobalPose();
-	//	pos._degrees += degrees;
-	//	pos._height += height;
-	//	actor->move(pos);
-	//}
-
-	//--------------------------------------------------------
-
 
 }

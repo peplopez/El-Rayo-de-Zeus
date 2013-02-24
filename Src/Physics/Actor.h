@@ -49,7 +49,7 @@ namespace Physics
 		float getBoxHeight() {return _boxHeight;}
 		
 		void setTrigger(const bool trigger) {_trigger=trigger;}
-		bool getTrigger() {return _trigger;}
+		bool isTrigger() {return _trigger;}
 
 		void setIObserver(IObserver* component) {_component=component;}
 		IObserver *getIObserver() {return _component;}
