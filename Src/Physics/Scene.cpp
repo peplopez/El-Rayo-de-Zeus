@@ -14,10 +14,7 @@
 
 #include "IObserver.h"
 #include "Scene.h"
-#include "Logic\Server.h"
-#include "Server.h"
 #include "Actor.h"
-#include "BaseSubsystems/Server.h"
 #include "Logic/Entity/LogicalPosition.h"
 
 #include <algorithm>
