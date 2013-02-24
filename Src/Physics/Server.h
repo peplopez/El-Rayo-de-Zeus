@@ -18,6 +18,7 @@ Contiene la declaración del servidor de física.
 namespace Physics {
 	class CScene;
 	class CActor;
+	class IObserver;
 }
 
 
@@ -82,7 +83,7 @@ namespace Physics {
 
 
 		Physics::CActor* createActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
-										bool trigger, IObserver *component); 
+										bool isTrigger, IObserver *component); 
 
 		void destroyActor(Physics::CActor* actor);
 

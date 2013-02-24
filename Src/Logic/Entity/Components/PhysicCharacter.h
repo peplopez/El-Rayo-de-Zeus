@@ -91,11 +91,14 @@ namespace Logic
 		*/
 		virtual void tick(unsigned int msecs);
 
-		// TODO que metodos va a necesitar un character?
-		///**
-		//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
-		//*/
-		//void  onTrigger (TEntityID otherEntity, bool enter);
+
+		/**************
+			IOBSERVER
+		***************/
+	
+		// Se invoca cuando se produce una colisión entre una entidad física y un trigger.
+		//void  onTrigger (IObserver* other, bool enter);
+
 		///**
 		//Se invoca cuando se produce una colisión entre un character controller y una entidad física.
 		//*/
@@ -115,18 +118,18 @@ namespace Logic
 		//	physx::PxCapsuleController *_controller;
 		Physics::CActor* _physicActor;
 
+		// Estructura de desplazamiento acumulado durante los últimos mensajes de tipo AVATAR_WALK. 
+		Logic::TLogicalPosition _movement;
+
+		// Indica si el character controller esta apoyado sobre una superficie o cayendo.
+		bool _falling;  // PeP: _entity->getHeight() también nos proporciona la misma info, si es 0 está en el suelo.
+
 		///**
 		//Crea el character controller de PhysX que representa la entidad física a partir de la
 		//información del mapa.
 		//*/
 		//physx::PxCapsuleController* createController(const Map::CEntity *entityInfo);
 		Physics::CActor* createActor(const Map::CEntity* entityInfo);
-
-		// Estructura de desplazamiento acumulado durante los últimos mensajes de tipo AVATAR_WALK. 
-		Logic::TLogicalPosition _movement;
-
-		// Indica si el character controller esta apoyado sobre una superficie o cayendo.
-		bool _falling;  // PeP: _entity->getHeight() también nos proporciona la misma info, si es 0 está en el suelo.
 
 	}; // class CPhysicCharacter
 

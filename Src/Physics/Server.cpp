@@ -90,11 +90,11 @@ namespace Physics {
 	//--------------------------------------------------------
 
 	Physics::CActor* CServer::createActor(const Logic::TLogicalPosition &position, const float angularWidth, 
-											  const float height, bool trigger, IObserver *component) 
+											  const float height, bool isTrigger, IObserver *component) 
 	{
 		assert(_scene);
 
-		Physics::CActor *actor = new Physics::CActor(position, angularWidth, height, trigger, component);
+		Physics::CActor *actor = new Physics::CActor(position, angularWidth, height, isTrigger, component);
 
 		// Añadir el actor a la escena
 		_scene->addActor(actor);

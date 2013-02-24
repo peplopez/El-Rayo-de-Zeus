@@ -3,7 +3,7 @@ Map = {
 		type = "Altar",
 		model = "altar.mesh",
 		logicInput=true,
-		static = true,	
+		static = true,
 	},
 	
 	BarraVida = {

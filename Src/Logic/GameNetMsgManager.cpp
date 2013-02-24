@@ -24,8 +24,9 @@ Contiene la implementación del gestor de los mensajes de red durante la partida.
 #include "Logic/Maps/EntityFactory.h"
 #include "Logic/Server.h"
 
-#include "Net/paquete.h"
-#include "Net/buffer.h"
+#include "NET/Manager.h"
+#include "NET/paquete.h"
+#include "NET/buffer.h"
 
 
 #define DEBUG 0
