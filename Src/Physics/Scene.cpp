@@ -91,13 +91,15 @@ namespace Physics
 	void CScene::simulate()
 	{	
 		//WTF!!
+		float x = 0;
+		float y = 0;
 		for (int i = 0; i < _actors.size() - 1; ++i)
 			for (int j = i + 1; j < _actors.size(); ++j)
-				if ( _actors[i]->intersects(_actors[j]) )
+				if ( _actors[i]->intersects(_actors[j], x, y) )
 				{
 					if (!(_actors[i]->isTrigger() || _actors[j]->isTrigger()))
 					{
-						updateLogicPos(_actors[i], _actors[j]);
+						updateLogicPosition(_actors[i], _actors[j], x, y);
 						_actors[i]->getIObserver()->onCollision(_actors[j]->getIObserver());
 						_actors[j]->getIObserver()->onCollision(_actors[i]->getIObserver());
 
@@ -112,7 +114,7 @@ namespace Physics
 
 	//--------------------------------------------------------
 
-	void CScene::updateLogicPostion(Physics::CActor *actor1, Physics::CActor *actor2)
+	void CScene::updateLogicPosition(Physics::CActor *actor1, Physics::CActor *actor2, float x, float y)
 	{
 
 

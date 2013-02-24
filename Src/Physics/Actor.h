@@ -58,7 +58,7 @@ namespace Physics
 
 		void move(const Logic::TLogicalPosition &pos);
 
-		bool intersects(CActor *otherActor);
+		bool intersects(CActor *otherActor, float &degrees, float &height);
 
 		Logic::TLogicalPosition& getGlobalPose() {return _logicPosition;}
 
