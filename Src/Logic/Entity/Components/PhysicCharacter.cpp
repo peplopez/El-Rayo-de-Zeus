@@ -30,7 +30,7 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	CPhysicCharacter::CPhysicCharacter() : IComponent(), _physicActor(0), _falling(false)
+	CPhysicCharacter::CPhysicCharacter() : IComponent(), IObserver(), _physicActor(0), _movement(), _falling(false)
 	{	
 		_server = Physics::CServer::getSingletonPtr();
 	}
@@ -53,7 +53,6 @@ namespace Logic {
 		if(!IComponent::spawn(entity,map,entityInfo)) // Invocar al método de la clase padre
 			return false;
 
-		_entityID = _entity->getEntityID();		
 		_physicActor = createActor(entityInfo); // Crear el actor asociado al componente
 
 		return true;
@@ -89,8 +88,8 @@ namespace Logic {
 			_movement._height = static_cast<CMessageFloat*>(message)->getFloat();
 			break;
 
-		case Message::CHANGE_RING:		
-			_movement._ring = (Ring) static_cast<CMessageInt*>(message)->getInt();
+		case Message::CHANGE_RING:		// TODO FRS por seguridad quizá habría que probar que _ring < MAX del enum
+			_movement._ring = static_cast<Ring>( static_cast<CMessageInt*>(message)->getInt() );
 			break;
 
 		case Message::CHANGE_BASE:
@@ -139,23 +138,33 @@ namespace Logic {
 	Physics::CActor* CPhysicCharacter::createActor(const Map::CEntity *entityInfo)
 	{
 		// Obtenemos la posición de la entidad. 
-		TLogicalPosition logicalPos = _entity->getLogicalPosition();
+		const TLogicalPosition logicPos = _entity->getLogicalPosition();
 	
 		// Leer el ancho del angular box
-		assert(entityInfo->hasAttribute("physicWidth")); // TODO ƒ®§ Por qué se hacen asserts en lugar de simples if como en el spawn normal?
+		assert(entityInfo->hasAttribute("physicWidth")); 
 		float physicWidth = entityInfo->getFloatAttribute("physicWidth");
 
 		// Leer la altura del angular box
 		assert(entityInfo->hasAttribute("physicHeight"));
-		float height = entityInfo->getFloatAttribute("physicHeight");
+		float physicHeight = entityInfo->getFloatAttribute("physicHeight");
 
 		// Crear el controller de tipo cápsula
-		return _server->createActor(logicalPos, physicWidth, height, false, this);
+		return _server->createActor(logicPos, physicWidth, physicHeight, false, this);
 	} // createActor 
 	
 	
 
 	//---------------------------------------------------------
+
+
+	//void  CPhysicCharacter::onTrigger (IObserver* other, bool enter) 
+	//{
+	//	// TODO mensaje trigger enter
+
+	//} // onTrigger
+
+	//---------------------------------------------------------
+
 	/*
 	void CPhysicCharacter::onShapeHit (const PxControllerShapeHit &hit)
 	{

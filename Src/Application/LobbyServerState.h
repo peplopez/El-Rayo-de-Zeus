@@ -18,9 +18,12 @@ Contiene la declaración del estado de lobby del servidor.
 #define __Application_LobbyServerState_H
 
 #include "ApplicationState.h"
-#include "net/Manager.h"
+
 #include <list>
 #include <map>
+
+#include "Net/Manager.h"
+#include "NET/IObserver.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Application 
@@ -53,7 +56,7 @@ namespace Application
 	@author David Llansó
 	@date Agosto, 2010
 	*/
-	class CLobbyServerState : public CApplicationState , public Net::CManager::IObserver
+	class CLobbyServerState : public CApplicationState , public Net::IObserver
 	{
 	public:
 		/** 
