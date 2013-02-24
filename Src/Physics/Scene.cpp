@@ -18,6 +18,7 @@
 #include "Server.h"
 #include "Actor.h"
 #include "BaseSubsystems/Server.h"
+#include "Logic/Entity/LogicalPosition.h"
 
 #include <algorithm>
 #include <assert.h>
@@ -116,8 +117,34 @@ namespace Physics
 
 	void CScene::updateLogicPosition(Physics::CActor *actor1, Physics::CActor *actor2, float x, float y)
 	{
-
-
+		if (x < 0)
+		{
+			Logic::TLogicalPosition pos = actor2->getLogicPos();
+			pos._degrees += -x;
+			if (pos._degrees > 360)
+				pos._degrees -= 360;
+			actor2->setLogicPos(pos);
+		}
+		else if (x > 0)
+		{
+			Logic::TLogicalPosition pos = actor2->getLogicPos();
+			pos._degrees -= x;
+			if (pos._degrees < 0)
+				pos._degrees += 360;
+			actor1->setLogicPos(pos);
+		}
+		if (y < 0)
+		{
+			Logic::TLogicalPosition pos = actor2->getLogicPos();
+			pos._height += -y;
+			actor2->setLogicPos(pos);
+		}
+		else if (y > 0)
+		{
+			Logic::TLogicalPosition pos = actor2->getLogicPos();
+			pos._height += y;
+			actor2->setLogicPos(pos);
+		}
 	}
 
 
