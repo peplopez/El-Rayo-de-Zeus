@@ -36,6 +36,8 @@ namespace Logic
 		DEC_FACTORY(CLifeModifier);
 	public:
 
+		CLifeModifier() : IComponent(GetAltTypeIdOf(CLifeModifier)), _HP_MODIFIER(0) {}
+
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
 		bool activate();

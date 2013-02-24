@@ -88,8 +88,6 @@ namespace Logic
 
 		_pos._height = 0;
 
-		if(entityInfo->hasAttribute("angularBox"))					
-			_angularBox = entityInfo->getFloatAttribute("angularBox");
 
 		if (_logicInput)
 		{
@@ -115,12 +113,12 @@ namespace Logic
 			setIsPlayer( entityInfo->getBoolAttribute("isPlayer") );		
 
 		// Inicializamos los componentes
-		TComponentList::const_iterator it;
+		TComponentMap::const_iterator it;
 
 		bool correct = true;
 
 		for( it = _components.begin(); it != _components.end() && correct; ++it )
-			correct = (*it)->spawn(this,map,entityInfo) && correct;
+			correct = it->second->spawn(this,map,entityInfo) && correct;
 
 		return correct;
 
@@ -138,13 +136,13 @@ namespace Logic
 		}
 
 		// Activamos los componentes
-		TComponentList::const_iterator it;
+		TComponentMap::const_iterator it;
 
 		// Solo si se activan todos los componentes correctamente nos
 		// consideraremos activados.
 		_activated = true;
 			for( it = _components.begin(); it != _components.end(); ++it )
-				_activated = (*it)->activate() && _activated;
+				_activated = it->second->activate() && _activated;
 		return _activated;
 
 	} // activate
@@ -159,11 +157,11 @@ namespace Logic
 		if (isPlayer())
 			setIsPlayer(false);
 
-		TComponentList::const_iterator it;
+		TComponentMap::const_iterator it;
 
 		// Desactivamos los componentes
 		for( it = _components.begin(); it != _components.end(); ++it )
-			(*it)->deactivate();
+			it->second->deactivate();
 
 		_activated = false;
 
@@ -212,10 +210,10 @@ namespace Logic
 	//---------------------------------------------------------
 	void CEntity::tick(unsigned int msecs) 
 	{
-		TComponentList::const_iterator it;
+		TComponentMap::const_iterator it;
 
 		for( it = _components.begin(); it != _components.end(); ++it )
-			(*it)->tick(msecs);
+			it->second->tick(msecs);
 
 	} // tick
 
@@ -223,16 +221,15 @@ namespace Logic
 
 	void CEntity::addComponent(IComponent* component)
 	{
-		_components.push_back(component);
+		_components[component->getComponentId()]=component;
 		component->setEntity(this);
-
 	} // addComponent
 
 	//---------------------------------------------------------
 
 	bool CEntity::removeComponent(IComponent* component)
 	{
-		TComponentList::const_iterator it = _components.begin();
+		TComponentMap::const_iterator it = _components.begin();
 
 		bool removed = false;
 		// Buscamos el componente hasta el final, por si aparecía
@@ -240,7 +237,7 @@ namespace Logic
 		// acaso).
 		while (it != _components.end()) 
 		{
-			if (*it == component)
+			if (it->second == component)
 			{
 				it = _components.erase(it);
 				removed = true;
@@ -259,12 +256,10 @@ namespace Logic
 	void CEntity::destroyAllComponents()
 	{
 		IComponent* c;
-		while(!_components.empty())
-		{
-			c = _components.back();
-			_components.pop_back();
-			delete c;
-		}
+		TComponentMap::const_iterator it = _components.begin();
+		while (it != _components.end()) 
+			_components.erase(it++);
+		_components.clear();
 
 	} // destroyAllComponents
 
@@ -284,7 +279,7 @@ namespace Logic
 			_transform = maux->getTransform();
 		}
 
-		TComponentList::const_iterator it;
+		TComponentMap::const_iterator it;
 
 		message->grab();
 		// Para saber si alguien quiso el mensaje.
@@ -292,8 +287,8 @@ namespace Logic
 		for( it = _components.begin(); it != _components.end(); ++it )
 		{
 			// Al emisor no se le envia el mensaje.
-			if( emitter != (*it) )
-				anyReceiver = (*it)->set(message) || anyReceiver;
+			if( emitter != it->second )
+				anyReceiver = it->second->set(message) || anyReceiver;
 		}
 
 		message->release();

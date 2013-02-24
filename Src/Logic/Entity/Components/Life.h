@@ -44,7 +44,7 @@ namespace Logic
 		DEC_FACTORY(CLife);
 	public:
 
-		CLife() : IComponent(), _LIFE_MAX(0), _life(0), _lifeBarPosition(0), _lifeBarWidth(0), _lifeBarHeight(0){}
+		CLife() : IComponent(GetAltTypeIdOf(CLife)), _LIFE_MAX(0), _life(0), _lifeBarPosition(0), _lifeBarWidth(0), _lifeBarHeight(0){}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 

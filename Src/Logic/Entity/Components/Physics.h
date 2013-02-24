@@ -37,6 +37,10 @@ namespace Logic
 	class IPhysics : public IComponent
 	{
 	public:
+
+		IPhysics() : IComponent(GetAltTypeIdOf(IPhysics)) {}
+
+		IPhysics(altTypeId id) : IComponent(id) {}
  
 		/**
 		Este método es invocado desde el motor de física cuando una entidad entra o sale de un

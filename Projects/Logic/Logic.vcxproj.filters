@@ -87,9 +87,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Collider.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\Collider.cpp">
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\RingTraveler.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
@@ -208,9 +205,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\RingStruct.h">
       <Filter>Entity\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\Collider.h">
-      <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Collider.h">
       <Filter>Entity\Components\Header Files</Filter>

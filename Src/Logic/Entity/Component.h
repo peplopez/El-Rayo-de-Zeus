@@ -86,7 +86,12 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		IComponent() : _entity(0) {}
+		IComponent() : _entity(0), _componentId(0) {}
+
+		/**
+		Add ESC
+		*/
+		IComponent(altTypeId id) : _entity(0), _componentId(id) {}
 
 		/**
 		Destructor (virtual); en la clase base no hace nada.
@@ -148,12 +153,25 @@ namespace Logic
 		*/
 		CEntity *getEntity() const { return _entity; }
 
+		/**
+		Método que devuelve la entidad a la que pertenece el componente.
+
+		@return La entidad a la que pertenece el componente.
+		*/
+		altTypeId getComponentId() const { return _componentId; }
+
 	protected:
 
 		/**
 		clase amiga que puede establecerse como poseedor del componente.
 		*/
 		friend class CEntity;
+
+		/**
+		Add-ESC
+		*/
+
+		altTypeId _componentId;
 
 		/**
 		Método que establece la entidad a la que pertenece el componente.

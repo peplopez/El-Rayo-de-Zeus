@@ -49,7 +49,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAvatarController() : IComponent(), _angularSpeed(0.00625f),_sense(Logic::Sense::RIGHT),_walkingRight(false), _walkingLeft(false), _acumRotation(0){}
+		CAvatarController() : IComponent(GetAltTypeIdOf(CAvatarController)), _angularSpeed(0.00625f),_sense(Logic::Sense::RIGHT),_walkingRight(false), _walkingLeft(false), _acumRotation(0){}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -130,6 +130,11 @@ namespace Logic
 		Provoca que la entidad cese el desplazamiento.
 		*/
 		void stopMovement();
+
+		bool isWalkingRight() {return _walkingRight;}
+
+		bool isWalkingLeft() {return _walkingLeft;}
+
 		
 
 	protected:

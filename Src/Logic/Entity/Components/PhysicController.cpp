@@ -36,7 +36,7 @@ IMP_FACTORY(CPhysicController);
 
 //---------------------------------------------------------
 
-CPhysicController::CPhysicController() : IPhysics(),// _controller(NULL), 
+CPhysicController::CPhysicController() : IPhysics(GetAltTypeIdOf(CPhysicController)),// _controller(NULL), 
 								       _movement(0,0,0), _falling(false)
 {	//dejo la creación del proyecto de física para el domingo
 	//_server = CServer::getSingletonPtr();

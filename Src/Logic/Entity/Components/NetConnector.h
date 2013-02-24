@@ -53,7 +53,7 @@ namespace Logic {
 		/**
 		Constructor por defecto.
 		*/
-		CNetConnector() : IComponent(), _timeOfBlocking(0) {}
+		CNetConnector() : IComponent(GetAltTypeIdOf(CNetConnector)), _timeOfBlocking(0) {}
 
 		/**
 		Inicialización del componente, utilizando la información extraída de

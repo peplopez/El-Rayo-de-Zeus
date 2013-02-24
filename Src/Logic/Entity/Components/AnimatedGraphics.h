@@ -52,7 +52,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAnimatedGraphics() : CGraphics(), _animatedGraphicsEntity(0),
+		CAnimatedGraphics() : CGraphics(GetAltTypeIdOf(CAnimatedGraphics)), _animatedGraphicsEntity(0),
 				_defaultAnimation("") {}
 
 		/**

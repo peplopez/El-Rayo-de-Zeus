@@ -103,7 +103,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageV3.cpp" />
     <ClCompile Include="..\..\Src\Logic\GameNetMsgManager.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\Collider.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\ComponentFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\EntityFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\EntityID.cpp" />
@@ -124,7 +123,6 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\HudOverlay.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Jump.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BaseTraveler.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\Collider.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Death.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeModifier.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicController.h" />
