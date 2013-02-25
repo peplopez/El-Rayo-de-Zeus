@@ -12,8 +12,6 @@ Contiene la implementación del componente que controla la vida de una entidad.
 
 #include "Life.h"
 
-// Para informar por red que se ha acabado el juego
-
 #include "BaseSubsystems/Math.h"
 #include "Graphics/Server.h" //Pablo 04-02-2013
 
@@ -36,7 +34,7 @@ namespace Logic
 			return false;
 
 		if(entityInfo->hasAttribute("lifeMax"))
-			_life = _LIFE_MAX = entityInfo->getFloatAttribute("lifeMax");
+			_life = _LIFE_MAX = entityInfo->getIntAttribute("lifeMax");
 		if(entityInfo->hasAttribute("lifeBarPosition"))		
 			_lifeBarPosition = entityInfo->getFloatAttribute("lifeBarPosition");		
 		if(entityInfo->hasAttribute("lifeBarWidth"))		
@@ -55,6 +53,15 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
+	void CLife::deactivate()
+	{
+		_lifeBar.deactivateBillboard( _entity->getName() ); //Eliminacion del billboard de la entidad	
+		IComponent::deactivate();
+	} // deactivate
+
+	
+	//---------------------------------------------------------
+
 	bool CLife::accept(const CMessage *message)
 	{
 		return message->getType() == Message::LIFE_MODIFIER;		
@@ -68,14 +75,15 @@ namespace Logic
 		modifyLife( static_cast<CMessageInt*>(message)->getInt() );
 	} // process
 
+
+	//---------------------------------------------------------
+
 	void CLife::modifyLife(int lifeModifier) {
 
 		Math::delimit( _life += lifeModifier, 0, _LIFE_MAX); // Disminuir/ aumentar la vida de la entidad
 			
 		// DIES
 		if(_life <= 0) {
-	
-			_lifeBar.deactivateBillboard( _entity->getName() ); //Eliminacion del billboard de la entidad
 
 			CMessage *msg = new CMessage();
 				msg->setType(TMessageType::DEAD);

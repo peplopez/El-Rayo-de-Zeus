@@ -21,8 +21,9 @@ Map = {
 		type = "AnimatedEntity",
 		life = 100.0,
 		model = "bioshock.mesh",
-		logicInput=true,
-		angularBox=5,
+		logicInput = true,
+		angularBox = 5,
+		hpModifier = -10,
 	},
 	
 	Player = {

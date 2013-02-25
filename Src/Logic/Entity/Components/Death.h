@@ -37,7 +37,7 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		CDeath() : IComponent() {}
+		CDeath() : IComponent(GetAltTypeIdOf(CDeath)) {}
 		
 		/**
 		Inicialización del componente usando la descripción de la entidad que hay en 

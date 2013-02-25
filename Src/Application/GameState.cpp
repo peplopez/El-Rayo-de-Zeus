@@ -35,9 +35,10 @@ namespace Application {
 
 		// Cargamos la ventana que muestra el tiempo de juego transcurrido.
 		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Time.layout");
-		//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
 		_timeWindow = CEGUI::WindowManager::getSingleton().getWindow("Time");
-		//_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
+
+		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
+		_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
 
 		return true;
 
@@ -69,16 +70,15 @@ namespace Application {
 		GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
 
 		// Activamos la ventana que nos muestra el tiempo transcurrido.
-		//CEGUI::System::getSingletonPtr()->setGUISheet(_timeWindow);
-		//_timeWindow->setVisible(true);
-		//_timeWindow->activate();
+		CEGUI::System::getSingletonPtr()->setGUISheet(_timeWindow);
+		_timeWindow->setVisible(true);
+		_timeWindow->activate();
 
 		// Activamos la ventana que nos muestra el HUD.
-		/*
-		CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
+		/*CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
 		_hudWindow->setVisible(true);
-		_hudWindow->activate();
-		*/
+		_hudWindow->activate();*/
+
 
 	} // activate
 
@@ -91,8 +91,8 @@ namespace Application {
 		_timeWindow->setVisible(false);
 
 		// Desactivamos la ventana de HUD.
-		//_hudWindow->deactivate();
-		//_hudWindow->setVisible(false);
+		_hudWindow->deactivate();
+		_hudWindow->setVisible(false);
 
 		// Desactivamos la clase que procesa eventos de entrada para 
 		// controlar al jugador.
@@ -117,8 +117,8 @@ namespace Application {
 		_time += msecs;
 		
 		std::stringstream text;
-		//text << "Time: " << _time/1000;
-		//_timeWindow->setText(text.str());
+		text << "Time: " << _time/1000;
+		_timeWindow->setText(text.str());
 
 	} // tick
 

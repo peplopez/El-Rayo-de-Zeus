@@ -22,17 +22,21 @@ el mundo físico usando character controllers.
 #include "Logic/Entity/Messages/MessageShort.h" //PeP: sería óptimo enviar un unsigned short???
 #include "Logic/Entity/Messages/MessageFloat.h"
 
+//PT Bomba de humo (particula)
+#include "Graphics/Scene.h"
+#include "Graphics/Server.h"
+
 //#include <PxPhysicsAPI.h>
 
 using namespace Logic;
-using namespace Physics;
-using namespace physx; 
+//using namespace Physics;
+//using namespace physx; 
 
 IMP_FACTORY(CPhysicController);
 
 //---------------------------------------------------------
 
-CPhysicController::CPhysicController() : IPhysics(),// _controller(NULL), 
+CPhysicController::CPhysicController() : IPhysics(GetAltTypeIdOf(CPhysicController)),// _controller(NULL), 
 								       _movement(0,0,0), _falling(false)
 {	//dejo la creación del proyecto de física para el domingo
 	//_server = CServer::getSingletonPtr();
@@ -97,8 +101,19 @@ void CPhysicController::process(CMessage *message)
 		{
 			CMessageShort* maux = static_cast<CMessageShort*>(message);
 			
-			switch (maux->getShort())
-				{
+
+			// PT Creamos nuestro sistema de partículas :)
+			if(_entity->isPlayer())
+			{
+				_entity->getName();
+				Graphics::CScene* _scen = Graphics::CServer::getSingletonPtr()->getActiveScene();
+				_scen->createParticula(_entity->getName(),"SmokeParticles");
+			}
+
+
+
+			switch (maux->getInt())
+			{
 					case Logic::LogicalPosition::LOWER_RING:
 					{
 						_logicalPosReceived._ring= Logic::LogicalPosition::LOWER_RING;
@@ -172,6 +187,8 @@ void CPhysicController::tick(unsigned int msecs)
 	
 	Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
 	_entity->setPosition(newPosition);
+
+
 }
 
 //---------------------------------------------------------

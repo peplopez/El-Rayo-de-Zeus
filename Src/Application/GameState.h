@@ -190,7 +190,7 @@ namespace Application
 		/**
 		Ventana que muestra el HUD con informacion para el player.
 		*/
-		//CEGUI::Window* _hudWindow;
+		CEGUI::Window* _hudWindow;
 
 		/**
 		Tiempo de juego en milisegundos.

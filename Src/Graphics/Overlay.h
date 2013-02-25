@@ -26,6 +26,7 @@ namespace Ogre
 	class OverlayManager;
 	class OverlayContainer;
 	class Overlay;
+	class TextAreaOverlayElement;
 
 }
 namespace Graphics 
@@ -53,7 +54,6 @@ namespace Graphics
 
 		@param name Nombre del Overlay.
 		*/
-		//COverlay(const std::string &name, Vector3 position); // le paso un string y la posicion de la entidad
 		COverlay(const std::string &name, const float offset); // le paso un string
 
 		/**

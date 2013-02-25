@@ -41,7 +41,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CBaseTraveler() : CRingTraveler(),_changingBase(false),_changingBaseTime(0),_maxChangingBaseTime(5000) {}
+		CBaseTraveler() : CRingTraveler(GetAltTypeIdOf(CBaseTraveler)),_changingBase(false),_changingBaseTime(0),_maxChangingBaseTime(5000) {}
 
 		/**
 		Destructor (virtual); Quita de la escena y destruye la entidad gráfica.

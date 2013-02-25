@@ -16,6 +16,7 @@ angular de entidades.
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
 #include "Application/BaseApplication.h"
+#include "AvatarController.h"
 
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
@@ -122,6 +123,12 @@ namespace Logic
 					message->setString("IdleKatana");
 					message->setBool(true);
 					_entity->emitMessage(message,this);
+					
+					//ejemplo de acceso directo a componentes
+					if (_entity->getComponent<CAvatarController>()->isWalkingLeft())
+						_entity->getComponent<CAvatarController>()->walkLeft();
+					else if (_entity->getComponent<CAvatarController>()->isWalkingRight())
+						_entity->getComponent<CAvatarController>()->walkRight();
 				}
 			//	Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
 			

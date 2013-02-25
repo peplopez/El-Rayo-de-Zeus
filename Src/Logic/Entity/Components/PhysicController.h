@@ -17,6 +17,9 @@ el mundo físico.
 
 #include "Physics.h"
 #include "Logic/Entity/LogicalPosition.h"
+//PT para llamar a crear una bomba de humo (particula)
+#include "Graphics/Particle.h"
+#include "Graphics/Scene.h"
 
 // Predeclaración de tipos
 /*namespace physx {
@@ -25,6 +28,8 @@ el mundo físico.
 	struct PxControllerShapeHit;
 };
 */
+
+
 namespace Physics {
 	class CServer;
 };
@@ -107,6 +112,10 @@ namespace Logic
 		Se invoca cuando se produce una colisión entre dos character controllers.
 		*/
 	//	void onControllerHit (const physx::PxControllersHit &hit);
+
+		//PT
+		Graphics::CParticle* _particle;
+		Graphics::CScene* _cscene;
 
 	private:
 

@@ -28,6 +28,7 @@ namespace Ogre
 	class StaticGeometry;
 	class Light;
 	class BillboardSet;
+	class ParticleSystem;
 }
 namespace Graphics 
 {
@@ -145,7 +146,13 @@ namespace Graphics
 		//Pablo
 		void deleteSceneNode(const std::string &name);
 
-		void createParticula(const std::string &name1, const std::string &name2);
+		//PT
+		Ogre::ParticleSystem* createParticula(const std::string &name1, const std::string &name2);
+
+		//PT
+		bool eliminarParticula(const std::string &name1, const std::string &name2);
+
+		int counterParticles;
 
 	protected:
 

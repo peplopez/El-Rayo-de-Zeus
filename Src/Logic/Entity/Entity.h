@@ -15,6 +15,7 @@ de juego. Es una colección de componentes.
 #define __Logic_Entity_H
 
 #include "BaseSubsystems/Math.h"
+#include "BaseSubsystems/Rtti.h"
 
 #include "Logic/Maps/EntityID.h"
 #include "LogicalPosition.h"
@@ -384,20 +385,6 @@ namespace Logic
 		const float getRadio();
 
 
-
-		/**
-		Establece la anchura de la entidad gráfica
-		@param angularBox nuevo
-		*/
-		void setAngularBox(const float &angularBox);
-
-		/**
-		Devuelve la anchura de la entidad gráfica.
-		
-		@return AngularBox de la entidad en el entorno.
-		*/
-		const float getAngularBox() const { return _angularBox; }
-
 		/**
 		Establece la anchura de la entidad gráfica
 		@param angularBox nuevo
@@ -488,6 +475,28 @@ namespace Logic
 		*/
 		const Vector3 fromLogicalToCartesian(const float grados,const float altura, const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
+		/**
+		Add - ESC
+		Función con el tipo de retorno parametrizado,
+		permite optener una referencia al componente del tipo indicado.
+
+		Hace uso de de un mecanismo RTTI propio para ello
+		*/
+		template <typename T>
+		T* getComponent()
+		{
+			std::map<altTypeId, IComponent*>::const_iterator it;
+
+			it=_components.find(TAltTypeIdGenerator<T>::GetAltTypeId());
+
+			if (it != _components.end())
+			{
+				return static_cast<T*>(it->second);
+			}
+			std::cerr << "id no encontrado" << std::endl;
+			return NULL;	
+		}
+
 
 	protected:
 
@@ -510,12 +519,12 @@ namespace Logic
 		/**
 		Tipo para la lista de componetes.
 		*/
-		typedef std::list<IComponent*> TComponentList;
+		typedef std::map<altTypeId, IComponent*> TComponentMap;
 
 		/**
 		Lista de los componentes de la entidad.
 		*/
-		TComponentList _components;
+		TComponentMap _components;
 
 		/**
 		Indica si la entidad está activa.
@@ -564,10 +573,6 @@ namespace Logic
 		*/
 		bool _isPlayer;
 
-		/**
-			Anchura de la entidad gráfica en grados
-		*/	
-		float _angularBox;
 
 	}; // class CEntity
 
