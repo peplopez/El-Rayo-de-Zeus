@@ -47,7 +47,9 @@ namespace Logic
 			COMBAT				= 0x13,
 			CHANGE_PLANE		= 0x14,
 			CHANGE_HEIGHT		= 0x15,
-			HUD					= 0x16
+			HUD					= 0x16,
+			SPACE_REQUEST		= 0x17, //para mandar un mensaje en el que preguntas si un punto del espacio está ocupado
+			ANIMATION_MOMENT    = 0x18
 		};
 
 		enum TActionType : unsigned char

@@ -81,7 +81,7 @@ namespace Logic
 		@param animation Nombre de la animación terminada.
 		*/
 		void animationFinished(const std::string &animation);
-
+		void animationMomentReached(const std::string &animation);
 	protected:
 
 		/**

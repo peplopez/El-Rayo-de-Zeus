@@ -1,23 +1,20 @@
 /**
-@file Collider.h
+@file Attack.h
 
-Contiene la declaración del componente que controla la capacidad de colisionar 
-de la entidad.
+Contiene la declaración del componente que controla el movimiento 
+angular de entidades.
 
-@see Logic::CCollider
+@see Logic::CAttack
 @see Logic::IComponent
 
-@author Jose Luis López Sánchez
-@date Diciembre, 2012
+@author José Luis López
+@date Febrero, 2013
 */
-#pragma once
-#ifndef __Logic_Collider_H
-#define __Logic_Collider_H
+#ifndef __Logic_Attack_H
+#define __Logic_Attack_H
 
 #include "Logic/Entity/Component.h"
-
-#include "Logic/Server.h"
-
+#include "BaseSubsystems/Math.h"
 namespace Logic
 {
 	class CMessage;
@@ -37,20 +34,20 @@ namespace Logic
 	
     @ingroup logicGroup
 
-	@author Jose Luis López Sánchez
-	@date Diciembre, 2012
+	@author David Llansó García
+	@date Agosto, 2010
 */
-	class CCollider : public IComponent
+	class CAttack : public IComponent
 	{
-		DEC_FACTORY(CCollider);
+		DEC_FACTORY(CAttack);
 	public:
 
 		/**
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CCollider() : IComponent(),_sentidoColision(false),_hit(0),_comprobando(true) {}
-		
+		CAttack() : IComponent(),_attackPower(0),_lightAttack(false),_heavyAttack(false){}
+
 		/**
 		Inicialización del componente, utilizando la información extraída de
 		la entidad leída del mapa (Maps::CEntity). Toma del mapa el atributo
@@ -113,43 +110,33 @@ namespace Logic
 		@param message Mensaje a procesar.
 		*/
 		void process(CMessage *message);
+
+		/**
+		Provoca que la entidad ataque con su ataque ligero.
+		*/
+		void lightAttack();
+	
 		
 		/**
-		Método virtual que define el comportamiento en caso de colisión.
-
-		@return devuelve la direccion a la que tiene el obstaculo
+		Provoca que la entidad ataque con su ataque ligero.
 		*/
-		bool contacto( CEntity* entidad1, CEntity* entidad2);
-
-		/**
-		Método virtual que determina en una colisión quien está a la LEFT y quien a la RIGHT
-		*/
-		bool sentidoColision(const CEntity* entidad1,const CEntity* entidad2);
-
-		bool contactoAngular( CEntity* entidad, CEntity* entidad2);
-
-		bool contactoExtremo( CEntity* entidad1, CEntity* entidad2);
-
+		void heavyAttack();
+	
+			//este metodo devuelve null si no se está ocupando ese grado o la entidad que ocupa ese espacio
+		bool attackPlace(float grado, short base, short ring,bool soloInfo);
 	
 	protected:
-		/**
-			false si en una colisión, está a la LEFT
-		*/
-		bool _sentidoColision;
+
+		float _attackPower;
 		
-		/**
-			false si en una colisión, está a la LEFT
-		*/
-		short _hit;
-
-		CEntity* _excluido;
-
-		bool _comprobando;
+		bool _lightAttack;
 		
-	}; // class CCollider
+		bool _heavyAttack;
 
-	REG_FACTORY(CCollider);
+	}; // class CAttack
+
+	REG_FACTORY(CAttack);
 
 } // namespace Logic
 
-#endif // __Logic_Collider_H
+#endif // __Logic_Attack_H

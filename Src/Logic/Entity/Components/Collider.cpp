@@ -52,6 +52,7 @@ namespace Logic
 
 	bool CCollider::activate()
 	{
+		
 		return true;
 	} // activate
 	
@@ -66,9 +67,9 @@ namespace Logic
 	//---------------------------------------------------------
 
 	bool CCollider::accept(const CMessage *message)
-	{
-		
-		return message->getType() == Message::CONTACT;
+	{		
+		return message->getType() == Message::CONTACT ||
+			 message->getType() == Message::SPACE_REQUEST;//Mensaje que cuestiona quien ocupa un determinado espacio
 	} // accept
 	
 	//---------------------------------------------------------
@@ -81,6 +82,15 @@ namespace Logic
 			//CONTACT();r
 			break;
 		 //PROCESAR EL CONTACT, PARAR A LAS ENTIDADES IMPLICADAS
+		case Message::SPACE_REQUEST:
+			{
+				if (_entity->isPlayer()){
+					CMessageFloat* maux = static_cast<CMessageFloat*>(message);
+					//ocupoEseEspacio(maux->getFloat(),_entity->getRing(), _entity->getBase());
+				}
+			break;
+			}
+		 //PROCESAR EL CONTACT, PARAR A LAS ENTIDADES IMPLICADAS
 		
 		}
 
@@ -89,6 +99,7 @@ namespace Logic
 	//---------------------------------------------------------
 
 	//---------------------------------------------------------
+	
 
 	bool CCollider::contactoAngular( CEntity* entidad1, CEntity* entidad2)
 	{
@@ -304,7 +315,7 @@ namespace Logic
 			{
 				if (_excluido==NULL && ((*it)->getType().compare("Altar")!=0)&& ((*it)->getType().compare("World")!=0))
 				{//lo que hay que  hacer es que no se itere sobre entidades que no tengan componente CCollider, de momento se hace esa comprobación
-					contacto(_entity,(*it));
+					//contacto(_entity,(*it));
  					//_excluido=(*it);
 
 					break;

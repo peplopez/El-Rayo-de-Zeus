@@ -1,5 +1,5 @@
 /**
-@file AngularMovement.h
+@file Jump.cpp
 
 Contiene la declaración del componente que controla el movimiento 
 angular de entidades.
@@ -8,7 +8,7 @@ angular de entidades.
 @see Logic::IComponent
 
 @author José Luis López
-@date Diciembre, 2012
+@date Febrero, 2013
 */
 
 #include "Jump.h"
@@ -55,7 +55,8 @@ namespace Logic
 	bool CJump::accept(const CMessage *message)
 	{//aviso de que tanto accept como process son un poco hack, pero es es solo hasta tener un componente NPCCONTROLLER
 		//return false; //de momento no recibo mensajes,luego lo kito
-		return message->getType() == Message::CONTROL;
+		return message->getType() == Message::CONTROL &&
+					message->getAction() == Message::JUMP;
 	}
 
 		

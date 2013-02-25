@@ -48,7 +48,7 @@ namespace Logic
 		if(entityInfo->hasAttribute("defaultAnimation"))
 		{
 			_defaultAnimation = entityInfo->getStringAttribute("defaultAnimation");
-			_animatedGraphicsEntity->setAnimation(_defaultAnimation,true);
+			_animatedGraphicsEntity->setAnimation(_defaultAnimation,0,true);
 			_animatedGraphicsEntity->setObserver(this);
 		}
 
@@ -85,8 +85,13 @@ namespace Logic
 				// Un control más sofisticado debería permitir interpolación
 				// de animaciones. Galeon no lo plantea.
 				_animatedGraphicsEntity->stopAllAnimations();
-				_animatedGraphicsEntity->setAnimation(maux->getString(),maux->getBool());
+				if (maux->getString().compare("FireAK47")==0)
+					_animatedGraphicsEntity->setAnimation(maux->getString(),0,maux->getBool());
+				else					
+					_animatedGraphicsEntity->setAnimation(maux->getString(),0,maux->getBool());
+				
 				LOG("SET_ANIMATION: " << maux->getString());
+
 				break;
 			case Message::STOP_ANIMATION:
 				_animatedGraphicsEntity->stopAnimation(maux->getString());
@@ -108,7 +113,17 @@ namespace Logic
 
 		// Si acaba una animación y tenemos una por defecto la ponemos
 		_animatedGraphicsEntity->stopAllAnimations();
-		_animatedGraphicsEntity->setAnimation(_defaultAnimation,true);
+		_animatedGraphicsEntity->setAnimation(_defaultAnimation,0,true);
+	}
+
+		
+	void CAnimatedGraphics::animationMomentReached(const std::string &animation)
+	{
+		// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
+		CMessageString *msg = new CMessageString();
+		msg->setType(Message::ANIMATION_MOMENT);
+		msg->setString(animation);
+		_entity->emitMessage(msg);
 	}
 
 } // namespace Logic

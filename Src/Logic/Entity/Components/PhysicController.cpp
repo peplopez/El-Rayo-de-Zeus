@@ -19,7 +19,7 @@ el mundo físico usando character controllers.
 //#include "Physics/Server.h"
 
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageInt.h" //PeP: sería óptimo enviar un unsigned short???
+#include "Logic/Entity/Messages/MessageShort.h" //PeP: sería óptimo enviar un unsigned short???
 #include "Logic/Entity/Messages/MessageFloat.h"
 
 //#include <PxPhysicsAPI.h>
@@ -95,9 +95,9 @@ void CPhysicController::process(CMessage *message)
 			_logicalPosReceived._height=maux->getFloat();
 		} else if(message->getAction()== Message::CHANGE_RING)
 		{
-			CMessageInt* maux = static_cast<CMessageInt*>(message);
+			CMessageShort* maux = static_cast<CMessageShort*>(message);
 			
-			switch (maux->getInt())
+			switch (maux->getShort())
 				{
 					case Logic::LogicalPosition::LOWER_RING:
 					{
@@ -122,8 +122,8 @@ void CPhysicController::process(CMessage *message)
 			}
 		}else if(message->getAction()== Message::CHANGE_BASE)
 		{
-			CMessageInt* maux = static_cast<CMessageInt*>(message);
-			_logicalPosReceived._base= maux->getInt();	
+			CMessageShort* maux = static_cast<CMessageShort*>(message);
+			_logicalPosReceived._base= maux->getShort();	
 		}
 		//PEP: y ahora ya tenemos la posición lógica completa
 		//es posible enviarla entera, enviar _logicalPosReceived, o enviar sólamente lo que haya cambiado respecto al tick anterior

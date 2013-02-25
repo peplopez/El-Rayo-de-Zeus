@@ -55,6 +55,8 @@ namespace Graphics
 		*/
 		virtual void animationFinished(const std::string &animation) {}
 
+		virtual void animationMomentReached(const std::string &animation) {}
+
 	}; // CAnimatedEntityListener
 
 	/**
@@ -99,7 +101,7 @@ namespace Graphics
 		@param loop true si la animación debe reproducirse cíclicamente.
 		@return true si la animación solicitada fue correctamente activada.
 		*/
-		bool setAnimation(const std::string &anim, bool loop);
+		bool setAnimation(const std::string &anim, float moment, bool loop);
 		
 		/**
 		Desactiva una animación a partir de su nombre.

@@ -25,12 +25,13 @@ con animaciones.
 namespace Graphics 
 {
 		
-	bool CAnimatedEntity::setAnimation(const std::string &anim, bool loop)
+	bool CAnimatedEntity::setAnimation(const std::string &anim, float moment, bool loop)
 	{
 		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
 			return false;
 		_currentAnimation = _entity->getAnimationState(anim);
 		_currentAnimation->setEnabled(true);
+		_currentAnimation->setTimePosition(moment);
 		_currentAnimation->setLoop(loop);
 		return true;
 
@@ -81,7 +82,6 @@ namespace Graphics
 
 	//--------------------------------------------------------
 	
-	
 	void CAnimatedEntity::tick(float secs)
 	{
 		if(_currentAnimation)
@@ -89,8 +89,12 @@ namespace Graphics
 			_currentAnimation->addTime(secs);
 			// Comprobamos si la animaci?n ha terminado para avisar
 			if(_observer && _currentAnimation->hasEnded())
-				_observer->animationFinished
-							(_currentAnimation->getAnimationName());
+				_observer->animationFinished(_currentAnimation->getAnimationName());
+
+
+			if(_observer && _currentAnimation->getAnimationName().compare("FireKatana")==0)
+				if (_currentAnimation->getTimePosition()>0.6 && _currentAnimation->getTimePosition()<0.8)
+				_observer->animationMomentReached("FireKatana");
 		}
 
 	} // tick

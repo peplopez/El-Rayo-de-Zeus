@@ -46,7 +46,8 @@ namespace Logic
 	bool CAvatarController::activate()
 	{
 		_sense = _entity->getSense();
-
+		if (!_entity->isPlayer())
+			_walkingRight=true;
 		return true;
 	} // activate
 	
