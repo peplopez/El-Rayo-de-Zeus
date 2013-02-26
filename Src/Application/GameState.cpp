@@ -35,6 +35,8 @@ namespace Application {
 	{
 		CApplicationState::init();
 		
+		//HACK de momento quitamos esto ya que se hace en el init del Physic::CServer
+
 		// Crear la escena física.
 		//Physics::CServer::getSingletonPtr()->setGroupCollisions(1,1,false);
 		//Physics::CServer::getSingletonPtr()->createScene();
