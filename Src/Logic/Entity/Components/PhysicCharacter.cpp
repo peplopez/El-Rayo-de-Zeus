@@ -53,7 +53,7 @@ namespace Logic {
 			_movement._height = static_cast<CMessageFloat*>(message)->getFloat();
 			break;
 
-		case Message::CHANGE_RING:		// TODO FRS por seguridad quizá habría que probar que _ring < MAX del enum
+		case Message::CHANGE_RING:		// TODO ƒ®§ por seguridad quizá habría que probar que _ring < MAX del enum
 			_movement._ring = static_cast<Ring>( static_cast<CMessageInt*>(message)->getInt() );
 			break;
 
