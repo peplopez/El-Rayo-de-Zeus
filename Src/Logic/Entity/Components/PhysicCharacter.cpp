@@ -44,9 +44,6 @@ namespace Logic {
 		case Message::WALK_LEFT:
 		case Message::WALK_RIGHT:
 			_movement._degrees = static_cast<CMessageFloat*>(message)->getFloat();	
-			_movement._sense = 	message->getAction() == Message::WALK_LEFT? 
-							LogicalPosition::LEFT : 
-							LogicalPosition::RIGHT;
 			break;
 
 		case Message::JUMP:

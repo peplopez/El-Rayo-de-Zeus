@@ -28,7 +28,12 @@ namespace Physics
 
 		void CActor::move(const Logic::TLogicalPosition &pos)
 		{
-			_logicPosition  = pos;
+			// HACK cuando tengamos clase de CLogicalPosition -> sobrecargar el + y el +=
+			_logicPosition._base	+= pos._base;
+			_logicPosition._ring	= static_cast<Logic::LogicalPosition::Ring>(_logicPosition._ring + pos._ring);
+			_logicPosition._degrees	+= pos._degrees;
+			_logicPosition._height	+= pos._height;
+			
 		}
 		
 		//--------------------------------------------------------
