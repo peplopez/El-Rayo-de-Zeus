@@ -15,48 +15,16 @@ el mundo físico usando character controllers.
 #include "PhysicCharacter.h"
 
 #include "Logic/Entity/Entity.h"
-#include "Map/MapEntity.h"
-
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageInt.h" // TODO PeP: sería óptimo enviar un unsigned short???
 #include "Logic/Entity/Messages/MessageFloat.h"
 
 #include "Physics/Server.h"
-#include "Physics/Actor.h"
+
 
 namespace Logic {
 
 	IMP_FACTORY(CPhysicCharacter);
-
-	//---------------------------------------------------------
-
-	CPhysicCharacter::CPhysicCharacter() : IComponent(), IObserver(), _physicActor(0), _movement(), _falling(false)
-	{	
-		_server = Physics::CServer::getSingletonPtr();
-	}
-
-	//---------------------------------------------------------
-
-	CPhysicCharacter::~CPhysicCharacter() 
-	{
-		if (_physicActor) {
-			_physicActor->release();
-			_physicActor = 0;
-		}
-		_server = 0;
-	} 
-
-	//---------------------------------------------------------
-
-	bool CPhysicCharacter::spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo)
-	{
-		if(!IComponent::spawn(entity,map,entityInfo)) // Invocar al método de la clase padre
-			return false;
-
-		_physicActor = createActor(entityInfo); // Crear el actor asociado al componente
-
-		return true;
-	}
 
 	//---------------------------------------------------------
 
@@ -72,16 +40,13 @@ namespace Logic {
 	void CPhysicCharacter::process(CMessage *message)
 	{
 		switch( message->getAction() ) {
-
-		// UNDONE ƒ®§: Necesitamos la orientación para alguna comprobación física? => setSense directamente en AvatarController
-		//if(message->getAction() == Message::WALK_LEFT)
-		//_movement._sense=Sense::LEFT;
-		//else
-		//_movement._sense=Sense::RIGHT;
-
-		case Message::WALK_LEFT: 			// TODO Unificar walks en un action WALK a secas?
+			
+		case Message::WALK_LEFT:
 		case Message::WALK_RIGHT:
 			_movement._degrees = static_cast<CMessageFloat*>(message)->getFloat();	
+			_movement._sense = 	message->getAction() == Message::WALK_LEFT? 
+							Sense::LEFT : 
+							Sense::RIGHT;
 			break;
 
 		case Message::JUMP:
@@ -120,7 +85,7 @@ namespace Logic {
 		_entity->setLogicalPosition( _server->getActorLogicPosition(_physicActor) );  
 
 		// TODO Efecto de la gravedad quizá sea necesario..?
-		//if (_falling) {
+		//if (_falling) { // PeP: _entity->getHeight() también nos proporciona la misma info, si es 0 está en el suelo.
 		//	_movement += Vector3(0,-1,0);
 		//}
 
@@ -133,56 +98,7 @@ namespace Logic {
 		_movement = TLogicalPosition(); // Ponemos el movimiento a cero
 	}
 
-	//---------------------------------------------------------
-	
-	Physics::CActor* CPhysicCharacter::createActor(const Map::CEntity *entityInfo)
-	{
-		// Obtenemos la posición de la entidad. 
-		const TLogicalPosition logicPos = _entity->getLogicalPosition();
-	
-		// Leer el ancho del angular box
-		assert(entityInfo->hasAttribute("physicWidth")); 
-		float physicWidth = entityInfo->getFloatAttribute("physicWidth");
 
-		// Leer la altura del angular box
-		assert(entityInfo->hasAttribute("physicHeight"));
-		float physicHeight = entityInfo->getFloatAttribute("physicHeight");
-
-		// Crear el controller de tipo cápsula
-		return _server->createActor(logicPos, physicWidth, physicHeight, false, this);
-	} // createActor 
-	
-	
-
-	//---------------------------------------------------------
-
-
-	//void  CPhysicCharacter::onTrigger (IObserver* other, bool enter) 
-	//{
-	//	// TODO mensaje trigger enter
-
-	//} // onTrigger
-
-	//---------------------------------------------------------
-
-	/*
-	void CPhysicCharacter::onShapeHit (const PxControllerShapeHit &hit)
-	{
-		// Si chocamos contra una entidad estática no hacemos nada
-		PxRigidDynamic* actor = hit.shape->getActor().isRigidDynamic();
-		if(!actor)
-			return;
-
-		// Si chocamos contra una entidad cinemática no hacemos nada
-		if (_server->isKinematic(actor))
-			return;
-	
-		// Aplicar una fuerza a la entidad en la dirección del movimiento
-		actor->addForce(hit.dir * hit.length * 1000.0f);
-	}*/
-	
-	//---------------------------------------------------------
-
-}
+} // Logic
 
 

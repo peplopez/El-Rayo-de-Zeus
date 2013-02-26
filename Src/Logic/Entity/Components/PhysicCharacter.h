@@ -14,14 +14,8 @@ el mundo físico.
 #define __Logic_PhysicCharacter_H
 
 
-#include "Logic/Entity/Component.h"
+#include "Logic/Entity/Components/Physic.h"
 #include "Logic/Entity/LogicalPosition.h"
-#include "Physics/IObserver.h"
-
-namespace Physics{
-	class CServer;
-	class CActor;
-}
 
 
 // Los componentes se definen dentro del namespace Logica
@@ -46,29 +40,13 @@ namespace Logic
 	@author Jose Luis López Sánchez & ƒ®§
 	@date Febrero, 2013
 	*/
-	class CPhysicCharacter : public IComponent, public Physics::IObserver
+	class CPhysicCharacter : public CPhysic
 	{
 		DEC_FACTORY(CPhysicCharacter);
+	
 	public:
 
-		/**
-		Constructor por defecto.
-		*/
-		CPhysicCharacter();
-
-		/**
-		Destructor.
-		*/
-		virtual ~CPhysicCharacter();
-		
-		/**
-		Inicializa el componente usando los atributos definidos en el fichero de mapa.
-		*/
-		virtual bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
-
-		/**
-		Este componente sólo acepta mensajes de tipo AVATAR_WALK.
-		*/
+		/**Este componente sólo acepta mensajes de tipo AVATAR_WALK.*/
 		virtual bool accept(const CMessage *message);
 		
 		/**
@@ -91,46 +69,7 @@ namespace Logic
 		*/
 		virtual void tick(unsigned int msecs);
 
-
-		/**************
-			IOBSERVER
-		***************/
-	
-		// Se invoca cuando se produce una colisión entre una entidad física y un trigger.
-		//void  onTrigger (IObserver* other, bool enter);
-
-		///**
-		//Se invoca cuando se produce una colisión entre un character controller y una entidad física.
-		//*/
-		//void onShapeHit (const physx::PxControllerShapeHit &hit);
-
-		///**
-		//Se invoca cuando se produce una colisión entre dos character controllers.
-		//*/
-		//void onControllerHit (const physx::PxControllersHit &hit);
-
-	private:
-
-		// Servidor de física
-		Physics::CServer *_server;
-
-		// Character controller que representa la entidad física en PhysX
-		//	physx::PxCapsuleController *_controller;
-		Physics::CActor* _physicActor;
-
-		// Estructura de desplazamiento acumulado durante los últimos mensajes de tipo AVATAR_WALK. 
-		Logic::TLogicalPosition _movement;
-
-		// Indica si el character controller esta apoyado sobre una superficie o cayendo.
-		bool _falling;  // PeP: _entity->getHeight() también nos proporciona la misma info, si es 0 está en el suelo.
-
-		///**
-		//Crea el character controller de PhysX que representa la entidad física a partir de la
-		//información del mapa.
-		//*/
-		//physx::PxCapsuleController* createController(const Map::CEntity *entityInfo);
-		Physics::CActor* createActor(const Map::CEntity* entityInfo);
-
+		
 	}; // class CPhysicCharacter
 
 	REG_FACTORY(CPhysicCharacter);

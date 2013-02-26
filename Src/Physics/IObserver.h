@@ -21,8 +21,10 @@ namespace Physics {
 				dependiendode a quién se esté notificando.
 		@param enter True si la entidad entra en el trigger y false si sale. 
 		*/
-		virtual void onTrigger(IObserver* other, bool enter) {};
-		virtual void onCollision(IObserver* other) {};
+
+		virtual ~IObserver() {};
+		virtual void onTrigger(IObserver* other, bool enter) = 0;
+		virtual void onCollision(IObserver* other) = 0;
 	}; // class IObserver
 
 } // namespace Physics

@@ -100,6 +100,10 @@ namespace Physics {
 
 	private:
 
+
+		// Instancia única de la clase.
+		static CServer *_instance;
+
 		/**
 		Constructor de la clase.
 		*/
@@ -109,9 +113,6 @@ namespace Physics {
 		Destructor de la clase.
 		*/
 		virtual ~CServer();
-
-		// Instancia única de la clase.
-		static CServer *_instance;
 
 		// Escena física
 		CScene *_scene;

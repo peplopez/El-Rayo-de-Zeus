@@ -16,8 +16,6 @@ basadas en Ogre. Esta clase maneja la ejecución de todo el juego.
 */
 #include "3DApplication.h"
 
-
-
 #include "BaseSubsystems/Server.h"
 #include "Graphics/Server.h"
 

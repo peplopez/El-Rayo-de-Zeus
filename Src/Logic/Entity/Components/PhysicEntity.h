@@ -16,16 +16,10 @@ Este componente no sirve para representar physic characters.
 #ifndef __Logic_PhysicEntity_H
 #define __Logic_PhysicEntity_H
 
-#include "Logic/Entity/Component.h"
+#include "Logic/Entity/Components/Physic.h"
 #include "Logic/Entity/LogicalPosition.h"
-#include "Physics/IObserver.h"
 
 
-// Predeclaración de tipos
-namespace Physics {
-	class CServer;
-	class CActor;
-}
 
 // Los componentes pertenecen al namespace Logic
 namespace Logic 
@@ -52,82 +46,19 @@ namespace Logic
     @ingroup logicGroup
 
 	@author FRS
-@date 23-02-13
+	@date 23-02-13
 	*/
-	class CPhysicEntity : public IComponent, public Physics::IObserver
+	class CPhysicEntity : public CPhysic
 	{
 		DEC_FACTORY(CPhysicEntity);
 
 	public:
-	
-		/**
-		Constructor por defecto.
-		*/
-		CPhysicEntity();
 
-		/**
-		Destructor. Elimina el objeto físico de la escena y lo destruye. 
-		*/
-		virtual ~CPhysicEntity();
-		
-		/**
-		Inicializa el componente usando los atributos definidos en el fichero de mapa.
-		*/
-		virtual bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
-
-		/**
-		Este componente sólo acepta mensajes de tipo KINEMATIC_MOVE. 
-		Estos mensajes sólo se utilizan para mover entidades de tipo cinemático.
-		*/
-		virtual bool accept(const CMessage *message);
-
-		/**
-		Cuando recibe mensajes de tipo KINEMATIC_MOVE almacena los movimientos para aplicarlos 
-		en el próximo tick sobre la entidad cinemática. Si en un ciclo se reciben varios 
-		mensajes KINEMATIC_MOVE se acumulan. 		*/
-
-		virtual void process(CMessage *message);
-
-		/**
-		Este método se invoca en cada ciclo de la simulación y hace lo siguiente:
-		<ul>
-		<li> Si la entidad física es de tipo estático no hace nada. </li>
-		<li> Si la entidad física es de tipo dinámico actualiza la posición y rotación de 
-		     la entidad lógica usando la información proporcionada por el motor de física. </li>
-		<li> Si la entidad física es de tipo cinemático, además solicita al motor de física
-		     que mueva la entidad de acuerdo al último mensaje KINEMATIC_MOVE recibido. </li>
-		</ul>
-		*/
-// TODO Impl. cuando tengamos dinamicas o cinématicas
-// De momento sólo tenemos estáticas
-		//virtual void tick(unsigned int msecs);
- 
 		/**************
 			IOBSERVER
 		***************/
 		//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
 		virtual void onTrigger (IObserver *other, bool enter);
-
-	private:
-
-		// Servidor de física
-		Physics::CServer* _server;
-
-		// Actor que representa la entidad física
-		Physics::CActor* _physicActor;
-
-		// Vector de deplazamiento recibido en el último mensaje de tipo KINEMATIC_MOVE. Sirve
-		// para mover entidades físicas cinemáticas.
-		TLogicalPosition _movement;
-
-		// Crea el actor que representa la entidad física a partir de la información del mapa.*/
-		Physics::CActor* createActor(const Map::CEntity* entityInfo);
-	
-		//Crea un plano estático a partir de la información de mapa. 
-		//Physics::CActor* createPlane(const Map::CEntity* entityInfo);
-		
-		//Crea una entidad rígida (estática, dinámica o cinemática) a partir de la información de mapa. 
-		Physics::CActor* createRigid(const Map::CEntity* entityInfo);
 
 	}; // class CPhysicEntity
 

@@ -86,6 +86,7 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\CeguiHud.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Death.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Physic.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicCharacter.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicEntity.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\RingTraveler.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Jump.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BaseTraveler.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Death.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Physic.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicCharacter.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicEntity.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\RingTraveler.h" />

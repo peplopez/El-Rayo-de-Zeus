@@ -2,8 +2,13 @@ Map = {
 	Altar = {
 		type = "Altar",
 		model = "altar.mesh",
-		logicInput=true,
-		static = true,
+		logicInput=true,		
+		physicType = "rigid",
+		physicRigidType = "static",
+		physicRigidShape = "square",
+		physicWidth = 2.5,
+		physicHeight = 7.5,
+		physicTrigger = true,
 	},
 	
 	BarraVida = {
