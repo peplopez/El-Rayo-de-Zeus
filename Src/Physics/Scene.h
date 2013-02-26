@@ -63,12 +63,12 @@ namespace Physics
 		/**
 		Despierta la escena
 		*/
-		void activate();
+		bool activate();
 
 		/**
 		Duerme la escena
 		*/
-		void deactivate();
+		bool deactivate();
 		
 		/**
 		Actualiza el estado de la escena cada ciclo.

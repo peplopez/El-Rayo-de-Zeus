@@ -79,6 +79,11 @@ namespace Physics {
 		void destroyScene ();
 
 
+		bool activateScene();
+
+		bool deactivateScene();
+
+
 		//------------------------------
 		// Gestión de entidades simples
 		//------------------------------

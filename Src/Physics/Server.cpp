@@ -114,6 +114,21 @@ namespace Physics {
 		}
 	}
 
+
+	//--------------------------------------------------------
+
+	bool CServer::activateScene()
+	{
+		return _scene->activate();
+	}
+
+	//--------------------------------------------------------
+
+	bool CServer::deactivateScene()
+	{
+		return _scene->deactivate();
+	}
+
 	//--------------------------------------------------------
 
 	void CServer::tick(unsigned int msecs) 

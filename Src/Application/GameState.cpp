@@ -37,7 +37,7 @@ namespace Application {
 		
 		// Crear la escena física.
 		//Physics::CServer::getSingletonPtr()->setGroupCollisions(1,1,false);
-		Physics::CServer::getSingletonPtr()->createScene();
+		//Physics::CServer::getSingletonPtr()->createScene();
 		
 		// Cargamos la ventana que muestra el tiempo de juego transcurrido.
 		//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Time.layout");
