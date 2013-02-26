@@ -11,7 +11,6 @@ Contiene la implementación del servidor de física.
 
 #include "IObserver.h"
 #include "Server.h"
-#include "CollisionManager.h"
 #include "Actor.h"
 #include "Scene.h"
 
