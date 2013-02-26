@@ -61,6 +61,8 @@ namespace Physics {
 		void tick(unsigned int msecs);
 
 
+
+
 		//----------------------
 		// Gestion de la escena
 		//----------------------
@@ -69,7 +71,7 @@ namespace Physics {
 		Crea la escena física. Se asume que sólo existirá una escena física, por lo que 
 		sólo debe invocarse una vez.
 		*/
-		void createScene ();
+		CScene* createScene ();
 
 		/**
 		Destruye la escena física.
@@ -98,7 +100,7 @@ namespace Physics {
 		//void moveActor(Physics::Actor *actor, const float degress);
 		//void moveActor(Physics::CActor *actor, const float degrees, const float height);
 
-	private:
+	protected:
 
 		/**
 		Constructor de la clase.
@@ -109,6 +111,23 @@ namespace Physics {
 		Destructor de la clase.
 		*/
 		virtual ~CServer();
+
+		/**
+		Segunda fase de la construcción del objeto. Sirve para hacer
+		inicializaciones de la propia instancia en vez de inicializaciones 
+		estáticas.
+
+		@return true si todo fue correctamente.
+		*/
+		bool open();
+
+		/**
+		Segunda fase de la destrucción del objeto. Sirve para hacer liberar 
+		los recursos de la propia instancia, la liberación de los recursos 
+		estáticos se hace en Release().
+		*/
+		void close();
+
 
 		// Instancia única de la clase.
 		static CServer *_instance;

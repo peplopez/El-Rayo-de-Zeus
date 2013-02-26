@@ -4,6 +4,9 @@ Map = {
 		model = "altar.mesh",
 		logicInput=true,
 		static = true,
+		physicWidth = 5,
+		physicHeight = 5,
+		
 	},
 	
 	BarraVida = {
