@@ -12,7 +12,6 @@ Contiene la implementación del servidor de física.
 
 
 #include "IObserver.h"
-#include "CollisionManager.h"
 #include "Actor.h"
 #include "Scene.h"
 
@@ -27,18 +26,33 @@ namespace Physics {
 
 	//--------------------------------------------------------
 
-	CServer::CServer() :  _scene(NULL) {} 
+	CServer::CServer() :  _scene(NULL) 
+	{
+		assert(!_instance && "Segunda inicialización de Graphics::CServer no permitida!");
+
+		_instance = this;
+	} 
 
 	//--------------------------------------------------------
 
-	CServer::~CServer() {} 
+	CServer::~CServer() 
+	{
+		assert(_instance);
+
+		_instance = 0;
+	} 
 
 	//--------------------------------------------------------
 
 	bool CServer::Init() 
 	{
-		if (!_instance) {
-			_instance = new CServer();
+		assert(!_instance && "Segunda inicialización de Physics::CServer no permitida!");
+
+		new CServer();
+
+		if (!_instance->open()) {
+			Release();
+			return false;
 		}
 
 		return true;
@@ -49,19 +63,43 @@ namespace Physics {
 	void CServer::Release()
 	{
 		if(_instance) {
+			
+			_instance->close();
 			delete _instance;
-			_instance = NULL;
 		}
 	} 
 
 	//--------------------------------------------------------
 
-	void CServer::createScene ()
+	bool CServer::open()
+	{
+
+		_scene = createScene();		
+
+		return true;
+
+	} // open
+
+	//--------------------------------------------------------
+
+	void CServer::close() 
+	{
+		if(_scene)
+		{
+			_scene->deactivate();
+			_scene = 0;
+		}
+	} // close
+
+	//--------------------------------------------------------
+
+	CScene* CServer::createScene ()
 	{
 		assert(_instance);
 	
 		// Crear la escena física
-		_scene = new CScene();
+		CScene *scene = new CScene();
+		return scene;
 	}
 
 	//--------------------------------------------------------

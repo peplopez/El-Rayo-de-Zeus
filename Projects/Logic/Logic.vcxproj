@@ -101,6 +101,7 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageShort.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageString.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageTF.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageUInt.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageV3.cpp" />
     <ClCompile Include="..\..\Src\Logic\GameNetMsgManager.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump.cpp" />

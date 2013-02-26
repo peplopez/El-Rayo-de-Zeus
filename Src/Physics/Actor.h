@@ -37,7 +37,6 @@ namespace Physics
 		CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
 					bool trigger, IObserver *component);
 
-		~CActor();
 
 		void setLogicPos(const Logic::TLogicalPosition &position) {_logicPosition=position;}
 		Logic::TLogicalPosition &getLogicPos() {return _logicPosition;}

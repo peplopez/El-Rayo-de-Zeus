@@ -36,8 +36,8 @@ namespace Physics
 		bool CActor::intersects(CActor *otherActor, float &x, float &y)
 		{
 			
-			float x = 0;
-			float y = 0;
+			x = 0;
+			y = 0;
 			float xCenterDistance = _logicPosition._degrees - otherActor->getLogicPos()._degrees;
 			float yCenterDistance = 0;
 			if (xCenterDistance > 180) //
@@ -67,13 +67,6 @@ namespace Physics
 				return true;
 			}
 
-		}
-
-		//--------------------------------------------------------
-		
-		Logic::TLogicalPosition& CActor::getGlobalPose()
-		{
-			return _logicPosition;
 		}
 		
 		//--------------------------------------------------------

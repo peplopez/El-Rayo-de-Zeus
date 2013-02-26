@@ -40,7 +40,7 @@ namespace Application {
 		Physics::CServer::getSingletonPtr()->createScene();
 		
 		// Cargamos la ventana que muestra el tiempo de juego transcurrido.
-		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Time.layout");
+		//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Time.layout");
 		//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
 		//_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
 
