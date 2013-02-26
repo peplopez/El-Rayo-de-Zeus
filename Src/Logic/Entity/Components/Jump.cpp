@@ -92,7 +92,7 @@ namespace Logic
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
 				m->setAction(Logic::Message::JUMP);
-				m->setFloat(_entity->getHeight()+(_jumpPower+_gravity)*msecs);
+				m->setFloat(_jumpPower+_gravity*msecs);
 				_entity->emitMessage(m);
 
 				_gravity-=0.01;

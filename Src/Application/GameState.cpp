@@ -58,7 +58,7 @@ namespace Application {
 		Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
 		
 		// Liberamos la escena física.
-		Physics::CServer::getSingletonPtr()->destroyScene();
+		//Physics::CServer::getSingletonPtr()->destroyScene();
 
 		CApplicationState::release();
 
