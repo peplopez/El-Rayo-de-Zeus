@@ -71,16 +71,16 @@ namespace Physics
 
 	//--------------------------------------------------------
 
-	void CScene::activate()
+	bool CScene::activate()
 	{
-
+		return true;
 	} // activate
 
 	//--------------------------------------------------------
 
-	void CScene::deactivate()
+	bool CScene::deactivate()
 	{
-
+		return true;
 	} // deactivate
 	
 	//--------------------------------------------------------

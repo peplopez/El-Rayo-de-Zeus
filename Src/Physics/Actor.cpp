@@ -41,6 +41,10 @@ namespace Physics
 		bool CActor::intersects(CActor *otherActor, float &x, float &y)
 		{
 			
+			if (_logicPosition._base != otherActor->getLogicPos()._base)
+				return false;
+			if (_logicPosition._ring != otherActor->getLogicPos()._ring)
+				return false;
 			x = 0;
 			y = 0;
 			float xCenterDistance = _logicPosition._degrees - otherActor->getLogicPos()._degrees;

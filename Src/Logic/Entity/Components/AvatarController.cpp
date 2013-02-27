@@ -151,7 +151,7 @@ namespace Logic
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
 				m->setAction(Logic::Message::WALK_RIGHT);
-				m->setFloat(_entity->getDegree()-_angularSpeed*msecs);
+				m->setFloat(-_angularSpeed*msecs);
 				_entity->emitMessage(m);
 			}
 			//rotar hacia izquierda
@@ -170,7 +170,7 @@ namespace Logic
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
 				m->setAction(Logic::Message::WALK_LEFT);
-				m->setFloat(_entity->getDegree()+_angularSpeed*msecs);
+				m->setFloat(_angularSpeed*msecs);
 				_entity->emitMessage(m);
 			}
 			//rotar hacia derecha

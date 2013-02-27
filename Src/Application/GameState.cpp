@@ -35,9 +35,11 @@ namespace Application {
 	{
 		CApplicationState::init();
 		
+		//HACK de momento quitamos esto ya que se hace en el init del Physic::CServer
+
 		// Crear la escena física.
 		//Physics::CServer::getSingletonPtr()->setGroupCollisions(1,1,false);
-		Physics::CServer::getSingletonPtr()->createScene();
+		//Physics::CServer::getSingletonPtr()->createScene();
 		
 		// Cargamos la ventana que muestra el tiempo de juego transcurrido.
 		//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Time.layout");
@@ -58,7 +60,7 @@ namespace Application {
 		Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
 		
 		// Liberamos la escena física.
-		Physics::CServer::getSingletonPtr()->destroyScene();
+		//Physics::CServer::getSingletonPtr()->destroyScene();
 
 		CApplicationState::release();
 
