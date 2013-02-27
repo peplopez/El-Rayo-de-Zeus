@@ -89,7 +89,11 @@ namespace Logic {
 		// Actualizar la posición y orientación de la entidad lógica 
 		// usando la información proporcionada por el motor de física	
 		// Este a genera  SET_TRANSFORM por debajo que informa al CGraphics
-		_entity->setLogicalPosition( _server->getActorLogicPosition(_physicActor) );  
+
+		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()._degrees - _server->getActorLogicPosition(_physicActor)._degrees));
+		_entity->setLogicalPosition( _server->getActorLogicPosition(_physicActor) ); 
+
+
 
 		// TODO Efecto de la gravedad quizá sea necesario..?
 		//if (_falling) { // PeP: _entity->getHeight() también nos proporciona la misma info, si es 0 está en el suelo.

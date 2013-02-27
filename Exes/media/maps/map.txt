@@ -348,7 +348,7 @@ Map ={
 		type = "Bigdaddy",
 		base=3,
 		ring=1,
-		degrees=240,		
+		degrees=40,		
 	},	
 	
 	bioshockLOGICO74 = {
