@@ -22,6 +22,16 @@ el mundo físico usando character controllers.
 #include "Physics/Server.h"
 
 
+
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "LOGIC::PHYSIC_CHARACTER>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
+
+
 namespace Logic {
 
 	IMP_FACTORY(CPhysicCharacter);
@@ -60,6 +70,7 @@ namespace Logic {
 
 		} // switch message action
 
+		LOG("Movement = " << _movement._base << ":" << (unsigned int) _movement._ring << ":" << _movement._degrees << ":" << _movement._height );
 			//PEP: y ahora ya tenemos la posición lógica completa
 			//es posible enviarla entera, enviar _logicalPosReceived, o enviar sólamente lo que haya cambiado respecto al tick anterior
 			//eso se conseguiría de varias maneras, la primera que se me ocurre es guardar la posición lógica anterior con la que se 
