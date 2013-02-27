@@ -344,13 +344,6 @@ Map ={
 	},
 	
 	
-	bioshockLOGICO73 = {
-		type = "Bigdaddy",
-		base=3,
-		ring=1,
-		degrees=40,		
-	},	
-	
 	bioshockLOGICO74 = {
 		type = "Bigdaddy",
 		base=3,

@@ -47,6 +47,11 @@ namespace Physics
 
 			if (_logicPosition._height < 0)
 				_logicPosition._height = 0;
+			
+			if (_logicPosition._degrees < 0)
+				_logicPosition._degrees = 360 + _logicPosition._degrees;
+			else if (_logicPosition._degrees >= 360)
+				_logicPosition._degrees = _logicPosition._degrees - 360;
 		}
 		//--------------------------------------------------------
 
@@ -63,7 +68,7 @@ namespace Physics
 			float yCenterDistance = 0;
 			if (xCenterDistance > 180) //
 				xCenterDistance -= 360;	
-			else if (xCenterDistance < 180)
+			else if (xCenterDistance < -180)
 				xCenterDistance += 360;
 			
 			if (abs(xCenterDistance) > (_boxWidth + otherActor->getBoxWidth()))
@@ -76,16 +81,16 @@ namespace Physics
 				if (abs(xCenterDistance) < (_boxWidth + otherActor->getBoxWidth()))
 					if (xCenterDistance < 0)
 						x = -(_boxWidth + otherActor->getBoxWidth() - abs(xCenterDistance));
-					else
+					else if (xCenterDistance > 0)
 						x = _boxWidth + otherActor->getBoxWidth() - abs(xCenterDistance);
 
-				/*
+			
 				if (abs(yCenterDistance) < (_boxHeight + otherActor->getBoxHeight()))
 					if (yCenterDistance < 0)
 						y = -(_boxHeight + otherActor->getBoxHeight() - abs(yCenterDistance));
-					else
+					else if (yCenterDistance > 0)
 						y = _boxHeight + otherActor->getBoxHeight() - abs(yCenterDistance);
-				*/
+		
 				return true;
 			}
 
