@@ -344,144 +344,18 @@ Map ={
 	},
 	
 	
-	bioshockLOGICO3 = {
-		type = "Bigdaddy",
-		base=1,
-		ring=0,
-		degrees=0,		
-	},	
-	
-	bioshockLOGICO4 = {
-		type = "Bigdaddy",
-		base=0,
-		ring=0,
-		degrees=150,	
-	},	
-
-	bioshockLOGICO7 = {
-		type = "Bigdaddy",
-		base=0,
-		ring=0,
-		degrees=240,
-	},	
-	
-	bioshockLOGICO8 = {
-		type = "Bigdaddy",
-		base=1,
-		ring=0,
-		degrees=270,	
-	},	
-	
-	bioshockLOGICO9 = {
-		type = "Bigdaddy",
-		base=0,
-		ring=2,
-		degrees=0,
-	},	
-	
-	bioshockLOGICO10 = {
-		type = "Bigdaddy",
-		base=0,
-		ring=0,
-		degrees=330,				
-	},	
-		
-	bioshockLOGICO = {
-		type = "Bigdaddy",
-		base=0,
-		ring=1,
-		degrees=90,
-	},	
-	
-	bioshockLOGICO6 = {
-		type = "Bigdaddy",
-		base=0,
-		ring=1,
-		degrees=180,		
-	},	
-	
 	bioshockLOGICO73 = {
 		type = "Bigdaddy",
 		base=3,
-		ring=0,
+		ring=1,
 		degrees=240,		
 	},	
 	
-	bioshockLOGICO83 = {
-		type = "Bigdaddy",
-		base=3,
-		ring=0,
-		degrees=270,			
-	},	
-	
-	bioshockLOGICO93 = {
-		type = "Bigdaddy",
-		base=3,
-		ring=2,
-		degrees=0,		
-	},	
-	
-	bioshockLOGICO103 = {
-		type = "Bigdaddy",
-		base=3,
-		ring=0,
-		degrees=330,		
-	},	
-	
-		
-	bioshockLOGICO333 = {
-		type = "Bigdaddy",
-		base=3,
-		ring=1,
-		degrees=90,		
-	},	
-		
-	bioshockLOGICO63 = {
-		type = "Bigdaddy",
-		base=3,
-		ring=1,
-		degrees=180,		
-	},	
-
 	bioshockLOGICO74 = {
 		type = "Bigdaddy",
-		base=4,
-		ring=0,
-		degrees=240,		
-	},	
-	
-	bioshockLOGICO84 = {
-		type = "Bigdaddy",
-		base=4,
-		ring=0,
-		degrees=270,		
-	},	
-	
-	bioshockLOGICO94 = {
-		type = "Bigdaddy",
-		base=4,
-		ring=2,
-		degrees=0,		
-	},	
-	
-	bioshockLOGICO104 = {
-		type = "Bigdaddy",
-		base=4,
-		ring=0,
-		degrees=330,		
-	},	
-		
-	bioshockLOGICO334 = {
-		type = "Bigdaddy",
-		base=4,
+		base=3,
 		ring=1,
-		degrees=90,		
-	},	
-	
-	bioshockLOGICO64 = {
-		type = "Bigdaddy",
-		base=4,
-		ring=1,
-		degrees=180,		
+		degrees=320,		
 	},		
+
 }

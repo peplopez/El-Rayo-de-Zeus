@@ -79,12 +79,13 @@ namespace Physics
 					else
 						x = _boxWidth + otherActor->getBoxWidth() - abs(xCenterDistance);
 
+				/*
 				if (abs(yCenterDistance) < (_boxHeight + otherActor->getBoxHeight()))
 					if (yCenterDistance < 0)
 						y = -(_boxHeight + otherActor->getBoxHeight() - abs(yCenterDistance));
 					else
 						y = _boxHeight + otherActor->getBoxHeight() - abs(yCenterDistance);
-
+				*/
 				return true;
 			}
 

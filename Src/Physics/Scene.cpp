@@ -19,6 +19,7 @@
 
 #include <algorithm>
 #include <assert.h>
+#include <iostream>
 
 
 
@@ -95,6 +96,7 @@ namespace Physics
 			for (int j = i + 1; j < _actors.size(); ++j)
 				if ( _actors[i]->intersects(_actors[j], x, y) )
 				{
+					std::cout << "Colision" << std::endl;
 					if (!(_actors[i]->isTrigger() || _actors[j]->isTrigger()))
 					{
 						updateLogicPosition(_actors[i], _actors[j], x, y);
