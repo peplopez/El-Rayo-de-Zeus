@@ -151,6 +151,9 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageChar.cpp">
       <Filter>Entity\Messages\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump2.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Maps\ComponentFactory.h">
@@ -277,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageChar.h">
       <Filter>Entity\Messages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Jump2.h">
+      <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
