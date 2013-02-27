@@ -66,15 +66,15 @@ namespace Logic
 		virtual void process(CMessage *message);
 
 		
-		/**
-		Provoca que la entidad baje de anillo. Conlleva un cambio del eje de giro en su coordenada y
-		*/
-		void goDown();
+		///** UNDONE ƒ®§
+		//Provoca que la entidad baje de anillo. Conlleva un cambio del eje de giro en su coordenada y
+		//*/
+		//void goDown();
 
-		/**
-		Provoca que la entidad suba de anillo. Conlleva un cambio del eje de giro en su coordenada y
-		*/
-		void goUp();
+		///**
+		//Provoca que la entidad suba de anillo. Conlleva un cambio del eje de giro en su coordenada y
+		//*/
+		//void goUp();
 
 		/**
 		Método llamado en cada frame que actualiza el estado del componente.

@@ -56,6 +56,7 @@ namespace Physics
 		void release();
 
 		void move(const Logic::TLogicalPosition &pos);
+		void move(const float degrees, const float height, const char ring, const char base);
 
 		bool intersects(CActor *otherActor, float &degrees, float &height);
 

@@ -16,7 +16,7 @@ el mundo físico usando character controllers.
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageInt.h" // TODO PeP: sería óptimo enviar un unsigned short???
+#include "Logic/Entity/Messages/MessageChar.h" // TODO PeP: sería óptimo enviar un unsigned short???
 #include "Logic/Entity/Messages/MessageFloat.h"
 
 #include "Physics/Server.h"
@@ -53,24 +53,23 @@ namespace Logic {
 			
 		case Message::WALK_LEFT:
 		case Message::WALK_RIGHT:
-			_movement._degrees = static_cast<CMessageFloat*>(message)->getFloat();	
+			_movDegrees = static_cast<CMessageFloat*>(message)->getFloat();	
 			break;
-
 		case Message::JUMP:
-			_movement._height = static_cast<CMessageFloat*>(message)->getFloat();
+			_movHeight = static_cast<CMessageFloat*>(message)->getFloat();
 			break;
-
-		case Message::CHANGE_RING:		// TODO ƒ®§ por seguridad quizá habría que probar que _ring < MAX del enum
-			_movement._ring = static_cast<Ring>( static_cast<CMessageInt*>(message)->getInt() );
+		case Message::CHANGE_RING:		// TODO ƒ®§ por seguridad quizá habría que probar que _ring < MAX del enum --> asserts!
+			_movRing = static_cast<CMessageChar*>(message)->getChar();
 			break;
-
 		case Message::CHANGE_BASE:
-			_movement._base= static_cast<CMessageInt*>(message)->getInt();	
+			_movBase = static_cast<CMessageChar*>(message)->getChar();	
 			break;
 
 		} // switch message action
 
-		LOG("Movement = " << _movement._base << ":" << (unsigned int) _movement._ring << ":" << _movement._degrees << ":" << _movement._height );
+		LOG("Movement = " << (int) _movBase << ":" << (int) _movRing  << ":" << _movDegrees << ":" << _movHeight );
+		// UNDONE_movement._base << ":" << (int) _movement._ring << ":" << _movement._degrees << ":" << _movement._height );
+
 			//PEP: y ahora ya tenemos la posición lógica completa
 			//es posible enviarla entera, enviar _logicalPosReceived, o enviar sólamente lo que haya cambiado respecto al tick anterior
 			//eso se conseguiría de varias maneras, la primera que se me ocurre es guardar la posición lógica anterior con la que se 
@@ -98,12 +97,17 @@ namespace Logic {
 		//}
 
 		// Intentamos mover el actor según los AVATAR_MOVE acumulados. 
-		 _server->moveActor(_physicActor, _movement); // TODO añadir msecs);
+		 _server->moveActor(_physicActor, _movDegrees, _movHeight, _movRing, _movBase); //_movement); // TODO añadir msecs);
 
 		// TODO Actualizamos el flag que indica si estamos cayendo
 		//_falling =  !(flags & PxControllerFlag::eCOLLISION_DOWN);
 		
-		_movement = TLogicalPosition(); // Ponemos el movimiento a cero
+		//UNDONE_movement = TLogicalPosition(); // Ponemos el movimiento a cero
+		
+		_movDegrees = 0;
+		_movHeight = 0;
+		_movRing = 0;
+		_movBase = 0;
 	}
 
 

@@ -129,9 +129,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageShort.cpp">
-      <Filter>Entity\Messages\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\CeguiHud.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
@@ -146,6 +143,12 @@
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageUInt.cpp">
+      <Filter>Entity\Messages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageUShort.cpp">
+      <Filter>Entity\Messages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageChar.cpp">
       <Filter>Entity\Messages\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -257,9 +260,6 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\CeguiHud.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageShort.h">
-      <Filter>Entity\Messages\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicCharacter.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
@@ -271,6 +271,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Physic.h">
       <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageUShort.h">
+      <Filter>Entity\Messages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageChar.h">
+      <Filter>Entity\Messages\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

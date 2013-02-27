@@ -1,35 +1,35 @@
 /**
-@file MessageShort.cpp
+@file MessageChar.cpp
 
 Contiene definición de funciones de serialización y deserialización de mensajes.
 
-@see Logic::CMessageShort
+@see Logic::CMessageChar
 
 @author Emilio Santalla Comellas
 */
 
 
-#include "MessageShort.h"
+#include "MessageChar.h"
 
 
 namespace Logic 
 {
-	IMP_MFACTORY(CMessageShort);
+	IMP_MFACTORY(CMessageChar);
 
-	void CMessageShort::serialize(Net::CBuffer &data)
+	void CMessageChar::serialize(Net::CBuffer &data)
 	{
 		CMessage::serialize(data);
-		data.write((void*) (&_short),	sizeof(_short));
+		data.write((void*) (&_char),	sizeof(_char));
 					
 	} // serialize
 	
 	//---------------------------------------------------------
 
-	void CMessageShort::deserialize(Net::CBuffer &data)
+	void CMessageChar::deserialize(Net::CBuffer &data)
 	{
 
 		CMessage::deserialize(data);
-		data.read(&_short,  sizeof(_short));
+		data.read(&_char,  sizeof(_char));
 			
 	} // deserialize
 

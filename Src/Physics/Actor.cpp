@@ -28,14 +28,23 @@ namespace Physics
 
 		void CActor::move(const Logic::TLogicalPosition &pos)
 		{
-			// HACK FRS cuando tengamos clase de CLogicalPosition -> sobrecargar el + y el +=
-			_logicPosition._base	 = pos._base; // TODO +=
-			_logicPosition._ring	 = pos._ring;// TODO FRS static_cast<Logic::LogicalPosition::Ring>(_logicPosition._ring + pos._ring);
-			_logicPosition._degrees	+= pos._degrees;
-			_logicPosition._height	+= pos._height;
+			// UNDONE
+			//// HACK FRS cuando tengamos clase de CLogicalPosition -> sobrecargar el + y el +=
+			//_logicPosition._base	+= pos._base; 
+			////_logicPosition._ring	= static_cast<Logic::LogicalPosition::Ring>(_logicPosition._ring + pos._ring);
+			//_logicPosition._degrees	+= pos._degrees;
+			//_logicPosition._height	+= pos._height;
 			
 		}
 		
+		void CActor::move(const float degrees, const float height, const char ring, const char base)
+		{		
+			// HACK aquí habría que recurrir a los setter securizados de logicPosition
+			_logicPosition._degrees	+= degrees;
+			_logicPosition._height	+= height;			
+			_logicPosition._ring	= static_cast<Logic::LogicalPosition::Ring>(_logicPosition._ring + ring);		
+			_logicPosition._base	+= base; 
+		}
 		//--------------------------------------------------------
 
 		bool CActor::intersects(CActor *otherActor, float &x, float &y)

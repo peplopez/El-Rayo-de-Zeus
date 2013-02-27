@@ -74,7 +74,13 @@ namespace Logic
 
 		// Vector de deplazamiento recibido en los últimos mensajes de tipo MOVE.
 		// Sirve para mover entidades físicas cinemáticas y de character.
-		TLogicalPosition _movement;
+	//  UNDONE
+	// TLogicalPosition _movement; No nos sirve para diferencias negativas
+
+		char _movBase;
+		char _movRing;
+		float _movDegrees;
+		float _movHeight;
 
 		// Crea el actor que representa la entidad física a partir de la información del mapa.*/
 		virtual Physics::CActor* createActor(const Map::CEntity* entityInfo);

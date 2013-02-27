@@ -10,16 +10,23 @@ gráfica de la entidad.
 @author Jose Luis López Sánchez
 @date Febrero, 2013
 */
+
 #include "Logic/Entity/Entity.h"
-//#include "Logic/Maps/Map.h"
-//#include "Map/MapEntity.h"
+
 #include "Logic/Entity/Components/BaseTraveler.h"
 
 #include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageChar.h"
+#include "Logic/Entity/Messages/MessageUShort.h"
 #include "Logic/Entity/Messages/MessageString.h"
-#include "Logic/Entity/Messages/MessageFloat.h"
-#include "Logic/Entity/Messages/MessageInt.h"
-#include "Logic/Entity/Messages/MessageShort.h"
+
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "LOGIC::BASE_TRAVELER>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 namespace Logic 
 {
@@ -60,49 +67,53 @@ namespace Logic
 	void CBaseTraveler::process(CMessage *message)
 	{
 		CRingTraveler::process(message);
-		CMessageShort *maux = static_cast<CMessageShort*>(message);
+		CMessageUShort *maux = static_cast<CMessageUShort*>(message); // TODO FRS esto podría ser char...
 		switch(message->getType())
 		{
 		case Message::CONTROL:
 			if(message->getAction() == Message::CHANGE_BASE)
-				CBaseTraveler::changeBase(maux->getShort());		
+				CBaseTraveler::changeBase(maux->getUShort());		
 		}
 
 	} // process
 
 			
-		void CBaseTraveler::changeBase(int base)
-		{
-			_changingBase=true;
+	void CBaseTraveler::changeBase(int base)
+	{
+		_changingBase=true;
 
-				CMessageInt *m = new CMessageInt();	
+			CMessageChar *m = new CMessageChar();	
 				m->setType(Message::AVATAR_MOVE);
 				m->setAction(Message::CHANGE_BASE);
-				m->setInt(base);
-				_entity->emitMessage(m,this);
-			/*	if (_entity->getRing()==Ring::UPPER_RING)
-				{
-					_entity->setBase(base);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				}
-				if (_entity->getRing()==Ring::CENTRAL_RING)
-				{
-					_entity->setBase(base);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				}
-				if (_entity->getRing()==Ring::LOWER_RING)
-				{
-					_entity->setBase(base);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				}*/
+				m->setChar( base - (int) _entity->getBase() ); // ƒ®§ Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
+			_entity->emitMessage(m,this);
 
-		}
+		LOG("Change Base from " << _entity->getBase() << " to " << base );
+
+			// UNDONE
+		/*	if (_entity->getRing()==Ring::UPPER_RING)
+			{
+				_entity->setBase(base);
+				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
+				_entity->setPosition(newPosition);
+			}
+			if (_entity->getRing()==Ring::CENTRAL_RING)
+			{
+				_entity->setBase(base);
+				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
+				_entity->setPosition(newPosition);
+			}
+			if (_entity->getRing()==Ring::LOWER_RING)
+			{
+				_entity->setBase(base);
+				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
+				_entity->setPosition(newPosition);
+			}*/
+
+	}
 
 
-		void CBaseTraveler::tick(unsigned int msecs)
+	void CBaseTraveler::tick(unsigned int msecs)
 	{
 			//CRingTraveler::tick(msecs);
 			IComponent::tick(msecs);

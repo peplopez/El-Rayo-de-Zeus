@@ -103,7 +103,7 @@ namespace Physics {
 
 		// UNDONE ƒ®§ En principio no haría falta sobrecarga, si desde el CPhysicCharacter tenemos el  TLogical entero y esto es una simple llamada (no mensaje)
 		//void moveActor(Physics::Actor *actor, const float degress);
-		//void moveActor(Physics::CActor *actor, const float degrees, const float height);
+		void moveActor(Physics::CActor *actor, const float degrees, const float height, const char ring, const char base);
 
 	protected:
 

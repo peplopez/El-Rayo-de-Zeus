@@ -25,7 +25,7 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	CPhysic::CPhysic() : IComponent(), IObserver(), _physicActor(0), _movement()
+	CPhysic::CPhysic() :_physicActor(0), _movDegrees(0), _movHeight(0), _movRing(0), _movBase(0)
 	{
 		_server = Physics::CServer::getSingletonPtr();
 	}
@@ -62,11 +62,11 @@ namespace Logic {
 	
 		// Leer el ancho del angular box
 		assert(entityInfo->hasAttribute("physicWidth")); 
-		float physicWidth = entityInfo->getFloatAttribute("physicWidth");
+		const float physicWidth = entityInfo->getFloatAttribute("physicWidth");
 
 		// Leer la altura del angular box
 		assert(entityInfo->hasAttribute("physicHeight"));
-		float physicHeight = entityInfo->getFloatAttribute("physicHeight");
+		const float physicHeight = entityInfo->getFloatAttribute("physicHeight");
 
 		// TRIGGER: Leer si es un trigger (por defecto no)
 		// TODO barajar si los character pueden actuar como triggers en algún caso...

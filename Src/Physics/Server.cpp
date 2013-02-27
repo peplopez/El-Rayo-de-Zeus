@@ -192,4 +192,12 @@ namespace Physics {
 		actor->move(pos);
 	}
 
+	// FRS Necesario para pasar posiciones relativas negativas (TLogicalPosition nos restringe a unsigned's)
+	void CServer::moveActor(CActor *actor, const float degrees, const float height, const char ring, const char base)
+	{
+		assert(actor);
+		// Mover el actor tras transformar el destino a coordenadas lógicas
+		actor->move(degrees, height, ring, base);
+	}
+
 }
