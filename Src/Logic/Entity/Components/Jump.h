@@ -47,7 +47,7 @@ namespace Logic
 		defecto.
 		*/
 		// Pablo. Añadido la inicialización de _jumping y _timeJumping
-		CJump() : IComponent(), _jumping(false),_jumpPower(0),_initialGravity(0),_gravity(0.01){}
+		CJump() : IComponent(), _jumping(false),_jumpPower(0),_initialGravity(0),_gravity(0.01), _justJumped(false){}
 		// divididio entre 32
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -129,6 +129,8 @@ namespace Logic
 		float _jumpPower;
 		
 		bool _jumping;
+
+		bool _justJumped;
 
 
 	}; // class CJump

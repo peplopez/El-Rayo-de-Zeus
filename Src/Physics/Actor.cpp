@@ -44,6 +44,9 @@ namespace Physics
 			_logicPosition._height	+= height;			
 			_logicPosition._ring	= static_cast<Logic::LogicalPosition::Ring>(_logicPosition._ring + ring);		
 			_logicPosition._base	+= base; 
+
+			if (_logicPosition._height < 0)
+				_logicPosition._height = 0;
 		}
 		//--------------------------------------------------------
 
