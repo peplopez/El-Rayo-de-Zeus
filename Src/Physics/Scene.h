@@ -28,9 +28,8 @@ namespace Physics
 	{
 	public:
 
-
-		void addActor(CActor *actor);
 		void addActor(CActorTrigger* actor);
+		void addActor(CActor *actor);
 
 		//bool addStaticActor(Physics::CStaticActor *actor);
 

@@ -45,17 +45,19 @@ namespace Physics
 
 	//--------------------------------------------------------
 
-	void CScene::addActor(CActor* actor)
-	{
-		_actors.push_back(actor);
-
-	} // addActor
-
+	// TODO FRS hacerlas inline? 
 	void CScene::addActor(CActorTrigger* actor)
 	{
 		_triggers.push_back(actor);
 
 	} // addActor
+
+	void CScene::addActor(CActor* actor)
+	{
+		_actors.push_back(actor);
+	} // addActor
+
+	
 
 	//--------------------------------------------------------
 
@@ -131,7 +133,7 @@ namespace Physics
 			for (size_t j = i + 1; j < _actors.size(); ++j)
 				if ( _actors[i]->intersects(_actors[j], x, y) )
 				{		
-					LOG("Colision")
+					LOG("Collision")
 					updateLogicPosition(_actors[i], _actors[j], x, y);
 					_actors[i]->getIObserver()->onCollision(_actors[j]->getIObserver());
 					_actors[j]->getIObserver()->onCollision(_actors[i]->getIObserver());	

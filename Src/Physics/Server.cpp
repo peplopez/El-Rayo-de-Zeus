@@ -139,13 +139,17 @@ namespace Physics {
 		bool isTrigger, IObserver *component) 
 	{
 		assert(_scene);
-		Physics::CActor *actor = isTrigger?
-			new Physics::CActorTrigger(position, angularWidth, height, isTrigger, component) :
-			new Physics::CActor(position, angularWidth, height, isTrigger, component);		
 
+		if(isTrigger)  {
+			Physics::CActor *actor = new Physics::CActor(position, angularWidth, height, isTrigger, component);
 			_scene->addActor(actor); // Añadir el actor a la escena
+			return actor;
 
-		return actor;
+		} else {
+			Physics::CActorTrigger *actor =	new Physics::CActorTrigger(position, angularWidth, height, isTrigger, component);
+			_scene->addActor(actor); // Añadir el actor a la escena
+			return actor;
+		}
 	}
 
 
