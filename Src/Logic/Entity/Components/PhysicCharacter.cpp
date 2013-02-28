@@ -128,9 +128,10 @@ namespace Logic {
 
 		#if DEBUG
 			if(enter)
-				LOG("Hora estoy dentro")
+				LOG(_entity->getName() << ": \"Hora estoy dentro de " << static_cast<CPhysic*>(other)->getEntity()->getName() << "\"")
 			else
-				LOG("Hora estoy fuera")
+				LOG(_entity->getName() << ": \"Hora estoy fuera  de " << static_cast<CPhysic*>(other)->getEntity()->getName() << "\"")
+
 		#endif
 	}
 
