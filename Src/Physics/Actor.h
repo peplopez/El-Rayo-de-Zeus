@@ -28,6 +28,11 @@ namespace Physics
 
 namespace Physics
 {
+	/**
+	Tipos para el vector de actores (a mejorar)
+	*/
+	typedef std::vector<CActor*> TActorVector;
+	
 
 	class CActor
 	{
@@ -35,9 +40,26 @@ namespace Physics
 
 		CActor();
 		CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
-					bool trigger, IObserver *component);
+					bool isTrigger, IObserver *component);
+		virtual ~CActor();
 
+		virtual void release(); // TODO FRS con hacerlo virtual ya se ejecuta el delete sobre el this del hijo o hay que impl en el hijo?
+								// Es más, es necesario hacer el delete sobre el hijo, o el del padre ya lanzaria el destructor del hijo?
+		
+		// UNDONE RS si la clase CLogicalPos no va admitir valores negativos, nunca podremos implementar el move asin
+		//void move(const Logic::TLogicalPosition &pos);  
+		
+		void move(const float degrees, const float height, const char ring, const char base);
 
+		bool intersects(CActor *otherActor, float &degrees, float &height);
+
+		// UNDONE FRS Ya tenemos el getLogicPos que hace exactamente lo mismo 
+		//Logic::TLogicalPosition& getGlobalPose() {return _logicPosition;}
+
+		
+		/************************
+			GETTER's & SETTER's
+		************************/
 		void setLogicPos(const Logic::TLogicalPosition &position) {_logicPosition=position;}
 		Logic::TLogicalPosition &getLogicPos() {return _logicPosition;}
 
@@ -47,20 +69,11 @@ namespace Physics
 		void setBoxHeight(const float height) {_boxHeight=height;}
 		float getBoxHeight() {return _boxHeight;}
 		
-		void setTrigger(const bool trigger) {_trigger=trigger;}
-		bool isTrigger() {return _trigger;}
+		void setIsTrigger(const bool isTrigger) {_isTrigger = isTrigger;}
+		bool isTrigger() {return _isTrigger;}
 
 		void setIObserver(IObserver* component) {_component=component;}
 		IObserver *getIObserver() {return _component;}
-
-		void release();
-
-		void move(const Logic::TLogicalPosition &pos);
-		void move(const float degrees, const float height, const char ring, const char base);
-
-		bool intersects(CActor *otherActor, float &degrees, float &height);
-
-		Logic::TLogicalPosition& getGlobalPose() {return _logicPosition;}
 
 	protected:
 
@@ -75,7 +88,7 @@ namespace Physics
 		float _boxWidth;
 		float _boxHeight;
 
-		bool _trigger;
+		bool _isTrigger;
 
 		IObserver* _component;
 

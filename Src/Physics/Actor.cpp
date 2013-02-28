@@ -20,22 +20,15 @@
 namespace Physics
 {
 		CActor::CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
-					bool trigger, IObserver *component) : _logicPosition(position), _boxWidth(angularWidth), _boxHeight(height), _trigger(trigger), _component(component)
+					bool isTrigger, IObserver *component) : 
+		_logicPosition(position), _boxWidth(angularWidth), 
+			_boxHeight(height), _isTrigger(isTrigger), _component(component)
 		{
 		}
 
 		//--------------------------------------------------------
 
-		void CActor::move(const Logic::TLogicalPosition &pos)
-		{
-			// UNDONE
-			//// HACK FRS cuando tengamos clase de CLogicalPosition -> sobrecargar el + y el +=
-			//_logicPosition._base	+= pos._base; 
-			////_logicPosition._ring	= static_cast<Logic::LogicalPosition::Ring>(_logicPosition._ring + pos._ring);
-			//_logicPosition._degrees	+= pos._degrees;
-			//_logicPosition._height	+= pos._height;
-			
-		}
+
 		
 		void CActor::move(const float degrees, const float height, const char ring, const char base)
 		{		
@@ -52,7 +45,10 @@ namespace Physics
 				_logicPosition._degrees = 360 + _logicPosition._degrees;
 			else if (_logicPosition._degrees >= 360)
 				_logicPosition._degrees = _logicPosition._degrees - 360;
-		}
+		
+		} // move
+
+
 		//--------------------------------------------------------
 
 		bool CActor::intersects(CActor *otherActor, float &x, float &y)
@@ -75,7 +71,8 @@ namespace Physics
 				return false;
 			else if (abs( yCenterDistance = (_logicPosition._height - otherActor->getLogicPos()._height) ) > (_boxHeight + otherActor->getBoxHeight()))
 				return false;
-			//si hay intersección devuelvo la información de la misma
+
+			// INTERSECCIÓN: devuelvo la información de la misma
 			else
 			{
 				if (abs(xCenterDistance) < (_boxWidth + otherActor->getBoxWidth()))

@@ -76,12 +76,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Physics\Actor.h" />
+    <ClInclude Include="..\..\Src\Physics\ActorTrigger.h" />
     <ClInclude Include="..\..\Src\Physics\IObserver.h" />
     <ClInclude Include="..\..\Src\Physics\Scene.h" />
     <ClInclude Include="..\..\Src\Physics\Server.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\Physics\Actor.cpp" />
+    <ClCompile Include="..\..\Src\Physics\ActorTrigger.cpp" />
     <ClCompile Include="..\..\Src\Physics\Scene.cpp" />
     <ClCompile Include="..\..\Src\Physics\Server.cpp" />
   </ItemGroup>

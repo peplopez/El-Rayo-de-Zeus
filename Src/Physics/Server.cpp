@@ -38,7 +38,6 @@ namespace Physics {
 	CServer::~CServer() 
 	{
 		assert(_instance);
-
 		_instance = 0;
 	} 
 
@@ -54,7 +53,6 @@ namespace Physics {
 			Release();
 			return false;
 		}
-
 		return true;
 	} 
 
@@ -73,11 +71,8 @@ namespace Physics {
 
 	bool CServer::open()
 	{
-
 		_scene = createScene();		
-
 		return true;
-
 	} // open
 
 	//--------------------------------------------------------
@@ -134,24 +129,22 @@ namespace Physics {
 	void CServer::tick(unsigned int msecs) 
 	{
 		assert(_scene);
-
-		// Empezar la simulación física.
-
-		_scene->simulate();
-
+		_scene->simulate(); // Empezar la simulación física.
 	} 
 
 	//--------------------------------------------------------
 
-	Physics::CActor* CServer::createActor(const Logic::TLogicalPosition &position, const float angularWidth, 
-											  const float height, bool isTrigger, IObserver *component) 
+	Physics::CActor* CServer::createActor(
+		const Logic::TLogicalPosition &position, 
+		const float angularWidth, const float height, 
+		bool isTrigger, IObserver *component) 
 	{
 		assert(_scene);
+		Physics::CActor *actor = isTrigger?
+			new Physics::CActorTrigger(position, angularWidth, height, isTrigger, component) :
+			new Physics::CActor(position, angularWidth, height, isTrigger, component);		
 
-		Physics::CActor *actor = new Physics::CActor(position, angularWidth, height, isTrigger, component);
-
-		// Añadir el actor a la escena
-		_scene->addActor(actor);
+			_scene->addActor(actor); // Añadir el actor a la escena
 
 		return actor;
 	}
@@ -161,13 +154,9 @@ namespace Physics {
 
 	void CServer::destroyActor(Physics::CActor *actor)
 	{
-		assert(_scene);
-
-		// Eliminar el actor de la escena
-		_scene->removeActor(actor);
-
-		// Liberar recursos
-		actor->release();
+		assert(_scene);		
+		_scene->removeActor(actor); // Eliminar el actor de la escena
+		actor->release(); // Liberar recursos
 	}
 
 	//--------------------------------------------------------
@@ -175,24 +164,14 @@ namespace Physics {
 	Logic::TLogicalPosition& CServer::getActorLogicPosition(CActor *actor)
 	{
 		assert(actor);
-
-		// Devolver la posición y orientación en coordenadas lógicas
-		return actor->getGlobalPose();
+		return actor->getLogicPos(); // Devolver la posición y orientación en coordenadas lógicas
 	}
 
 	//--------------------------------------------------------
 
-	// TODO ƒ®§ Tomando como ejemplo el moveController del CPhysicController, 
-	// deberíamos añadir msecs como argumento, ¿o no?
-	// TODO ƒ®§ Devolver flags de sucesos? -> p.e  PxControllerFlag::eCOLLISION_DOWN
-	void CServer::moveActor(CActor *actor, const Logic::TLogicalPosition &pos)
-	{
-		assert(actor);
-		// Mover el actor tras transformar el destino a coordenadas lógicas
-		actor->move(pos);
-	}
 
-	// FRS Necesario para pasar posiciones relativas negativas (TLogicalPosition nos restringe a unsigned's)
+	// TODO ƒ®§ Devolver flags / eventos de sucesos? -> p.e  PxControllerFlag::eCOLLISION_DOWN / onFloor(enter/exit)
+	// FRS Necesario para pasar posiciones relativas negativas (TLogicalPosition nos restringía a unsigned's)
 	void CServer::moveActor(CActor *actor, const float degrees, const float height, const char ring, const char base)
 	{
 		assert(actor);

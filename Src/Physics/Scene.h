@@ -13,16 +13,13 @@ de una escena.
 #ifndef __Physics_Scene_H
 #define __Physics_Scene_H
 
-//HACK TOCHO
-
+//HACK TOCHO ?
 
 #include <vector>
 
-// Predeclaración de clases para ahorrar tiempo de compilación
-namespace Physics
-{
-	class CActor;
-}
+#include "Physics/Actor.h"
+#include "Physics/ActorTrigger.h"
+
 
 namespace Physics 
 {
@@ -74,18 +71,22 @@ namespace Physics
 		Actualiza el estado de la escena cada ciclo.
 		*/
 		void simulate();
+		
+	private:
+
+		TActorVector _actors;
+		TTriggerVector _triggers;
+
+		// Componentes de la simulacion
+		void checkCollisions();
+		void checkTriggers();
 
 		/**
 		Corrige la posición de 2 actores que colisionan.
 		*/
-		void updateLogicPosition(Physics::CActor *actor1, Physics::CActor *actor2, float x, float y);
+		void updateLogicPosition(Physics::CActor *actor1, Physics::CActor *actor2, float x, float y);		
 
-		/**
-		Tipos para el vector de actores (a mejorar)
-		*/
-		typedef std::vector<CActor*> TActorVector;
-
-		TActorVector _actors;
+		
 
 	}; // class CScene
 

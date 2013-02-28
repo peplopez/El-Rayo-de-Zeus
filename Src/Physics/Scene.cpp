@@ -12,15 +12,22 @@
 @date Febrero 2013
 */
 
-#include "IObserver.h"
-#include "Scene.h"
-#include "Actor.h"
 #include "Logic/Entity/LogicalPosition.h"
+#include "Physics/IObserver.h"
+#include "Physics/Scene.h"
 
 #include <algorithm>
 #include <assert.h>
 #include <iostream>
 
+
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "PHYSICS::SCENE>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 
 namespace Physics
@@ -89,30 +96,43 @@ namespace Physics
 	
 	void CScene::simulate()
 	{	
-		//WTF!!
-		float x = 0;
-		float y = 0;
-		for (int i = 0; i < _actors.size() - 1; ++i)
-			for (int j = i + 1; j < _actors.size(); ++j)
-				if ( _actors[i]->intersects(_actors[j], x, y) )
-				{
-					std::cout << "Colision" << std::endl;
-					if (!(_actors[i]->isTrigger() || _actors[j]->isTrigger()))
-					{
-						updateLogicPosition(_actors[i], _actors[j], x, y);
-						_actors[i]->getIObserver()->onCollision(_actors[j]->getIObserver());
-						_actors[j]->getIObserver()->onCollision(_actors[i]->getIObserver());
+		checkCollisions();
+		checkTriggers();
 
-					}
-					else
-					{
-						_actors[i]->getIObserver()->onTrigger(_actors[j]->getIObserver(), true);
-						_actors[j]->getIObserver()->onTrigger(_actors[i]->getIObserver(), true);
-					}
-				}
 	} // simulate	
 
 	//--------------------------------------------------------
+
+	void CScene::checkCollisions() {
+
+		//WTF!!
+		float x = 0;
+		float y = 0;
+		for (int i = 0; i < _actors.size() - 1; ++i)	// TODO impl. diferentes listas de colision / triggers
+			for (int j = i + 1; j < _actors.size(); ++j)
+				if ( _actors[i]->intersects(_actors[j], x, y) )
+				{					
+					if ( (_actors[i]->isTrigger() || _actors[j]->isTrigger()))
+					{
+						LOG("Trigger")
+						_actors[i]->getIObserver()->onTrigger(_actors[j]->getIObserver(), true);
+						_actors[j]->getIObserver()->onTrigger(_actors[i]->getIObserver(), true);						
+					}
+					else
+					{
+						LOG("Colision")
+						updateLogicPosition(_actors[i], _actors[j], x, y);
+						_actors[i]->getIObserver()->onCollision(_actors[j]->getIObserver());
+						_actors[j]->getIObserver()->onCollision(_actors[i]->getIObserver());						
+					}
+				}
+	} // checkCollisions
+
+	//--------------------------------------------------------
+
+	void CScene::checkTriggers() {
+
+	}
 
 	void CScene::updateLogicPosition(Physics::CActor *actor1, Physics::CActor *actor2, float x, float y)
 	{

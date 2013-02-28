@@ -18,7 +18,7 @@ Contiene la declaración del servidor de física.
 namespace Physics {
 	class CScene;
 	class CActor;
-	class IObserver;
+	class IObserver;	
 }
 
 
