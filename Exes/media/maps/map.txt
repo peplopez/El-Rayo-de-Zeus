@@ -348,7 +348,7 @@ Map ={
 		type = "Bigdaddy",
 		base=3,
 		ring=1,
-		degrees=320,		
+		degrees=300,		
 	},		
 
 }
