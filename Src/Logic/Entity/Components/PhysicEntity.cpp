@@ -15,38 +15,13 @@ para representar character controllers.
 
 #include "PhysicEntity.h"
 
-#include "Logic/Entity/Entity.h"
-#include "Logic/Entity/Messages/MessageUInt.h"
+
+
 
 
 namespace Logic {
 
 	IMP_FACTORY(CPhysicEntity);
-
-	//---------------------------------------------------------
-
-	void  CPhysicEntity::onTrigger (Physics::IObserver* other, bool enter) 
-	{
-		// Construimos un mensaje de tipo TOUCHED o UNTOUCHED 
-		// y lo enviamos a todos los componentes de la entidad.
-
-		CMessageUInt* txMsg = new CMessageUInt();		
-			txMsg->setType( Message::TRIGGER ); 	
-			txMsg->setAction( 
-				enter ? 
-				Message::TRIGGER_ENTER : 
-				Message::TRIGGER_EXIT
-			);			
-			txMsg->setUInt( static_cast<CPhysic*>(other)->getEntity()->getEntityID() );
-		_entity->emitMessage(txMsg);
-
-		// FRS: Adjuntamos el entityID para aquellos componentes que necesitan
-		// conocer la entidad que ha entrado en este trigger para causarle
-		// su efecto correspondiente (p.e enviarle un LIFE_MODIFIER desde CLifeModifier)
-		// EntityID mejor que CEntity* para evitar que el receptor del mensaje 
-		// se encuentre con un puntero a una entidad borrada (muerta)
-
-	} // onTrigger
 
 	
 	

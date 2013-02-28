@@ -69,6 +69,13 @@ namespace Logic
 		*/
 		virtual void tick(unsigned int msecs);
 
+		/**************
+			IOBSERVER
+		***************/
+		//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
+		virtual void onTrigger(IObserver*, bool);
+		virtual void onCollision(IObserver* other);
+
 		
 	}; // class CPhysicCharacter
 

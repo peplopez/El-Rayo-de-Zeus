@@ -20,7 +20,7 @@ Este componente no sirve para representar physic characters.
 #include "Logic/Entity/LogicalPosition.h"
 
 
-
+// TODO dada la jerarquía actual, CPhysicentity = CPhysic -> necesaria distinción?
 // Los componentes pertenecen al namespace Logic
 namespace Logic 
 {	
@@ -51,14 +51,6 @@ namespace Logic
 	class CPhysicEntity : public CPhysic
 	{
 		DEC_FACTORY(CPhysicEntity);
-
-	public:
-
-		/**************
-			IOBSERVER
-		***************/
-		//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
-		virtual void onTrigger (IObserver *other, bool enter);
 
 	}; // class CPhysicEntity
 

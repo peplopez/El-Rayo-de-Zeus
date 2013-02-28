@@ -15,9 +15,17 @@
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
 
+#include "Logic/Entity/Messages/MessageUInt.h"
 #include "Physics/Server.h"
 #include "Physics/Actor.h"
 
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "LOGIC::PHYSIC>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 namespace Logic {
 
@@ -77,6 +85,34 @@ namespace Logic {
 		// Crear el controller de tipo cápsula
 		return _server->createActor(logicPos, physicWidth, physicHeight, isTrigger, this);
 	} // createActor 
+
+	//---------------------------------------------------------
+
+	void  CPhysic::onTrigger (Physics::IObserver* other, bool enter) 
+	{
+		// Construimos un mensaje de tipo TOUCHED o UNTOUCHED 
+		// y lo enviamos a todos los componentes de la entidad.
+
+		CMessageUInt* txMsg = new CMessageUInt();		
+			txMsg->setType( Message::TRIGGER ); 	
+			txMsg->setAction( 
+				enter ? 
+				Message::TRIGGER_ENTER : 
+				Message::TRIGGER_EXIT
+			);			
+			txMsg->setUInt( static_cast<CPhysic*>(other)->getEntity()->getEntityID() );
+		_entity->emitMessage(txMsg);
+
+
+		// FRS: Adjuntamos el entityID para aquellos componentes que necesitan
+		// conocer la entidad que ha entrado en este trigger para causarle
+		// su efecto correspondiente (p.e enviarle un LIFE_MODIFIER desde CLifeModifier)
+		// EntityID mejor que CEntity* para evitar que el receptor del mensaje 
+		// se encuentre con un puntero a una entidad borrada (muerta)
+
+	} // onTrigger
+
+	
 
 	
 }

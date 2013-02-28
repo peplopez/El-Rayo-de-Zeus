@@ -67,7 +67,7 @@ namespace Logic {
 
 		} // switch message action
 
-		LOG("Movement = " << (int) _movBase << ":" << (int) _movRing  << ":" << _movDegrees << ":" << _movHeight );
+	//	LOG("Movement = " << (int) _movBase << ":" << (int) _movRing  << ":" << _movDegrees << ":" << _movHeight );
 		// UNDONE_movement._base << ":" << (int) _movement._ring << ":" << _movement._degrees << ":" << _movement._height );
 
 			//PEP: y ahora ya tenemos la posición lógica completa
@@ -114,6 +114,25 @@ namespace Logic {
 		_movBase = 0;
 	}
 
+
+	/**************
+		IOBSERVER
+	***************/
+	//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
+	void CPhysicCharacter::onCollision(IObserver* other) {
+		LOG("Auch! Me he chocado!");
+	}
+	void  CPhysicCharacter::onTrigger (Physics::IObserver* other, bool enter) 
+	{
+		CPhysic::onTrigger(other, enter);
+
+		#if DEBUG
+			if(enter)
+				LOG("Hora estoy dentro")
+			else
+				LOG("Hora estoy fuera")
+		#endif
+	}
 
 } // Logic
 
