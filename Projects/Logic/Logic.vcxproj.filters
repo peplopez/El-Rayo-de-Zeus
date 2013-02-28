@@ -144,18 +144,13 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\CeguiHud.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp">
           <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-
-
-        <ClCompile Include="..\..\Src\Logic\Entity\Components\Attack.cpp">
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Attack.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeModifier.cpp">
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
-
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump2.cpp">
