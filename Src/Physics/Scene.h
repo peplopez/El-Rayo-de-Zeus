@@ -29,11 +29,13 @@ namespace Physics
 	public:
 
 
-		void addActor(Physics::CActor *actor);
+		void addActor(CActor *actor);
+		void addActor(CActorTrigger* actor);
 
 		//bool addStaticActor(Physics::CStaticActor *actor);
 
-		void removeActor(Physics::CActor* actor);
+		void removeActor(CActor* actor);
+		void removeActor(CActorTrigger* actor);
 
 		//void removeStaticActor(CStaticActor* actor);
 

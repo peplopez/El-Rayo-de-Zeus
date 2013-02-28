@@ -14,9 +14,6 @@
 
 #include "Actor.h"
 
-
-
-
 namespace Physics
 {
 		CActor::CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
@@ -93,7 +90,18 @@ namespace Physics
 
 		}
 		
+
+		// HACK revisar
+		bool CActor::intersects(CActor *otherActor)
+		{
+			float x = 0;
+			float y = 0;
+			return intersects(otherActor, x, y);
+		}
+
 		//--------------------------------------------------------
+
+
 		void CActor::release()
 		{
 			delete this;

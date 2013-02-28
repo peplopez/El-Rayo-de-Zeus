@@ -28,10 +28,6 @@ namespace Physics
 
 namespace Physics
 {
-	/**
-	Tipos para el vector de actores (a mejorar)
-	*/
-	typedef std::vector<CActor*> TActorVector;
 	
 
 	class CActor
@@ -41,7 +37,7 @@ namespace Physics
 		CActor();
 		CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
 					bool isTrigger, IObserver *component);
-		virtual ~CActor();
+		virtual ~CActor() {}
 
 		virtual void release(); // TODO FRS con hacerlo virtual ya se ejecuta el delete sobre el this del hijo o hay que impl en el hijo?
 								// Es más, es necesario hacer el delete sobre el hijo, o el del padre ya lanzaria el destructor del hijo?
@@ -52,6 +48,7 @@ namespace Physics
 		void move(const float degrees, const float height, const char ring, const char base);
 
 		bool intersects(CActor *otherActor, float &degrees, float &height);
+		bool intersects(CActor *otherActor);
 
 		// UNDONE FRS Ya tenemos el getLogicPos que hace exactamente lo mismo 
 		//Logic::TLogicalPosition& getGlobalPose() {return _logicPosition;}
@@ -94,6 +91,9 @@ namespace Physics
 
 
 	}; // class CActor
+
+
+	typedef std::vector<CActor*> TActorVector;
 
 } // namespace Physics
 

@@ -16,7 +16,6 @@
 #include "Physics/IObserver.h"
 #include "Physics/Scene.h"
 
-#include <algorithm>
 #include <assert.h>
 #include <iostream>
 
@@ -52,12 +51,18 @@ namespace Physics
 
 	} // addActor
 
+	void CScene::addActor(CActorTrigger* actor)
+	{
+		_triggers.push_back(actor);
+
+	} // addActor
+
 	//--------------------------------------------------------
 
 
 	void CScene::removeActor(CActor* actor)
 	{
-		std::vector<CActor*>::iterator position = std::find(_actors.begin(), _actors.end(), actor);
+		TActorVector::iterator position = std::find(_actors.begin(), _actors.end(), actor);
 		if (position != _actors.end())
 		{
 			(*position)->release();
@@ -65,16 +70,30 @@ namespace Physics
 		}
 	} // removeActor
 
+	void CScene::removeActor(CActorTrigger* actor)
+	{
+		TTriggerVector::iterator position = std::find(_triggers.begin(), _triggers.end(), actor);
+		if (position != _triggers.end())
+		{
+			(*position)->release();
+			_triggers.erase(position);
+		}
+	} // removeActor
+
 	//--------------------------------------------------------
 	void CScene::release()
 	{
-		TActorVector::iterator itr = _actors.begin();
-		for ( ; itr != _actors.end(); ++itr) 
-		{
-			(*itr)->release();
-		}
+		TActorVector::iterator aIt = _actors.begin();
+			for ( ; aIt != _actors.end(); ++aIt) {
+				(*aIt)->release();
+			}
+		TTriggerVector::iterator tIt= _triggers.begin();
+			for ( ; tIt != _triggers.end(); ++tIt){
+				(*tIt)->release();
+			}
 
 		_actors.clear();
+		_triggers.clear();
 	}
 
 	//--------------------------------------------------------
@@ -108,31 +127,42 @@ namespace Physics
 		//WTF!!
 		float x = 0;
 		float y = 0;
-		for (int i = 0; i < _actors.size() - 1; ++i)	// TODO impl. diferentes listas de colision / triggers
-			for (int j = i + 1; j < _actors.size(); ++j)
+		for (size_t i = 0; i < _actors.size() - 1; ++i)	
+			for (size_t j = i + 1; j < _actors.size(); ++j)
 				if ( _actors[i]->intersects(_actors[j], x, y) )
-				{					
-					if ( (_actors[i]->isTrigger() || _actors[j]->isTrigger()))
-					{
-						LOG("Trigger")
-						_actors[i]->getIObserver()->onTrigger(_actors[j]->getIObserver(), true);
-						_actors[j]->getIObserver()->onTrigger(_actors[i]->getIObserver(), true);						
-					}
-					else
-					{
-						LOG("Colision")
-						updateLogicPosition(_actors[i], _actors[j], x, y);
-						_actors[i]->getIObserver()->onCollision(_actors[j]->getIObserver());
-						_actors[j]->getIObserver()->onCollision(_actors[i]->getIObserver());						
-					}
+				{		
+					LOG("Colision")
+					updateLogicPosition(_actors[i], _actors[j], x, y);
+					_actors[i]->getIObserver()->onCollision(_actors[j]->getIObserver());
+					_actors[j]->getIObserver()->onCollision(_actors[i]->getIObserver());	
 				}
+
 	} // checkCollisions
 
 	//--------------------------------------------------------
 
 	void CScene::checkTriggers() {
 
-	}
+		for (size_t i = 0; i < _triggers.size(); ++i)	
+			for (size_t j = 0; j < _actors.size(); ++j)
+				
+				if ( _actors[j]->intersects( _triggers[i] ) ) {
+					if( _triggers[i]->enters( _actors[j] ) ) {						
+						LOG("Trigger Enter")
+						_triggers[i]->getIObserver()->onTrigger( _actors[j]->getIObserver(), true);
+						_actors[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), true);	
+					}
+					
+				} else if( _triggers[i]->exits( _actors[j] ) ) {						
+						LOG("Trigger Exit")
+						_triggers[i]->getIObserver()->onTrigger( _actors[j]->getIObserver(), false);
+						_actors[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), false);
+				}
+
+	} // checkTriggers
+
+
+	//--------------------------------------------------------
 
 	void CScene::updateLogicPosition(Physics::CActor *actor1, Physics::CActor *actor2, float x, float y)
 	{

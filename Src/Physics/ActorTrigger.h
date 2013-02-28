@@ -22,7 +22,7 @@ Contiene la declaración de la clase que representa un trigger físico.
 
 namespace Physics
 {
-	typedef std::vector<CActorTrigger*> TTriggerVector;
+	
 
 	class CActorTrigger : public CActor
 	{
@@ -36,15 +36,19 @@ namespace Physics
 		// TODO FRS necesario reimpl para que el delete se ejecute sobre este this y no del padre?
 		// void release();
 
-		void enters(CActor* actor)	{ _actorsOnTrigger.push_back(actor); }; // TODO FRS no sé si me molan estos nombres de métodos... xD
-		void exits(CActor*)			{ _actorsOnTrigger.erase(actor); };
-		bool isOnTrigger(CActor* actor) {}; // TODO
+		bool enters(CActor*); // TODO FRS no sé si me molan estos nombres de métodos... xD
+		bool exits(CActor*);
+		
 		
 	private:
 
 		TActorVector _actorsOnTrigger;
 
+		bool isOnTrigger(CActor* actor);
+
 	}; // class CActorTrigger
+
+	typedef std::vector<CActorTrigger*> TTriggerVector;
 
 } // namespace Physics
 

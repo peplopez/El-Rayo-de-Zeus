@@ -16,15 +16,32 @@
 
 namespace Physics
 {
+	bool CActorTrigger::enters(CActor* actor){
+		
+		if( isOnTrigger(actor) )
+			return false;
 
-	void CActorTrigger::exits(CActor* actor){
+		else {
+			_actorsOnTrigger.push_back(actor);
+			return true;
+		}
+	}
+
+	bool CActorTrigger::exits(CActor* actor){
 
 		std::vector<CActor*>::iterator position = std::find(_actorsOnTrigger.begin(), _actorsOnTrigger.end(), actor);
-			if (position != _actorsOnTrigger.end())
-			{
-				(*position)->release();
+			if (position == _actorsOnTrigger.end()) 
+				return false;	
+			else {
 				_actorsOnTrigger.erase(position);
-			}		
+				return true;
+			}
+	}
+
+
+	bool CActorTrigger::isOnTrigger(CActor* actor) {
+		return std::find(_actorsOnTrigger.begin(), _actorsOnTrigger.end(), actor)
+				!= _actorsOnTrigger.end();
 	}
 
 

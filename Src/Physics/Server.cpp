@@ -10,10 +10,9 @@ Contiene la implementación del servidor de física.
 */
 #include "Server.h"
 
-
-#include "IObserver.h"
-#include "Actor.h"
-#include "Scene.h"
+#include "Physics/IObserver.h"
+#include "Physics/Actor.h"
+#include "Physics/Scene.h"
 
 #include <assert.h>
 
