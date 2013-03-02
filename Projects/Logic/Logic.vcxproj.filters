@@ -38,6 +38,9 @@
     <Filter Include="Entity\Messages\Source Files">
       <UniqueIdentifier>{45a07393-869f-4a94-953d-9236e10ece6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{dfe5f163-eabb-459f-b106-741e79beac7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\Logic\Maps\ComponentFactory.cpp">

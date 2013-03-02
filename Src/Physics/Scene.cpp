@@ -168,12 +168,12 @@ namespace Physics
 
 	void CScene::updateLogicPosition(Physics::CActor *actor1, Physics::CActor *actor2, float x, float y)
 	{
-		if (abs(x) < abs(y))
+		if (abs(x) < abs(y) || y == 0)
 		{
 			if (x < 0)
 			{
 				Logic::TLogicalPosition pos = actor2->getLogicPos();
-				pos._degrees += -x;
+				pos._degrees -= x-0.1;
 				if (pos._degrees > 360)
 					pos._degrees -= 360;
 				actor2->setLogicPos(pos);
@@ -181,10 +181,10 @@ namespace Physics
 			else if (x > 0)
 			{
 				Logic::TLogicalPosition pos = actor2->getLogicPos();
-				pos._degrees -= x;
+				pos._degrees -= x+0.1;
 				if (pos._degrees < 0)
 					pos._degrees += 360;
-				actor1->setLogicPos(pos);
+				actor2->setLogicPos(pos);
 			}
 		}
 		else
