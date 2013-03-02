@@ -64,9 +64,9 @@ namespace Physics
 			else if (xCenterDistance < -180)
 				xCenterDistance += 360;
 			
-			if (abs(xCenterDistance) > (_boxWidth + otherActor->getBoxWidth()))
+			if (abs(xCenterDistance) >= (_boxWidth + otherActor->getBoxWidth()))
 				return false;
-			else if (abs( yCenterDistance = (_logicPosition._height - otherActor->getLogicPos()._height) ) > (_boxHeight + otherActor->getBoxHeight()))
+			else if (abs( yCenterDistance = (_logicPosition._height - otherActor->getLogicPos()._height) ) >= (_boxHeight + otherActor->getBoxHeight()))
 				return false;
 
 			// INTERSECCIÓN: devuelvo la información de la misma
@@ -94,9 +94,25 @@ namespace Physics
 		// HACK revisar
 		bool CActor::intersects(CActor *otherActor)
 		{
-			float x = 0;
-			float y = 0;
-			return intersects(otherActor, x, y);
+			if (_logicPosition._base != otherActor->getLogicPos()._base)
+				return false;
+			if (_logicPosition._ring != otherActor->getLogicPos()._ring)
+				return false;
+
+			float xCenterDistance = _logicPosition._degrees - otherActor->getLogicPos()._degrees;
+			float yCenterDistance = 0;
+			if (xCenterDistance > 180) //
+				xCenterDistance -= 360;	
+			else if (xCenterDistance < -180)
+				xCenterDistance += 360;		
+			if (abs(xCenterDistance) > (_boxWidth + otherActor->getBoxWidth()))
+				return false;
+			else if (abs( yCenterDistance = (_logicPosition._height - otherActor->getLogicPos()._height) ) > (_boxHeight + otherActor->getBoxHeight()))
+				return false;
+
+			// INTERSECCIÓN
+			else
+				return true;
 		}
 
 		//--------------------------------------------------------

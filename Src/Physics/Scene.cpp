@@ -173,7 +173,7 @@ namespace Physics
 			if (x < 0)
 			{
 				Logic::TLogicalPosition pos = actor2->getLogicPos();
-				pos._degrees -= x-0.1;
+				pos._degrees -= x;
 				if (pos._degrees > 360)
 					pos._degrees -= 360;
 				actor2->setLogicPos(pos);
@@ -181,7 +181,7 @@ namespace Physics
 			else if (x > 0)
 			{
 				Logic::TLogicalPosition pos = actor2->getLogicPos();
-				pos._degrees -= x+0.1;
+				pos._degrees -= x;
 				if (pos._degrees < 0)
 					pos._degrees += 360;
 				actor2->setLogicPos(pos);
