@@ -133,7 +133,7 @@ namespace Logic
 		message->setString("IdleKatana");
 		message->setBool(true);
 		_entity->emitMessage(message,this);
-
+		
 	} // stopWalk
 	
 	//---------------------------------------------------------

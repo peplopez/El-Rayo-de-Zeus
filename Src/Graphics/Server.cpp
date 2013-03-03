@@ -187,7 +187,7 @@ namespace Graphics
 		else
 			_activeScene = _dummyScene;
 
-		_activeScene->activate();
+		_activeScene->activate(); 
 
 	} // createScene
 

@@ -38,6 +38,18 @@
     <Filter Include="Entity\Messages\Source Files">
       <UniqueIdentifier>{45a07393-869f-4a94-953d-9236e10ece6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entity\StateMachines">
+      <UniqueIdentifier>{5c1cbd7a-ee3f-409e-8e83-eddcf69b2601}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\LatentActions">
+      <UniqueIdentifier>{2df12090-38d7-4c23-89b7-ba051c0839b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\LatentActions\Header Files">
+      <UniqueIdentifier>{5252d7e9-b3b3-4ca9-b384-79a6e72c9fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\LatentActions\Source Files">
+      <UniqueIdentifier>{c137bdee-12d2-48d9-aa81-1c8c88023f17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\Logic\Maps\ComponentFactory.cpp">
@@ -82,12 +94,6 @@
     <ClCompile Include="..\..\Src\Logic\GameNetMsgManager.cpp" />
     <ClCompile Include="..\..\Src\Logic\Server.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Death.cpp">
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\Collider.cpp">
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\Collider.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\RingTraveler.cpp">
@@ -144,22 +150,35 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\CeguiHud.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp" />
-          <Filter>Entity\Components\Source Files</Filter>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-
-
-        <ClCompile Include="..\..\Src\Logic\Entity\Components\Attack.cpp">
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Attack.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeModifier.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump2.cpp">
       <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\StateMachines\StateMachine.cpp">
+      <Filter>Entity\StateMachines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LatentAction.cpp">
+      <Filter>Entity\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\SimpleLatentActions.cpp">
+      <Filter>Entity\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LAIdle.cpp">
+      <Filter>Entity\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LA_Attack.cpp">
+      <Filter>Entity\LatentActions\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -222,12 +241,6 @@
     <ClInclude Include="..\..\Src\Logic\Entity\RingStruct.h">
       <Filter>Entity\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\Collider.h">
-      <Filter>Entity\Components\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\Collider.h">
-      <Filter>Entity\Components\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\RingTraveler.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
@@ -285,7 +298,7 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageShort.h">
       <Filter>Entity\Messages\Header Files</Filter>
     </ClInclude>
-        <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeModifier.h">
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeModifier.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Attack.h">
@@ -293,6 +306,27 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Jump2.h">
       <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\StateMachines\StateMachine.h">
+      <Filter>Entity\StateMachines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\StateMachines\Condition.h">
+      <Filter>Entity\StateMachines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\SimpleLatentActions.h">
+      <Filter>Entity\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\LAIdle.h">
+      <Filter>Entity\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\LatentAction.h">
+      <Filter>Entity\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\LA_Attack.h">
+      <Filter>Entity\LatentActions\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -34,7 +34,7 @@ Map = {
 		lifeBarHeight = 1.0,
 		model = "marine.mesh",
 		angularSpeed = 0.0325,
-		defaultAnimation = "Idle",
+		defaultAnimation = "IdleKatana",
 		degrees=0,
 		base=3,
 		ring=1,
@@ -44,6 +44,7 @@ Map = {
 		jumpPower = 0.08,
 		gravity = 0.1,
 		lifeBase = 3,
+		behavior="Hercules",
 	},
 	
 }

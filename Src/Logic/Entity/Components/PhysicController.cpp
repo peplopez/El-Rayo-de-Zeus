@@ -112,7 +112,7 @@ void CPhysicController::process(CMessage *message)
 
 
 
-			switch (maux->getInt())
+			switch (maux->getShort())
 			{
 					case Logic::LogicalPosition::LOWER_RING:
 					{
