@@ -17,10 +17,12 @@ Contiene la declaración del gestor de los mensajes de red durante la partida.
 #ifndef __Net_gameNetMsgManager_H
 #define __Net_gameNetMsgManager_H
 
-#include "Net/Manager.h"
 
+#include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Maps/EntityID.h"
+
+#include "Net/IObserver.h"
+
 
 namespace Logic 
 {
@@ -48,7 +50,7 @@ namespace Logic
 	*/
 	// TODO Implementar Net::CManager::IObserver para poder recibir 
 	// paquetes de datos (mensajes de red)
-	class CGameNetMsgManager : public Net::CManager::IObserver
+	class CGameNetMsgManager : public Net::IObserver
 	{
 	public:
 

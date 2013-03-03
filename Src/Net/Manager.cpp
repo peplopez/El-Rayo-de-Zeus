@@ -12,12 +12,13 @@ la gestión de la red del juego.
 
 #include "Manager.h"
 
-#include "buffer.h"
-
 #include "Logic/Entity/Entity.h"
 //#include "Logic/Entity/Message.h"
 #include "Logic/Maps/Map.h"
 #include "Logic/Server.h"
+
+#include "Net/buffer.h"
+#include "Net/IObserver.h"
 
 #include "factoriaredenet.h"
 #include "factoriared.h"

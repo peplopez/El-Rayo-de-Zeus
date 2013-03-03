@@ -79,7 +79,7 @@ namespace Logic
 		if (!_jumping)
 		{
 			_jumping = true;
-			_initialHeight = _entity->getHeight();
+			_justJumped = true;
 		}
 
 		// Cambiamos la animación si no seguimos desplazándonos
@@ -100,21 +100,23 @@ namespace Logic
 
 		if (_jumping)
 		{
-			_jumpSpeed -= 0.0003 * msecs;
-			float tickHeight = _entity->getHeight() + _jumpSpeed * msecs;
-			if (tickHeight < 0) 
+			_jumpSpeed -= 0.0003 * msecs;  //gravedad 0.0003f
+			float tickHeight = _jumpSpeed * msecs;
+
+			//si estamos en trayectoria descendente activamos salida del salto
+			if (_jumpSpeed < 0)
+				_justJumped = false;
+			
+			if (_entity->getHeight() == 0 && !_justJumped) 
 			{
 				_jumping=false;
-				Logic::CMessageFloat *m = new Logic::CMessageFloat();
-				m->setType(Logic::Message::AVATAR_MOVE);
-				m->setAction(Logic::Message::JUMP);
-				m->setFloat(0);
-				_entity->emitMessage(m);
-				_jumpSpeed = 0.1f;
+				_jumpSpeed = 0.13f;
+				/*
 				if (_entity->getComponent<CAvatarController>()->isWalkingRight())
 					_entity->getComponent<CAvatarController>()->walkRight();
 				else if (_entity->getComponent<CAvatarController>()->isWalkingLeft())
 					_entity->getComponent<CAvatarController>()->walkLeft();
+				*/
 			}
 			else
 			{
@@ -124,6 +126,8 @@ namespace Logic
 				m->setFloat(tickHeight);
 				_entity->emitMessage(m);
 			}
+
+
 		}		
 	} // tick
 

@@ -35,7 +35,7 @@ namespace Logic
 {
 	CEntity::CEntity(TEntityID entityID) : _entityID(entityID), 
 				_map(0), _type(""), _name(""), _transform(Matrix4::IDENTITY),
-				_isPlayer(false), _activated(false), _pos(TLogicalPosition())
+				_isPlayer(false), _activated(false) // UNDONE ƒ®§ _pos(TLogicalPosition()) ya llama al ctro por defecto, por defecto, valga la rebuznancia
 	{
 
 	} // CEntity
@@ -80,14 +80,17 @@ namespace Logic
 
 		if(entityInfo->hasAttribute("ring"))
 			_pos._ring = static_cast<Logic::Ring>(entityInfo->getIntAttribute("ring"));
-		else
-			// TODO [ƒ®§] Esto de mezclar spanglish no queda muy fino, va a haber que normalizar todo al inglés...
+		else			
 			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
 			//pese a todo no pete.
 			_pos._ring= Logic::Ring::CENTRAL_RING;  
 
-		_pos._height = 0;
+		// UNDONE ƒ®§ Este height ya se inicializa a 0 en el ctor por defecto de TLogicalPosition
+		//_pos._height = 0;
 
+		// UNDONE ƒ®§: Esta información de física es necesaria para alguien más?
+		//if(entityInfo->hasAttribute("angularBox"))					
+		//	_angularBox = entityInfo->getFloatAttribute("angularBox");
 
 		if (_logicInput)
 		{
@@ -113,13 +116,11 @@ namespace Logic
 			setIsPlayer( entityInfo->getBoolAttribute("isPlayer") );		
 
 		// Inicializamos los componentes
-		TComponentMap::const_iterator it;
-
 		bool correct = true;
-
-		for( it = _components.begin(); it != _components.end() && correct; ++it )
-			correct = it->second->spawn(this,map,entityInfo) && correct;
-
+		TComponentMap::const_iterator it; // TODO FRS acceso secuencial mejor con vector TComponentList::const_iterator it;		
+			for( it = _components.begin(); it != _components.end() && correct; ++it )
+			        correct = it->second->spawn(this,map,entityInfo) && correct;
+				// correct = (*it)->spawn(this,map,entityInfo) && correct;
 		return correct;
 
 	} // spawn
@@ -128,7 +129,7 @@ namespace Logic
 
 	bool CEntity::activate() 
 	{
-		if (this->getType().compare("Camera")==0) // TODO [ƒ®§] El compare es más eficiente que el == "Camera"?
+		if ( this->getType() == "Camera" )
 		{
 			//CServer::getSingletonPtr()->setPlayer(this);
 			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);
@@ -137,12 +138,14 @@ namespace Logic
 
 		// Activamos los componentes
 		TComponentMap::const_iterator it;
+		// TODO TComponentList::const_iterator it;
 
 		// Solo si se activan todos los componentes correctamente nos
 		// consideraremos activados.
 		_activated = true;
 			for( it = _components.begin(); it != _components.end(); ++it )
 				_activated = it->second->activate() && _activated;
+				//_activated = (*it)->activate() && _activated;
 		return _activated;
 
 	} // activate
@@ -157,11 +160,12 @@ namespace Logic
 		if (isPlayer())
 			setIsPlayer(false);
 
-		TComponentMap::const_iterator it;
+		TComponentMap::const_iterator it; // TODO TComponentList::const_iterator it;
 
 		// Desactivamos los componentes
 		for( it = _components.begin(); it != _components.end(); ++it )
 			it->second->deactivate();
+			// TODO (*it)->deactivate();
 
 		_activated = false;
 
@@ -211,9 +215,10 @@ namespace Logic
 	void CEntity::tick(unsigned int msecs) 
 	{
 		TComponentMap::const_iterator it;
-
+		//TODO TComponentList::const_iterator it;
 		for( it = _components.begin(); it != _components.end(); ++it )
 			it->second->tick(msecs);
+			// TODO (*it)->tick(msecs);
 
 	} // tick
 
@@ -227,6 +232,7 @@ namespace Logic
 
 	//---------------------------------------------------------
 
+	// TODO FRS Búsqueda por [getComponentID()] que pa eso tenemos maps amoshombreiya!
 	bool CEntity::removeComponent(IComponent* component)
 	{
 		TComponentMap::const_iterator it = _components.begin();
@@ -254,12 +260,19 @@ namespace Logic
 	//---------------------------------------------------------
 
 	void CEntity::destroyAllComponents()
-	{
-		IComponent* c;
+	{		
 		TComponentMap::const_iterator it = _components.begin();
-		while (it != _components.end()) 
-			_components.erase(it++);
-		_components.clear();
+		while (it != _components.end()) {
+		        delete it->second;
+			_components.erase(++it);			
+		}		
+		// TODO FRS si compaginamos vector + map (busquedas) esto seria mejor secuencialmente
+	//	while(!_components.empty())
+	//	{
+	//		c = _components.back();
+	//		_components.pop_back();
+	//		delete c;
+	//	}
 
 	} // destroyAllComponents
 
@@ -280,6 +293,7 @@ namespace Logic
 		}
 
 		TComponentMap::const_iterator it;
+		// TODO TComponentList::const_iterator it;
 
 		message->grab();
 		// Para saber si alguien quiso el mensaje.
@@ -289,6 +303,8 @@ namespace Logic
 			// Al emisor no se le envia el mensaje.
 			if( emitter != it->second )
 				anyReceiver = it->second->set(message) || anyReceiver;
+		// TODO	if( emitter != (*it) )
+		//		anyReceiver = (*it)->set(message) || anyReceiver;
 		}
 
 		message->release();
@@ -330,15 +346,20 @@ namespace Logic
 
 	void CEntity::setLogicalPosition(const Logic::TLogicalPosition &pos)
 	{
-		_pos._base=pos._base;
-		_pos._degrees=pos._degrees;
-		_pos._ring=pos._ring;
-		_pos._sense=pos._sense;
-		_pos._height=pos._height;
+		_pos._base		= pos._base;
+		_pos._degrees	= pos._degrees;
+		_pos._ring		= pos._ring;
+		_pos._sense		= pos._sense;
+		_pos._height	= pos._height;
 
-		const Vector3 position=fromLogicalToCartesian(_pos._degrees,_pos._height,_pos._base,_pos._ring);
-		setPosition(position);
-
+		setPosition(
+			fromLogicalToCartesian(
+				_pos._degrees,
+				_pos._height,
+				_pos._base,
+				_pos._ring
+			)
+		);
 
 	} //setLogicalPosition
 		

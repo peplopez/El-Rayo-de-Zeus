@@ -182,10 +182,6 @@ namespace Application
 		*/
 		Graphics::CScene* _scene;
 
-		/**
-		Ventana que muestra el tiempo de juego transcurrido.
-		*/
-		CEGUI::Window* _timeWindow;
 
 		/**
 		Ventana que muestra el HUD con informacion para el player.

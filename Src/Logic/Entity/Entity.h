@@ -520,11 +520,13 @@ namespace Logic
 		Tipo para la lista de componetes.
 		*/
 		typedef std::map<altTypeId, IComponent*> TComponentMap;
+		// TODO FRS typedef std::list<IComponent*> TComponentList;
 
 		/**
 		Lista de los componentes de la entidad.
 		*/
 		TComponentMap _components;
+		//TODO FRS TComponentList _components;
 
 		/**
 		Indica si la entidad está activa.

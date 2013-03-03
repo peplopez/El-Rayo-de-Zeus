@@ -76,5 +76,8 @@
     <ClInclude Include="..\..\Src\Net\servidorENet.h">
       <Filter>Header Files\Enet</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\Net\IObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

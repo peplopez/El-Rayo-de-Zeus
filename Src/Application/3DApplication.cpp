@@ -14,17 +14,18 @@ basadas en Ogre. Esta clase maneja la ejecución de todo el juego.
 @author David Llansó
 @date Julio, 2010
 */
-
-#include "OgreClock.h"
 #include "3DApplication.h"
 
-#include "Graphics/Server.h"
 #include "BaseSubsystems/Server.h"
+#include "Graphics/Server.h"
+
 #include "GUI/InputManager.h"
 #include "GUI/Server.h"
 #include "Logic/Server.h"
 #include "Logic/Maps/ComponentFactory.h"
-#include "net/manager.h"
+#include "NET/Manager.h"
+#include "OgreClock.h"
+#include "Physics/Server.h"
 
 #include <cassert>
 
@@ -75,8 +76,8 @@ namespace Application {
 			return false;
 
 		//// Inicialización del servidor de física.
-		//if (!Physics::CServer::Init())
-		//	return false;
+		if (!Physics::CServer::Init())
+			return false;
 
 		// Inicializamos el servidor de la lógica.
 		if (!Logic::CServer::Init())
@@ -124,8 +125,8 @@ namespace Application {
 			Logic::CServer::Release();
 
 		// Liberar los recursos del servidor de física
-		//if (Physics::CServer::getSingletonPtr())
-		//	Physics::CServer::Release();
+		if (Physics::CServer::getSingletonPtr())
+			Physics::CServer::Release();
 
 		if(GUI::CServer::getSingletonPtr())
 			GUI::CServer::Release();
@@ -159,7 +160,7 @@ namespace Application {
 
 		Graphics::CServer::getSingletonPtr()->tick(msecs/1000.0f);
 
-		Net::CManager::getSingletonPtr()->tick(msecs);
+		Net::CManager::getSingletonPtr()->tick(msecs); // ƒ®§ Necesario para tx/rx peticiones de union a partida en los lobbies
 
 	} // tick
 
