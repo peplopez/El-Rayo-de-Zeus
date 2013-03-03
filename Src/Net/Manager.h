@@ -26,7 +26,8 @@ namespace Net {
 	class CFactoriaRed;
 	class CFactoriaRedEnet;
 	class CPaquete;
-};
+	class IObserver;
+}
 
 /**
 Namespace que engloba lo relacionado con la parte de red.
@@ -101,17 +102,6 @@ namespace Net
 	class CManager
 	{
 	public:
-
-		/**
-		Interfaz que deben implementar las clases que quieran ser 
-		notificadas de eventos de red.
-		*/
-		class IObserver{
-		public:
-			virtual void dataPacketReceived(Net::CPaquete* packet) {};
-			virtual void connexionPacketReceived(Net::CPaquete* packet) {};
-			virtual void disconnexionPacketReceived(Net::CPaquete* packet) {};
-		};
 
 		/**
 		Devuelve la única instancia de la clase CManager.

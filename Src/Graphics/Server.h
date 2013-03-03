@@ -25,10 +25,12 @@ namespace Ogre
 	class Root;
 	class RenderWindow;
 	class Timer;
+	class OverlayManager;
 }
 namespace Graphics 
 {
 	class CScene;
+	class COverlay;
 }
 
 /**
@@ -180,6 +182,50 @@ namespace Graphics
 		*/
 		void setScene(const std::string& name);
 
+		/**
+		Devuelve al manager de Overlays. 
+
+		@return La escena activa.
+		*/
+		Ogre::OverlayManager* getOverlayManager() {return _overlayManager;}
+
+		
+		/**
+		Crea un Overlay.
+
+		@param name Nombre del Overlay.
+		*/
+		COverlay* createOverlay(const std::string &name, const std::string &type = "");
+
+		/**
+		Destruye un Overlay.
+
+		@param name Nombre del Overlay.
+		*/
+		void removeOverlay(const std::string& name);
+
+		/**
+		Devuelve un overlay dado un nombre
+
+		@param name Nombre del Overlay.
+		@return Overley devuelto o NULL en caso de no existir
+		*/
+		COverlay* getOverlay(const std::string& name);
+
+		/**
+		Metodo que devuelve el height de la pantalla. Esta tomado gracias a los overlays, puede que no sea fiable 100%
+
+		@return devuelve el heigth de la pantalla
+		*/
+		int getWidth();
+
+		/**
+		Metodo que devuelve el height de la pantalla. Esta tomado gracias a los overlays, puede que no sea fiable 100%
+
+		@return devuelve el heigth de la pantalla
+		*/
+		int getHeight();
+
 	protected:
 
 		/**
@@ -240,6 +286,11 @@ namespace Graphics
 		siempre haya una escena para el dibujado del GUI.
 		*/
 		CScene* _dummyScene;
+
+		/**
+		Manager de los Overlays
+		*/
+		Ogre::OverlayManager* _overlayManager;
 
 	}; // class CServer
 

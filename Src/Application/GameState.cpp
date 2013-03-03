@@ -23,6 +23,8 @@ Contiene la implementación del estado de juego.
 #include "GUI/Server.h"
 #include "GUI/PlayerController.h"
 
+#include "Physics/Server.h"
+
 #include <CEGUISystem.h>
 #include <CEGUIWindowManager.h>
 #include <CEGUIWindow.h>
@@ -32,10 +34,13 @@ namespace Application {
 	bool CGameState::init() 
 	{
 		CApplicationState::init();
+		
+		//HACK de momento quitamos esto ya que se hace en el init del Physic::CServer
 
-		// Cargamos la ventana que muestra el tiempo de juego transcurrido.
-		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Time.layout");
-		_timeWindow = CEGUI::WindowManager::getSingleton().getWindow("Time");
+		// Crear la escena física.
+		//Physics::CServer::getSingletonPtr()->setGroupCollisions(1,1,false);
+		//Physics::CServer::getSingletonPtr()->createScene();
+		
 
 		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
 		_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
@@ -52,6 +57,9 @@ namespace Application {
 
 		Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
 		Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
+		
+		// Liberamos la escena física.
+		//Physics::CServer::getSingletonPtr()->destroyScene();
 
 		CApplicationState::release();
 
@@ -67,15 +75,12 @@ namespace Application {
 		Logic::CServer::getSingletonPtr()->activateMap();
 
 		// Queremos que el GUI maneje al jugador.
-		GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
-
-		// Activamos la ventana que nos muestra el tiempo transcurrido.
-		CEGUI::System::getSingletonPtr()->setGUISheet(_timeWindow);
-		_timeWindow->setVisible(true);
-		_timeWindow->activate();
-
+                GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
+		
 		// Activamos la ventana que nos muestra el HUD.
 		/*CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
+		/*
+		CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
 		_hudWindow->setVisible(true);
 		_hudWindow->activate();*/
 
@@ -86,10 +91,6 @@ namespace Application {
 
 	void CGameState::deactivate() 
 	{
-		// Desactivamos la ventana de tiempo.
-		_timeWindow->deactivate();
-		_timeWindow->setVisible(false);
-
 		// Desactivamos la ventana de HUD.
 		_hudWindow->deactivate();
 		_hudWindow->setVisible(false);
@@ -111,6 +112,9 @@ namespace Application {
 	{
 		CApplicationState::tick(msecs);
 
+		// Simulación física
+		Physics::CServer::getSingletonPtr()->tick(msecs);
+
 		// Actualizamos la lógica de juego.
 		Logic::CServer::getSingletonPtr()->tick(msecs);
 
@@ -118,7 +122,7 @@ namespace Application {
 		
 		std::stringstream text;
 		text << "Time: " << _time/1000;
-		_timeWindow->setText(text.str());
+		//_hudWindow->setText(text.str());
 
 	} // tick
 

@@ -37,7 +37,7 @@ namespace Logic
 			SET_TRANSFORM_QUAT	= 0x04,
 			SET_ANIMATION		= 0x05,
 			STOP_ANIMATION		= 0x06,			 
-			CONTACT				= 0x07,   // PEP: Ya lo desSpanglishao
+			CONTACT				= 0x07,   
 			SET_SHADER			= 0x08,			
 			CAMERA				= 0x09,
 			LIFE_MODIFIER		= 0x0A,
@@ -47,9 +47,11 @@ namespace Logic
 			COMBAT				= 0x13,
 			CHANGE_PLANE		= 0x14,
 			CHANGE_HEIGHT		= 0x15,
-			HUD					= 0x16,
-			SPACE_REQUEST		= 0x17, //para mandar un mensaje en el que preguntas si un punto del espacio está ocupado
-			ANIMATION_MOMENT    = 0x18
+			HUD					= 0x16,		
+			TRIGGER				= 0x17,
+			COLLISION			= 0X18,
+			SPACE_REQUEST		= 0x19, //para mandar un mensaje en el que preguntas si un punto del espacio está ocupado
+			ANIMATION_MOMENT    = 0x20
 		};
 
 		enum TActionType : unsigned char
@@ -69,7 +71,9 @@ namespace Logic
 			UPDATE_LIFE			= 0x20,
 			LIGHT_ATTACK		= 0x21,
 			HEAVY_ATTACK		= 0x22,
-			DISPLAY_HUD			= 0x23
+			DISPLAY_HUD			= 0x23,
+			TRIGGER_ENTER		= 0x24,
+			TRIGGER_EXIT		= 0x25
 		};
 	}
 

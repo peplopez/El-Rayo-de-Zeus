@@ -9,11 +9,16 @@
 #ifndef __Logic_HudOverlay_H
 #define __Logic_HudOverlay_H
 
+//#include "Graphics/Server.h"
 #include "Logic/Entity/Component.h"
 
-#include <OgreOverlay.h>
-#include <OgreOverlayContainer.h>
-#include <OgreTextAreaOverlayElement.h>
+
+namespace Graphics 
+{
+	class CServer;
+	class COverlay;
+}
+
 
 //declaración de la clase
 namespace Logic 
@@ -34,7 +39,7 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		CHudOverlay() : IComponent(GetAltTypeIdOf(CHudOverlay)), _health(1000.0), _shield(200), _playersInBase(0),_visibleHud(false) {}
+		CHudOverlay() : IComponent(), _health(1000.0), _playersInBase(0),_visibleHud(false) {}
 		
 		/**
 		Inicialización del componente usando la descripción de la entidad que hay en 
@@ -42,14 +47,8 @@ namespace Logic
 		*/
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
-		/**
-		Este componente sólo acepta mensajes de tipo DAMAGED.
-		*/
 		bool accept(const CMessage *message);
 
-		/**
-		Al recibir un mensaje de tipo DAMAGED la vida de la entidad disminuye.
-		*/
 		void process(CMessage *message);	
 
 		/**
@@ -68,7 +67,7 @@ namespace Logic
 		activados o no.
 		<p>
 		*/
-		void deactivate();;
+		void deactivate();
 
 		bool getVisibleHud(){return _visibleHud; }
 
@@ -77,35 +76,28 @@ namespace Logic
 		
 
 	protected:
-		enum eOverlayTextArea {HEALTH, HEALTHBASE, PLAYERS, DUMMY };
-		
-
-		
+		static enum eOverlayTextArea {HEALTH, HEALTHBASE, PLAYERS, DUMMY };
+		static enum ColorValue { WHITE,BLACK,RED,GREEN,BLUE };
 
 		void hudLife(float health);
-		void hudShield(int shield);
 		void hudVisor();
 		void hudSpawn(int spawn);
 		void hudPlayers(short int valor);
 
-
 		float _health;
-		int _healthBase;
-		int _shield;
-		int _base;
-		short int _playersInBase;
+		int _healthBase; //la base tiene 3 vidas (3 rayos)
+		int _base; //numero de base
+		short int _playersInBase; //num Players contrarios en la base del Player
 		bool _visibleHud;
 
-		Ogre::Overlay *_overlayPlay;
-		Ogre::Overlay *_overlayDie;
+		Graphics::CServer* _server;
 
-		Ogre::TextAreaOverlayElement *_textAreaDie;
+		//Overlay de juego y overlay al morir el Player.
+		Graphics::COverlay *_overlayPlay;
+		Graphics::COverlay *_overlayDie;
 
-		Ogre::TextAreaOverlayElement *_textBoxArea[3];
-
-		// En vez de 4 deberia de ir el numero de armas pero no tengo cojones U.U
-		Ogre::OverlayContainer *_weaponsBox[4][3];
-
+		Graphics::COverlay *_textAreaDie;
+		Graphics::COverlay *_textBoxArea[4];
 
 	}; // class CHudOverlay
 

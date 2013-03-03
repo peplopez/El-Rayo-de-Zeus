@@ -1,7 +1,7 @@
 World CGraphics
 Camera CCamera
 SkyBox CGraphics
-Altar CGraphics
+Altar CGraphics CPhysicEntity
 Entity CGraphics
-Player CAnimatedGraphics CAvatarController CAttack CJump2 CBaseTraveler CPhysicController CLife CDeath CHudOverlay CStateMachineExecutor
-AnimatedEntity CAnimatedGraphics CAvatarController CPhysicController CLife CLifeModifier CDeath 
+Player CAnimatedGraphics CAvatarController CAttack CJump2 CBaseTraveler CPhysicCharacter CLife CDeath CHudOverlay CStateMachineExecutor
+AnimatedEntity CAvatarController CPhysicCharacter CAnimatedGraphics CLife CDeath CLifeModifier

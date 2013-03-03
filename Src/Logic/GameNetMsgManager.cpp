@@ -16,18 +16,18 @@ Contiene la implementación del gestor de los mensajes de red durante la partida.
 
 #include "GameNetMsgManager.h"
 
+#include "Application/BaseApplication.h"
+
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Maps/Map.h"
 #include "Logic/Maps/EntityFactory.h"
 #include "Logic/Server.h"
 
-#include "Net/paquete.h"
-#include "Net/buffer.h"
+#include "NET/Manager.h"
+#include "NET/paquete.h"
+#include "NET/buffer.h"
 
-#include <iostream>
-
-#include "Application/BaseApplication.h"
 
 #define DEBUG 0
 #if DEBUG
@@ -109,7 +109,7 @@ namespace Logic {
 		// el envío usando el gestor de red.
 		// Es un mensaje para enviar por el tubo.
 		// Lo serializamos y enviamos por la red...
-		Net::NetMessageType msgType = Net::NetMessageType::ENTITY_MSG;// Escribimos el tipo de mensaje de red a enviar
+		Net::NetMessageType msgType = Net::ENTITY_MSG;// Escribimos el tipo de mensaje de red a enviar
 		Net::CBuffer serialMsg;		
 			serialMsg.write(&msgType, sizeof(msgType));
 			serialMsg.write(&destID, sizeof(destID)); // Escribimos el id de la entidad destino
@@ -150,7 +150,7 @@ namespace Logic {
 
 
 		// PROPAGACIÓN INMEDIATA: Msgs que deben propagarse directamente desde 1 cliente al resto (p.e. CONTROL)
-		if(rxMsg->getType() == TMessageType::CONTROL) // HACK: Si hay más mensajes de propagación inmediata -> config en map.txt
+		if(rxMsg->getType() == Message::CONTROL) // HACK: Si hay más mensajes de propagación inmediata -> config en map.txt
 			Net::CManager::getSingletonPtr()->send(serialMsg.getbuffer(), serialMsg.getSize(), packet->getConexion() );
 
 		// RTX DESERIALIZADO
@@ -178,7 +178,7 @@ namespace Logic {
 		switch (rxMsgType)
 		{
 
-		case Net::NetMessageType::ENTITY_MSG:	
+		case Net::ENTITY_MSG:	
 			processEntityMessage(packet);
 			break;	
 

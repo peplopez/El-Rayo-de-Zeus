@@ -158,8 +158,10 @@ namespace Logic
 			
 					if (base==(*it)->getBase() && ring==(*it)->getRing())	
 					{								
-						float limiteIzquierdo=(*it)->getDegree()-5;//-(*it)->getgetAngularBox();
-						float limiteDerecho=(*it)->getDegree()+5;//+(*it)->getAngularBox();
+						//float limiteIzquierdo=(*it)->getDegree()-(*it)->getAngularBox();
+						//float limiteDerecho=(*it)->getDegree()+(*it)->getAngularBox();
+						float limiteIzquierdo=(*it)->getDegree()-5;
+						float limiteDerecho=(*it)->getDegree()+5;
 						if (grado>limiteIzquierdo && grado<limiteDerecho )
 						{
 							if (!soloInfo)

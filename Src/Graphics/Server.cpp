@@ -16,6 +16,7 @@ la ventana, etc.
 
 #include "Server.h"
 #include "Scene.h"
+#include "Overlay.h"
 
 #include "BaseSubsystems/Server.h"
 #include "BaseSubsystems/Math.h"
@@ -25,6 +26,7 @@ la ventana, etc.
 #include <OgreRoot.h>
 #include <OgreRenderWindow.h>
 #include <OgreWindowEventUtilities.h>
+#include <OgreOverlayManager.h>
 
 namespace Graphics 
 {
@@ -94,6 +96,9 @@ namespace Graphics
 		
 		// Por defecto la escena activa es la dummy
 		setScene(_dummyScene);
+
+		//PT. Se carga el manager de overlays
+		_overlayManager = Ogre::OverlayManager::getSingletonPtr();
 
 		return true;
 
@@ -209,6 +214,54 @@ namespace Graphics
 	} // createScene
 
 	//--------------------------------------------------------
+
+
+	//--------------------------------------------------------
+
+	COverlay* CServer::createOverlay(const std::string &name, const std::string &type){
+	
+		//Nos aseguramos de que no exista ya un overlay con este nombre.
+		//assert(_overlayManager->hasOverlayElement(name));
+
+		COverlay *overlay = new COverlay(name, type);
+		std::pair<std::string,COverlay*> aux(name, overlay);
+		//_overlays.insert(aux);
+
+		return overlay;
+	} // createOverlayelement
+
+		
+	//--------------------------------------------------------
+
+	void CServer::removeOverlay(const std::string& name){
+	
+	} //removeOverlayElement
+	//--------------------------------------------------------
+	
+	COverlay* CServer::getOverlay(const std::string& name){
+		if(_overlayManager->hasOverlayElement(name)){
+			return new COverlay(_overlayManager->getOverlayElement(name));
+		}else{
+			if(_overlayManager->getByName(name)){
+				return new COverlay(_overlayManager->getByName(name));
+			}
+			return 0;
+		}
+	} //get Overlay
+	//--------------------------------------------------------
+	
+	int CServer::getWidth(){
+		int aux(_overlayManager->getViewportWidth());
+		return aux;
+	} //get Width
+	//--------------------------------------------------------
+
+	int CServer::getHeight(){
+		return _overlayManager->getViewportHeight();
+	} //get Height
+	//--------------------------------------------------------
+
+
 
 	void CServer::tick(float secs) 
 	{

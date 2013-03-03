@@ -59,6 +59,7 @@ RAPIDXML_PATHS = { "rapidxml-1.13", "", "" }
 -- }
 --
 CEGUI_EXTRA_PATHS = {
+	{ "..", "include", "", "CEGUIOgreRenderer" },
 }
 
 --- Irrlicht SDK Version
