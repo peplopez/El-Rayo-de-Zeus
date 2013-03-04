@@ -52,6 +52,10 @@ namespace Logic
 	{
 		DEC_FACTORY(CPhysicEntity);
 
+	public:
+
+		CPhysicEntity() : CPhysic(GetAltTypeIdOf(CPhysicEntity)) {}
+
 	}; // class CPhysicEntity
 
 	REG_FACTORY(CPhysicEntity);

@@ -39,7 +39,7 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		CHudOverlay() : IComponent(), _health(1000.0), _playersInBase(0),_visibleHud(false) {}
+		CHudOverlay() : IComponent(GetAltTypeIdOf(CHudOverlay)), _health(1000.0), _playersInBase(0),_visibleHud(false) {}
 		
 		/**
 		Inicialización del componente usando la descripción de la entidad que hay en 
