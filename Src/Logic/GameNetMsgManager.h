@@ -93,8 +93,12 @@ namespace Logic
 		*/
 		void sendEntityMessage(const CMessage *message, TEntityID destination);
 
-		// NET::IOBSERVER
+		/******************
+			NET::IOBSERVER
+		******************/
 		virtual void dataPacketReceived(Net::CPaquete* packet);
+		virtual void connexionPacketReceived(Net::CPaquete* packet) {};
+		virtual void disconnexionPacketReceived(Net::CPaquete* packet) {};
 		
 
 	protected:
