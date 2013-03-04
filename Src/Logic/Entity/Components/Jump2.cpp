@@ -111,12 +111,12 @@ namespace Logic
 			{
 				_jumping=false;
 				_jumpSpeed = 0.13f;
-				/*
+				
 				if (_entity->getComponent<CAvatarController>()->isWalkingRight())
 					_entity->getComponent<CAvatarController>()->walkRight();
 				else if (_entity->getComponent<CAvatarController>()->isWalkingLeft())
 					_entity->getComponent<CAvatarController>()->walkLeft();
-				*/
+				
 			}
 			else
 			{
