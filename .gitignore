@@ -146,6 +146,7 @@ DocumentacionDoxygen/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Debug/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Release/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/*.2010.vcxproj.user
+/dependencies/lua/*
 
 #EXCEPTIONS #
 #############
