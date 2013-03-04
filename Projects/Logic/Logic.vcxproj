@@ -62,6 +62,7 @@
     </ClCompile>
     <Lib>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,6 +80,7 @@
     </ClCompile>
     <Lib>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -89,20 +91,30 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump2.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeModifier.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicController.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Physic.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicCharacter.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicEntity.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\RingTraveler.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LA_Attack.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LAIdle.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LatentAction.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\SimpleLatentActions.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\Message.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBool.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloat.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolString.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolTF.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageChar.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFloat.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageInt.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageShort.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageUShort.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageString.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageTF.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageUInt.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageV3.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\StateMachines\StateMachine.cpp" />
     <ClCompile Include="..\..\Src\Logic\GameNetMsgManager.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\ComponentFactory.cpp" />
@@ -129,21 +141,31 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Death.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Jump2.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeModifier.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicController.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\Physics.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Physic.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicCharacter.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicEntity.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\RingTraveler.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\LA_Attack.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\LAIdle.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\LatentAction.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\SimpleLatentActions.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBool.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloat.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\Message.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolString.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolTF.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageChar.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFactory.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFloat.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageInt.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageShort.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageUShort.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageString.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageTF.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageUInt.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageV3.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\StateMachines\Condition.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\StateMachines\StateMachine.h" />
     <ClInclude Include="..\..\Src\Logic\GameNetMsgManager.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\LogicalPosition.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\RingStruct.h" />

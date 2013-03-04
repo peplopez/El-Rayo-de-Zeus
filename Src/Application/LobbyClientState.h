@@ -18,7 +18,7 @@ Contiene la declaración del estado de lobby del cliente.
 #define __Application_LobbyClientState_H
 
 #include "ApplicationState.h"
-#include "net/Manager.h"
+#include "NET/IObserver.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Application 
@@ -51,7 +51,7 @@ namespace Application
 	@author David Llansó
 	@date Agosto, 2010
 	*/
-	class CLobbyClientState : public CApplicationState, public Net::CManager::IObserver
+	class CLobbyClientState : public CApplicationState, public Net::IObserver
 	{
 	public:
 		/** 
@@ -167,6 +167,8 @@ namespace Application
 			NET::IOBSERVER
 		******************/
 		virtual void dataPacketReceived(Net::CPaquete* packet);	
+		virtual void connexionPacketReceived(Net::CPaquete* packet) {};
+		virtual void disconnexionPacketReceived(Net::CPaquete* packet){};
 
 	private:
 

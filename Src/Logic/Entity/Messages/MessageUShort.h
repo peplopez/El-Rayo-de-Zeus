@@ -1,15 +1,15 @@
 /**
-@file MessageShort.h
+@file MessageUShort.h
 
 Contiene el tipo de datos de un mensaje int.
 
-@see Logic::CMessageShort
+@see Logic::CMessageUShort
 
 @author Emilio Santalla Comellas
 */
 
-#ifndef __Logic_MessageShort_H
-#define __Logic_MessageShort_H
+#ifndef __Logic_MessageUShort_H
+#define __Logic_MessageUShort_H
 
 
 #include "Net/buffer.h"
@@ -25,20 +25,18 @@ namespace Logic {
 namespace Logic
 {	
 	// Declaración de la clase
-	class CMessageShort : public CMessage
+	class CMessageUShort : public CMessage
 	{
-		DEC_MFACTORY(CMessageInt);
+		DEC_MFACTORY(CMessageUShort);
 	public:
 
 
-		CMessageShort() : CMessage(GetAltTypeIdOf(CMessageShort)), _short(0) {}
+		CMessageUShort() : CMessage(GetAltTypeIdOf(CMessageUShort)), _short(0) {}
 			
-		~CMessageShort(){};
+		~CMessageUShort(){};
 
-
-		unsigned short getShort() const { return _short; }
-		void setShort(const unsigned short valor) {_short=valor; }
-
+		unsigned short getUShort() const { return _short; }
+		void setUShort(const unsigned short valor) {_short=valor; }
 
 		void serialize(Net::CBuffer &data);
 		void deserialize(Net::CBuffer &data);
@@ -54,7 +52,7 @@ namespace Logic
 
 	}; //class CmessageFloat
 
-	REG_MFACTORY(CMessageShort);
+	REG_MFACTORY(CMessageUShort);
 
 } // namespace Logic
 

@@ -67,31 +67,18 @@ namespace Logic
     @ingroup grupoEntidad
 	*/
 	struct TLogicalPosition
-	{
-		/**
-			Anillo
-		*/
-		Ring _ring;
-		/**
-			Sentido
-		*/
-		Sense _sense;
-		/**
-			Número de base: 1-8
-		*/
-		unsigned short _base;
-		/**
-			Grados
-		*/	
-		float _degrees;
-		/**
-			Altura
-		*/	
-		float _height;
+	{	
+		Ring _ring; // Anillo
+		Sense _sense; // Sentido
+		unsigned short _base; // Número de base: 1-8			
+		float _degrees; // Grados	
+		float _height; // Altura
 
-
-		TLogicalPosition() : _ring(Logic::LogicalPosition::CENTRAL_RING), _sense(Logic::LogicalPosition::LEFT), _base(0), _degrees(0),_height(0){}
-	
+		TLogicalPosition() :
+			_ring(LogicalPosition::CENTRAL_RING), 
+			_sense(LogicalPosition::LEFT), 
+			_base(0), _degrees(0),_height(0)
+			{}
 	}; 
 
 } // namespace Logic

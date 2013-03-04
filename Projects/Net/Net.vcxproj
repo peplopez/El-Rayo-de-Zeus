@@ -99,6 +99,7 @@
     <ClInclude Include="..\..\Src\Net\cliente.h" />
     <ClInclude Include="..\..\Src\Net\conexion.h" />
     <ClInclude Include="..\..\Src\Net\factoriared.h" />
+    <ClInclude Include="..\..\Src\Net\IObserver.h" />
     <ClInclude Include="..\..\Src\Net\Manager.h" />
     <ClInclude Include="..\..\Src\Net\paquete.h" />
     <ClInclude Include="..\..\Src\Net\serializable.h" />

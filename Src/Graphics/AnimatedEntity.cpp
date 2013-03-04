@@ -91,10 +91,13 @@ namespace Graphics
 			if(_observer && _currentAnimation->hasEnded())
 				_observer->animationFinished(_currentAnimation->getAnimationName());
 
-
 			if(_observer && _currentAnimation->getAnimationName().compare("FireKatana")==0)
-				if (_currentAnimation->getTimePosition()>0.6 && _currentAnimation->getTimePosition()<0.8)
+				if (_currentAnimation->getTimePosition()>0.6 && _currentAnimation->getTimePosition()<0.7)
 				_observer->animationMomentReached("FireKatana");
+
+			if(_observer && _currentAnimation->getAnimationName().compare("GetObject")==0)
+				if (_currentAnimation->getTimePosition()>0.6 && _currentAnimation->getTimePosition()<0.7)
+				_observer->animationMomentReached("GetObject");
 		}
 
 	} // tick

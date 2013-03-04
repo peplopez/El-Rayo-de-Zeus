@@ -11,13 +11,22 @@ gráfica de la entidad.
 @date Febrero, 2013
 */
 #include "Logic/Entity/Entity.h"
-//#include "Logic/Maps/Map.h"
-//#include "Map/MapEntity.h"
+
 #include "Logic/Entity/Components/RingTraveler.h"
 
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageString.h"
-#include "Logic/Entity/Messages/MessageInt.h"
+#include "Logic/Entity/Messages/MessageChar.h"
+
+
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "LOGIC::RING_TRAVELER>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
+
 
 namespace Logic 
 {
@@ -49,88 +58,59 @@ namespace Logic
 	
 	bool CRingTraveler::accept(const CMessage *message)
 	{//que no os confunda el nombre de mensaje CHANGE_PLANE es tanto para cambiar de base como de anillo dentro de la base. Apreciad que en cualquier caso siempre es un cambio de anillo, de ahí el nombre
-		return (message->getType() == Message::CONTROL &&
-					(message->getAction() == Message::GO_DOWN || 
-					message->getAction() == Message::GO_UP));
-				
-
+		return message->getType() == Message::CONTROL && (
+						message->getAction() == Message::GO_DOWN || 
+						message->getAction() == Message::GO_UP
+				);
 	} // accept
 	
 	//---------------------------------------------------------
 
 	void CRingTraveler::process(CMessage *message)
 	{
-		CMessage *maux = static_cast<CMessage*>(message);
-		switch(message->getType())
-		{
-		case Message::CONTROL:
-			if(message->getAction() == Message::GO_UP)
-				goUp();
-		else if(message->getAction() == Message::GO_DOWN)
-				goDown();
-		}
+		if(message->getAction() != Message::GO_DOWN && message->getAction() != Message::GO_UP ) 
+			return;
 
-	} // process
-
-	
-		void CRingTraveler::goDown()
-		{
-			_changingRing=true;
-			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
-
-			//if(_entity->getJumping()==false)
-			{
-				_changingRing=true;
-				CMessageInt *m = new CMessageInt();	
-				m->setType(Message::AVATAR_MOVE);
-				m->setAction(Message::CHANGE_RING);		
-				
-				if (_entity->getRing()==Ring::CENTRAL_RING)
-				{
-					/*_entity->setRing(Ring::LOWER_RING);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-					*/m->setInt(Ring::LOWER_RING);				
-				}
-				if (_entity->getRing()==Ring::UPPER_RING)
-				{
-					/*_entity->setRing(Ring::CENTRAL_RING);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-					*/m->setInt(Ring::CENTRAL_RING);
-				}
-				_entity->emitMessage(m,this);
-			}			
-		}
+		_changingRing=true; //TODO Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
 		
-		void CRingTraveler::goUp()
-		{
-			_changingRing=true;
-			CMessageInt *m = new CMessageInt();	
+		CMessageChar *m = new CMessageChar();	
 			m->setType(Message::AVATAR_MOVE);
 			m->setAction(Message::CHANGE_RING);		
-			//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
-			//if(_entity->getJumping()==false)
-			{
-				_changingRing=true;	
-				if (_entity->getRing()==Ring::CENTRAL_RING)
-				{
-					/*_entity->setRing(Ring::UPPER_RING);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				*/m->setInt(Ring::UPPER_RING);	
-				}
-				if (_entity->getRing()==Ring::LOWER_RING)
-				{/*
-					_entity->setRing(Ring::CENTRAL_RING);
-					Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-					_entity->setPosition(newPosition);
-				*/m->setInt(Ring::CENTRAL_RING);	
-				}
-				_entity->emitMessage(m,this);
-			}			
-		}
-		void CRingTraveler::tick(unsigned int msecs)
+			m->setChar( 
+				message->getAction() == Message::GO_UP ? 
+				1 : -1  // ƒ®§ GO_UP (+1) vs GO_DOWN (-1)  son las únicas dos opciones que pasan el filtro del accept
+			);
+		_entity->emitMessage(m,this);	
+
+		LOG("Change Ring: " << (int) m->getChar() );
+ 	} // process
+
+	
+	// UNDONE ƒ®§
+	//void CRingTraveler::goDown()
+	//{
+	//	//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
+	//	_changingRing=true;
+
+	//	CMessageInt *m = new CMessageInt();	
+	//		m->setType(Message::AVATAR_MOVE);
+	//		m->setAction(Message::CHANGE_RING);		
+	//		m->setInt(-1); // -1 Anillo
+	//	_entity->emitMessage(m,this);	
+	//}
+	//	
+	//void CRingTraveler::goUp()
+	//{
+	//	_changingRing=true;
+
+	//	CMessageInt *m = new CMessageInt();	
+	//		m->setType(Message::AVATAR_MOVE);
+	//		m->setAction(Message::CHANGE_RING);		
+	//		m->setInt(1); // +1 Anillo
+	//	_entity->emitMessage(m,this);		
+	//}
+
+	void CRingTraveler::tick(unsigned int msecs)
 	{
 			IComponent::tick(msecs);
 

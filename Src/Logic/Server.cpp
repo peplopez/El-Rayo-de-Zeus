@@ -131,7 +131,7 @@ namespace Logic {
 		//inicializamos la estructura de posiciones de los anillos
 		//el primer anillo de la primera base, empezando por abajo, será la base de la pila de anillos
 		
-		for (int i=0;i<=Logic::NUM_BASES;i++)
+		for (int i=0;i<=Logic::NUM_BASES;++i)
 		{
 			Logic::base.posBase[i]._down=Logic::startingBasesPosition+i*Logic::separationBetweenBases;
 			Logic::base.posBase[i]._center=base.posBase[i]._down+Logic::separationBetweenRings;

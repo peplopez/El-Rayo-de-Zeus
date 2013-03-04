@@ -77,6 +77,7 @@ namespace Logic
 	{
 		if (_jumping)return;
 		_jumping = true;
+		_justJumped = true;
 		//_initialJumpPower=0.075;
 		//_initialGravity=0.1;
 		//_jumpPower=_initialJumpPower;
@@ -94,42 +95,25 @@ namespace Logic
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
 				m->setAction(Logic::Message::JUMP);
-				m->setFloat(_entity->getHeight()+(_jumpPower+_gravity)*msecs);
+				m->setFloat(_jumpPower+_gravity*msecs);
 				_entity->emitMessage(m);
 
 				_gravity-=0.01;
 				if ((_jumpPower+_gravity)<0 && (_jumpPower+_gravity)>-0.015) //si esta suma es menor que cero es que está bajando. 
+					_justJumped = false;
+				if (_entity->getHeight() == 0 && !_justJumped)
 				{
-					CMessageBoolString *message = new CMessageBoolString();
-					message->setType(Message::SET_ANIMATION);
-					message->setString("Crouch");
-					message->setBool(false);
-					_entity->emitMessage(message,this);
-				}
-
-				if (_entity->getHeight()<0)
-				{
+					_jumping = false;
 					//_gravidty
-					_jumping=false;
 					Logic::CMessageFloat *m = new Logic::CMessageFloat();
 					m->setType(Logic::Message::AVATAR_MOVE);
 					m->setAction(Logic::Message::JUMP);
-					m->setFloat(0);
+					m->setFloat(-_entity->getHeight());
 					_entity->emitMessage(m);
 
-					//_entity->setHeight(0);					
-					CMessageBoolString *message = new CMessageBoolString();
-					message->setType(Message::SET_ANIMATION);
-					message->setString("IdleKatana");
-					message->setBool(true);
-					_entity->emitMessage(message,this);
-					
-					//ejemplo de acceso directo a componentes
-					if (_entity->getComponent<CAvatarController>()->isWalkingLeft())
-						_entity->getComponent<CAvatarController>()->walkLeft();
-					else if (_entity->getComponent<CAvatarController>()->isWalkingRight())
-						_entity->getComponent<CAvatarController>()->walkRight();
 				}
+				
+
 			//	Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
 			
 			//	_entity->setPosition(newPosition);

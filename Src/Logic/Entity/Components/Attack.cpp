@@ -35,7 +35,6 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
-		// Pablo. Inicializo la gravedad
 		if(entityInfo->hasAttribute("attackPower"))
 			_attackPower = entityInfo->getFloatAttribute("attackPower");
 
@@ -52,6 +51,7 @@ namespace Logic
 	
 	bool CAttack::accept(const CMessage *message)
 	{//aviso de que tanto accept como process son un poco hack, pero es es solo hasta tener un componente NPCCONTROLLER
+	//	return false;
 		return (message->getType() == Message::CONTROL && 
 			(message->getAction() == Message::LIGHT_ATTACK||
 			message->getAction() == Message::HEAVY_ATTACK)) || (Message::ANIMATION_FINISHED);
@@ -96,15 +96,17 @@ namespace Logic
 
 	void CAttack::lightAttack() 
 	{
-		if (_lightAttack) return;
+		//if (_lightAttack) return;
 		_heavyAttack=false;
 		_lightAttack=true;
-		CMessageBoolString *message = new CMessageBoolString();
+
+	/*	CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
+		message->setAction(Message::LIGHT_ATTACK);
 		message->setString("FireAK47");
 		message->setBool(false);
 		_entity->emitMessage(message,this);
-
+		*/
 		//envio mensaje para averiguar sin con este ataque le he arreado a alguien o no
 		/*CMessageFloat *message2 = new CMessageFloat();
 		message2->setType(Message::SPACE_REQUEST);
@@ -129,6 +131,7 @@ namespace Logic
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
 		message->setString("FireKatana");
+		message->setAction(Message::HEAVY_ATTACK);
 		message->setBool(false);
 		_entity->emitMessage(message,this);
 	} // turn
