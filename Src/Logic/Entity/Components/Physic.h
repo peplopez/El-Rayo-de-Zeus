@@ -46,6 +46,8 @@ namespace Logic
 		*/
 		CPhysic();
 
+		CPhysic(altTypeId id);
+
 		/**
 		Destructor. Elimina el objeto físico de la escena y lo destruye. 
 		*/

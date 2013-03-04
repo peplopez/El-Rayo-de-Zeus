@@ -46,6 +46,8 @@ namespace Logic
 	
 	public:
 
+		CPhysicCharacter() : CPhysic(GetAltTypeIdOf(CPhysicCharacter)) {}
+
 		/**Este componente sólo acepta mensajes de tipo AVATAR_WALK.*/
 		virtual bool accept(const CMessage *message);
 		
