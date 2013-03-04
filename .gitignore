@@ -150,10 +150,4 @@ DocumentacionDoxygen/
 #EXCEPTIONS #
 #############
 !/dependencies/include/enet/
-!/dependencies/include/PhysX/
-!/dependencies/lib/*/PhysX*.lib
 !/dependencies/lib/*/enet.lib
-!/dependencies/lib/*/NxCharacter.lib
-!/dependencies/bin/*/PhysX*.dll
-!/dependencies/bin/*/cudart32_30_9.dll
-!/dependencies/bin/*/NxCharacter.dll
