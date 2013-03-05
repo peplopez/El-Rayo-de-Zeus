@@ -158,4 +158,5 @@ DocumentacionDoxygen/
 !/dependencies/bin/*/cudart32_30_9.dll
 !/dependencies/bin/*/NxCharacter.dll
 !/dependencies/include/boost/
+!/dependencies/include/lua/
 
