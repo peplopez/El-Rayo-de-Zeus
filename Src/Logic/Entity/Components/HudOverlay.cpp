@@ -47,6 +47,23 @@ namespace Logic
 {
 	IMP_FACTORY(CHudOverlay);
 	
+	CHudOverlay::CHudOverlay() : IComponent(GetAltTypeIdOf(CHudOverlay)), 
+			_server(0), _overlayPlay(0), _overlayDie(0), _health(1000.0), 
+			_playersInBase(0),_visibleHud(false) { 
+		_server = Graphics::CServer::getSingletonPtr(); // FRS El server siempre debería estar disponible desde el principio
+	}
+	
+	// HACK FRS revisar...
+	CHudOverlay::~CHudOverlay() {	 	
+		//_server->removeOverlay("textAreaPanelPlayers");
+		//_server->removeOverlay("panelPlayers");
+		//_server->removeOverlay("textAreaPanelHealthBase");
+		//_server->removeOverlay("panelHealthBase");
+		//_server->removeOverlay("textAreaPanelHealth");
+	/*	_server->removeOverlay("panelDummy");
+		_server->removeOverlay("_overlayPlay");*/
+	} // destructor
+
 	//---------------------------------------------------------
 
 	bool CHudOverlay::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo)
@@ -54,7 +71,10 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
-
+		_overlayPlay = _server->getOverlay("_overlayPlay");
+			if( _overlayPlay  )
+				return true;
+		
 		//--Recogida de datos del mapa
 		if(entityInfo->hasAttribute("lifeMax"))		
 			_health= entityInfo->getFloatAttribute("lifeMax");	
@@ -67,28 +87,25 @@ namespace Logic
 		
 		setVisibleHud(false);		
 		_playersInBase = 0;
-
-		_server = Graphics::CServer::getSingletonPtr();
-
-		if(_overlayPlay) // FRS Si ya estaba creado (reinicio de partida) no lo recreamos
-			_overlayPlay = _server->createOverlay( "_overlayPlay" );
-
+		
+		_overlayPlay = _server->createOverlay( "_overlayPlay" );
+		
 		int height = _server->getHeight();
 		int width = _server->getWidth();
 
 		float relativeWidth = (float)width/26;
 		float relativeHeight = (float)height/31;
 
-		///// panel DUMMY
+		///// panel DUMMY		
 		Graphics::COverlay *panelDummy = _server->createOverlay("panelDummy",  "Panel" );
 			panelDummy->setMetricsMode("pixel");
 			panelDummy->setPosition(-1,-1);
 			panelDummy->setDimensions(1,1);
 
 		_textBoxArea[DUMMY] = _server->createOverlay("textAreaPanelDummy", "TextArea");
-		_textBoxArea[DUMMY]->setMetricsMode("pixel");
-		_textBoxArea[DUMMY]->setPosition(0,0);
-		_textBoxArea[DUMMY]->setDimensions(1,1);
+			_textBoxArea[DUMMY]->setMetricsMode("pixel");
+			_textBoxArea[DUMMY]->setPosition(0,0);
+			_textBoxArea[DUMMY]->setDimensions(1,1);
 
 		std::stringstream sDummy;//create a stringstream
 		sDummy << "d";
@@ -98,10 +115,8 @@ namespace Logic
 		//_textBoxArea[DUMMY]->setColour(Ogre::ColourValue::White);
 				
 		panelDummy->addChild(_textBoxArea[DUMMY]);
-
 		_overlayPlay->add2D( panelDummy );
          // Add the panel to the overlay
-
 
 		///// panel health(para la vida del Jugador)
 		Graphics::COverlay* panelHealth = _server->createOverlay("panelHealth", "Panel");
@@ -109,7 +124,6 @@ namespace Logic
 		panelHealth->setPosition( 20, 20);
 		panelHealth->setDimensions( 40, 40 );
 		panelHealth->setMaterial("hudHealth");
-
 
 		_textBoxArea[HEALTH] =_server->createOverlay("textAreaPanelHealth", "TextArea");
 		_textBoxArea[HEALTH]->setMetricsMode("pixel");
@@ -127,16 +141,13 @@ namespace Logic
 
 		_overlayPlay->add2D( panelHealth );
          // Add the panel to the overlay
-
-
-
+		
 	///// panel healthBase(para la base del Jugador)
 		Graphics::COverlay* panelHealthBase = _server->createOverlay("panelHealthBase", "Panel");
 		panelHealthBase->setMetricsMode("pixel");
 		panelHealthBase->setPosition( 20, 80);
 		panelHealthBase->setDimensions( 40, 40 );
 		panelHealthBase->setMaterial("hudHealthBase");
-
 
 		_textBoxArea[HEALTHBASE] =_server->createOverlay("textAreaPanelHealthBase", "TextArea");
 		_textBoxArea[HEALTHBASE]->setMetricsMode("pixel");
@@ -154,9 +165,6 @@ namespace Logic
 
 		_overlayPlay->add2D( panelHealthBase );
          // Add the panel to the overlay
-
-
-
 
 	///// panel panelPlayers(para los Players enemigos que hay en nuestra base)
 		Graphics::COverlay* panelPlayers = _server->createOverlay("panelPlayers", "Panel");
@@ -181,7 +189,6 @@ namespace Logic
 
 		_overlayPlay->add2D( panelPlayers );
          // Add the panel to the overlay
-
 
 		return true;
 
@@ -362,13 +369,13 @@ namespace Logic
 
 	} //activate
 
-
+	// FRS DANGER CAUTION ATTENTION: deactivate sólo desactiva temporalmente el componente 
+	//(en cuanto a tick y en cuanto a recepción de mensajes); nunca debería liberar memoria 
+	//(eso sólo en el dtor)
 	void CHudOverlay::deactivate()
 	{
-
 		//overlayManager.destroyAllOverlayElements();
 		//overlayManager.destroyAll();
-
 	}//deactivate
 	
 	//---------------------------------------------------------

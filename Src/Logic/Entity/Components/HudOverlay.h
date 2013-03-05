@@ -39,8 +39,11 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		CHudOverlay() : IComponent(GetAltTypeIdOf(CHudOverlay)), _health(1000.0), _playersInBase(0),_visibleHud(false) {}
+		CHudOverlay();
 		
+		/** Destructor */
+		CHudOverlay::~CHudOverlay();
+
 		/**
 		Inicialización del componente usando la descripción de la entidad que hay en 
 		el fichero de mapa.
@@ -98,7 +101,7 @@ namespace Logic
 
 		Graphics::COverlay *_textAreaDie;
 		Graphics::COverlay *_textBoxArea[4];
-
+		 
 	}; // class CHudOverlay
 
 	REG_FACTORY(CHudOverlay);

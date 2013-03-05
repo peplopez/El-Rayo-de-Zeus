@@ -93,7 +93,7 @@ namespace Graphics
 
 		// Creamos la escena dummy para cuando no hay ninguna activa.
 		_dummyScene = createScene("dummy_scene");
-		
+		 
 		// Por defecto la escena activa es la dummy
 		setScene(_dummyScene);
 
@@ -234,14 +234,14 @@ namespace Graphics
 	//--------------------------------------------------------
 
 	void CServer::removeOverlay(const std::string& name){
-	
+		_overlayManager->destroy(name);
 	} //removeOverlayElement
 	//--------------------------------------------------------
 	
 	COverlay* CServer::getOverlay(const std::string& name){
 		if(_overlayManager->hasOverlayElement(name)){
-			return new COverlay(_overlayManager->getOverlayElement(name));
-		}else{
+			return new COverlay(_overlayManager->getOverlayElement(name)); // FRS Por qué estos news?
+		}else {
 			if(_overlayManager->getByName(name)){
 				return new COverlay(_overlayManager->getByName(name));
 			}
