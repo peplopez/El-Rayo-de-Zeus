@@ -28,7 +28,7 @@ namespace Logic
 		/**
 		Constructor
 		*/
-		CStateMachineExecutor(void) : _currentStateMachine(0), _currentAction(0) {};
+		CStateMachineExecutor(void) : IComponent(GetAltTypeIdOf(CStateMachineExecutor)), _currentStateMachine(0), _currentAction(0) {};
 		/**
 		Destructor
 		*/
