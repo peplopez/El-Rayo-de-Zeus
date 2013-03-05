@@ -264,7 +264,7 @@ namespace Logic
 		TComponentMap::const_iterator it = _components.begin();
 		while (it != _components.end()) {
 		        delete it->second;
-			_components.erase(++it);			
+			_components.erase(it++);			
 		}		
 		// TODO FRS si compaginamos vector + map (busquedas) esto seria mejor secuencialmente
 	//	while(!_components.empty())
