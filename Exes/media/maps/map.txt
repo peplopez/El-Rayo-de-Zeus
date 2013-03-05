@@ -349,6 +349,22 @@ Map ={
 		base=3,
 		ring=1,
 		degrees=300,		
-	},		
+	},	
+	
+	peludo = {
+		type = "Spider",
+		base=3,
+		ring=1,
+		degrees=0,		
+	},
+
+	peluda = {
+		type = "Spider",
+		base=3,
+		ring=2,
+		degrees=0,		
+	},	
+	
+		
 
 }

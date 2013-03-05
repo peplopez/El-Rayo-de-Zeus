@@ -54,33 +54,24 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
+
 		//--Recogida de datos del mapa
-		if(entityInfo->hasAttribute("lifeMax"))
-		{
-			_health= entityInfo->getFloatAttribute("lifeMax");
-		}
-
-
-		if(entityInfo->hasAttribute("lifeBase"))
-		{
+		if(entityInfo->hasAttribute("lifeMax"))		
+			_health= entityInfo->getFloatAttribute("lifeMax");	
+		if(entityInfo->hasAttribute("lifeBase"))		
 			_healthBase= entityInfo->getIntAttribute("lifeBase");
-		}
-
-		if(entityInfo->hasAttribute("base"))
-		{
+		if(entityInfo->hasAttribute("base"))		
 			_base = entityInfo->getIntAttribute("base");
-		}
+		
 		//--Recogida de datos del mapa
 		
-		setVisibleHud(false);
-		
+		setVisibleHud(false);		
 		_playersInBase = 0;
-
 
 		_server = Graphics::CServer::getSingletonPtr();
 
-		_overlayPlay = _server->createOverlay( "_overlayPlay" );
-
+		if(_overlayPlay) // FRS Si ya estaba creado (reinicio de partida) no lo recreamos
+			_overlayPlay = _server->createOverlay( "_overlayPlay" );
 
 		int height = _server->getHeight();
 		int width = _server->getWidth();
@@ -88,13 +79,11 @@ namespace Logic
 		float relativeWidth = (float)width/26;
 		float relativeHeight = (float)height/31;
 
-
-
 		///// panel DUMMY
 		Graphics::COverlay *panelDummy = _server->createOverlay("panelDummy",  "Panel" );
-		panelDummy->setMetricsMode("pixel");
-		panelDummy->setPosition(-1,-1);
-		panelDummy->setDimensions(1,1);
+			panelDummy->setMetricsMode("pixel");
+			panelDummy->setPosition(-1,-1);
+			panelDummy->setDimensions(1,1);
 
 		_textBoxArea[DUMMY] = _server->createOverlay("textAreaPanelDummy", "TextArea");
 		_textBoxArea[DUMMY]->setMetricsMode("pixel");
@@ -112,9 +101,6 @@ namespace Logic
 
 		_overlayPlay->add2D( panelDummy );
          // Add the panel to the overlay
-
-
-
 
 
 		///// panel health(para la vida del Jugador)
