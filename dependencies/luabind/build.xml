@@ -1,0 +1,30 @@
+  <property name="bjamDefaultParams" value='-sLUA_PATH="../lua" -sBOOST_BUILD_PATH="./boost-build" -sBOOST_ROOT="../include" --toolset=msvc-9.0 link=shared'/>
+
+  <target name="publishIncludes">
+     <mkdir dir="../include/luabind"/>
+     <copy todir="../include/luabind">
+       <fileset dir="./luabind"/>
+     </copy>
+  </target>
+
+  <target name="publishDebug" depends="publishIncludes">
+    <copy file="bin/msvc-9.0/debug/threading-multi/luabindd.dll" todir="../bin/Debug"/>
+    <copy file="bin/msvc-9.0/debug/threading-multi/luabindd.lib" todir="../lib/Debug"/>
+  </target>
+
+  <target name="publishRelease" depends="publishIncludes">
+    <copy file="bin/msvc-9.0/release/threading-multi/luabind.dll" todir="../bin/Release"/>
+    <copy file="bin/msvc-9.0/release/threading-multi/luabind.lib" todir="../lib/Release"/>
+  </target>
+
+   <target name="release"
+           description="Compilación (incremental) en modo Release">
+
+      <exec executable="${basedir}/bjam" failonerror="true" dir="${basedir}">
+         <arg line="${bjamDefaultParams}"/>
+         <arg line="release"/>
+      </exec>
+
+      <antcall target="publishRelease"/>
+
+   </target>
