@@ -86,7 +86,7 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		IComponent() : _entity(0), _componentId(0) {}
+		IComponent() : _entity(0), _componentId(0), _activated(false) {}
 
 		/**
 		Add ESC
@@ -123,7 +123,7 @@ namespace Logic
 
 		@return true si todo ha ido correctamente.
 		*/
-		virtual bool activate() {return true;}
+		virtual bool activate() { _activated=true; return true;}
 		
 		/**
 		Método que desactiva el componente; invocado cuando se
@@ -154,11 +154,14 @@ namespace Logic
 		CEntity *getEntity() const { return _entity; }
 
 		/**
-		Método que devuelve la entidad a la que pertenece el componente.
-
-		@return La entidad a la que pertenece el componente.
 		*/
 		altTypeId getComponentId() const { return _componentId; }
+
+		/**
+		*/
+		bool isActivated() const {return _activated; }
+
+
 
 	protected:
 
@@ -185,6 +188,10 @@ namespace Logic
 		los otros componentes
 		*/
 		CEntity *_entity;
+
+		/*
+		*/
+		bool _activated;
 
 	}; // class IComponent
 

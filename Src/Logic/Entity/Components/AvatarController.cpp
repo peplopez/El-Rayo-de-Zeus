@@ -45,6 +45,8 @@ namespace Logic
 
 	bool CAvatarController::activate()
 	{
+		IComponent::activate();
+
 		_sense = _entity->getSense();
 		//Menudos HACKS os marcais
 		/**
@@ -56,7 +58,10 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	void CAvatarController::deactivate(){} // deactivate
+	void CAvatarController::deactivate()
+	{
+		_activated = false;
+	} // deactivate
 	
 	//---------------------------------------------------------
 
@@ -206,11 +211,7 @@ namespace Logic
 			}
 		}
 
-		_entity->setSense(_sense);
-		//Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(), _entity->getHeight(), _entity->getBase(), _entity->getRing());
-		//_entity->setPosition(newPosition);
-
-			
+		_entity->setSense(_sense);		
 
 	} // tick
 } // namespace Logic

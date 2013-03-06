@@ -32,7 +32,7 @@ namespace Logic
 		DEC_FACTORY(CJump2);
 	public:
 
-		CJump2() : IComponent(GetAltTypeIdOf(CJump2)), _jumping(false), _jumpSpeed(0.1f), _justJumped(false){}
+		CJump2() : IComponent(GetAltTypeIdOf(CJump2)), _jumping(false), _jumpSpeed(0.13f), _justJumped(false){}
 		
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 

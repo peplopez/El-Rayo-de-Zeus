@@ -15,6 +15,7 @@ capacidad de un Character de activar/desactivar altares
 #define __Logic_AltarStateSwitcher_H
 
 #include "Logic/Entity/Component.h"
+#include "Logic/Entity/LogicalPosition.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 
@@ -33,7 +34,7 @@ namespace Logic
 	public:
 
 
-		CAltarStateSwitcher() : IComponent(GetAltTypeIdOf(CAltarStateSwitcher)), _switchingState(false), _switchingAllowed(false), _target(NULL) {}
+		CAltarStateSwitcher() : IComponent(GetAltTypeIdOf(CAltarStateSwitcher)), _switchingState(false), _switchingAllowed(false), _target(NULL), _sense(Logic::Sense::UNDEFINED), _acumRotation(0) {}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
@@ -67,6 +68,16 @@ namespace Logic
 		/**
 		*/
 		CEntity* _target;
+
+		/*
+		**/
+		Logic::Sense _sense;
+
+		/*
+		**/
+
+		float _acumRotation;
+		
 		
 
 	}; // class CAltarStateSwitcher

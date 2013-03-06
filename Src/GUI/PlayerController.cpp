@@ -216,11 +216,6 @@ namespace GUI {
 				m->setAction(Logic::Message::WALK_STOP);
 				break;
 
-			case GUI::Key::F:
-				m->setAction(Logic::Message::STOP_SWITCH);
-				_controlledAvatar->emitMessage(m);
-				break;
-
 			default:
 				return false;
 			}

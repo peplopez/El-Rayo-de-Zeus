@@ -91,7 +91,13 @@ namespace Logic {
 		// Este a genera  SET_TRANSFORM por debajo que informa al CGraphics
 
 		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()._degrees - _server->getActorLogicPosition(_physicActor)._degrees));
-		_entity->setLogicalPosition( _server->getActorLogicPosition(_physicActor) ); 
+
+		
+		//PEACHO HaCK para que no se sobreescriba el sens desde con el del actor físico
+		Logic::TLogicalPosition pos = _server->getActorLogicPosition(_physicActor);
+		pos._sense = _entity->getSense();
+
+		_entity->setLogicalPosition( pos ); 
 
 
 
