@@ -93,7 +93,7 @@ namespace Logic {
 		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()._degrees - _server->getActorLogicPosition(_physicActor)._degrees));
 
 		
-		//PEACHO HaCK para que no se sobreescriba el sens desde con el del actor físico
+		//ESC - PEACHO HaCK para que no se sobreescriba el sense con el del actor físico
 		Logic::TLogicalPosition pos = _server->getActorLogicPosition(_physicActor);
 		pos._sense = _entity->getSense();
 
