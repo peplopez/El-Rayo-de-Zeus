@@ -16,10 +16,9 @@
 
 namespace Physics
 {
-		CActor::CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
-					bool isTrigger, IObserver *component) : 
+		CActor::CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, IObserver *component) : 
 		_logicPosition(position), _boxWidth(angularWidth), 
-			_boxHeight(height), _isTrigger(isTrigger), _component(component)
+			_boxHeight(height), _component(component)
 		{
 		}
 

@@ -28,7 +28,6 @@ namespace Physics {
 	CServer::CServer() :  _scene(NULL) 
 	{
 		assert(!_instance && "Segunda inicialización de Graphics::CServer no permitida!");
-
 		_instance = this;
 	} 
 
@@ -69,8 +68,7 @@ namespace Physics {
 	//--------------------------------------------------------
 
 	bool CServer::open()
-	{
-		_scene = createScene();		
+	{		
 		return true;
 	} // open
 
@@ -87,14 +85,12 @@ namespace Physics {
 
 	//--------------------------------------------------------
 
-	CScene* CServer::createScene ()
+	
+	void CServer::createScene()
 	{
 		assert(_instance);
-	
-		// Crear la escena física
-		CScene *scene = new CScene();
-		return scene;
-	}
+		_scene = new CScene();
+	} // createScene
 
 	//--------------------------------------------------------
 
@@ -142,13 +138,13 @@ namespace Physics {
 
 		if(isTrigger)  {
 
-			Physics::CActorTrigger *actor =	new Physics::CActorTrigger(position, angularWidth, height, isTrigger, component);
+			Physics::CActorTrigger *actor =	new Physics::CActorTrigger(position, angularWidth, height, component);
 			_scene->addActor(actor); // Añadir el actor a la escena
 			return actor;
 
 		} else {
 
-			Physics::CActor *actor = new Physics::CActor(position, angularWidth, height, isTrigger, component);
+			Physics::CActor *actor = new Physics::CActor(position, angularWidth, height, component);
 			_scene->addActor(actor); // Añadir el actor a la escena
 			return actor;
 

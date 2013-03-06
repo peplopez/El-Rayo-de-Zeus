@@ -69,20 +69,12 @@ namespace Physics {
 
 		/**
 		Crea la escena física. Se asume que sólo existirá una escena física, por lo que 
-		sólo debe invocarse una vez.
-		*/
-		CScene* createScene ();
-
-		/**
-		Destruye la escena física.
-		*/
+		sólo debe invocarse una vez.*/
+		void createScene ();
+		/**	Destruye la escena física.*/
 		void destroyScene ();
-
-
 		bool activateScene();
-
 		bool deactivateScene();
-
 
 		//------------------------------
 		// Gestión de entidades simples

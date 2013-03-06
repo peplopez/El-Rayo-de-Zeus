@@ -35,8 +35,7 @@ namespace Physics
 	public:
 
 		CActor();
-		CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
-					bool isTrigger, IObserver *component);
+		CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, IObserver *component);
 		virtual ~CActor() {}
 
 		virtual void release(); // TODO FRS con hacerlo virtual ya se ejecuta el delete sobre el this del hijo o hay que impl en el hijo?
@@ -65,9 +64,6 @@ namespace Physics
 
 		void setBoxHeight(const float height) {_boxHeight=height;}
 		float getBoxHeight() {return _boxHeight;}
-		
-		void setIsTrigger(const bool isTrigger) {_isTrigger = isTrigger;}
-		bool isTrigger() {return _isTrigger;}
 
 		void setIObserver(IObserver* component) {_component=component;}
 		IObserver *getIObserver() {return _component;}
@@ -84,8 +80,6 @@ namespace Physics
 
 		float _boxWidth;
 		float _boxHeight;
-
-		bool _isTrigger;
 
 		IObserver* _component;
 

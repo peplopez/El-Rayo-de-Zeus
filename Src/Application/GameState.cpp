@@ -34,13 +34,13 @@ namespace Application {
 	bool CGameState::init() 
 	{
 		CApplicationState::init();
-		
-		//HACK de momento quitamos esto ya que se hace en el init del Physic::CServer
+
+		// FRS el Logic:: loadLevel se adelanta al lobby, ya que los mapas cargados
+		// varían dependiendo de si somos server, client o monojudador
 
 		// Crear la escena física.
 		//Physics::CServer::getSingletonPtr()->setGroupCollisions(1,1,false);
-		//Physics::CServer::getSingletonPtr()->createScene();
-		
+		Physics::CServer::getSingletonPtr()->createScene();
 
 		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
 		_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
@@ -59,7 +59,7 @@ namespace Application {
 		Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
 		
 		// Liberamos la escena física.
-		//Physics::CServer::getSingletonPtr()->destroyScene();
+		Physics::CServer::getSingletonPtr()->destroyScene();
 
 		CApplicationState::release();
 
@@ -74,8 +74,11 @@ namespace Application {
 		// Activamos el mapa que ha sido cargado para la partida.
 		Logic::CServer::getSingletonPtr()->activateMap();
 
+		// Activamos escena física
+		Physics::CServer::getSingletonPtr()->activateScene();
+
 		// Queremos que el GUI maneje al jugador.
-                GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
+        GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
 		
 		// Activamos la ventana que nos muestra el HUD.
 		/*CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
@@ -98,6 +101,9 @@ namespace Application {
 		// Desactivamos la clase que procesa eventos de entrada para 
 		// controlar al jugador.
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
+
+		// Desactivamos escena física
+		Physics::CServer::getSingletonPtr()->deactivateScene();
 		
 		// Desactivamos el mapa de la partida.
 		Logic::CServer::getSingletonPtr()->deactivateMap();

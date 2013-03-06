@@ -29,9 +29,8 @@ namespace Physics
 	public:
 
 		CActorTrigger(const Logic::TLogicalPosition &position, 
-					const float angularWidth, const float height, 
-					bool isTrigger, IObserver *component) 
-					: CActor(position, angularWidth, height, isTrigger, component) {};
+					const float angularWidth, const float height, IObserver *component) 
+					: CActor(position, angularWidth, height, component) {};
 		
 		// TODO FRS necesario reimpl para que el delete se ejecute sobre este this y no del padre?
 		// void release();
