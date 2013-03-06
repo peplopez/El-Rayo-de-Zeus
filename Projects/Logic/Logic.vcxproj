@@ -84,7 +84,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\AltarController.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Altar.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AltarStateSwitcher.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Attack.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BaseTraveler.cpp" />
@@ -135,7 +135,7 @@
     <ClCompile Include="..\..\Src\Logic\Server.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\AltarController.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Altar.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AltarStateSwitcher.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Attack.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\CeguiHud.h" />

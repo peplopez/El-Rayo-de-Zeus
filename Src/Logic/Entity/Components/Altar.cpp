@@ -1,17 +1,17 @@
 /**
-@file AltarController.cpp
+@file Altar.cpp
 
 Contiene la implementación del componente que controla la 
 capacidad de un Character de activar/desactivar altares
  
-@see Logic::CAltarController
+@see Logic::CAltar
 @see Logic::IComponent
 
 @author Emilio Santalla
 @date Emilio Santalla, 2013
 */
 
-#include "AltarController.h"
+#include "Altar.h"
 
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
@@ -23,7 +23,7 @@ capacidad de un Character de activar/desactivar altares
 #define DEBUG 1
 #if DEBUG
 #	include <iostream>
-#	define LOG(msg) std::cout << "LOGIC::ALTARCONTROLLER>> " << msg << std::endl;
+#	define LOG(msg) std::cout << "LOGIC::ALTAR>> " << msg << std::endl;
 #else
 #	define LOG(msg)
 #endif
@@ -31,11 +31,11 @@ capacidad de un Character de activar/desactivar altares
 
 namespace Logic 
 {
-	IMP_FACTORY(CAltarController);
+	IMP_FACTORY(CAltar);
 	
 	//---------------------------------------------------------
 
-	bool CAltarController::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
+	bool CAltar::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;				
@@ -46,7 +46,7 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CAltarController::activate()
+	bool CAltar::activate()
 	{
 		_acumTime = _switchingTime;
 		return true;
@@ -54,11 +54,11 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	void CAltarController::deactivate() {} // deactivate
+	void CAltar::deactivate() {} // deactivate
 	
 	//---------------------------------------------------------
 
-	bool CAltarController::accept(const CMessage *message)
+	bool CAltar::accept(const CMessage *message)
 	{
 		return (message->getType() == Message::CONTROL);
 
@@ -66,7 +66,7 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	void CAltarController::process(CMessage *message)
+	void CAltar::process(CMessage *message)
 	{
 		switch(message->getType())
 		{
@@ -84,7 +84,7 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	void CAltarController::startSwitchingState()
+	void CAltar::startSwitchingState()
 	{
 		LOG(_entity->getName() << ": cambiando de estado")	
 		_switchingState = true;
@@ -94,7 +94,7 @@ namespace Logic
 	}
 
 	//---------------------------------------------------------
-	void CAltarController::stopSwitchingState()
+	void CAltar::stopSwitchingState()
 	{
 		
 		if (_switchingState)
@@ -108,7 +108,7 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	void CAltarController::tick(unsigned int msecs)
+	void CAltar::tick(unsigned int msecs)
 	{
 		IComponent::tick(msecs);
 

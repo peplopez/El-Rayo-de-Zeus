@@ -1,18 +1,18 @@
 /**
-@file AltarController.h
+@file Altar.h
 
 Contiene la declaración del componente que controla la
 activacion/desactivación de un Altar.
 
-@see Logic::CAltarController
+@see Logic::CAltar
 
 
 @author Emilio Santalla
 @date Marzo, 2013
 */
 
-#ifndef __Logic_AltarController_H
-#define __Logic_AltarController_H
+#ifndef __Logic_Altar_H
+#define __Logic_Altar_H
 
 #include "Logic/Entity/Component.h"
 
@@ -27,13 +27,13 @@ namespace Logic
 namespace Logic 
 {
 
-	class CAltarController : public IComponent
+	class CAltar : public IComponent
 	{
-		DEC_FACTORY(CAltarController);
+		DEC_FACTORY(CAltar);
 	public:
 
 
-		CAltarController() : IComponent(GetAltTypeIdOf(CAltarController)), _switchingState(false), _revertingState(), _activated(false), _switchingTime(3000), _acumTime(0) {}
+		CAltar() : IComponent(GetAltTypeIdOf(CAltar)), _switchingState(false), _revertingState(), _activated(false), _switchingTime(3000), _acumTime(0) {}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
@@ -75,10 +75,10 @@ namespace Logic
 		int _acumTime;
 		
 
-	}; // class CAltarController
+	}; // class CAltar
 
-	REG_FACTORY(CAltarController);
+	REG_FACTORY(CAltar);
 
 } // namespace Logic
 
-#endif // __Logic_AltarController_H */
+#endif // __Logic_Altar_H */
