@@ -355,14 +355,14 @@ Map ={
 		type = "Spider",
 		base=3,
 		ring=1,
-		degrees=0,		
+		degrees=80,		
 	},
 
 	peluda = {
 		type = "Spider",
 		base=3,
 		ring=2,
-		degrees=0,		
+		degrees=70,		
 	},	
 	
 		

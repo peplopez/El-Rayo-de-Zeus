@@ -57,6 +57,8 @@ namespace Logic
 		enum TActionType : unsigned char
 		{
 			UNDEF				= 0xFF,//pep: esto es hexadecimal? no parece que llevemos un orden en la numeración hexadecimal
+			SWITCH_ALTAR		= 0x01,
+			STOP_SWITCH			= 0x02,
 			GO_UP				= 0x0F,
 			GO_DOWN				= 0x10,
 			WALK_LEFT			= 0x11,
