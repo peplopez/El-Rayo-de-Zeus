@@ -1,3 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- Fichero Ant para la compilacion de Luabind -->
+<!-- Pablo Terrado Contreras -->
+<!-- Marzo 2013 -->
+ 
+<!--<project name="Luabind" default="release">-->
+<project name="Luabind" default="build">
+ 
   <property name="bjamDefaultParams" value='-sLUA_PATH="../lua" -sBOOST_BUILD_PATH="./boost-build" -sBOOST_ROOT="../include" --toolset=msvc-9.0 link=shared'/>
 
   <target name="publishIncludes">
@@ -16,6 +24,18 @@
     <copy file="bin/msvc-9.0/release/threading-multi/luabind.dll" todir="../bin/Release"/>
     <copy file="bin/msvc-9.0/release/threading-multi/luabind.lib" todir="../lib/Release"/>
   </target>
+  
+   <target name="build"
+           description="Compilación (incremental) en modo Release">
+
+      <exec executable="${basedir}/bjam" failonerror="true" dir="${basedir}">
+         <arg line="${bjamDefaultParams}"/>
+         <arg line="release"/>
+      </exec>
+
+      <antcall target="publishRelease"/>
+
+   </target>  
 
    <target name="release"
            description="Compilación (incremental) en modo Release">
@@ -28,3 +48,5 @@
       <antcall target="publishRelease"/>
 
    </target>
+   
+</project>

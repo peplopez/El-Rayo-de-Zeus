@@ -9,7 +9,7 @@
 <!-- PROPIEDADES DEL PROYECTO -->
 <!-- ==================== -->
 
-<property name="vslogfile" value="${basedir}/vslog.txt"/>
+<!--<property name="vslogfile" value="${basedir}/vslog.txt"/>-->
 <property name="lua51" value="LUA51VS2010.sln"/>
 
 <patternset id="vctmpfiles">
@@ -37,11 +37,11 @@ Parámetros (utilizando propiedades):
 <target name="windowsbuilder">
 	<vc10 projectfolder="${projectfolder}" 
 		  buildmode="${buildmode}"
-		  rebuild="${rebuild}"
-		  logfile="${vslogfile}">
+		  rebuild="${rebuild}">
+		<!--logfile="${vslogfile}">-->
 	  <targets dir="${projectfolder}" includes="${project}"/>
 	</vc10>
-	<delete file = "${vslogfile}"/>
+	<!--<delete file = "${vslogfile}"/>-->
 </target>
 
 <!-- Objetivo que compila el proyecto.
