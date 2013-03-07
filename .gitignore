@@ -146,6 +146,12 @@ DocumentacionDoxygen/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Debug/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Release/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/*.2010.vcxproj.user
+/dependencies/lua/vcproject/*
+/dependencies/lua/lib/*/*.pdb
+/dependencies/lua/lib/*/*.exp
+/dependencies/lua/bin/*/*.pdb
+/dependencies/lua/bin/*/*.exp
+/dependencies/luabind/bin/msvc-9.0/*
 
 #EXCEPTIONS #
 #############
@@ -159,4 +165,5 @@ DocumentacionDoxygen/
 !/dependencies/bin/*/NxCharacter.dll
 !/dependencies/include/boost/
 !/dependencies/include/lua/
+!/dependencies/include/luabind/
 
