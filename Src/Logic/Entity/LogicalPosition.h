@@ -41,7 +41,9 @@ namespace Logic
 			LEFT=			0,
 			RIGHT=			1,
 			ROTATING_LEFT=	2,
-			ROTATING_RIGHT=	3
+			ROTATING_RIGHT=	3,
+			LOOKING_CENTER= 4,
+			UNDEFINED=		5
 		};
 		
 
