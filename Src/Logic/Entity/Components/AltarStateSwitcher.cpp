@@ -49,13 +49,17 @@ namespace Logic
 
 	bool CAltarStateSwitcher::activate()
 	{
+		_active = true;
 		_sense = _entity->getSense();
-		return true;
+		return _active;
 	} // activate
 	
 	//---------------------------------------------------------
 
-	void CAltarStateSwitcher::deactivate(){} // deactivate
+	void CAltarStateSwitcher::deactivate()
+	{
+		_active = false;
+	} // deactivate
 	
 	//---------------------------------------------------------
 

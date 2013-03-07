@@ -45,7 +45,7 @@ namespace Logic
 
 	bool CAvatarController::activate()
 	{
-		IComponent::activate();
+		_active = true;
 
 		_sense = _entity->getSense();
 		//Menudos HACKS os marcais
@@ -53,14 +53,14 @@ namespace Logic
 		if (!_entity->isPlayer())
 			_walkingRight=true;
 		*/
-		return true;
+		return _active;
 	} // activate
 	
 	//---------------------------------------------------------
 
 	void CAvatarController::deactivate()
 	{
-		_activated = false;
+		_active = false;
 	} // deactivate
 	
 	//---------------------------------------------------------

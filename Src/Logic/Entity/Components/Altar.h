@@ -33,7 +33,7 @@ namespace Logic
 	public:
 
 
-		CAltar() : IComponent(GetAltTypeIdOf(CAltar)), _switchingState(false), _revertingState(), _activated(false), _switchingTime(3000), _acumTime(0) {}
+		CAltar() : IComponent(GetAltTypeIdOf(CAltar)), _switchingState(false), _revertingState(), _on(false), _switchingTime(3000), _acumTime(0) {}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
@@ -63,7 +63,7 @@ namespace Logic
 
 		/**
 		*/
-		bool _activated;
+		bool _on;
 
 		/**
 		*/

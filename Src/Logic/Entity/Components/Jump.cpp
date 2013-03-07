@@ -45,12 +45,16 @@ namespace Logic
 
 	bool CJump::activate()
 	{
+		_active = true;
 		_jumping=false;
-		return true;
+		return _active;
 	}
 		
 
-	void CJump::deactivate(){}
+	void CJump::deactivate()
+	{
+		_active = false;
+	}
 
 	
 	bool CJump::accept(const CMessage *message)

@@ -48,13 +48,17 @@ namespace Logic
 
 	bool CAltar::activate()
 	{
+		_active = true;
 		_acumTime = _switchingTime;
-		return true;
+		return _active;
 	} // activate
 	
 	//---------------------------------------------------------
 
-	void CAltar::deactivate() {} // deactivate
+	void CAltar::deactivate()
+	{
+		_active = false;	
+	} // deactivate
 	
 	//---------------------------------------------------------
 
@@ -118,8 +122,8 @@ namespace Logic
 			if (_acumTime <= 0 )
 			{
 				_switchingState = false;
-				_activated = !_activated;
-				if (_activated)
+				_on = !_on;
+				if (_on)
 					LOG(_entity->getName() << ": activado")
 				else 
 					LOG(_entity->getName() << ": desactivado")
@@ -131,7 +135,7 @@ namespace Logic
 			_acumTime += msecs;
 			if (_acumTime >= _switchingTime)
 			{
-				if (_activated)
+				if (_on)
 					LOG(_entity->getName() << ": activado")
 				else 
 					LOG(_entity->getName() << ": desactivado")

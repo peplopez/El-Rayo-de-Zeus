@@ -86,7 +86,7 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		IComponent() : _entity(0), _componentId(0), _activated(false) {}
+		IComponent() : _entity(0), _componentId(0), _active(false) {}
 
 		/**
 		Add ESC
@@ -123,7 +123,7 @@ namespace Logic
 
 		@return true si todo ha ido correctamente.
 		*/
-		virtual bool activate() { _activated=true; return true;}
+		virtual bool activate() { _active = true; return _active;}
 		
 		/**
 		Método que desactiva el componente; invocado cuando se
@@ -134,7 +134,7 @@ namespace Logic
 		La implementación eliminará al componente de algunos observers en los 
 		que pueda estar registrado (como el cronómetro del sistema, etc.).
 		*/
-		virtual void deactivate() {}
+		virtual void deactivate() { _active = false;}
 
 		/**
 		Método llamado en cada frame que actualiza el estado del componente.
@@ -159,7 +159,7 @@ namespace Logic
 
 		/**
 		*/
-		bool isActivated() const {return _activated; }
+		bool isActivated() const {return _active; }
 
 
 
@@ -191,7 +191,7 @@ namespace Logic
 
 		/*
 		*/
-		bool _activated;
+		bool _active;
 
 	}; // class IComponent
 
