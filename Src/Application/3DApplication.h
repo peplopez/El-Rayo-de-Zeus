@@ -69,7 +69,7 @@ namespace Application
 
 		/**
 		Finaliza la aplicación, liberando todos los recursos
-		utilizados.
+		utilizados y estados de aplicacion añadidos en el init
 		*/
 		virtual void release();
 

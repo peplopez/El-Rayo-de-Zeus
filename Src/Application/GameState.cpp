@@ -31,19 +31,13 @@ Contiene la implementación del estado de juego.
 
 namespace Application {
 
+	// ƒ®§ Al inicializar la app
 	bool CGameState::init() 
 	{
 		CApplicationState::init();
 
-		// FRS el Logic:: loadLevel se adelanta al lobby, ya que los mapas cargados
-		// varían dependiendo de si somos server, client o monojudador
-
-		// Crear la escena física.
-		//Physics::CServer::getSingletonPtr()->setGroupCollisions(1,1,false);
-		Physics::CServer::getSingletonPtr()->createScene();
-
-		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
-		_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
+		// FRS el Logic:: loadLevel se mueve a la parte final del lobby/menu state
+		//, ya que los mapas cargados varían dependiendo de si somos server, client o monojudador
 
 		return true;
 
@@ -51,6 +45,7 @@ namespace Application {
 
 	//--------------------------------------------------------
 
+	// ƒ®§ Al cerrar la app
 	void CGameState::release() 
 	{
 		Logic::CServer::getSingletonPtr()->unLoadLevel();
@@ -67,6 +62,7 @@ namespace Application {
 
 	//--------------------------------------------------------
 
+	// ƒ®§ Al entrar en GameState (cambio de currentState)
 	void CGameState::activate() 
 	{
 		CApplicationState::activate();
@@ -74,7 +70,9 @@ namespace Application {
 		// Activamos el mapa que ha sido cargado para la partida.
 		Logic::CServer::getSingletonPtr()->activateMap();
 
-		// Activamos escena física
+		// Creamos y activamos escena física
+		//Physics::CServer::getSingletonPtr()->setGroupCollisions(1,1,false);
+		Physics::CServer::getSingletonPtr()->createScene();
 		Physics::CServer::getSingletonPtr()->activateScene();
 
 		// Queremos que el GUI maneje al jugador.
@@ -86,12 +84,15 @@ namespace Application {
 		CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
 		_hudWindow->setVisible(true);
 		_hudWindow->activate();*/
+		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
+			_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
 
 
 	} // activate
 
 	//--------------------------------------------------------
 
+	//  ƒ®§ Al salir de gameState (cambio de currentState)
 	void CGameState::deactivate() 
 	{
 		// Desactivamos la ventana de HUD.

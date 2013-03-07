@@ -66,7 +66,7 @@ namespace Application {
 		if (!GUI::CInputManager::Init())
 			return false;
 
-		// Nos registramos como oyentes de los eventos del teclado.
+		// Nos registramos como oyentes de los eventos del teclado. // TODO FRS Esto no debería ir en activate? 
 		GUI::CInputManager::getSingletonPtr()->addKeyListener(this);
 		// Y como oyentes de los eventos del ratón.
 		GUI::CInputManager::getSingletonPtr()->addMouseListener(this);

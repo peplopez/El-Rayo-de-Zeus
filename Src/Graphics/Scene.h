@@ -146,10 +146,10 @@ namespace Graphics
 		//Pablo
 		void deleteSceneNode(const std::string &name);
 
-		//PT
+		//PT // TODO FRS WTF Spanglish al poder!
 		Ogre::ParticleSystem* createParticula(const std::string &name1, const std::string &name2);
 
-		//PT
+		//PT 
 		bool eliminarParticula(const std::string &name1, const std::string &name2);
 
 		int counterParticles;

@@ -45,9 +45,11 @@ namespace Logic
 	public:
 
 		CLife() : IComponent(GetAltTypeIdOf(CLife)), _LIFE_MAX(0), _life(0), _lifeBarPosition(0), _lifeBarWidth(0), _lifeBarHeight(0){}
+		~CLife() {}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
+		bool activate(){ return IComponent::activate(); }
 		void deactivate();
 		
 		bool accept(const CMessage *message);

@@ -51,11 +51,8 @@ namespace Application {
 	bool CBaseApplication::init() 
 	{
 		assert(!_initialized && "La aplicación ya está inicializada");
-
 		_initialized = true;
-
 		return true;
-
 	} // init
 
 	//--------------------------------------------------------

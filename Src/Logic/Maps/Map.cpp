@@ -102,7 +102,7 @@ namespace Logic {
 		bool correct = true;
 
 		// Activamos todas las entidades registradas en el mapa.
-		for(; it != end; it++)
+		for(; it != end; ++it)
 			correct = (*it).second->activate() && correct;
 
 		return correct;

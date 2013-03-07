@@ -94,8 +94,9 @@ namespace Application
 		virtual bool init();
 
 		/**
-		Finaliza la aplicación, liberando todos los recursos utilizados. En 
-		depuración se comprueba que la aplicación esté inicializada.
+		Finaliza la aplicación, liberando todos los recursos utilizados. 
+		También libera y elimina todos los estados de la aplicación.
+		En depuración se comprueba que la aplicación esté inicializada.
 		*/
 		virtual void release();
 
