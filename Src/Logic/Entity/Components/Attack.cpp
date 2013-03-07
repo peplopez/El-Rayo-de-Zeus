@@ -43,11 +43,15 @@ namespace Logic
 
 	bool CAttack::activate()
 	{				
-		 _lightAttack=_heavyAttack=false;
-		return true;
+		_active = true; 
+		_lightAttack=_heavyAttack=false;
+		return _active;
 	}		
 
-	void CAttack::deactivate(){}
+	void CAttack::deactivate()
+	{
+		_active = false;
+	}
 	
 	bool CAttack::accept(const CMessage *message)
 	{//aviso de que tanto accept como process son un poco hack, pero es es solo hasta tener un componente NPCCONTROLLER

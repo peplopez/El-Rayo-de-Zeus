@@ -63,19 +63,21 @@ namespace Logic
 
 	bool CCamera::activate()
 	{		
+		_active = true;
 		_target = CServer::getSingletonPtr()->getPlayer(); 
 		//_target->setPosition(Math::fromPolarToCartesian(0,60)); //esto no está bien aquí, pero si no está no calcula bien el vector dirección.
 		//_target->fromLogicalToCartesian(0,60,_target->getBase(),_target->getRing()); //esto no está bien aquí, pero si no está no calcula bien el vector dirección.
 		//anula lo que haya en el maps.txt sobre la posición del prota
 		_currentPos = Vector3(0,-1500,0);// Esto lo ponemos así de momento para que salga desde arriba la camara.
 		 _graphicsCamera->setCameraPosition(_currentPos);
-		return true;
+		return _active;
 	} // activate
 	
 	//---------------------------------------------------------
 
 	void CCamera::deactivate()
 	{
+		_active = false;
 		_target = 0;
 	} // deactivate
 	

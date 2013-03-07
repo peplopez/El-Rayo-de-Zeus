@@ -217,7 +217,8 @@ namespace Logic
 		TComponentMap::const_iterator it;
 		//TODO TComponentList::const_iterator it;
 		for( it = _components.begin(); it != _components.end(); ++it )
-			it->second->tick(msecs);
+			if ( it->second->isActivated() )
+				it->second->tick(msecs);
 			// TODO (*it)->tick(msecs);
 
 	} // tick
