@@ -195,6 +195,13 @@ namespace Logic
 		return false;
 		}
 
+	void CAttack::resetAttackFlags()
+	{
+		_heavyAttack=false;
+		_lightAttack=false;
+
+	}
+	
 	void CAttack::tick(unsigned int msecs)
 	{
 			IComponent::tick(msecs);

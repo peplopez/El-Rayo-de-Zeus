@@ -124,6 +124,8 @@ namespace Logic
 	
 			//este metodo devuelve null si no se está ocupando ese grado o la entidad que ocupa ese espacio
 		bool attackPlace(float grado, short base, short ring,bool soloInfo);
+
+		void resetAttackFlags();
 	
 	protected:
 
