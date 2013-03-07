@@ -111,6 +111,7 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
+	// ƒ®§ Carga el map desde fichero ==> ejecuta el entity.spawn()
 	bool CServer::loadLevel(const std::string &filename)
 	{
 		// solo admitimos un mapa cargado, si iniciamos un nuevo nivel 
@@ -118,9 +119,7 @@ namespace Logic {
 		unLoadLevel();
 
 		if(_map = CMap::createMapFromFile(filename))
-		{
-			return true;
-		}
+			return true;		
 
 		return false;
 
@@ -145,27 +144,23 @@ namespace Logic {
 		Vector3 retorno= Vector3::ZERO;
 			switch (ring)
 			{
-				case Logic::LogicalPosition::LOWER_RING:
-				{
+				case Logic::LogicalPosition::LOWER_RING:				
 					//return Logic::base.posBase[base]._down+Vector3(0,126,0);
 					return Logic::base.posBase[base]._down;
-				}
-				case Logic::LogicalPosition::CENTRAL_RING:
-				{
+				
+				case Logic::LogicalPosition::CENTRAL_RING:				
 					//return Logic::base.posBase[base]._center+Vector3(0,126,0);
 					return Logic::base.posBase[base]._center;
-				}
-				case Logic::LogicalPosition::UPPER_RING:
-				{
+				
+				case Logic::LogicalPosition::UPPER_RING:				
 					//return Logic::base.posBase[base]._up+Vector3(0,126,0);
 					return Logic::base.posBase[base]._up;
-				}
-				default:
-					{
+				
+				default:					
 					return Logic::base.posBase[base]._center+Vector3(0,126,0);
 					//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
 					//pese a todo no pete.
-					}								
+											
 			}
 
 	}
@@ -174,24 +169,20 @@ namespace Logic {
 	{
 			switch (ring)
 			{
-				case Logic::LogicalPosition::LOWER_RING:
-				{
+				case Logic::LogicalPosition::LOWER_RING:				
 					return Logic::RADIO_MENOR;
-				}
-				case Logic::LogicalPosition::CENTRAL_RING:
-				{
+				
+				case Logic::LogicalPosition::CENTRAL_RING:				
 					return Logic::RADIO_MAYOR;
-				}
-				case Logic::LogicalPosition::UPPER_RING:
-				{
+				
+				case Logic::LogicalPosition::UPPER_RING:				
 					return Logic::RADIO_MENOR;
-				}
-				default:
-					{
-						return Logic::RADIO_MAYOR;
+				
+				default:					
+					return Logic::RADIO_MAYOR;
 					//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
 					//pese a todo no pete.
-					}								
+												
 			}
 
 	}

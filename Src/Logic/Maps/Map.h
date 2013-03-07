@@ -30,6 +30,10 @@ namespace Graphics
 {
 	class CScene;
 }
+namespace Physics 
+{
+	class CScene;
+}
 
 // Declaración de la clase
 namespace Logic
@@ -175,7 +179,14 @@ namespace Logic
 
 		@return Escena con las entidades gráficas.
 		*/
-		Graphics::CScene *getScene() {return _scene;}
+		Graphics::CScene *getGraphicScene() {return _graphicScene;}
+
+		/**
+		Devuelve la escena física correspondiente a este mapa.
+
+		@return Escena con los actores físicos.
+		*/
+		Physics::CScene *getPhysicScene() {return _physicScene;}
 		
 		/**
 		Crea un nuevo jugador y le porporciona un nombre determinado.
@@ -207,10 +218,13 @@ namespace Logic
 		std::string _name;
 
 		/**
-		Escena gráfica donde se encontrarán las representaciones gráficas de
-		las entidades.
+		Escena gráfica donde se encontrarán las representaciones gráficas de las entidades.
 		*/
-		Graphics::CScene* _scene;
+		Graphics::CScene* _graphicScene;
+		/**
+		Escena física donde se encontrarán los actores físicos de las entidades.
+		*/
+		Physics::CScene* _physicScene;
 	}; // class CMap
 
 } // namespace Logic

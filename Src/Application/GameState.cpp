@@ -70,9 +70,7 @@ namespace Application {
 		// Activamos el mapa que ha sido cargado para la partida.
 		Logic::CServer::getSingletonPtr()->activateMap();
 
-		// Creamos y activamos escena física
-		//Physics::CServer::getSingletonPtr()->setGroupCollisions(1,1,false);
-		Physics::CServer::getSingletonPtr()->createScene();
+		// Activamos escena física
 		Physics::CServer::getSingletonPtr()->activateScene();
 
 		// Queremos que el GUI maneje al jugador.
@@ -143,13 +141,20 @@ namespace Application {
 
 	//--------------------------------------------------------
 
+	// TODO FRS de momento el ESC = salir de la partida, pero en un futuro podría ser = Pause... + New / Continue
 	bool CGameState::keyReleased(GUI::TKey key)
 	{
 		switch(key.keyId)
 		{
 		case GUI::Key::ESCAPE:
+			Logic::CServer::getSingletonPtr()->unLoadLevel();
 			_app->setState("menu");
 			break;
+
+		case GUI::Key::PAUSE:
+			_app->setState("pause");
+			break;
+
 		default:
 			return false;
 		}

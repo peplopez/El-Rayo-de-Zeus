@@ -21,13 +21,43 @@ Contiene la implementación de la clase CMap, Un mapa lógico.
 #include "Graphics/Server.h"
 #include "Graphics/Scene.h"
 
+#include "Physics/Server.h"
+#include "Physics/Scene.h"
+
 #include <cassert>
+
 
 // HACK. Debería leerse de algún fichero de configuración
 #define MAP_FILE_PATH "./media/maps/"
 
 namespace Logic {
 		
+
+	// ƒ®§ Creación de un mapa con nombre name (normalmente el propio filename). => Creación de escenas física y gráfica
+	CMap::CMap(const std::string &name)
+	{
+		_name = name;
+		_graphicScene = Graphics::CServer::getSingletonPtr()->createScene(name);
+		_physicScene  = Physics::CServer::getSingletonPtr()->createScene(name); 
+
+		// Pablo 31-01-2013. Indico que la escena activa es map.txt (no dummy_scene)
+		Graphics::CServer::getSingletonPtr()->setScene(name);	
+
+	} // CMap
+
+	//--------------------------------------------------------
+
+	CMap::~CMap()
+	{
+		destroyAllEntities();
+		if(Graphics::CServer::getSingletonPtr())
+			Graphics::CServer::getSingletonPtr()->removeScene(_graphicScene);
+		if(Physics::CServer::getSingletonPtr() )
+			Physics::CServer::getSingletonPtr()->removeScene(_physicScene);
+
+	} // ~CMap
+
+	//--------------------------------------------------------
 	CMap* CMap::createMapFromFile(const std::string &filename)
 	{
 		// Completamos la ruta con el nombre proporcionado
@@ -41,7 +71,7 @@ namespace Logic {
 		}
 
 		// Si se ha realizado con éxito el parseo creamos el mapa.
-		CMap *map = new CMap(filename);
+		CMap *map = new CMap(filename); // Desencadena la creación de las escenas física y gráfica
 
 		// Extraemos las entidades del parseo.
 		Map::CMapParser::TEntityList entityList = 
@@ -55,9 +85,8 @@ namespace Logic {
 
 		// Creamos todas las entidades lógicas.
 		for(; it != end; it++)
-		{
-			// La propia factoría se encarga de añadir la entidad al mapa.
-			CEntity *entity = entityFactory->createMergedEntity((*it),map); // [ƒ®§] Yo creo que sigue siendo un createEntity, pero bien hecho -> quitar "Merged"
+		{			
+			CEntity *entity = entityFactory->createMergedEntity((*it),map); // La propia factoría se encarga de añadir la entidad al mapa.
 			assert(entity && "No se pudo crear una entidad del mapa");
 		}
 
@@ -70,26 +99,7 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-	CMap::CMap(const std::string &name)
-	{
-		_name = name;
-		_scene = Graphics::CServer::getSingletonPtr()->createScene(name);
-		// Pablo 31-01-2013. Indico que la escena activa es map.txt (no dummy_scene)
-		Graphics::CServer::getSingletonPtr()->setScene(name);	
 
-	} // CMap
-
-	//--------------------------------------------------------
-
-	CMap::~CMap()
-	{
-		destroyAllEntities();
-		if(Graphics::CServer::getSingletonPtr())
-			Graphics::CServer::getSingletonPtr()->removeScene(_scene);
-
-	} // ~CMap
-
-	//--------------------------------------------------------
 
 	bool CMap::activate()
 	{

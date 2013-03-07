@@ -31,6 +31,15 @@ namespace Physics {
 	*/
 	class CServer 
 	{
+		
+	protected:
+
+		/**
+		Tipo para la estructura que guarda las diferentes escenas
+		*/
+		typedef std::map<std::string,CScene*> TScenes;
+
+
 	public:
 
 
@@ -61,8 +70,6 @@ namespace Physics {
 		void tick(unsigned int msecs);
 
 
-
-
 		//----------------------
 		// Gestion de la escena
 		//----------------------
@@ -70,16 +77,49 @@ namespace Physics {
 		/**
 		Crea la escena física. Se asume que sólo existirá una escena física, por lo que 
 		sólo debe invocarse una vez.*/
-		void createScene ();
-		/**	Destruye la escena física.*/
-		void destroyScene ();
-		bool activateScene();
-		bool deactivateScene();
+		CScene* createScene(const std::string &name);
+
+		/**
+		Elimina la escena pasada por parámetro de la tabla de escenas
+		y la libera.
+
+		@param scene Escena que se desea liberar
+		*/
+		void removeScene(CScene* scene);
+
+		/**
+		Elimina la escena de nombre especificado por parámetro de la 
+		tabla de escenas y la libera.
+
+		@param name Nombre de la escena que se quiere liberar.
+		*/
+		void removeScene(const std::string& name);
+
+
+		/**
+		Establece una escena como escena activa. En caso de que 
+		hubiese otra escena activa este método la desactiva y establece
+		la nueva.
+
+		@param scene Escena que se desea poner como escena activa.
+		*/
+		void setActiveScene(CScene* scene);
+
+		/**
+		Establece una escena como escena activa. En caso de que 
+		hubiese otra escena activa este método la desactiva y establece
+		la nueva.
+
+		@param name Nombre de la escena que se quiere poner como
+		escena activa.
+		*/
+		void setActiveScene(const std::string& name);
+
+
 
 		//------------------------------
 		// Gestión de entidades simples
 		//------------------------------
-
 
 		Physics::CActor* createActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
 										bool isTrigger, IObserver *component); 
@@ -89,22 +129,35 @@ namespace Physics {
 		
 		Logic::TLogicalPosition& getActorLogicPosition(Physics::CActor* actor);
 
-
-		//¿Por qué llamar al server y no directamente al actor->move?
 		void moveActor(Physics::CActor *actor, const Logic::TLogicalPosition &position);
 
-		// UNDONE ƒ®§ En principio no haría falta sobrecarga, si desde el CPhysicCharacter tenemos el  TLogical entero y esto es una simple llamada (no mensaje)
-		//void moveActor(Physics::Actor *actor, const float degress);
-		void moveActor(Physics::CActor *actor, const float degrees, const float height, const char ring, const char base);
+		// UNDONE FRS
+		//void moveActor(Physics::CActor *actor, const float degrees, const float height, const char ring, const char base);
 
+	
 	protected:
-
 
 		// Instancia única de la clase.
 		static CServer *_instance;
 
-		// Escena física
-		CScene *_scene;
+		/**
+		Mapa de escenas. Se asocia una escena con su nombre.
+		*/
+		TScenes _scenes;
+
+			/**
+		Escena actual. Por simplificación asumimos que solo va a haber una
+		escena activa al mismo tiempo. El cambio de escena activa se realiza
+		a través de ésta clase.
+		*/
+		CScene* _activeScene;
+
+		/**
+		Escena dummy que se crea automáticamente. Con ella permitimos que
+		siempre haya una escena para el dibujado del GUI.
+		
+		*/
+		CScene* _dummyScene; // TODO FRS Copiado de Graphics::Server -> verdadera utilidad??
 
 		/**
 		Constructor de la clase.
@@ -115,6 +168,7 @@ namespace Physics {
 		Destructor de la clase.
 		*/
 		virtual ~CServer();
+
 
 		/**
 		Segunda fase de la construcción del objeto. Sirve para hacer
@@ -134,6 +188,8 @@ namespace Physics {
 
 
 	}; // class CServer
+
+
 
 } // namespace Physics
 

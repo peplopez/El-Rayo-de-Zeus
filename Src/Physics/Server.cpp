@@ -21,11 +21,11 @@ namespace Physics {
 
 
 	// Única instancia del servidor
-	CServer *CServer::_instance = NULL;
+	CServer *CServer::_instance = 0;
 
 	//--------------------------------------------------------
 
-	CServer::CServer() :  _scene(NULL) 
+	CServer::CServer() :  _activeScene(0) 
 	{
 		assert(!_instance && "Segunda inicialización de Graphics::CServer no permitida!");
 		_instance = this;
@@ -68,42 +68,56 @@ namespace Physics {
 	//--------------------------------------------------------
 
 	bool CServer::open()
-	{		
+	{				
+		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.		
+		setActiveScene(_dummyScene); // Por defecto la escena activa es la dummy
+
 		return true;
 	} // open
 
 	//--------------------------------------------------------
-
-	void CServer::close() 
+		
+	void CServer::close()  // FRS Se ejecuta justo antes de la delete de _instance
 	{
-		if(_scene)
-		{
-			_scene->deactivate();
-			_scene = 0;
+		if(_activeScene){
+			_activeScene->deactivate();
+			_activeScene = 0;
 		}
+		while(!_scenes.empty())		
+			removeScene(_scenes.begin());
+		
 	} // close
 
 	//--------------------------------------------------------
 
 	
-	void CServer::createScene()
+	CScene* CServer::createScene(const std::string &name)
 	{
-		assert(_instance);
-		_scene = new CScene();
+		assert(_instance && "PHYSICS::SERVER>> Servidor no inicializado");			
+		assert(_scenes.find(name)==_scenes.end() && "Ya se ha creado una escena con este nombre.");
+
+		CScene *scene = new CScene(name);
+			_scenes[name] =  scene;
+		return scene;
 	} // createScene
 
 	//--------------------------------------------------------
 
-	void CServer::destroyScene ()
+	void CServer::removeScene(CScene* scene)
 	{
-		assert(_instance);
+		assert(_instance && "PHYSICS::SERVER>> Servidor no inicializado");
 
-		if (_scene) {
-			_scene->release();
-			_scene = NULL;
-		}
+		
+		if(_activeScene == scene) // Si borramos la escena activa tenemos que quitarla.
+			_activeScene = 0;
+		_scenes.erase(scene->getName());
+		delete scene;
 	}
 
+	void CServer::removeScene(const std::string& name)
+	{
+		removeScene( _scenes[name] );
+	} // removeScene
 
 	//--------------------------------------------------------
 
@@ -129,12 +143,13 @@ namespace Physics {
 
 	//--------------------------------------------------------
 
+	//
 	Physics::CActor* CServer::createActor(
 		const Logic::TLogicalPosition &position, 
 		const float angularWidth, const float height, 
 		bool isTrigger, IObserver *component) 
 	{
-		assert(_scene);
+		assert(_scene && "PHYSICS::SERVER>> Imposible crear un actor sin haber creado la escena física previamente");
 
 		if(isTrigger)  {
 
@@ -149,7 +164,7 @@ namespace Physics {
 			return actor;
 
 		}
-	}
+	} // createActor
 
 
 	//--------------------------------------------------------

@@ -35,9 +35,7 @@ namespace Graphics
 	CServer::CServer() : _root(0), _renderWindow(0), _activeScene(0), _dummyScene(0)
 	{
 		assert(!_instance && "Segunda inicialización de Graphics::CServer no permitida!");
-
 		_instance = this;
-
 	} // CServer
 
 	//--------------------------------------------------------
@@ -45,9 +43,7 @@ namespace Graphics
 	CServer::~CServer() 
 	{
 		assert(_instance);
-
 		_instance = 0;
-
 	} // ~CServer
 
 	//--------------------------------------------------------
@@ -58,8 +54,7 @@ namespace Graphics
 
 		new CServer();
 
-		if (!_instance->open())
-		{
+		if (!_instance->open())		{
 			Release();
 			return false;
 		}
@@ -72,8 +67,7 @@ namespace Graphics
 
 	void CServer::Release()
 	{
-		if(_instance)
-		{
+		if(_instance)		{
 			_instance->close();
 			delete _instance;
 		}
@@ -91,11 +85,8 @@ namespace Graphics
 
 		_renderWindow = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow();
 
-		// Creamos la escena dummy para cuando no hay ninguna activa.
-		_dummyScene = createScene("dummy_scene");
-		 
-		// Por defecto la escena activa es la dummy
-		setScene(_dummyScene);
+		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.		
+		setActiveScene(_dummyScene); // Por defecto la escena activa es la dummy
 
 		//PT. Se carga el manager de overlays
 		_overlayManager = Ogre::OverlayManager::getSingletonPtr();
@@ -108,39 +99,43 @@ namespace Graphics
 
 	void CServer::close() 
 	{
-		if(_activeScene)
-		{
+		if(_activeScene)		{
 			_activeScene->deactivate();
 			_activeScene = 0;
 		}
-		while(!_scenes.empty())
-		{
+		while(!_scenes.empty())		
 			removeScene(_scenes.begin());
-		}
 
 	} // close
 
 	//--------------------------------------------------------
-		
-	typedef std::pair<std::string,CScene*> TStringScenePar;
+	
+
+	//typedef std::pair<std::string,CScene*> TStringScenePar;
 
 	CScene* CServer::createScene(const std::string& name)
 	{
-		//Nos aseguramos de que no exista ya una escena con este nombre.
-		assert(_scenes.find(name)==_scenes.end() && 
+		assert(_instance && "GRAPHICS::SERVER>> Servidor no inicializado");	
+		
+		assert(_scenes.find(name)==_scenes.end() && //Nos aseguramos de que no exista ya una escena con este nombre.
 			"Ya se ha creado una escena con este nombre.");
 
 		CScene *scene = new CScene(name);
-		TStringScenePar ssp(name,scene);
-		_scenes.insert(ssp);
-		return scene;
 
+		// UNDONE FRS Es mejor insertar pares que la inserción normal por índice?
+		//TStringScenePar ssp(name,scene);
+		//_scenes.insert(ssp);
+
+		_scenes[name] =  scene;
+		return scene;
 	} // createScene
 
 	//--------------------------------------------------------
 
 	void CServer::removeScene(CScene* scene)
 	{
+		assert(_instance && "GRAPHICS::SERVER>> Servidor no inicializado");	
+
 		// Si borramos la escena activa tenemos que quitarla.
 		if(_activeScene == scene)
 			_activeScene = 0;
@@ -153,27 +148,17 @@ namespace Graphics
 
 	void CServer::removeScene(const std::string& name)
 	{
-		CScene* scene = (*_scenes.find(name)).second;
-		removeScene(scene);
+		// UNDONE FRS Y para qué tenemos el acceso por índice [ ]?
+		/*CScene* scene = (*_scenes.find(name)).second;
+		removeScene(scene);*/
 
+		removeScene( _scenes[name] );
 	} // removeScene
 
+	
 	//--------------------------------------------------------
 
-	void CServer::removeScene(TScenes::const_iterator iterator)
-	{
-		CScene* scene = (*iterator).second;
-		// Si borramos la escena activa tenemos que quitarla.
-		if(_activeScene == scene)
-			_activeScene = 0;
-		_scenes.erase(iterator);
-		delete scene;
-
-	} // removeScene
-
-	//--------------------------------------------------------
-
-	void CServer::setScene(CScene* scene)
+	void CServer::setActiveScene(CScene* scene)
 	{
 		// En caso de que hubiese una escena activa la desactivamos.
 		if(_activeScene)
@@ -194,11 +179,11 @@ namespace Graphics
 
 		_activeScene->activate(); 
 
-	} // createScene
+	} // setActiveScene
 
 	//--------------------------------------------------------
 
-	void CServer::setScene(const std::string& name)
+	void CServer::setActiveScene(const std::string& name)
 	{
 		// En caso de que hubiese una escena activa la desactivamos.
 		if(_activeScene)
