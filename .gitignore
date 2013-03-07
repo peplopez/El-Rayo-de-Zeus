@@ -146,7 +146,6 @@ DocumentacionDoxygen/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Debug/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Release/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/*.2010.vcxproj.user
-/dependencies/lua/*
 
 #EXCEPTIONS #
 #############
@@ -159,4 +158,5 @@ DocumentacionDoxygen/
 !/dependencies/bin/*/cudart32_30_9.dll
 !/dependencies/bin/*/NxCharacter.dll
 !/dependencies/include/boost/
+!/dependencies/include/lua/
 

@@ -34,14 +34,13 @@ namespace Graphics
 	COverlay::COverlay(Ogre::Overlay* overlay){
 		_overlay = overlay;
 	}
-
+	 
 	COverlay::COverlay(Ogre::OverlayElement* overlay){
-		if(std::string::npos != overlay->getName().find("Panel")){
-			_overlayContainer = static_cast<Ogre::OverlayContainer*>(overlay);
-		}
-		else{
+		if(std::string::npos != overlay->getName().find("Panel"))
+			_overlayContainer = static_cast<Ogre::OverlayContainer*>(overlay);		
+		else
 			_overlayText = static_cast<Ogre::TextAreaOverlayElement*>(overlay);
-		}
+		
 	} // COverlay
 
 	COverlay::COverlay(const std::string &name, const std::string &type){
@@ -93,9 +92,9 @@ namespace Graphics
 	//------------------------------------------------------------
 
 	void COverlay::add2D(COverlay* overlayContainer){
-		if(_overlay){
+		if(_overlay)
 			_overlay->add2D(overlayContainer->getOverlayContainer()); 	
-		}
+		
 	} // add2D
 
 	//------------------------------------------------------------
@@ -173,10 +172,16 @@ namespace Graphics
 
 
 	void COverlay::addChild(COverlay* child){
-		if(_overlayContainer){ _overlayContainer->addChild(child->getOverlayText());}
+		if(_overlayContainer)
+			_overlayContainer->addChild(child->getOverlayText());
 	} // addChild
 
-	//------------------------------------------------------------
+	//-----------------------------------------------------------
+	
+	void COverlay::clear(){
+		if(_overlay)
+			_overlay->clear();
+	} // clear
 
 
 } // namespace Graphics

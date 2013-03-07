@@ -77,7 +77,7 @@ namespace Graphics
 		@param visible. Indicara si se ha de poner visible (true) u oculto (false)
 		*/
 		void setVisible(bool visible);
-
+		 
 		/**
 		Indica si un Overlay es visible o no
 
@@ -162,6 +162,10 @@ namespace Graphics
 		@param child overlay que sera el hijo.
 		*/
 		void addChild(COverlay* child);
+
+		/** FRS Vacía el overlay de todos sus hijos
+		*/
+		void clear();
 
 		/**
 		metodo que devuelve el overlayContainer
