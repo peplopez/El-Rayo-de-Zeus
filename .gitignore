@@ -152,6 +152,26 @@ DocumentacionDoxygen/
 /dependencies/lua/bin/*/*.pdb
 /dependencies/lua/bin/*/*.exp
 /dependencies/luabind/bin/msvc-9.0/*
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/*.vcxproj.user
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/obj/*/*.tlog
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/obj/*/*.rc
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/obj/*/*.manifest
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/obj/*/*.obj
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/obj/*/*.lastbuildstate
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/obj/*/*.cache
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/obj/*/*.idb
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/obj/*/*.pdb
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/obj/*/*.res
+
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/support/*/obj/*/*.obj
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/support/*/obj/*/*.tlog
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/support/*/obj/*/*.manifest
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/support/*/obj/*/*.res
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/support/*/obj/*/*.idb
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/support/*/obj/*/*.pdb
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/support/*/obj/*/*.lastbuildstate
+/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/support/*/obj/*/*.rc
+
 
 #EXCEPTIONS #
 #############
