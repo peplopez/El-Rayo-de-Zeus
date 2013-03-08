@@ -90,6 +90,14 @@ namespace Logic
 		virtual void deactivate();
 
 		/**
+		*/
+		virtual void awake();
+
+		/**
+		*/
+		virtual void sleep();
+
+		/**
 		Método llamado en cada frame que actualiza el estado del componente.
 		<p>
 		Se encarga de mover la entidad en cada vuelta de ciclo cuando es

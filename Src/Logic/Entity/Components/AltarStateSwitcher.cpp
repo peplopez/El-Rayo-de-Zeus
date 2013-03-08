@@ -49,16 +49,14 @@ namespace Logic
 
 	bool CAltarStateSwitcher::activate()
 	{
-		_active = true;
 		_sense = _entity->getSense();
-		return _active;
+		return true;
 	} // activate
 	
 	//---------------------------------------------------------
 
 	void CAltarStateSwitcher::deactivate()
 	{
-		_active = false;
 	} // deactivate
 	
 	//---------------------------------------------------------
@@ -126,7 +124,7 @@ namespace Logic
 		if (_switchingAllowed && _target && !_switchingState)
 		{
 			_sense = _entity->getSense();
-			_entity->getComponent<CAvatarController>()->deactivate();
+			_entity->getComponent<CAvatarController>()->sleep();
 			_switchingState = true;
 			CMessage *m = new CMessage();
 			m->setType(Message::CONTROL);
@@ -204,7 +202,7 @@ namespace Logic
 						_entity->yaw(_acumRotation - Math::PI/2);
 						_sense = Logic::Sense::RIGHT;
 						_acumRotation = 0;
-						_entity->getComponent<CAvatarController>()->activate();
+						_entity->getComponent<CAvatarController>()->awake();
 					}
 				}
 				else if (_entity->getSense() == Logic::Sense::LEFT)
@@ -217,7 +215,7 @@ namespace Logic
 						_entity->yaw(-(_acumRotation - Math::PI/2));
 						_sense = Logic::Sense::LEFT;
 						_acumRotation = 0;
-						_entity->getComponent<CAvatarController>()->activate();
+						_entity->getComponent<CAvatarController>()->awake();
 					}
 				}
 			}

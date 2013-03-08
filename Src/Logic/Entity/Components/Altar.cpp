@@ -19,6 +19,7 @@ capacidad de un Character de activar/desactivar altares
 
 
 #include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageString.h"
 
 #define DEBUG 1
 #if DEBUG
@@ -48,16 +49,14 @@ namespace Logic
 
 	bool CAltar::activate()
 	{
-		_active = true;
 		_acumTime = _switchingTime;
-		return _active;
+		return true;
 	} // activate
 	
 	//---------------------------------------------------------
 
 	void CAltar::deactivate()
-	{
-		_active = false;	
+	{	
 	} // deactivate
 	
 	//---------------------------------------------------------
@@ -124,9 +123,23 @@ namespace Logic
 				_switchingState = false;
 				_on = !_on;
 				if (_on)
+				{
 					LOG(_entity->getName() << ": activado")
+					CMessageString *m = new CMessageString();	
+					m->setType(Message::SET_SHADER);
+					m->setString("altaractivado");
+					_entity->emitMessage(m,this);
+				}
+
 				else 
+				{
 					LOG(_entity->getName() << ": desactivado")
+					CMessageString *m = new CMessageString();	
+					m->setType(Message::SET_SHADER);
+					m->setString("Material.001");
+					_entity->emitMessage(m,this);
+
+				}
 				_acumTime = _switchingTime;
 			}
 		}

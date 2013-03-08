@@ -1,10 +1,4 @@
 Map ={
-	Tubo = {
-		type = "SkyBox",
-		position = {0,-600,0},
-		model = "tubo.mesh",
-		static = true,		
-	},
 	
 	Altar1 = {
 		type = "Altar",

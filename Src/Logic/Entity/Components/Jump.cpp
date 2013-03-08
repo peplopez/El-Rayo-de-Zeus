@@ -45,15 +45,13 @@ namespace Logic
 
 	bool CJump::activate()
 	{
-		_active = true;
 		_jumping=false;
-		return _active;
+		return true;
 	}
 		
 
 	void CJump::deactivate()
 	{
-		_active = false;
 	}
 
 	

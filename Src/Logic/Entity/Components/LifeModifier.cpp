@@ -48,7 +48,6 @@ namespace Logic
 
 	void CLifeModifier::deactivate() {
 		// release observer fisico
-		_active = false;
 	}
 
 	//---------------------------------------------------------

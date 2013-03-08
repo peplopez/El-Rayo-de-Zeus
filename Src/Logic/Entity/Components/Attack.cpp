@@ -43,14 +43,12 @@ namespace Logic
 
 	bool CAttack::activate()
 	{				
-		_active = true; 
 		_lightAttack=_heavyAttack=false;
-		return _active;
+		return true;
 	}		
 
 	void CAttack::deactivate()
 	{
-		_active = false;
 	}
 	
 	bool CAttack::accept(const CMessage *message)

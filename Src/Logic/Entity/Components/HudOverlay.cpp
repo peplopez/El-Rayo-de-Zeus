@@ -365,8 +365,7 @@ namespace Logic
 
 		_overlayDie->show();
 		 */
-		_active = true;
-		return _active;
+		return true;
 
 	} //activate
 
@@ -377,7 +376,6 @@ namespace Logic
 	{
 		//overlayManager.destroyAllOverlayElements();
 		//overlayManager.destroyAll();
-		_active = false;
 	}//deactivate
 	
 	//---------------------------------------------------------

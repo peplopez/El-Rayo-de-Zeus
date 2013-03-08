@@ -116,10 +116,10 @@ namespace Graphics
 		_directionalLight->setDiffuseColour(.5f,.5f,.5f);
 		_directionalLight->setSpecularColour(.5f,.5f,.5f);
 		_directionalLight->setType(Ogre::Light::LT_DIRECTIONAL);
-		_directionalLight->setDirection(0, -150, 0);
-		_directionalLight->setType(Ogre::Light::LT_POINT);
+		_directionalLight->setDirection(-150, -150, 0);
+		//_directionalLight->setType(Ogre::Light::LT_POINT);
 		//_directionalLight->setPosition(0, 100, 0);
-		_directionalLight->setPosition(100, 100, 100);
+		_directionalLight->setPosition(150, 150, 0);
 
 	} // activate
 
