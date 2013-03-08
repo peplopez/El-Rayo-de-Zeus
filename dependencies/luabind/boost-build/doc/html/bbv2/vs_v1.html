@@ -1,0 +1,53 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Appendix B. Differences to Boost.Build V1</title>
+<link rel="stylesheet" href="../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.69.1">
+<link rel="start" href="../index.html" title="Boost.Build V2 User Manual">
+<link rel="up" href="../index.html" title="Boost.Build V2 User Manual">
+<link rel="prev" href="../jam/history.html" title="History">
+<link rel="next" href="advanced/differences_to_v1/jamfiles.html" title="Writing Jamfiles">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"><img alt="Boost C++ Libraries" width="277" height="86" src="../../../boost.png"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../jam/history.html"><img src="../../../doc/html/images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../../../doc/html/images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../../../doc/html/images/home.png" alt="Home"></a><a accesskey="n" href="advanced/differences_to_v1/jamfiles.html"><img src="../../../doc/html/images/next.png" alt="Next"></a>
+</div>
+<div class="appendix" lang="en">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="bbv2.vs_v1"></a>Appendix B. Differences to Boost.Build V1</h2></div></div></div>
+<div class="toc">
+<p><b>Table of Contents</b></p>
+<dl>
+<dt><span class="section"><a href="vs_v1.html#bbv2.advanced.differences_to_v1.configuration">Configuration</a></span></dt>
+<dt><span class="section"><a href="advanced/differences_to_v1/jamfiles.html">Writing Jamfiles</a></span></dt>
+<dt><span class="section"><a href="advanced/differences_to_v1/build_process.html">Build process</a></span></dt>
+</dl>
+</div>
+<p>While Boost.Build V2 is based on the same ideas as Boost.Build V1,
+  some of the syntax was changed, and some new important features were
+  added. This chapter describes most of the changes.</p>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="bbv2.advanced.differences_to_v1.configuration"></a>Configuration</h2></div></div></div>
+<p>In V1, toolsets were configured by environment variables. If you
+      wanted to use two versions of the same toolset, you had to create a new
+      toolset module that would set the variables and then invoke the base
+      toolset. In V2, toolsets are configured by the
+      <code class="computeroutput">using</code>, and you can easily configure several
+      versions of a toolset. See <a href="advanced/configuration.html" title="Configuration">the section called &#8220;Configuration&#8221;</a> for details.
+      </p>
+</div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><small></small></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../jam/history.html"><img src="../../../doc/html/images/prev.png" alt="Prev"></a><a accesskey="u" href="../index.html"><img src="../../../doc/html/images/up.png" alt="Up"></a><a accesskey="h" href="../index.html"><img src="../../../doc/html/images/home.png" alt="Home"></a><a accesskey="n" href="advanced/differences_to_v1/jamfiles.html"><img src="../../../doc/html/images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>

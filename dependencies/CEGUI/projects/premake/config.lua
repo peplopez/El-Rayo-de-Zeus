@@ -60,6 +60,9 @@ RAPIDXML_PATHS = { "rapidxml-1.13", "", "" }
 --
 CEGUI_EXTRA_PATHS = {
 	{ "..", "include", "", "CEGUIOgreRenderer" },
+    { "..", "include/lua", "lib/Release", "tolua++" },
+    { "..", "include/lua", "lib/Release", "tolua++cegui" },
+    { "..", "include/lua", "lib/Release", "CEGUILuaScriptModule" },	
 }
 
 --- Irrlicht SDK Version
@@ -166,7 +169,8 @@ DEFAULT_XML_PARSER = "expat"
 -------
 -- Lua
 -- this controls whether CEGUILua is enabled
-LUA_SCRIPT_MODULE = false
+--LUA_SCRIPT_MODULE = false
+LUA_SCRIPT_MODULE = true
 
 -- disable this for a smaller and faster, but less safe Lua module
 -- only affects Release builds. Debug and ReleaseWithSymbols always

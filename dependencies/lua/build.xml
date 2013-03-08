@@ -35,7 +35,7 @@ Parámetros (utilizando propiedades):
 	vslogfile: fichero donde se guarda el log de la compilacion (se borra luego).
 -->
 <target name="windowsbuilder">
-	<vc10 projectfolder="${projectfolder}" 
+	<vc10 projectfolder="${basedir}/vcproject" 
 		  buildmode="${buildmode}"
 		  rebuild="${rebuild}"
 		  logfile="${vslogfile}">
@@ -83,6 +83,7 @@ Parametros:
 <target name="clean"
 		description="Elimina ficheros de compilación"
 		depends="cleanDebug, cleanRelease">
+<delete file = "${vslogfile}"/>
 </target>
 
 <!-- ================================ -->

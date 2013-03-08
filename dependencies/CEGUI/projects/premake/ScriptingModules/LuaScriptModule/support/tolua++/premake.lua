@@ -19,4 +19,5 @@ package.files =
 
 include(rootdir.."cegui/include/"..pkgdir)
 
-library("lua", "_d")
+--library("lua", "_d")
+library("lua51", "")

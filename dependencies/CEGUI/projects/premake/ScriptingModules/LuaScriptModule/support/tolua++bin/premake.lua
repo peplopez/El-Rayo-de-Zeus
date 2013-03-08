@@ -14,7 +14,9 @@ package.files =
 include(rootdir.."cegui/include/"..pkgdir.."../tolua++")
 
 dependency("tolua++")
-library("lua","_d")
+--library("lua","_d")
+library("lua51", "")
+
 library_static("lua","", "_d")
 
 if TOLUA_STATIC then

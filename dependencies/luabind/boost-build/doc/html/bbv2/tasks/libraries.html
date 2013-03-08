@@ -1,0 +1,178 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Libraries</title>
+<link rel="stylesheet" href="../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.69.1">
+<link rel="start" href="../../index.html" title="Boost.Build V2 User Manual">
+<link rel="up" href="../tasks.html" title="Chapter 5. Common tasks">
+<link rel="prev" href="../tasks.html" title="Chapter 5. Common tasks">
+<link rel="next" href="alias.html" title="Alias">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"><img alt="Boost C++ Libraries" width="277" height="86" src="../../../../boost.png"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../tasks.html"><img src="../../../../doc/html/images/prev.png" alt="Prev"></a><a accesskey="u" href="../tasks.html"><img src="../../../../doc/html/images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../../../doc/html/images/home.png" alt="Home"></a><a accesskey="n" href="alias.html"><img src="../../../../doc/html/images/next.png" alt="Next"></a>
+</div>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="bbv2.tasks.libraries"></a>Libraries</h2></div></div></div>
+<p>Libraries are created using the <code class="computeroutput">lib</code> rule, which
+        follows the <a href="../advanced/targets.html#bbv2.main-target-rule-syntax">common
+          syntax</a>. For example:
+</p>
+<pre class="programlisting">
+lib helpers : helpers.cpp : &lt;include&gt;boost : : &lt;include&gt;. ;
+</pre>
+<p>
+      </p>
+<p>In the most common case, the <code class="computeroutput">lib</code> creates a library
+        from the specified sources. Depending on the value of
+        &lt;link&gt; feature the library will be either static or
+        shared. There are two other cases. First is when the library is
+        installed somewhere in compiler's search paths, and should be
+        searched by the compiler (typically, using the <code class="option">-l</code>
+        option). The second case is where the library is available as a 
+        prebuilt file and the full path is known.          
+        
+        </p>
+<p>
+        The syntax for these case is given below:
+</p>
+<pre class="programlisting">
+lib z : : &lt;name&gt;z &lt;search&gt;/home/ghost ;            
+lib compress : : &lt;file&gt;/opt/libs/compress.a ;
+</pre>
+<p>
+        The <code class="computeroutput">name</code> property specifies the name that should be
+        passed to the <code class="option">-l</code> option, and the <code class="computeroutput">file</code>
+        property specifies the file location. The <code class="varname">search</code> feature
+        specifies paths in which to search for the library. That feature can
+        be specified several times, or it can be omitted, in which case only
+        default compiler paths will be searched.
+      </p>
+<p>The difference between using the <code class="varname">file</code> feature as
+        opposed to the <code class="varname">name</code> feature together with the
+        <code class="varname">search</code> feature is that <code class="varname">file</code> is more
+        precise. A specific file will be used. On the other hand, the
+        <code class="varname">search</code> feature only adds a library path, and the
+        <code class="varname">name</code> feature gives the basic name of the library. The
+        search rules are specific to the linker. For example, given these
+        definition:
+</p>
+<pre class="programlisting">
+lib a : : &lt;variant&gt;release &lt;file&gt;/pool/release/a.so ;
+lib a : : &lt;variant&gt;debug &lt;file&gt;/pool/debug/a.so ;
+lib b : : &lt;variant&gt;release &lt;file&gt;/pool/release/b.so ;
+lib b : : &lt;variant&gt;debug &lt;file&gt;/pool/debug/b.so ;
+</pre>
+<p>
+        It's possible to use release version of <code class="computeroutput">a</code> and debug
+        version of <code class="computeroutput">b</code>. Had we used the <code class="varname">name</code> and
+        <code class="varname">search</code> features, the linker would always pick either
+        release or debug versions.
+        
+      </p>
+<p>
+        For convenience, the following syntax is allowed:
+</p>
+<pre class="programlisting">
+lib z ;
+lib gui db aux ;
+</pre>
+<p>
+          and is does exactly the same as:
+</p>
+<pre class="programlisting">
+lib z : : &lt;name&gt;z ;            
+lib gui : : &lt;name&gt;gui ;            
+lib db : : &lt;name&gt;db ;            
+lib aux : : &lt;name&gt;aux ;            
+</pre>
+<p>
+      </p>
+<p>When a library uses another library you should put that other
+        library in the list of sources. This will do the right thing in all
+        cases. For portability, you should specify library dependencies even
+        for searched and prebuilt libraries, othewise, static linking on
+        Unix won't work. For example:
+</p>
+<pre class="programlisting">
+lib z ;
+lib png : z : &lt;name&gt;png ;
+</pre>
+<p>
+        </p>
+<div class="note"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="../../../../doc/html/images/note.png"></td>
+<th align="left">Note</th>
+</tr>
+<tr><td align="left" valign="top"><p>When a library (say, <code class="computeroutput">a</code>), that has another
+          library, (say, <code class="computeroutput">b</code>) 
+          
+          is linked dynamically, the <code class="computeroutput">b</code>
+          library will be incorporated 
+          
+          in <code class="computeroutput">a</code>. (If <code class="computeroutput">b</code>
+          is dynamic library as well, then <code class="computeroutput">a</code> will only refer to
+          it, and not include any extra code.) 
+          
+          When the <code class="computeroutput">a</code>
+          library is linked statically, Boost.Build will assure that all
+          executables that link to <code class="computeroutput">a</code> will also link to
+          <code class="computeroutput">b</code>.
+        </p></td></tr>
+</table></div>
+<p>One feature of Boost.Build that is very important for libraries
+        is usage requirements. 
+        
+        For example, if you write:
+</p>
+<pre class="programlisting">
+lib helpers : helpers.cpp : : : &lt;include&gt;. ;
+</pre>
+<p>
+        then the compiler include path for all targets that use
+        <code class="computeroutput">helpers</code> will contain the directory 
+        
+        where the target is defined.path to "helpers.cpp". The user
+        only needs to add <code class="computeroutput">helpers</code> to the list of sources,
+        and needn't consider the requirements its use imposes on a
+        dependent target. This feature greatly simplifies Jamfiles.
+        
+      </p>
+<div class="note"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="../../../../doc/html/images/note.png"></td>
+<th align="left">Note</th>
+</tr>
+<tr><td align="left" valign="top">
+<p>If you don't want shared libraries to include all libraries
+          that are specified in sources (especially statically linked ones),
+          you'd need to use the following:
+</p>
+<pre class="programlisting">
+lib b : a.cpp ;
+lib a : a.cpp : &lt;use&gt;b : : &lt;library&gt;b ;
+</pre>
+<p>
+          This specifies that <code class="computeroutput">a</code> uses <code class="computeroutput">b</code>, and causes
+          all executables that link to <code class="computeroutput">a</code> also link to
+          <code class="computeroutput">b</code>. In this case, even for shared linking, the
+          <code class="computeroutput">a</code> library won't even refer to <code class="computeroutput">b</code>.
+        </p>
+</td></tr>
+</table></div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><small></small></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../tasks.html"><img src="../../../../doc/html/images/prev.png" alt="Prev"></a><a accesskey="u" href="../tasks.html"><img src="../../../../doc/html/images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../../../doc/html/images/home.png" alt="Home"></a><a accesskey="n" href="alias.html"><img src="../../../../doc/html/images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>
