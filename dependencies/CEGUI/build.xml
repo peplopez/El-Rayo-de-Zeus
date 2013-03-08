@@ -32,12 +32,17 @@
    <copy file="lib/CEGUIFalagardWRBase_d.lib" todir="../lib/Debug"/>
    <copy file="lib/CEGUIOgreRenderer_d.lib" todir="../lib/Debug"/>
    <copy file="lib/CEGUISILLYImageCodec_d.lib" todir="../lib/Debug"/>
+   <copy file="lib/tolua++_d.lib" todir="../lib/Debug"/> 				  <!-- nuevo -->
+   <copy file="lib/CEGUILuaScriptModule_d.lib" todir="../lib/Debug"/> <!-- nuevo -->
+   
    <copy file="bin/CEGUIBase_d.dll" todir="../bin/Debug"/>
    <copy file="bin/CEGUIExpatParser_d.dll" todir="../bin/Debug"/>
    <copy file="bin/CEGUIFalagardWRBase_d.dll" todir="../bin/Debug"/>
    <copy file="bin/CEGUIOgreRenderer_d.dll" todir="../bin/Debug"/>
    <copy file="bin/CEGUISILLYImageCodec_d.dll" todir="../bin/Debug"/>
    <copy file="dependencies/bin/SILLY_d.dll" todir="../bin/Debug"/>
+   <copy file="bin/tolua++_d.dll" todir="../bin/Debug"/> 				  <!-- nuevo -->
+   <copy file="bin/CEGUILuaScriptModule_d.dll" todir="../bin/Debug"/> <!-- nuevo -->
 </target>
 
 <target name="publishLibBinRelease">
@@ -46,12 +51,19 @@
    <copy file="lib/CEGUIFalagardWRBase.lib" todir="../lib/Release"/>
    <copy file="lib/CEGUIOgreRenderer.lib" todir="../lib/Release"/>
    <copy file="lib/CEGUISILLYImageCodec.lib" todir="../lib/Release"/>
+   <copy file="lib/tolua++.lib" todir="../lib/Release"/> 				  <!-- nuevo -->
+   <copy file="lib/CEGUILuaScriptModule.lib" todir="../lib/Release"/> <!-- nuevo -->
+   
    <copy file="bin/CEGUIBase.dll" todir="../bin/Release"/>
    <copy file="bin/CEGUIExpatParser.dll" todir="../bin/Release"/>
    <copy file="bin/CEGUIFalagardWRBase.dll" todir="../bin/Release"/>
    <copy file="bin/CEGUIOgreRenderer.dll" todir="../bin/Release"/>
    <copy file="bin/CEGUISILLYImageCodec.dll" todir="../bin/Release"/>
    <copy file="dependencies/bin/SILLY.dll" todir="../bin/Release"/>
+   <copy file="bin/tolua++.dll" todir="../bin/Release"/> 				  <!-- nuevo -->
+   <copy file="bin/CEGUILuaScriptModule.dll" todir="../bin/Release"/> <!-- nuevo -->
+   
+   
 </target>
 
 

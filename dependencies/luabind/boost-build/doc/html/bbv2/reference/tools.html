@@ -1,0 +1,515 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Builtin tools</title>
+<link rel="stylesheet" href="../../boostbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.69.1">
+<link rel="start" href="../../index.html" title="Boost.Build V2 User Manual">
+<link rel="up" href="../reference.html" title="Chapter 7. Detailed reference">
+<link rel="prev" href="../advanced/builtins/features.html" title="Builtin features">
+<link rel="next" href="buildprocess.html" title="Build process">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table cellpadding="2" width="100%"><tr><td valign="top"><img alt="Boost C++ Libraries" width="277" height="86" src="../../../../boost.png"></td></tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../advanced/builtins/features.html"><img src="../../../../doc/html/images/prev.png" alt="Prev"></a><a accesskey="u" href="../reference.html"><img src="../../../../doc/html/images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../../../doc/html/images/home.png" alt="Home"></a><a accesskey="n" href="buildprocess.html"><img src="../../../../doc/html/images/next.png" alt="Next"></a>
+</div>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="bbv2.reference.tools"></a>Builtin tools</h2></div></div></div>
+<div class="toc"><dl><dt><span class="section"><a href="tools.html#bbv2.reference.tools.compilers">C++ Compilers</a></span></dt></dl></div>
+<p>Boost.Build comes with support for a large number of C++ compilers,
+      and other tools. This section documents how to use those tools.</p>
+<p>Before using any tool, you must declare your intention, and possibly
+      specify additional information about tool's configuration. This is done
+      with the <code class="computeroutput">using</code> rule, for example:
+</p>
+<pre class="programlisting">
+using gcc ;
+</pre>
+<p>
+      additional parameters can be passed just like for other rules, for example:
+</p>
+<pre class="programlisting">
+using gcc : 4.0 : g++-4.0 ;
+</pre>
+<p>
+      The options that can be passed to each tool will be documented in the
+      subsequent sections.</p>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="bbv2.reference.tools.compilers"></a>C++ Compilers</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="section"><a href="tools.html#bbv2.reference.tools.compiler.gcc">GNU C++</a></span></dt>
+<dt><span class="section"><a href="tools.html#bbv2.reference.tools.compiler.msvc">Microsoft Visual C++</a></span></dt>
+<dt><span class="section"><a href="tools.html#bbv2.reference.tools.compiler.intel">Intel C++</a></span></dt>
+<dt><span class="section"><a href="tools.html#bbv2.reference.tools.compiler.acc">HP aC++ compiler</a></span></dt>
+<dt><span class="section"><a href="tools.html#bbv2.reference.tools.compiler.borland">Borland C++ Compiler</a></span></dt>
+<dt><span class="section"><a href="tools.html#bbv2.reference.tools.compiler.como">Comeau C/C++ Compiler</a></span></dt>
+<dt><span class="section"><a href="tools.html#bbv2.reference.tools.compiler.cw">Code Warrior</a></span></dt>
+<dt><span class="section"><a href="tools.html#bbv2.reference.tools.compiler.dmc">Digital Mars C/C++ Compiler</a></span></dt>
+<dt><span class="section"><a href="tools.html#bbv2.reference.tools.compiler.hp_cxx">HP C++ Compiler for Tru64 Unix</a></span></dt>
+<dt><span class="section"><a href="tools.html#bbv2.reference.tools.compiler.sun">Sun Studio</a></span></dt>
+<dt><span class="section"><a href="tools.html#bbv2.reference.tools.compiler.vacpp">IBM Visual Age</a></span></dt>
+</dl></div>
+<p>This section lists all Boost.Build modules that support C++
+        compilers and documents how each one can be initialized.</p>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="bbv2.reference.tools.compiler.gcc"></a>GNU C++</h4></div></div></div>
+<p>The <code class="computeroutput">gcc</code> module supports the 
+          <a href="http://gcc.gnu.org" target="_top">GNU C++ compiler</a> 
+          on Linux, a number of Unix-like system including MacOS X, SunOS and
+          BeOS, and on Windows (either <a href="http://www.cygwin.com" target="_top">Cygwin</a>
+          or <a href="http://www.mingw.org" target="_top">MinGW</a>).
+          </p>
+<p>The <code class="computeroutput">gcc</code> module is initialized using the following
+          syntax:</p>
+<pre class="programlisting">
+using gcc : [<span class="optional"><em class="replaceable"><code>version</code></em></span>] : [<span class="optional"><em class="replaceable"><code>c++-compile-command</code></em></span>] : [<span class="optional"><em class="replaceable"><code>compiler options</code></em></span>] ;</pre>
+<p>This statement may be repeated several times, if you want to configure several versions of the compiler.</p>
+<p>
+          If the version is not explicitly specified, it will be
+          automatically detected by running the compiler with the <code class="computeroutput">-v</code>
+          option. If the command is not specified, the <span><strong class="command">g++</strong></span>
+          binary will be searched in <code class="envar">PATH</code>.</p>
+<p>The following options can be provided, using <code class="literal">&lt;<em class="replaceable"><code>option-name</code></em>&gt;<em class="replaceable"><code>option-value</code></em></code> syntax:</p>
+<div class="variablelist"><dl>
+<dt><span class="term"><code class="literal">cflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C sources.</p></dd>
+<dt><span class="term"><code class="literal">cxxflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">compileflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling both C and C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">linkflags</code></span></dt>
+<dd><p>Specifies additional command line options
+      that will be passed to the linker.</p></dd>
+<dt><span class="term"><code class="literal">root</code></span></dt>
+<dd><p>Specifies root directory of the compiler
+      installation. This option is necessary only if it's not possible
+      to detect this information from the compiler command&#8212;for
+      example if the specified compiler command is a user script. </p></dd>
+<dt><span class="term"><code class="literal">rc</code></span></dt>
+<dd><p>Specifies the resource compiler command
+                that will be used with the version of gcc that is being
+                configured. This setting makes sense only for Windows and only
+                if you plan to use resource files. By
+                default <span><strong class="command">windres</strong></span> will be used.</p></dd>
+<dt><span class="term"><code class="literal">rc-type</code></span></dt>
+<dd><p>Specifies the type of resource compiler. The value can
+                be either <code class="computeroutput">windres</code> for msvc resource compiler,
+                or <code class="computeroutput">rc</code> for borland's resource compiler.</p></dd>
+</dl></div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="bbv2.reference.tools.compiler.msvc"></a>Microsoft Visual C++</h4></div></div></div>
+<p>The <code class="computeroutput">msvc</code> module supports the  
+          <a href="http://msdn.microsoft.com/visualc/" target="_top">Microsoft Visual
+          C++</a> command-line tools on Microsoft Windows. The supported
+          products and versions of command line tools are listed below:</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>Visual Studio 2005&#8212;8.0</p></li>
+<li><p>Visual Studio .NET 2003&#8212;7.1</p></li>
+<li><p>Visual Studio .NET&#8212;7.0</p></li>
+<li><p>Visual Studio 6.0, Service Pack 5&#8212;6.5</p></li>
+</ul></div>
+<p>The <code class="computeroutput">msvc</code> module is initialized using the following
+          syntax:</p>
+<pre class="programlisting">
+using msvc : [<span class="optional"><em class="replaceable"><code>version</code></em></span>] : [<span class="optional"><em class="replaceable"><code>c++-compile-command</code></em></span>] : [<span class="optional"><em class="replaceable"><code>compiler options</code></em></span>] ;
+          </pre>
+<p>This statement may be repeated several times, if you want to configure several versions of the compiler.</p>
+<p>If the version is not explicitly specified, the most recent
+          version found in the registry will be used instead.  If the
+          special value <code class="computeroutput">all</code> is passed as the version, all
+          versions found in the registry will be configured. If a version is
+          specified, but the command is not, the compiler binary will be
+          searched in standard installation paths for that version, followed
+          by <code class="envar">PATH</code>.
+          </p>
+<p>The compiler command should be specified using forward slashes,
+          and quoted.</p>
+<p>The following options can be provided, using <code class="literal">&lt;<em class="replaceable"><code>option-name</code></em>&gt;<em class="replaceable"><code>option-value</code></em></code> syntax:</p>
+<div class="variablelist"><dl>
+<dt><span class="term"><code class="literal">cflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C sources.</p></dd>
+<dt><span class="term"><code class="literal">cxxflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">compileflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling both C and C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">linkflags</code></span></dt>
+<dd><p>Specifies additional command line options
+      that will be passed to the linker.</p></dd>
+<dt><span class="term"><code class="literal">setup</code></span></dt>
+<dd><p>The filename of the environment setup scripts
+              to run before invoking the compiler. If not specified, 
+              <span><strong class="command">vcvars32.bat</strong></span> alongside the compiler binary
+              will be used.</p></dd>
+<dt><span class="term"><code class="literal">compiler</code></span></dt>
+<dd><p>The command that compiles C and C++ sources.
+              If not specified, <span><strong class="command">cl</strong></span> will be used. The
+              command will be invoked after the setup script was
+              executed and adjusted the <code class="envar">PATH</code> variable.</p></dd>
+<dt><span class="term"><code class="literal">linker</code></span></dt>
+<dd><p>The command that links executables and dynamic
+              libraries.
+              If not specified, <span><strong class="command">link</strong></span> will be used. The
+              command will be invoked after the setup script was
+              executed and adjusted the <code class="envar">PATH</code> variable.</p></dd>
+<dt><span class="term"><code class="literal">assembler</code></span></dt>
+<dd><p>The command that compiles assember files.
+              If not specified, <span><strong class="command">cl</strong></span> will be used. The
+              command will be invoked after the setup script was
+              executed and adjusted the <code class="envar">PATH</code> variable.</p></dd>
+<dt><span class="term"><code class="literal">resource-compiler</code></span></dt>
+<dd><p>The command that compiles resource files.
+              If not specified, <span><strong class="command">rc</strong></span> will be used. The
+              command will be invoked after the setup script was
+              executed and adjusted the <code class="envar">PATH</code> variable.</p></dd>
+<dt><span class="term"><code class="literal">idl-compiler</code></span></dt>
+<dd><p>The command that compiles Microsoft COM
+              interface definition files.
+              If not specified, <span><strong class="command">midl</strong></span> will be used. The
+              command will be invoked after the setup script was
+              executed and adjusted the <code class="envar">PATH</code> variable.</p></dd>
+<dt><span class="term"><code class="literal">mc-compiler</code></span></dt>
+<dd><p>The command that compiles Microsoft message
+              catalog files.
+              If not specified, <span><strong class="command">mt</strong></span> will be used. The
+              command will be invoked after the setup script was
+              executed and adjusted the <code class="envar">PATH</code> variable.</p></dd>
+</dl></div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="bbv2.reference.tools.compiler.intel"></a>Intel C++</h4></div></div></div>
+<p>The <code class="computeroutput">intel-linux</code> and <code class="computeroutput">intel-win</code> modules
+          support the Intel C++ command-line compiler&#8212;the <a href="http://www.intel.com/software/products/compilers/clin/index.htm" target="_top">Linux</a>
+          and <a href="http://www.intel.com/cd/software/products/asmo-na/eng/compilers/284527.htm" target="_top">
+          Windows</a> versions respectively.</p>
+<p>The module is initialized using the following syntax:</p>
+<pre class="programlisting">
+using intel-linux : [<span class="optional"><em class="replaceable"><code>version</code></em></span>] : [<span class="optional"><em class="replaceable"><code>c++-compile-command</code></em></span>] : [<span class="optional"><em class="replaceable"><code>compiler options</code></em></span>] ;</pre>
+<p>or</p>
+<pre class="programlisting">
+using intel-win : [<span class="optional"><em class="replaceable"><code>version</code></em></span>] : [<span class="optional"><em class="replaceable"><code>c++-compile-command</code></em></span>] : [<span class="optional"><em class="replaceable"><code>compiler options</code></em></span>] ;</pre>
+<p>respectively.</p>
+<p>This statement may be repeated several times, if you want to configure several versions of the compiler.</p>
+<p>
+          If compiler command is not specified, then Boost.Build will
+          look in <code class="envar">PATH</code> for an executable <span><strong class="command">icpc</strong></span>
+          (on Linux), or <span><strong class="command">icc.exe</strong></span> (on Windows).
+          </p>
+<p>The following options can be provided, using <code class="literal">&lt;<em class="replaceable"><code>option-name</code></em>&gt;<em class="replaceable"><code>option-value</code></em></code> syntax:</p>
+<div class="variablelist"><dl>
+<dt><span class="term"><code class="literal">cflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C sources.</p></dd>
+<dt><span class="term"><code class="literal">cxxflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">compileflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling both C and C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">linkflags</code></span></dt>
+<dd><p>Specifies additional command line options
+      that will be passed to the linker.</p></dd>
+</dl></div>
+<p>The Linux version supports the following additional options:</p>
+<div class="variablelist"><dl>
+<dt><span class="term"><code class="literal">root</code></span></dt>
+<dd><p>Specifies root directory of the compiler
+      installation. This option is necessary only if it's not possible
+      to detect this information from the compiler command&#8212;for
+      example if the specified compiler command is a user script. </p></dd>
+</dl></div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="bbv2.reference.tools.compiler.acc"></a>HP aC++ compiler</h4></div></div></div>
+<p>The <code class="computeroutput">acc</code> module supports the
+<a href="http://h21007.www2.hp.com/dspp/tech/tech_TechSoftwareDetailPage_IDX/1,1703,1740,00.html" target="_top">HP aC++ compiler</a>
+          for the HP-UX operating system.</p>
+<p>The module is initialized using the following
+          syntax:</p>
+<pre class="programlisting">
+using acc : [<span class="optional"><em class="replaceable"><code>version</code></em></span>] : [<span class="optional"><em class="replaceable"><code>c++-compile-command</code></em></span>] : [<span class="optional"><em class="replaceable"><code>compiler options</code></em></span>] ;</pre>
+<p>This statement may be repeated several times, if you want to configure several versions of the compiler.</p>
+<p>
+            If the command is not specified, the <span><strong class="command">aCC</strong></span>
+          binary will be searched in <code class="envar">PATH</code>.</p>
+<p>The following options can be provided, using <code class="literal">&lt;<em class="replaceable"><code>option-name</code></em>&gt;<em class="replaceable"><code>option-value</code></em></code> syntax:</p>
+<div class="variablelist"><dl>
+<dt><span class="term"><code class="literal">cflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C sources.</p></dd>
+<dt><span class="term"><code class="literal">cxxflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">compileflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling both C and C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">linkflags</code></span></dt>
+<dd><p>Specifies additional command line options
+      that will be passed to the linker.</p></dd>
+</dl></div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="bbv2.reference.tools.compiler.borland"></a>Borland C++ Compiler</h4></div></div></div>
+<p>The <code class="computeroutput">borland</code> module supports the command line
+          C++ compiler included in
+          <a href="http://www.borland.com/us/products/cbuilder/index.html" target="_top">C++ Builder 2006</a>
+          product and earlier version of it, running on Microsoft Windows.</p>
+<p>The supported products are listed below. The version reported
+          by the command lines tools is also listed for reference.:</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>C++ Builder 2006&#8212;5.8.2</p></li>
+<li><p>CBuilderX&#8212;5.6.5, 5.6.4 (depending on release)</p></li>
+<li><p>CBuilder6&#8212;5.6.4</p></li>
+<li><p>Free command line tools&#8212;5.5.1</p></li>
+</ul></div>
+<p>The module is initialized using the following syntax:</p>
+<pre class="programlisting">
+using borland : [<span class="optional"><em class="replaceable"><code>version</code></em></span>] : [<span class="optional"><em class="replaceable"><code>c++-compile-command</code></em></span>] : [<span class="optional"><em class="replaceable"><code>compiler options</code></em></span>] ;</pre>
+<p>This statement may be repeated several times, if you want to configure several versions of the compiler.</p>
+<p>If the command is not specified, Boost.Build will search for
+          a binary named <span><strong class="command">bcc32</strong></span> in <code class="envar">PATH</code>.</p>
+<p>The following options can be provided, using <code class="literal">&lt;<em class="replaceable"><code>option-name</code></em>&gt;<em class="replaceable"><code>option-value</code></em></code> syntax:</p>
+<div class="variablelist"><dl>
+<dt><span class="term"><code class="literal">cflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C sources.</p></dd>
+<dt><span class="term"><code class="literal">cxxflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">compileflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling both C and C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">linkflags</code></span></dt>
+<dd><p>Specifies additional command line options
+      that will be passed to the linker.</p></dd>
+</dl></div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="bbv2.reference.tools.compiler.como"></a>Comeau C/C++ Compiler</h4></div></div></div>
+<p>The <code class="computeroutput">como-linux</code> and the <code class="computeroutput">como-win</code>
+          modules supports the 
+          <a href="http://www.comeaucomputing.com/" target="_top">Comeau C/C++ Compiler</a>
+          on Linux and Windows respectively.</p>
+<p>The module is initialized using the following syntax:</p>
+<pre class="programlisting">
+using como-linux : [<span class="optional"><em class="replaceable"><code>version</code></em></span>] : [<span class="optional"><em class="replaceable"><code>c++-compile-command</code></em></span>] : [<span class="optional"><em class="replaceable"><code>compiler options</code></em></span>] ;</pre>
+<p>This statement may be repeated several times, if you want to configure several versions of the compiler.</p>
+<p>If the command is not specified, Boost.Build will search for
+          a binary named <span><strong class="command">como</strong></span> in 
+          <code class="envar">PATH</code>.</p>
+<p>The following options can be provided, using <code class="literal">&lt;<em class="replaceable"><code>option-name</code></em>&gt;<em class="replaceable"><code>option-value</code></em></code> syntax:</p>
+<div class="variablelist"><dl>
+<dt><span class="term"><code class="literal">cflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C sources.</p></dd>
+<dt><span class="term"><code class="literal">cxxflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">compileflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling both C and C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">linkflags</code></span></dt>
+<dd><p>Specifies additional command line options
+      that will be passed to the linker.</p></dd>
+</dl></div>
+<p>Before using the windows version of the compiler, 
+          you need to setup necessary environment variables per compiler's
+          documentation. In particular, the <code class="envar">COMO_XXX_INCLUDE</code>
+          variable should be set, where <code class="envar">XXX</code> corresponds to the
+          used backend C compiler.</p>
+</div>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="bbv2.reference.tools.compiler.cw"></a>Code Warrior</h4></div></div></div>
+<p>The <code class="computeroutput">cw</code> module support CodeWarrior compiler,
+          originally produced by Metrowerks and presently developed
+          by Freescale. Boost.Build supports only the versions of the compiler
+          that target x86 processors. All such versions were released by
+          Metrowerks before aquisition and are not sold any longer. 
+          The last version known to work is 9.4</p>
+<p>The module is initialized using the following syntax:</p>
+<pre class="programlisting">
+using cw : [<span class="optional"><em class="replaceable"><code>version</code></em></span>] : [<span class="optional"><em class="replaceable"><code>c++-compile-command</code></em></span>] : [<span class="optional"><em class="replaceable"><code>compiler options</code></em></span>] ;</pre>
+<p>This statement may be repeated several times, if you want to configure several versions of the compiler.</p>
+<p>If the command is not specified, Boost.Build will search for
+          a binary named <span><strong class="command">mwcc</strong></span> in default installation
+          paths and in <code class="envar">PATH</code>.</p>
+<p>The following options can be provided, using <code class="literal">&lt;<em class="replaceable"><code>option-name</code></em>&gt;<em class="replaceable"><code>option-value</code></em></code> syntax:</p>
+<div class="variablelist"><dl>
+<dt><span class="term"><code class="literal">cflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C sources.</p></dd>
+<dt><span class="term"><code class="literal">cxxflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">compileflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling both C and C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">linkflags</code></span></dt>
+<dd><p>Specifies additional command line options
+      that will be passed to the linker.</p></dd>
+<dt><span class="term"><code class="literal">root</code></span></dt>
+<dd><p>Specifies root directory of the compiler
+      installation. This option is necessary only if it's not possible
+      to detect this information from the compiler command&#8212;for
+      example if the specified compiler command is a user script. </p></dd>
+<dt><span class="term"><code class="literal">setup</code></span></dt>
+<dd><p>The command that sets up environment variables
+              prior to invoking the compiler. If not specified, 
+              <span><strong class="command">cwenv.bat</strong></span> alongside the compiler binary
+              will be used.</p></dd>
+<dt><span class="term"><code class="literal">compiler</code></span></dt>
+<dd><p>The command that compiles C and C++ sources.
+              If not specified, <span><strong class="command">mwcc</strong></span> will be used. The
+              command will be invoked after the setup script was
+              executed and adjusted the <code class="envar">PATH</code> variable.</p></dd>
+<dt><span class="term"><code class="literal">linker</code></span></dt>
+<dd><p>The command that links executables and dynamic
+              libraries.
+              If not specified, <span><strong class="command">mwld</strong></span> will be used. The
+              command will be invoked after the setup script was
+              executed and adjusted the <code class="envar">PATH</code> variable.</p></dd>
+</dl></div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="bbv2.reference.tools.compiler.dmc"></a>Digital Mars C/C++ Compiler</h4></div></div></div>
+<p>The <code class="computeroutput">dmc</code> module supports the
+          <a href="http://www.digitalmars.com/" target="_top">Digital Mars C++ compiler.</a>
+          </p>
+<p>The module is initialized using the following syntax:</p>
+<pre class="programlisting">
+using dmc : [<span class="optional"><em class="replaceable"><code>version</code></em></span>] : [<span class="optional"><em class="replaceable"><code>c++-compile-command</code></em></span>] : [<span class="optional"><em class="replaceable"><code>compiler options</code></em></span>] ;</pre>
+<p>This statement may be repeated several times, if you want to configure several versions of the compiler.</p>
+<p>If the command is not specified, Boost.Build will search for
+          a binary named <span><strong class="command">como</strong></span> in 
+          <code class="envar">PATH</code>.</p>
+<p>The following options can be provided, using <code class="literal">&lt;<em class="replaceable"><code>option-name</code></em>&gt;<em class="replaceable"><code>option-value</code></em></code> syntax:</p>
+<div class="variablelist"><dl>
+<dt><span class="term"><code class="literal">cflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C sources.</p></dd>
+<dt><span class="term"><code class="literal">cxxflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">compileflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling both C and C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">linkflags</code></span></dt>
+<dd><p>Specifies additional command line options
+      that will be passed to the linker.</p></dd>
+</dl></div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="bbv2.reference.tools.compiler.hp_cxx"></a>HP C++ Compiler for Tru64 Unix</h4></div></div></div>
+<p>The <code class="computeroutput">hp_cxx</code> modules supports the
+          <a href="http://h30097.www3.hp.com/cplus/?jumpid=reg_R1002_USEN" target="_top">
+            HP C++ Compiler</a> for Tru64 Unix.</p>
+<p>The module is initialized using the following syntax:</p>
+<pre class="programlisting">
+using hp_cxx : [<span class="optional"><em class="replaceable"><code>version</code></em></span>] : [<span class="optional"><em class="replaceable"><code>c++-compile-command</code></em></span>] : [<span class="optional"><em class="replaceable"><code>compiler options</code></em></span>] ;</pre>
+<p>This statement may be repeated several times, if you want to configure several versions of the compiler.</p>
+<p>If the command is not specified, Boost.Build will search for
+          a binary named <span><strong class="command">hp_cxx</strong></span> in <code class="envar">PATH</code>.</p>
+<p>The following options can be provided, using <code class="literal">&lt;<em class="replaceable"><code>option-name</code></em>&gt;<em class="replaceable"><code>option-value</code></em></code> syntax:</p>
+<div class="variablelist"><dl>
+<dt><span class="term"><code class="literal">cflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C sources.</p></dd>
+<dt><span class="term"><code class="literal">cxxflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">compileflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling both C and C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">linkflags</code></span></dt>
+<dd><p>Specifies additional command line options
+      that will be passed to the linker.</p></dd>
+</dl></div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="bbv2.reference.tools.compiler.sun"></a>Sun Studio</h4></div></div></div>
+<p>The <code class="computeroutput">sun</code> module supports the
+          <a href="http://developers.sun.com/sunstudio/index.jsp" target="_top">
+          Sun Studio</a> C++ compilers for the Solaris OS.</p>
+<p>The module is initialized using the following syntax:</p>
+<pre class="programlisting">
+using sun : [<span class="optional"><em class="replaceable"><code>version</code></em></span>] : [<span class="optional"><em class="replaceable"><code>c++-compile-command</code></em></span>] : [<span class="optional"><em class="replaceable"><code>compiler options</code></em></span>] ;</pre>
+<p>This statement may be repeated several times, if you want to configure several versions of the compiler.</p>
+<p>If the command is not specified, Boost.Build will search for
+          a binary named <span><strong class="command">CC</strong></span>
+          in <code class="filename">/opt/SUNWspro/bin</code> and in 
+          <code class="envar">PATH</code>.</p>
+<p>When using this compiler on complex C++ code, such as the
+          <a href="http://boost.org" target="_top">Boost C++ library</a>, it is
+          recommended to specify the following options when intializing the
+          <code class="computeroutput">sun</code> module:
+          </p>
+<pre class="screen">
+-library=stlport4 -features=tmplife -features=tmplrefstatic
+          </pre>
+<p> See the <a href="http://blogs.sun.com/sga/entry/command_line_options" target="_top">
+          Sun C++ Frontend Tales</a> for details.</p>
+<p>The following options can be provided, using <code class="literal">&lt;<em class="replaceable"><code>option-name</code></em>&gt;<em class="replaceable"><code>option-value</code></em></code> syntax:</p>
+<div class="variablelist"><dl>
+<dt><span class="term"><code class="literal">cflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C sources.</p></dd>
+<dt><span class="term"><code class="literal">cxxflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">compileflags</code></span></dt>
+<dd><p>Specifies additional compiler flags that
+      will be used when compiling both C and C++ sources.</p></dd>
+<dt><span class="term"><code class="literal">linkflags</code></span></dt>
+<dd><p>Specifies additional command line options
+      that will be passed to the linker.</p></dd>
+</dl></div>
+</div>
+<div class="section" lang="en">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="bbv2.reference.tools.compiler.vacpp"></a>IBM Visual Age</h4></div></div></div>
+<p>The <code class="computeroutput">vacpp</code> module supports the
+          <a href="http://www.ibm.com/software/ad/vacpp" target="_top">IBM Visual
+          Age</a> C++ Compiler, for the AIX operating system. Versions
+          7.1 and 8.0 are known to work.</p>
+<p>The module is initialized using the following
+          syntax:</p>
+<pre class="programlisting">
+using vacpp ;</pre>
+<p>The module does not accept any initialization options. The
+          compiler should be installed in the <code class="filename">/usr/vacpp/bin</code>
+          directory.</p>
+<p>Later versions of Visual Age are known as XL C/C++. They
+          were not tested with the the <code class="computeroutput">vacpp</code> module.</p>
+</div>
+</div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><small></small></td>
+</tr></table>
+<hr>
+<div class="spirit-nav">
+<a accesskey="p" href="../advanced/builtins/features.html"><img src="../../../../doc/html/images/prev.png" alt="Prev"></a><a accesskey="u" href="../reference.html"><img src="../../../../doc/html/images/up.png" alt="Up"></a><a accesskey="h" href="../../index.html"><img src="../../../../doc/html/images/home.png" alt="Home"></a><a accesskey="n" href="buildprocess.html"><img src="../../../../doc/html/images/next.png" alt="Next"></a>
+</div>
+</body>
+</html>
