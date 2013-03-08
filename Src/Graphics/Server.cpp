@@ -103,8 +103,11 @@ namespace Graphics
 			_activeScene->deactivate();
 			_activeScene = 0;
 		}
-		while(!_scenes.empty())		
-			removeScene(_scenes.begin());
+
+		TScenes::const_iterator it = _scenes.begin();
+		TScenes::const_iterator end = _scenes.end();
+			for(; it != end; ++it)			
+				removeScene( (*it).second );
 
 	} // close
 
@@ -117,7 +120,7 @@ namespace Graphics
 	{
 		assert(_instance && "GRAPHICS::SERVER>> Servidor no inicializado");	
 		
-		assert(_scenes.find(name)==_scenes.end() && //Nos aseguramos de que no exista ya una escena con este nombre.
+		assert(_scenes.find(name) == _scenes.end() && //Nos aseguramos de que no exista ya una escena con este nombre.
 			"Ya se ha creado una escena con este nombre.");
 
 		CScene *scene = new CScene(name);
@@ -164,44 +167,34 @@ namespace Graphics
 		if(_activeScene)
 			_activeScene->deactivate();
 
-		if(scene)
-		{
+		if(!scene) // Si se añade NULL ponemos la escena dummy.		
+			_activeScene = _dummyScene;
+		else {
 			// Sanity check. Nos aseguramos de que la escena pertenezca 
 			// al servidor. Aunque nadie más puede crear escenas...
-			assert((*_scenes.find(scene->getName())).second == scene && 
+			assert( _scenes[ scene->getName() ] == scene && 
 				"Esta escena no pertenece al servidor");
 
 			_activeScene = scene;
 		}
-		// Si se añade NULL ponemos la escena dummy.
-		else
-			_activeScene = _dummyScene;
 
 		_activeScene->activate(); 
-
 	} // setActiveScene
 
 	//--------------------------------------------------------
 
 	void CServer::setActiveScene(const std::string& name)
 	{
-		// En caso de que hubiese una escena activa la desactivamos.
-		if(_activeScene)
-			_activeScene->deactivate();
-
-		// Nos aseguramos de que exista una escena con este nombre.
-		assert(_scenes.find(name) != _scenes.end() && 
-			"Ya se ha creado una escena con este nombre.");
-		_activeScene = (*_scenes.find(name)).second;
-
-		_activeScene->activate();
-
-	} // createScene
-
-	//--------------------------------------------------------
+		assert(_scenes.find(name) == _scenes.end() &&
+			"Esta escena no pertenece al servidor");
+		setActiveScene( _scenes[name] );
+	} // setActiveScene
 
 
-	//--------------------------------------------------------
+
+	/****************
+		OVERLAYS
+	*****************/
 
 	COverlay* CServer::createOverlay(const std::string &name, const std::string &type){
 	
@@ -235,18 +228,25 @@ namespace Graphics
 	} //get Overlay
 	//--------------------------------------------------------
 	
-	int CServer::getWidth(){
+
+	// TODO FRS Es necesario pasar a través del overlayManager
+	// El ancho y el alto deberían ser cosas independientes de los overlays, no?
+	int CServer::getScreenWidth(){
 		int aux(_overlayManager->getViewportWidth());
 		return aux;
 	} //get Width
 	//--------------------------------------------------------
 
-	int CServer::getHeight(){
+	int CServer::getScreenHeight(){
 		return _overlayManager->getViewportHeight();
 	} //get Height
 	//--------------------------------------------------------
 
 
+
+	/***********
+		TICK
+	***********/
 
 	void CServer::tick(float secs) 
 	{

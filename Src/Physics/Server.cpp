@@ -106,7 +106,6 @@ namespace Physics {
 	void CServer::removeScene(CScene* scene)
 	{
 		assert(_instance && "PHYSICS::SERVER>> Servidor no inicializado");
-
 		
 		if(_activeScene == scene) // Si borramos la escena activa tenemos que quitarla.
 			_activeScene = 0;

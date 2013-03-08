@@ -207,14 +207,14 @@ namespace Graphics
 
 		@return devuelve el heigth de la pantalla
 		*/
-		int getWidth();
+		int getScreenWidth();
 
 		/**
 		Metodo que devuelve el height de la pantalla. Esta tomado gracias a los overlays, puede que no sea fiable 100%
 
 		@return devuelve el heigth de la pantalla
 		*/
-		int getHeight();
+		int getScreenHeight();
 
 	protected:
 
