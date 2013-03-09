@@ -114,8 +114,8 @@ Parametros:
   
   <target name="publishDebug">
     <mkdir dir="../include/lua"/>
-    <copy file="bin/Release/lua51.dll" todir="../bin/Debug"/>
-    <copy file="lib/Release/lua51.lib" todir="../lib/Debug"/>
+    <copy file="bin/Debug/lua51.dll" todir="../bin/Debug"/>
+    <copy file="lib/Debug/lua51.lib" todir="../lib/Debug"/>
     <copy file="src/lua.h" todir="../include/lua"/>
     <copy file="src/luaconf.h" todir="../include/lua"/>
     <copy file="src/lualib.h" todir="../include/lua"/>
