@@ -20,6 +20,7 @@ namespace Logic
 
 	//---------------------------------------------------------
 
+	// TODO FRS no es necesario enviar todo el transform siempre -> solo posicion / rotacion en eje vertical
 	void CMessageTF::serialize(Net::CBuffer &data)
 	{
 		CMessage::serialize(data);
@@ -34,7 +35,6 @@ namespace Logic
 
 	void CMessageTF::deserialize(Net::CBuffer &data)
 	{
-
 		CMessage::deserialize(data);
 
 		for(int i = 0; i < 4; ++i)

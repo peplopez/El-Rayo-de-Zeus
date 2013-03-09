@@ -169,6 +169,10 @@ namespace Logic {
 	// Aquí es donde debemos recibir los mensajes de red
 	void CGameNetMsgManager::dataPacketReceived(Net::CPaquete* packet)
 	{
+		// TODO para solo sacar el NetID no sale rentable cargarlo en un buffer
+		// O extraemos con el memcpy el netID solo
+		// O adaptamos el processEntityMessage para que ya use ese buffer y se deje de hostias... :P
+
 		Net::CBuffer rxSerialMsg; // Packet: "NetMessageType | extraData"
 			rxSerialMsg.write(packet->getData(),packet->getDataLength());
 			rxSerialMsg.reset();
@@ -182,18 +186,19 @@ namespace Logic {
 			processEntityMessage(packet);
 			break;	
 
-		case Net::NetMessageType::END_GAME:	
+		// UNDONE FRS Todo esto ahora se gestiona en el CDeath
+		//case Net::NetMessageType::END_GAME:	
 
-			TEntityID entityID; 
-				rxSerialMsg.read(&entityID, sizeof(entityID) );  //	Packet: "NetMessageType | extraData(NetID)"	
-			
-			CEntity* player = Logic::CServer::getSingletonPtr()->getMap()->getEntityByID(entityID);
-				if( player->isPlayer() )						// GameOver si el END_GAME es para nuestro player
-					Application::CBaseApplication::getSingletonPtr()->setState("gameOver");
-				else											// Si no, eliminamos ese player del mapa
-					CEntityFactory::getSingletonPtr()->deferredDeleteEntity(player);
+		//	TEntityID entityID; 
+		//		rxSerialMsg.read(&entityID, sizeof(entityID) );  //	Packet: "NetMessageType | extraData(NetID)"	
+		//	
+		//	CEntity* player = Logic::CServer::getSingletonPtr()->getMap()->getEntityByID(entityID);
+		//		if( player->isPlayer() )						// GameOver si el END_GAME es para nuestro player
+		//			Application::CBaseApplication::getSingletonPtr()->setState("gameOver");
+		//		else											// Si no, eliminamos ese player del mapa
+		//			CEntityFactory::getSingletonPtr()->deferredDeleteEntity(player);
 
-			break;
+		//	break;
 		}
 	} // dataPacketReceived
 

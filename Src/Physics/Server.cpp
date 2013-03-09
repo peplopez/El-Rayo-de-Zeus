@@ -20,16 +20,16 @@ Contiene la implementación del servidor de física.
 namespace Physics {
 
 
-	// Única instancia del servidor
-	CServer *CServer::_instance = 0;
+	
+	CServer *CServer::_instance = 0; // Única instancia del servidor
 
 	//--------------------------------------------------------
 
 	CServer::CServer() :  _activeScene(0) 
 	{
-		assert(!_instance && "Segunda inicialización de Graphics::CServer no permitida!");
+		assert(!_instance && "PHYSICS::SERVER>> Segunda inicialización de Graphics::CServer no permitida!");
 		_instance = this;
-	} 
+	} // CServer
 
 	//--------------------------------------------------------
 
@@ -37,13 +37,13 @@ namespace Physics {
 	{
 		assert(_instance);
 		_instance = 0;
-	} 
+	} // ~CServer
 
 	//--------------------------------------------------------
 
 	bool CServer::Init() 
 	{
-		assert(!_instance && "Segunda inicialización de Physics::CServer no permitida!");
+		assert(!_instance && "PHYSICS::SERVER>> Segunda inicialización de Physics::CServer no permitida!");
 
 		new CServer();
 
@@ -63,7 +63,7 @@ namespace Physics {
 			_instance->close();
 			delete _instance;
 		}
-	} 
+	} // Release
 
 	//--------------------------------------------------------
 
@@ -83,14 +83,16 @@ namespace Physics {
 			_activeScene->deactivate();
 			_activeScene = 0;
 		}
-		while(!_scenes.empty())		
-			removeScene(_scenes.begin());
+
+		TScenes::const_iterator it = _scenes.begin();
+		TScenes::const_iterator end = _scenes.end();
+			for(; it != end; ++it)			
+				removeScene( (*it).second );
 		
 	} // close
 
 	//--------------------------------------------------------
-
-	
+		
 	CScene* CServer::createScene(const std::string &name)
 	{
 		assert(_instance && "PHYSICS::SERVER>> Servidor no inicializado");			
@@ -99,6 +101,7 @@ namespace Physics {
 		CScene *scene = new CScene(name);
 			_scenes[name] =  scene;
 		return scene;
+
 	} // createScene
 
 	//--------------------------------------------------------
@@ -111,19 +114,18 @@ namespace Physics {
 			_activeScene = 0;
 		_scenes.erase(scene->getName());
 		delete scene;
-	}
+
+	} // removeScene
 
 	void CServer::removeScene(const std::string& name)
 	{
 		removeScene( _scenes[name] );
 	} // removeScene
 
-	//--------------------------------------------------------
-
 	bool CServer::activateScene()
 	{
 		return _scene->activate();
-	}
+	} // removeScene
 
 	//--------------------------------------------------------
 

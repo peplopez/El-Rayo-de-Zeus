@@ -30,11 +30,14 @@ la ventana, etc.
 
 namespace Graphics 
 {
-	CServer *CServer::_instance = 0;
+	CServer *CServer::_instance = 0; // Única instancia del servidor
+
+	//--------------------------------------------------------
+
 
 	CServer::CServer() : _root(0), _renderWindow(0), _activeScene(0), _dummyScene(0)
 	{
-		assert(!_instance && "Segunda inicialización de Graphics::CServer no permitida!");
+		assert(!_instance && "GRAPHICS::SERVER>> Segunda inicialización de Graphics::CServer no permitida!");
 		_instance = this;
 	} // CServer
 
@@ -50,7 +53,7 @@ namespace Graphics
 
 	bool CServer::Init() 
 	{
-		assert(!_instance && "Segunda inicialización de Graphics::CServer no permitida!");
+		assert(!_instance && "GRAPHICS::SERVER>> Segunda inicialización de Graphics::CServer no permitida!");
 
 		new CServer();
 
@@ -58,7 +61,6 @@ namespace Graphics
 			Release();
 			return false;
 		}
-
 		return true;
 
 	} // Init
@@ -82,14 +84,13 @@ namespace Graphics
 			return false;
 
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
-
 		_renderWindow = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow();
-
-		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.		
-		setActiveScene(_dummyScene); // Por defecto la escena activa es la dummy
 
 		//PT. Se carga el manager de overlays
 		_overlayManager = Ogre::OverlayManager::getSingletonPtr();
+
+		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.		
+		setActiveScene(_dummyScene); // Por defecto la escena activa es la dummy
 
 		return true;
 
@@ -118,10 +119,8 @@ namespace Graphics
 
 	CScene* CServer::createScene(const std::string& name)
 	{
-		assert(_instance && "GRAPHICS::SERVER>> Servidor no inicializado");	
-		
-		assert(_scenes.find(name) == _scenes.end() && //Nos aseguramos de que no exista ya una escena con este nombre.
-			"Ya se ha creado una escena con este nombre.");
+		assert(_instance && "GRAPHICS::SERVER>> Servidor no inicializado");			
+		assert(_scenes.find(name) == _scenes.end() && "Ya se ha creado una escena con este nombre.");
 
 		CScene *scene = new CScene(name);
 

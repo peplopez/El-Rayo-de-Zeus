@@ -207,6 +207,8 @@ namespace Application {
 
 	//--------------------------------------------------------
 
+
+	// TODO FRS Los app->exitRequest ya deberían desactivar la red de por sí, hasta que punto es necesario meter redundancias de deactivate networks?
 	void CLobbyServerState::doStart()
 	{
 		_waiting = false;
@@ -217,6 +219,8 @@ namespace Application {
 		// se ha retrasado y se encuentra en MenuState.cpp			
 		Net::NetMessageType txMsg = Net::LOAD_MAP; //Enviamos el mensaje de que carguen el mapa a todos los clientes
 			Net::CManager::getSingletonPtr()->send( &txMsg, sizeof(txMsg));
+		// Tx carga de mapa antes de cargarlo porque idealmente suponemos que nunca fallará la carga
+		// Mejor rendimiento cargarlo a la vez en lugar de cargar yo primero y luego el resto
 
 		LOG("TX LOAD_MAP");
 
