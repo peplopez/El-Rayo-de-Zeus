@@ -95,9 +95,6 @@ DocumentacionDoxygen/
 /dependencies/CEGUI/projects/premake/ImageCodecModules/SILLYImageCodec/CEGUISILLYImageCodec.*
 /dependencies/CEGUI/projects/premake/RendererModules/Ogre/obj/
 /dependencies/CEGUI/projects/premake/RendererModules/Ogre/CEGUIOgreRenderer.*
-/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/CEGUILuaScriptModule.*
-/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/support/tolua++/tolua++.*
-/dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/support/tolua++bin/tolua++cegui.*
 
 /dependencies/CEGUI/projects/premake/ScriptingModules/
 
