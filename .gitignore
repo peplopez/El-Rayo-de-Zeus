@@ -111,6 +111,7 @@ DocumentacionDoxygen/
 /dependencies/lua/lib/
 /dependencies/lua/vcproject/Debug/
 /dependencies/lua/vcproject/Release/
+
 /dependencies/luabind/bin/msvc-9.0/
 
 /dependencies/Ogre/build/
