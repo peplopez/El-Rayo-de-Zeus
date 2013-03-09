@@ -48,16 +48,12 @@ namespace Application {
 	// ƒ®§ Al cerrar la app
 	void CGameState::release() 
 	{
-		Logic::CServer::getSingletonPtr()->unLoadLevel();
-
-		Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
+		// Liberamos el nivel junto con las escenas físico-graficas.
+		Logic::CServer::getSingletonPtr()->unLoadMap();
 		Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
-		
-		// Liberamos la escena física.
-		Physics::CServer::getSingletonPtr()->destroyScene();
+		Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
 
 		CApplicationState::release();
-
 	} // release
 
 	//--------------------------------------------------------
@@ -67,11 +63,9 @@ namespace Application {
 	{
 		CApplicationState::activate();
 		
-		// Activamos el mapa que ha sido cargado para la partida.
+		// Activamos el mapa que ha sido cargado para la partida (incluye la activacion de la escenas)
 		Logic::CServer::getSingletonPtr()->activateMap();
 
-		// Activamos escena física
-		Physics::CServer::getSingletonPtr()->activateScene();
 
 		// Queremos que el GUI maneje al jugador.
         GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
@@ -100,11 +94,8 @@ namespace Application {
 		// Desactivamos la clase que procesa eventos de entrada para 
 		// controlar al jugador.
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
-
-		// Desactivamos escena física
-		Physics::CServer::getSingletonPtr()->deactivateScene();
 		
-		// Desactivamos el mapa de la partida.
+		// Desactivamos el mapa de la partida (incluye la desactivacion de la escenas)
 		Logic::CServer::getSingletonPtr()->deactivateMap();
 		
 		CApplicationState::deactivate();
@@ -117,21 +108,21 @@ namespace Application {
 	{
 		CApplicationState::tick(msecs);
 
-		// Simulación física
-		Physics::CServer::getSingletonPtr()->tick(msecs);
-
-		// Actualizamos la lógica de juego.
-		Logic::CServer::getSingletonPtr()->tick(msecs);
-
-		_time += msecs;
+		// FRS Los siguientes ticks no se colocan a nivel de C3DApplication::tick
+		// porque a diferencia de otros servers, sólo deben actualizarse durante el GameState)
 		
-		std::stringstream text;
-		text << "Time: " << _time/1000;
-		//_hudWindow->setText(text.str());
+		Physics::CServer::getSingletonPtr()->tick(msecs);// Simulación física 		
+		Logic::CServer::getSingletonPtr()->tick(msecs);// Actualizamos la lógica de juego.
 
+		_time += msecs;		
 	} // tick
 
-	//--------------------------------------------------------
+	
+
+
+	/**************
+		INPUT
+	*************/
 
 	bool CGameState::keyPressed(GUI::TKey key)
 	{
@@ -147,10 +138,13 @@ namespace Application {
 		switch(key.keyId)
 		{
 		case GUI::Key::ESCAPE:
-			Logic::CServer::getSingletonPtr()->unLoadLevel();
+			Logic::CServer::getSingletonPtr()->unLoadMap();
+			Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
+			Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
 			_app->setState("menu");
 			break;
 
+		// TODO
 		case GUI::Key::PAUSE:
 			_app->setState("pause");
 			break;

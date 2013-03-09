@@ -112,7 +112,7 @@ namespace Physics {
 		
 		if(_activeScene == scene) // Si borramos la escena activa tenemos que quitarla.
 			_activeScene = 0;
-		_scenes.erase(scene->getName());
+		_scenes.erase( scene->getName() );
 		delete scene;
 
 	} // removeScene
@@ -122,46 +122,59 @@ namespace Physics {
 		removeScene( _scenes[name] );
 	} // removeScene
 
-	bool CServer::activateScene()
-	{
-		return _scene->activate();
-	} // removeScene
-
 	//--------------------------------------------------------
+	
 
-	bool CServer::deactivateScene()
+	void CServer::setActiveScene(CScene* scene)
 	{
-		return _scene->deactivate();
-	}
+		// En caso de que hubiese una escena activa la desactivamos.
+		if(_activeScene)
+			_activeScene->deactivate();
 
-	//--------------------------------------------------------
+		if(!scene) // Si se añade NULL ponemos la escena dummy.		
+			_activeScene = _dummyScene;
+		else {
+			// Sanity check. Nos aseguramos de que la escena pertenezca 
+			// al servidor. Aunque nadie más puede crear escenas...
+			assert( _scenes[ scene->getName() ] == scene && 
+				"PHYSICS::SERVER>> Esta escena no pertenece al servidor");
 
-	void CServer::tick(unsigned int msecs) 
+			_activeScene = scene;
+		}
+
+		_activeScene->activate(); 
+	} // setActiveScene
+	
+
+	void CServer::setActiveScene(const std::string& name)
 	{
-		assert(_scene);
-		_scene->simulate(); // Empezar la simulación física.
-	} 
+		assert(_scenes.find(name) == _scenes.end() &&
+			"PHYSICS::SERVER>> Esta escena no pertenece al servidor");
+		setActiveScene( _scenes[name] );
+	} // setActiveScene
 
-	//--------------------------------------------------------
+	
+	/***********
+	   ACTORS
+	***********/
 
-	//
 	Physics::CActor* CServer::createActor(
 		const Logic::TLogicalPosition &position, 
 		const float angularWidth, const float height, 
 		bool isTrigger, IObserver *component) 
 	{
-		assert(_scene && "PHYSICS::SERVER>> Imposible crear un actor sin haber creado la escena física previamente");
+		assert(_activeScene && "PHYSICS::SERVER>> Imposible crear un actor sin haber creado la escena física previamente");
 
 		if(isTrigger)  {
 
 			Physics::CActorTrigger *actor =	new Physics::CActorTrigger(position, angularWidth, height, component);
-			_scene->addActor(actor); // Añadir el actor a la escena
+			_activeScene->addActor(actor); // Añadir el actor a la escena
 			return actor;
 
 		} else {
 
 			Physics::CActor *actor = new Physics::CActor(position, angularWidth, height, component);
-			_scene->addActor(actor); // Añadir el actor a la escena
+			_activeScene->addActor(actor); // Añadir el actor a la escena
 			return actor;
 
 		}
@@ -172,8 +185,8 @@ namespace Physics {
 
 	void CServer::destroyActor(Physics::CActor *actor)
 	{
-		assert(_scene);		
-		_scene->removeActor(actor); // Eliminar el actor de la escena
+		assert(_activeScene);		
+		_activeScene->removeActor(actor); // Eliminar el actor de la escena
 		actor->release(); // Liberar recursos
 	}
 
@@ -190,11 +203,26 @@ namespace Physics {
 
 	// TODO ƒ®§ Devolver flags / eventos de sucesos? -> p.e  PxControllerFlag::eCOLLISION_DOWN / onFloor(enter/exit)
 	// FRS Necesario para pasar posiciones relativas negativas (TLogicalPosition nos restringía a unsigned's)
-	void CServer::moveActor(CActor *actor, const float degrees, const float height, const char ring, const char base)
+	void moveActor(Physics::CActor *actor, float diffDegrees, float diffHeight, char diffRing, char diffBase)
 	{
-		assert(actor);
-		// Mover el actor tras transformar el destino a coordenadas lógicas
-		actor->move(degrees, height, ring, base);
+		assert(actor);	// Mover el actor tras transformar el destino a coordenadas lógicas
+		actor->move(diffDegrees, diffHeight, diffRing, diffBase);
 	}
+
+
+
+
+	/***********
+		TICK
+	***********/
+
+	void CServer::tick(unsigned int msecs) 
+	{
+		if(_activeScene != _dummyScene)
+			_activeScene->tick(msecs);
+	} // tick
+
+	//--------------------------------------------------------
+
 
 }

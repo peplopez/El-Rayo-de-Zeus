@@ -138,8 +138,7 @@ namespace Graphics
 	{
 		assert(_instance && "GRAPHICS::SERVER>> Servidor no inicializado");	
 
-		// Si borramos la escena activa tenemos que quitarla.
-		if(_activeScene == scene)
+		if(_activeScene == scene) // Si borramos la escena activa tenemos que quitarla.
 			_activeScene = 0;
 		_scenes.erase(scene->getName());
 		delete scene;
@@ -172,20 +171,18 @@ namespace Graphics
 			// Sanity check. Nos aseguramos de que la escena pertenezca 
 			// al servidor. Aunque nadie más puede crear escenas...
 			assert( _scenes[ scene->getName() ] == scene && 
-				"Esta escena no pertenece al servidor");
+				"GRAPHICS::SERVER>> Esta escena no pertenece al servidor");
 
 			_activeScene = scene;
 		}
 
 		_activeScene->activate(); 
 	} // setActiveScene
-
-	//--------------------------------------------------------
-
+	
 	void CServer::setActiveScene(const std::string& name)
 	{
 		assert(_scenes.find(name) == _scenes.end() &&
-			"Esta escena no pertenece al servidor");
+			"GRAPHICS::SERVER>> Esta escena no pertenece al servidor");
 		setActiveScene( _scenes[name] );
 	} // setActiveScene
 

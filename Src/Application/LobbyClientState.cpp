@@ -265,7 +265,7 @@ srand(time(0)); // HACK necesario subsistema random
 				_app->exitRequest();
 		
 				// Cargamos el nivel a partir del nombre del mapa. 
-			} else if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt")){
+			} else if (!Logic::CServer::getSingletonPtr()->loadMap("map.txt")){
 				CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar el nivel");
 				Net::CManager::getSingletonPtr()->deactivateNetwork();
 				_app->exitRequest();

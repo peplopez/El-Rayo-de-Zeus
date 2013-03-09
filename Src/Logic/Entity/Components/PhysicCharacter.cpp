@@ -53,16 +53,16 @@ namespace Logic {
 			
 		case Message::WALK_LEFT:
 		case Message::WALK_RIGHT:
-			_movDegrees = static_cast<CMessageFloat*>(message)->getFloat();	
+			_diffDegrees = static_cast<CMessageFloat*>(message)->getFloat();	
 			break;
 		case Message::JUMP:
-			_movHeight = static_cast<CMessageFloat*>(message)->getFloat();
+			_diffHeight = static_cast<CMessageFloat*>(message)->getFloat();
 			break;
 		case Message::CHANGE_RING:		// TODO ƒ®§ por seguridad quizá habría que probar que _ring < MAX del enum --> asserts!
-			_movRing = static_cast<CMessageChar*>(message)->getChar();
+			_diffRing = static_cast<CMessageChar*>(message)->getChar();
 			break;
 		case Message::CHANGE_BASE:
-			_movBase = static_cast<CMessageChar*>(message)->getChar();	
+			_diffBase = static_cast<CMessageChar*>(message)->getChar();	
 			break;
 
 		} // switch message action
@@ -92,8 +92,7 @@ namespace Logic {
 
 		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()._degrees - _server->getActorLogicPosition(_physicActor)._degrees));
 		_entity->setLogicalPosition( _server->getActorLogicPosition(_physicActor) ); 
-
-
+		
 
 		// TODO Efecto de la gravedad quizá sea necesario..?
 		//if (_falling) { // PeP: _entity->getHeight() también nos proporciona la misma info, si es 0 está en el suelo.
@@ -101,27 +100,28 @@ namespace Logic {
 		//}
 
 		// Intentamos mover el actor según los AVATAR_MOVE acumulados. 
-		 _server->moveActor(_physicActor, _movDegrees, _movHeight, _movRing, _movBase); //_movement); // TODO añadir msecs);
-
+		_server->moveActor(_physicActor, _diffDegrees, _diffHeight, _diffRing, _diffBase); //_movement); // TODO añadir msecs);
+		
 		// TODO Actualizamos el flag que indica si estamos cayendo
 		//_falling =  !(flags & PxControllerFlag::eCOLLISION_DOWN);
 		
-		//UNDONE_movement = TLogicalPosition(); // Ponemos el movimiento a cero
-		
-		_movDegrees = 0;
-		_movHeight = 0;
-		_movRing = 0;
-		_movBase = 0;
+		//Ponemos el movimiento a cero		
+		_diffDegrees = 0;
+		_diffHeight = 0;
+		_diffRing = 0;
+		_diffBase = 0;
 	}
 
 
 	/**************
 		IOBSERVER
 	***************/
+
 	//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
 	void CPhysicCharacter::onCollision(IObserver* other) {
-		LOG("Auch! Me he chocado!");
+		LOG(_entity->getName() << ": \"Auch! Me he chocado!\"");
 	}
+
 	void  CPhysicCharacter::onTrigger (Physics::IObserver* other, bool enter) 
 	{
 		CPhysic::onTrigger(other, enter);

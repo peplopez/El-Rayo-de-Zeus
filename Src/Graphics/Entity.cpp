@@ -167,9 +167,7 @@ namespace Graphics
 	Ogre::SceneNode* CEntity::getEntityNode()
 	{
 		assert(_entityNode && "La entidad no ha sido cargada");
-		if(_entityNode)		
-			return _entityNode;
-
+		return _entityNode;
 	}
 
 	void CEntity::setMaterial(const std::string &materialName) 

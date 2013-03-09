@@ -33,11 +33,11 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	CPhysic::CPhysic() : IComponent(GetAltTypeIdOf(CPhysic)), _physicActor(0), _movDegrees(0), _movHeight(0), _movRing(0), _movBase(0)
+	CPhysic::CPhysic() : IComponent(GetAltTypeIdOf(CPhysic)), _physicActor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
 	{
 		_server = Physics::CServer::getSingletonPtr();
 	}
-	CPhysic::CPhysic(altTypeId id) : IComponent(id), _physicActor(0), _movDegrees(0), _movHeight(0), _movRing(0), _movBase(0)
+	CPhysic::CPhysic(altTypeId id) : IComponent(id), _physicActor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
 	{
 		_server = Physics::CServer::getSingletonPtr();
 	}

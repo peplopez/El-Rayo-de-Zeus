@@ -99,7 +99,7 @@ namespace Logic {
 
 	void CServer::close() 
 	{
-		unLoadLevel();
+		unLoadMap();
 
 		Logic::CGameNetMsgManager::Release();
 
@@ -111,12 +111,24 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
+	
+	void CServer::tick(unsigned int msecs) 
+	{
+		// Eliminamos las entidades que se han marcado para ser eliminadas.
+		Logic::CEntityFactory::getSingletonPtr()->deleteDefferedEntities();
+
+		_map->tick(msecs);
+
+	} // tick
+
+	//---------------------------------------------------------
+
 	// Гоз Carga el map desde fichero ==> ejecuta el entity.spawn()
-	bool CServer::loadLevel(const std::string &filename)
+	bool CServer::loadMap(const std::string &filename)
 	{
 		// solo admitimos un mapa cargado, si iniciamos un nuevo nivel 
 		// se borra el mapa anterior.
-		unLoadLevel();
+		unLoadMap();
 
 		if(_map = CMap::createMapFromFile(filename))
 			return true;		
@@ -124,6 +136,43 @@ namespace Logic {
 		return false;
 
 	} // loadLevel
+
+	//--------------------------------------------------------
+
+	void CServer::unLoadMap()
+	{
+		if(_map)
+		{
+			_map->deactivate();
+			delete _map;
+			_map = 0;
+		}
+		_player = 0;
+
+	} // unLoadLevel
+
+	//---------------------------------------------------------
+
+	bool CServer::activateMap() 
+	{
+		// Se activa la escucha del oyente de los mensajes de red para el estado de juego.
+		_gameNetMsgManager->activate();
+		return _map->activate();
+
+	} // activateMap
+
+	//---------------------------------------------------------
+
+	void CServer::deactivateMap() 
+	{
+		_map->deactivate();
+		_gameNetMsgManager->deactivate(); // Se desactiva la escucha del oyente de los mensajes de red para el estado de juego.
+
+	} // deactivateMap
+
+	//---------------------------------------------------------
+
+	
 
 	bool CServer::setRingPositions()
 	{
@@ -186,48 +235,6 @@ namespace Logic {
 			}
 
 	}
-	//--------------------------------------------------------
-
-	void CServer::unLoadLevel()
-	{
-		if(_map)
-		{
-			_map->deactivate();
-			delete _map;
-			_map = 0;
-		}
-		_player = 0;
-
-	} // unLoadLevel
-
-	//---------------------------------------------------------
-
-	bool CServer::activateMap() 
-	{
-		// Se activa la escucha del oyente de los mensajes de red para el estado de juego.
-		_gameNetMsgManager->activate();
-		return _map->activate();
-
-	} // activateMap
-
-	//---------------------------------------------------------
-
-	void CServer::deactivateMap() 
-	{
-		_map->deactivate();
-		_gameNetMsgManager->deactivate(); // Se desactiva la escucha del oyente de los mensajes de red para el estado de juego.
-
-	} // deactivateMap
-
-	//---------------------------------------------------------
-
-	void CServer::tick(unsigned int msecs) 
-	{
-		// Eliminamos las entidades que se han marcado para ser eliminadas.
-		Logic::CEntityFactory::getSingletonPtr()->deleteDefferedEntities();
-
-		_map->tick(msecs);
-
-	} // tick
+	
 
 } // namespace Logic

@@ -37,7 +37,7 @@ namespace Physics {
 		/**
 		Tipo para la estructura que guarda las diferentes escenas
 		*/
-		typedef std::map<std::string,CScene*> TScenes;
+		typedef std::map<std::string, CScene*> TScenes;
 
 
 	public:
@@ -128,13 +128,9 @@ namespace Physics {
 
 		
 		Logic::TLogicalPosition& getActorLogicPosition(Physics::CActor* actor);
-
-		void moveActor(Physics::CActor *actor, const Logic::TLogicalPosition &position);
-
-		// UNDONE FRS
-		//void moveActor(Physics::CActor *actor, const float degrees, const float height, const char ring, const char base);
-
-	
+			
+		void moveActor(Physics::CActor *actor, float diffDegrees, float diffHeight, char diffRing, char diffBase);
+			
 	protected:
 
 		// Instancia única de la clase.

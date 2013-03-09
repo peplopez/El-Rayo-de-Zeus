@@ -90,8 +90,8 @@ namespace Logic
 		
 		_overlayPlay = _server->createOverlay( "_overlayPlay" );
 		
-		int height = _server->getHeight();
-		int width = _server->getWidth();
+		int height = _server->getScreenHeight();
+		int width = _server->getScreenWidth();
 
 		float relativeWidth = (float)width/26;
 		float relativeHeight = (float)height/31;

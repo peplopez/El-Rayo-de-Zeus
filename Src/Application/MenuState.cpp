@@ -141,7 +141,7 @@ namespace Application {
 				return false;
 
 			// Cargamos el nivel a partir del nombre del mapa. 
-			if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))
+			if (!Logic::CServer::getSingletonPtr()->loadMap("map.txt"))
 				return false;
 		
 			// Llamamos al método de creación del jugador. Deberemos decidir
@@ -211,7 +211,7 @@ namespace Application {
 			return false;
 
 		// Cargamos el nivel a partir del nombre del mapa. 
-		if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt"))
+		if (!Logic::CServer::getSingletonPtr()->loadMap("map.txt"))
 			return false;
 			
 		// Llamamos al método de creación del jugador. Deberemos decidir

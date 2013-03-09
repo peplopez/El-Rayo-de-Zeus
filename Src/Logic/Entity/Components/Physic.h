@@ -68,21 +68,15 @@ namespace Logic
 
 	protected:
 
-		// Servidor de física
-		Physics::CServer* _server;
+		Physics::CServer* _server; // Servidor de física
+		Physics::CActor* _physicActor; // Actor que representa la entidad física
 
-		// Actor que representa la entidad física
-		Physics::CActor* _physicActor;
-
-		// Vector de deplazamiento recibido en los últimos mensajes de tipo MOVE.
+		// Desplazamiento recibido en los últimos mensajes de tipo MOVE.
 		// Sirve para mover entidades físicas cinemáticas y de character.
-	//  UNDONE
-	// TLogicalPosition _movement; No nos sirve para diferencias negativas
-
-		char _movBase;
-		char _movRing;
-		float _movDegrees;
-		float _movHeight;
+		char _diffBase;
+		char _diffRing;
+		float _diffDegrees;
+		float _diffHeight;
 
 		// Crea el actor que representa la entidad física a partir de la información del mapa.*/
 		virtual Physics::CActor* createActor(const Map::CEntity* entityInfo);

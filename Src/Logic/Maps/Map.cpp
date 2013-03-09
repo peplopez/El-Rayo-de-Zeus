@@ -39,14 +39,13 @@ namespace Logic {
 		_name = name;
 		_graphicScene = Graphics::CServer::getSingletonPtr()->createScene(name);
 		_physicScene  = Physics::CServer::getSingletonPtr()->createScene(name); 
-
-		// Pablo 31-01-2013. Indico que la escena activa es map.txt (no dummy_scene)
-		Graphics::CServer::getSingletonPtr()->setScene(name);	
+		// ƒ®§ aunque se creen las escenas, la escena activa debe ser la dummy hasta la activación del map
 
 	} // CMap
 
 	//--------------------------------------------------------
 
+	// TODO FRS Revisar estos if (necesarios?)
 	CMap::~CMap()
 	{
 		destroyAllEntities();
@@ -58,17 +57,62 @@ namespace Logic {
 	} // ~CMap
 
 	//--------------------------------------------------------
+
+	bool CMap::activate()
+	{			
+		Graphics::CServer::getSingletonPtr()->setActiveScene(_graphicScene);	
+		Physics::CServer::getSingletonPtr()->setActiveScene(_physicScene);	
+
+		// Activamos todas las entidades registradas en el mapa.
+		bool correct = true;
+		TEntityMap::const_iterator it = _entityMap.begin();
+		TEntityMap::const_iterator end = _entityMap.end();
+			for(; it != end; ++it)
+				correct = (*it).second->activate() && correct;
+
+		return correct;
+
+	} // getEntity
+
+	//--------------------------------------------------------
+
+	void CMap::deactivate()
+	{
+		// Desactivamos todas las entidades activas registradas en el mapa.
+		TEntityMap::const_iterator it = _entityMap.begin();
+		TEntityMap::const_iterator end = _entityMap.end();
+			for(; it != end; it++)
+				if((*it).second->isActivated())
+					(*it).second->deactivate();
+
+		Graphics::CServer::getSingletonPtr()->setActiveScene(0);
+		Physics::CServer::getSingletonPtr()->setActiveScene(0);
+	} // getEntity
+
+	//---------------------------------------------------------
+
+	void CMap::tick(unsigned int msecs) 
+	{
+		TEntityMap::const_iterator it  = _entityMap.begin();
+		TEntityMap::const_iterator end = _entityMap.end();
+			for(; it != end; ++it )
+				(*it).second->tick(msecs);
+
+	} // tick
+
+	//--------------------------------------------------------
+
+
 	CMap* CMap::createMapFromFile(const std::string &filename)
 	{
 		// Completamos la ruta con el nombre proporcionado
 		std::string completePath(MAP_FILE_PATH);
-		completePath = completePath + filename;
-		// Parseamos el fichero
-		if(!Map::CMapParser::getSingletonPtr()->parseFile(completePath))
-		{
-			assert(!"No se ha podido parsear el mapa.");
-			return false;
-		}
+			completePath = completePath + filename;
+				
+				if(!Map::CMapParser::getSingletonPtr()->parseFile(completePath)){ // Parseamos el fichero
+					assert(!"No se ha podido parsear el mapa.");
+					return false;
+				}
 
 		// Si se ha realizado con éxito el parseo creamos el mapa.
 		CMap *map = new CMap(filename); // Desencadena la creación de las escenas física y gráfica
@@ -99,64 +143,12 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-
-
-	bool CMap::activate()
-	{
-		Graphics::CServer::getSingletonPtr()->setScene(_scene);
-
-		TEntityMap::const_iterator it, end;
-		end = _entityMap.end();
-		it = _entityMap.begin();
-
-		bool correct = true;
-
-		// Activamos todas las entidades registradas en el mapa.
-		for(; it != end; ++it)
-			correct = (*it).second->activate() && correct;
-
-		return correct;
-
-	} // getEntity
-
-	//--------------------------------------------------------
-
-	void CMap::deactivate()
-	{
-		TEntityMap::const_iterator it, end;
-		end = _entityMap.end();
-		it = _entityMap.begin();
-
-		// Desactivamos todas las entidades activas registradas en el mapa.
-		for(; it != end; it++)
-			if((*it).second->isActivated())
-				(*it).second->deactivate();
-
-		Graphics::CServer::getSingletonPtr()->setScene(0);
-
-	} // getEntity
-
-	//---------------------------------------------------------
-
-	void CMap::tick(unsigned int msecs) 
-	{
-		TEntityMap::const_iterator it;
-
-		for( it = _entityMap.begin(); it != _entityMap.end(); ++it )
-			(*it).second->tick(msecs);
-
-	} // tick
-
-	//--------------------------------------------------------
-
-	typedef std::pair<TEntityID,CEntity*> TEntityPair;
-
+	
 	void CMap::addEntity(CEntity *entity)
 	{
-		if(_entityMap.count(entity->getEntityID()) == 0)
-		{
-			TEntityPair elem(entity->getEntityID(),entity);
-			_entityMap.insert(elem);
+		if( !_entityMap.count(entity->getEntityID() ) )
+		{			
+			_entityMap[entity->getEntityID()] = entity;
 			_entityList.push_back(entity); // [ƒ®§] Vamos a conservar la list y el map?
 		}
 
@@ -273,7 +265,8 @@ namespace Logic {
 	} // getEntityByType
 
 	//--------------------------------------------------------
-// TODO adaptar a ARCHETYPES
+
+
 	void CMap::createPlayer(std::string entityName, std::string model, bool isLocalPlayer)
 	{
 		// [ƒ®§] Creamos un nuevo jugador. Deberíamos tener la info del player
@@ -290,6 +283,7 @@ namespace Logic {
 			
 		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createMergedEntity(&playerInfo, this);
 			//newPlayer->setPosition( newPlayer->getPosition() + (rand()%50-25) * Vector3(1, 0, 1) ); // TODO calibrar esta pos
-	}
+	
+	} // createPlayer
 
 } // namespace Logic

@@ -160,7 +160,8 @@ namespace Application {
 
 		Graphics::CServer::getSingletonPtr()->tick(msecs/1000.0f);
 
-		Net::CManager::getSingletonPtr()->tick(msecs); // Гоз Necesario para tx/rx peticiones de union a partida en los lobbies
+		Net::CManager::getSingletonPtr()->tick(msecs); 
+		// Гоз Necesario para tx/rx peticiones de union a partida en los lobbies
 
 	} // tick
 

@@ -32,18 +32,60 @@
 namespace Physics
 {
 
-	CScene::CScene() {}
-
-
-	//--------------------------------------------------------
-
 	CScene::~CScene() 
 	{
 		deactivate();
-
+		release();
 	} // ~CScene
 
 	//--------------------------------------------------------
+
+	void CScene::release()
+	{
+		TActorVector::iterator aIt  = _actors.begin();
+		TActorVector::iterator aEnd = _actors.begin();
+			for ( ; aIt != aEnd; ++aIt) {
+				(*aIt)->release();
+			}
+		_actors.clear();
+
+		TTriggerVector::iterator tIt  = _triggers.begin();
+		TTriggerVector::iterator tEnd = _triggers.begin();
+			for ( ; tIt != tEnd; ++tIt){
+				(*tIt)->release();
+			}		
+		_triggers.clear();
+
+	} // release
+
+	//--------------------------------------------------------
+
+	bool CScene::activate()
+	{
+		return true;
+	} // activate
+
+	//--------------------------------------------------------
+
+	bool CScene::deactivate()
+	{
+		return true;
+	} // deactivate
+	
+	//--------------------------------------------------------
+	
+	void CScene::tick(unsigned int secs)
+	{	
+		this->simulate(); // Empezar la simulación física.
+	} // tick
+
+	
+
+
+	/************
+		ACTORS
+	************/
+
 
 	// TODO FRS hacerlas inline? 
 	void CScene::addActor(CActorTrigger* actor)
@@ -56,8 +98,7 @@ namespace Physics
 	{
 		_actors.push_back(actor);
 	} // addActor
-
-	
+		
 
 	//--------------------------------------------------------
 
@@ -82,38 +123,11 @@ namespace Physics
 		}
 	} // removeActor
 
-	//--------------------------------------------------------
-	void CScene::release()
-	{
-		TActorVector::iterator aIt = _actors.begin();
-			for ( ; aIt != _actors.end(); ++aIt) {
-				(*aIt)->release();
-			}
-		TTriggerVector::iterator tIt= _triggers.begin();
-			for ( ; tIt != _triggers.end(); ++tIt){
-				(*tIt)->release();
-			}
-
-		_actors.clear();
-		_triggers.clear();
-	}
-
-	//--------------------------------------------------------
-
-	bool CScene::activate()
-	{
-		return true;
-	} // activate
-
-	//--------------------------------------------------------
-
-	bool CScene::deactivate()
-	{
-		return true;
-	} // deactivate
 	
-	//--------------------------------------------------------
 
+	/******************
+		SIMULATION
+	*****************/
 	
 	void CScene::simulate()
 	{	

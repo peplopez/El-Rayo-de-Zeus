@@ -122,10 +122,12 @@ namespace Net {
 	{
 		if(_connections.empty())
 			return;
+#if DEBUG
+		if(exception)  
+			LOG("Send: Exception NetID = " << exception->getId());
+#endif
 
-		if(exception)  LOG("Send: Exception NetID = " << exception->getId());
-
-		// [f®§] Hay más de una conexión, debemos mandar el mensaje por todas si somos servidor.		
+		// [f®§] Hay más de una conexión, debemos mandar el mensaje por todas si somos servidor
 		if(_servidorRed)
 			_servidorRed->sendAll( data, longdata, 0, reliable, exception);
 		if(_clienteRed) 

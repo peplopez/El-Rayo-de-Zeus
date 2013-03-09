@@ -87,6 +87,7 @@ namespace Graphics
 		if(_overlay){return _overlay->isVisible();}
 		if(_overlayContainer){return _overlayContainer->isVisible();}
 		if(_overlayText){return _overlayText->isVisible();}
+		return false;
 	} // isVisible
 
 	//------------------------------------------------------------
