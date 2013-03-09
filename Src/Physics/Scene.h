@@ -27,6 +27,19 @@ namespace Physics
 	class CScene 
 	{
 
+	public:
+
+		/************
+			ACTORS
+		*************/
+		void addActor(CActor *actor);
+		void addActor(CActorTrigger* actor);
+		//bool addStaticActor(Physics::CStaticActor *actor);
+
+		void removeActor(CActor* actor);
+		void removeActor(CActorTrigger* actor);
+		//void removeStaticActor(CStaticActor* actor);
+
 	protected:
 
 		/**
@@ -52,17 +65,7 @@ namespace Physics
 		void release();
 		void tick(unsigned int);
 
-		/************
-			ACTORS
-		*************/
-
-		void addActor(CActorTrigger* actor);
-		void addActor(CActor *actor);
-		//bool addStaticActor(Physics::CStaticActor *actor);
-
-		void removeActor(CActor* actor);
-		void removeActor(CActorTrigger* actor);
-		//void removeStaticActor(CStaticActor* actor);
+		
 
 
 		/******************

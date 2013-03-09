@@ -44,17 +44,15 @@ namespace Physics
 	{
 		TActorVector::iterator aIt  = _actors.begin();
 		TActorVector::iterator aEnd = _actors.begin();
-			for ( ; aIt != aEnd; ++aIt) {
-				(*aIt)->release();
-			}
-		_actors.clear();
+			for ( ; aIt != aEnd; ++aIt) 
+				delete (*aIt);			
+			_actors.clear();
 
 		TTriggerVector::iterator tIt  = _triggers.begin();
 		TTriggerVector::iterator tEnd = _triggers.begin();
-			for ( ; tIt != tEnd; ++tIt){
-				(*tIt)->release();
-			}		
-		_triggers.clear();
+			for ( ; tIt != tEnd; ++tIt)
+				delete (*tIt);			
+			_triggers.clear();
 
 	} // release
 
@@ -108,8 +106,8 @@ namespace Physics
 		TActorVector::iterator position = std::find(_actors.begin(), _actors.end(), actor);
 		if (position != _actors.end())
 		{
-			(*position)->release();
 			_actors.erase(position);
+			delete actor;
 		}
 	} // removeActor
 
@@ -117,9 +115,9 @@ namespace Physics
 	{
 		TTriggerVector::iterator position = std::find(_triggers.begin(), _triggers.end(), actor);
 		if (position != _triggers.end())
-		{
-			(*position)->release();
+		{			
 			_triggers.erase(position);
+			delete actor;
 		}
 	} // removeActor
 
@@ -186,34 +184,34 @@ namespace Physics
 		{
 			if (x < 0)
 			{
-				Logic::TLogicalPosition pos = actor2->getLogicPos();
+				Logic::TLogicalPosition pos = actor2->getLogicPosition();
 				pos._degrees -= x;
 				if (pos._degrees > 360)
 					pos._degrees -= 360;
-				actor2->setLogicPos(pos);
+				actor2->setLogicPosition(pos);
 			}
 			else if (x > 0)
 			{
-				Logic::TLogicalPosition pos = actor2->getLogicPos();
+				Logic::TLogicalPosition pos = actor2->getLogicPosition();
 				pos._degrees -= x;
 				if (pos._degrees < 0)
 					pos._degrees += 360;
-				actor2->setLogicPos(pos);
+				actor2->setLogicPosition(pos);
 			}
 		}
 		else
 		{
 			if (y < 0)
 			{
-				Logic::TLogicalPosition pos = actor2->getLogicPos();
+				Logic::TLogicalPosition pos = actor2->getLogicPosition();
 				pos._height += -y;
-				actor2->setLogicPos(pos);
+				actor2->setLogicPosition(pos);
 			}
 			else if (y > 0)
 			{
-				Logic::TLogicalPosition pos = actor2->getLogicPos();
+				Logic::TLogicalPosition pos = actor2->getLogicPosition();
 				pos._height += y;
-				actor2->setLogicPos(pos);
+				actor2->setLogicPosition(pos);
 			}
 		}
 	}

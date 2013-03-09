@@ -120,17 +120,16 @@ namespace Physics {
 		//------------------------------
 		// Gestión de entidades simples
 		//------------------------------
+// UNDONE FRS Cableado directamente el CPhysic con los actors
+		//Physics::CActor* createActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
+		//								bool isTrigger, IObserver *component); 
 
-		Physics::CActor* createActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
-										bool isTrigger, IObserver *component); 
+		//void destroyActor(Physics::CActor* actor);
 
-		void destroyActor(Physics::CActor* actor);
+		//void moveActor(Physics::CActor *actor, float diffDegrees, float diffHeight, char diffRing, char diffBase);
+		//
+		//Logic::TLogicalPosition& getActorLogicPosition(Physics::CActor* actor);
 
-		
-		Logic::TLogicalPosition& getActorLogicPosition(Physics::CActor* actor);
-			
-		void moveActor(Physics::CActor *actor, float diffDegrees, float diffHeight, char diffRing, char diffBase);
-			
 	protected:
 
 		// Instancia única de la clase.

@@ -21,7 +21,7 @@
 
 // Predeclaración de tipos
 namespace Physics {
-	class CServer;
+	class CScene;
 	class CActor;
 }
 
@@ -68,8 +68,9 @@ namespace Logic
 
 	protected:
 
-		Physics::CServer* _server; // Servidor de física
-		Physics::CActor* _physicActor; // Actor que representa la entidad física
+		// UNDONE FRS Physics::CServer* _server; // Servidor de física
+		Physics::CScene* _scene; // Servidor de física
+		Physics::CActor* _actor; // Actor que representa la entidad física
 
 		// Desplazamiento recibido en los últimos mensajes de tipo MOVE.
 		// Sirve para mover entidades físicas cinemáticas y de character.

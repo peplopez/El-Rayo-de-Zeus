@@ -36,10 +36,6 @@ namespace Physics
 
 		CActor();
 		CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, IObserver *component);
-		virtual ~CActor() {}
-
-		virtual void release(); // TODO FRS con hacerlo virtual ya se ejecuta el delete sobre el this del hijo o hay que impl en el hijo?
-								// Es más, es necesario hacer el delete sobre el hijo, o el del padre ya lanzaria el destructor del hijo?
 		
 		// UNDONE RS si la clase CLogicalPos no va admitir valores negativos, nunca podremos implementar el move asin
 		//void move(const Logic::TLogicalPosition &pos);  
@@ -56,8 +52,8 @@ namespace Physics
 		/************************
 			GETTER's & SETTER's
 		************************/
-		void setLogicPos(const Logic::TLogicalPosition &position) {_logicPosition=position;}
-		Logic::TLogicalPosition &getLogicPos() {return _logicPosition;}
+		void setLogicPosition(const Logic::TLogicalPosition &position) {_logicPosition=position;}
+		Logic::TLogicalPosition &getLogicPosition() {return _logicPosition;}
 
 		void setBoxWidth(const float angularWidth) {_boxWidth=angularWidth;}
 		float getBoxWidth() {return _boxWidth;}

@@ -13,10 +13,12 @@
 #include "Physic.h"
 
 #include "Logic/Entity/Entity.h"
+#include "Logic/Entity/Messages/MessageUInt.h"
+#include "Logic/Maps/Map.h"
 #include "Map/MapEntity.h"
 
-#include "Logic/Entity/Messages/MessageUInt.h"
 #include "Physics/Server.h"
+#include "Physics/Scene.h"
 #include "Physics/Actor.h"
 
 #define DEBUG 1
@@ -33,24 +35,25 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	CPhysic::CPhysic() : IComponent(GetAltTypeIdOf(CPhysic)), _physicActor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
+	CPhysic::CPhysic() : IComponent(GetAltTypeIdOf(CPhysic)), _actor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
 	{
-		_server = Physics::CServer::getSingletonPtr();
+		// UNDONE FRS _server = Physics::CServer::getSingletonPtr();
 	}
-	CPhysic::CPhysic(altTypeId id) : IComponent(id), _physicActor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
+	CPhysic::CPhysic(altTypeId id) : IComponent(id), _actor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
 	{
-		_server = Physics::CServer::getSingletonPtr();
+		// UNDONE FRS _server = Physics::CServer::getSingletonPtr();
 	}
 
 	//---------------------------------------------------------
 
 	CPhysic::~CPhysic() 
 	{
-		if (_physicActor) {
-			_physicActor->release();
-			_physicActor = 0;
+		if (_actor) {
+			_scene->removeActor(_actor); // Eliminar el actor de la escena			
+			delete _actor;
+			_actor = 0;
 		}
-		_server = 0;
+		// UNDONE FRS _server = 0;
 	} 
 
 	//---------------------------------------------------------
@@ -61,12 +64,15 @@ namespace Logic {
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
-		_physicActor = createActor(entityInfo); // Crear el actor asociado al componente
+		_scene = map->getPhysicScene();
+		_actor = createActor(entityInfo); // Crear el actor asociado al componente
+
 		return true;
 	} // spawn
 
 	//---------------------------------------------------------
 
+	// Crear el actor físico
 	Physics::CActor* CPhysic::createActor(const Map::CEntity *entityInfo)
 	{
 		// Obtenemos la posición de la entidad. 
@@ -85,9 +91,17 @@ namespace Logic {
 		bool isTrigger = false;
 		if (entityInfo->hasAttribute("physicTrigger"))
 			isTrigger = entityInfo->getBoolAttribute("physicTrigger");
+		
+		if(isTrigger)  {
+			Physics::CActorTrigger *actor =	new Physics::CActorTrigger(logicPos, physicWidth, physicHeight, this);
+			_scene->addActor(actor); // Añadir el actor a la escena
+			return actor;
+		} else {
+			Physics::CActor *actor = new Physics::CActor(logicPos, physicWidth, physicHeight, this);
+			_scene->addActor(actor); // Añadir el actor a la escena
+			return actor;
+		}
 
-		// Crear el controller de tipo cápsula
-		return _server->createActor(logicPos, physicWidth, physicHeight, isTrigger, this);
 	} // createActor 
 
 	//---------------------------------------------------------

@@ -159,6 +159,7 @@ namespace Graphics
 	
 	//--------------------------------------------------------
 
+	//TODO en red, el server tendrá activas > 1 -> activateScene
 	void CServer::setActiveScene(CScene* scene)
 	{
 		// En caso de que hubiese una escena activa la desactivamos.

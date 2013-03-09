@@ -23,8 +23,6 @@ namespace Physics
 		}
 
 		//--------------------------------------------------------
-
-
 		
 		void CActor::move(const float degrees, const float height, const char ring, const char base)
 		{		
@@ -50,13 +48,13 @@ namespace Physics
 		bool CActor::intersects(CActor *otherActor, float &x, float &y)
 		{
 			
-			if (_logicPosition._base != otherActor->getLogicPos()._base)
+			if (_logicPosition._base != otherActor->getLogicPosition()._base)
 				return false;
-			if (_logicPosition._ring != otherActor->getLogicPos()._ring)
+			if (_logicPosition._ring != otherActor->getLogicPosition()._ring)
 				return false;
 			x = 0;
 			y = 0;
-			float xCenterDistance = _logicPosition._degrees - otherActor->getLogicPos()._degrees;
+			float xCenterDistance = _logicPosition._degrees - otherActor->getLogicPosition()._degrees;
 			float yCenterDistance = 0;
 			if (xCenterDistance > 180) //
 				xCenterDistance -= 360;	
@@ -65,7 +63,7 @@ namespace Physics
 			
 			if (abs(xCenterDistance) >= (_boxWidth + otherActor->getBoxWidth()))
 				return false;
-			else if (abs( yCenterDistance = (_logicPosition._height - otherActor->getLogicPos()._height) ) >= (_boxHeight + otherActor->getBoxHeight()))
+			else if (abs( yCenterDistance = (_logicPosition._height - otherActor->getLogicPosition()._height) ) >= (_boxHeight + otherActor->getBoxHeight()))
 				return false;
 
 			// INTERSECCIÓN: devuelvo la información de la misma
@@ -93,12 +91,12 @@ namespace Physics
 		// HACK revisar
 		bool CActor::intersects(CActor *otherActor)
 		{
-			if (_logicPosition._base != otherActor->getLogicPos()._base)
+			if (_logicPosition._base != otherActor->getLogicPosition()._base)
 				return false;
-			if (_logicPosition._ring != otherActor->getLogicPos()._ring)
+			if (_logicPosition._ring != otherActor->getLogicPosition()._ring)
 				return false;
 
-			float xCenterDistance = _logicPosition._degrees - otherActor->getLogicPos()._degrees;
+			float xCenterDistance = _logicPosition._degrees - otherActor->getLogicPosition()._degrees;
 			float yCenterDistance = 0;
 			if (xCenterDistance > 180) //
 				xCenterDistance -= 360;	
@@ -106,22 +104,14 @@ namespace Physics
 				xCenterDistance += 360;		
 			if (abs(xCenterDistance) > (_boxWidth + otherActor->getBoxWidth()))
 				return false;
-			else if (abs( yCenterDistance = (_logicPosition._height - otherActor->getLogicPos()._height) ) > (_boxHeight + otherActor->getBoxHeight()))
+			else if (abs( yCenterDistance = (_logicPosition._height - otherActor->getLogicPosition()._height) ) > (_boxHeight + otherActor->getBoxHeight()))
 				return false;
 
 			// INTERSECCIÓN
 			else
 				return true;
 		}
-
-		//--------------------------------------------------------
-
-
-		void CActor::release()
-		{
-			delete this;
-		}
-		
+				
 
 
 } // namespace Physics

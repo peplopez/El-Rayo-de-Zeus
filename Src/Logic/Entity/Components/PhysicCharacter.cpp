@@ -19,7 +19,7 @@ el mundo físico usando character controllers.
 #include "Logic/Entity/Messages/MessageChar.h" // TODO PeP: sería óptimo enviar un unsigned short???
 #include "Logic/Entity/Messages/MessageFloat.h"
 
-#include "Physics/Server.h"
+#include "Physics/Actor.h"
 
 
 
@@ -90,8 +90,8 @@ namespace Logic {
 		// usando la información proporcionada por el motor de física	
 		// Este a genera  SET_TRANSFORM por debajo que informa al CGraphics
 
-		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()._degrees - _server->getActorLogicPosition(_physicActor)._degrees));
-		_entity->setLogicalPosition( _server->getActorLogicPosition(_physicActor) ); 
+		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()._degrees - _actor->getLogicPosition()._degrees));
+		_entity->setLogicalPosition( _actor->getLogicPosition() ); 
 		
 
 		// TODO Efecto de la gravedad quizá sea necesario..?
@@ -100,8 +100,10 @@ namespace Logic {
 		//}
 
 		// Intentamos mover el actor según los AVATAR_MOVE acumulados. 
-		_server->moveActor(_physicActor, _diffDegrees, _diffHeight, _diffRing, _diffBase); //_movement); // TODO añadir msecs);
+		// UNDONE FRS _server->moveActor(_physicActor, _diffDegrees, _diffHeight, _diffRing, _diffBase); 
 		
+		_actor->move(_diffDegrees, _diffHeight, _diffRing, _diffBase);
+
 		// TODO Actualizamos el flag que indica si estamos cayendo
 		//_falling =  !(flags & PxControllerFlag::eCOLLISION_DOWN);
 		

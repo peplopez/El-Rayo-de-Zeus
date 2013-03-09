@@ -50,37 +50,22 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 		
-		_scene = _entity->getMap()->getGraphicScene();
+		_scene = map->getGraphicScene();
+		_graphicsEntity = createGraphicsEntity(entityInfo);
 
 		if(entityInfo->hasAttribute("model"))
 			_model = entityInfo->getStringAttribute("model");
-	
 
-		_graphicsEntity = createGraphicsEntity(entityInfo);
-
-
-		if(_entity->getType().compare("Altar")==0)
-		{	
-			_graphicsEntity->setScale(3);
-		}
-
-		if(_entity->getName().compare("Tubo")==0)
-		{	
-			_graphicsEntity->setScale(Vector3(2,10,2));
-		}
-
-		
-		if(_entity->getType().compare("AnimatedEntity")==0)
-		{	
+		// HACK FRS Esto lo suyo es que el modelo ya lo traiga , no?
+		if(_entity->getType().compare("Altar")==0)			
+			_graphicsEntity->setScale(3);	
+		if(_entity->getName().compare("Tubo")==0)		
+			_graphicsEntity->setScale(Vector3(2,10,2));	
+		if(_entity->getType().compare("AnimatedEntity")==0)			
 			_graphicsEntity->setScale(0.5);
-		}
-
 		if(_entity->getType().compare("World")==0)
-		{	
 			if(_entity->getRing()==LogicalPosition::CENTRAL_RING)
-			_graphicsEntity->setScale(Vector3(1.3,1.0,1.3));
-		}
-
+				_graphicsEntity->setScale(Vector3(1.3,1.0,1.3));
 		
 		if(!_graphicsEntity)
 			return false;

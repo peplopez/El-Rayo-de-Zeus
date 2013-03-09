@@ -91,7 +91,21 @@ namespace Physics {
 		
 	} // close
 
-	//--------------------------------------------------------
+	
+	/***********
+		TICK
+	***********/
+
+	void CServer::tick(unsigned int msecs) 
+	{
+		if(_activeScene != _dummyScene)
+			_activeScene->tick(msecs);
+	} // tick
+
+	
+	/************
+		SCENE
+	**************/
 		
 	CScene* CServer::createScene(const std::string &name)
 	{
@@ -157,72 +171,15 @@ namespace Physics {
 	/***********
 	   ACTORS
 	***********/
+	// UNDONE FRS
+	//// TODO ƒ®§ Devolver flags / eventos de sucesos? -> p.e  PxControllerFlag::eCOLLISION_DOWN / onFloor(enter/exit)
+	//// FRS Necesario para pasar posiciones relativas negativas (TLogicalPosition nos restringía a unsigned's)
+	//void CServer::moveActor(Physics::CActor *actor, float diffDegrees, float diffHeight, char diffRing, char diffBase)
+	//{
+	//	assert(actor);	// Mover el actor tras transformar el destino a coordenadas lógicas
+	//	actor->move(diffDegrees, diffHeight, diffRing, diffBase);
+	//}
 
-	Physics::CActor* CServer::createActor(
-		const Logic::TLogicalPosition &position, 
-		const float angularWidth, const float height, 
-		bool isTrigger, IObserver *component) 
-	{
-		assert(_activeScene && "PHYSICS::SERVER>> Imposible crear un actor sin haber creado la escena física previamente");
-
-		if(isTrigger)  {
-
-			Physics::CActorTrigger *actor =	new Physics::CActorTrigger(position, angularWidth, height, component);
-			_activeScene->addActor(actor); // Añadir el actor a la escena
-			return actor;
-
-		} else {
-
-			Physics::CActor *actor = new Physics::CActor(position, angularWidth, height, component);
-			_activeScene->addActor(actor); // Añadir el actor a la escena
-			return actor;
-
-		}
-	} // createActor
-
-
-	//--------------------------------------------------------
-
-	void CServer::destroyActor(Physics::CActor *actor)
-	{
-		assert(_activeScene);		
-		_activeScene->removeActor(actor); // Eliminar el actor de la escena
-		actor->release(); // Liberar recursos
-	}
-
-	//--------------------------------------------------------
-
-	Logic::TLogicalPosition& CServer::getActorLogicPosition(CActor *actor)
-	{
-		assert(actor);
-		return actor->getLogicPos(); // Devolver la posición y orientación en coordenadas lógicas
-	}
-
-	//--------------------------------------------------------
-
-
-	// TODO ƒ®§ Devolver flags / eventos de sucesos? -> p.e  PxControllerFlag::eCOLLISION_DOWN / onFloor(enter/exit)
-	// FRS Necesario para pasar posiciones relativas negativas (TLogicalPosition nos restringía a unsigned's)
-	void moveActor(Physics::CActor *actor, float diffDegrees, float diffHeight, char diffRing, char diffBase)
-	{
-		assert(actor);	// Mover el actor tras transformar el destino a coordenadas lógicas
-		actor->move(diffDegrees, diffHeight, diffRing, diffBase);
-	}
-
-
-
-
-	/***********
-		TICK
-	***********/
-
-	void CServer::tick(unsigned int msecs) 
-	{
-		if(_activeScene != _dummyScene)
-			_activeScene->tick(msecs);
-	} // tick
-
-	//--------------------------------------------------------
 
 
 }
