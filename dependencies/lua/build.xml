@@ -5,26 +5,27 @@
 
 <project name="Lua" default="build">
 
-<!-- ==================== -->
-<!-- PROPIEDADES DEL PROYECTO -->
-<!-- ==================== -->
+	<!-- ======================== -->
+	<!-- PROPIEDADES DEL PROYECTO -->
+	<!-- ======================== -->
 
-<property name="vslogfile" value="${basedir}/vslog.txt"/>
-<property name="lua51" value="LUA51VS2010.sln"/>
+	<property name="vslogfile" value="${basedir}/vslog.txt"/>
+	<property name="lua51" value="LUA51VS2010.sln"/>
 
-<patternset id="vctmpfiles">
-	<include name="**/*.suo"/>
-	<include name="**/*.ncb"/>
-	<include name="**/*.exp"/>
-	<include name="**/*.ilk"/>
-	<include name="**/*.user"/>
-</patternset>
+	<patternset id="vctmpfiles">
+		<include name="**/*.suo"/>
+		<include name="**/*.ncb"/>
+		<include name="**/*.sdf"/>
+		<include name="**/*.exp"/>
+		<include name="**/*.ilk"/>
+		<include name="**/*.user"/>
+	</patternset>
 
-<taskdef resource = "vcTasks.properties" classpath="vcTask"/>
+	<taskdef resource = "vcTasks.properties" classpath="vcTask"/>
 
-<!-- ================================ -->
+<!-- ==================================== -->
 <!-- TARGET DE INVOCACION A VISUAL STUDIO -->
-<!-- ================================ -->
+<!-- ==================================== -->
 
 <!-- Objetivo que compila un proyecto de VC10.
 Parámetros (utilizando propiedades):

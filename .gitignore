@@ -102,6 +102,12 @@ DocumentacionDoxygen/
 /dependencies/include/*
 /dependencies/lib/Debug/*
 /dependencies/lib/Release/*
+
+
+/dependencies/lua/lib/
+/dependencies/lua/bin/
+/dependencies/luabind/bin/msvc-9.0/
+
 /dependencies/Ogre/build/
 /dependencies/OgreDependencies/Debug/
 /dependencies/OgreDependencies/Release/
@@ -146,12 +152,7 @@ DocumentacionDoxygen/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Debug/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Release/
 /dependencies/OgreDependencies/zziplib-0.13.57/msvc8/*.2010.vcxproj.user
-/dependencies/lua/vcproject/*
-/dependencies/lua/lib/*/*.pdb
-/dependencies/lua/lib/*/*.exp
-/dependencies/lua/bin/*/*.pdb
-/dependencies/lua/bin/*/*.exp
-/dependencies/luabind/bin/msvc-9.0/*
+
 /dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/*.vcxproj.user
 /dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/obj/*/*.tlog
 /dependencies/CEGUI/projects/premake/ScriptingModules/LuaScriptModule/obj/*/*.rc
@@ -183,7 +184,5 @@ DocumentacionDoxygen/
 !/dependencies/bin/*/PhysX*.dll
 !/dependencies/bin/*/cudart32_30_9.dll
 !/dependencies/bin/*/NxCharacter.dll
-!/dependencies/include/boost/
-!/dependencies/include/lua/
-!/dependencies/include/luabind/
 
+!/dependencies/include/luabind/
