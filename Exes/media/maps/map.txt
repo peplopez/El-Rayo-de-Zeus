@@ -359,6 +359,11 @@ Map ={
 		degrees=70,		
 	},	
 	
-		
+	gemelo = {
+		type = "OtherPlayer",
+		base=3,
+		ring=2,
+		degrees=120,		
+	},		
 
 }

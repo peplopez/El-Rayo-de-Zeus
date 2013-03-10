@@ -58,8 +58,5 @@ namespace Logic
 			txMsg->setType(TMessageType::LIFE_MODIFIER);
 			_entity->emitMessage(txMsg, this);
 	}
-
-	
-
 } // namespace Logic
 

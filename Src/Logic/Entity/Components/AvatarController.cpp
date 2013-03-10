@@ -13,6 +13,7 @@ de la entidad.
 
 #include "AvatarController.h"
 
+#include "Attack.h"
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
 
@@ -20,6 +21,7 @@ de la entidad.
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
+
 
 
 
@@ -114,10 +116,10 @@ namespace Logic
 	void CAvatarController::walkRight()
 	{
 		_walkingRight = true;
-
-
+	
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
+		message->setAction(Message::WALK_RIGHT);		
 		message->setString("RunKatana");
 		message->setBool(true);
 		_entity->emitMessage(message,this);
@@ -130,11 +132,13 @@ namespace Logic
 	{
 			
 		_walkingLeft = true;
-			
+	//		_entity->getComponent<CAttack>()->resetAttackFlags();
+	
 
 		// Cambiamos la animación	
 		CMessageBoolString *message = new CMessageBoolString();
-		message->setType(Message::SET_ANIMATION);
+		message->setType(Message::SET_ANIMATION);		
+		message->setAction(Message::WALK_LEFT);
 		message->setString("RunKatana");
 		message->setBool(true);
 		_entity->emitMessage(message,this);
@@ -146,11 +150,13 @@ namespace Logic
 	void CAvatarController::stopMovement() 
 	{
 		_walkingLeft = _walkingRight = false;
-
+	///	_entity->getComponent<CAttack>()->resetAttackFlags();
+	
 		// Cambiamos la animación si no seguimos desplazándonos
 		// lateralmente
 		CMessageBoolString *message = new CMessageBoolString();
-		message->setType(Message::SET_ANIMATION);
+		message->setType(Message::SET_ANIMATION);		
+		message->setAction(Message::WALK_STOP);
 		message->setString("IdleKatana");
 		message->setBool(true);
 		_entity->emitMessage(message,this);

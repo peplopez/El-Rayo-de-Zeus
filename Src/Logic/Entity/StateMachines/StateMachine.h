@@ -179,7 +179,7 @@ namespace Logic
 			this->addEdge(idle, l_attack0, new CConditionFinished());
 			this->addEdge(l_attack0, idle, new CConditionFail());
 			this->addEdge(l_attack0, l_attack1, new CConditionSuccess());
-			this->addEdge(l_attack0, l_attack1, new CConditionFail());
+			//this->addEdge(l_attack0, l_attack1, new CConditionFail());
 			this->addEdge(l_attack1, l_attack0, new CConditionSuccess());
 			this->addEdge(l_attack1, idle, new CConditionFail());
 

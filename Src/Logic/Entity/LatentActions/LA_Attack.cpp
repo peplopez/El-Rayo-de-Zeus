@@ -1,4 +1,6 @@
 #include "LA_Attack.h"
+#include "../Components/Attack.h"
+
 
 #include "Application/BaseApplication.h"
 
@@ -74,6 +76,8 @@ namespace Logic
 	*/
 	void CLA_Attack::OnStop()
 	{
+			_entity->getComponent<CAttack>()->resetAttackFlags();
+	
 	}
 
 	/**
@@ -114,6 +118,8 @@ namespace Logic
 	CLatentAction::LAStatus CLA_Attack::OnAbort() 
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
+		_entity->getComponent<CAttack>()->resetAttackFlags();
+	
 		return FAIL;
 	}
 	/**
@@ -133,7 +139,7 @@ namespace Logic
 			(message->getAction() == Message::LIGHT_ATTACK||
 			message->getAction() == Message::HEAVY_ATTACK)))
 			||
-			((Message::ANIMATION_MOMENT) || (Message::ANIMATION_FINISHED));
+			((message->getType()==Message::ANIMATION_MOMENT) || (message->getType()==Message::ANIMATION_FINISHED) || (message->getType()==Message::SET_ANIMATION));
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
@@ -159,7 +165,13 @@ namespace Logic
 				}_comboOportunity=false;
 				break;
 			}
-			case Message::ANIMATION_MOMENT:
+		case Message::SET_ANIMATION: //con esto quiero ver si se ha cancelado una animación
+			{
+				if (message->getAction()==Message::WALK_LEFT || message->getAction()==Message::WALK_RIGHT)
+				finish(false);
+				break;
+			}	
+		case Message::ANIMATION_MOMENT:
 			{
 				_comboOportunity=true;
 				break;
