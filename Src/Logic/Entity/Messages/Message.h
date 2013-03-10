@@ -51,7 +51,8 @@ namespace Logic
 			TRIGGER				= 0x17,
 			COLLISION			= 0X18,
 			SPACE_REQUEST		= 0x19, //para mandar un mensaje en el que preguntas si un punto del espacio está ocupado
-			ANIMATION_MOMENT    = 0x20
+			ANIMATION_MOMENT    = 0x20,
+			REWIND_ANIMATION    = 0x21
 		};
 
 		enum TActionType : unsigned char
@@ -75,7 +76,8 @@ namespace Logic
 			HEAVY_ATTACK		= 0x22,
 			DISPLAY_HUD			= 0x23,
 			TRIGGER_ENTER		= 0x24,
-			TRIGGER_EXIT		= 0x25
+			TRIGGER_EXIT		= 0x25,
+			COVER				= 0x26
 		};
 	}
 

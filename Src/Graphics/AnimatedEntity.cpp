@@ -27,6 +27,7 @@ namespace Graphics
 		
 	bool CAnimatedEntity::setAnimation(const std::string &anim, float moment, bool loop)
 	{
+
 		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
 			return false;
 		_currentAnimation = _entity->getAnimationState(anim);
@@ -54,6 +55,26 @@ namespace Graphics
 		return true;
 
 	} // stopAnimation
+
+		//--------------------------------------------------------
+		
+	bool CAnimatedEntity::rewind(const std::string &anim,const bool moment)
+	{
+		_rewinding=true;
+		/*if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
+			return false;
+		Ogre::AnimationState *animation = _entity->getAnimationState(anim);
+		animation->setTimePosition(secs);
+		*///if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
+			//animation->setTimePosition(0);  // De lo contrario, no dejan de lanzar el evento finished a los observers
+
+		// Si la animación a parar es la animación activa ya no lo estará.
+		/*if(animation == _currentAnimation)
+			_currentAnimation = 0;
+
+		*/		return true;
+	} // stopAnimation
+
 
 	//--------------------------------------------------------
 		
@@ -86,13 +107,25 @@ namespace Graphics
 	{
 		if(_currentAnimation)
 		{
-			_currentAnimation->addTime(secs);
+			if (_rewinding)
+			{_currentAnimation->addTime(-secs);
+				if (_currentAnimation->getTimePosition()<=0)
+				{
+					
+					_observer->animationFinished(_currentAnimation->getAnimationName());
+					_rewinding=false;
+				}
+			}	
+		//	if (_currentAnimation->getTimePosition()<0.1)
+	//			_rewinding=false;
+			else
+				_currentAnimation->addTime(secs);
 			// Comprobamos si la animaci?n ha terminado para avisar
 			if(_observer && _currentAnimation->hasEnded())
 				_observer->animationFinished(_currentAnimation->getAnimationName());
 
 			if(_observer && _currentAnimation->getAnimationName().compare("FireKatana")==0)
-				if (_currentAnimation->getTimePosition()>0.6 && _currentAnimation->getTimePosition()<0.7)
+				if (_currentAnimation->getTimePosition()>0.5 )
 				_observer->animationMomentReached("FireKatana");
 
 			if(_observer && _currentAnimation->getAnimationName().compare("GetObject")==0)
