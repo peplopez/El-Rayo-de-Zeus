@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Application", "Projects\App
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Physics", "Projects\Physics\Physics.vcxproj", "{27023168-536F-49AA-B8B8-770414F045D4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AI", "Projects\AI\AI.vcxproj", "{7BBE92AD-192A-42DB-9B43-829EE3B07E81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -61,6 +63,10 @@ Global
 		{27023168-536F-49AA-B8B8-770414F045D4}.Debug|Win32.Build.0 = Debug|Win32
 		{27023168-536F-49AA-B8B8-770414F045D4}.Release|Win32.ActiveCfg = Release|Win32
 		{27023168-536F-49AA-B8B8-770414F045D4}.Release|Win32.Build.0 = Release|Win32
+		{7BBE92AD-192A-42DB-9B43-829EE3B07E81}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7BBE92AD-192A-42DB-9B43-829EE3B07E81}.Debug|Win32.Build.0 = Debug|Win32
+		{7BBE92AD-192A-42DB-9B43-829EE3B07E81}.Release|Win32.ActiveCfg = Release|Win32
+		{7BBE92AD-192A-42DB-9B43-829EE3B07E81}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
