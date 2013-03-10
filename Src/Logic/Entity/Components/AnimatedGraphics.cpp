@@ -67,7 +67,8 @@ namespace Logic
 	{
 		return CGraphics::accept(message) ||
 			   message->getType() == Message::SET_ANIMATION ||
-			   message->getType() == Message::STOP_ANIMATION;
+			   message->getType() == Message::STOP_ANIMATION ||
+			   message->getType() == Message::REWIND_ANIMATION;
 
 	} // accept
 	
@@ -85,17 +86,23 @@ namespace Logic
 				// Un control más sofisticado debería permitir interpolación
 				// de animaciones. Galeon no lo plantea.
 				_animatedGraphicsEntity->stopAllAnimations();
-				if (maux->getString().compare("FireAK47")==0)
+				/*if (maux->getString().compare("FireAK47")==0)
 					_animatedGraphicsEntity->setAnimation(maux->getString(),0,maux->getBool());
-				else					
-					_animatedGraphicsEntity->setAnimation(maux->getString(),0,maux->getBool());
-				
+				else	*/	
+				/*if (message->getAction()==Message::UNDEF)
+					_animatedGraphicsEntity->setAnimation(maux->getString(),0.8,maux->getBool());
+				else*/
+				_animatedGraphicsEntity->setAnimation(maux->getString(),0,maux->getBool());
+
 				LOG("SET_ANIMATION: " << maux->getString());
 
 				break;
 			case Message::STOP_ANIMATION:
 				_animatedGraphicsEntity->stopAnimation(maux->getString());
 				LOG("STOP_ANIMATION: " << maux2->getString());
+				break;
+			case Message::REWIND_ANIMATION:
+				_animatedGraphicsEntity->rewind(maux->getString(),maux->getBool());
 				break;
 		}
 

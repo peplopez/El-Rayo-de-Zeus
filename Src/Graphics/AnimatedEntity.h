@@ -87,7 +87,7 @@ namespace Graphics
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
 		CAnimatedEntity(const std::string &name, const std::string &mesh):
-					CEntity(name,mesh), _currentAnimation(0) {}
+					CEntity(name,mesh), _currentAnimation(0),_rewinding(false) {}
 
 		/**
 		Destructor de la aplicación.
@@ -130,6 +130,10 @@ namespace Graphics
 		void removeObserver(CAnimatedEntityListener *observer)
 							{if(_observer = observer) _observer = 0;}
 
+		bool rewind(const std::string &anim,const bool loop);
+
+
+
 	protected:
 
 		/**
@@ -156,6 +160,7 @@ namespace Graphics
 		*/
 		Ogre::AnimationState *_currentAnimation;
 
+		bool _rewinding;
 	}; // class CAnimatedEntity
 
 } // namespace Graphics

@@ -37,7 +37,8 @@ namespace Logic
 
 		if(entityInfo->hasAttribute("attackPower"))
 			_attackPower = entityInfo->getFloatAttribute("attackPower");
-
+		if (_entity->getType()=="AnimatedEntity")
+			_covering=true;
 		return true;
 		}
 
@@ -58,7 +59,7 @@ namespace Logic
 	//	return false;
 		return (message->getType() == Message::CONTROL && 
 			(message->getAction() == Message::LIGHT_ATTACK||
-			message->getAction() == Message::HEAVY_ATTACK)) || (Message::ANIMATION_FINISHED);
+			message->getAction() == Message::HEAVY_ATTACK) || message->getAction() == Message::COVER) || (message->getType()==Message::ANIMATION_FINISHED ||message->getType()==Message::ANIMATION_MOMENT);
 
 	}
 		
@@ -72,6 +73,8 @@ namespace Logic
 					lightAttack();
 				else if(message->getAction() == Message::HEAVY_ATTACK)
 					 heavyAttack();
+				else if(message->getAction() == Message::COVER)
+					cover();
 				break;
 			}
 		case Message::ANIMATION_FINISHED:
@@ -82,6 +85,7 @@ namespace Logic
 					
 					_lightAttack=_heavyAttack=false;//stopMovement();
 				}
+				break;
 			}
 		
 		case Message::ANIMATION_MOMENT:
@@ -93,10 +97,32 @@ namespace Logic
 				else
 					punto=_entity->getDegree()+10;
 					//con este metodo vemos si con la espada le estamos dando
-					attackPlace(punto,_entity->getRing(),_entity->getBase(),false);
+					unsigned short resultadoAtaque=attackPlace(punto,_entity->getRing(),_entity->getBase(),false);
+					if (resultadoAtaque==2)
+					{
+						CMessageBoolString *message = new CMessageBoolString();
+						message->setType(Message::REWIND_ANIMATION);
+						message->setString("FireKatana");
+						message->setAction(Message::UNDEF);
+						message->setBool(false);
+						_entity->emitMessage(message,this);					
+					}
+
 			}
 		}
 	 }
+
+	 void CAttack::cover()
+	 {
+		_covering=true;
+		CMessageBoolString *message = new CMessageBoolString();
+		message->setType(Message::SET_ANIMATION);
+		message->setString("Crouch");
+		message->setAction(Message::UNDEF);
+		message->setBool(false);
+		_entity->emitMessage(message,this);
+	 }
+
 
 	void CAttack::lightAttack() 
 	{
@@ -141,7 +167,7 @@ namespace Logic
 	} // turn
 
 	//este metodo devuelve null si no se está ocupando ese grado o la entidad que ocupa ese espacio
-	bool CAttack::attackPlace(float grado, short ring, short base,bool soloInfo)
+	unsigned short CAttack::attackPlace(float grado, short ring, short base,bool soloInfo)
 	{//acotar
 		//averiguo el espacio que ocupo:
 
@@ -174,11 +200,15 @@ namespace Logic
 								m2->setString("luminoso");
 								m2->setType(Message::SET_SHADER);						
 								(*it)->emitMessage(m2,this);
-
-								Logic::CMessage *m = new Logic::CMessage();
-								m->setType(Logic::Message::CONTROL);
-								m->setAction(Logic::Message::WALK_STOP);
-								(*it)->emitMessage(m);
+								
+								if ((*it)->getComponent<CAttack>()->_covering==true)
+								{
+									Logic::CMessage *m = new Logic::CMessage();
+									m->setType(Logic::Message::CONTROL);
+									m->setAction(Logic::Message::WALK_STOP);
+									(*it)->emitMessage(m);
+									return 2; //Impacto en el que el objetivo está cubriendose
+								}
 							} else
 							{
 								Logic::CMessage *m = new Logic::CMessage();
@@ -186,7 +216,7 @@ namespace Logic
 								m->setAction(Logic::Message::WALK_STOP);
 								(*it)->emitMessage(m);
 							}
-							return true;
+							return 1; //Impacto con daño
 						}
 					}
 				}
@@ -196,9 +226,16 @@ namespace Logic
 				//m._type = Logic::Message::CONTACT;				
 				//_entity->emitMessage(m,this);				
 			}		
-		return false;
+		return 0; //le has dado al aire
 		}
 
+	void CAttack::resetAttackFlags()
+	{
+		_heavyAttack=false;
+		_lightAttack=false;
+
+	}
+	
 	void CAttack::tick(unsigned int msecs)
 	{
 			IComponent::tick(msecs);

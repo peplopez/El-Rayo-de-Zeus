@@ -108,6 +108,11 @@ namespace GUI {
 				_controlledAvatar->emitMessage(m);
 				break;
 
+			case GUI::Key::LSHIFT:
+				m->setAction(Logic::Message::COVER);
+				_controlledAvatar->emitMessage(m);
+				break;
+
 			case GUI::Key::NUMBER1:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setUShort(1);								
@@ -215,7 +220,10 @@ namespace GUI {
 				//m._string = "stopStrafe";
 				m->setAction(Logic::Message::WALK_STOP);
 				break;
-
+			case GUI::Key::LSHIFT:
+				//m._string = "stopStrafe";
+				m->setAction(Logic::Message::WALK_STOP);
+				break;
 			default:
 				return false;
 			}

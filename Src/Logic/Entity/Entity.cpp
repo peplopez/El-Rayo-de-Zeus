@@ -96,8 +96,14 @@ namespace Logic
 		{
 			position=fromLogicalToCartesian(_pos._degrees,_pos._height, _pos._base,_pos._ring);
 			_transform.setTrans(position);
-			float yaw = Math::fromDegreesToRadians(getDegree());
-			Math::yaw(yaw,_transform);
+			
+			setYaw(Math::fromDegreesToRadians(_pos._degrees));
+			//
+			if (this->getSense()==LogicalPosition::RIGHT)
+				this->setYaw(-Math::fromDegreesToRadians(this->getDegree()));
+			else
+				this->setYaw(Math::fromDegreesToRadians(360-this->getDegree()+180));
+						//
 
 		}
 		else //logicInput=false

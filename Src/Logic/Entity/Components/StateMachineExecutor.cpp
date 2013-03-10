@@ -71,6 +71,10 @@ namespace Logic
 			}
 			if (_currentAction != 0)
 				_currentAction->tick();
+			else
+			{
+				_currentStateMachine->resetExecution();
+			}
 		}
 	}
 	//---------------------------------------------------------

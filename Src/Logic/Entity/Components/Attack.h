@@ -46,7 +46,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAttack() : IComponent(GetAltTypeIdOf(CAttack)),_attackPower(0),_lightAttack(false),_heavyAttack(false){}
+		CAttack() : IComponent(GetAltTypeIdOf(CAttack)),_attackPower(0),_lightAttack(false),_heavyAttack(false),_covering(false){}
 
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -122,9 +122,14 @@ namespace Logic
 		*/
 		void heavyAttack();
 	
+		void cover();
+	 
 			//este metodo devuelve null si no se está ocupando ese grado o la entidad que ocupa ese espacio
-		bool attackPlace(float grado, short base, short ring,bool soloInfo);
+		unsigned short attackPlace(float grado, short base, short ring,bool soloInfo);
+
+		void resetAttackFlags();
 	
+
 	protected:
 
 		float _attackPower;
@@ -133,6 +138,7 @@ namespace Logic
 		
 		bool _heavyAttack;
 
+		bool _covering;
 	}; // class CAttack
 
 	REG_FACTORY(CAttack);
