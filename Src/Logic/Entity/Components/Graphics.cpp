@@ -49,12 +49,9 @@ namespace Logic
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
-		
-		_scene = map->getGraphicScene();
-		_graphicsEntity = createGraphicsEntity(entityInfo);
 
-		if(entityInfo->hasAttribute("model"))
-			_model = entityInfo->getStringAttribute("model");
+		_scene = map->getGraphicScene();
+		createGraphicsEntity(entityInfo);
 
 		// HACK FRS Esto lo suyo es que el modelo ya lo traiga , no?
 		if(_entity->getType().compare("Altar")==0)			
@@ -73,39 +70,6 @@ namespace Logic
 		return true;
 
 	} // spawn
-	
-	//---------------------------------------------------------
-
-	Graphics::CEntity* CGraphics::createGraphicsEntity(const Map::CEntity *entityInfo)
-	{
-		bool isStatic = false;
-		if(entityInfo->hasAttribute("static"))
-			isStatic = entityInfo->getBoolAttribute("static");
-
-		float scale = 1.0;
-		if (entityInfo->hasAttribute("scale"))
-			scale = entityInfo->getFloatAttribute("scale");
-
-		if(isStatic)
-		{
-			_graphicsEntity = new Graphics::CStaticEntity(_entity->getName(),_model);
-			if(!_scene->addStaticEntity((Graphics::CStaticEntity*)_graphicsEntity))
-				return 0;
-		}
-		else
-		{
-			_graphicsEntity = new Graphics::CEntity(_entity->getName(),_model);
-			if(!_scene->addEntity(_graphicsEntity))
-				return 0;
-		}
-
-		_graphicsEntity->setScale(scale);
-		_graphicsEntity->setTransform(_entity->getTransform());
-		
-
-		return _graphicsEntity;
-
-	} // createGraphicsEntity
 	
 	//---------------------------------------------------------
 
@@ -135,6 +99,46 @@ namespace Logic
 		}
 
 	} // process
+
+	//---------------------------------------------------------
+
+	void CGraphics::createGraphicsEntity(const Map::CEntity *entityInfo)
+	{		
+		assert(!_scene && "LOGIC::GRAPHICS>> No existe escena gráfica!");		
+
+		assert(entityInfo->hasAttribute("model"));
+			_model = entityInfo->getStringAttribute("model");
+
+		bool isStatic = false;
+			if(entityInfo->hasAttribute("static"))
+				isStatic = entityInfo->getBoolAttribute("static");
+
+		float scale = 1.0;
+			if (entityInfo->hasAttribute("scale"))
+				scale = entityInfo->getFloatAttribute("scale");
+
+		// CREATE STATIC
+		if(isStatic){
+			_graphicsEntity = new Graphics::CStaticEntity(_entity->getName(),_model);
+			if(!_scene->addStaticEntity((Graphics::CStaticEntity*)_graphicsEntity)) {
+				_graphicsEntity = 0;
+				return;
+			}
+
+		// CREATE NO STATIC
+		} else {
+			_graphicsEntity = new Graphics::CEntity(_entity->getName(),_model);
+			if(!_scene->addEntity(_graphicsEntity)){
+				_graphicsEntity = 0;
+				return;
+			}
+		}
+		_graphicsEntity->setScale(scale);
+		_graphicsEntity->setTransform(_entity->getTransform());
+
+	} // createGraphicsEntity
+	
+	
 
 } // namespace Logic
 

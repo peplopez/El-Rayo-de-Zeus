@@ -14,7 +14,7 @@ el mundo físico.
 #define __Logic_PhysicCharacter_H
 
 
-#include "Logic/Entity/Components/Physic.h"
+#include "Logic/Entity/Components/Physics.h"
 #include "Logic/Entity/LogicalPosition.h"
 
 
@@ -40,13 +40,13 @@ namespace Logic
 	@author Jose Luis López Sánchez & ƒ®§
 	@date Febrero, 2013
 	*/
-	class CPhysicCharacter : public CPhysic
+	class CPhysicCharacter : public CPhysics
 	{
 		DEC_FACTORY(CPhysicCharacter);
 	
 	public:
 
-		CPhysicCharacter() : CPhysic(GetAltTypeIdOf(CPhysicCharacter)) {}
+		CPhysicCharacter() : CPhysics(GetAltTypeIdOf(CPhysicCharacter)) {}
 
 		/**Este componente sólo acepta mensajes de tipo AVATAR_WALK.*/
 		virtual bool accept(const CMessage *message);

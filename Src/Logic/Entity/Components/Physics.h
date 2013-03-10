@@ -16,11 +16,16 @@ Este componente no sirve para representar physic characters.
 #ifndef __Logic_PhysicEntity_H
 #define __Logic_PhysicEntity_H
 
-#include "Logic/Entity/Components/Physic.h"
-#include "Logic/Entity/LogicalPosition.h"
+#include "Logic/Entity/Component.h"
+#include "Physics/IObserver.h"
 
 
-// TODO dada la jerarquía actual, CPhysicentity = CPhysic -> necesaria distinción?
+// Predeclaración de tipos
+namespace Physics {
+	class CScene;
+	class CActor;
+}
+
 // Los componentes pertenecen al namespace Logic
 namespace Logic 
 {	
@@ -48,14 +53,54 @@ namespace Logic
 	@author FRS
 	@date 23-02-13
 	*/
-	class CPhysicEntity : public CPhysic
+	class CPhysicEntity : public IComponent, public Physics::IObserver
 	{
 		DEC_FACTORY(CPhysicEntity);
 
 	public:
+	
+		/**
+		Constructor por defecto.
+		*/
+		CPhysicEntity();
 
-		CPhysicEntity() : CPhysic(GetAltTypeIdOf(CPhysicEntity)) {}
+		CPhysicEntity(altTypeId id);
 
+		/**
+		Destructor. Elimina el objeto físico de la escena y lo destruye. 
+		*/
+		virtual ~CPhysicEntity();
+		
+		/**	Inicializa el componente usando los atributos definidos en el fichero de mapa.*/
+		virtual bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
+		virtual bool accept(const CMessage *message) { return false; }
+		virtual void process(CMessage *message) {}
+		virtual void tick(unsigned int msecs) {}
+ 
+		/**************
+			IOBSERVER
+		***************/
+		//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
+		virtual void onTrigger(IObserver* other, bool enter);
+		virtual void onCollision(IObserver* other) {};
+
+	protected:
+
+		// UNDONE FRS Physics::CServer* _server; // Servidor de física
+		Physics::CScene* _scene; // Servidor de física
+		Physics::CActor* _actor; // Actor que representa la entidad física
+
+		// Desplazamiento recibido en los últimos mensajes de tipo MOVE.
+		// Sirve para mover entidades físicas cinemáticas y de character.
+		char _diffBase;
+		char _diffRing;
+		float _diffDegrees;
+		float _diffHeight;
+
+		// Crea el actor que representa la entidad física a partir de la información del mapa.*/
+		virtual Physics::CActor* createActor(const Map::CEntity* entityInfo);
+		// TODO FRS Podría pasar a llamarse physicEntity (por paralelismos con CGraphics)
+	
 	}; // class CPhysicEntity
 
 	REG_FACTORY(CPhysicEntity);

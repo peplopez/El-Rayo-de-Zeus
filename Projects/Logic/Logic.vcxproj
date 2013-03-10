@@ -91,9 +91,8 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump2.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeModifier.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\Physic.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicCharacter.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicEntity.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicCharacter.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\RingTraveler.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LA_Attack.cpp" />
@@ -141,9 +140,8 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Death.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Jump2.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeModifier.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\Physic.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicCharacter.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicEntity.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicCharacter.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\RingTraveler.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\LA_Attack.h" />

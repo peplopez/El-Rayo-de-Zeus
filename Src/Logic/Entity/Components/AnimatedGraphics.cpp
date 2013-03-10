@@ -35,33 +35,7 @@ namespace Logic
 {
 	IMP_FACTORY(CAnimatedGraphics);
 	
-	//---------------------------------------------------------
-
-	Graphics::CEntity* CAnimatedGraphics::createGraphicsEntity(const Map::CEntity *entityInfo)
-	{
-		_animatedGraphicsEntity = new Graphics::CAnimatedEntity(_entity->getName(),_model);
-		if(!_scene->addEntity(_animatedGraphicsEntity))
-			return 0;
-
-		_animatedGraphicsEntity->setTransform(_entity->getTransform());
-		
-		if(entityInfo->hasAttribute("defaultAnimation"))
-		{
-			_defaultAnimation = entityInfo->getStringAttribute("defaultAnimation");
-			_animatedGraphicsEntity->setAnimation(_defaultAnimation,0,true);
-			_animatedGraphicsEntity->setObserver(this);
-		}
-
-		float scale = 1.0;
-		if (entityInfo->hasAttribute("scale"))
-			scale = entityInfo->getFloatAttribute("scale");
-		_animatedGraphicsEntity->setScale(scale);
-
-		return _animatedGraphicsEntity;
-
-	} // createGraphicsEntity
-	
-	//---------------------------------------------------------
+		//---------------------------------------------------------
 
 	bool CAnimatedGraphics::accept(const CMessage *message)
 	{
@@ -100,6 +74,35 @@ namespace Logic
 		}
 
 	} // process
+
+	//---------------------------------------------------------
+
+	void CAnimatedGraphics::createGraphicsEntity(const Map::CEntity *entityInfo)
+	{
+		assert(!_scene && "LOGIC::ANIMATED_GRAPHICS>> No existe escena gráfica!");		
+
+		_animatedGraphicsEntity = new Graphics::CAnimatedEntity(_entity->getName(),_model);
+			if(!_scene->addEntity(_animatedGraphicsEntity)) {
+				_animatedGraphicsEntity = 0;
+				return;
+			}
+
+			_animatedGraphicsEntity->setTransform(_entity->getTransform());
+		
+			if(entityInfo->hasAttribute("defaultAnimation"))
+			{
+				_defaultAnimation = entityInfo->getStringAttribute("defaultAnimation");
+				_animatedGraphicsEntity->setAnimation(_defaultAnimation,0,true);
+				_animatedGraphicsEntity->setObserver(this);
+			}
+
+		float scale = 1.0;
+		if (entityInfo->hasAttribute("scale"))
+			scale = entityInfo->getFloatAttribute("scale");		
+			_animatedGraphicsEntity->setScale(scale);
+	} // createGraphicsEntity
+	
+
 	
 	//---------------------------------------------------------
 	

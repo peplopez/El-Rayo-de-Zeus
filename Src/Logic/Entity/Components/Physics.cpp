@@ -1,6 +1,9 @@
 /**
-@file Physic.h
+@file PhysicEntity.h
 
+Contiene la implementación del componente encargado de representar entidades físicas simples,
+que son aquellas representadas mediante un único actor de PhysX. Este componente no sirve
+para representar character controllers.
 
 @see Logic::CPhysicEntity
 @see Logic::IComponent
@@ -10,14 +13,14 @@
 @date 26/02/2013
 */
 
-#include "Physic.h"
+#include "PhysicEntity.h"
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
 #include "Logic/Maps/Map.h"
+
 #include "Map/MapEntity.h"
 
-#include "Physics/Server.h"
 #include "Physics/Scene.h"
 #include "Physics/Actor.h"
 
@@ -31,22 +34,22 @@
 
 namespace Logic {
 
-	IMP_FACTORY(CPhysic);
+	IMP_FACTORY(CPhysicEntity);
 
 	//---------------------------------------------------------
 
-	CPhysic::CPhysic() : IComponent(GetAltTypeIdOf(CPhysic)), _actor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
+	CPhysicEntity::CPhysicEntity() : IComponent(GetAltTypeIdOf(CPhysicEntity)), _actor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
 	{
 		// UNDONE FRS _server = Physics::CServer::getSingletonPtr();
 	}
-	CPhysic::CPhysic(altTypeId id) : IComponent(id), _actor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
+	CPhysicEntity::CPhysicEntity(altTypeId id) : IComponent(id), _actor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
 	{
 		// UNDONE FRS _server = Physics::CServer::getSingletonPtr();
 	}
 
 	//---------------------------------------------------------
 
-	CPhysic::~CPhysic() 
+	CPhysicEntity::~CPhysicEntity() 
 	{
 		if (_actor) {
 			_scene->removeActor(_actor); // Eliminar el actor de la escena			
@@ -58,14 +61,14 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	bool CPhysic::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
+	bool CPhysicEntity::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
 		// Invocar al método de la clase padre
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
 		_scene = map->getPhysicScene();
-		_actor = createActor(entityInfo); // Crear el actor asociado al componente
+		createActor(entityInfo); // Crear el actor asociado al componente
 
 		return true;
 	} // spawn
@@ -73,8 +76,10 @@ namespace Logic {
 	//---------------------------------------------------------
 
 	// Crear el actor físico
-	Physics::CActor* CPhysic::createActor(const Map::CEntity *entityInfo)
+	Physics::CActor* CPhysicEntity::createActor(const Map::CEntity *entityInfo)
 	{
+		assert(!_scene && "LOGIC::PHYSICS>> No existe escena física!");		
+
 		// Obtenemos la posición de la entidad. 
 		const TLogicalPosition logicPos = _entity->getLogicalPosition();
 	
@@ -106,7 +111,7 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	void  CPhysic::onTrigger (Physics::IObserver* other, bool enter) 
+	void  CPhysicEntity::onTrigger (Physics::IObserver* other, bool enter) 
 	{
 		// Construimos un mensaje de tipo TOUCHED o UNTOUCHED 
 		// y lo enviamos a todos los componentes de la entidad.
@@ -118,7 +123,7 @@ namespace Logic {
 				Message::TRIGGER_ENTER : 
 				Message::TRIGGER_EXIT
 			);			
-			txMsg->setUInt( static_cast<CPhysic*>(other)->getEntity()->getEntityID() );
+			txMsg->setUInt( static_cast<CPhysicEntity*>(other)->getEntity()->getEntityID() );
 		_entity->emitMessage(txMsg);
 
 

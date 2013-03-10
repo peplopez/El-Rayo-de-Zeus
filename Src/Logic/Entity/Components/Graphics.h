@@ -100,9 +100,8 @@ namespace Logic
 		
 		@param entityInfo Información de construcción del objeto leído del
 			fichero de disco.
-		@return Entidad gráfica creada, NULL si hubo algún problema.
 		*/
-		virtual Graphics::CEntity* createGraphicsEntity(const Map::CEntity *entityInfo);
+		virtual void createGraphicsEntity(const Map::CEntity *entityInfo);
 
 		/**
 		Atributo con el nombre del modelo gráfico de la entidad.

@@ -17,6 +17,9 @@
     <ClCompile Include="..\..\Src\BaseSubsystems\City.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\BaseSubsystems\Math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\BaseSubsystems\Documentation.h">

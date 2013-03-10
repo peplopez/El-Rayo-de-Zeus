@@ -83,20 +83,29 @@ matamática y métodos para convertir grados en radianes, etc.
 */
 namespace Math
 {
+	/***********
+		CONST
+	************/
+
 	/**
 	Definición de la constante PI.
 	*/
-	static const float PI = float( 4.0 * atan( 1.0 ) );
+	const float PI = float( 4.0 * atan( 1.0 ) );
 
 	/**
 	Constante para pasar de grados a radianes.
 	*/
-	static const float _deg2Rad = PI / 180.0f;
+	const float _deg2Rad = PI / 180.0f;
 
 	/**
 	Constante para pasar de radianes a grados.
 	*/
-	static const float _rad2Deg = 180.0f / PI;
+	const float _rad2Deg = 180.0f / PI;
+
+
+	/**************
+		INLINES
+	**************/
 
 	/**
 	Transforma grados en radianes.
@@ -104,7 +113,7 @@ namespace Math
 	@param degree Ángulo en grados.
 	@return Ángulo en radianes.
 	*/
-	static float fromDegreesToRadians(float degrees) {return degrees*_deg2Rad;}
+	inline float fromDegreesToRadians(float degrees) {return degrees*_deg2Rad;}
 
 	/**
 	Transforma radianes en grados.
@@ -112,7 +121,7 @@ namespace Math
 	@param radian Ángulo en radianes.
 	@return Ángulo en grados.
 	*/
-	static float fromRadiansToDegrees(float radians) {return radians*_rad2Deg;}
+	inline float fromRadiansToDegrees(float radians) {return radians*_rad2Deg;}
 	
 	/**
 	Crea un vector unitario de dirección a partir de un angulo de
@@ -121,185 +130,66 @@ namespace Math
 	@param orientation Orientación en radianes.
 	@return Vector unitario en el plano XZ.
 	*/
-	static Vector3 getDirection(float orientation) 
-	{
-		return Vector3(-sin(orientation), 0, -cos(orientation));
-
-	} // getDirection
+	inline Vector3 getDirection(float orientation) 	{return Vector3(-sin(orientation), 0, -cos(orientation)); } // getDirection
 	
-	/**
-	Aplica un viraje a una matriz de transformación.
-
-	@param turn Giro en radianes que se quiere aplicar.
-	@param transform Matriz de transformación a modificar.
-	*/
-	static void yaw(float turn, Matrix4& transform) 
-	{
-		Matrix3 rotation;
-		transform.extract3x3Matrix(rotation);
-		Ogre::Radian yaw, pitch, roll;
-		rotation.ToEulerAnglesYXZ(yaw, pitch, roll);
-		Ogre::Radian newYaw = yaw + Ogre::Radian(turn);
-		rotation.FromEulerAnglesYXZ(newYaw, pitch, roll);
-		transform = rotation;
-
-	} // yaw
-	
-
-	static void roll(float turn, Matrix4& transform) 
-	{
-		Matrix3 rotation;
-		transform.extract3x3Matrix(rotation);
-		Ogre::Radian yaw, pitch, roll;
-		rotation.ToEulerAnglesYXZ(yaw, pitch, roll);
-		Ogre::Radian newRoll = roll + Ogre::Radian(turn);
-		rotation.FromEulerAnglesYXZ(yaw, pitch, newRoll);
-		transform = rotation;
-
-	} // roll
-
-	static void pitch(float turn, Matrix4& transform) 
-	{
-		Matrix3 rotation;
-		transform.extract3x3Matrix(rotation);
-		Ogre::Radian yaw, pitch, roll;
-		rotation.ToEulerAnglesYXZ(yaw, pitch, roll);
-		Ogre::Radian newPitch = pitch + Ogre::Radian(turn);
-		rotation.FromEulerAnglesYXZ(yaw, newPitch, roll);
-		transform = rotation;
-
-	} // pitch
-
-	static void pitchYaw(float turnPitch, float turnYaw, Matrix4& transform) 
-	{
-		Matrix3 rotation;
-		transform.extract3x3Matrix(rotation);
-		Ogre::Radian yaw, pitch, roll;
-		rotation.ToEulerAnglesYXZ(yaw, pitch, roll);
-		Ogre::Radian newPitch = pitch + Ogre::Radian(turnPitch);
-		Ogre::Radian newYaw = yaw + Ogre::Radian(turnYaw);
-		
-		rotation.FromEulerAnglesYXZ(newYaw, newPitch, roll);
-		transform = rotation;
-
-	} // pitchyaw
-
-	
-	/**
-	Extrae el estado del viraje de una matriz de transformación.
-
-	@param transform Matriz de transformación.
-	@return Viraje de la entidad.
-	*/
-	static float getYaw(const Matrix4& transform) 
-	{
-		Matrix3 rotation;
-		transform.extract3x3Matrix(rotation);
-		Ogre::Radian yaw, pitch, roll;
-		rotation.ToEulerAnglesYXZ(yaw, pitch, roll);
-		return yaw.valueRadians();
-
-	} // getYaw
-	
-	/**
-	Establece un viraje a una matriz de transformación.
-
-	@param turn Giro en radianes que se quiere etablecer.
-	@param transform Matriz de transformación a modificar.
-	*/
-	static void setYaw(float turn, Matrix4& transform) 
-	{
-		// Reiniciamos la matriz de rotación
-		transform = Matrix3::IDENTITY;
-		// Sobre esta rotamos.
-		Math::yaw(turn,transform);
-
-	} // setYaw
-	
-	/**
-	Establece un viraje a una matriz de transformación.
-
-	@param turn Giro en radianes que se quiere etablecer.
-	@param transform Matriz de transformación a modificar.
-	*/
-	static void setPitch(float turn, Matrix4& transform) 
-	{
-		// Reiniciamos la matriz de rotación
-		transform = Matrix3::IDENTITY;
-		// Sobre esta rotamos.
-		Math::pitch(turn,transform);
-
-	} // setPitch
-
-	/**
-	Establece un viraje a una matriz de transformación.
-
-	@param turn Giro en radianes que se quiere etablecer.
-	@param transform Matriz de transformación a modificar.
-	*/
-	static void setRoll(float turn, Matrix4& transform) 
-	{
-		// Reiniciamos la matriz de rotación
-		transform = Matrix3::IDENTITY;
-		// Sobre esta rotamos.
-		Math::roll(turn,transform);
-
-	} // setYaw
-
-	static void setPitchYaw(float pitch,float yaw, Matrix4& transform)
-	{
-		// Reiniciamos la matriz de rotación
-		transform = Matrix3::IDENTITY;
-		// Sobre esta rotamos.
-		Math::pitchYaw(pitch,yaw,transform);
-
-	}
-
-	/**
+		/**
 	Crea un vector unitario de dirección en el plano XZ a partir 
 	de una matriz de transformación.
 
 	@param transform Matriz de transformación.
 	@return Vector unitario en el plano XZ.
 	*/
-	static Vector3 getDirection(const Matrix4& transform) 
-	{
-		return getDirection(getYaw(transform));
+	inline Vector3 getDirection(const Matrix4& transform) {	return getDirection(getYaw(transform));	} // getDirection
+	inline void delimit(int& number, int min, int max) {number = std::min(std::max(number, min), max);	}
+	inline void delimit(float& number, float min, float max) {	number = std::min(std::max(number, min), max);	}
 
-	} // getDirection
 
-	static Vector3 fromCartesianToCylindrical(const Vector3 coordenadas) 
-	{//el Vector3 de retorno contiene const float grados, const float radio, const float y
-		Vector3 retorno=Vector3::ZERO;
+	//--------------------------------------------------------
+
+	/**
+	Aplica un viraje a una matriz de transformación.
+
+	@param turn Giro en radianes que se quiere aplicar.
+	@param transform Matriz de transformación a modificar.
+	*/
+	void yaw(float turn, Matrix4& transform);	
+	void roll(float turn, Matrix4& transform);
+	void pitch(float turn, Matrix4& transform);
+	void pitchYaw(float turnPitch, float turnYaw, Matrix4& transform);
 		
-		retorno.x= sqrtf( powf(coordenadas.x,2) +  powf(coordenadas.z, 2) );//grados
-		retorno.y= coordenadas.y;//altura
-		retorno.z= atan(coordenadas.z/coordenadas.x); //radio
-		
-		return retorno;
-	} // de cartesianas a cilindricas
+	/**
+	Extrae el estado del viraje de una matriz de transformación.
 
-	static Vector3 fromCylindricalToCartesian(const float grados, const float radio, const float y) 
-	{		
-		Vector3 retorno=Vector3::ZERO;
-		retorno.x = radio * cos(fromDegreesToRadians(grados));
-		retorno.y = y;
-		retorno.z = radio * sin(fromDegreesToRadians(grados));
-		return retorno;
-	} // de cilindricas a cartesianas
-
-
-	static void delimit(int& number, int min, int max) {
-		number = std::min(std::max(number, min), max);	
-	}
-
-	static void delimit(float& number, float min, float max) {
-		number = std::min(std::max(number, min), max);	
-	}
-
+	@param transform Matriz de transformación.
+	@return Viraje de la entidad.
+	*/
+	float getYaw(const Matrix4& transform);
 	
+	/**
+	Establece un viraje a una matriz de transformación.
+
+	@param turn Giro en radianes que se quiere etablecer.
+	@param transform Matriz de transformación a modificar.
+	*/
+	void setYaw(float turn, Matrix4& transform);
 	
-	
+	/**
+	Establece un viraje a una matriz de transformación.
+
+	@param turn Giro en radianes que se quiere etablecer.
+	@param transform Matriz de transformación a modificar.
+	*/
+	void setPitch(float turn, Matrix4& transform);
+	/**
+	Establece un viraje a una matriz de transformación.
+
+	@param turn Giro en radianes que se quiere etablecer.
+	@param transform Matriz de transformación a modificar.
+	*/
+	void setRoll(float turn, Matrix4& transform);
+	void setPitchYaw(float pitch,float yaw, Matrix4& transform);
+	Vector3 fromCartesianToCylindrical(const Vector3 coordenadas);
+	Vector3 fromCylindricalToCartesian(const float grados, const float radio, const float y);
 
 
 } // namespace Math
