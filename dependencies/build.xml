@@ -20,9 +20,10 @@
 
       <ant antfile="build.xml" target="${targetUsed}" dir="./OgreDependencies"/> 
       <ant antfile="build.xml" target="${targetUsed}" dir="./Ogre"/>
-      <ant antfile="build.xml" target="${targetUsed}" dir="./CEGUI"/>
 	  <ant antfile="build.xml" target="${targetUsed}" dir="./lua"/>
 	  <ant antfile="build.xml" target="${targetUsed}" dir="./luabind"/>
+      <ant antfile="build.xml" target="${targetUsed}" dir="./CEGUI"/>
+
 
 </target>
 
@@ -81,8 +82,8 @@
         depends="cleanDebugObj">
 
   <delete includeemptydirs="true" failonerror="false">
-    <fileset dir="${basedir}/lib/Debug" includes="*CEGUI*,cg.lib,FreeImaged.lib,freetype2311_d.lib,*Ogre*,*OIS*,Plugin_CgProgramManager_d.lib,Plugin_ParticleFX_d.lib,RenderSystem_Direct3D9_d.lib,RenderSystem_GL_d.lib,zlibd.lib,zziplibd.lib"/>  
-    <fileset dir="${basedir}/bin/Debug" includes="*CEGUI*,cg.dll,*Ogre*,*OIS*,Plugin_CgProgramManager_d.dll,Plugin_ParticleFX_d.dll,RenderSystem_Direct3D9_d.dll,RenderSystem_GL_d.dll,SILLY_d.dll,plugins_d.cfg,dbghelp.dll,vld.ini,vld_x86.dll"/> 
+    <fileset dir="${basedir}/lib/Debug" includes="*CEGUI*,cg.lib,FreeImaged.lib,freetype2311_d.lib,*Ogre*,*OIS*,Plugin_CgProgramManager_d.lib,Plugin_ParticleFX_d.lib,RenderSystem_Direct3D9_d.lib,RenderSystem_GL_d.lib,zlibd.lib,zziplibd.lib,lua51.lib,luabindd.lib,tolua++_d.lib"/>  
+    <fileset dir="${basedir}/bin/Debug" includes="*CEGUI*,cg.dll,*Ogre*,*OIS*,Plugin_CgProgramManager_d.dll,Plugin_ParticleFX_d.dll,RenderSystem_Direct3D9_d.dll,RenderSystem_GL_d.dll,SILLY_d.dll,plugins_d.cfg,dbghelp.dll,vld.ini,vld_x86.dll,lua51.dll,luabindd.dll,tolua++_d.dll"/> 
     <fileset dir="${basedir}/../Exes" includes="*_d*"/>  
   </delete>  
 
@@ -93,8 +94,8 @@
         depends="cleanReleaseObj">
 
   <delete includeemptydirs="true" failonerror="false">
-    <fileset dir="${basedir}/lib/Release" includes="*CEGUI*,cg.lib,FreeImage.lib,freetype2311.lib,*Ogre*,*OIS*,Plugin_CgProgramManager.lib,Plugin_ParticleFX.lib,RenderSystem_Direct3D9.lib,RenderSystem_GL.lib,zlib.lib,zziplib.lib"/>  
-    <fileset dir="${basedir}/bin/Release" includes="*CEGUI*,cg.dll,*Ogre*,*OIS*,Plugin_CgProgramManager.dll,Plugin_ParticleFX.dll,RenderSystem_Direct3D9.dll,RenderSystem_GL.dll,SILLY.dll,plugins.cfg"/>  
+    <fileset dir="${basedir}/lib/Release" includes="*CEGUI*,cg.lib,FreeImage.lib,freetype2311.lib,*Ogre*,*OIS*,Plugin_CgProgramManager.lib,Plugin_ParticleFX.lib,RenderSystem_Direct3D9.lib,RenderSystem_GL.lib,zlib.lib,zziplib.lib,lua51.lib,luabind.lib,tolua++.lib"/>  
+    <fileset dir="${basedir}/bin/Release" includes="*CEGUI*,cg.dll,*Ogre*,*OIS*,Plugin_CgProgramManager.dll,Plugin_ParticleFX.dll,RenderSystem_Direct3D9.dll,RenderSystem_GL.dll,SILLY.dll,plugins.cfg,lua51.dll,luabind.dll,tolua++.dll"/>  
     <fileset dir="${basedir}/../Exes" includes="*" excludes="*_d*,cg.dll,ogre.cfg,resources.cfg"/>  
   </delete>  
 
@@ -109,7 +110,7 @@
   </antcall>
   
   <delete includeemptydirs="true" failonerror="false">
-    <fileset dir="${basedir}/include" includes="cegui/,cg/,freetype/,OGRE/,OIS/,zzip/,FreeImage.h,ft2build.h,vld*,zconf.h,zlib.h"/>  
+    <fileset dir="${basedir}/include" includes="cegui/,cg/,freetype/,OGRE/,OIS/,zzip/,FreeImage.h,ft2build.h,vld*,zconf.h,zlib.h,lua/,luabind/"/>  
     <fileset dir="${basedir}/../Exes" includes="*" excludes="resources.cfg"/>  
   </delete>  
 
