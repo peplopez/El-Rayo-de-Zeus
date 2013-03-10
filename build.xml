@@ -11,7 +11,7 @@
   <!-- PROPIEDADES DEL PROYECTO -->
   <!-- ======================== -->
 
-  <property name="slnName" value="Galeon.sln"/>
+  <property name="slnName" value="Zeus_Thunderbolt.sln"/>
   <property name="vslogfile" value="${basedir}/vslog.txt"/>
 
   <patternset id="vctmpfiles">
