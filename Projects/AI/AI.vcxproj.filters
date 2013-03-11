@@ -41,40 +41,43 @@
     <ClCompile Include="..\..\Src\AI\Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\AI\LatentAction.cpp">
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Attack.cpp">
       <Filter>Decision\LatentActions\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\AI\SimpleLatentActions.cpp">
+    <ClCompile Include="..\..\Src\AI\LatentActions\LAIdle.cpp">
       <Filter>Decision\LatentActions\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\AI\LARoutes.cpp">
+    <ClCompile Include="..\..\Src\AI\LatentActions\LatentAction.cpp">
       <Filter>Decision\LatentActions\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\AI\LAExecuteSM.cpp">
+    <ClCompile Include="..\..\Src\AI\LatentActions\SimpleLatentActions.cpp">
       <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\StateMachines\StateMachine.cpp">
+      <Filter>Decision\StateMachines\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\AI\Server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\AI\StateMachine.h">
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Attack.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LAIdle.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LatentAction.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\SimpleLatentActions.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\StateMachines\Condition.h">
       <Filter>Decision\StateMachines\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\AI\Condition.h">
+    <ClInclude Include="..\..\Src\AI\StateMachines\StateMachine.h">
       <Filter>Decision\StateMachines\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\AI\LatentAction.h">
-      <Filter>Decision\LatentActions\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\AI\SimpleLatentActions.h">
-      <Filter>Decision\LatentActions\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\AI\LARoutes.h">
-      <Filter>Decision\LatentActions\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\AI\LAExecuteSM.h">
-      <Filter>Decision\LatentActions\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

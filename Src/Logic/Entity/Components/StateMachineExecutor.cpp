@@ -30,7 +30,7 @@ namespace Logic
 			std::string smName = entityInfo->getStringAttribute("behavior");
 			if (_currentStateMachine != 0) delete _currentStateMachine;
 			// Saca una instancia de la máquina de estado de la factoría
-			_currentStateMachine = Logic::CStateMachineFactory::getStateMachine(smName, entity);
+			_currentStateMachine = AI::CStateMachineFactory::getStateMachine(smName, entity);
 		}
 		return true;
 	}

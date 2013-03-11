@@ -21,6 +21,7 @@ de ejemplo.
 #include "Condition.h"
 #include "Logic/Entity/Entity.h"
 
+
 #include "../LatentActions/LatentAction.h"
 #include "../LatentActions/SimpleLatentActions.h"
 
@@ -32,7 +33,7 @@ de ejemplo.
 
 using namespace Logic;
 
-namespace Logic
+namespace AI
 {
 
 	/**

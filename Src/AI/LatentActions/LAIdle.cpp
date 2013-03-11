@@ -1,10 +1,10 @@
 #include "LAIdle.h"
 
 #include "Application/BaseApplication.h"
-#include "../Components/Attack.h"
+#include "../../Logic/Entity/Components/Attack.h"
 #include "../StateMachines/StateMachine.h"
 
-namespace Logic
+namespace AI
 {
 
 

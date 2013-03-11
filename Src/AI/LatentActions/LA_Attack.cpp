@@ -1,12 +1,12 @@
 #include "LA_Attack.h"
-#include "../Components/Attack.h"
+#include "../../Logic/Entity/Components/Attack.h"
 
 
 #include "Application/BaseApplication.h"
 
 #include "../StateMachines/StateMachine.h"
 
-namespace Logic
+namespace AI
 {
 
 

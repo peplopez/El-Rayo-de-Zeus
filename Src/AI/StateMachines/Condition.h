@@ -21,13 +21,13 @@ si la acción asociada al nodo ha terminado con fallo).
 #define __AI_Condition_H
 
 #include "Logic/Entity/Entity.h"
-#include "../Messages/Message.h"
+#include "Logic/Entity/Messages/Message.h"
 
 #include "../LatentActions/LatentAction.h"
 
 using namespace Logic;
 
-namespace Logic 
+namespace AI 
 {
 	/**
 	Interfaz que deberán implementar las condiciones de 

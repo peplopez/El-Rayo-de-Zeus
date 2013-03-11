@@ -98,10 +98,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicEntity.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\RingTraveler.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LA_Attack.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LAIdle.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LatentAction.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\SimpleLatentActions.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\Message.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBool.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloat.cpp" />
@@ -116,7 +112,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageTF.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageUInt.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageV3.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\StateMachines\StateMachine.cpp" />
     <ClCompile Include="..\..\Src\Logic\GameNetMsgManager.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\ComponentFactory.cpp" />
@@ -150,10 +145,6 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicEntity.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\RingTraveler.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\LA_Attack.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\LAIdle.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\LatentAction.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\SimpleLatentActions.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBool.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloat.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\Message.h" />
@@ -168,8 +159,6 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageTF.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageUInt.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageV3.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\StateMachines\Condition.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\StateMachines\StateMachine.h" />
     <ClInclude Include="..\..\Src\Logic\GameNetMsgManager.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\LogicalPosition.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\RingStruct.h" />
@@ -192,6 +181,9 @@
     <ClInclude Include="..\..\Src\Logic\Server.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AI\AI.vcxproj">
+      <Project>{7bbe92ad-192a-42db-9b43-829ee3b07e81}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\BaseSubsystems\BaseSubsystems.vcxproj">
       <Project>{9c5c21d7-f23c-409d-a332-7be5a325fd7a}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

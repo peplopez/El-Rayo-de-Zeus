@@ -20,7 +20,7 @@ latentes básicas.
 
 using namespace Logic;
 
-namespace Logic 
+namespace AI 
 {
 
 	/**

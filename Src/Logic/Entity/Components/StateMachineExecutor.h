@@ -13,7 +13,7 @@ ejecutar máquinas de estado de la clase CStateMachine.
 #define __Logic_StateMachineExecutor_H
 
 #include "Logic/Entity/Component.h"
-#include "../StateMachines/StateMachine.h"
+#include "../../../AI/StateMachines/StateMachine.h"
 
 namespace Logic
 {
@@ -73,11 +73,11 @@ namespace Logic
 		/**
 		Almacena la máquina de estado que se está ejecutando
 		*/
-		Logic::CStateMachine<Logic::CLatentAction> * _currentStateMachine;
+		AI::CStateMachine<AI::CLatentAction> * _currentStateMachine;
 		/**
 		Acción que se está ejecutando.
 		*/
-		Logic::CLatentAction* _currentAction;
+		AI::CLatentAction* _currentAction;
 
 	}; // class CStateMachineExecutor 
 

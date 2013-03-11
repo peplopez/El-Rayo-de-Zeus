@@ -1,6 +1,6 @@
 #include "LatentAction.h"
 
-namespace Logic
+namespace AI
 {
 	/**
 	Método llamado cíclicamente por el responsable de la ejecución

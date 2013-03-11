@@ -58,15 +58,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.cpp">
       <Filter>Maps\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LA_Attack.cpp">
-      <Filter>Entity\LatentActions\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LAIdle.cpp">
-      <Filter>Entity\LatentActions\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LatentAction.cpp">
-      <Filter>Entity\LatentActions\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\Message.cpp">
       <Filter>Entity\Messages\Source Files</Filter>
     </ClCompile>
@@ -133,12 +124,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicEntity.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\SimpleLatentActions.cpp">
-      <Filter>Entity\LatentActions\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\StateMachines\StateMachine.cpp">
-      <Filter>Entity\StateMachines\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Maps\Map.cpp">
       <Filter>Maps\Source Files</Filter>
     </ClCompile>
@@ -180,9 +165,6 @@
     <ClInclude Include="..\..\Src\Logic\Maps\ComponentFactory.h">
       <Filter>Maps\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\StateMachines\Condition.h">
-      <Filter>Entity\StateMachines\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Entity.h">
       <Filter>Entity\Header Files</Filter>
     </ClInclude>
@@ -206,15 +188,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\HudOverlay.h">
       <Filter>Entity\Components\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\LA_Attack.h">
-      <Filter>Entity\LatentActions\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\LAIdle.h">
-      <Filter>Entity\LatentActions\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\LatentAction.h">
-      <Filter>Entity\LatentActions\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\Message.h">
       <Filter>Entity\Messages\Header Files</Filter>
@@ -260,12 +233,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Server.h">
       <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\LatentActions\SimpleLatentActions.h">
-      <Filter>Entity\LatentActions\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\StateMachines\StateMachine.h">
-      <Filter>Entity\StateMachines\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\RingStruct.h">
       <Filter>Entity\Header Files</Filter>
@@ -352,24 +319,6 @@
     </Filter>
     <Filter Include="Maps\Header Files">
       <UniqueIdentifier>{72885fb8-0a1b-48d4-b5de-82a4b83fe50a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entity\StateMachines">
-      <UniqueIdentifier>{7d72e325-1754-42c2-a115-5af636c9086e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entity\StateMachines\Header Files">
-      <UniqueIdentifier>{49bc4896-6b76-4a9b-bfcd-ef13318a9817}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entity\StateMachines\Source Files">
-      <UniqueIdentifier>{582e1e28-92ad-446d-aac1-a1f7c483b1e6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entity\LatentActions">
-      <UniqueIdentifier>{55e9d216-e015-4a86-913e-c1ccddb67d20}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entity\LatentActions\Header Files">
-      <UniqueIdentifier>{c42986b4-1f88-440f-8a89-10eb37165c80}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entity\LatentActions\Source Files">
-      <UniqueIdentifier>{c6a3d419-1508-42a0-bd25-9c8b66f542cc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Entity\Messages">
       <UniqueIdentifier>{3a212e1a-982f-41b2-842f-fdc0bd1134b8}</UniqueIdentifier>

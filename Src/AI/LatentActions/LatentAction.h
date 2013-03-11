@@ -19,7 +19,7 @@ Clase que implementa las acciones latentes
 
 using namespace Logic;
 
-namespace Logic
+namespace AI
 {
 
 	/**

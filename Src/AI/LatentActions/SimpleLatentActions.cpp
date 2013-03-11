@@ -4,7 +4,7 @@
 
 #include "../StateMachines/StateMachine.h"
 
-namespace Logic
+namespace AI
 {
 
 
