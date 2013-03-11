@@ -38,7 +38,7 @@ namespace Graphics
 {
 
 	CScene::CScene(const std::string& name) : _viewport(0), 
-			_staticGeometry(0), _directionalLight(0), counterParticles(0)
+			_staticGeometry(0), _directionalLight1(0), _directionalLight2(0), counterParticles(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
@@ -107,19 +107,35 @@ namespace Graphics
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
 						->addViewport(_camera->getCamera());
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
+		
+		//Sombras Chulas - Consumen mucho*/
+		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
 		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.9f,0.9f,0.9f));
 
 		// Además de la luz ambiente creamos una luz direccional que 
 		// hace que se vean mejor los volúmenes de las entidades.
-		_directionalLight = _sceneMgr->createLight("directional light");
-		_directionalLight->setDiffuseColour(.5f,.5f,.5f);
-		_directionalLight->setSpecularColour(.5f,.5f,.5f);
-		_directionalLight->setType(Ogre::Light::LT_DIRECTIONAL);
-		_directionalLight->setDirection(-150, -150, 0);
+		_directionalLight1 = _sceneMgr->createLight("directional light1");
+		//_directionalLight2 = _sceneMgr->createLight("directional light2");
+
+		_directionalLight1->setDiffuseColour(.5f,.5f,.5f);
+		//_directionalLight2->setDiffuseColour(.5f,.5f,.5f);
+
+		_directionalLight1->setSpecularColour(.5f,.5f,.5f);
+		//_directionalLight2->setSpecularColour(.5f,.5f,.5f);
+
+		_directionalLight1->setType(Ogre::Light::LT_DIRECTIONAL);
+		//_directionalLight2->setType(Ogre::Light::LT_DIRECTIONAL);
+
+		_directionalLight1->setPosition(150, 150, 0);
+		//_directionalLight2->setPosition(-150, 150, 0);
+
+		_directionalLight1->setDirection(-150, -150, 0);
+		//_directionalLight2->setDirection(150, -150, 0);
+		
 		//_directionalLight->setType(Ogre::Light::LT_POINT);
 		//_directionalLight->setPosition(0, 100, 0);
-		_directionalLight->setPosition(150, 150, 0);
+		
 
 	} // activate
 
@@ -127,10 +143,15 @@ namespace Graphics
 
 	void CScene::deactivate()
 	{
-		if(_directionalLight)
+		if(_directionalLight1)
 		{
-			_sceneMgr->destroyLight(_directionalLight);
-			_directionalLight = 0;
+			_sceneMgr->destroyLight(_directionalLight1);
+			_directionalLight1 = 0;
+		}
+		if(_directionalLight2)
+		{
+			_sceneMgr->destroyLight(_directionalLight2);
+			_directionalLight2 = 0;
 		}
 		if(_viewport)
 		{

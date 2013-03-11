@@ -263,7 +263,9 @@ namespace Graphics
 		mejora la escena bastante respecto a tener solo luz ambiente ya que
 		se ven mejor los volúmenes de las entidades.
 		*/
-		Ogre::Light *_directionalLight;
+		Ogre::Light* _directionalLight1;
+
+		Ogre::Light* _directionalLight2;
 
 		/**
 		Camara desde la que se verá la escena. Puede haber cámaras más
