@@ -55,9 +55,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.cpp">
-      <Filter>Maps\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\Message.cpp">
       <Filter>Entity\Messages\Source Files</Filter>
     </ClCompile>
@@ -131,6 +128,9 @@
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Altar.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
