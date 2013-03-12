@@ -22,6 +22,7 @@ Contiene la implementación de la clase que representa una entidad gráfica.
 #include <assert.h>
 
 #include <OgreEntity.h>
+#include <OgreSubEntity.h>
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
 
@@ -163,7 +164,8 @@ namespace Graphics
 
 	} // setOrientation
 	
-	
+	//--------------------------------------------------------
+
 	Ogre::SceneNode* CEntity::getEntityNode()
 	{
 		assert(_entityNode && "La entidad no ha sido cargada");
@@ -172,6 +174,8 @@ namespace Graphics
 
 	}
 
+	//--------------------------------------------------------
+
 	void CEntity::setMaterial(const std::string &materialName) 
 	{
 		assert(_entityNode && "La entidad no ha sido cargada");
@@ -179,9 +183,17 @@ namespace Graphics
 			_entity->setMaterialName(materialName);
 			//_entity->getChild(0)->setMaterialName();
 
-	} // setOrientation
-	
+	} // setMaterial
 
+	//--------------------------------------------------------
+	void CEntity::setSubEntityMaterial(const std::string &materialName, const unsigned int subEntityIndex) 
+	{
+		assert(_entityNode && "La entidad no ha sido cargada");
+		if(_entityNode)
+			_entity->getSubEntity(subEntityIndex)->setMaterialName(materialName);
+			//_entity->getChild(0)->setMaterialName();
+
+	} // setSubEntityMaterial
 
 	//--------------------------------------------------------
 		

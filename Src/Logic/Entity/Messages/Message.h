@@ -29,30 +29,31 @@ namespace Logic
 	{
 		enum TMessageType : unsigned char
 		{
-			UNASSIGNED 			= 0xFF,
-			SET_TRANSFORM 		= 0x00,
-			CONTROL				= 0x01,
-			NPC_CONTROL 		= 0x02,
-			DEAD 				= 0x03,
-			SET_TRANSFORM_QUAT	= 0x04,
-			SET_ANIMATION		= 0x05,
-			STOP_ANIMATION		= 0x06,			 
-			CONTACT				= 0x07,   
-			SET_SHADER			= 0x08,			
-			CAMERA				= 0x09,
-			LIFE_MODIFIER		= 0x0A,
-			AVATAR_MOVE			= 0x10,
-			DAMAGED				= 0x11,			
-			ANIMATION_FINISHED	= 0x12,
-			COMBAT				= 0x13,
-			CHANGE_PLANE		= 0x14,
-			CHANGE_HEIGHT		= 0x15,
-			HUD					= 0x16,		
-			TRIGGER				= 0x17,
-			COLLISION			= 0X18,
-			SPACE_REQUEST		= 0x19, //para mandar un mensaje en el que preguntas si un punto del espacio está ocupado
-			ANIMATION_MOMENT    = 0x20,
-			REWIND_ANIMATION    = 0x21
+			UNASSIGNED 				= 0xFF,
+			SET_TRANSFORM 			= 0x00,
+			CONTROL					= 0x01,
+			NPC_CONTROL 			= 0x02,
+			DEAD 					= 0x03,
+			SET_TRANSFORM_QUAT		= 0x04,
+			SET_ANIMATION			= 0x05,
+			STOP_ANIMATION			= 0x06,			 
+			CONTACT					= 0x07,   
+			SET_MATERIAL			= 0x08,			
+			CAMERA					= 0x09,
+			LIFE_MODIFIER			= 0x0A,
+			SET_SUBENTITY_MATERIAL	= 0x0B,
+			AVATAR_MOVE				= 0x10,
+			DAMAGED					= 0x11,			
+			ANIMATION_FINISHED		= 0x12,
+			COMBAT					= 0x13,
+			CHANGE_PLANE			= 0x14,
+			CHANGE_HEIGHT			= 0x15,
+			HUD						= 0x16,		
+			TRIGGER					= 0x17,
+			COLLISION				= 0X18,
+			SPACE_REQUEST			= 0x19, //para mandar un mensaje en el que preguntas si un punto del espacio está ocupado
+			ANIMATION_MOMENT		= 0x20,
+			REWIND_ANIMATION		= 0x21
 		};
 
 		enum TActionType : unsigned char

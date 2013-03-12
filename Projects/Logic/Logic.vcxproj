@@ -107,6 +107,7 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFloat.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageInt.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageUIntString.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageUShort.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageString.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageTF.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFactory.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFloat.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageInt.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageUIntString.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageUShort.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageString.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageTF.h" />

@@ -25,6 +25,7 @@ gráfica de la entidad.
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageTF.h"
 #include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageUIntString.h"
 
 namespace Logic 
 {
@@ -128,7 +129,7 @@ namespace Logic
 
 	bool CGraphics::accept(const CMessage *message)
 	{
-		return message->getType() == Message::SET_TRANSFORM || message->getType() == Message::SET_TRANSFORM_QUAT || message->getType() == Message::SET_SHADER ;
+		return message->getType() == Message::SET_TRANSFORM || message->getType() == Message::SET_TRANSFORM_QUAT || message->getType() == Message::SET_MATERIAL || message->getType() == Message::SET_SUBENTITY_MATERIAL ;
 
 	} // accept
 	
@@ -136,19 +137,28 @@ namespace Logic
 
 	void CGraphics::process(CMessage *message)
 	{
-		CMessageTF *maux = static_cast<CMessageTF*>(message);
-		CMessageString *maux2 = static_cast<CMessageString*>(message);
 		switch(message->getType())
 		{
 		case Message::SET_TRANSFORM:
+			{
+			CMessageTF *maux = static_cast<CMessageTF*>(message);
 			_graphicsEntity->setTransform(maux->getTransform());
+			}
 			break;
 		case Message::SET_TRANSFORM_QUAT:
 			//graphicsEntity->setTransform(message._quat);
 			break;
-		case Message::SET_SHADER:
+		case Message::SET_MATERIAL:
+			{
+			CMessageString *maux2 = static_cast<CMessageString*>(message);
 			_graphicsEntity->setMaterial(maux2->getString());
+			}
 			break;
+		case Message::SET_SUBENTITY_MATERIAL:
+			{
+			CMessageUIntString *maux3 = static_cast<CMessageUIntString*>(message);
+			_graphicsEntity->setSubEntityMaterial(maux3->getString(), maux3->getUInt());
+			}
 		}
 
 	} // process
