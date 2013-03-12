@@ -20,6 +20,8 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/Entity/Components/AvatarController.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
+#include "Logic/Entity/Messages/MessageBoolString.h"
+
 
 
 #define DEBUG 1
@@ -130,6 +132,13 @@ namespace Logic
 			m->setType(Message::CONTROL);
 			m->setAction(Message::SWITCH_ALTAR);
 			_target->emitMessage(m);
+				
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			message->setAction(Message::WALK_RIGHT);		
+			message->setString("Idle");
+			message->setBool(true);
+			_entity->emitMessage(message,this);
 		}
 	}
 
