@@ -37,6 +37,8 @@ namespace Physics
 		CActor();
 		CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, IObserver *component);
 		
+		virtual ~CActor() {}
+
 		// UNDONE RS si la clase CLogicalPos no va admitir valores negativos, nunca podremos implementar el move asin
 		//void move(const Logic::TLogicalPosition &pos);  
 		
@@ -83,7 +85,7 @@ namespace Physics
 	}; // class CActor
 
 
-	typedef std::vector<CActor*> TActorVector;
+	
 
 } // namespace Physics
 

@@ -124,9 +124,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\NetConnector.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicCharacter.cpp">
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\SimpleLatentActions.cpp">
       <Filter>Entity\LatentActions\Source Files</Filter>
     </ClCompile>
@@ -136,7 +133,10 @@
     <ClCompile Include="..\..\Src\Logic\Maps\Map.cpp">
       <Filter>Maps\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicEntity.cpp">
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Physics.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicalCharacter.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -282,9 +282,6 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\NetConnector.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicCharacter.h">
-      <Filter>Entity\Components\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\RingTraveler.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
@@ -294,7 +291,10 @@
     <ClInclude Include="..\..\Src\Logic\Entity\LogicalPosition.h">
       <Filter>Entity\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicEntity.h">
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Physics.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicalCharacter.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

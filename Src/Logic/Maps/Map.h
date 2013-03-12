@@ -136,7 +136,7 @@ namespace Logic
 		@param entityID ID de la entidad a recuperar.
 		@return Entidad con el ID pedido, NULL si no se encuentra.
 		*/
-		CEntity *getEntityByID(TEntityID entityID);
+		CEntity *getEntityByID(TEntityID entityID){	return _entityMap[entityID]; }
 
 		/**
 		Recupera una entidad del mapa a partir de su nombre.
@@ -195,6 +195,12 @@ namespace Logic
 		*/
 		void createPlayer(std::string entityName, std::string model, bool isLocalPlayer);
 
+
+		/*******************
+			GET's & SET's
+		******************/
+		bool isActive() { return _isActive; }
+
 	private:
 
 		/**
@@ -216,6 +222,8 @@ namespace Logic
 		Nombre del mapa.
 		*/
 		std::string _name;
+
+		bool _isActive;
 
 		/**
 		Escena gráfica donde se encontrarán las representaciones gráficas de las entidades.

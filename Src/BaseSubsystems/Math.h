@@ -103,48 +103,7 @@ namespace Math
 	const float _rad2Deg = 180.0f / PI;
 
 
-	/**************
-		INLINES
-	**************/
-
-	/**
-	Transforma grados en radianes.
-
-	@param degree Ángulo en grados.
-	@return Ángulo en radianes.
-	*/
-	inline float fromDegreesToRadians(float degrees) {return degrees*_deg2Rad;}
-
-	/**
-	Transforma radianes en grados.
-
-	@param radian Ángulo en radianes.
-	@return Ángulo en grados.
-	*/
-	inline float fromRadiansToDegrees(float radians) {return radians*_rad2Deg;}
 	
-	/**
-	Crea un vector unitario de dirección a partir de un angulo de
-	orientación en radianes.
-
-	@param orientation Orientación en radianes.
-	@return Vector unitario en el plano XZ.
-	*/
-	inline Vector3 getDirection(float orientation) 	{return Vector3(-sin(orientation), 0, -cos(orientation)); } // getDirection
-	
-		/**
-	Crea un vector unitario de dirección en el plano XZ a partir 
-	de una matriz de transformación.
-
-	@param transform Matriz de transformación.
-	@return Vector unitario en el plano XZ.
-	*/
-	inline Vector3 getDirection(const Matrix4& transform) {	return getDirection(getYaw(transform));	} // getDirection
-	inline void delimit(int& number, int min, int max) {number = std::min(std::max(number, min), max);	}
-	inline void delimit(float& number, float min, float max) {	number = std::min(std::max(number, min), max);	}
-
-
-	//--------------------------------------------------------
 
 	/**
 	Aplica un viraje a una matriz de transformación.
@@ -190,6 +149,50 @@ namespace Math
 	void setPitchYaw(float pitch,float yaw, Matrix4& transform);
 	Vector3 fromCartesianToCylindrical(const Vector3 coordenadas);
 	Vector3 fromCylindricalToCartesian(const float grados, const float radio, const float y);
+
+
+	/**************
+		INLINES
+	**************/
+
+	/**
+	Transforma grados en radianes.
+
+	@param degree Ángulo en grados.
+	@return Ángulo en radianes.
+	*/
+	inline float fromDegreesToRadians(float degrees) {return degrees*_deg2Rad;}
+
+	/**
+	Transforma radianes en grados.
+
+	@param radian Ángulo en radianes.
+	@return Ángulo en grados.
+	*/
+	inline float fromRadiansToDegrees(float radians) {return radians*_rad2Deg;}
+	
+	/**
+	Crea un vector unitario de dirección a partir de un angulo de
+	orientación en radianes.
+
+	@param orientation Orientación en radianes.
+	@return Vector unitario en el plano XZ.
+	*/
+	inline Vector3 getDirection(float orientation) 	{return Vector3(-sin(orientation), 0, -cos(orientation)); } // getDirection
+	
+		/**
+	Crea un vector unitario de dirección en el plano XZ a partir 
+	de una matriz de transformación.
+
+	@param transform Matriz de transformación.
+	@return Vector unitario en el plano XZ.
+	*/
+	inline Vector3 getDirection(const Matrix4& transform) {	return getDirection(getYaw(transform));	} // getDirection
+	inline void delimit(int& number, int min, int max) {number = std::min(std::max(number, min), max);	}
+	inline void delimit(float& number, float min, float max) {	number = std::min(std::max(number, min), max);	}
+
+
+	
 
 
 } // namespace Math

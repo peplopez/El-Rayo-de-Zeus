@@ -1,11 +1,11 @@
 /**
-@file PhysicEntity.h
+@file Physics.h
 
 Contiene la implementación del componente encargado de representar entidades físicas simples,
 que son aquellas representadas mediante un único actor de PhysX. Este componente no sirve
 para representar character controllers.
 
-@see Logic::CPhysicEntity
+@see Logic::CPhysics
 @see Logic::IComponent
 @see Logic::CPhysicController
 
@@ -13,7 +13,7 @@ para representar character controllers.
 @date 26/02/2013
 */
 
-#include "PhysicEntity.h"
+#include "Physics.h"
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
@@ -34,41 +34,44 @@ para representar character controllers.
 
 namespace Logic {
 
-	IMP_FACTORY(CPhysicEntity);
+	IMP_FACTORY(CPhysics);
 
 	//---------------------------------------------------------
 
-	CPhysicEntity::CPhysicEntity() : IComponent(GetAltTypeIdOf(CPhysicEntity)), _actor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
+	CPhysics::CPhysics() : IComponent(GetAltTypeIdOf(CPhysics)), _physicalActor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
 	{
 		// UNDONE FRS _server = Physics::CServer::getSingletonPtr();
 	}
-	CPhysicEntity::CPhysicEntity(altTypeId id) : IComponent(id), _actor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
+	CPhysics::CPhysics(altTypeId id) : IComponent(id),  _physicalActor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
 	{
 		// UNDONE FRS _server = Physics::CServer::getSingletonPtr();
 	}
 
 	//---------------------------------------------------------
 
-	CPhysicEntity::~CPhysicEntity() 
+	CPhysics::~CPhysics() 
 	{
-		if (_actor) {
-			_scene->removeActor(_actor); // Eliminar el actor de la escena			
-			delete _actor;
-			_actor = 0;
+		if ( _physicalActor ) {
+			_scene->removeActor(  _physicalActor ); // Eliminar el actor de la escena			
+			delete _physicalActor;
 		}
 		// UNDONE FRS _server = 0;
 	} 
 
 	//---------------------------------------------------------
 
-	bool CPhysicEntity::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
+	bool CPhysics::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
 		// Invocar al método de la clase padre
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
 		_scene = map->getPhysicScene();
-		createActor(entityInfo); // Crear el actor asociado al componente
+			assert(_scene && "Escena física es NULL");
+
+		_physicalActor = createActor(entityInfo); // Crear el actor asociado al componente
+			if(!_physicalActor)
+				return false;
 
 		return true;
 	} // spawn
@@ -76,9 +79,9 @@ namespace Logic {
 	//---------------------------------------------------------
 
 	// Crear el actor físico
-	Physics::CActor* CPhysicEntity::createActor(const Map::CEntity *entityInfo)
+	Physics::CActor* CPhysics::createActor(const Map::CEntity *entityInfo)
 	{
-		assert(!_scene && "LOGIC::PHYSICS>> No existe escena física!");		
+		assert(_scene && "LOGIC::PHYSICS>> No existe escena física!");		
 
 		// Obtenemos la posición de la entidad. 
 		const TLogicalPosition logicPos = _entity->getLogicalPosition();
@@ -92,26 +95,32 @@ namespace Logic {
 		const float physicHeight = entityInfo->getFloatAttribute("physicHeight");
 
 		// TRIGGER: Leer si es un trigger (por defecto no)
-		// TODO barajar si los character pueden actuar como triggers en algún caso...
 		bool isTrigger = false;
 		if (entityInfo->hasAttribute("physicTrigger"))
 			isTrigger = entityInfo->getBoolAttribute("physicTrigger");
 		
+		// TRIGGER
 		if(isTrigger)  {
-			Physics::CActorTrigger *actor =	new Physics::CActorTrigger(logicPos, physicWidth, physicHeight, this);
-			_scene->addActor(actor); // Añadir el actor a la escena
-			return actor;
+			Physics::CActorTrigger* trigger = new Physics::CActorTrigger(logicPos, physicWidth, physicHeight, this);
+				if( _scene->addActor(trigger ) ) // Añadir el actor a la escena
+					return trigger ;
+				else
+					return 0;
+
+		// COLLIDER
 		} else {
-			Physics::CActor *actor = new Physics::CActor(logicPos, physicWidth, physicHeight, this);
-			_scene->addActor(actor); // Añadir el actor a la escena
-			return actor;
+			Physics::CActor* collider = new Physics::CActor(logicPos, physicWidth, physicHeight, this);
+				if(_scene->addActor(collider) ) // Añadir el actor a la escena
+					return collider;
+				else
+					return 0;
 		}
 
 	} // createActor 
 
 	//---------------------------------------------------------
 
-	void  CPhysicEntity::onTrigger (Physics::IObserver* other, bool enter) 
+	void  CPhysics::onTrigger (Physics::IObserver* other, bool enter) 
 	{
 		// Construimos un mensaje de tipo TOUCHED o UNTOUCHED 
 		// y lo enviamos a todos los componentes de la entidad.
@@ -123,7 +132,7 @@ namespace Logic {
 				Message::TRIGGER_ENTER : 
 				Message::TRIGGER_EXIT
 			);			
-			txMsg->setUInt( static_cast<CPhysicEntity*>(other)->getEntity()->getEntityID() );
+			txMsg->setUInt( static_cast<CPhysics*>(other)->getEntity()->getEntityID() );
 		_entity->emitMessage(txMsg);
 
 

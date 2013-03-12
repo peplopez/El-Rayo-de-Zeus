@@ -327,7 +327,8 @@ namespace Application {
 			} break;
 		}
 
-
+// TODO Llevamos la cuenta de los que ha cargado cada uno
+// Así, si tarda mucho en responder o manda un disconnect -> descartamos solo su recuento
 		case Net::PLAYER_LOADED:
 		{
 			LOG("RX PLAYER_LOADED from " << packet->getConexion()->getId() );
@@ -336,6 +337,7 @@ namespace Application {
 			++_playersLoadedByClients[packet->getConexion()->getId()];
 
 			//[FRS] Comprobar si todos los clientes han terminado de cargar todos los jugadores
+			// TODO Sería mejor gestionar exactamente que player ha cargado cada uno, por si hay desconexiones
 			bool loadFinished = true;
 				for(int i = 0; i<Net::CLIENTS_MAX; ++i)				
 					if(_clients & 1 << i)
@@ -343,6 +345,7 @@ namespace Application {
 							loadFinished = false;
 							break;
 						}
+
 		
 			if(loadFinished) //Si todos los clientes han cargado todos los players (inc. el suyo)
 			{
@@ -386,6 +389,7 @@ namespace Application {
 
 	//--------------------------------------------------------
 
+	// TODO FRS Gestionar desconexiones y borrarles del recuento de mapas / jugadores cargados... 
 	void CLobbyServerState::disconnexionPacketReceived(Net::CPaquete* packet)
 	{
 		Net::NetID clientID = packet->getConexion()->getId();

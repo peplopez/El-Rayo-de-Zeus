@@ -144,7 +144,7 @@ namespace Graphics
 		
 	void CEntity::setTransform(const Matrix4 &transform)
 	{
-		assert(_entityNode && "La entidad no ha sido cargada");
+		assert(_entityNode && "La entidad no ha sido cargada en la escena");
 		if(_entityNode)
 		{
 			_entityNode->setPosition(transform.getTrans());
@@ -157,7 +157,7 @@ namespace Graphics
 		
 	void CEntity::setOrientation(const Matrix3 &orientation)
 	{
-		assert(_entityNode && "La entidad no ha sido cargada");
+		assert(_entityNode && "La entidad no ha sido cargada en la escena");
 		if(_entityNode)
 			_entityNode->setOrientation(orientation);
 
@@ -166,13 +166,13 @@ namespace Graphics
 	
 	Ogre::SceneNode* CEntity::getEntityNode()
 	{
-		assert(_entityNode && "La entidad no ha sido cargada");
+		assert(_entityNode && "La entidad no ha sido cargada en la escena");
 		return _entityNode;
 	}
 
 	void CEntity::setMaterial(const std::string &materialName) 
 	{
-		assert(_entityNode && "La entidad no ha sido cargada");
+		assert(_entityNode && "La entidad no ha sido cargada en la escena");
 		if(_entityNode)
 			_entity->setMaterialName(materialName);
 			//_entity->getChild(0)->setMaterialName();
@@ -185,7 +185,7 @@ namespace Graphics
 		
 	void CEntity::setVisible(bool visible)
 	{
-		assert(_entityNode && "La entidad no ha sido cargada");
+		assert(_entityNode && "La entidad no ha sido cargada en la escena");
 		if(_entityNode)
 			_entityNode->setVisible(visible);
 
@@ -195,18 +195,15 @@ namespace Graphics
 		
 	const bool CEntity::getVisible()
 	{
-		if(_entityNode)
-			return _entity->isVisible();
-
-		throw new std::exception("La entidad no ha sido cargada");
-
+		assert(_entityNode && "La entidad no ha sido cargada en la escena");
+		return _entity->isVisible();
 	} // getPosition
 	
 	//--------------------------------------------------------
 		
 	void CEntity::setPosition(const Vector3 &position)
 	{
-		assert(_entityNode && "La entidad no ha sido cargada");
+		assert(_entityNode && "La entidad no ha sido cargada en la escena");
 		if(_entityNode)
 			_entityNode->setPosition(position);
 
@@ -226,12 +223,9 @@ namespace Graphics
 		
 	void CEntity::setScale(const float scale)
 	{
-		assert(_entityNode && "La entidad no ha sido cargada");
+		assert(_entityNode && "La entidad no ha sido cargada en la escena");
 		if(_entityNode)
-		{
-			Vector3 scaleVector(scale,scale,scale);
-			_entityNode->setScale(scaleVector);
-		}
+			_entityNode->setScale( Vector3(scale,scale,scale) );
 
 	} // setScale
 

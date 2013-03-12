@@ -1,10 +1,10 @@
 /**
-@file PhysicEntity.h
+@file Physics.h
 
 Contiene la declaración del componente encargado de representar entidades físicas simples.
 Este componente no sirve para representar physic characters.
 
-@see Logic::CPhysicEntity
+@see Logic::CPhysics
 @see Logic::IComponent
 @see Logic::CPhysicCharacter
 @see Physics::IObserver
@@ -13,8 +13,8 @@ Este componente no sirve para representar physic characters.
 @date 23-02-13
 */
 
-#ifndef __Logic_PhysicEntity_H
-#define __Logic_PhysicEntity_H
+#ifndef __Logic_Physics_H
+#define __Logic_Physics_H
 
 #include "Logic/Entity/Component.h"
 #include "Physics/IObserver.h"
@@ -53,23 +53,23 @@ namespace Logic
 	@author FRS
 	@date 23-02-13
 	*/
-	class CPhysicEntity : public IComponent, public Physics::IObserver
+	class CPhysics : public IComponent, public Physics::IObserver
 	{
-		DEC_FACTORY(CPhysicEntity);
+		DEC_FACTORY(CPhysics);
 
 	public:
 	
 		/**
 		Constructor por defecto.
 		*/
-		CPhysicEntity();
+		CPhysics();
 
-		CPhysicEntity(altTypeId id);
+		CPhysics(altTypeId id);
 
 		/**
 		Destructor. Elimina el objeto físico de la escena y lo destruye. 
 		*/
-		virtual ~CPhysicEntity();
+		virtual ~CPhysics();
 		
 		/**	Inicializa el componente usando los atributos definidos en el fichero de mapa.*/
 		virtual bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
@@ -88,7 +88,7 @@ namespace Logic
 
 		// UNDONE FRS Physics::CServer* _server; // Servidor de física
 		Physics::CScene* _scene; // Servidor de física
-		Physics::CActor* _actor; // Actor que representa la entidad física
+		Physics::CActor* _physicalActor; // Actor que representa la entidad física
 
 		// Desplazamiento recibido en los últimos mensajes de tipo MOVE.
 		// Sirve para mover entidades físicas cinemáticas y de character.
@@ -101,10 +101,10 @@ namespace Logic
 		virtual Physics::CActor* createActor(const Map::CEntity* entityInfo);
 		// TODO FRS Podría pasar a llamarse physicEntity (por paralelismos con CGraphics)
 	
-	}; // class CPhysicEntity
+	}; // class CPhysics
 
-	REG_FACTORY(CPhysicEntity);
+	REG_FACTORY(CPhysics);
 
 } // namespace Logic
 
-#endif // __Logic_PhysicEntity_H
+#endif // __Logic_Physics_H

@@ -27,8 +27,11 @@ namespace Graphics
 		
 	bool CAnimatedEntity::setAnimation(const std::string &anim, float moment, bool loop)
 	{
+		assert(_entity  && "La entidad no ha sido cargada en la escena");
+
 		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
 			return false;
+
 		_currentAnimation = _entity->getAnimationState(anim);
 		_currentAnimation->setEnabled(true);
 		_currentAnimation->setTimePosition(moment);
@@ -41,6 +44,8 @@ namespace Graphics
 		
 	bool CAnimatedEntity::stopAnimation(const std::string &anim)
 	{
+		assert(_entity  && "La entidad no ha sido cargada en la escena");
+
 		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
 			return false;
 		Ogre::AnimationState *animation = _entity->getAnimationState(anim);
@@ -59,6 +64,8 @@ namespace Graphics
 		
 	void CAnimatedEntity::stopAllAnimations()
 	{
+		assert(_entity  && "La entidad no ha sido cargada en la escena");
+
 		if(_entity->getAllAnimationStates()->hasEnabledAnimationState())
 		{
 			Ogre::ConstEnabledAnimationStateIterator it = 

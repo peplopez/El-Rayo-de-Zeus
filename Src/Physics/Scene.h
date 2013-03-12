@@ -29,11 +29,14 @@ namespace Physics
 
 	public:
 
+		typedef std::vector<CActor*>		TColliders;
+		typedef std::vector<CActorTrigger*> TTriggers;
+
 		/************
 			ACTORS
 		*************/
-		void addActor(CActor *actor);
-		void addActor(CActorTrigger* actor);
+		bool addActor(CActor *actor);
+		bool addActor(CActorTrigger* actor);
 		//bool addStaticActor(Physics::CStaticActor *actor);
 
 		void removeActor(CActor* actor);
@@ -61,11 +64,7 @@ namespace Physics
 
 		/**	Duerme la escena*/
 		bool deactivate();
-
-		void release();
 		void tick(unsigned int);
-
-		
 
 
 		/******************
@@ -76,15 +75,14 @@ namespace Physics
 		@return Nombre de la escena.
 		*/
 		const std::string& getName() {return _name;}
-		
-		
-		
+
+
 	private:
 
 		/**	Nombre de la escena.*/
 		std::string _name;
-		TActorVector _actors;
-		TTriggerVector _triggers;
+		TColliders	_colliders;
+		TTriggers	_triggers;
 
 		// Componentes de la simulacion
 		void checkCollisions();

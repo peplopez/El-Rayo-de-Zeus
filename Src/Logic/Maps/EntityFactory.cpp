@@ -254,7 +254,6 @@ namespace Logic
 		// Añadimos la nueva entidad en el mapa antes de inicializarla.
 		map->addEntity(ret);
 
-
 		// Y lo inicializamos
 		
 		if (ret->spawn(map, entityInfo))
@@ -330,15 +329,7 @@ namespace Logic
 	} // createMergedEntity
 
 
-	//---------------------------------------------------------
-
-	void CEntityFactory::deleteEntity(Logic::CEntity *entity)
-	{
-		assert(entity);		
-		entity->getMap()->removeEntity(entity);// Si la entidad estaba activada se desactiva al sacarla del mapa.
-		delete entity; // El delete nos toca a nosotros
-
-	} // deleteEntity
+	
 	
 	//---------------------------------------------------------
 
@@ -346,7 +337,6 @@ namespace Logic
 	{
 		assert(entity);
 		_pendingEntities.push_back(entity);
-
 	} // deferredDeleteEntity
 	
 	//---------------------------------------------------------
@@ -355,17 +345,18 @@ namespace Logic
 	{
 		TEntityList::const_iterator it(_pendingEntities.begin());
 		TEntityList::const_iterator end(_pendingEntities.end());
-
-		while(it != end)
-		{
-			CEntity *entity = *it;
-			it++;
-			deleteEntity(entity);
-		}
-
-		if (!_pendingEntities.empty())
+			for(; it != end; ++it)
+				deleteEntity(*it);
 			_pendingEntities.clear();
-
 	} // deleteDefferedObjects
+
+	//---------------------------------------------------------
+
+	void CEntityFactory::deleteEntity(Logic::CEntity *entity)
+	{
+		assert(entity);		
+		entity->getMap()->removeEntity(entity);// Si la entidad estaba activada se desactiva al sacarla del mapa.
+		delete entity; // El delete nos toca a nosotros
+	} // deleteEntity
 
 } // namespace Logic

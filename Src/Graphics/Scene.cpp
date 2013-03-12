@@ -71,7 +71,7 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
-	bool CScene::addStaticEntity(CStaticEntity* entity)
+	bool CScene::addEntity(CStaticEntity* entity)
 	{
 		if(!entity->attachToScene(this))
 			return false;
@@ -86,7 +86,6 @@ namespace Graphics
 	{
 		entity->deattachFromScene();
 		_dynamicEntities.remove(entity);
-
 	} // addEntity
 
 	//--------------------------------------------------------

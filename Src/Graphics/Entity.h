@@ -219,8 +219,6 @@ namespace Graphics
 		*/
 		Ogre::SceneNode *_entityNode;
 
-
-
 		/**
 		Entidad de Ogre.
 		*/

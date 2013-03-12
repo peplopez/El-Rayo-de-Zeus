@@ -58,17 +58,17 @@ namespace Logic
 				// Paramos todas las animaciones antes de poner una nueva.
 				// Un control más sofisticado debería permitir interpolación
 				// de animaciones. Galeon no lo plantea.
-				_animatedGraphicsEntity->stopAllAnimations();
+				static_cast<Graphics::CAnimatedEntity*>(_graphicalEntity)->stopAllAnimations();
 				if (maux->getString().compare("FireAK47")==0)
-					_animatedGraphicsEntity->setAnimation(maux->getString(),0,maux->getBool());
+					_graphicalEntity->setAnimation(maux->getString(),0,maux->getBool());
 				else					
-					_animatedGraphicsEntity->setAnimation(maux->getString(),0,maux->getBool());
+					_graphicalEntity->setAnimation(maux->getString(),0,maux->getBool());
 				
 				LOG("SET_ANIMATION: " << maux->getString());
-
 				break;
+
 			case Message::STOP_ANIMATION:
-				_animatedGraphicsEntity->stopAnimation(maux->getString());
+				_graphicalEntity->stopAnimation(maux->getString());
 				LOG("STOP_ANIMATION: " << maux2->getString());
 				break;
 		}
@@ -77,29 +77,23 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	void CAnimatedGraphics::createGraphicsEntity(const Map::CEntity *entityInfo)
+	Graphics::CEntity* CAnimatedGraphics::createGraphicalEntity(const Map::CEntity *entityInfo)
 	{
-		assert(!_scene && "LOGIC::ANIMATED_GRAPHICS>> No existe escena gráfica!");		
+		assert(_scene && "LOGIC::ANIMATED_GRAPHICS>> No existe escena gráfica!");
+		assert( _model.length() > 0  &&  "LOGIC::ANIMATED_GRAPHICS>> No existe modelo!");	
 
-		_animatedGraphicsEntity = new Graphics::CAnimatedEntity(_entity->getName(),_model);
-			if(!_scene->addEntity(_animatedGraphicsEntity)) {
-				_animatedGraphicsEntity = 0;
-				return;
-			}
+		_graphicalEntity = new Graphics::CAnimatedEntity(_entity->getName(),_model);
+			if(!_scene->addEntity(_graphicalEntity) )
+				return 0;
 
-			_animatedGraphicsEntity->setTransform(_entity->getTransform());
-		
-			if(entityInfo->hasAttribute("defaultAnimation"))
-			{
-				_defaultAnimation = entityInfo->getStringAttribute("defaultAnimation");
-				_animatedGraphicsEntity->setAnimation(_defaultAnimation,0,true);
-				_animatedGraphicsEntity->setObserver(this);
-			}
+		// DEFAULT ANIMATION
+		if(entityInfo->hasAttribute("defaultAnimation")) { 
+			_defaultAnimation = entityInfo->getStringAttribute("defaultAnimation");
+			_graphicalEntity->setAnimation(_defaultAnimation,0,true);
+			_graphicalEntity->setObserver(this);
+		}
 
-		float scale = 1.0;
-		if (entityInfo->hasAttribute("scale"))
-			scale = entityInfo->getFloatAttribute("scale");		
-			_animatedGraphicsEntity->setScale(scale);
+		return _graphicalEntity;
 	} // createGraphicsEntity
 	
 
@@ -115,8 +109,8 @@ namespace Logic
 		_entity->emitMessage(msg);		
 
 		// Si acaba una animación y tenemos una por defecto la ponemos
-		_animatedGraphicsEntity->stopAllAnimations();
-		_animatedGraphicsEntity->setAnimation(_defaultAnimation,0,true);
+		_graphicalEntity->stopAllAnimations();
+		_graphicalEntity->setAnimation(_defaultAnimation,0,true);
 	}
 
 		

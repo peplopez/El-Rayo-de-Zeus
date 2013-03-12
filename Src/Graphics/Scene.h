@@ -114,7 +114,7 @@ namespace Graphics
 		@param entity Entidad gráfica que se quiere añadir a la escena.
 		@return Cierto si la entidad se añadió y cargó correctamente.
 		*/
-		bool addStaticEntity(CStaticEntity* entity);
+		bool addEntity(CStaticEntity* entity);
 
 		/**
 		Elimina una entidad gráfica de la escena. 

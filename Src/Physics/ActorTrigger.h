@@ -28,6 +28,8 @@ namespace Physics
 	{
 	public:
 
+		typedef std::vector<CActor*>	TActors;
+
 		CActorTrigger(const Logic::TLogicalPosition &position, 
 					const float angularWidth, const float height, IObserver *component) 
 					: CActor(position, angularWidth, height, component) {};
@@ -41,13 +43,13 @@ namespace Physics
 		
 	private:
 
-		TActorVector _actorsOnTrigger;
+		TActors _actorsOnTrigger;
 
 		bool isOnTrigger(CActor* actor);
 
 	}; // class CActorTrigger
 
-	typedef std::vector<CActorTrigger*> TTriggerVector;
+	//typedef std::vector<CActorTrigger*> TTriggerVector;
 
 } // namespace Physics
 

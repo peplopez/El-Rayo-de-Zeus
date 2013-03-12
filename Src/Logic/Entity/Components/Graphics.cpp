@@ -34,11 +34,10 @@ namespace Logic
 
 	CGraphics::~CGraphics() 
 	{
-		if(_graphicsEntity)
+		if(_graphicalEntity)
 		{
-			_scene->removeEntity(_graphicsEntity);
-			delete _graphicsEntity;
-			_graphicsEntity = 0;
+			_scene->removeEntity(_graphicalEntity);
+			delete _graphicalEntity;
 		}
 
 	} // ~CGraphics
@@ -51,21 +50,32 @@ namespace Logic
 			return false;
 
 		_scene = map->getGraphicScene();
-		createGraphicsEntity(entityInfo);
+			assert(_scene && "Escena gráfica es NULL");
+		assert(entityInfo->hasAttribute("model"));
+			_model = entityInfo->getStringAttribute("model");
+
+		_graphicalEntity = createGraphicalEntity(entityInfo);
+			if(!_graphicalEntity)
+				return false;
+		
+		Vector3 scale = Vector3::UNIT_SCALE;
 
 		// HACK FRS Esto lo suyo es que el modelo ya lo traiga , no?
-		if(_entity->getType().compare("Altar")==0)			
-			_graphicsEntity->setScale(3);	
-		if(_entity->getName().compare("Tubo")==0)		
-			_graphicsEntity->setScale(Vector3(2,10,2));	
-		if(_entity->getType().compare("AnimatedEntity")==0)			
-			_graphicsEntity->setScale(0.5);
-		if(_entity->getType().compare("World")==0)
-			if(_entity->getRing()==LogicalPosition::CENTRAL_RING)
-				_graphicsEntity->setScale(Vector3(1.3,1.0,1.3));
-		
-		if(!_graphicsEntity)
-			return false;
+			if(_entity->getType().compare("AnimatedEntity")==0)			
+				scale *= 0.5;	
+			else if(_entity->getType().compare("Altar")==0)			
+				scale *= 3;	
+			else if(_entity->getType().compare("SkyBox")==0)		
+				scale = Vector3(2,10,2);				
+			else if(_entity->getType().compare("World")==0 
+				&& _entity->getRing() == LogicalPosition::CENTRAL_RING)
+				scale = Vector3(1.3,1.0,1.3);
+		//
+			else if(entityInfo->hasAttribute("scale") )
+				scale *=  entityInfo->getFloatAttribute("scale");
+
+		_graphicalEntity->setTransform(_entity->getTransform());
+		_graphicalEntity->setScale(scale);	
 
 		return true;
 
@@ -88,13 +98,13 @@ namespace Logic
 		switch(message->getType())
 		{
 		case Message::SET_TRANSFORM:
-			_graphicsEntity->setTransform(maux->getTransform());
+			_graphicalEntity->setTransform(maux->getTransform());
 			break;
 		case Message::SET_TRANSFORM_QUAT:
-			//graphicsEntity->setTransform(message._quat);
+			//graphicalEntity->setTransform(message._quat);
 			break;
 		case Message::SET_SHADER:
-			_graphicsEntity->setMaterial(maux2->getString());
+			_graphicalEntity->setMaterial(maux2->getString());
 			break;
 		}
 
@@ -102,41 +112,33 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	void CGraphics::createGraphicsEntity(const Map::CEntity *entityInfo)
+	Graphics::CEntity* CGraphics::createGraphicalEntity(const Map::CEntity *entityInfo)
 	{		
-		assert(!_scene && "LOGIC::GRAPHICS>> No existe escena gráfica!");		
-
-		assert(entityInfo->hasAttribute("model"));
-			_model = entityInfo->getStringAttribute("model");
+		assert( _scene && "LOGIC::GRAPHICS>> No existe escena gráfica!");
+		assert( _model.length() > 0  && "LOGIC::GRAPHICS>> No existe modelo!");	
 
 		bool isStatic = false;
 			if(entityInfo->hasAttribute("static"))
 				isStatic = entityInfo->getBoolAttribute("static");
 
-		float scale = 1.0;
-			if (entityInfo->hasAttribute("scale"))
-				scale = entityInfo->getFloatAttribute("scale");
-
 		// CREATE STATIC
 		if(isStatic){
-			_graphicsEntity = new Graphics::CStaticEntity(_entity->getName(),_model);
-			if(!_scene->addStaticEntity((Graphics::CStaticEntity*)_graphicsEntity)) {
-				_graphicsEntity = 0;
-				return;
-			}
+			Graphics::CStaticEntity* staticEntity = new Graphics::CStaticEntity(_entity->getName(),_model);
+			if( _scene->addEntity(staticEntity) )
+				return staticEntity;
+			else 
+				return 0;
 
 		// CREATE NO STATIC
 		} else {
-			_graphicsEntity = new Graphics::CEntity(_entity->getName(),_model);
-			if(!_scene->addEntity(_graphicsEntity)){
-				_graphicsEntity = 0;
-				return;
-			}
+			Graphics::CEntity* dynamicEntity = new Graphics::CEntity(_entity->getName(),_model);
+			if( _scene->addEntity(dynamicEntity) )		
+				return dynamicEntity;
+			else
+				return 0;
 		}
-		_graphicsEntity->setScale(scale);
-		_graphicsEntity->setTransform(_entity->getTransform());
 
-	} // createGraphicsEntity
+	} // createGraphicalEntity
 	
 	
 

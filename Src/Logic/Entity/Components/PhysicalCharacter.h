@@ -1,17 +1,17 @@
 /**
-@file PhysicCharacter.h
+@file PhysicalCharacter.h
 
 Contiene la declaración del componente que se utiliza para representar jugadores y enemigos en
 el mundo físico.
 
-@see Logic::PhysicCharacter
+@see Logic::PhysicalCharacter
 
 @author Jose Luis López Sánchez
 @date Febrero, 2013
 */
 
-#ifndef __Logic_PhysicCharacter_H
-#define __Logic_PhysicCharacter_H
+#ifndef __Logic_PhysicalCharacter_H
+#define __Logic_PhysicalCharacter_H
 
 
 #include "Logic/Entity/Components/Physics.h"
@@ -40,16 +40,16 @@ namespace Logic
 	@author Jose Luis López Sánchez & ƒ®§
 	@date Febrero, 2013
 	*/
-	class CPhysicCharacter : public CPhysics
+	class CPhysicalCharacter : public CPhysics
 	{
-		DEC_FACTORY(CPhysicCharacter);
+		DEC_FACTORY(CPhysicalCharacter);
 	
 	public:
 
-		CPhysicCharacter() : CPhysics(GetAltTypeIdOf(CPhysicCharacter)) {}
+		CPhysicalCharacter() : CPhysics(GetAltTypeIdOf(CPhysicalCharacter)) {}
 
 		/**Este componente sólo acepta mensajes de tipo AVATAR_WALK.*/
-		virtual bool accept(const CMessage *message);
+		bool accept(const CMessage *message);
 		
 		/**
 		Cuando se recibe un mensaje de tipo AVATAR_WALK, se almacena su vector de 
@@ -57,7 +57,7 @@ namespace Logic
 		De esta forma, si en un ciclo se reciben varios mensaje de tipo AVATAR_WALK 
 		sólo tendrá efecto el último.
 		*/
-		virtual void process(CMessage *message);
+		void process(CMessage *message);
 
 		/**
 		Este método se invoca en cada ciclo de la simulación y hace lo siguiente:
@@ -69,20 +69,20 @@ namespace Logic
 		<p>
 		Los character controllers no tienen orientación, sólo posición
 		*/
-		virtual void tick(unsigned int msecs);
+		void tick(unsigned int msecs);
 
 		/**************
 			IOBSERVER
 		***************/
 		//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
-		virtual void onTrigger(IObserver*, bool);
-		virtual void onCollision(IObserver* other);
+		void onTrigger(IObserver*, bool);
+		void onCollision(IObserver* other);
 
 		
-	}; // class CPhysicCharacter
+	}; // class CPhysicalCharacter
 
-	REG_FACTORY(CPhysicCharacter);
+	REG_FACTORY(CPhysicalCharacter);
 
 } // namespace Logic
 
-#endif // __Logic_PhysicCharacter_H
+#endif // __Logic_PhysicalCharacter_H

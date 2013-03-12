@@ -34,28 +34,13 @@ namespace Physics
 
 	CScene::~CScene() 
 	{
-		deactivate();
-		release();
+		deactivate();	
+		/* UNDONE FRS Sacado de Graphics::Scene
+		_sceneMgr->destroyStaticGeometry(_staticGeometry);		
+		_root->destroySceneManager(_sceneMgr);*/ 
+
 	} // ~CScene
-
-	//--------------------------------------------------------
-
-	void CScene::release()
-	{
-		TActorVector::iterator aIt  = _actors.begin();
-		TActorVector::iterator aEnd = _actors.begin();
-			for ( ; aIt != aEnd; ++aIt) 
-				delete (*aIt);			
-			_actors.clear();
-
-		TTriggerVector::iterator tIt  = _triggers.begin();
-		TTriggerVector::iterator tEnd = _triggers.begin();
-			for ( ; tIt != tEnd; ++tIt)
-				delete (*tIt);			
-			_triggers.clear();
-
-	} // release
-
+	
 	//--------------------------------------------------------
 
 	bool CScene::activate()
@@ -84,41 +69,37 @@ namespace Physics
 		ACTORS
 	************/
 
-
 	// TODO FRS hacerlas inline? 
-	void CScene::addActor(CActorTrigger* actor)
+	bool CScene::addActor(CActor* collider)
 	{
-		_triggers.push_back(actor);
-
+		_colliders.push_back(collider);
+		return true;
 	} // addActor
 
-	void CScene::addActor(CActor* actor)
+	bool CScene::addActor(CActorTrigger* trigger)
 	{
-		_actors.push_back(actor);
+		_triggers.push_back(trigger);
+		return true;
 	} // addActor
+
+
 		
 
 	//--------------------------------------------------------
 
 
-	void CScene::removeActor(CActor* actor)
+	void CScene::removeActor(CActor* collider)
 	{
-		TActorVector::iterator position = std::find(_actors.begin(), _actors.end(), actor);
-		if (position != _actors.end())
-		{
-			_actors.erase(position);
-			delete actor;
-		}
+		TColliders::iterator colliderIndex = std::find(_colliders.begin(), _colliders.end(), collider);
+		if (colliderIndex != _colliders.end())
+			_colliders.erase(colliderIndex); // FRS El delete es responsabilidad del creador (Logic::CPhysics)		
 	} // removeActor
 
-	void CScene::removeActor(CActorTrigger* actor)
+	void CScene::removeActor(CActorTrigger* trigger)
 	{
-		TTriggerVector::iterator position = std::find(_triggers.begin(), _triggers.end(), actor);
-		if (position != _triggers.end())
-		{			
-			_triggers.erase(position);
-			delete actor;
-		}
+		TTriggers::iterator triggerIndex = std::find(_triggers.begin(), _triggers.end(), trigger);
+		if (triggerIndex != _triggers.end())			
+			_triggers.erase(triggerIndex);// FRS El delete es responsabilidad del creador (Logic::CPhysics)		
 	} // removeActor
 
 	
@@ -141,14 +122,14 @@ namespace Physics
 		//WTF!!
 		float x = 0;
 		float y = 0;
-		for (size_t i = 0; i < _actors.size() - 1; ++i)	
-			for (size_t j = i + 1; j < _actors.size(); ++j)
-				if ( _actors[i]->intersects(_actors[j], x, y) )
+		for (size_t i = 0; i < _colliders.size() - 1; ++i)	
+			for (size_t j = i + 1; j < _colliders.size(); ++j)
+				if ( _colliders[i]->intersects(_colliders[j], x, y) )
 				{		
 					LOG("Collision")
-					updateLogicPosition(_actors[i], _actors[j], x, y);
-					_actors[i]->getIObserver()->onCollision(_actors[j]->getIObserver());
-					_actors[j]->getIObserver()->onCollision(_actors[i]->getIObserver());	
+					updateLogicPosition(_colliders[i], _colliders[j], x, y);
+					_colliders[i]->getIObserver()->onCollision(_colliders[j]->getIObserver());
+					_colliders[j]->getIObserver()->onCollision(_colliders[i]->getIObserver());	
 				}
 
 	} // checkCollisions
@@ -158,19 +139,19 @@ namespace Physics
 	void CScene::checkTriggers() {
 
 		for (size_t i = 0; i < _triggers.size(); ++i)	
-			for (size_t j = 0; j < _actors.size(); ++j)
+			for (size_t j = 0; j < _colliders.size(); ++j)
 				
-				if ( _actors[j]->intersects( _triggers[i] ) ) {
-					if( _triggers[i]->enters( _actors[j] ) ) {						
+				if ( _colliders[j]->intersects( _triggers[i] ) ) {
+					if( _triggers[i]->enters( _colliders[j] ) ) {						
 						LOG("Trigger Enter")
-						_triggers[i]->getIObserver()->onTrigger( _actors[j]->getIObserver(), true);
-						_actors[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), true);	
+						_triggers[i]->getIObserver()->onTrigger( _colliders[j]->getIObserver(), true);
+						_colliders[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), true);	
 					}
 					
-				} else if( _triggers[i]->exits( _actors[j] ) ) {						
+				} else if( _triggers[i]->exits( _colliders[j] ) ) {						
 						LOG("Trigger Exit")
-						_triggers[i]->getIObserver()->onTrigger( _actors[j]->getIObserver(), false);
-						_actors[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), false);
+						_triggers[i]->getIObserver()->onTrigger( _colliders[j]->getIObserver(), false);
+						_colliders[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), false);
 				}
 
 	} // checkTriggers
