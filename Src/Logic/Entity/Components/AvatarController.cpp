@@ -115,6 +115,7 @@ namespace Logic
 
 	void CAvatarController::walkRight()
 	{
+		_walkingLeft = false;
 		_walkingRight = true;
 	
 		CMessageBoolString *message = new CMessageBoolString();
@@ -130,7 +131,7 @@ namespace Logic
 
 	void CAvatarController::walkLeft()
 	{
-			
+		_walkingRight = false;	
 		_walkingLeft = true;
 	//		_entity->getComponent<CAttack>()->resetAttackFlags();
 	
