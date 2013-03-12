@@ -29,6 +29,7 @@ Contiene la implementación de la clase que maneja el billboard.
 
 namespace Graphics 
 {
+	// TODO pasar esto al spawn y coger map scene
 	//Constructor de la clase CBillboard. Donde se crea un BillboardSet (de momento con 1 sólo Billboard)
 	CBillboard::CBillboard(const std::string &name, const float offset)  //le paso un string y el offset de la pos del billboard
 	{

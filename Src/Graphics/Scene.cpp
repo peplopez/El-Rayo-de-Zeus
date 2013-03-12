@@ -189,11 +189,8 @@ namespace Graphics
 		Ogre::SceneNode* bbNode = _sceneMgr->createSceneNode(name+"_billboard");
 		bbNode->attachObject(_bbSet);
 
-		if(_sceneMgr->hasSceneNode(name+"_node"))
-		{
+		if(_sceneMgr->hasSceneNode(name+"_node"))		
 			_sceneMgr->getSceneNode(name+"_node")->addChild(bbNode);
-		}
-
 
 		return _bbSet; //debéría devolver el Ogre::BillboardSet
 
