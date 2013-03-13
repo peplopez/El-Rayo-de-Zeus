@@ -48,7 +48,6 @@ namespace Logic
 	bool CAvatarController::activate()
 	{
 
-		_sense = _entity->getSense();
 		//Menudos HACKS os marcais
 		/**
 		if (!_entity->isPlayer())
@@ -68,7 +67,7 @@ namespace Logic
 	void CAvatarController::awake()
 	{
 		IComponent::awake();
-		_sense = _entity->getSense();
+
 	} // awake
 
 	//---------------------------------------------------------
@@ -92,21 +91,17 @@ namespace Logic
 
 	void CAvatarController::process(CMessage *message)
 	{
-		switch(message->getType())
+		if(message->getAction() == Message::WALK_LEFT)
 		{
-		case Message::CONTROL:
-			if(message->getAction() == Message::WALK_LEFT)
-			{
-					walkLeft();
-			}
-			else if(message->getAction() == Message::WALK_RIGHT)
-			{	
-					walkRight();
-			}
-			else if(message->getAction() == Message::WALK_STOP)
-			{
-					stopMovement();
-			}
+				walkLeft();
+		}
+		else if(message->getAction() == Message::WALK_RIGHT)
+		{	
+				walkRight();
+		}
+		else if(message->getAction() == Message::WALK_STOP)
+		{
+				stopMovement();
 		}
 	} // process
 	
@@ -171,9 +166,9 @@ namespace Logic
 		IComponent::tick(msecs);
 
 		//si estamos andado hacia la derecha y no está girando
-		if(_walkingRight && _sense != Logic::Sense::ROTATING_RIGHT && _sense != Logic::Sense::ROTATING_LEFT)
+		if(_walkingRight && _targetSense == Logic::Sense::UNDEFINED)
 		{		
-			if (_sense == Logic::Sense::RIGHT)
+			if (_entity->getSense() == Logic::Sense::RIGHT)
 			{
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
@@ -181,16 +176,16 @@ namespace Logic
 				m->setFloat(-_angularSpeed*msecs);
 				_entity->emitMessage(m);
 			}
-			//rotar hacia izquierda
+			//rotar hacia derecha
 			else
 			{
-				_sense = Logic::Sense::ROTATING_RIGHT;
+				_targetSense = Logic::Sense::RIGHT;
 			}
 		}
 		//si estamos andado hacia la hacia la izquierda y no está rotando
-		else if (_walkingLeft && _sense != Logic::Sense::ROTATING_RIGHT && _sense != Logic::Sense::ROTATING_LEFT)
+		else if (_walkingLeft && _targetSense == Logic::Sense::UNDEFINED)
 		{
-			if (_sense == Logic::Sense::LEFT)
+			if (_entity->getSense() == Logic::Sense::LEFT)
 			{
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
@@ -198,14 +193,14 @@ namespace Logic
 				m->setFloat(_angularSpeed*msecs);
 				_entity->emitMessage(m);
 			}
-			//rotar hacia derecha
+			//rotar hacia izquierda
 			else
 			{
-				_sense = Logic::Sense::ROTATING_LEFT;
+				_targetSense = Logic::Sense::LEFT;
 			}
 		}
 		//rotacion a derechas
-		if (_sense == Logic::Sense::ROTATING_RIGHT)
+		else if (_targetSense == Logic::Sense::RIGHT)
 		{
 			float tickRotation = Math::PI * 0.005 * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
 			_entity->yaw(-tickRotation);
@@ -213,12 +208,13 @@ namespace Logic
 			if (_acumRotation >= Math::PI)
 			{
 				_entity->yaw(_acumRotation - Math::PI);
-				_sense = Logic::Sense::RIGHT;
+				_entity->setSense(Logic::Sense::RIGHT);
+				_targetSense = Logic::Sense::UNDEFINED;
 				_acumRotation = 0;
 			}
 		}
 		//rotacion a izquierdas
-		else if (_sense == Logic::Sense::ROTATING_LEFT)
+		else if (_targetSense == Logic::Sense::LEFT)
 		{
 			float tickRotation = Math::PI * 0.005 * msecs;
 			_entity->yaw(tickRotation);
@@ -226,12 +222,11 @@ namespace Logic
 			if (_acumRotation >= Math::PI)
 			{
 				_entity->yaw(-(_acumRotation - Math::PI));
-				_sense = Logic::Sense::LEFT;
+				_entity->setSense(Logic::Sense::LEFT);
+				_targetSense = Logic::Sense::UNDEFINED;
 				_acumRotation = 0;
 			}
-		}
-
-		_entity->setSense(_sense);		
+		}	
 
 	} // tick
 } // namespace Logic

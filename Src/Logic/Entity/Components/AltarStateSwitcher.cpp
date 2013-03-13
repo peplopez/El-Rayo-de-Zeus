@@ -143,7 +143,7 @@ namespace Logic
 	void CAltarStateSwitcher::stopSwitchingState(Logic::Sense targetSense)
 	{
 		
-		if (_switchingState && _targetSense == Logic::Sense::UNDEFINED &&_switchingAllowed)
+		if (_switchingState && _targetSense == Logic::Sense::UNDEFINED &&  _switchingAllowed)
 		{
 		
 			_targetSense = targetSense;
@@ -165,12 +165,10 @@ namespace Logic
 
 		if (_switchingState)
 		{	
-			if (_entity->getSense() == Logic::Sense::RIGHT)
-				_entity->setSense(Logic::Sense::ROTATING_LEFT);
-			else if (_entity->getSense() == Logic::Sense::LEFT)
-				_entity->setSense(Logic::Sense::ROTATING_RIGHT);
+			if (_entity->getSense() == Logic::Sense::RIGHT || _entity->getSense() == Logic::Sense::LEFT)
+				_targetSense = Logic::Sense::LOOKING_CENTER;
 		
-			if (_entity->getSense() == Logic::Sense::ROTATING_LEFT)
+			if (_entity->getSense() == Logic::Sense::RIGHT)
 			{
 				float tickRotation = Math::PI * 0.005 * msecs;
 				_entity->yaw(tickRotation);
@@ -179,10 +177,11 @@ namespace Logic
 				{
 					_entity->yaw(-(_acumRotation - Math::PI/2));
 					_entity->setSense(Logic::Sense::LOOKING_CENTER);
+					_targetSense = Logic::Sense::UNDEFINED;
 					_acumRotation = 0;
 				}
 			}
-			else if (_entity->getSense() == Logic::Sense::ROTATING_RIGHT)
+			else if (_entity->getSense() == Logic::Sense::LEFT)
 			{
 				float tickRotation = Math::PI * 0.005 * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
 				_entity->yaw(-tickRotation);
@@ -191,6 +190,7 @@ namespace Logic
 				{
 					_entity->yaw(_acumRotation - Math::PI/2);
 					_entity->setSense(Logic::Sense::LOOKING_CENTER);
+					_targetSense = Logic::Sense::UNDEFINED;
 					_acumRotation = 0;
 				}
 			}
