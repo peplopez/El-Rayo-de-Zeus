@@ -48,19 +48,18 @@ namespace Graphics
 	bool CEntity::attachToScene(CScene *scene)
 	{
 		assert(scene && "¡¡La entidad debe asociarse a una escena!!");
+		
 		// Si la entidad está cargada por otro gestor de escena.
-		if(_loaded && (_scene != scene))
-			return false;
-
-		// Si no está cargada forzamos su carga.
-		if (!_loaded)
-		{
+		if(_loaded) {			
+			if(_scene != scene)
+				return false;
+			else
+				return true; // Si ya estaba cargada en la escena se devuelve cierto.
+		
+		} else { // Si no está cargada forzamos su carga.		
 			_scene = scene;
 			return load();
 		}
-
-		// Si ya estaba cargada en la escena se devuelve cierto.
-		return true;
 
 	} // attachToScene
 	
@@ -88,21 +87,19 @@ namespace Graphics
 		
 	bool CEntity::load()
 	{
-		try
-		{
-			_entity = _scene->getSceneMgr()->createEntity(_name, _mesh);
-		}
-		catch(std::exception e)
-		{
+		try{
+			_entity = _scene->getSceneMgr()->createEntity(_name, _mesh);		
+		} catch(std::exception e){
 			return false;
 		}
+
 		_entityNode = _scene->getSceneMgr()->getRootSceneNode()->
 								createChildSceneNode(_name + "_node");
 		
 		_entityNode->attachObject(_entity);
 		_loaded = true;
 
-		//HACK cutre - para attach del arma en el Player
+		// HACK Emily: cutre - para attach del arma en el Player
 		if(!_name.compare("Mono")) // que es como llamamos al player en el mapa
 		{
 			Ogre::Entity *weapon = _scene->getSceneMgr()->createEntity("weapon", "Katana.mesh");
@@ -110,7 +107,6 @@ namespace Graphics
 		}
 
 		return true;
-
 	} // load
 	
 	//--------------------------------------------------------

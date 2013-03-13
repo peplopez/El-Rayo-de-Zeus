@@ -56,35 +56,20 @@ namespace Logic
 
 		void process(CMessage *message);
 
-		void updateLife(float);
+	private:
 
+		Graphics::CScene* _graphicalScene;
+				
+		/** Billboard */
+		Graphics::CBillboard _lifeBarBB;
 
-	protected:
-
-
-		// Billboard
-		Graphics::CBillboard _lifeBar;
-		/**
-		Vida máxima de la entidad
-		*/
+		/** Vida máxima de la entidad */
 		int _LIFE_MAX;
 
 		/**Atributo que indica la magnitud de la vida de la entidad.*/
 		int _life;
 
-		/** Atributo que indica el offset de la Y del posicionamiento del billboard de vida.*/
-		float _lifeBarPosition;
-
-		/** Pablo. 01-02-2013
-		Atributo que indica la anchura del billboard
-		*/
-		float _lifeBarWidth;
-
-		/** Atributo que indica la altura del billboard		*/
-		float _lifeBarHeight;
-
-
-		void CLife::modifyLife(int);
+		void modifyLife(int);
 
 	}; // class CLife
 

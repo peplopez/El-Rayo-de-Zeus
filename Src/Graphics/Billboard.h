@@ -53,7 +53,7 @@ namespace Graphics
 		@param name Nombre del billboard.
 		*/
 		CBillboard() {} // ctor por defecto
-		CBillboard(const std::string &name, const float offset); // le paso un string y la posicion
+		CBillboard(const std::string &name, const float position, const float width, const float height); // le paso un string y la posicion
 
 		/**
 		Destructor de la aplicación.
