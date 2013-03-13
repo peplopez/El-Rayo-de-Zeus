@@ -106,6 +106,11 @@ namespace AI
 		*/
 		virtual void process( CMessage *message);
 
+		
+		virtual void sleepComponents();
+
+		virtual void awakeComponents();
+
 	protected:
 		/**
 			Al llegar a cierto momento de la animación hay posibilidad de realizar un combo.
