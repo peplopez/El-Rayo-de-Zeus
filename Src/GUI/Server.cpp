@@ -99,6 +99,9 @@ namespace GUI {
 
 		_GUISystem->setDefaultMouseCursor("OgreTrayImages","MouseArrow");
 
+		//CEGUI::Window* textComponent = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Menu");
+		//textComponent->setText("This is just some text that shows how nicely [colour='FFFF0000']CEGUI can format strings.[colour='FF00FF00'] and this is just colour [colour='FF0000FF'] formatting!");
+
 #ifndef NON_EXCLUSIVE_MODE_IN_WINDOW_MODE 
 		// Establecemos cual será el puntero del ratón.
 		_GUISystem->setDefaultMouseCursor("OgreTrayImages","MouseArrow");
