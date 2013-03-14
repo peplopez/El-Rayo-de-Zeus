@@ -2442,7 +2442,8 @@
 :::: StaticImage (normal version)
 -->
     <WidgetLook name="OgreTray/StaticImage">
-        <PropertyDefinition name="ImageColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+		<!--<PropertyDefinition name="ImageColours" initialValue="tl:AAFFFFFF tr:AAFFFFFF bl:AAFFFFFF br:AAFFFFFF" redrawOnWrite="true" />-->
+        <PropertyDefinition name="ImageColours" initialValue="tl:AAFFFFFF tr:AAFFFFFF bl:AAFFFFFF br:AAFFFFFF" redrawOnWrite="true" /> <!-- nueva -->
         <PropertyDefinition name="VertFormatting" initialValue="Stretched" redrawOnWrite="true" />
         <PropertyDefinition name="HorzFormatting" initialValue="Stretched" redrawOnWrite="true" />
         <Property name="BackgroundEnabled" value="True" />

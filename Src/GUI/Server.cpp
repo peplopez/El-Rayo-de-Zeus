@@ -95,7 +95,7 @@ namespace GUI {
 		CEGUI::FontManager::getSingleton().create("DejaVuSans-10.font");
 		CEGUI::FontManager::getSingleton().create("FairChar-30.font");
 		CEGUI::FontManager::getSingleton().create("Batang-26.font");
-		//CEGUI::FontManager::getSingleton().create("Handshop-30.font");
+		CEGUI::FontManager::getSingleton().create("handshop-30.font");
 
 		_GUISystem->setDefaultMouseCursor("OgreTrayImages","MouseArrow");
 
