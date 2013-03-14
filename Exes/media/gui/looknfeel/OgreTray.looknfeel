@@ -1166,7 +1166,7 @@
 :::: Multi-purpose frame using the MiniTray imagery.
 -->
     <WidgetLook name="OgreTray/MiniTray">
-        <PropertyDefinition name="TextColour" initialValue="FFFFFFFF" redrawOnWrite="true" /> <!-- color blanco(FFFFFFFF) del titulo del videojuego. El negro es FF000000 --> 
+        <PropertyDefinition name="TextColour" initialValue="FFFFD700" redrawOnWrite="true" /> <!-- color blanco(FFFFFFFF) del titulo del videojuego. El negro es FF000000 --> 
         <PropertyDefinition name="VertFormatting" initialValue="CentreAligned" />
         <PropertyDefinition name="HorzFormatting" initialValue="CentreAligned" />
         <ImagerySection name="frame">
@@ -2443,7 +2443,7 @@
 -->
     <WidgetLook name="OgreTray/StaticImage">
 		<!--<PropertyDefinition name="ImageColours" initialValue="tl:AAFFFFFF tr:AAFFFFFF bl:AAFFFFFF br:AAFFFFFF" redrawOnWrite="true" />-->
-        <PropertyDefinition name="ImageColours" initialValue="tl:AAFFFFFF tr:AAFFFFFF bl:AAFFFFFF br:AAFFFFFF" redrawOnWrite="true" /> <!-- nueva -->
+        <PropertyDefinition name="ImageColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" /> <!-- nueva -->
         <PropertyDefinition name="VertFormatting" initialValue="Stretched" redrawOnWrite="true" />
         <PropertyDefinition name="HorzFormatting" initialValue="Stretched" redrawOnWrite="true" />
         <Property name="BackgroundEnabled" value="True" />
