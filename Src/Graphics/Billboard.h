@@ -17,7 +17,6 @@ Contiene la declaración de la clase que maneja el billboard.
 #define __Graphics_Billboard_H
 
 #include "BaseSubsystems/Math.h"
-#include "Logic\Entity\Entity.h" // Pablo. al cambiar el CBillboard(string) por CBillboard(entity)
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 
@@ -27,6 +26,7 @@ namespace Ogre
 	class Billboard;
 
 }
+
 namespace Graphics 
 {
 	class CScene;

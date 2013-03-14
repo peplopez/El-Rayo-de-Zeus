@@ -49,27 +49,24 @@ namespace Application {
 
 	bool C3DApplication::init() 
 	{
-		// Inicializamos la clase base.
-		if (!CBaseApplication::init())
-			return false;
-
 		// Inicializamos los diferentes subsistemas, los de 
 		// Ogre entre ellos.
 		if (!BaseSubsystems::CServer::Init())
 			return false;
 
-		// Inicializamos el servidor gráfico.
-		if (!Graphics::CServer::Init())
-			return false;
-
 		// Inicializamos el gestor de entrada de periféricos.
 		if (!GUI::CInputManager::Init())
 			return false;
+		else {
+			// Nos registramos como oyentes de los eventos del teclado. // TODO FRS Esto no debería ir en activate? 
+			GUI::CInputManager::getSingletonPtr()->addKeyListener(this);
+			// Y como oyentes de los eventos del ratón.
+			GUI::CInputManager::getSingletonPtr()->addMouseListener(this);
+		}
 
-		// Nos registramos como oyentes de los eventos del teclado. // TODO FRS Esto no debería ir en activate? 
-		GUI::CInputManager::getSingletonPtr()->addKeyListener(this);
-		// Y como oyentes de los eventos del ratón.
-		GUI::CInputManager::getSingletonPtr()->addMouseListener(this);
+		// Inicializamos el servidor gráfico.
+		if (!Graphics::CServer::Init())
+			return false;
 
 		// Inicializamos el servidor de interfaz con el usuario.
 		if (!GUI::CServer::Init())
@@ -77,10 +74,6 @@ namespace Application {
 
 		//// Inicialización del servidor de física.
 		if (!Physics::CServer::Init())
-			return false;
-
-		// Inicializamos el servidor de la lógica.
-		if (!Logic::CServer::Init())
 			return false;
 
 		// Inicializamos el servidor de IA
@@ -91,6 +84,14 @@ namespace Application {
 		if (!Net::CManager::Init())
 			return false;
 
+		// Inicializamos el servidor de la lógica.
+		if (!Logic::CServer::Init())
+			return false;
+
+		// Inicializamos la clase base.
+		if (!CBaseApplication::init())
+			return false;
+		
 		// Creamos el reloj basado en Ogre.
 		_clock = new COgreClock();
 
@@ -105,12 +106,21 @@ namespace Application {
 		// Eliminamos el reloj de la aplicación.
 		delete _clock;
 
+		CBaseApplication::release();
+
 		// Destruimos la factoría de componentes. La factoría
 		// de componentes no es de construcción y destrucción explícita
 		// debido a como se registran los componentes. Por ello Init y
 		// Release no son simétricos.
 
-		// Inicializamos la red
+		// TODO Esto no deberia ir dentro del Logic::Server::Release?
+		if(Logic::CComponentFactory::getSingletonPtr())
+			delete Logic::CComponentFactory::getSingletonPtr();
+
+		if(Logic::CServer::getSingletonPtr())
+			Logic::CServer::Release();
+
+		// Liberamos la red
 		if (Net::CManager::getSingletonPtr())
 			Net::CManager::Release();
 		
@@ -118,18 +128,15 @@ namespace Application {
 		//if (AI::CServer::getSingletonPtr())
 		//	AI::CServer::Release();
 
-		if(Logic::CComponentFactory::getSingletonPtr())
-			delete Logic::CComponentFactory::getSingletonPtr();
-
-		if(Logic::CServer::getSingletonPtr())
-			Logic::CServer::Release();
-
 		// Liberar los recursos del servidor de física
 		if (Physics::CServer::getSingletonPtr())
 			Physics::CServer::Release();
 
 		if(GUI::CServer::getSingletonPtr())
 			GUI::CServer::Release();
+		
+		if(Graphics::CServer::getSingletonPtr())
+			Graphics::CServer::Release();
 
 		if(GUI::CInputManager::getSingletonPtr())
 		{
@@ -139,14 +146,9 @@ namespace Application {
 			GUI::CInputManager::getSingletonPtr()->removeMouseListener(this);
 			GUI::CInputManager::Release();
 		}
-		
-		if(Graphics::CServer::getSingletonPtr())
-			Graphics::CServer::Release();
 
 		if(BaseSubsystems::CServer::getSingletonPtr())
 			BaseSubsystems::CServer::Release();
-
-		CBaseApplication::release();
 
 	} // release
 

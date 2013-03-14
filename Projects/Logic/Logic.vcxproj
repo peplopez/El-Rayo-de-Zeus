@@ -86,7 +86,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Attack.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BaseTraveler.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\CeguiHud.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Death.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump2.cpp" />
@@ -133,7 +132,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Attack.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\CeguiHud.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\HudOverlay.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Jump.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BaseTraveler.h" />

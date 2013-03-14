@@ -14,14 +14,10 @@ Contiene la implementación de la clase que maneja el billboard.
 */
 
 #include "Billboard.h"
-#include "Scene.h"
-#include "Server.h"
 
-//#include "BaseSubsystems/Server.h"
-#include "BaseSubsystems/Math.h"
+#include "Graphics/Scene.h"
 
 #include <assert.h>
-
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
 #include <OgreBillboardSet.h>

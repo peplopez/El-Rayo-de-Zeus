@@ -16,9 +16,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Camera.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\CeguiHud.cpp">
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\CommunicationPort.cpp">
       <Filter>Entity\Source Files</Filter>
     </ClCompile>
@@ -54,9 +51,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp">
       <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.cpp">
-      <Filter>Maps\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\LatentActions\LA_Attack.cpp">
       <Filter>Entity\LatentActions\Source Files</Filter>
@@ -139,6 +133,9 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicalCharacter.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.cpp">
+      <Filter>Entity\StateMachines\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedGraphics.h">
@@ -154,9 +151,6 @@
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Camera.h">
-      <Filter>Entity\Components\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\CeguiHud.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\CommunicationPort.h">

@@ -17,6 +17,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Graphics/Billboard.h"
 #include "Graphics/Scene.h"
 
+#include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageInt.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"

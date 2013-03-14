@@ -107,8 +107,8 @@ namespace Graphics
 
 		TScenes::const_iterator it = _scenes.begin();
 		TScenes::const_iterator end = _scenes.end();
-			for(; it != end; ++it)			
-				removeScene( (*it).second );
+			while(it != end)			
+				removeScene( (*it++).second );
 
 	} // close
 

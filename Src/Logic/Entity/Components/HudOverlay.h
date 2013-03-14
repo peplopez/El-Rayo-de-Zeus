@@ -79,6 +79,7 @@ namespace Logic
 		
 
 	protected:
+
 		static enum eOverlayTextArea {HEALTH, HEALTHBASE, PLAYERS, DUMMY };
 		static enum ColorValue { WHITE,BLACK,RED,GREEN,BLUE };
 
