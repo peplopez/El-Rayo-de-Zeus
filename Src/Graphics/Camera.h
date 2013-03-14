@@ -97,6 +97,10 @@ namespace Graphics
 		*/
 		void setTargetCameraPosition(const Vector3 &newPosition);
 
+		/**
+		*/
+		Ogre::SceneNode* getCameraNode() {return _cameraNode;}
+
 	protected:
 		
 		/**
