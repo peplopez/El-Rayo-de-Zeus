@@ -1166,7 +1166,7 @@
 :::: Multi-purpose frame using the MiniTray imagery.
 -->
     <WidgetLook name="OgreTray/MiniTray">
-        <PropertyDefinition name="TextColour" initialValue="FF000000" redrawOnWrite="true" />
+        <PropertyDefinition name="TextColour" initialValue="FFFFFFFF" redrawOnWrite="true" /> <!-- color blanco(FFFFFFFF) del titulo del videojuego. El negro es FF000000 --> 
         <PropertyDefinition name="VertFormatting" initialValue="CentreAligned" />
         <PropertyDefinition name="HorzFormatting" initialValue="CentreAligned" />
         <ImagerySection name="frame">

@@ -12,7 +12,6 @@
 			<Window Type="OgreTray/Title" Name="Menu/BackGround/Title" >
 				<Property Name="Font" Value="handshop-30" />
                 <Property Name="Text" Value="EL RAYO DE ZEUS" />
-				<Property Name="TextColours" Value="tl:FF000000 tr:FF000000 bl:FF000000 br:FF000000" /> 
                 <Property Name="AlwaysOnTop" Value="True" />
 				<Property Name="UnifiedAreaRect" Value="{{0,0},{0.1,0},{0.7,0},{0.3,0}}" />
             </Window>
