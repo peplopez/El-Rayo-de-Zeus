@@ -17,7 +17,6 @@ Contiene la declaración de la clase que maneja el Overlay.
 #define __Graphics_Overlay_H
 
 #include "BaseSubsystems/Math.h"
-#include "Logic\Entity\Entity.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 
@@ -27,8 +26,8 @@ namespace Ogre
 	class OverlayManager;
 	class OverlayContainer;
 	class TextAreaOverlayElement;
-
 }
+
 namespace Graphics 
 {
 	class CScene;
@@ -71,19 +70,6 @@ namespace Graphics
 		*/
 		virtual ~COverlay();
 
-		/**
-		Indica si un Overlay sera visible o invisible
-
-		@param visible. Indicara si se ha de poner visible (true) u oculto (false)
-		*/
-		void setVisible(bool visible);
-		 
-		/**
-		Indica si un Overlay es visible o no
-
-		@return Indicara si es visible (true) u oculto (false)
-		*/
-		bool isVisible();
 
 		/**
 		Añade un Overlay a otro para establecer grupos. 
@@ -92,6 +78,35 @@ namespace Graphics
 		*/
 		void add2D(COverlay* overlayContainer);
 
+		/**
+		Añade un overlayContainer a otro, estableciendo una secuencia de padres e hijos.
+		Asegurate que el overlay hijo es del tipo <b> TextArea </b> y el padre del tipo <b> Panel </b>
+		@param child overlay que sera el hijo.
+		*/
+		void addChild(COverlay* child);
+
+		/** FRS Vacía el overlay de todos sus hijos
+		*/
+		void clear();
+
+
+		/*****************
+			GET's & SET's
+		******************/
+
+		/**
+		Indica si un Overlay sera visible o invisible
+		@param visible. Indicara si se ha de poner visible (true) u oculto (false)
+		*/
+		void setVisible(bool visible);
+		 
+		/**
+		Indica si un Overlay es visible o no
+		@return Indicara si es visible (true) u oculto (false)
+		*/
+		bool isVisible();
+
+		
 		/**
 		Establece donde se posicionara el Overlay.
 		Solo aplicable a los contenedores. 
@@ -156,16 +171,7 @@ namespace Graphics
 		void setFont(const std::string& font);
 
 
-		/**
-		Añade un overlayContainer a otro, estableciendo una secuencia de padres e hijos.
-		Asegurate que el overlay hijo es del tipo <b> TextArea </b> y el padre del tipo <b> Panel </b>
-		@param child overlay que sera el hijo.
-		*/
-		void addChild(COverlay* child);
-
-		/** FRS Vacía el overlay de todos sus hijos
-		*/
-		void clear();
+		
 
 		/**
 		metodo que devuelve el overlayContainer
@@ -180,6 +186,33 @@ namespace Graphics
 		Ogre::TextAreaOverlayElement* getOverlayText(){ return _overlayText;};
 		
 	protected:
+
+		// CScene es la única que puede añadir o eliminar overlays sí misma
+		// Por otro lado cada entidad debe pertenecer a una escena. Solo 
+		// permitimos a la escena actualizar el estado.
+		friend class CScene;
+
+		/**
+		Añade la entidad al SceneManager pasado por parámetro. Si la entidad
+		no está cargada se fuerza su carga.
+
+		@param sceneMgr Gestor de la escena de Ogre a la que se quiere añadir
+		la entidad.
+		@return true si la entidad se pudo cargar y añadir a la escena.
+		*/
+		bool attachToScene(CScene *scene);
+
+		/**
+		Descarga una entidad de la escena en la que se encuentra cargada.
+
+		@return true si la entidad se descargo y eliminó de la escena
+		correctamente. Si la entidad no estaba cargada se devuelve false.
+		*/
+		bool deattachFromScene();
+
+
+	private:
+
 		std::string _type;
 		Ogre::Overlay *_overlay;
 		Ogre::OverlayContainer *_overlayContainer;

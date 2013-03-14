@@ -75,38 +75,13 @@ namespace Graphics
 
 	protected:
 
-		// CScene es la única que puede añadir o eliminar billboards de una 
-		// escena y por tanto cargar o descargar entidades.
-		// Por otro lado cada entidad debe pertenecer a una escena. Solo 
-		// permitimos a la escena actualizar el estado.
+		// CScene es la única que puede añadir o eliminar billboards de sí misma.	
+		// Por otro lado cada billboard debe pertenecer a una escena. 
 		friend class CScene;
 
-		std::string _parentName;
-		Vector3 _relativePos;
-		float _width;
-		float _height;
-		std::string _material;
-
-		/**Controla todos los elementos Ogre de una escena. Su equivalente
-		en la lógica del juego sería el mapa o nivel. 
-		*/
-		CScene *_scene;
-
-		/**	Nodo que contiene la entidad de Ogre.*/
-		Ogre::SceneNode *_graphicalNode;
-
-		/** 
-		BillboardSet _bbSet(conjunto de Billboards)
-		*/
-		Ogre::BillboardSet* _bbSet;
-	
-
-		/**	Indica si el billboard ha sido cargado en el motor gráfico.	*/
-		bool _loaded;				
-
 		/**
-		Añade la entidad al SceneManager pasado por parámetro. Si la entidad
-		no está cargada se fuerza su carga.
+		Añade el billboard al CScene pasado por parámetro. 
+		Si el billboard no está cargada se fuerza su carga.
 
 		@param sceneMgr Gestor de la escena de Ogre a la que se quiere añadir
 		la entidad.
@@ -121,6 +96,31 @@ namespace Graphics
 		correctamente. Si la entidad no estaba cargada se devuelve false.
 		*/
 		bool deattachFromScene();
+
+
+	private:
+
+		std::string _parentName;
+		Vector3 _relativePos;
+		float _width;
+		float _height;
+		std::string _material;
+
+		/** 
+		BillboardSet _bbSet(conjunto de Billboards)
+		*/
+		Ogre::BillboardSet* _bbSet;
+
+		/**Controla todos los elementos Ogre de una escena. Su equivalente
+		en la lógica del juego sería el mapa o nivel. 
+		*/
+		CScene *_scene;
+
+		/**	Nodo que contiene la entidad de Ogre.*/
+		Ogre::SceneNode *_graphicalNode;
+
+		/**	Indica si el billboard ha sido cargado en el motor gráfico.	*/
+		bool _loaded;		
 		
 		/**
 		Carga la entidad gráfica correspondiente al nombre _mesh. No hace 

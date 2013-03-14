@@ -15,7 +15,7 @@ Contiene la implementación de la clase que representa un Overlay.
 
 #include "Overlay.h"
 #include "Scene.h"
-#include "Server.h"
+
 
 #include "BaseSubsystems/Math.h"
 

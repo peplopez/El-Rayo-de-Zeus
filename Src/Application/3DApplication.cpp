@@ -57,12 +57,10 @@ namespace Application {
 		// Inicializamos el gestor de entrada de periféricos.
 		if (!GUI::CInputManager::Init())
 			return false;
-		else {
-			// Nos registramos como oyentes de los eventos del teclado. // TODO FRS Esto no debería ir en activate? 
-			GUI::CInputManager::getSingletonPtr()->addKeyListener(this);
-			// Y como oyentes de los eventos del ratón.
-			GUI::CInputManager::getSingletonPtr()->addMouseListener(this);
-		}
+		else { // FRS App es listener de cualquier input de forma centralizada; después informa al currentState del evento			
+			GUI::CInputManager::getSingletonPtr()->addKeyListener(this); // Nos registramos como oyentes de los eventos del teclado. 
+			GUI::CInputManager::getSingletonPtr()->addMouseListener(this); // Y como oyentes de los eventos del ratón.
+		} 
 
 		// Inicializamos el servidor gráfico.
 		if (!Graphics::CServer::Init())
@@ -72,7 +70,7 @@ namespace Application {
 		if (!GUI::CServer::Init())
 			return false;
 
-		//// Inicialización del servidor de física.
+		// Inicialización del servidor de física.
 		if (!Physics::CServer::Init())
 			return false;
 
@@ -106,6 +104,9 @@ namespace Application {
 		// Eliminamos el reloj de la aplicación.
 		delete _clock;
 
+		// FRS: BaseApp guarda todos los estados de la App
+		// En el release, desactiva y libera el curState (vinculado a los motores)
+		// Es necesario que todavía no se haya liberado ningún motor.
 		CBaseApplication::release();
 
 		// Destruimos la factoría de componentes. La factoría
@@ -139,12 +140,10 @@ namespace Application {
 			Graphics::CServer::Release();
 
 		if(GUI::CInputManager::getSingletonPtr())
-		{
-			// Dejamos de ser oyentes de los eventos del teclado.
-			GUI::CInputManager::getSingletonPtr()->removeKeyListener(this);
-			// Y de los eventos del ratón
-			GUI::CInputManager::getSingletonPtr()->removeMouseListener(this);
-			GUI::CInputManager::Release();
+		{			
+			GUI::CInputManager::getSingletonPtr()->removeKeyListener(this);// Dejamos de ser oyentes de los eventos del teclado.			
+			GUI::CInputManager::getSingletonPtr()->removeMouseListener(this);// Y de los eventos del ratón
+			GUI::CInputManager::Release(); // Y liberamos
 		}
 
 		if(BaseSubsystems::CServer::getSingletonPtr())
