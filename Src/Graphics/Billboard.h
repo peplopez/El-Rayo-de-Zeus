@@ -53,47 +53,91 @@ namespace Graphics
 		@param name Nombre del billboard.
 		*/
 		CBillboard() {} // ctor por defecto
-		CBillboard(const std::string &name, const float position, const float width, const float height); // le paso un string y la posicion
+		CBillboard(const std::string &parentName, const Vector3& relativePos, 
+			const float width, const float height, const std::string material) :
+			_parentName(parentName), _relativePos(relativePos), 
+			_width(width), _height(height), _material(material) {}
 
-		/**
-		Destructor de la aplicación.
-		*/
-		//virtual ~CBillboard();
-		
+		~CBillboard();
 
-		//TUTORIA
+		/*****************
+			GET's & SET'S
+		*******************/
 
 		//Poner coordenadas
-		//_lifeBar->setTexcoordRect(0.0f, 0.0f, 0.5f, 1.0f);
-		void setCoordenadas(const float,const float,const float,const float);
+		void setTextureCoords(const float u0,const float v0,const float u1,const float v1);
 
 		//Poner dimensiones
-		//_lifeBar->setDimensions(40, 2);
 		void setDimensions(const float,const float);
-
-		//... activate, deactivate...
-
-		void activateBillboard();
-
-		void deactivateBillboard(const std::string &name);
-
-		//void setPosition(const Vector3);
 
 		void setMaterial(const std::string &name);
 
-		Ogre::BillboardSet* getBBSet() {return _bbSet;}
-
 
 	protected:
+
+		// CScene es la única que puede añadir o eliminar billboards de una 
+		// escena y por tanto cargar o descargar entidades.
+		// Por otro lado cada entidad debe pertenecer a una escena. Solo 
+		// permitimos a la escena actualizar el estado.
+		friend class CScene;
+
+		std::string _parentName;
+		Vector3 _relativePos;
+		float _width;
+		float _height;
+		std::string _material;
+
+		/**Controla todos los elementos Ogre de una escena. Su equivalente
+		en la lógica del juego sería el mapa o nivel. 
+		*/
+		CScene *_scene;
+
+		/**	Nodo que contiene la entidad de Ogre.*/
+		Ogre::SceneNode *_graphicalNode;
+
 		/** 
 		BillboardSet _bbSet(conjunto de Billboards)
 		*/
 		Ogre::BillboardSet* _bbSet;
+	
+
+		/**	Indica si el billboard ha sido cargado en el motor gráfico.	*/
+		bool _loaded;				
 
 		/**
-		Nombre del billboard.
+		Añade la entidad al SceneManager pasado por parámetro. Si la entidad
+		no está cargada se fuerza su carga.
+
+		@param sceneMgr Gestor de la escena de Ogre a la que se quiere añadir
+		la entidad.
+		@return true si la entidad se pudo cargar y añadir a la escena.
 		*/
-		std::string _namebb;
+		bool attachToScene(CScene *scene);
+
+		/**
+		Descarga una entidad de la escena en la que se encuentra cargada.
+
+		@return true si la entidad se descargo y eliminó de la escena
+		correctamente. Si la entidad no estaba cargada se devuelve false.
+		*/
+		bool deattachFromScene();
+		
+		/**
+		Carga la entidad gráfica correspondiente al nombre _mesh. No hace 
+		comprobaciónes de si la entidad está ya cargada o de si pertenece a
+		otra escena. Esto se debe hacer de manera externa.
+
+		@return true si la entidad pudo crear los objetos necesarios en Ogre
+		o si la entidad ya estaba cargada.
+		*/
+		bool load();
+
+		/**
+		Elimina las estructuras creadas en Ogre mediante load(). No hace 
+		comprobaciónes de si la entidad está o no cargada o de si pertenece
+		a una escena. Esto se debe hacer de manera externa.
+		*/
+		void unload();
 
 	}; // class CBillboard
 

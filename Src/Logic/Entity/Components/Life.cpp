@@ -13,7 +13,9 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Life.h"
 
 #include "BaseSubsystems/Math.h"
-#include "Graphics/Server.h" //Pablo 04-02-2013
+
+#include "Graphics/Billboard.h"
+#include "Graphics/Scene.h"
 
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageInt.h"
@@ -26,7 +28,16 @@ Contiene la implementación del componente que controla la vida de una entidad.
 namespace Logic 
 {
 	IMP_FACTORY(CLife);
+
+	//---------------------------------------------------------
 	
+	CLife::~CLife() {
+		if(_lifeBarBB)
+		{
+			_graphicalScene->remove(_lifeBarBB);	
+			delete _lifeBarBB;
+		}
+	}
 	//---------------------------------------------------------
 
 	bool CLife::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
@@ -46,22 +57,15 @@ namespace Logic
 			float lifeBarHeight = entityInfo->getFloatAttribute("lifeBarHeight");
 
 		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
-		_lifeBarBB = Graphics::CBillboard( entity->getName(), lifeBarPosition, lifeBarWidth, lifeBarHeight);  //le paso un string con el nombre de la entidad			
-			
-			_lifeBarBB.setCoordenadas(0.0f, 0.0f, 0.5f, 1.0f);
+		_lifeBarBB = new Graphics::CBillboard( entity->getName(), 
+			Vector3(0, lifeBarPosition, 0), lifeBarWidth, lifeBarHeight, "lifeBar");  //le paso un string con el nombre de la entidad			
+		_lifeBarBB->setTextureCoords(0.0f, 0.0f, 0.5f, 1.0f);
 		
+		_graphicalScene->add(_lifeBarBB);
+
 		return true;
 
 	} // spawn
-	
-	//---------------------------------------------------------
-
-	void CLife::deactivate()
-	{
-		_lifeBarBB.deactivateBillboard( _entity->getName() ); //Eliminacion del billboard de la entidad	
-		IComponent::deactivate();
-	} // deactivate
-
 	
 	//---------------------------------------------------------
 
@@ -109,7 +113,7 @@ namespace Logic
 
 		// LIFEBAR CONTROL
 		float ratio = _life / _LIFE_MAX;
-			_lifeBarBB.setCoordenadas(
+			_lifeBarBB->setTextureCoords(
 				(1.0f - ratio) / 2.0f,			// u1
 				0.0f,							// v1
 				0.5f + (1.0f - ratio) / 2.0f,	// u2

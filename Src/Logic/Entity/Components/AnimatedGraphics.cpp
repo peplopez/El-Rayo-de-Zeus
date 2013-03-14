@@ -83,7 +83,7 @@ namespace Logic
 		assert( _model.length() > 0  &&  "LOGIC::ANIMATED_GRAPHICS>> No existe modelo!");	
 
 		_graphicalEntity = new Graphics::CAnimatedEntity(_entity->getName(),_model);
-			if(!_scene->addEntity(_graphicalEntity) )
+			if(!_scene->add(_graphicalEntity) )
 				return 0;
 
 		// DEFAULT ANIMATION

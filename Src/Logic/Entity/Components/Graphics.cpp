@@ -36,7 +36,13 @@ namespace Logic
 	{
 		if(_graphicalEntity)
 		{
-			_scene->removeEntity(_graphicalEntity);
+			if(_isStatic)
+				_scene->remove( 
+					static_cast<Graphics::CStaticEntity*>(_graphicalEntity) 
+				);
+			else
+				_scene->remove(_graphicalEntity);				
+
 			delete _graphicalEntity;
 		}
 
@@ -116,15 +122,14 @@ namespace Logic
 	{		
 		assert( _scene && "LOGIC::GRAPHICS>> No existe escena gráfica!");
 		assert( _model.length() > 0  && "LOGIC::GRAPHICS>> No existe modelo!");	
-
-		bool isStatic = false;
-			if(entityInfo->hasAttribute("static"))
-				isStatic = entityInfo->getBoolAttribute("static");
+		
+		if(entityInfo->hasAttribute("static"))
+			_isStatic = entityInfo->getBoolAttribute("static");
 
 		// CREATE STATIC
-		if(isStatic){
+		if(_isStatic){
 			Graphics::CStaticEntity* staticEntity = new Graphics::CStaticEntity(_entity->getName(),_model);
-			if( _scene->addEntity(staticEntity) )
+			if( _scene->add(staticEntity) )
 				return staticEntity;
 			else 
 				return 0;
@@ -132,7 +137,7 @@ namespace Logic
 		// CREATE NO STATIC
 		} else {
 			Graphics::CEntity* dynamicEntity = new Graphics::CEntity(_entity->getName(),_model);
-			if( _scene->addEntity(dynamicEntity) )		
+			if( _scene->add(dynamicEntity) )		
 				return dynamicEntity;
 			else
 				return 0;

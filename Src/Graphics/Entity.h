@@ -74,7 +74,8 @@ namespace Graphics
 		@param name Nombre de la entidad.
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
-		CEntity(const std::string &name, const std::string &mesh);
+		CEntity::CEntity(const std::string &name, const std::string &mesh)
+		: _name(name), _mesh(mesh), _entity(0), _entityNode(0), _scene(0), _loaded(false) {} 
 
 		/**
 		Destructor de la aplicación.
@@ -226,7 +227,6 @@ namespace Graphics
 
 		/**
 		Quizás es mejor meter la clase CScene
-
 		Controla todos los elementos Ogre de una escena. Su equivalente
 		en la lógica del juego sería el mapa o nivel. 
 		*/

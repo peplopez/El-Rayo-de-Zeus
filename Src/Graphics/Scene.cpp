@@ -15,11 +15,16 @@ de una escena.
 */
 
 #include "Scene.h"
-#include "Logic\Server.h"
-#include "Camera.h"
-#include "Server.h"
-#include "StaticEntity.h"
+
 #include "BaseSubsystems/Server.h"
+
+#include "Graphics/Camera.h"
+#include "Graphics/Entity.h"
+#include "Graphics/Server.h"
+#include "Graphics/StaticEntity.h"
+#include "Graphics/Billboard.h"
+
+#include "Logic/Server.h"
 
 #include <assert.h>
 
@@ -31,21 +36,17 @@ de una escena.
 #include <OgreColourValue.h>
 
 //PT
-#include <OgreBillboardSet.h>
-#include "Graphics/Entity.h"
 #include <OgreParticleSystem.h>
 
 namespace Graphics 
 {
 
-	CScene::CScene(const std::string& name) : _viewport(0), 
+	CScene::CScene(const std::string& name) : _name(name), _viewport(0), 
 			_staticGeometry(0), _directionalLight(0), counterParticles(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
 		_camera = new CCamera(name,this);
-		_name = name;
-
 	} // CScene
 
 	//--------------------------------------------------------
@@ -105,11 +106,12 @@ namespace Graphics
 	
 	//--------------------------------------------------------
 
-	
+	// FRS Sólo se actualizan las entidades dinámicas
+	// Y en concreto, sólo implementa el tick el CAnimatedEntity : CEntity
 	void CScene::tick(float secs)
 	{	
-		TEntityList::const_iterator it = _dynamicEntities.begin();
-		TEntityList::const_iterator end = _dynamicEntities.end();
+		TEntities::const_iterator it = _dynamicEntities.begin();
+		TEntities::const_iterator end = _dynamicEntities.end();
 		for(; it != end; it++)
 			(*it)->tick(secs);
 
@@ -117,11 +119,14 @@ namespace Graphics
 
 
 
-	/***********************
-		GRAPHICAL ENTITIES
-	***********************/
+	/************************
+		GRAPHICAL ELEMENTS
+	************************/
 
-	bool CScene::addEntity(CEntity* entity)
+
+	//---------- ENTITIES -------------------------
+
+	bool CScene::add(CEntity* entity)
 	{
 		if(!entity->attachToScene(this))
 			return false;
@@ -130,9 +135,17 @@ namespace Graphics
 
 	} // addEntity
 
-	//--------------------------------------------------------
+	void CScene::remove(CEntity* entity)
+	{
+		entity->deattachFromScene();
+		_dynamicEntities.remove(entity);
+	} // addEntity
 
-	bool CScene::addEntity(CStaticEntity* entity)
+
+
+	//----------STATIC ENTITIES-------------------------
+
+	bool CScene::add(CStaticEntity* entity)
 	{
 		if(!entity->attachToScene(this))
 			return false;
@@ -141,24 +154,14 @@ namespace Graphics
 
 	} // addStaticEntity
 
-	//--------------------------------------------------------
 
-	void CScene::removeEntity(CEntity* entity)
-	{
-		entity->deattachFromScene();
-		_dynamicEntities.remove(entity);
-	} // addEntity
-
-	//--------------------------------------------------------
-
-	void CScene::removeStaticEntity(CStaticEntity* entity)
+	void CScene::remove(CStaticEntity* entity)
 	{
 		entity->deattachFromScene();
 		_staticEntities.remove(entity);
 
 	} // addStaticEntity
 
-	//--------------------------------------------------------
 
 	void CScene::buildStaticGeometry()
 	{
@@ -167,8 +170,8 @@ namespace Graphics
 			_staticGeometry = 
 					_sceneMgr->createStaticGeometry("static");
 
-			TStaticEntityList::const_iterator it = _staticEntities.begin();
-			TStaticEntityList::const_iterator end = _staticEntities.end();
+			TStaticEntities::const_iterator it = _staticEntities.begin();
+			TStaticEntities::const_iterator end = _staticEntities.end();
 			for(; it != end; it++)
 				(*it)->addToStaticGeometry();
 
@@ -178,41 +181,29 @@ namespace Graphics
 	} // buildStaticGeometry
 
 
-	/****************
-		BILLBOARDS
-	****************/
 
-	// David LLanso Tutoria
-	// Se añade un nuevo método para crear un Billboard desde la escena	
-	//le paso un string y el offset del billboard (el offset es solo en la Y)
-	Ogre::BillboardSet* CScene::createBillboard(const std::string &name, const Vector3 &offset) 
+	//---------- BILLBOARDS -------------------------
+
+	bool CScene::add(CBillboard* billboard)
 	{
-		Ogre::BillboardSet* bbSet = _sceneMgr->createBillboardSet(name + "_billboard", 1); 
-			bbSet->createBillboard( offset );
-		// PT: Necesario un set como nodo del billboard
-		// Como solo vamos a insertar un billboard, el poolSize = 1
-			
-		Ogre::SceneNode* bbNode = _sceneMgr->createSceneNode(name+"_billboard");
-			bbNode->attachObject(bbSet);
+		if(!billboard->attachToScene(this))
+			return false;
+		_billboards.push_back(billboard);
+		return true;
 
-		assert( _sceneMgr->hasSceneNode(name + "_node") );
-		_sceneMgr->getSceneNode(name + "_node")->addChild(bbNode);
+	} // addEntity
 
-		return bbSet; //debéría devolver el Ogre::BillboardSet
-	}//createBillboard
+	
+	//--------------------------------------------------------
 
-
-	//PT. Eliminacion del billboard grafico
-	void CScene::deleteBillboard(const std::string &name) 
+	void CScene::remove(CBillboard* billboard)
 	{
+		billboard->deattachFromScene();
+		_billboards.remove(billboard);
+	} // addEntity
 
-		//si la escena tiene un billboardset con el nombre de la entidad + "_billboard"
-		//se elimina ese billboardset
-		if(_sceneMgr->hasBillboardSet(name+"_billboard"))
-		{
-			_sceneMgr->destroyBillboardSet(name+"_billboard");
-		}
-	}//deleteBillboard
+
+	//--------------------------------------------------------
 
 	//PT. Eliminacion de un sceneNode
 	void CScene::deleteSceneNode(const std::string &name)
