@@ -4,34 +4,36 @@
     <Window Type="DefaultWindow" Name="Menu" >
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
         <Window Type="OgreTray/StaticImage" Name="Menu/BackGround" >
-            <Property Name="Font" Value="DejaVuSans-10" />
-            <Property Name="Text" Value="EL RAYO DE ZEUS" />
+			<Property Name="Image" Value="set:Background image:Background" />
+<!-- 		<Property Name="Font" Value="DejaVuSans-10" />
+            <Property Name="Text" Value="EL RAYO DE ZEUS" /> -->
             <Property Name="AlwaysOnTop" Value="False" />
             <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-            <Window Type="OgreTray/Title" Name="Menu/BackGround/" >
+			<Window Type="OgreTray/Title" Name="Menu/BackGround/" >
                 <Property Name="Font" Value="FairChar-30" />
+				<Property Name="Colour" Value="White" />
                 <Property Name="Text" Value="EL RAYO DE ZEUS" />
                 <Property Name="AlwaysOnTop" Value="True" />
-                <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.2,0},{0.9,0},{0.4,0}}" />
+				<Property Name="UnifiedAreaRect" Value="{{0,0},{0.3,0},{1,0},{0.5,0}}" />
             </Window>
         </Window>
-        <Window Type="OgreTray/Button" Name="Menu/Single" >
-            <Property Name="Font" Value="DejaVuSans-10" />
+         <Window Type="OgreTray/Button" Name="Menu/Single" >
+			<Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="SINGLE PLAYER" />
             <Property Name="AlwaysOnTop" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.5,0},{0.7,0},{0.6,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.5,0},{0.4,0},{0.6,0}}" />
         </Window>
         <Window Type="OgreTray/Button" Name="Menu/Multi" >
-            <Property Name="Font" Value="DejaVuSans-10" />
+			<Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="MULTIPLAYER" />
             <Property Name="AlwaysOnTop" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.65,0},{0.7,0},{0.75,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.65,0},{0.4,0},{0.75,0}}" />
         </Window>	
         <Window Type="OgreTray/Button" Name="Menu/Exit" >
-            <Property Name="Font" Value="DejaVuSans-10" />
+			<Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="EXIT" />
             <Property Name="AlwaysOnTop" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.8,0},{0.7,0},{0.9,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.8,0},{0.4,0},{0.9,0}}" />
         </Window>		
     </Window>
 </GUILayout>
