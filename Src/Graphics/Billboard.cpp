@@ -80,9 +80,9 @@ namespace Graphics
 			// PT: Necesario un set como nodo del billboard
 			// Como solo vamos a insertar un billboard, el poolSize = 1
 			_bbSet =  _scene->getSceneMgr()->createBillboardSet(_parentName + "_billboard", 1); 
-				_bbSet->createBillboard( _relativePos );			
-				_bbSet->setMaterialName(_material); // material por defecto
-				setDimensions(_width, _height);
+				_bbSet->setMaterialName(_material); // material por defecto	
+				Ogre::Billboard* billboard = _bbSet->createBillboard( _relativePos );			
+					billboard->setDimensions(_width, _height);
 
 			assert( _scene->getSceneMgr()->hasSceneNode( _parentName + "_node") );
 			_graphicalNode = _scene->getSceneMgr()->getSceneNode( _parentName + "_node")
@@ -125,16 +125,19 @@ namespace Graphics
 
 	//Las coordenadas se le dan al Billboard.
 	void CBillboard::setTextureCoords(const float u0,const float v0,const float u1,const float v1){
+		assert(_loaded && "Imprescindible haber cargado el billboard en escena primero");
 		_bbSet->getBillboard(0)->setTexcoordRect(u0,v0,u1,v1);
 	}
 
 	//Las dimensiones se le dan al Billboard
 	void CBillboard::setDimensions(const float width,const float height){
+		assert(_loaded && "Imprescindible haber cargado el billboard en escena primero");
 		_bbSet->getBillboard(0)->setDimensions(width,height);		//se usa la función de Ogre setDimensions sobre el billboard para darle unas dimensiones
 	}
 
 	//El material se realiza sobre el BillboardSet
 	void CBillboard::setMaterial(const std::string &name){
+		assert(_loaded && "Imprescindible haber cargado el billboard en escena primero");
 		_bbSet->setMaterialName(name); //se utiliza ogre para darle un material al billboardSet
 	}
 

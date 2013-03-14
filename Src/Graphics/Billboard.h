@@ -51,12 +51,12 @@ namespace Graphics
 		Constructor de la clase.
 
 		@param name Nombre del billboard.
-		*/
-		CBillboard() {} // ctor por defecto
+		*/		
 		CBillboard(const std::string &parentName, const Vector3& relativePos, 
 			const float width, const float height, const std::string material) :
 			_parentName(parentName), _relativePos(relativePos), 
-			_width(width), _height(height), _material(material) {}
+			_width(width), _height(height), _material(material),
+			_loaded(false), _scene(0){}
 
 		~CBillboard();
 

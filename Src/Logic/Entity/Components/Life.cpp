@@ -59,9 +59,8 @@ namespace Logic
 		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
 		_lifeBarBB = new Graphics::CBillboard( entity->getName(), 
 			Vector3(0, lifeBarPosition, 0), lifeBarWidth, lifeBarHeight, "lifeBar");  //le paso un string con el nombre de la entidad			
-		_lifeBarBB->setTextureCoords(0.0f, 0.0f, 0.5f, 1.0f);
-		
-		_graphicalScene->add(_lifeBarBB);
+			_graphicalScene->add(_lifeBarBB);
+			_lifeBarBB->setTextureCoords(0.0f, 0.0f, 0.5f, 1.0f);
 
 		return true;
 
