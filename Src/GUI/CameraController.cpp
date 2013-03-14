@@ -89,20 +89,14 @@ namespace GUI {
 	{
 		if(_controlledCamera)
 		{
-			Logic::CMessageBoolFloat *m = new Logic::CMessageBoolFloat();
-			m->setType(Logic::Message::CONTROL);
 			switch(key.keyId)
 			{
 			case GUI::Key::A:
 			case GUI::Key::D:
-				//m._string = "stopStrafe";
-				m->setAction(Logic::Message::WALK_STOP);
-				break;
 
 			default:
 				return false;
 			}
-		//	_controlledCamera->emitMessage(m);
 			return true;
 		}
 		return false;

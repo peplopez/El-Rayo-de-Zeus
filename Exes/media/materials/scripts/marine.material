@@ -17,7 +17,7 @@
              specular $specularCol $shininess
              emissive 0 0 0 0
 			 
-			 vertex_program_ref ambient_vs
+	     vertex_program_ref ambient_vs
              {
              }
  
