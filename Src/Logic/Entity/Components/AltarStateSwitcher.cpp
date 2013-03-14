@@ -20,6 +20,8 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/Entity/Components/AvatarController.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
+#include "Logic/Entity/Messages/MessageBoolString.h"
+
 
 
 #define DEBUG 1
@@ -49,7 +51,6 @@ namespace Logic
 
 	bool CAltarStateSwitcher::activate()
 	{
-		_sense = _entity->getSense();
 		return true;
 	} // activate
 	
@@ -98,17 +99,15 @@ namespace Logic
 				startSwitchingState();
 			else if(message->getAction() == Message::WALK_RIGHT)
 			{	
-				stopSwitchingState();
-				_entity->setSense(Logic::Sense::RIGHT);
+				stopSwitchingState(Logic::Sense::RIGHT);
 			}
 			else if(message->getAction() == Message::WALK_LEFT)
 			{	
-				stopSwitchingState();
-				_entity->setSense(Logic::Sense::LEFT);
+				stopSwitchingState(Logic::Sense::LEFT);
 			}
 			else
 			{
-				stopSwitchingState();
+				stopSwitchingState(Logic::Sense::RIGHT);
 			}
 
 		}
@@ -121,26 +120,34 @@ namespace Logic
 	void CAltarStateSwitcher::startSwitchingState()
 	{
 		
-		if (_switchingAllowed && _target && !_switchingState)
+		if (_switchingAllowed && !_switchingState)
 		{
-			_sense = _entity->getSense();
+
 			_entity->getComponent<CAvatarController>()->sleep();
 			_switchingState = true;
+			
 			CMessage *m = new CMessage();
 			m->setType(Message::CONTROL);
 			m->setAction(Message::SWITCH_ALTAR);
 			_target->emitMessage(m);
+				
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);		
+			message->setString("Idle");
+			message->setBool(true);
+			_entity->emitMessage(message,this);
 		}
 	}
 
 	//---------------------------------------------------------
-	void CAltarStateSwitcher::stopSwitchingState()
+	void CAltarStateSwitcher::stopSwitchingState(Logic::Sense targetSense)
 	{
 		
-		if (_switchingState &&_switchingAllowed && _target)
+		if (_switchingState && _targetSense == Logic::Sense::UNDEFINED &&  _switchingAllowed)
 		{
+		
+			_targetSense = targetSense;
 			
-			_switchingState = false;
 			CMessage *m = new CMessage();
 			m->setType(Message::CONTROL);
 			m->setAction(Message::STOP_SWITCH);
@@ -158,12 +165,10 @@ namespace Logic
 
 		if (_switchingState)
 		{	
-			if (_sense == Logic::Sense::RIGHT)
-				_sense = Logic::Sense::ROTATING_LEFT;
-			else if (_sense == Logic::Sense::LEFT)
-				_sense = Logic::Sense::ROTATING_RIGHT;
+			if (_entity->getSense() == Logic::Sense::RIGHT || _entity->getSense() == Logic::Sense::LEFT)
+				_targetSense = Logic::Sense::LOOKING_CENTER;
 		
-			if (_sense == Logic::Sense::ROTATING_LEFT)
+			if (_entity->getSense() == Logic::Sense::RIGHT)
 			{
 				float tickRotation = Math::PI * 0.005 * msecs;
 				_entity->yaw(tickRotation);
@@ -171,11 +176,12 @@ namespace Logic
 				if (_acumRotation >= Math::PI/2)
 				{
 					_entity->yaw(-(_acumRotation - Math::PI/2));
-					_sense = Logic::Sense::LOOKING_CENTER;
+					_entity->setSense(Logic::Sense::LOOKING_CENTER);
+					_targetSense = Logic::Sense::UNDEFINED;
 					_acumRotation = 0;
 				}
 			}
-			else if (_sense == Logic::Sense::ROTATING_RIGHT)
+			else if (_entity->getSense() == Logic::Sense::LEFT)
 			{
 				float tickRotation = Math::PI * 0.005 * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
 				_entity->yaw(-tickRotation);
@@ -183,16 +189,15 @@ namespace Logic
 				if (_acumRotation >= Math::PI/2)
 				{
 					_entity->yaw(_acumRotation - Math::PI/2);
-					_sense = Logic::Sense::LOOKING_CENTER;
+					_entity->setSense(Logic::Sense::LOOKING_CENTER);
+					_targetSense = Logic::Sense::UNDEFINED;
 					_acumRotation = 0;
 				}
 			}
-		}
-		else 
-		{
-			if (_sense == Logic::Sense::LOOKING_CENTER)
+
+			else if (_entity->getSense() == Logic::Sense::LOOKING_CENTER)
 			{
-				if (_entity->getSense() == Logic::Sense::RIGHT)
+				if (_targetSense == Logic::Sense::RIGHT)
 				{
 					float tickRotation = Math::PI * 0.005 * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
 					_entity->yaw(-tickRotation);
@@ -200,12 +205,14 @@ namespace Logic
 					if (_acumRotation >= Math::PI/2)
 					{
 						_entity->yaw(_acumRotation - Math::PI/2);
-						_sense = Logic::Sense::RIGHT;
+						_entity->setSense(Logic::Sense::RIGHT);
+						_targetSense = Logic::Sense::UNDEFINED;
+						_switchingState = false;
 						_acumRotation = 0;
 						_entity->getComponent<CAvatarController>()->awake();
 					}
 				}
-				else if (_entity->getSense() == Logic::Sense::LEFT)
+				else if (_targetSense == Logic::Sense::LEFT)
 				{
 					float tickRotation = Math::PI * 0.005 * msecs;
 					_entity->yaw(tickRotation);
@@ -213,7 +220,9 @@ namespace Logic
 					if (_acumRotation >= Math::PI/2)
 					{
 						_entity->yaw(-(_acumRotation - Math::PI/2));
-						_sense = Logic::Sense::LEFT;
+						_entity->setSense(Logic::Sense::LEFT);
+						_targetSense = Logic::Sense::UNDEFINED;
+						_switchingState = false;
 						_acumRotation = 0;
 						_entity->getComponent<CAvatarController>()->awake();
 					}

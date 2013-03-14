@@ -123,7 +123,7 @@ namespace Logic
 				if(_entity->isPlayer())
 				{
 					CMessageString *m = new CMessageString();	
-					m->setType(Message::SET_SHADER);
+					m->setType(Message::SET_MATERIAL);
 					m->setString("transito");
 					_entity->emitMessage(m,this);
 
@@ -135,7 +135,7 @@ namespace Logic
 							_changingBase=false;
 							_changingBaseTime=0;
 							CMessageString *m2 = new CMessageString();	
-							m2->setType(Message::SET_SHADER);
+							m2->setType(Message::SET_MATERIAL);
 							m2->setString("marine");
 							_entity->emitMessage(m2,this);
 						}
@@ -148,7 +148,7 @@ namespace Logic
 							_changingRing=false;
 							_changingRingTime=0;
 							CMessageString *m3 = new CMessageString();	
-							m3->setType(Message::SET_SHADER);
+							m3->setType(Message::SET_MATERIAL);
 							m3->setString("marine");
 							_entity->emitMessage(m3,this);
 						}

@@ -147,6 +147,13 @@ namespace AI
 		*/
 		LAStatus getStatus() {return _status; };
 
+		
+		virtual void sleepComponents()=0;
+
+			virtual void awakeComponents()=0;
+
+		// void awakeComponents();
+
 	private:
 		/**
 		Estado de la acción
@@ -210,7 +217,7 @@ namespace AI
 		estableciendo el estado	a SUCCESS o FAIL según el valor del
 		parámetro de entrada.
 		*/
-		virtual void finish(bool success) { 
+		virtual void finish (bool success) { 
 			_status = (success ? SUCCESS : FAIL);
 			_finishing = true;
 		};

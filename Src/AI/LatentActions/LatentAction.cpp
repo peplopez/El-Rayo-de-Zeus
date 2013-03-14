@@ -12,7 +12,8 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLatentAction::tick() 
 	{
-
+		if (_status==SUCCESS || _status==FAIL)
+			_status=_status;
 		// ¿Hay que empezar la tarea?
 		if (_status == READY) {
 			_status = this->OnStart();

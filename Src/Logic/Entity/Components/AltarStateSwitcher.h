@@ -34,7 +34,7 @@ namespace Logic
 	public:
 
 
-		CAltarStateSwitcher() : IComponent(GetAltTypeIdOf(CAltarStateSwitcher)), _switchingState(false), _switchingAllowed(false), _target(NULL), _sense(Logic::Sense::UNDEFINED), _acumRotation(0) {}
+		CAltarStateSwitcher() : IComponent(GetAltTypeIdOf(CAltarStateSwitcher)), _switchingState(false), _switchingAllowed(false), _target(NULL), _targetSense(Logic::Sense::UNDEFINED), _acumRotation(0) {}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
@@ -53,7 +53,7 @@ namespace Logic
 		void prohibitSwitching();
 		
 		void startSwitchingState();
-		void stopSwitchingState();
+		void stopSwitchingState(Logic::Sense targetSense);
 
 	protected:
 
@@ -71,7 +71,7 @@ namespace Logic
 
 		/*
 		**/
-		Logic::Sense _sense;
+		Logic::Sense _targetSense;
 
 		/*
 		**/

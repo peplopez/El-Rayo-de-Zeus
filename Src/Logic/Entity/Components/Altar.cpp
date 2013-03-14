@@ -19,7 +19,7 @@ capacidad de un Character de activar/desactivar altares
 
 
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageUIntString.h"
 
 #define DEBUG 1
 #if DEBUG
@@ -125,18 +125,20 @@ namespace Logic
 				if (_on)
 				{
 					LOG(_entity->getName() << ": activado")
-					CMessageString *m = new CMessageString();	
-					m->setType(Message::SET_SHADER);
+					CMessageUIntString *m = new CMessageUIntString();	
+					m->setType(Message::SET_SUBENTITY_MATERIAL);
 					m->setString("altaractivado");
+					m->setUInt(0);
 					_entity->emitMessage(m,this);
 				}
 
 				else 
 				{
 					LOG(_entity->getName() << ": desactivado")
-					CMessageString *m = new CMessageString();	
-					m->setType(Message::SET_SHADER);
+					CMessageUIntString *m = new CMessageUIntString();	
+					m->setType(Message::SET_SUBENTITY_MATERIAL);
 					m->setString("Material.001");
+					m->setUInt(0);
 					_entity->emitMessage(m,this);
 
 				}

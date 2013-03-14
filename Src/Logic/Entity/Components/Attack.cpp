@@ -196,7 +196,7 @@ namespace Logic
 							{
 								CMessageString *m2 = new CMessageString();
 								m2->setString("luminoso");
-								m2->setType(Message::SET_SHADER);						
+								m2->setType(Message::SET_MATERIAL);						
 								(*it)->emitMessage(m2,this);
 								
 								if ((*it)->getComponent<CAttack>()->_covering==true)

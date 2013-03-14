@@ -105,7 +105,9 @@ namespace AI
 		@param msg Mensaje recibido.
 		*/
 		virtual void process( CMessage *message);
+		virtual void sleepComponents();
 
+		virtual void awakeComponents();
 	protected:
 		
 	};

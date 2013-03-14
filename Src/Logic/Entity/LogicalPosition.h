@@ -38,12 +38,10 @@ namespace Logic
 		};
 		enum Sense : unsigned short
 		{ //Quizá mejor sentido angunos positivos/negativos?	
-			LEFT=			0,
+			UNDEFINED=		0,
 			RIGHT=			1,
-			ROTATING_LEFT=	2,
-			ROTATING_RIGHT=	3,
-			LOOKING_CENTER= 4,
-			UNDEFINED=		5
+			LEFT=			2,
+			LOOKING_CENTER= 3	
 		};
 		
 
@@ -77,8 +75,8 @@ namespace Logic
 		float _height; // Altura
 
 		TLogicalPosition() :
-			_ring(LogicalPosition::CENTRAL_RING), 
-			_sense(LogicalPosition::LEFT), 
+			_ring(LogicalPosition::Ring::CENTRAL_RING), 
+			_sense(LogicalPosition::Sense::LEFT), 
 			_base(0), _degrees(0),_height(0)
 			{}
 	}; 

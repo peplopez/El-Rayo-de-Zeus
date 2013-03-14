@@ -1,7 +1,8 @@
 #include "LA_Attack.h"
 #include "../../Logic/Entity/Components/Attack.h"
-
-
+#include "../../Logic/Entity/Components/AvatarController.h"
+#include "../../Logic/Entity/Components/Jump2.h"
+#include "../../Logic/Entity/Components/BaseTraveler.h"
 #include "Application/BaseApplication.h"
 
 #include "../StateMachines/StateMachine.h"
@@ -28,6 +29,9 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Attack::OnStart()
 	{
+		//Desactivación de componentes
+		sleepComponents();
+
 		std::cout<<_initialCombatState<<std::endl;
 		switch(_initialCombatState)
 		{
@@ -76,8 +80,7 @@ namespace AI
 	*/
 	void CLA_Attack::OnStop()
 	{
-			_entity->getComponent<CAttack>()->resetAttackFlags();
-	
+		
 	}
 
 	/**
@@ -101,8 +104,10 @@ namespace AI
 			return RUNNING;
 		else 
 			return SUCCESS;*/
-
+		if (this->getStatus()!=SUCCESS && this->getStatus()!=FAIL)
 		return RUNNING;
+		else 
+			return this->getStatus();
 	}
 
 	/**
@@ -155,12 +160,14 @@ namespace AI
 			{
 				CMessageString* maux = static_cast<CMessageString*>(message);
 				if (maux->getString().compare("FireKatana")==0 )
-				{		
+				{	
+					awakeComponents();
 					finish(false);
 					//_lightAttack=_heavyAttack=false;//stopMovement();
 				}
 				else if (maux->getString().compare("GetObject")==0)
 				{
+					awakeComponents();
 					finish(false);				
 				}_comboOportunity=false;
 				break;
@@ -168,7 +175,12 @@ namespace AI
 		case Message::SET_ANIMATION: //con esto quiero ver si se ha cancelado una animación
 			{
 				if (message->getAction()==Message::WALK_LEFT || message->getAction()==Message::WALK_RIGHT)
-				finish(false);
+				{
+					awakeComponents();
+					finish(false);
+					
+				}
+
 				break;
 			}	
 		case Message::ANIMATION_MOMENT:
@@ -190,15 +202,38 @@ namespace AI
 				if (_comboOportunity)
 					if (message->getAction()==Message::LIGHT_ATTACK)
 					{
+						awakeComponents();
 						_comboOportunity=false;
 						finish(true);
-						break;
-					}
+						
+					}break;
 			}
 		}
 			// TODO PRÁCTICA IA
 		// La acción no procesa mensajes
 	}
 
+	void CLA_Attack::sleepComponents()
+	{
+		if (_entity->getComponent<CAttack>()!=NULL)
+		_entity->getComponent<CAttack>()->resetAttackFlags();
+		if (_entity->getComponent<CAvatarController>()!=NULL)
+		_entity->getComponent<CAvatarController>()->sleep();
+		if (_entity->getComponent<CJump2>()!=NULL)
+		_entity->getComponent<Logic::CJump2>()->sleep();
+		if (_entity->getComponent<CBaseTraveler>()!=NULL)
+		_entity->getComponent<CBaseTraveler>()->sleep();
+	}
 
+	void CLA_Attack::awakeComponents()
+	{
+		if (_entity->getComponent<CAttack>()!=NULL)
+		_entity->getComponent<CAttack>()->resetAttackFlags();
+		if (_entity->getComponent<CAvatarController>()!=NULL)
+		_entity->getComponent<CAvatarController>()->awake();
+		if (_entity->getComponent<CJump2>()!=NULL)
+		_entity->getComponent<Logic::CJump2>()->awake();
+		if (_entity->getComponent<CBaseTraveler>()!=NULL)
+		_entity->getComponent<CBaseTraveler>()->awake();
+	}
 } //namespace LOGIC

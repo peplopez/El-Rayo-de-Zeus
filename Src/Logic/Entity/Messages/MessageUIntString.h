@@ -1,5 +1,5 @@
 /**
-@file MessageUInt.h
+@file MessageUIntString.h
 
 Contiene el tipo de datos de un mensaje int.
 
@@ -8,8 +8,8 @@ Contiene el tipo de datos de un mensaje int.
 @author Emilio Santalla Comellas
 */
 
-#ifndef __Logic_MessageUInt_H
-#define __Logic_MessageUInt_H
+#ifndef __Logic_MessageUIntString_H
+#define __Logic_MessageUIntString_H
 
 
 #include "Net/buffer.h"
@@ -25,18 +25,21 @@ namespace Logic {
 namespace Logic
 {	
 	// Declaración de la clase
-	class CMessageUInt : public CMessage
+	class CMessageUIntString : public CMessage
 	{
-		DEC_MFACTORY(CMessageUInt);
+		DEC_MFACTORY(CMessageUIntString);
 	public:
 
 
-		CMessageUInt() : CMessage(GetAltTypeIdOf(CMessageUInt)), _uInt(0) {}
+		CMessageUIntString() : CMessage(GetAltTypeIdOf(CMessageUIntString)), _uInt(0), _string("") {}
 			
-		~CMessageUInt(){};
+		~CMessageUIntString(){};
 
 		unsigned int getUInt() const { return _uInt; }
 		void setUInt(const unsigned int valor) {_uInt = valor; }
+
+		std::string getString() const { return _string; }
+		void setString(const std::string& valor) {_string=valor; }
 		
 		void serialize(Net::CBuffer &data);
 		void deserialize(Net::CBuffer &data);
@@ -50,10 +53,19 @@ namespace Logic
 
 		unsigned int _uInt;
 
-	}; //class CmessageUInt
 
-	REG_MFACTORY(CMessageUInt);
+		/**
+		string del mensaje
+		*/
+
+		std::string _string;
+
+
+
+	}; //class CmessageUIntString
+
+	REG_MFACTORY(CMessageUIntString);
 
 } // namespace Logic
 
-#endif // __Logic_MessageUInt_H
+#endif // __Logic_MessageUIntString_H

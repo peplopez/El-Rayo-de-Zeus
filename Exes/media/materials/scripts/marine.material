@@ -17,13 +17,13 @@
              specular $specularCol $shininess
              emissive 0 0 0 0
 			 
-			vertex_program_ref ambient_vs
-            {
-            }
-
-            fragment_program_ref ambient_ps
-            {
-            }
+	     vertex_program_ref ambient_vs
+             {
+             }
+ 
+             fragment_program_ref ambient_ps
+             {
+             }
  
              texture_unit diffuseMap
              {

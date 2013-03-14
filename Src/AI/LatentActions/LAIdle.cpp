@@ -130,5 +130,7 @@ namespace AI
 			finish(true); // bool = exito o fallo
 	}
 
+	void CLAIdle::sleepComponents(){}
 
+	void CLAIdle::awakeComponents(){}
 } //namespace LOGIC

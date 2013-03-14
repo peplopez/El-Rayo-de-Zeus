@@ -1177,7 +1177,8 @@
                     <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
                     <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
                 </Area>
-                <Image type="TopLeftCorner" imageset="OgreTrayImages" image="MiniTrayTL" />
+                <!--
+				<Image type="TopLeftCorner" imageset="OgreTrayImages" image="MiniTrayTL" />
                 <Image type="TopRightCorner" imageset="OgreTrayImages" image="MiniTrayTR" />
                 <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="MiniTrayBL" />
                 <Image type="BottomRightCorner" imageset="OgreTrayImages" image="MiniTrayBR" />
@@ -1186,6 +1187,7 @@
                 <Image type="RightEdge" imageset="OgreTrayImages" image="MiniTrayR" />
                 <Image type="BottomEdge" imageset="OgreTrayImages" image="MiniTrayB" />
                 <Image type="Background" imageset="OgreTrayImages" image="MiniTrayM" />
+				-->
             </FrameComponent>
         </ImagerySection>
         <ImagerySection name="label">
@@ -1222,7 +1224,7 @@
 :::: PushButton
 -->
     <WidgetLook name="OgreTray/PushButton">
-        <PropertyDefinition name="NormalTextColour" initialValue="FF000000" redrawOnWrite="true" />
+        <PropertyDefinition name="NormalTextColour" initialValue="88FFFFFF" redrawOnWrite="true" />
         <PropertyDefinition name="HoverTextColour" initialValue="FF000000" redrawOnWrite="true" />
         <PropertyDefinition name="PushedTextColour" initialValue="FF000000" redrawOnWrite="true" />
         <PropertyDefinition name="DisabledTextColour" initialValue="FF888888" redrawOnWrite="true" />
@@ -1246,7 +1248,7 @@
                     <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
                     <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
                 </Area>
-                <Image type="TopLeftCorner" imageset="OgreTrayImages" image="ButtonUpTL" />
+				<Image type="TopLeftCorner" imageset="OgreTrayImages" image="ButtonUpTL" />
                 <Image type="TopRightCorner" imageset="OgreTrayImages" image="ButtonUpTR" />
                 <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="ButtonUpBL" />
                 <Image type="BottomRightCorner" imageset="OgreTrayImages" image="ButtonUpBR" />
@@ -2440,7 +2442,8 @@
 :::: StaticImage (normal version)
 -->
     <WidgetLook name="OgreTray/StaticImage">
-        <PropertyDefinition name="ImageColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" />
+		<!--<PropertyDefinition name="ImageColours" initialValue="tl:AAFFFFFF tr:AAFFFFFF bl:AAFFFFFF br:AAFFFFFF" redrawOnWrite="true" />-->
+        <PropertyDefinition name="ImageColours" initialValue="tl:AAFFFFFF tr:AAFFFFFF bl:AAFFFFFF br:AAFFFFFF" redrawOnWrite="true" /> <!-- nueva -->
         <PropertyDefinition name="VertFormatting" initialValue="Stretched" redrawOnWrite="true" />
         <PropertyDefinition name="HorzFormatting" initialValue="Stretched" redrawOnWrite="true" />
         <Property name="BackgroundEnabled" value="True" />
