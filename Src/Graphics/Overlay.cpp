@@ -71,12 +71,12 @@ namespace Graphics
 	void COverlay::setVisible(bool visible){
 		if(visible){
 			if(_overlay){ _overlay->show();}
-			if(_overlayContainer){ _overlayContainer->show();}
-			if(_overlayText){ _overlayText->show();}
+			/*if(_overlayContainer){ _overlayContainer->show();}
+			if(_overlayText){ _overlayText->show();}*/
 		}else{
 			if(_overlay){ _overlay->hide();}
-			if(_overlayContainer){ _overlayContainer->hide();}
-			if(_overlayText){ _overlayText->hide();}
+			/*if(_overlayContainer){ _overlayContainer->hide();}
+			if(_overlayText){ _overlayText->hide();}*/
 		}
 	} // setVisible
 
