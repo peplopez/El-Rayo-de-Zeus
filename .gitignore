@@ -59,7 +59,7 @@ vslog.txt
 *.opensdf
 *.suo
 *.ncb
-*.user # puede que alguno sea necesario para sinc config de proyecto
+*.user
 *.vcproj
 
 # ROOT #
@@ -161,7 +161,7 @@ DocumentacionDoxygen/
 
 #EXCEPTIONS #
 #############
-!/Projects/Application/*.user #necesario conserver la config de OutDir
+!/Projects/Application/*.user
 !/dependencies/CEGUI/projects/premake/ScriptingModules/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++bin/premake.lua
