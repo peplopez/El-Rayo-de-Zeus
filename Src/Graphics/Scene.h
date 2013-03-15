@@ -27,7 +27,6 @@ namespace Ogre
 	class SceneManager;
 	class StaticGeometry;
 	class Light;
-	class BillboardSet;
 	class ParticleSystem;
 }
 namespace Graphics 
@@ -36,6 +35,7 @@ namespace Graphics
 	class CCamera;
 	class CEntity;
 	class CStaticEntity;
+	class CBillboard;
 }
 
 namespace Graphics 
@@ -100,7 +100,7 @@ namespace Graphics
 		@param entity Entidad gráfica que se quiere añadir a la escena.
 		@return Cierto si la entidad se añadió y cargó correctamente.
 		*/
-		bool addEntity(CEntity* entity);
+		bool add(CEntity* entity);
 
 		/**
 		Añade una entidad gráfica estática a la escena. No sirve
@@ -114,7 +114,7 @@ namespace Graphics
 		@param entity Entidad gráfica que se quiere añadir a la escena.
 		@return Cierto si la entidad se añadió y cargó correctamente.
 		*/
-		bool addStaticEntity(CStaticEntity* entity);
+		bool add(CStaticEntity* entity);
 
 		/**
 		Elimina una entidad gráfica de la escena. 
@@ -124,7 +124,7 @@ namespace Graphics
 
 		@param entity Entidad gráfica que se quiere eliminar de la escena.
 		*/
-		void removeEntity(CEntity* entity);
+		void remove(CEntity* entity);
 
 		/**
 		Elimina una entidad gráfica estática de la escena. 
@@ -135,32 +135,115 @@ namespace Graphics
 		@param entity Entidad gráfica estática que se quiere eliminar de 
 		la escena.
 		*/
-		void removeStaticEntity(CStaticEntity* entity);
+		void remove(CStaticEntity* entity);
 
-		//David Llanso Tutoria
-		Ogre::BillboardSet* createBillboard(const std::string &name, const float offset); //le paso un string
 
-		//Pablo
-		void deleteBillboard(const std::string &name);
+		bool add(CBillboard* billboard);
+		void remove(CBillboard* billboard);
 
+
+		
+
+// UNDONABLE FRS
 		//Pablo
 		void deleteSceneNode(const std::string &name);
 
-		//PT
+		//PT // TODO FRS WTF Spanglish al poder!
 		Ogre::ParticleSystem* createParticula(const std::string &name1, const std::string &name2);
 
-		//PT
+		//PT 
 		bool eliminarParticula(const std::string &name1, const std::string &name2);
 
 		int counterParticles;
+
+//
 
 	protected:
 
 		/**
 		Clase amiga. Solo el servidor gráfico puede crear o liberar escenas, 
-		activarlas o desactivarlas y actualizar su estado.
+		activarlas o desactivarlas y actualizar su estado. Solo las entidades,, billboards y
+		la cámara pueden acceder al gestor de la escena de Ogre.
 		*/
 		friend class CServer;
+		friend class CEntity;
+		friend class CStaticEntity;
+		friend class CCamera;
+		friend class CBillboard;
+
+		/**
+		Nombre de la escena.
+		*/
+		std::string _name;
+		
+		/**
+		Punto de entrada al sistema Ogre.
+		*/
+		Ogre::Root *_root;
+
+		/** 
+		Marco en la ventana de reenderizado donde se pinta lo captado por
+		una cámara. Solo puede haber una cámara asociada a un viewport,
+		sin embargo una ventana de reenderizado puede tener diferentes
+		viewports al mismo tiempo.
+		*/
+		Ogre::Viewport *_viewport;
+		
+		/**
+		Controla todos los elementos Ogre de una escena. Su equivalente
+		en la lógica del juego sería el mapa o nivel. 
+		*/
+		Ogre::SceneManager *_sceneMgr;
+		
+		/**
+		Luz direccional que se crea por defecto en la escena. Gráficamente
+		mejora la escena bastante respecto a tener solo luz ambiente ya que
+		se ven mejor los volúmenes de las entidades.
+		*/
+		Ogre::Light* _directionalLight1;
+
+		Ogre::Light* _directionalLight2;
+
+		/**
+		Camara desde la que se verá la escena. Puede haber cámaras más
+		sofisticadas y más tipos de cámaras desde el punto de vista lógico,
+		ellas se encargarán de mover esta instancia.
+		*/
+		CCamera *_camera;
+
+		
+
+		/**
+		Tipos para la lista de entidades.
+		*/
+		typedef std::list<CEntity*> TEntities;
+		/**
+		Tipos para la lista de entidades.
+		*/
+		typedef std::list<CStaticEntity*> TStaticEntities;
+
+		/**	Tipos para la lista de billboards.	*/
+		typedef std::list<CBillboard*> TBillboards;
+
+
+		/**
+		Lista de entidades dinámicas.
+		*/
+		TEntities _dynamicEntities;
+
+		/**
+		Lista de entidades estáticas.
+		*/
+		TStaticEntities _staticEntities;
+
+		/** Lista de billboards en escena */
+		TBillboards _billboards;
+
+		/**
+		Geometría estática de la escena.
+		*/
+		Ogre::StaticGeometry *_staticGeometry;
+
 
 		/**
 		Constructor de la clase.
@@ -202,30 +285,12 @@ namespace Graphics
 		modificar los valores de las entidades estáticas.
 		*/
 		void buildStaticGeometry();
-
-		//David Llanso Tutoria2
-		//Ogre::BillboardSet* createBillboard(const std::string &name);
-
-		/**
-		Clase amiga. Solo las entidades y la cámara pueden acceder al 
-		gestor de la escena de Ogre.
-		*/
-		friend class CEntity;
-		friend class CCamera;
-
 		/**
 		Devuelve el gestor de la escena de Ogre
 
 		@return Puntero al gestor de la escena de Ogre.
 		*/
-		Ogre::SceneManager *getSceneMgr() {return _sceneMgr;}
-
-
-		/**
-		Clase amiga. Solo las entidades pueden acceder al gestor de la
-		escena de Ogre.
-		*/
-		friend class CStaticEntity;
+		Ogre::SceneManager *getSceneMgr() {return _sceneMgr;}		
 
 		/**
 		Devuelve la geometría estática de la escena de Ogre
@@ -234,70 +299,6 @@ namespace Graphics
 		*/
 		Ogre::StaticGeometry *getStaticGeometry() {return _staticGeometry;}
 		
-		/**
-		Nombre de la escena.
-		*/
-		std::string _name;
-		
-		/**
-		Punto de entrada al sistema Ogre.
-		*/
-		Ogre::Root *_root;
-
-		/** 
-		Marco en la ventana de reenderizado donde se pinta lo captado por
-		una cámara. Solo puede haber una cámara asociada a un viewport,
-		sin embargo una ventana de reenderizado puede tener diferentes
-		viewports al mismo tiempo.
-		*/
-		Ogre::Viewport *_viewport;
-		
-		/**
-		Controla todos los elementos Ogre de una escena. Su equivalente
-		en la lógica del juego sería el mapa o nivel. 
-		*/
-		Ogre::SceneManager *_sceneMgr;
-		
-		/**
-		Luz direccional que se crea por defecto en la escena. Gráficamente
-		mejora la escena bastante respecto a tener solo luz ambiente ya que
-		se ven mejor los volúmenes de las entidades.
-		*/
-		Ogre::Light* _directionalLight1;
-
-		Ogre::Light* _directionalLight2;
-
-		/**
-		Camara desde la que se verá la escena. Puede haber cámaras más
-		sofisticadas y más tipos de cámaras desde el punto de vista lógico,
-		ellas se encargarán de mover esta instancia.
-		*/
-		CCamera *_camera;
-
-		/**
-		Tipos para la lista de entidades.
-		*/
-		typedef std::list<CStaticEntity*> TStaticEntityList;
-
-		/**
-		Tipos para la lista de entidades.
-		*/
-		typedef std::list<CEntity*> TEntityList;
-
-		/**
-		Lista de entidades estáticas.
-		*/
-		TStaticEntityList _staticEntities;
-
-		/**
-		Lista de entidades dinámicas.
-		*/
-		TEntityList _dynamicEntities;
-		
-		/**
-		Geometría estática de la escena.
-		*/
-		Ogre::StaticGeometry *_staticGeometry;
 
 	}; // class CScene
 

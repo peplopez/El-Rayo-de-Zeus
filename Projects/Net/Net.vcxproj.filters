@@ -17,66 +17,66 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Src\Net\buffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Net\Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Net\paquete.cpp">
+    <ClCompile Include="..\..\Src\Net\Packet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Net\serializable.cpp">
+    <ClCompile Include="..\..\Src\Net\Buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Net\clienteENet.cpp">
+    <ClCompile Include="..\..\Src\Net\Serializable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Net\ServerENET.cpp">
       <Filter>Source Files\Enet</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Net\conexionENet.cpp">
+    <ClCompile Include="..\..\Src\Net\ConnectionENET.cpp">
       <Filter>Source Files\Enet</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Net\servidorENet.cpp">
+    <ClCompile Include="..\..\Src\Net\ClientENET.cpp">
       <Filter>Source Files\Enet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Src\Net\buffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Net\cliente.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Net\conexion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Net\factoriared.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Net\Manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Net\paquete.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Net\serializable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Net\servidor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Net\clienteENet.h">
-      <Filter>Header Files\Enet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Net\conexionENet.h">
-      <Filter>Header Files\Enet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Net\factoriaredenet.h">
-      <Filter>Header Files\Enet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Net\servidorENet.h">
-      <Filter>Header Files\Enet</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Net\IObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\Packet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\Serializable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\Client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\Server.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\ServerENET.h">
+      <Filter>Header Files\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\FactoryENET.h">
+      <Filter>Header Files\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\Factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\ClientENET.h">
+      <Filter>Header Files\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\Connection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\ConnectionENET.h">
+      <Filter>Header Files\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Net\Buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

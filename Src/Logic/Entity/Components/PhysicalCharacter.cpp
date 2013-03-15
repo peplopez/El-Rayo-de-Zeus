@@ -1,25 +1,25 @@
 /**
-@file PhysicCharacter.cpp
+@file PhysicalCharacter.cpp
 
 Contiene la implementación del componente que se utiliza para representar jugadores y enemigos en
 el mundo físico usando character controllers.
 
-@see Logic::CPhysicCharacter
-@see Logic::CPhysicEntity
+@see Logic::CPhysicaalCharacter
+@see Logic::CPhysics
 @see Physics::IObserver
 
 @author ƒ®§
 @date 21-02-2013
 */
 
-#include "PhysicCharacter.h"
+#include "PhysicalCharacter.h"
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageChar.h" // TODO PeP: sería óptimo enviar un unsigned short???
 #include "Logic/Entity/Messages/MessageFloat.h"
 
-#include "Physics/Server.h"
+#include "Physics/Actor.h"
 
 
 
@@ -34,11 +34,11 @@ el mundo físico usando character controllers.
 
 namespace Logic {
 
-	IMP_FACTORY(CPhysicCharacter);
+	IMP_FACTORY(CPhysicalCharacter);
 
 	//---------------------------------------------------------
 
-	bool CPhysicCharacter::accept(const CMessage *message)
+	bool CPhysicalCharacter::accept(const CMessage *message)
 	{
 		return message->getType() == Message::AVATAR_MOVE;
 	} 
@@ -47,22 +47,22 @@ namespace Logic {
 
 	// Acumulamos las diferentes coordenadas vector de desplazamiento para usarlo posteriormente en  el método tick.
 	// De esa forma, si recibimos varios mensajes AVATAR_WALK tendremos la última coordenada de cada tipo (degrees, height, ring, base)
-	void CPhysicCharacter::process(CMessage *message)
+	void CPhysicalCharacter::process(CMessage *message)
 	{
 		switch( message->getAction() ) {
 			
 		case Message::WALK_LEFT:
 		case Message::WALK_RIGHT:
-			_movDegrees = static_cast<CMessageFloat*>(message)->getFloat();	
+			_diffDegrees = static_cast<CMessageFloat*>(message)->getFloat();	
 			break;
 		case Message::JUMP:
-			_movHeight = static_cast<CMessageFloat*>(message)->getFloat();
+			_diffHeight = static_cast<CMessageFloat*>(message)->getFloat();
 			break;
 		case Message::CHANGE_RING:		// TODO ƒ®§ por seguridad quizá habría que probar que _ring < MAX del enum --> asserts!
-			_movRing = static_cast<CMessageChar*>(message)->getChar();
+			_diffRing = static_cast<CMessageChar*>(message)->getChar();
 			break;
 		case Message::CHANGE_BASE:
-			_movBase = static_cast<CMessageChar*>(message)->getChar();	
+			_diffBase = static_cast<CMessageChar*>(message)->getChar();	
 			break;
 
 		} // switch message action
@@ -81,7 +81,7 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	void CPhysicCharacter::tick(unsigned int msecs) 
+	void CPhysicalCharacter::tick(unsigned int msecs) 
 	{
 		// Llamar al método de la clase padre (IMPORTANTE).
 		IComponent::tick(msecs);
@@ -90,11 +90,11 @@ namespace Logic {
 		// usando la información proporcionada por el motor de física	
 		// Este a genera  SET_TRANSFORM por debajo que informa al CGraphics
 
-		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()._degrees - _server->getActorLogicPosition(_physicActor)._degrees));
+		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()._degrees - _physicalActor->getLogicPosition()._degrees));
 
 		
-		//ESC - PEACHO HaCK para que no se sobreescriba el sense con el del actor físico
-		Logic::TLogicalPosition pos = _server->getActorLogicPosition(_physicActor);
+		// HACK ESC - PEACHO HaCK para que no se sobreescriba el sense con el del actor físico
+		Logic::TLogicalPosition pos =_physicalActor->getLogicPosition();
 		pos._sense = _entity->getSense();
 
 		_entity->setLogicalPosition( pos ); 
@@ -107,36 +107,40 @@ namespace Logic {
 		//}
 
 		// Intentamos mover el actor según los AVATAR_MOVE acumulados. 
-		 _server->moveActor(_physicActor, _movDegrees, _movHeight, _movRing, _movBase); //_movement); // TODO añadir msecs);
+		// UNDONE FRS _server->moveActor(_physicActor, _diffDegrees, _diffHeight, _diffRing, _diffBase); 
+		
+		_physicalActor->move(_diffDegrees, _diffHeight, _diffRing, _diffBase);
 
 		// TODO Actualizamos el flag que indica si estamos cayendo
 		//_falling =  !(flags & PxControllerFlag::eCOLLISION_DOWN);
 		
-		//UNDONE_movement = TLogicalPosition(); // Ponemos el movimiento a cero
-		
-		_movDegrees = 0;
-		_movHeight = 0;
-		_movRing = 0;
-		_movBase = 0;
+		//Ponemos el movimiento a cero		
+		_diffDegrees = 0;
+		_diffHeight = 0;
+		_diffRing = 0;
+		_diffBase = 0;
 	}
 
 
 	/**************
 		IOBSERVER
 	***************/
+
 	//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
-	void CPhysicCharacter::onCollision(IObserver* other) {
-		LOG("Auch! Me he chocado!");
+	void CPhysicalCharacter::onCollision(IObserver* other) {
+		CPhysics::onCollision(other);
+		LOG(_entity->getName() << ": \"Auch! Me he chocado!\"");
 	}
-	void  CPhysicCharacter::onTrigger (Physics::IObserver* other, bool enter) 
+
+	void  CPhysicalCharacter::onTrigger (Physics::IObserver* other, bool enter) 
 	{
-		CPhysic::onTrigger(other, enter);
+		CPhysics::onTrigger(other, enter);
 
 		#if DEBUG
 			if(enter)
-				LOG(_entity->getName() << ": \"Hora estoy dentro de " << static_cast<CPhysic*>(other)->getEntity()->getName() << "\"")
+				LOG(_entity->getName() << ": \"Hora estoy dentro de " << static_cast<CPhysics*>(other)->getEntity()->getName() << "\"")
 			else
-				LOG(_entity->getName() << ": \"Hora estoy fuera  de " << static_cast<CPhysic*>(other)->getEntity()->getName() << "\"")
+				LOG(_entity->getName() << ": \"Hora estoy fuera  de " << static_cast<CPhysics*>(other)->getEntity()->getName() << "\"")
 
 		#endif
 	}

@@ -80,6 +80,21 @@ namespace Logic
 		void tick(unsigned int msecs);
 
 		/**
+		Carga un nuevo nivel a partir del nombre del mapa que se
+		desea cargar. Si ya existía un mapa este se borra, solo
+		permitimos un nivel activo.
+
+		@param filename Fichero que se desea cargar.
+		@return true si la carga fue correcta.
+		*/
+		bool loadMap(const std::string &filename);
+
+		/**
+		Si hay un nivel cargado lo descarga  destruye.
+		*/
+		void unLoadMap();
+
+		/**
 		Función que activa el mapa en curso.
 
 		@return true si la inicialización fue correcta.
@@ -90,6 +105,8 @@ namespace Logic
 		Función que desactiva el mapa en curso.
 		*/
 		void deactivateMap();
+
+	
 
 		/**
 		Para inicializar las estructuras que contienen las posiciones de los anillos
@@ -127,20 +144,7 @@ namespace Logic
 		*/
 		void setPlayer(CEntity *player) {_player = player;}
 
-		/**
-		Carga un nuevo nivel a partir del nombre del mapa que se
-		desea cargar. Si ya existía un mapa este se borra, solo
-		permitimos un nivel activo.
-
-		@param filename Fichero que se desea cargar.
-		@return true si la carga fue correcta.
-		*/
-		bool loadLevel(const std::string &filename);
-
-		/**
-		Si hay un nivel cargado lo descarga  destruye.
-		*/
-		void unLoadLevel();
+	
 
 	protected:
 		/**

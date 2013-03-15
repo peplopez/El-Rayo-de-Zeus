@@ -35,11 +35,16 @@ namespace Logic
 
 	CGraphics::~CGraphics() 
 	{
-		if(_graphicsEntity)
+		if(_graphicalEntity)
 		{
-			_scene->removeEntity(_graphicsEntity);
-			delete _graphicsEntity;
-			_graphicsEntity = 0;
+			if(_isStatic)
+				_scene->remove( 
+					static_cast<Graphics::CStaticEntity*>(_graphicalEntity) 
+				);
+			else
+				_scene->remove(_graphicalEntity);				
+
+			delete _graphicalEntity;
 		}
 
 	} // ~CGraphics
@@ -50,43 +55,34 @@ namespace Logic
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
-		
-		_scene = _entity->getMap()->getScene();
 
-		 
-
-		if(entityInfo->hasAttribute("model"))
+		_scene = map->getGraphicScene();
+			assert(_scene && "Escena gráfica es NULL");
+		assert(entityInfo->hasAttribute("model"));
 			_model = entityInfo->getStringAttribute("model");
-	
 
-		_graphicsEntity = createGraphicsEntity(entityInfo);
-
-
-		if(_entity->getType().compare("Altar")==0)
-		{	
-			_graphicsEntity->setScale(3);
-		}
-
-		if(_entity->getName().compare("Tubo")==0)
-		{	
-			_graphicsEntity->setScale(Vector3(2,10,2));
-		}
-
+		_graphicalEntity = createGraphicalEntity(entityInfo);
+			if(!_graphicalEntity)
+				return false;
 		
-		if(_entity->getType().compare("AnimatedEntity")==0)
-		{	
-			_graphicsEntity->setScale(0.5);
-		}
+		Vector3 scale = Vector3::UNIT_SCALE;
 
-		if(_entity->getType().compare("World")==0)
-		{	
-			if(_entity->getRing()==LogicalPosition::CENTRAL_RING)
-			_graphicsEntity->setScale(Vector3(1.3,1.0,1.3));
-		}
+		// HACK FRS Esto lo suyo es que el modelo ya lo traiga , no?
+			if(_entity->getType().compare("AnimatedEntity")==0)			
+				scale *= 0.5;	
+			else if(_entity->getType().compare("Altar")==0)			
+				scale *= 3;	
+			else if(_entity->getType().compare("SkyBox")==0)		
+				scale = Vector3(2,10,2);				
+			else if(_entity->getType().compare("World")==0 
+				&& _entity->getRing() == LogicalPosition::CENTRAL_RING)
+				scale = Vector3(1.3,1.0,1.3);
+		//
+			else if(entityInfo->hasAttribute("scale") )
+				scale *=  entityInfo->getFloatAttribute("scale");
 
-		
-		if(!_graphicsEntity)
-			return false;
+		_graphicalEntity->setTransform(_entity->getTransform());
+		_graphicalEntity->setScale(scale);	
 
 		return true;
 
@@ -94,42 +90,12 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	Graphics::CEntity* CGraphics::createGraphicsEntity(const Map::CEntity *entityInfo)
-	{
-		bool isStatic = false;
-		if(entityInfo->hasAttribute("static"))
-			isStatic = entityInfo->getBoolAttribute("static");
-
-		float scale = 1.0;
-		if (entityInfo->hasAttribute("scale"))
-			scale = entityInfo->getFloatAttribute("scale");
-
-		if(isStatic)
-		{
-			_graphicsEntity = new Graphics::CStaticEntity(_entity->getName(),_model);
-			if(!_scene->addStaticEntity((Graphics::CStaticEntity*)_graphicsEntity))
-				return 0;
-		}
-		else
-		{
-			_graphicsEntity = new Graphics::CEntity(_entity->getName(),_model);
-			if(!_scene->addEntity(_graphicsEntity))
-				return 0;
-		}
-
-		_graphicsEntity->setScale(scale);
-		_graphicsEntity->setTransform(_entity->getTransform());
-		
-
-		return _graphicsEntity;
-
-	} // createGraphicsEntity
-	
-	//---------------------------------------------------------
-
 	bool CGraphics::accept(const CMessage *message)
 	{
-		return message->getType() == Message::SET_TRANSFORM || message->getType() == Message::SET_TRANSFORM_QUAT || message->getType() == Message::SET_MATERIAL || message->getType() == Message::SET_SUBENTITY_MATERIAL ;
+		return	 message->getType() == Message::SET_TRANSFORM ||
+				 message->getType() == Message::SET_TRANSFORM_QUAT ||
+				 message->getType() == Message::SET_MATERIAL ||
+				 message->getType() == Message::SET_SUBENTITY_MATERIAL ;
 
 	} // accept
 	
@@ -142,26 +108,57 @@ namespace Logic
 		case Message::SET_TRANSFORM:
 			{
 			CMessageTF *maux = static_cast<CMessageTF*>(message);
-			_graphicsEntity->setTransform(maux->getTransform());
+			_graphicalEntity->setTransform(maux->getTransform());
 			}
 			break;
 		case Message::SET_TRANSFORM_QUAT:
-			//graphicsEntity->setTransform(message._quat);
+			//graphicalEntity->setTransform(message._quat);
 			break;
 		case Message::SET_MATERIAL:
 			{
 			CMessageString *maux2 = static_cast<CMessageString*>(message);
-			_graphicsEntity->setMaterial(maux2->getString());
+			_graphicalEntity->setMaterial(maux2->getString());
 			}
 			break;
 		case Message::SET_SUBENTITY_MATERIAL:
 			{
 			CMessageUIntString *maux3 = static_cast<CMessageUIntString*>(message);
-			_graphicsEntity->setSubEntityMaterial(maux3->getString(), maux3->getUInt());
+			_graphicalEntity->setSubEntityMaterial(maux3->getString(), maux3->getUInt());
 			}
 		}
 
 	} // process
+
+	//---------------------------------------------------------
+
+	Graphics::CEntity* CGraphics::createGraphicalEntity(const Map::CEntity *entityInfo)
+	{		
+		assert( _scene && "LOGIC::GRAPHICS>> No existe escena gráfica!");
+		assert( _model.length() > 0  && "LOGIC::GRAPHICS>> No existe modelo!");	
+		
+		if(entityInfo->hasAttribute("static"))
+			_isStatic = entityInfo->getBoolAttribute("static");
+
+		// CREATE STATIC
+		if(_isStatic){
+			Graphics::CStaticEntity* staticEntity = new Graphics::CStaticEntity(_entity->getName(),_model);
+			if( _scene->add(staticEntity) )
+				return staticEntity;
+			else 
+				return 0;
+
+		// CREATE NO STATIC
+		} else {
+			Graphics::CEntity* dynamicEntity = new Graphics::CEntity(_entity->getName(),_model);
+			if( _scene->add(dynamicEntity) )		
+				return dynamicEntity;
+			else
+				return 0;
+		}
+
+	} // createGraphicalEntity
+	
+	
 
 } // namespace Logic
 

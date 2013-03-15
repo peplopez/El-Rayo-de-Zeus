@@ -66,11 +66,6 @@ namespace Application
 		*/
 		virtual bool init();
 
-		/**
-		Finaliza la aplicación, liberando todos los recursos
-		utilizados y destruyendo los estados creados.
-		*/
-		virtual void release();
 
 	}; // class GaleonApplication
 

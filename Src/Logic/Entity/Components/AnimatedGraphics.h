@@ -52,7 +52,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAnimatedGraphics() : CGraphics(GetAltTypeIdOf(CAnimatedGraphics)), _animatedGraphicsEntity(0),
+		CAnimatedGraphics() : CGraphics(GetAltTypeIdOf(CAnimatedGraphics)), _graphicalEntity(0),
 				_defaultAnimation("") {}
 
 		/**
@@ -82,7 +82,19 @@ namespace Logic
 		*/
 		void animationFinished(const std::string &animation);
 		void animationMomentReached(const std::string &animation);
+	
+	
 	protected:
+		/**
+		Entidad gráfica.
+		*/
+		Graphics::CAnimatedEntity *_graphicalEntity;
+
+				
+		/**
+		Animación por defecto de una entidad gráfica animada.
+		*/
+		std::string _defaultAnimation;
 
 		/**
 		Método virtual que construye la entidad gráfica animada de la entidad. 
@@ -92,17 +104,7 @@ namespace Logic
 			fichero de disco.
 		@return Entidad gráfica creada, NULL si hubo algún problema.
 		*/
-		Graphics::CEntity* createGraphicsEntity(const Map::CEntity *entityInfo);
-		
-		/**
-		Entidad gráfica animada.
-		*/
-		Graphics::CAnimatedEntity *_animatedGraphicsEntity;
-
-		/**
-		Animación por defecto de una entidad gráfica animada.
-		*/
-		std::string _defaultAnimation;
+		Graphics::CEntity* createGraphicalEntity(const Map::CEntity *entityInfo);
 
 	}; // class CAnimatedGraphics
 

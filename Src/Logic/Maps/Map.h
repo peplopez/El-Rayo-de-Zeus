@@ -30,6 +30,10 @@ namespace Graphics
 {
 	class CScene;
 }
+namespace Physics 
+{
+	class CScene;
+}
 
 // Declaración de la clase
 namespace Logic
@@ -132,7 +136,7 @@ namespace Logic
 		@param entityID ID de la entidad a recuperar.
 		@return Entidad con el ID pedido, NULL si no se encuentra.
 		*/
-		CEntity *getEntityByID(TEntityID entityID);
+		CEntity *getEntityByID(TEntityID entityID){	return _entityMap[entityID]; }
 
 		/**
 		Recupera una entidad del mapa a partir de su nombre.
@@ -175,7 +179,14 @@ namespace Logic
 
 		@return Escena con las entidades gráficas.
 		*/
-		Graphics::CScene *getScene() {return _scene;}
+		Graphics::CScene *getGraphicScene() {return _graphicScene;}
+
+		/**
+		Devuelve la escena física correspondiente a este mapa.
+
+		@return Escena con los actores físicos.
+		*/
+		Physics::CScene *getPhysicScene() {return _physicScene;}
 		
 		/**
 		Crea un nuevo jugador y le porporciona un nombre determinado.
@@ -183,6 +194,12 @@ namespace Logic
 		@param name Nombre del jugador.
 		*/
 		void createPlayer(std::string entityName, std::string model, bool isLocalPlayer);
+
+
+		/*******************
+			GET's & SET's
+		******************/
+		bool isActive() { return _isActive; }
 
 	private:
 
@@ -206,11 +223,16 @@ namespace Logic
 		*/
 		std::string _name;
 
+		bool _isActive;
+
 		/**
-		Escena gráfica donde se encontrarán las representaciones gráficas de
-		las entidades.
+		Escena gráfica donde se encontrarán las representaciones gráficas de las entidades.
 		*/
-		Graphics::CScene* _scene;
+		Graphics::CScene* _graphicScene;
+		/**
+		Escena física donde se encontrarán los actores físicos de las entidades.
+		*/
+		Physics::CScene* _physicScene;
 	}; // class CMap
 
 } // namespace Logic

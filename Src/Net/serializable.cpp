@@ -9,7 +9,7 @@ namespace Net{
 		unsigned int length = s.length();
 			buffer.write(&length, sizeof(length) );	
 			if (length > 0)
-				buffer.write((void*) s.c_str(), length);
+				buffer.write(&s[0], length); 
 	}
 	
 

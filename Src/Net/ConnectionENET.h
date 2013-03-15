@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
-// conexionENet.h
+// ConnectionENET.h
 //---------------------------------------------------------------------------
 
 /**
- * @file conexionENet.h
+ * @file ConnectionENET.h
  *
  * Representa una conexión con un peer implementada con ENet.
  *
@@ -12,20 +12,18 @@
  * @date Octubre, 2006
  */
 
-#ifndef __CONEXIONENET_H
-#define __CONEXIONENET_H
-
-#define DEBUG_CONEXION 1
+#ifndef __Net_ConnnectionENET_H
+#define __Net_ConnnectionENET_H
 
 #include "enet/enet.h"
-#include "conexion.h"
+#include "Connection.h"
 
 namespace Net {
 
-class CConexionENet: public CConexion{
+class CConnectionENET: public CConnection{
 
 public:
-	CConexionENet():_id(0xFFFFFFFF),_peer(0){}
+	CConnectionENET():_id(0xFFFFFFFF),_peer(0){}
 
 	int getAddress();
 	short getPort();
@@ -45,4 +43,4 @@ private:
 
 } // namespace Net
 
-#endif // __CONEXION_H
+#endif // __Net_ConnnectionENET_H

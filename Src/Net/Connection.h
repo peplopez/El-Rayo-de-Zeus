@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
-// conexion.h
+// connection.h
 //---------------------------------------------------------------------------
 
 /**
- * @file conexion.h
+ * @file connection.h
  *
  * Representa una conexión con un peer.
  *
@@ -12,11 +12,8 @@
  * @date Octubre, 2006
  */
 
-#ifndef __CONEXION_H
-#define __CONEXION_H
-
-#define DEBUG_CONEXION 1
-
+#ifndef __Net_Connection_H
+#define __Net_Connection_H
 
 #include <string>
 
@@ -27,7 +24,7 @@ namespace Net {
 	*/
 	typedef unsigned int NetID;
 
-class CConexion {
+class CConnection {
 
 public:
 	virtual int getAddress()=0;
@@ -39,4 +36,4 @@ public:
 
 } // namespace Net
 
-#endif // __CONEXION_H
+#endif // __Net_Connection_H

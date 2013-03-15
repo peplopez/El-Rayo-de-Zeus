@@ -123,8 +123,6 @@ namespace GUI {
 
 		delete _playerController;
 		delete _cameraController;
-
-
 	} // close
 
 	//--------------------------------------------------------

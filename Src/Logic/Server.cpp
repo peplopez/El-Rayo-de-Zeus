@@ -99,7 +99,7 @@ namespace Logic {
 
 	void CServer::close() 
 	{
-		unLoadLevel();
+		unLoadMap();
 
 		Logic::CGameNetMsgManager::Release();
 
@@ -111,93 +111,35 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-	bool CServer::loadLevel(const std::string &filename)
+	
+	void CServer::tick(unsigned int msecs) 
+	{
+		// Eliminamos las entidades que se han marcado para ser eliminadas.
+		Logic::CEntityFactory::getSingletonPtr()->deleteDefferedEntities();
+
+		_map->tick(msecs);
+
+	} // tick
+
+	//---------------------------------------------------------
+
+	// ƒ®§ Carga el map desde fichero ==> ejecuta el entity.spawn()
+	bool CServer::loadMap(const std::string &filename)
 	{
 		// solo admitimos un mapa cargado, si iniciamos un nuevo nivel 
 		// se borra el mapa anterior.
-		unLoadLevel();
+		unLoadMap();
 
 		if(_map = CMap::createMapFromFile(filename))
-		{
-			return true;
-		}
+			return true;		
 
 		return false;
 
 	} // loadLevel
 
-	bool CServer::setRingPositions()
-	{
-		//inicializamos la estructura de posiciones de los anillos
-		//el primer anillo de la primera base, empezando por abajo, será la base de la pila de anillos
-		
-		for (int i=0;i<=Logic::NUM_BASES;++i)
-		{
-			Logic::base.posBase[i]._down=Logic::startingBasesPosition+i*Logic::separationBetweenBases;
-			Logic::base.posBase[i]._center=base.posBase[i]._down+Logic::separationBetweenRings;
-			Logic::base.posBase[i]._up=base.posBase[i]._down+2*Logic::separationBetweenRings;
-		}
-		return true;
-	}
-
-	Vector3 CServer::getRingPositions(unsigned short base,Logic::LogicalPosition::Ring ring)
-	{
-		Vector3 retorno= Vector3::ZERO;
-			switch (ring)
-			{
-				case Logic::LogicalPosition::LOWER_RING:
-				{
-					//return Logic::base.posBase[base]._down+Vector3(0,126,0);
-					return Logic::base.posBase[base]._down;
-				}
-				case Logic::LogicalPosition::CENTRAL_RING:
-				{
-					//return Logic::base.posBase[base]._center+Vector3(0,126,0);
-					return Logic::base.posBase[base]._center;
-				}
-				case Logic::LogicalPosition::UPPER_RING:
-				{
-					//return Logic::base.posBase[base]._up+Vector3(0,126,0);
-					return Logic::base.posBase[base]._up;
-				}
-				default:
-					{
-					return Logic::base.posBase[base]._center+Vector3(0,126,0);
-					//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
-					//pese a todo no pete.
-					}								
-			}
-
-	}
-
-	float CServer::getRingRadio(unsigned short base,Logic::LogicalPosition::Ring ring)
-	{
-			switch (ring)
-			{
-				case Logic::LogicalPosition::LOWER_RING:
-				{
-					return Logic::RADIO_MENOR;
-				}
-				case Logic::LogicalPosition::CENTRAL_RING:
-				{
-					return Logic::RADIO_MAYOR;
-				}
-				case Logic::LogicalPosition::UPPER_RING:
-				{
-					return Logic::RADIO_MENOR;
-				}
-				default:
-					{
-						return Logic::RADIO_MAYOR;
-					//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
-					//pese a todo no pete.
-					}								
-			}
-
-	}
 	//--------------------------------------------------------
 
-	void CServer::unLoadLevel()
+	void CServer::unLoadMap()
 	{
 		if(_map)
 		{
@@ -223,20 +165,76 @@ namespace Logic {
 
 	void CServer::deactivateMap() 
 	{
-		_map->deactivate();
+		if(_map)
+			_map->deactivate();
 		_gameNetMsgManager->deactivate(); // Se desactiva la escucha del oyente de los mensajes de red para el estado de juego.
-
 	} // deactivateMap
 
 	//---------------------------------------------------------
 
-	void CServer::tick(unsigned int msecs) 
+	
+
+	bool CServer::setRingPositions()
 	{
-		// Eliminamos las entidades que se han marcado para ser eliminadas.
-		Logic::CEntityFactory::getSingletonPtr()->deleteDefferedEntities();
+		//inicializamos la estructura de posiciones de los anillos
+		//el primer anillo de la primera base, empezando por abajo, será la base de la pila de anillos
+		
+		for (int i=0;i<=Logic::NUM_BASES;++i)
+		{
+			Logic::base.posBase[i]._down=Logic::startingBasesPosition+i*Logic::separationBetweenBases;
+			Logic::base.posBase[i]._center=base.posBase[i]._down+Logic::separationBetweenRings;
+			Logic::base.posBase[i]._up=base.posBase[i]._down+2*Logic::separationBetweenRings;
+		}
+		return true;
+	}
 
-		_map->tick(msecs);
+	Vector3 CServer::getRingPositions(unsigned short base,Logic::LogicalPosition::Ring ring)
+	{
+		Vector3 retorno= Vector3::ZERO;
+			switch (ring)
+			{
+				case Logic::LogicalPosition::LOWER_RING:				
+					//return Logic::base.posBase[base]._down+Vector3(0,126,0);
+					return Logic::base.posBase[base]._down;
+				
+				case Logic::LogicalPosition::CENTRAL_RING:				
+					//return Logic::base.posBase[base]._center+Vector3(0,126,0);
+					return Logic::base.posBase[base]._center;
+				
+				case Logic::LogicalPosition::UPPER_RING:				
+					//return Logic::base.posBase[base]._up+Vector3(0,126,0);
+					return Logic::base.posBase[base]._up;
+				
+				default:					
+					return Logic::base.posBase[base]._center+Vector3(0,126,0);
+					//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
+					//pese a todo no pete.
+											
+			}
 
-	} // tick
+	}
+
+	float CServer::getRingRadio(unsigned short base,Logic::LogicalPosition::Ring ring)
+	{
+			switch (ring)
+			{
+				case Logic::LogicalPosition::LOWER_RING:				
+					return Logic::RADIO_MENOR;
+				
+				case Logic::LogicalPosition::CENTRAL_RING:				
+					return Logic::RADIO_MAYOR;
+				
+				case Logic::LogicalPosition::UPPER_RING:				
+					return Logic::RADIO_MENOR;
+				
+				default:					
+					return Logic::RADIO_MAYOR;
+					//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
+					//pese a todo no pete.
+												
+			}
+
+	}
+	
 
 } // namespace Logic

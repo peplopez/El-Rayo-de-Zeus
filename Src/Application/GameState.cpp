@@ -31,75 +31,54 @@ Contiene la implementación del estado de juego.
 
 namespace Application {
 
+	// ƒ®§ Al inicializar la app
 	bool CGameState::init() 
 	{
 		CApplicationState::init();
+		// FRS el Logic:: loadLevel se mueve a la parte final del lobby/menu state
+		//, ya que los mapas cargados varían dependiendo de si somos server, client o monojudador
 		
-		//HACK de momento quitamos esto ya que se hace en el init del Physic::CServer
-
-		// Crear la escena física.
-		//Physics::CServer::getSingletonPtr()->setGroupCollisions(1,1,false);
-		//Physics::CServer::getSingletonPtr()->createScene();
-		
-
-		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
-		_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
-
 		return true;
 
 	} // init
 
 	//--------------------------------------------------------
 
+	// ƒ®§ Al cerrar la app
 	void CGameState::release() 
 	{
-		Logic::CServer::getSingletonPtr()->unLoadLevel();
-
-		Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
+		// Liberamos el nivel junto con las escenas físico-graficas.
+		Logic::CServer::getSingletonPtr()->unLoadMap();
 		Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
-		
-		// Liberamos la escena física.
-		//Physics::CServer::getSingletonPtr()->destroyScene();
+		Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
 
 		CApplicationState::release();
-
 	} // release
 
 	//--------------------------------------------------------
 
+	// ƒ®§ Al entrar en GameState (cambio de currentState)
 	void CGameState::activate() 
 	{
 		CApplicationState::activate();
 		
-		// Activamos el mapa que ha sido cargado para la partida.
+		// Activamos el mapa que ha sido cargado para la partida (incluye la activacion de la escenas)
 		Logic::CServer::getSingletonPtr()->activateMap();
 
 		// Queremos que el GUI maneje al jugador.
-                GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
+        GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
 		
-		// Activamos la ventana que nos muestra el HUD.
-		/*CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
-		/*
-		CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
-		_hudWindow->setVisible(true);
-		_hudWindow->activate();*/
-
-
 	} // activate
 
 	//--------------------------------------------------------
 
+	//  ƒ®§ Al salir de gameState (cambio de currentState)
 	void CGameState::deactivate() 
 	{
-		// Desactivamos la ventana de HUD.
-		_hudWindow->deactivate();
-		_hudWindow->setVisible(false);
-
-		// Desactivamos la clase que procesa eventos de entrada para 
-		// controlar al jugador.
+		// Desactivamos la clase que procesa eventos de entrada para  controlar al jugador.
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
 		
-		// Desactivamos el mapa de la partida.
+		// Desactivamos el mapa de la partida (incluye la desactivacion de la escenas)
 		Logic::CServer::getSingletonPtr()->deactivateMap();
 		
 		CApplicationState::deactivate();
@@ -111,22 +90,21 @@ namespace Application {
 	void CGameState::tick(unsigned int msecs) 
 	{
 		CApplicationState::tick(msecs);
-
-		// Simulación física
-		Physics::CServer::getSingletonPtr()->tick(msecs);
-
-		// Actualizamos la lógica de juego.
-		Logic::CServer::getSingletonPtr()->tick(msecs);
-
-		_time += msecs;
+		// FRS Los siguientes ticks no se colocan a nivel de C3DApplication::tick
+		// porque a diferencia de otros servers, sólo deben actualizarse durante el GameState)
 		
-		std::stringstream text;
-		text << "Time: " << _time/1000;
-		//_hudWindow->setText(text.str());
+		Physics::CServer::getSingletonPtr()->tick(msecs);// Simulación física 		
+		Logic::CServer::getSingletonPtr()->tick(msecs);// Actualizamos la lógica de juego.
 
+		_time += msecs;		
 	} // tick
 
-	//--------------------------------------------------------
+	
+
+
+	/**************
+		INPUT
+	*************/
 
 	bool CGameState::keyPressed(GUI::TKey key)
 	{
@@ -136,13 +114,23 @@ namespace Application {
 
 	//--------------------------------------------------------
 
+	// TODO FRS de momento el ESC = salir de la partida, pero en un futuro podría ser = Pause... + New / Continue
 	bool CGameState::keyReleased(GUI::TKey key)
 	{
 		switch(key.keyId)
 		{
 		case GUI::Key::ESCAPE:
+			Logic::CServer::getSingletonPtr()->unLoadMap();
+			Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
+			Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
 			_app->setState("menu");
 			break;
+
+		// TODO
+		case GUI::Key::PAUSE:
+			_app->setState("pause"); // TODO FRS no existe todavía el estado pause
+			break;
+
 		default:
 			return false;
 		}

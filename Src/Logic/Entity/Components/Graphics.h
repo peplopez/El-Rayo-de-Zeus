@@ -52,9 +52,9 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CGraphics() : IComponent(GetAltTypeIdOf(CGraphics)), _graphicsEntity(0) {}
+		CGraphics() : IComponent(GetAltTypeIdOf(CGraphics)), _isStatic(false), _graphicalEntity(0) {}
 
-		CGraphics(altTypeId id) : IComponent(id), _graphicsEntity(0) {}
+		CGraphics(altTypeId id) : IComponent(id), _graphicalEntity(0) {}
 
 		/**
 		Destructor (virtual); Quita de la escena y destruye la entidad gráfica.
@@ -93,32 +93,33 @@ namespace Logic
 
 	protected:
 
-		/**
-		Método virtual que construye la entidad gráfica de la entidad. Otros
-		componentes pueden sobreescribirlo para inicializar otro tipo de
-		entidades gráficas (animadas, etc.).
-		
-		@param entityInfo Información de construcción del objeto leído del
-			fichero de disco.
-		@return Entidad gráfica creada, NULL si hubo algún problema.
-		*/
-		virtual Graphics::CEntity* createGraphicsEntity(const Map::CEntity *entityInfo);
-
-		/**
-		Atributo con el nombre del modelo gráfico de la entidad.
-		*/
-		std::string _model;
-		
-		/**
-		Entidad gráfica.
-		*/
-		Graphics::CEntity *_graphicsEntity;
+		/**	Entidad gráfica.*/
+		Graphics::CEntity *_graphicalEntity;
 
 		/**
 		Escena gráfica donde se encontrarán las representaciones gráficas de
 		las entidades. La guardamos para la destrucción de la entidad gráfica.
 		*/
 		Graphics::CScene* _scene;
+
+		/**
+		Atributo con el nombre del modelo gráfico de la entidad.
+		*/
+		std::string _model;
+
+		/** Informa sobre se representa como CStaticEntity o como CEntity dinámica */
+		bool _isStatic;
+
+	    /**
+		Método virtual que construye la entidad gráfica de la entidad. Otros
+		componentes pueden sobreescribirlo para inicializar otro tipo de
+		entidades gráficas (animadas, etc.).
+		
+		@param entityInfo Información de construcción del objeto leído del
+			fichero de disco.
+		*/
+		virtual Graphics::CEntity* createGraphicalEntity(const Map::CEntity *entityInfo);
+		
 
 	}; // class CGraphics
 

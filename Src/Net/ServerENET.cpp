@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
-// servidorENet.cpp
+// ServerENET.cpp
 //---------------------------------------------------------------------------
 
 /**
- * @file servidorENet.cpp
+ * @file ServerENET.cpp
  *
  * Implementa un servidor de red con ENet
  *
@@ -12,29 +12,30 @@
  * @date Junio, 2006
  */
 
-#include "servidorENet.h"
-#include "conexionENet.h"
+#include "ServerENET.h"
 
-#define DEBUG_SERVER 0
+#include "ConnectionENET.h"
+
+#define DEBUG 0
 
 namespace Net {
 
-	CServidorENet::CServidorENet()
+	CServerENET::CServerENET()
 	{
 		estado = NO_INIT;
 	}
 
-	CServidorENet::~CServidorENet()
+	CServerENET::~CServerENET()
 	{
-		std::vector<CConexion*>::iterator it = listaConexiones.begin();
-		while (it != listaConexiones.end()) {
+		std::vector<CConnection*>::iterator it = _connectionsList.begin();
+		while (it != _connectionsList.end()) {
 			delete (*it);
 			++it;
 		}
-		listaConexiones.clear();
+		_connectionsList.clear();
 	}
 
-	bool CServidorENet::init(int port, int clients, unsigned int maxinbw, unsigned int maxoutbw)
+	bool CServerENET::init(int port, int clients, unsigned int maxinbw, unsigned int maxoutbw)
 	{
 		if(estado != NO_INIT)
 			return false;
@@ -65,7 +66,7 @@ namespace Net {
 			return false;
 		}
 
-		if(DEBUG_SERVER)
+		if(DEBUG)
 			fprintf(stdout, "NET::SERVER>> Server initialized");
 
 		estado = INIT_NOT_CONNECTED;
@@ -74,11 +75,11 @@ namespace Net {
 	}
 
 
-	void CServidorENet::service(std::vector<CPaquete*>&  paquetesRecibidos)
+	void CServerENET::service(std::vector<CPacket*>&  packetsRecibidos)
 	{
 		ENetEvent event;
-		CPaquete* paquete;
-		CConexionENet* conexion;   
+		CPacket* packet;
+		CConnectionENET* connection;   
 
 		/* Wait up to 0 milliseconds for an event. */
 		while (enet_host_service (server, & event, 0) > 0)
@@ -87,18 +88,18 @@ namespace Net {
 			{
 			case ENET_EVENT_TYPE_CONNECT:
 
-				if(DEBUG_SERVER)
+				if(DEBUG)
 					fprintf(stdout,"NET::SERVER>> A new client connected from %x:%u.\n", 
 							event.peer -> address.host,
 							event.peer -> address.port);
 
-				conexion = new CConexionENet();
-					conexion->setENetPeer(event.peer);				
-					listaConexiones.push_back(conexion);
-					event.peer->data = conexion;
+				connection = new CConnectionENET();
+					connection->setENetPeer(event.peer);				
+					_connectionsList.push_back(connection);
+					event.peer->data = connection;
 
-				paquete = new CPaquete(CONEXION,0,0,conexion,0);
-					paquetesRecibidos.push_back(paquete);
+				packet = new CPacket(CONNECT,0,0,connection,0);
+					packetsRecibidos.push_back(packet);
 				
 				estado = INIT_AND_CONNECTED;
 				
@@ -106,26 +107,26 @@ namespace Net {
 
 			case ENET_EVENT_TYPE_RECEIVE:
 
-				if(DEBUG_SERVER)
+				if(DEBUG)
 					fprintf(stdout,"NET::SERVER>> A packet of length %u was received from %s on channel %u.\n",
 						event.packet->dataLength,
 						event.peer->data,
 						event.channelID);
 
-				paquete = new CPaquete(DATOS, event.packet->data, event.packet->dataLength, (CConexion*)event.peer->data, event.channelID);
-					paquetesRecibidos.push_back(paquete);
+				packet = new CPacket(DATA, event.packet->data, event.packet->dataLength, (CConnection*)event.peer->data, event.channelID);
+					packetsRecibidos.push_back(packet);
 					enet_packet_destroy (event.packet);            
 				break;
 	           
 			case ENET_EVENT_TYPE_DISCONNECT:
 
-				if(DEBUG_SERVER)
-					fprintf(stdout,"NET::SERVER>> %s disconected.\n", ( (CConexion*) event.peer->data)->getId() );
+				if(DEBUG)
+					fprintf(stdout,"NET::SERVER>> %s disconected.\n", ( (CConnection*) event.peer->data)->getId() );
 
-				paquete = new CPaquete(DESCONEXION,0,0,(CConexion*)event.peer->data,0);
-					paquetesRecibidos.push_back(paquete);
+				packet = new CPacket(DISCONNECT,0,0,(CConnection*)event.peer->data,0);
+					packetsRecibidos.push_back(packet);
 
-				disconnectReceived((CConexion*)event.peer->data);
+				disconnectReceived((CConnection*)event.peer->data);
 				break;
 
 			default:
@@ -135,12 +136,12 @@ namespace Net {
 	}
 
 
-	std::vector<CConexion*>::iterator CServidorENet::listarConnexiones()
+	std::vector<CConnection*>::iterator CServerENET::listConnections()
 	{
-		return listaConexiones.begin();
+		return _connectionsList.begin();
 	}
 
-	void CServidorENet::deInit()
+	void CServerENET::deInit()
 	{
 		if(estado == INIT_AND_CONNECTED)
 			disconnectAll();
@@ -151,9 +152,9 @@ namespace Net {
 	}
 	
 
-	void CServidorENet::sendData(void* data, size_t longData, int channel, bool reliable, CConexion* conexion)
+	void CServerENET::sendData(void* data, size_t longData, int channel, bool reliable, CConnection* connection)
 	{
-		if(!conexion) 
+		if(!connection) 
 			return;
 
 		enet_uint32 rel = 0;
@@ -162,15 +163,15 @@ namespace Net {
 		
 		ENetPacket * packet = enet_packet_create (data, longData, rel);
 	    
-		enet_peer_send (((CConexionENet*)conexion)->getENetPeer(), channel, packet);
+		enet_peer_send ( static_cast<CConnectionENET*>(connection)->getENetPeer(), channel, packet);
 
-		if(DEBUG_SERVER)
+		if(DEBUG)
 			fprintf (stdout, "NET::SERVER>> Packet send.\n");
 		enet_host_flush (server);
 	}
 
 
-	void CServidorENet::sendAll(void* data, size_t longData, int channel, bool reliable, CConexion* exception)
+	void CServerENET::sendAll(void* data, size_t longData, int channel, bool reliable, CConnection* exception)
 	{
 		enet_uint32 rel = 0;
 		if(reliable)
@@ -178,20 +179,20 @@ namespace Net {
 
 		ENetPacket * packet = enet_packet_create (data,longData,rel);
 	    
-		for(std::vector<CConexion*>::iterator iter = listaConexiones.begin(); iter != listaConexiones.end(); ++iter)	
+		for(std::vector<CConnection*>::iterator iter = _connectionsList.begin(); iter != _connectionsList.end(); ++iter)	
 			if( (*iter) != exception )
-				enet_peer_send (((CConexionENet*)*iter)->getENetPeer(), channel, packet);		
+				enet_peer_send (static_cast<CConnectionENET*>(*iter)->getENetPeer(), channel, packet);		
 
-		if(DEBUG_SERVER)
+		if(DEBUG)
 			fprintf (stdout, "NET::SERVER>> Packet send.\n");
 		enet_host_flush (server);
 	}
 
-	void CServidorENet::disconnect(CConexion* conexion)
+	void CServerENET::disconnect(CConnection* connection)
 	{
 		ENetEvent event;
     
-		enet_peer_disconnect (((CConexionENet*)conexion)->getENetPeer(),0);
+		enet_peer_disconnect (static_cast<CConnectionENET*>(connection)->getENetPeer(),0);
 
 		/* Allow up to 3 seconds for the disconnect to succeed
 			and drop any packets received packets.     */
@@ -204,68 +205,68 @@ namespace Net {
 				break;
 
 			case ENET_EVENT_TYPE_DISCONNECT:
-				if(DEBUG_SERVER)
+				if(DEBUG)
 					fprintf (stdout, "NET::SERVER>> Disconnection succeeded.\n");
-					disconnectReceived(conexion);
+					disconnectReceived(connection);
 				return;
 			}
 		}
 	    
 		/* We've arrived here, so the disconnect attempt didn't */
 		/* succeed yet.  Force the connection down.             */
-		enet_peer_reset (((CConexionENet*)conexion)->getENetPeer());
-		disconnectReceived(conexion);
+		enet_peer_reset (static_cast<CConnectionENET*>(connection)->getENetPeer());
+		disconnectReceived(connection);
 
-		if(DEBUG_SERVER)
+		if(DEBUG)
 			fprintf(stdout, "NET::SERVER>> Disconnection Forced.\n");
 
-		if(listaConexiones.empty())
+		if(_connectionsList.empty())
 			estado = INIT_NOT_CONNECTED;
 	}
 
 
-	void CServidorENet::disconnectAll()
+	void CServerENET::disconnectAll()
 	{
 		if(estado == INIT_AND_CONNECTED)
 		{
-			while(!listaConexiones.empty())
+			while(!_connectionsList.empty())
 			{
-				disconnect(listaConexiones.back());
+				disconnect(_connectionsList.back());
 			}
 		}
 
-		if(DEBUG_SERVER)
+		if(DEBUG)
 			fprintf(stdout, "NET::SERVER>> Everything Disconnected.\n");
 
 		estado = INIT_NOT_CONNECTED;
 	}
 
 
-	void CServidorENet::disconnectReceived(CConexion* conexion)
+	void CServerENET::disconnectReceived(CConnection* connection)
 	{
-		std::vector<CConexion*>::iterator it = listaConexiones.begin();
+		std::vector<CConnection*>::iterator it = _connectionsList.begin();
 		bool found = false;
-		while ((it != listaConexiones.end()) && (!found)) {
-			if(*it == conexion)
+		while ((it != _connectionsList.end()) && (!found)) {
+			if(*it == connection)
 				found=true;
 			else
 				++it;
 		}
 		if(found)
 		{
-			listaConexiones.erase(it);
+			_connectionsList.erase(it);
 
-			if(listaConexiones.empty())
+			if(_connectionsList.empty())
 				estado = INIT_NOT_CONNECTED;
 		}
 	}
 
-	bool CServidorENet::isConnected()
+	bool CServerENET::isConnected()
 	{
 		return (estado == INIT_AND_CONNECTED);
 	}
 
-	bool CServidorENet::isInitialized()
+	bool CServerENET::isInitialized()
 	{
 		return (estado != NO_INIT);
 	}

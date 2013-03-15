@@ -26,19 +26,22 @@ namespace Physics
 
 	class CScene 
 	{
+
 	public:
 
-		void addActor(CActorTrigger* actor);
-		void addActor(CActor *actor);
+		typedef std::vector<CActor*>		TColliders;
+		typedef std::vector<CActorTrigger*> TTriggers;
 
+		/************
+			ACTORS
+		*************/
+		bool addActor(CActor *actor);
+		bool addActor(CActorTrigger* actor);
 		//bool addStaticActor(Physics::CStaticActor *actor);
 
 		void removeActor(CActor* actor);
 		void removeActor(CActorTrigger* actor);
-
 		//void removeStaticActor(CStaticActor* actor);
-
-		void release();
 
 	protected:
 
@@ -48,39 +51,48 @@ namespace Physics
 		*/
 		friend class CServer;
 
-		/**
-		Constructor de la clase.
-		*/
-		CScene();
+		/**	Constructor de la clase.	*/
+		CScene(const std::string& name) : _name(name) {};
 
 		/**
 		Destructor de la aplicación.
 		*/
 		~CScene();
 
-		/**
-		Despierta la escena
-		*/
+		/**	Despierta la escena*/
 		bool activate();
 
-		/**
-		Duerme la escena
-		*/
+		/**	Duerme la escena*/
 		bool deactivate();
-		
+		void tick(unsigned int);
+
+
+		/******************
+			GET's & SET's
+		********************/
 		/**
-		Actualiza el estado de la escena cada ciclo.
+		Devuelve el nombre de la escena.
+		@return Nombre de la escena.
 		*/
-		void simulate();
-		
+		const std::string& getName() {return _name;}
+
+
 	private:
 
-		TActorVector _actors;
-		TTriggerVector _triggers;
+		/**	Nombre de la escena.*/
+		std::string _name;
+		TColliders	_colliders;
+		TTriggers	_triggers;
 
 		// Componentes de la simulacion
 		void checkCollisions();
 		void checkTriggers();
+
+
+		/**
+		Actualiza el estado de la escena cada ciclo.
+		*/
+		void simulate();
 
 		/**
 		Corrige la posición de 2 actores que colisionan.

@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
-// paquete.cpp
+// packet.cpp
 //---------------------------------------------------------------------------
 
 /**
- * @file paquete.cpp
+ * @file packet.cpp
  *
  * Representación de los datos transmitidos por red
  *
@@ -12,37 +12,37 @@
  * @date Octumbre, 2006
  */
 
-#include "paquete.h"
+#include "Packet.h"
 #include "string.h"
 
 namespace Net {
 
-	CPaquete::CPaquete( TipoPaquete tipo, 
+	CPacket::CPacket( PacketType tipo, 
 						byte* data, 
 						size_t dataLength, 
-						CConexion* conexion, 
+						CConnection* connection, 
 						unsigned char canal)
 	{
 		_data = 0;
 		_dataLength = 0;
-		_tipoPaquete = tipo;
+		_packetType = tipo;
 		setData(data,dataLength);
-		_conexion = conexion;
+		_connection = connection;
 		_canal = canal;	
 	}
 
-	CPaquete::~CPaquete()
+	CPacket::~CPacket()
 	{
 		if(_data != 0)
 			delete[] _data;
 	}
 
-	byte* CPaquete::getData()
+	byte* CPacket::getData()
 	{
 		return _data;
 	}
 
-	void CPaquete::setData(byte* data, size_t length)
+	void CPacket::setData(byte* data, size_t length)
 	{
 		if (_data != 0)
 			delete[] _data;
@@ -55,38 +55,38 @@ namespace Net {
 		_dataLength = length;
 	}
 
-	size_t CPaquete::getDataLength()
+	size_t CPacket::getDataLength()
 	{
 		return _dataLength;
 	}
 
 
-	TipoPaquete CPaquete::getTipo()
+	PacketType CPacket::getTipo()
 	{
-		return _tipoPaquete;
+		return _packetType;
 	}
 
-	void CPaquete::setTipo(TipoPaquete tipo)
+	void CPacket::setTipo(PacketType tipo)
 	{
-		_tipoPaquete = tipo;
+		_packetType = tipo;
 	}
 
-	CConexion* CPaquete::getConexion()
+	CConnection* CPacket::getConexion()
 	{
-		return _conexion;
+		return _connection;
 	}
 
-	void CPaquete::setConexion(CConexion* conexion)
+	void CPacket::setConexion(CConnection* connection)
 	{
-		_conexion = conexion;
+		_connection = connection;
 	}
 
-	void CPaquete::setCanal(unsigned char canal)
+	void CPacket::setCanal(unsigned char canal)
 	{
 		_canal = canal;
 	}
 
-	unsigned char CPaquete::getCanal()
+	unsigned char CPacket::getCanal()
 	{
 		return _canal;
 	}

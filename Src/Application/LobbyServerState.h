@@ -37,6 +37,7 @@ namespace CEGUI
 	class Window;
 }
 
+
 namespace Application 
 {
 	/**
@@ -170,17 +171,17 @@ namespace Application
 		/******************
 			NET::IOBSERVER
 		******************/
-		virtual void dataPacketReceived(Net::CPaquete* packet);
-		virtual void connexionPacketReceived(Net::CPaquete* packet);
-		virtual void disconnexionPacketReceived(Net::CPaquete* packet);
+		virtual void dataPacketReceived(Net::CPacket* packet);
+		virtual void connexionPacketReceived(Net::CPacket* packet);
+		virtual void disconnexionPacketReceived(Net::CPacket* packet);
 
 
 	private:
 
 		// PLAYER INFO
 		unsigned int _nClients;
-		std::string _playerNicks[Net::CLIENTS_MAX]; // HACK fijamos num max de players a 8
-		std::string _playerModels[Net::CLIENTS_MAX]; // TODO quizá deberían ser enum para menos info por red en un futuro
+		std::string _playerNicks[8]; // HACK fijamos num max de players a 8
+		std::string _playerModels[8]; // TODO quizá deberían ser enum para menos info por red en un futuro
 
 		/**
 		Ventana CEGUI que muestra el menú.
@@ -210,7 +211,7 @@ namespace Application
 		Tabla donde almacenamos por cada cliente cuantos jugadores han creado
 		*/
 		//TNetIDCounterMap _playersLoadedByClients; UNDONE
-		unsigned int _playersLoadedByClients[Net::CLIENTS_MAX];
+		unsigned int _playersLoadedByClients[8];
 
 		/**
 		Indica si estamos en fase de espera de jugadores

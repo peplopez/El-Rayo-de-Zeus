@@ -74,12 +74,19 @@ namespace Graphics
 		@param name Nombre de la entidad.
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
-		CEntity(const std::string &name, const std::string &mesh);
+		CEntity::CEntity(const std::string &name, const std::string &mesh)
+		: _name(name), _mesh(mesh), _entity(0), _entityNode(0), _scene(0), _loaded(false) {} 
 
 		/**
 		Destructor de la aplicación.
 		*/
 		virtual ~CEntity();
+
+
+
+		/******************
+			GET's & SET's
+		********************/
 
 		/**
 		Cambia la posición y orientación de la entidad.
@@ -129,7 +136,7 @@ namespace Graphics
 		 @return Cierto si la entidad es visible (está activa 
 		 para ser reenderizada).
 		*/
-		const bool getVisible();
+		const bool isVisible();
 
 		Ogre::SceneNode* getEntityNode();
 		/**
@@ -176,6 +183,24 @@ namespace Graphics
 		// Por otro lado cada entidad debe pertenecer a una escena. Solo 
 		// permitimos a la escena actualizar el estado.
 		friend class CScene;
+	
+		/**
+		Entidad de Ogre.
+		*/
+		Ogre::Entity *_entity;
+
+		/**
+		Quizás es mejor meter la clase CScene
+		Controla todos los elementos Ogre de una escena. Su equivalente
+		en la lógica del juego sería el mapa o nivel. 
+		*/
+		CScene *_scene;
+
+		/**
+		Nodo que contiene la entidad de Ogre.
+		*/
+		Ogre::SceneNode *_entityNode;
+
 
 		/**
 		Añade la entidad al SceneManager pasado por parámetro. Si la entidad
@@ -220,27 +245,11 @@ namespace Graphics
 		@param secs Número de segundos transcurridos desde la última llamada.
 		*/
 		virtual void tick(float secs);
+
+
 		
-		/**
-		Nodo que contiene la entidad de Ogre.
-		*/
-		Ogre::SceneNode *_entityNode;
-
-
-
-		/**
-		Entidad de Ogre.
-		*/
-		Ogre::Entity *_entity;
-
-		/**
-		Quizás es mejor meter la clase CScene
-
-		Controla todos los elementos Ogre de una escena. Su equivalente
-		en la lógica del juego sería el mapa o nivel. 
-		*/
-		CScene *_scene;
-
+	private:
+		
 		/**
 		Nombre de la entidad.
 		*/

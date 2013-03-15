@@ -115,7 +115,10 @@ namespace GUI {
 	//--------------------------------------------------------
 		
 	bool CCameraController::mousePressed(const CMouseState &mouseState)
-	{if(_controlledCamera)
+	{
+		if(!_controlledCamera)
+			return false;
+		else
 		{
 			Logic::CMessageBoolFloat *m = new Logic::CMessageBoolFloat();
 			m->setType(Logic::Message::CAMERA);

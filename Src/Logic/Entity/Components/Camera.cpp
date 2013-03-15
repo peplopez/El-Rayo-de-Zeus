@@ -38,7 +38,7 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
-		_graphicsCamera = _entity->getMap()->getScene()->getCamera();
+		_graphicsCamera = _entity->getMap()->getGraphicScene()->getCamera();
 		if(!_graphicsCamera)
 			return false;
 

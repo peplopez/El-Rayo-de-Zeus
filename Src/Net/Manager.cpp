@@ -13,15 +13,14 @@ la gestión de la red del juego.
 #include "Manager.h"
 
 #include "Logic/Entity/Entity.h"
-//#include "Logic/Entity/Message.h"
 #include "Logic/Maps/Map.h"
 #include "Logic/Server.h"
 
-#include "Net/buffer.h"
+#include "Net/Buffer.h"
+#include "Net/FactoryENET.h"
 #include "Net/IObserver.h"
 
-#include "factoriaredenet.h"
-#include "factoriared.h"
+
 #include <cassert>
 
 #define DEBUG 0
@@ -39,7 +38,7 @@ namespace Net {
 
 	//--------------------------------------------------------
 
-	CManager::CManager(): _factoriaRed(0), _servidorRed(0), _clienteRed(0),
+	CManager::CManager(): _netFactory(0), _netServer(0), _netClient(0),
 		_id(Net::ID::UNASSIGNED),_nextId(Net::ID::FIRSTCLIENT)
 	{
 		_instance = this;
@@ -92,7 +91,7 @@ namespace Net {
 	bool CManager::open()
 	{
 		 // Inicializamos la factoria de objetos de red
-		_factoriaRed = new Net::CFactoriaRedEnet();
+		_netFactory = new Net::CFactoryENET();
 
 		return true;
 
@@ -103,36 +102,38 @@ namespace Net {
 	void CManager::close() 
 	{
 		deactivateNetwork();
-		if(_factoriaRed)
-			delete _factoriaRed;
+		if(_netFactory)
+			delete _netFactory;
 
 	} // close
 
 	//---------------------------------------------------------
 
 
-	void CManager::send(void* data, size_t longdata, CConexion* exception) 
+	void CManager::send(void* data, size_t longdata, CConnection* exception) 
 	{
 		send(data, longdata, true, exception);
 	} // send overload 1
 
 	//---------------------------------------------------------
 
-	void CManager::send(void* data, size_t longdata, bool reliable, CConexion* exception) 
+	void CManager::send(void* data, size_t longdata, bool reliable, CConnection* exception) 
 	{
 		if(_connections.empty())
 			return;
+#if DEBUG
+		if(exception)  
+			LOG("Send: Exception NetID = " << exception->getId());
+#endif
 
-		if(exception)  LOG("Send: Exception NetID = " << exception->getId());
-
-		// [f®§] Hay más de una conexión, debemos mandar el mensaje por todas si somos servidor.		
-		if(_servidorRed)
-			_servidorRed->sendAll( data, longdata, 0, reliable, exception);
-		if(_clienteRed) 
+		// [f®§] Hay más de una conexión, debemos mandar el mensaje por todas si somos servidor
+		if(_netServer)
+			_netServer->sendAll( data, longdata, 0, reliable, exception);
+		if(_netClient) 
 		{
-			CConexion* serverConnection( getConnection(Net::ID::SERVER) );	
+			CConnection* serverConnection( getConnection(Net::ID::SERVER) );	
 			if( serverConnection != exception) 
-				_clienteRed->sendData( data, longdata, 0, reliable, serverConnection);
+				_netClient->sendData( data, longdata, 0, reliable, serverConnection);
 		}
 
 	} // send base
@@ -141,31 +142,31 @@ namespace Net {
 
 	void CManager::tick(unsigned int msecs) 
 	{
-		_paquetes.clear();
-		getPackets(_paquetes);
+		_packets.clear();
+		getPackets(_packets);
 
-		for(std::vector<Net::CPaquete*>::iterator iterp = _paquetes.begin();iterp != _paquetes.end();++iterp)
+		for(std::vector<Net::CPacket*>::iterator iterp = _packets.begin();iterp != _packets.end();++iterp)
 		{
-			Net::CPaquete* paquete = *iterp;			
-			switch (paquete->getTipo())
+			Net::CPacket* packet = *iterp;			
+			switch (packet->getTipo())
 			{
-				case Net::CONEXION:
-					connect(paquete->getConexion());
+				case Net::CONNECT:
+					connect(packet->getConexion());
 					for(std::vector<IObserver*>::iterator iter = _observers.begin();iter != _observers.end();++iter)
-						(*iter)->connexionPacketReceived(paquete);
+						(*iter)->connexionPacketReceived(packet);
 					break;
-				case Net::DATOS:
-					if(!isMsgAssignID(paquete)) // Comprueba si es un MSG de asignación de NetID y guarda ID en tal caso.
+				case Net::DATA:
+					if(!isMsgAssignID(packet)) // Comprueba si es un MSG de asignación de NetID y guarda ID en tal caso.
 						for(std::vector<IObserver*>::iterator iter = _observers.begin();iter != _observers.end();++iter)
-							(*iter)->dataPacketReceived(paquete);
+							(*iter)->dataPacketReceived(packet);
 					break;
-				case Net::DESCONEXION:
+				case Net::DISCONNECT:
 					for(std::vector<IObserver*>::iterator iter = _observers.begin();iter != _observers.end();++iter)
-						(*iter)->disconnexionPacketReceived(paquete);
-					disconnect(paquete->getConexion());
+						(*iter)->disconnexionPacketReceived(packet);
+					disconnect(packet->getConexion());
 					break;
 			}
-			delete paquete;
+			delete packet;
 		}
 
 	} // tick
@@ -176,9 +177,9 @@ namespace Net {
 	void CManager::activateAsServer(int port, int clients, unsigned int maxinbw, unsigned int maxoutbw)
 	{
 		//Creamos el servidor de red
-		_servidorRed = _factoriaRed->buildServidor();
+		_netServer = _netFactory->buildServer();
 
-		_servidorRed->init(port,clients, maxinbw, maxoutbw);
+		_netServer->init(port,clients, maxinbw, maxoutbw);
 
 		_id = Net::ID::SERVER;
 
@@ -189,9 +190,8 @@ namespace Net {
 	void CManager::activateAsClient(unsigned int maxConnections, unsigned int maxinbw, unsigned int maxoutbw)
 	{
 		//Creamos el servidor de red
-		_clienteRed = _factoriaRed->buildCliente();
-
-		_clienteRed->init(maxConnections, maxinbw, maxoutbw);
+		_netClient = _netFactory->buildClient();
+		_netClient->init(maxConnections, maxinbw, maxoutbw);
 
 	} // activateAsClient
 
@@ -199,10 +199,10 @@ namespace Net {
 
 	void CManager::connectTo(char* address, int port, int channels, unsigned int timeout)
 	{
-		assert(_clienteRed && "Cliente Red es null"); // Solo se puede ejecutar el connectTo si somos cliente
-		assert(_connections.empty() && "Ya hay una conexion"); // Capamos al cliente a 1 conexión max: la de con el server
+		assert(_netClient && "Cliente Red es null"); // Solo se puede ejecutar el connectTo si somos cliente
+		assert(_connections.empty() && "Ya hay una connection"); // Capamos al cliente a 1 conexión max: la de con el server
 
-		CConexion* connection = _clienteRed->connect(address, port, channels,timeout); // CONNECT
+		CConnection* connection = _netClient->connect(address, port, channels,timeout); // CONNECT
 		
 		// Almacenamos esa conexión y le otorgamos un ID de red
 		connection->setId(Net::ID::SERVER); // Un cliente sólo se conecta al SERVER
@@ -211,7 +211,7 @@ namespace Net {
 
 	//---------------------------------------------------------
 
-	bool CManager::isMsgAssignID(Net::CPaquete* packet)
+	bool CManager::isMsgAssignID(Net::CPacket* packet)
 	{
 		Net::CBuffer data;
 			data.write(packet->getData(),packet->getDataLength());
@@ -232,7 +232,7 @@ namespace Net {
 
 	//---------------------------------------------------------
 
-	void CManager::connect(CConexion* connection)// Una nueva conexión de un cliente al sevidor
+	void CManager::connect(CConnection* connection)// Una nueva conexión de un cliente al sevidor
 	{
 		// Almacenamos esa conexión y le otorgamos un ID de red
 		connection->setId(_nextId);
@@ -242,7 +242,7 @@ namespace Net {
 		CBuffer buf;// Avisamos al cliente de cual es su nuevo ID	
 			buf.write(&type,sizeof(type));		
 			buf.write(&_nextId,sizeof(_nextId));// Escribimos el id del cliente
-		_servidorRed->sendData(buf.getbuffer(),buf.getSize(),0,1, connection);
+		_netServer->sendData(buf.getbuffer(),buf.getSize(),0,1, connection);
 
 		// Preparamos para la siguiente conexión
 		_nextId = ID::NextID(_nextId);
@@ -251,16 +251,16 @@ namespace Net {
 
 	//---------------------------------------------------------
 
-	void CManager::disconnect(CConexion* connection)
+	void CManager::disconnect(CConnection* connection)
 	{
-		if(_servidorRed)
+		if(_netServer)
 		{
-			_servidorRed->disconnect(connection);
+			_netServer->disconnect(connection);
 			removeConnection(connection->getId());
 		}
-		else if(_clienteRed)
+		else if(_netClient)
 		{
-			_clienteRed->disconnect(getConnection(Net::ID::SERVER));
+			_netClient->disconnect(getConnection(Net::ID::SERVER));
 			removeConnection(Net::ID::SERVER);
 		}
 
@@ -268,7 +268,7 @@ namespace Net {
 		
 	//---------------------------------------------------------
 
-	CConexion* CManager::getConnection(NetID id) 
+	CConnection* CManager::getConnection(NetID id) 
 	{
 		if( id == ID::UNASSIGNED)
 			return 0;
@@ -280,12 +280,12 @@ namespace Net {
 		
 	//---------------------------------------------------------
 
-	bool CManager::addConnection(NetID id, CConexion* connection) 
+	bool CManager::addConnection(NetID id, CConnection* connection) 
 	{
 		if(_connections.count(id))
 			return false;
 		TConnectionPair elem(id,connection);
-		_connections.insert(elem); // Insertamos par id - conexion
+		_connections.insert(elem); // Insertamos par id - connection
 		return true;
 
 	} // addConection
@@ -296,7 +296,7 @@ namespace Net {
 	{
 		if(_connections.count(id))
 		{
-			CConexion* connection = getConnection(id);
+			CConnection* connection = getConnection(id);
 			_connections.erase(id);
 			delete connection;
 			return true;
@@ -309,17 +309,17 @@ namespace Net {
 
 	void CManager::deactivateNetwork()
 	{
-		if(_servidorRed)
+		if(_netServer)
 		{
-			_servidorRed->deInit(); // TODO analizar que haga disconnect de todo; antes if(_conexion) disconnect (OJO estaba comentado)
-			delete _servidorRed;
-			_servidorRed = 0;
+			_netServer->deInit(); // TODO analizar que haga disconnect de todo; antes if(_connection) disconnect (OJO estaba comentado)
+			delete _netServer;
+			_netServer = 0;
 		}
-		if(_clienteRed)
+		if(_netClient)
 		{
-			_clienteRed->deInit();
-			delete _clienteRed;
-			_clienteRed = 0;
+			_netClient->deInit();
+			delete _netClient;
+			_netClient = 0;
 		}
 		if(!_connections.empty())
 		{
@@ -331,12 +331,12 @@ namespace Net {
 
 	//---------------------------------------------------------
 
-	void CManager::getPackets(std::vector<Net::CPaquete*>& _paquetes)
+	void CManager::getPackets(std::vector<Net::CPacket*>& _packets)
 	{
-		if(_servidorRed)
-			_servidorRed->service(_paquetes);
-		if(_clienteRed)
-			_clienteRed->service(_paquetes);
+		if(_netServer)
+			_netServer->service(_packets);
+		if(_netClient)
+			_netClient->service(_packets);
 
 	} // getPackets
 

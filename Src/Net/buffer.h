@@ -12,8 +12,8 @@
  * @date Octubre, 2006
  */
 
-#ifndef __BUFFER_H
-#define __BUFFER_H
+#ifndef __Net_Buffer_H
+#define __Net_Buffer_H
 
 
 namespace Net {
@@ -84,4 +84,4 @@ protected:
 
 } // namespace Net
 
-#endif // _CBUFFER_H
+#endif // _Net_Buffer_H

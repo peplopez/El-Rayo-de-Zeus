@@ -32,72 +32,15 @@
 namespace Physics
 {
 
-	CScene::CScene() {}
-
-
-	//--------------------------------------------------------
-
 	CScene::~CScene() 
 	{
-		deactivate();
+		deactivate();	
+		/* UNDONE FRS Sacado de Graphics::Scene
+		_sceneMgr->destroyStaticGeometry(_staticGeometry);		
+		_root->destroySceneManager(_sceneMgr);*/ 
 
 	} // ~CScene
-
-	//--------------------------------------------------------
-
-	// TODO FRS hacerlas inline? 
-	void CScene::addActor(CActorTrigger* actor)
-	{
-		_triggers.push_back(actor);
-
-	} // addActor
-
-	void CScene::addActor(CActor* actor)
-	{
-		_actors.push_back(actor);
-	} // addActor
-
 	
-
-	//--------------------------------------------------------
-
-
-	void CScene::removeActor(CActor* actor)
-	{
-		TActorVector::iterator position = std::find(_actors.begin(), _actors.end(), actor);
-		if (position != _actors.end())
-		{
-			(*position)->release();
-			_actors.erase(position);
-		}
-	} // removeActor
-
-	void CScene::removeActor(CActorTrigger* actor)
-	{
-		TTriggerVector::iterator position = std::find(_triggers.begin(), _triggers.end(), actor);
-		if (position != _triggers.end())
-		{
-			(*position)->release();
-			_triggers.erase(position);
-		}
-	} // removeActor
-
-	//--------------------------------------------------------
-	void CScene::release()
-	{
-		TActorVector::iterator aIt = _actors.begin();
-			for ( ; aIt != _actors.end(); ++aIt) {
-				(*aIt)->release();
-			}
-		TTriggerVector::iterator tIt= _triggers.begin();
-			for ( ; tIt != _triggers.end(); ++tIt){
-				(*tIt)->release();
-			}
-
-		_actors.clear();
-		_triggers.clear();
-	}
-
 	//--------------------------------------------------------
 
 	bool CScene::activate()
@@ -113,7 +56,57 @@ namespace Physics
 	} // deactivate
 	
 	//--------------------------------------------------------
+	
+	void CScene::tick(unsigned int secs)
+	{	
+		this->simulate(); // Empezar la simulación física.
+	} // tick
 
+	
+
+
+	/************
+		ACTORS
+	************/
+
+	// TODO FRS hacerlas inline? 
+	bool CScene::addActor(CActor* collider)
+	{
+		_colliders.push_back(collider);
+		return true;
+	} // addActor
+
+	bool CScene::addActor(CActorTrigger* trigger)
+	{
+		_triggers.push_back(trigger);
+		return true;
+	} // addActor
+
+
+		
+
+	//--------------------------------------------------------
+
+
+	void CScene::removeActor(CActor* collider)
+	{
+		TColliders::iterator colliderIndex = std::find(_colliders.begin(), _colliders.end(), collider);
+		if (colliderIndex != _colliders.end())
+			_colliders.erase(colliderIndex); // FRS El delete es responsabilidad del creador (Logic::CPhysics)		
+	} // removeActor
+
+	void CScene::removeActor(CActorTrigger* trigger)
+	{
+		TTriggers::iterator triggerIndex = std::find(_triggers.begin(), _triggers.end(), trigger);
+		if (triggerIndex != _triggers.end())			
+			_triggers.erase(triggerIndex);// FRS El delete es responsabilidad del creador (Logic::CPhysics)		
+	} // removeActor
+
+	
+
+	/******************
+		SIMULATION
+	*****************/
 	
 	void CScene::simulate()
 	{	
@@ -129,14 +122,14 @@ namespace Physics
 		//WTF!!
 		float x = 0;
 		float y = 0;
-		for (size_t i = 0; i < _actors.size() - 1; ++i)	
-			for (size_t j = i + 1; j < _actors.size(); ++j)
-				if ( _actors[i]->intersects(_actors[j], x, y) )
+		for (size_t i = 0; i < _colliders.size() - 1; ++i)	
+			for (size_t j = i + 1; j < _colliders.size(); ++j)
+				if ( _colliders[i]->intersects(_colliders[j], x, y) )
 				{		
 					LOG("Collision")
-					updateLogicPosition(_actors[i], _actors[j], x, y);
-					_actors[i]->getIObserver()->onCollision(_actors[j]->getIObserver());
-					_actors[j]->getIObserver()->onCollision(_actors[i]->getIObserver());	
+					updateLogicPosition(_colliders[i], _colliders[j], x, y);
+					_colliders[i]->getIObserver()->onCollision(_colliders[j]->getIObserver());
+					_colliders[j]->getIObserver()->onCollision(_colliders[i]->getIObserver());	
 				}
 
 	} // checkCollisions
@@ -146,19 +139,19 @@ namespace Physics
 	void CScene::checkTriggers() {
 
 		for (size_t i = 0; i < _triggers.size(); ++i)	
-			for (size_t j = 0; j < _actors.size(); ++j)
+			for (size_t j = 0; j < _colliders.size(); ++j)
 				
-				if ( _actors[j]->intersects( _triggers[i] ) ) {
-					if( _triggers[i]->enters( _actors[j] ) ) {						
+				if ( _colliders[j]->intersects( _triggers[i] ) ) {
+					if( _triggers[i]->enters( _colliders[j] ) ) {						
 						LOG("Trigger Enter")
-						_triggers[i]->getIObserver()->onTrigger( _actors[j]->getIObserver(), true);
-						_actors[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), true);	
+						_triggers[i]->getIObserver()->onTrigger( _colliders[j]->getIObserver(), true);
+						_colliders[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), true);	
 					}
 					
-				} else if( _triggers[i]->exits( _actors[j] ) ) {						
+				} else if( _triggers[i]->exits( _colliders[j] ) ) {						
 						LOG("Trigger Exit")
-						_triggers[i]->getIObserver()->onTrigger( _actors[j]->getIObserver(), false);
-						_actors[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), false);
+						_triggers[i]->getIObserver()->onTrigger( _colliders[j]->getIObserver(), false);
+						_colliders[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), false);
 				}
 
 	} // checkTriggers
@@ -172,34 +165,34 @@ namespace Physics
 		{
 			if (x < 0)
 			{
-				Logic::TLogicalPosition pos = actor2->getLogicPos();
+				Logic::TLogicalPosition pos = actor2->getLogicPosition();
 				pos._degrees -= x;
 				if (pos._degrees > 360)
 					pos._degrees -= 360;
-				actor2->setLogicPos(pos);
+				actor2->setLogicPosition(pos);
 			}
 			else if (x > 0)
 			{
-				Logic::TLogicalPosition pos = actor2->getLogicPos();
+				Logic::TLogicalPosition pos = actor2->getLogicPosition();
 				pos._degrees -= x;
 				if (pos._degrees < 0)
 					pos._degrees += 360;
-				actor2->setLogicPos(pos);
+				actor2->setLogicPosition(pos);
 			}
 		}
 		else
 		{
 			if (y < 0)
 			{
-				Logic::TLogicalPosition pos = actor2->getLogicPos();
+				Logic::TLogicalPosition pos = actor2->getLogicPosition();
 				pos._height += -y;
-				actor2->setLogicPos(pos);
+				actor2->setLogicPosition(pos);
 			}
 			else if (y > 0)
 			{
-				Logic::TLogicalPosition pos = actor2->getLogicPos();
+				Logic::TLogicalPosition pos = actor2->getLogicPosition();
 				pos._height += y;
-				actor2->setLogicPos(pos);
+				actor2->setLogicPosition(pos);
 			}
 		}
 	}

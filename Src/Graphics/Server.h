@@ -155,22 +155,13 @@ namespace Graphics
 		void removeScene(const std::string& name);
 
 		/**
-		Elimina la escena de nombre especificado por parámetro de la 
-		tabla de escenas y la libera.
-
-		@param iterator Posición del Par <string,CScene*> dentro del 
-		contenedor de escenas.
-		*/
-		void removeScene(TScenes::const_iterator iterator);
-
-		/**
 		Establece una escena como escena activa. En caso de que 
 		hubiese otra escena activa este método la desactiva y establece
 		la nueva.
 
 		@param scene Escena que se desea poner como escena activa.
 		*/
-		void setScene(CScene* scene);
+		void setActiveScene(CScene* scene);
 
 		/**
 		Establece una escena como escena activa. En caso de que 
@@ -180,53 +171,70 @@ namespace Graphics
 		@param name Nombre de la escena que se quiere poner como
 		escena activa.
 		*/
-		void setScene(const std::string& name);
+		void setActiveScene(const std::string& name);
 
 		/**
 		Devuelve al manager de Overlays. 
 
 		@return La escena activa.
 		*/
-		Ogre::OverlayManager* getOverlayManager() {return _overlayManager;}
+		Ogre::OverlayManager* getOverlayManager() {return _overlayManager;}			
 
-		
+	
 		/**
-		Crea un Overlay.
+		Metodo que devuelve el height de la pantalla. Esta tomado gracias a los overlays, puede que no sea fiable 100%
 
-		@param name Nombre del Overlay.
+		@return devuelve el heigth de la pantalla
 		*/
-		COverlay* createOverlay(const std::string &name, const std::string &type = "");
-
-		/**
-		Destruye un Overlay.
-
-		@param name Nombre del Overlay.
-		*/
-		void removeOverlay(const std::string& name);
-
-		/**
-		Devuelve un overlay dado un nombre
-
-		@param name Nombre del Overlay.
-		@return Overley devuelto o NULL en caso de no existir
-		*/
-		COverlay* getOverlay(const std::string& name);
+		int getScreenWidth();
 
 		/**
 		Metodo que devuelve el height de la pantalla. Esta tomado gracias a los overlays, puede que no sea fiable 100%
 
 		@return devuelve el heigth de la pantalla
 		*/
-		int getWidth();
-
-		/**
-		Metodo que devuelve el height de la pantalla. Esta tomado gracias a los overlays, puede que no sea fiable 100%
-
-		@return devuelve el heigth de la pantalla
-		*/
-		int getHeight();
+		int getScreenHeight();
 
 	protected:
+
+		/**
+		Instancia única de la aplicación.
+		*/
+		static CServer *_instance;
+
+			/**
+		Mapa de escenas. Se asocia una escena con su nombre.
+		*/
+		TScenes _scenes;
+
+		/**
+		Escena actual. Por simplificación asumimos que solo va a haber una
+		escena activa al mismo tiempo. El cambio de escena activa se realiza
+		a través de ésta clase.
+		*/
+		CScene* _activeScene;
+
+		/**
+		Escena dummy que se crea automáticamente. Con ella permitimos que
+		siempre haya una escena para el dibujado del GUI.
+		FRS ??
+		*/
+		CScene* _dummyScene;
+
+		/**
+		Punto de entrada al sistema Ogre.
+		*/
+		Ogre::Root *_root;
+
+		/** 
+		Ventana de renderizado 
+		*/
+		Ogre::RenderWindow *_renderWindow;
+
+		/**
+		Manager de los Overlays
+		*/
+		Ogre::OverlayManager* _overlayManager;
 
 		/**
 		Constructor de la clase.
@@ -234,7 +242,7 @@ namespace Graphics
 		CServer();
 
 		/**
-		Destructor de la aplicación.
+		Destructor del server gráfico.
 		*/
 		virtual ~CServer();
 
@@ -254,43 +262,8 @@ namespace Graphics
 		*/
 		void close();
 
-		/**
-		Instancia única de la aplicación.
-		*/
-		static CServer *_instance;
 		
-		/**
-		Punto de entrada al sistema Ogre.
-		*/
-		Ogre::Root *_root;
-
-		/** 
-		Ventana de renderizado 
-		*/
-		Ogre::RenderWindow *_renderWindow;
-
-		/**
-		Mapa de escenas. Se asocia una escena con su nombre.
-		*/
-		TScenes _scenes;
-
-		/**
-		Escena actual. Por simplificación asumimos que solo va a haber una
-		escena activa al mismo tiempo. El cambio de escena activa se realiza
-		a través de ésta clase.
-		*/
-		CScene* _activeScene;
-
-		/**
-		Escena dummy que se crea automáticamente. Con ella permitimos que
-		siempre haya una escena para el dibujado del GUI.
-		*/
-		CScene* _dummyScene;
-
-		/**
-		Manager de los Overlays
-		*/
-		Ogre::OverlayManager* _overlayManager;
+		
 
 	}; // class CServer
 

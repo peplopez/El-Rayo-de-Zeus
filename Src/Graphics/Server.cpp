@@ -30,14 +30,15 @@ la ventana, etc.
 
 namespace Graphics 
 {
-	CServer *CServer::_instance = 0;
+	CServer *CServer::_instance = 0; // Única instancia del servidor
+
+	//--------------------------------------------------------
+
 
 	CServer::CServer() : _root(0), _renderWindow(0), _activeScene(0), _dummyScene(0)
 	{
-		assert(!_instance && "Segunda inicialización de Graphics::CServer no permitida!");
-
+		assert(!_instance && "GRAPHICS::SERVER>> Segunda inicialización de Graphics::CServer no permitida!");
 		_instance = this;
-
 	} // CServer
 
 	//--------------------------------------------------------
@@ -45,25 +46,21 @@ namespace Graphics
 	CServer::~CServer() 
 	{
 		assert(_instance);
-
 		_instance = 0;
-
 	} // ~CServer
 
 	//--------------------------------------------------------
 
 	bool CServer::Init() 
 	{
-		assert(!_instance && "Segunda inicialización de Graphics::CServer no permitida!");
+		assert(!_instance && "GRAPHICS::SERVER>> Segunda inicialización de Graphics::CServer no permitida!");
 
 		new CServer();
 
-		if (!_instance->open())
-		{
+		if (!_instance->open())		{
 			Release();
 			return false;
 		}
-
 		return true;
 
 	} // Init
@@ -72,8 +69,7 @@ namespace Graphics
 
 	void CServer::Release()
 	{
-		if(_instance)
-		{
+		if(_instance)		{
 			_instance->close();
 			delete _instance;
 		}
@@ -88,17 +84,13 @@ namespace Graphics
 			return false;
 
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
-
 		_renderWindow = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow();
-
-		// Creamos la escena dummy para cuando no hay ninguna activa.
-		_dummyScene = createScene("dummy_scene");
-		 
-		// Por defecto la escena activa es la dummy
-		setScene(_dummyScene);
 
 		//PT. Se carga el manager de overlays
 		_overlayManager = Ogre::OverlayManager::getSingletonPtr();
+
+		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.		
+		setActiveScene(_dummyScene); // Por defecto la escena activa es la dummy
 
 		return true;
 
@@ -108,41 +100,48 @@ namespace Graphics
 
 	void CServer::close() 
 	{
-		if(_activeScene)
-		{
+		if(_activeScene)		{
 			_activeScene->deactivate();
 			_activeScene = 0;
 		}
-		while(!_scenes.empty())
-		{
-			removeScene(_scenes.begin());
-		}
+
+		TScenes::const_iterator it = _scenes.begin();
+		TScenes::const_iterator end = _scenes.end();
+			while(it != end)			
+				removeScene( (*it++).second );
+
+		// OVERLAYS
+		_overlayManager->destroyAll(); // destroys all overlays
 
 	} // close
 
 	//--------------------------------------------------------
-		
-	typedef std::pair<std::string,CScene*> TStringScenePar;
+	
+
+	//typedef std::pair<std::string,CScene*> TStringScenePar;
 
 	CScene* CServer::createScene(const std::string& name)
 	{
-		//Nos aseguramos de que no exista ya una escena con este nombre.
-		assert(_scenes.find(name)==_scenes.end() && 
-			"Ya se ha creado una escena con este nombre.");
+		assert(_instance && "GRAPHICS::SERVER>> Servidor no inicializado");			
+		assert(_scenes.find(name) == _scenes.end() && "Ya se ha creado una escena con este nombre.");
 
 		CScene *scene = new CScene(name);
-		TStringScenePar ssp(name,scene);
-		_scenes.insert(ssp);
-		return scene;
 
+		// UNDONE FRS Es mejor insertar pares que la inserción normal por índice?
+		//TStringScenePar ssp(name,scene);
+		//_scenes.insert(ssp);
+
+		_scenes[name] =  scene;
+		return scene;
 	} // createScene
 
 	//--------------------------------------------------------
 
 	void CServer::removeScene(CScene* scene)
 	{
-		// Si borramos la escena activa tenemos que quitarla.
-		if(_activeScene == scene)
+		assert(_instance && "GRAPHICS::SERVER>> Servidor no inicializado");	
+
+		if(_activeScene == scene) // Si borramos la escena activa tenemos que quitarla.
 			_activeScene = 0;
 		_scenes.erase(scene->getName());
 		delete scene;
@@ -153,115 +152,63 @@ namespace Graphics
 
 	void CServer::removeScene(const std::string& name)
 	{
-		CScene* scene = (*_scenes.find(name)).second;
-		removeScene(scene);
+		// UNDONE FRS Y para qué tenemos el acceso por índice [ ]?
+		/*CScene* scene = (*_scenes.find(name)).second;
+		removeScene(scene);*/
 
+		removeScene( _scenes[name] );
 	} // removeScene
 
+	
 	//--------------------------------------------------------
 
-	void CServer::removeScene(TScenes::const_iterator iterator)
-	{
-		CScene* scene = (*iterator).second;
-		// Si borramos la escena activa tenemos que quitarla.
-		if(_activeScene == scene)
-			_activeScene = 0;
-		_scenes.erase(iterator);
-		delete scene;
-
-	} // removeScene
-
-	//--------------------------------------------------------
-
-	void CServer::setScene(CScene* scene)
+	//TODO en red, el server tendrá activas > 1 -> activateScene
+	void CServer::setActiveScene(CScene* scene)
 	{
 		// En caso de que hubiese una escena activa la desactivamos.
 		if(_activeScene)
 			_activeScene->deactivate();
 
-		if(scene)
-		{
+		if(!scene) // Si se añade NULL ponemos la escena dummy.		
+			_activeScene = _dummyScene;
+		else {
 			// Sanity check. Nos aseguramos de que la escena pertenezca 
 			// al servidor. Aunque nadie más puede crear escenas...
-			assert((*_scenes.find(scene->getName())).second == scene && 
-				"Esta escena no pertenece al servidor");
+			assert( _scenes[ scene->getName() ] == scene && 
+				"GRAPHICS::SERVER>> Esta escena no pertenece al servidor");
 
 			_activeScene = scene;
 		}
-		// Si se añade NULL ponemos la escena dummy.
-		else
-			_activeScene = _dummyScene;
 
 		_activeScene->activate(); 
-
-	} // createScene
-
-	//--------------------------------------------------------
-
-	void CServer::setScene(const std::string& name)
+	} // setActiveScene
+	
+	void CServer::setActiveScene(const std::string& name)
 	{
-		// En caso de que hubiese una escena activa la desactivamos.
-		if(_activeScene)
-			_activeScene->deactivate();
+		assert(_scenes.find(name) == _scenes.end() &&
+			"GRAPHICS::SERVER>> Esta escena no pertenece al servidor");
+		setActiveScene( _scenes[name] );
+	} // setActiveScene
 
-		// Nos aseguramos de que exista una escena con este nombre.
-		assert(_scenes.find(name) != _scenes.end() && 
-			"Ya se ha creado una escena con este nombre.");
-		_activeScene = (*_scenes.find(name)).second;
-
-		_activeScene->activate();
-
-	} // createScene
-
-	//--------------------------------------------------------
-
-
-	//--------------------------------------------------------
-
-	COverlay* CServer::createOverlay(const std::string &name, const std::string &type){
 	
-		//Nos aseguramos de que no exista ya un overlay con este nombre.
-		//assert(_overlayManager->hasOverlayElement(name));
-
-		COverlay *overlay = new COverlay(name, type);
-		std::pair<std::string,COverlay*> aux(name, overlay);
-		//_overlays.insert(aux);
-
-		return overlay;
-	} // createOverlayelement
-
-		
-	//--------------------------------------------------------
-
-	void CServer::removeOverlay(const std::string& name){
-		_overlayManager->destroy(name);
-	} //removeOverlayElement
-	//--------------------------------------------------------
-	
-	COverlay* CServer::getOverlay(const std::string& name){
-		if(_overlayManager->hasOverlayElement(name)){
-			return new COverlay(_overlayManager->getOverlayElement(name)); // FRS Por qué estos news?
-		}else {
-			if(_overlayManager->getByName(name)){
-				return new COverlay(_overlayManager->getByName(name));
-			}
-			return 0;
-		}
-	} //get Overlay
-	//--------------------------------------------------------
-	
-	int CServer::getWidth(){
+	// TODO FRS Es necesario pasar a través del overlayManager
+	// El ancho y el alto deberían ser cosas independientes de los overlays, no?
+	int CServer::getScreenWidth(){
 		int aux(_overlayManager->getViewportWidth());
 		return aux;
 	} //get Width
 	//--------------------------------------------------------
 
-	int CServer::getHeight(){
+	int CServer::getScreenHeight(){
 		return _overlayManager->getViewportHeight();
 	} //get Height
 	//--------------------------------------------------------
 
 
+
+	/***********
+		TICK
+	***********/
 
 	void CServer::tick(float secs) 
 	{

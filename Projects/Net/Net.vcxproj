@@ -62,7 +62,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>enet.lib;ws2_32.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\dependencies\lib\$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -86,28 +86,28 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Src\Net\buffer.cpp" />
+    <ClCompile Include="..\..\Src\Net\Buffer.cpp" />
     <ClCompile Include="..\..\Src\Net\Manager.cpp" />
-    <ClCompile Include="..\..\Src\Net\paquete.cpp" />
-    <ClCompile Include="..\..\Src\Net\serializable.cpp" />
-    <ClCompile Include="..\..\Src\Net\clienteENet.cpp" />
-    <ClCompile Include="..\..\Src\Net\conexionENet.cpp" />
-    <ClCompile Include="..\..\Src\Net\servidorENet.cpp" />
+    <ClCompile Include="..\..\Src\Net\Packet.cpp" />
+    <ClCompile Include="..\..\Src\Net\Serializable.cpp" />
+    <ClCompile Include="..\..\Src\Net\ClientENET.cpp" />
+    <ClCompile Include="..\..\Src\Net\ConnectionENET.cpp" />
+    <ClCompile Include="..\..\Src\Net\ServerENET.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Src\Net\buffer.h" />
-    <ClInclude Include="..\..\Src\Net\cliente.h" />
-    <ClInclude Include="..\..\Src\Net\conexion.h" />
-    <ClInclude Include="..\..\Src\Net\factoriared.h" />
+    <ClInclude Include="..\..\Src\Net\Buffer.h" />
+    <ClInclude Include="..\..\Src\Net\Client.h" />
+    <ClInclude Include="..\..\Src\Net\ClientENET.h" />
+    <ClInclude Include="..\..\Src\Net\Connection.h" />
+    <ClInclude Include="..\..\Src\Net\Factory.h" />
     <ClInclude Include="..\..\Src\Net\IObserver.h" />
     <ClInclude Include="..\..\Src\Net\Manager.h" />
-    <ClInclude Include="..\..\Src\Net\paquete.h" />
-    <ClInclude Include="..\..\Src\Net\serializable.h" />
-    <ClInclude Include="..\..\Src\Net\servidor.h" />
-    <ClInclude Include="..\..\Src\Net\clienteENet.h" />
-    <ClInclude Include="..\..\Src\Net\conexionENet.h" />
-    <ClInclude Include="..\..\Src\Net\factoriaredenet.h" />
-    <ClInclude Include="..\..\Src\Net\servidorENet.h" />
+    <ClInclude Include="..\..\Src\Net\Packet.h" />
+    <ClInclude Include="..\..\Src\Net\Serializable.h" />
+    <ClInclude Include="..\..\Src\Net\Server.h" />
+    <ClInclude Include="..\..\Src\Net\ConnectionENET.h" />
+    <ClInclude Include="..\..\Src\Net\FactoryENET.h" />
+    <ClInclude Include="..\..\Src\Net\ServerENET.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

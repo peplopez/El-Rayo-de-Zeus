@@ -13,7 +13,12 @@ Contiene la declaración del componente que controla la vida de una entidad.
 #define __Logic_Life_H
 
 #include "Logic/Entity/Component.h"
-#include "Graphics/Billboard.h" //Pablo
+
+namespace Graphics
+{
+	class CScene;
+	class CBillboard;
+}
 
 namespace Logic
 {
@@ -44,45 +49,29 @@ namespace Logic
 		DEC_FACTORY(CLife);
 	public:
 
-		CLife() : IComponent(GetAltTypeIdOf(CLife)), _LIFE_MAX(0), _life(0), _lifeBarPosition(0), _lifeBarWidth(0), _lifeBarHeight(0){}
-
-		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
-
-		void deactivate();
+		CLife() : IComponent(GetAltTypeIdOf(CLife)), 
+			_LIFE_MAX(0), _life(0), _lifeBarBB(0) {}
 		
+		~CLife();
+		
+		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 		bool accept(const CMessage *message);
-
 		void process(CMessage *message);
 
-		void updateLife(float);
+	private:
 
+		Graphics::CScene* _graphicalScene;
+				
+		/** Billboard */
+		Graphics::CBillboard* _lifeBarBB;
 
-	protected:
-
-
-		// Billboard
-		Graphics::CBillboard _lifeBar;
-		/**
-		Vida máxima de la entidad
-		*/
+		/** Vida máxima de la entidad */
 		int _LIFE_MAX;
 
 		/**Atributo que indica la magnitud de la vida de la entidad.*/
 		int _life;
 
-		/** Atributo que indica el offset de la Y del posicionamiento del billboard de vida.*/
-		float _lifeBarPosition;
-
-		/** Pablo. 01-02-2013
-		Atributo que indica la anchura del billboard
-		*/
-		float _lifeBarWidth;
-
-		/** Atributo que indica la altura del billboard		*/
-		float _lifeBarHeight;
-
-
-		void CLife::modifyLife(int);
+		void modifyLife(int);
 
 	}; // class CLife
 

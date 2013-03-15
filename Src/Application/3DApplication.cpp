@@ -49,38 +49,29 @@ namespace Application {
 
 	bool C3DApplication::init() 
 	{
-		// Inicializamos la clase base.
-		if (!CBaseApplication::init())
-			return false;
-
 		// Inicializamos los diferentes subsistemas, los de 
 		// Ogre entre ellos.
 		if (!BaseSubsystems::CServer::Init())
 			return false;
 
-		// Inicializamos el servidor gráfico.
-		if (!Graphics::CServer::Init())
-			return false;
-
 		// Inicializamos el gestor de entrada de periféricos.
 		if (!GUI::CInputManager::Init())
 			return false;
+		else { // FRS App es listener de cualquier input de forma centralizada; después informa al currentState del evento			
+			GUI::CInputManager::getSingletonPtr()->addKeyListener(this); // Nos registramos como oyentes de los eventos del teclado. 
+			GUI::CInputManager::getSingletonPtr()->addMouseListener(this); // Y como oyentes de los eventos del ratón.
+		} 
 
-		// Nos registramos como oyentes de los eventos del teclado.
-		GUI::CInputManager::getSingletonPtr()->addKeyListener(this);
-		// Y como oyentes de los eventos del ratón.
-		GUI::CInputManager::getSingletonPtr()->addMouseListener(this);
+		// Inicializamos el servidor gráfico.
+		if (!Graphics::CServer::Init())
+			return false;
 
 		// Inicializamos el servidor de interfaz con el usuario.
 		if (!GUI::CServer::Init())
 			return false;
 
-		//// Inicialización del servidor de física.
+		// Inicialización del servidor de física.
 		if (!Physics::CServer::Init())
-			return false;
-
-		// Inicializamos el servidor de la lógica.
-		if (!Logic::CServer::Init())
 			return false;
 
 		// Inicializamos el servidor de IA
@@ -91,6 +82,14 @@ namespace Application {
 		if (!Net::CManager::Init())
 			return false;
 
+		// Inicializamos el servidor de la lógica.
+		if (!Logic::CServer::Init())
+			return false;
+
+		// Inicializamos la clase base.
+		if (!CBaseApplication::init())
+			return false;
+		
 		// Creamos el reloj basado en Ogre.
 		_clock = new COgreClock();
 
@@ -105,12 +104,24 @@ namespace Application {
 		// Eliminamos el reloj de la aplicación.
 		delete _clock;
 
+		// FRS: BaseApp guarda todos los estados de la App
+		// En el release, desactiva y libera el curState (vinculado a los motores)
+		// Es necesario que todavía no se haya liberado ningún motor.
+		CBaseApplication::release();
+
 		// Destruimos la factoría de componentes. La factoría
 		// de componentes no es de construcción y destrucción explícita
 		// debido a como se registran los componentes. Por ello Init y
 		// Release no son simétricos.
 
-		// Inicializamos la red
+		// TODO Esto no deberia ir dentro del Logic::Server::Release?
+		if(Logic::CComponentFactory::getSingletonPtr())
+			delete Logic::CComponentFactory::getSingletonPtr();
+
+		if(Logic::CServer::getSingletonPtr())
+			Logic::CServer::Release();
+
+		// Liberamos la red
 		if (Net::CManager::getSingletonPtr())
 			Net::CManager::Release();
 		
@@ -118,35 +129,25 @@ namespace Application {
 		//if (AI::CServer::getSingletonPtr())
 		//	AI::CServer::Release();
 
-		if(Logic::CComponentFactory::getSingletonPtr())
-			delete Logic::CComponentFactory::getSingletonPtr();
-
-		if(Logic::CServer::getSingletonPtr())
-			Logic::CServer::Release();
-
 		// Liberar los recursos del servidor de física
 		if (Physics::CServer::getSingletonPtr())
 			Physics::CServer::Release();
 
 		if(GUI::CServer::getSingletonPtr())
 			GUI::CServer::Release();
-
-		if(GUI::CInputManager::getSingletonPtr())
-		{
-			// Dejamos de ser oyentes de los eventos del teclado.
-			GUI::CInputManager::getSingletonPtr()->removeKeyListener(this);
-			// Y de los eventos del ratón
-			GUI::CInputManager::getSingletonPtr()->removeMouseListener(this);
-			GUI::CInputManager::Release();
-		}
 		
 		if(Graphics::CServer::getSingletonPtr())
 			Graphics::CServer::Release();
 
+		if(GUI::CInputManager::getSingletonPtr())
+		{			
+			GUI::CInputManager::getSingletonPtr()->removeKeyListener(this);// Dejamos de ser oyentes de los eventos del teclado.			
+			GUI::CInputManager::getSingletonPtr()->removeMouseListener(this);// Y de los eventos del ratón
+			GUI::CInputManager::Release(); // Y liberamos
+		}
+
 		if(BaseSubsystems::CServer::getSingletonPtr())
 			BaseSubsystems::CServer::Release();
-
-		CBaseApplication::release();
 
 	} // release
 
@@ -160,7 +161,8 @@ namespace Application {
 
 		Graphics::CServer::getSingletonPtr()->tick(msecs/1000.0f);
 
-		Net::CManager::getSingletonPtr()->tick(msecs); // ƒ®§ Necesario para tx/rx peticiones de union a partida en los lobbies
+		Net::CManager::getSingletonPtr()->tick(msecs); 
+		// ƒ®§ Necesario para tx/rx peticiones de union a partida en los lobbies
 
 	} // tick
 

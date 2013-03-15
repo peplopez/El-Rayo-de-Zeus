@@ -13,11 +13,15 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Life.h"
 
 #include "BaseSubsystems/Math.h"
-#include "Graphics/Server.h" //Pablo 04-02-2013
 
+#include "Graphics/Billboard.h"
+#include "Graphics/Scene.h"
+
+#include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageInt.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Maps/Map.h"
 
 #include "Map/MapEntity.h"
 
@@ -25,7 +29,16 @@ Contiene la implementación del componente que controla la vida de una entidad.
 namespace Logic 
 {
 	IMP_FACTORY(CLife);
+
+	//---------------------------------------------------------
 	
+	CLife::~CLife() {
+		if(_lifeBarBB)
+		{
+			_graphicalScene->remove(_lifeBarBB);	
+			delete _lifeBarBB;
+		}
+	}
 	//---------------------------------------------------------
 
 	bool CLife::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
@@ -33,32 +46,26 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
-		if(entityInfo->hasAttribute("lifeMax"))
+		_graphicalScene = map->getGraphicScene();
+
+		assert( entityInfo->hasAttribute("lifeMax") );
 			_life = _LIFE_MAX = entityInfo->getIntAttribute("lifeMax");
-		if(entityInfo->hasAttribute("lifeBarPosition"))		
-			_lifeBarPosition = entityInfo->getFloatAttribute("lifeBarPosition");		
-		if(entityInfo->hasAttribute("lifeBarWidth"))		
-			_lifeBarWidth = entityInfo->getFloatAttribute("lifeBarWidth");	
-		if(entityInfo->hasAttribute("lifeBarHeight"))
-			_lifeBarHeight = entityInfo->getFloatAttribute("lifeBarHeight");
+		assert( entityInfo->hasAttribute("lifeBarPosition") );		
+			float lifeBarPosition = entityInfo->getFloatAttribute("lifeBarPosition");		
+		assert( entityInfo->hasAttribute("lifeBarWidth") );	
+			float lifeBarWidth = entityInfo->getFloatAttribute("lifeBarWidth");	
+		assert( entityInfo->hasAttribute("lifeBarHeight") );
+			float lifeBarHeight = entityInfo->getFloatAttribute("lifeBarHeight");
 
 		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
-		_lifeBar = Graphics::CBillboard( entity->getName(), _lifeBarPosition);  //le paso un string con el nombre de la entidad			
-			_lifeBar.setDimensions(_lifeBarWidth,_lifeBarHeight);  //Pablo. 01-02-2013- Ancho y alto de la barra de vida dirigido por datos
-			_lifeBar.setCoordenadas(0.0f, 0.0f, 0.5f, 1.0f);
-		
+		_lifeBarBB = new Graphics::CBillboard( entity->getName(), 
+			Vector3(0, lifeBarPosition, 0), lifeBarWidth, lifeBarHeight, "lifeBar");  //le paso un string con el nombre de la entidad			
+			_graphicalScene->add(_lifeBarBB);
+			_lifeBarBB->setTextureCoords(0.0f, 0.0f, 0.5f, 1.0f);
+
 		return true;
 
 	} // spawn
-	
-	//---------------------------------------------------------
-
-	void CLife::deactivate()
-	{
-		_lifeBar.deactivateBillboard( _entity->getName() ); //Eliminacion del billboard de la entidad	
-		IComponent::deactivate();
-	} // deactivate
-
 	
 	//---------------------------------------------------------
 
@@ -105,8 +112,8 @@ namespace Logic
 		}		
 
 		// LIFEBAR CONTROL
-		float ratio = (float)_life / (float)_LIFE_MAX;
-			_lifeBar.setCoordenadas(
+		float ratio = (float)_life / (float)_LIFE_MAX; // FRS Menudo fail hicimos aquí con los enteros xD
+			_lifeBarBB->setTextureCoords(
 				(1.0f - ratio) / 2.0f,			// u1
 				0.0f,							// v1
 				0.5f + (1.0f - ratio) / 2.0f,	// u2

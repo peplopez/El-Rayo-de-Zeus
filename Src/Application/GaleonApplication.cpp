@@ -85,13 +85,5 @@ namespace Application {
 
 	//--------------------------------------------------------
 
-	void CGaleonApplication::release()
-	{
-		// Desactivamos y eliminamos todos los estados.
-		releaseAllStates();
-
-		C3DApplication::release();
-
-	} // release
 
 } // namespace Application

@@ -246,7 +246,9 @@ namespace GUI {
 		
 	bool CPlayerController::mousePressed(const CMouseState &mouseState)
 	{
-		if(_controlledAvatar)
+		if(!_controlledAvatar)
+			return false;
+		else
 		{
 			Logic::CMessage *m = new Logic::CMessage();
 			m->setType(Logic::Message::CONTROL);

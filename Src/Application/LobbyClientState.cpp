@@ -22,13 +22,10 @@ Contiene la implementación del estado de lobby del cliente.
 
 #include "GUI/Server.h"
 
+#include "NET/Buffer.h"
 #include "NET/Manager.h"
-#include "NET/Cliente.h"
-#include "NET/factoriared.h"
-#include "NET/paquete.h"
-#include "NET/conexion.h"
-#include "NET/buffer.h"
-#include "NET/serializable.h"
+#include "NET/Packet.h"
+#include "NET/Serializable.h"
 
 #include <CEGUISystem.h>
 #include <CEGUIWindowManager.h>
@@ -226,7 +223,7 @@ srand(time(0)); // HACK necesario subsistema random
 	/**********************
 		NET: IOBSERVER
 	********************/
-	void CLobbyClientState::dataPacketReceived(Net::CPaquete* packet)
+	void CLobbyClientState::dataPacketReceived(Net::CPacket* packet)
 	{
 		Net::CBuffer rxSerialMsg; // Packet: "NetMessageType | extraData"
 			rxSerialMsg.write(packet->getData(),packet->getDataLength());
@@ -265,7 +262,7 @@ srand(time(0)); // HACK necesario subsistema random
 				_app->exitRequest();
 		
 				// Cargamos el nivel a partir del nombre del mapa. 
-			} else if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt")){
+			} else if (!Logic::CServer::getSingletonPtr()->loadMap("map.txt")){
 				CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar el nivel");
 				Net::CManager::getSingletonPtr()->deactivateNetwork();
 				_app->exitRequest();
@@ -308,7 +305,7 @@ srand(time(0)); // HACK necesario subsistema random
 			LOG( "RX LOAD_PLAYER " << id << " with Nick=" << playerNick << " and Model=" << playerModel );
 
 			// [FRS] Llamar al método de creación del jugador. Deberemos decidir
-			// si el jugador es el jugador local (si el ID del paquete coincide 
+			// si el jugador es el jugador local (si el ID del packet coincide 
 			// con nuestro ID de red).
 			bool isLocalPlayer = id == Net::CManager::getSingletonPtr()->getID(); // id rx == id local?
 
@@ -316,7 +313,7 @@ srand(time(0)); // HACK necesario subsistema random
 			// HACK Deberíamos poder propocionar caracteríasticas
 			// diferentes según el cliente (nombre, modelo, etc.). Esto es una
 			// aproximación, solo cambiamos el nombre y decimos si es el jugador
-			// local. Los datos deberían llegar en el paquete de red.
+			// local. Los datos deberían llegar en el packet de red.
 
 			//Enviamos el mensaje de que se ha creado el jugador
 			Net::NetMessageType msg = Net::NetMessageType::PLAYER_LOADED;

@@ -12,13 +12,11 @@
  * @date Junio, 2006
  */
 
-#ifndef __CLIENTE_H
-#define __CLIENTE_H
+#ifndef __Net_Client_H
+#define __Net_Client_H
 
-
-#include "enet/enet.h"
-#include "conexion.h"
-#include "paquete.h"
+#include "Connection.h"
+#include "packet.h"
 #include <vector>
 
 namespace Net {
@@ -29,18 +27,18 @@ namespace Net {
  * Con ella se pretende representar el comportamiento de un cliente de red genérico 
  * e independiente de la implementación.
  */
-class CCliente {
+class CClient {
 
 public:
 
 	/**
 	 * Destructor virtual.
 	 */
-	virtual ~CCliente(){}
+	virtual ~CClient(){}
 
 	/**
 	 * Inicializa el cliente de red.
-	 * @param maxConnections Máximo de conexiones permitidas
+	 * @param maxConnections Máximo de connectiones permitidas
 	 * @param maxinbw Ancho de banda de entrada máximo en bytes/segundo (0 = ilimitado)
 	 * @param maxoutbw Ancho de banda de salida máximo en bytes/segundo (0 = ilimitado)
 	 * @param true si todo ok
@@ -55,45 +53,45 @@ public:
 	 * @param timeout Tiempo máximo de espera para conectar con la máquina remota.
 	 * @return La conexión creada. Devuelve NULL si la conexión no ha podido ser establecida o si no se llamó a init() anteriormente.
 	 */
-	virtual CConexion* connect(char* address, int port, int channels, unsigned int timeout = 5000)=0;
+	virtual CConnection* connect(char* address, int port, int channels, unsigned int timeout = 5000)=0;
 
 	/**
-	 * Devuelve una lista de las conexiones creadas 
+	 * Devuelve una lista de las connectiones creadas 
 	 */
-	virtual std::vector<CConexion*>::iterator listarConnexiones()=0;
+	virtual std::vector<CConnection*>::iterator listConnections()=0;
 
 	/**
 	 * Envía datos a través de una conexión.
-	 * @param conexion por la que enviar los datos
+	 * @param connection por la que enviar los datos
 	 * @param data son los datos a enviar
 	 * @param longData tamaño de los datos a enviar
 	 * @param channel canal lógico por el que se enviarán los datos
 	 * @param reliable indica si el cliente debe comprobar que los datos han sido recibidos por la máquina remota
 	 */
-	virtual void sendData(void* data, int longData, int channel, bool reliable, CConexion* conexion)=0;
+	virtual void sendData(void* data, int longData, int channel, bool reliable, CConnection* connection)=0;
 	
 	/**
-	 * Refresca el cliente obteniendo todos los paquetes recibidos después de la última llamada a este método
-	 * IMPORTANTE: Es responsabilidad del invocador de service() borrar los paquetes recibidos
-	 * @param paquetesRecibidos Vector de CPaquete* donde se almacenan los paquetes recibidos
+	 * Refresca el cliente obteniendo todos los packets recibidos después de la última llamada a este método
+	 * IMPORTANTE: Es responsabilidad del invocador de service() borrar los packets recibidos
+	 * @param packetsRecibidos Vector de CPacket* donde se almacenan los packets recibidos
 	 */
-	virtual void service(std::vector<CPaquete*>& paquetesRecibidos)=0;
+	virtual void service(std::vector<CPacket*>& packetsRecibidos)=0;
 
 	/**
-	 * Obtiene el siguiente paquete recibido
-	 * IMPORTANTE: Es responsabilidad del invocador de readPacket() borrar el paquete recibido
-	 * @return último paquete recibido
+	 * Obtiene el siguiente packet recibido
+	 * IMPORTANTE: Es responsabilidad del invocador de readPacket() borrar el packet recibido
+	 * @return último packet recibido
 	 */
-	virtual CPaquete* readPacket() = 0;
+	virtual CPacket* readPacket() = 0;
 
 	/**
 	 * Desconecta la conexión indicada.
 	 */
-	virtual void disconnect(CConexion * conexion)=0;
+	virtual void disconnect(CConnection * connection)=0;
 
 	/**
 	 * Libera los recursos ocupados por este cliente.
-	 * Es responsabilidad de este método desconectar todas las conexiones en este punto.
+	 * Es responsabilidad de este método desconectar todas las connectiones en este punto.
 	 */ 
 	virtual void deInit()=0;
 

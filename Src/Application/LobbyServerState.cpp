@@ -21,12 +21,10 @@ Contiene la implementación del estado de lobby del servidor.
 #include "Logic/Maps/Map.h"
 
 #include "GUI/Server.h"
-#include "NET/Manager.h"
-#include "NET/Servidor.h"
-#include "NET/factoriared.h"
-#include "NET/paquete.h"
-#include "NET/buffer.h"
-#include "NET/serializable.h"
+
+#include "NET/Buffer.h"
+#include "NET/Packet.h"
+#include "NET/Serializable.h"
 
 #include <CEGUISystem.h>
 #include <CEGUIWindowManager.h>
@@ -102,7 +100,7 @@ namespace Application {
 
 		// NET: Registro como observer server
 		Net::CManager::getSingletonPtr()->addObserver(this);
-		Net::CManager::getSingletonPtr()->activateAsServer(1234,16); // 16 conexiones
+		Net::CManager::getSingletonPtr()->activateAsServer(1234,16); // 16 connectiones
 
 		CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")
 			->setText("Status: Server up. Waiting for clients ...");
@@ -207,6 +205,8 @@ namespace Application {
 
 	//--------------------------------------------------------
 
+
+	// TODO FRS Los app->exitRequest ya deberían desactivar la red de por sí, hasta que punto es necesario meter redundancias de deactivate networks?
 	void CLobbyServerState::doStart()
 	{
 		_waiting = false;
@@ -217,6 +217,8 @@ namespace Application {
 		// se ha retrasado y se encuentra en MenuState.cpp			
 		Net::NetMessageType txMsg = Net::LOAD_MAP; //Enviamos el mensaje de que carguen el mapa a todos los clientes
 			Net::CManager::getSingletonPtr()->send( &txMsg, sizeof(txMsg));
+		// Tx carga de mapa antes de cargarlo porque idealmente suponemos que nunca fallará la carga
+		// Mejor rendimiento cargarlo a la vez en lugar de cargar yo primero y luego el resto
 
 		LOG("TX LOAD_MAP");
 
@@ -241,7 +243,7 @@ namespace Application {
 			_app->exitRequest();
 		
 			// Cargamos el nivel a partir del nombre del mapa. 
-		} else if (!Logic::CServer::getSingletonPtr()->loadLevel("map.txt")){
+		} else if (!Logic::CServer::getSingletonPtr()->loadMap("map.txt")){
 			CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar el nivel");
 			Net::CManager::getSingletonPtr()->deactivateNetwork();
 			_app->exitRequest();
@@ -256,7 +258,7 @@ namespace Application {
 	/*******************
 		NET: IObserver
 	*********************/
-	void CLobbyServerState::dataPacketReceived(Net::CPaquete* packet)
+	void CLobbyServerState::dataPacketReceived(Net::CPacket* packet)
 	{
 		// TODO Aquí es donde debemos recibir los mensajes de red. Hay
 		// que atender al mensaje Net::MAP_LOADED para que cuando se
@@ -297,7 +299,7 @@ namespace Application {
 					//Inicializamos a 0 la lista de control de carga de jugadores.					
 					_playersLoadedByClients[id] = 0;	//Cada cliente ha cargado 0 jugadores
 
-					// [FRS] Hay que enviar un paquete tipo LOAD_PLAYER con 
+					// [FRS] Hay que enviar un packet tipo LOAD_PLAYER con 
 					// el NetID del cliente del que estamos creando el jugador (*it)
 					// Server orquesta carga de cada jugador: "voy a cargar tal, vosotros también"						
 					Net::CBuffer txSerialMsg;
@@ -323,7 +325,8 @@ namespace Application {
 			} break;
 		}
 
-
+// TODO Llevamos la cuenta de los que ha cargado cada uno
+// Así, si tarda mucho en responder o manda un disconnect -> descartamos solo su recuento
 		case Net::PLAYER_LOADED:
 		{
 			LOG("RX PLAYER_LOADED from " << packet->getConexion()->getId() );
@@ -332,6 +335,7 @@ namespace Application {
 			++_playersLoadedByClients[packet->getConexion()->getId()];
 
 			//[FRS] Comprobar si todos los clientes han terminado de cargar todos los jugadores
+			// TODO Sería mejor gestionar exactamente que player ha cargado cada uno, por si hay desconnectiones
 			bool loadFinished = true;
 				for(int i = 0; i<Net::CLIENTS_MAX; ++i)				
 					if(_clients & 1 << i)
@@ -339,6 +343,7 @@ namespace Application {
 							loadFinished = false;
 							break;
 						}
+
 		
 			if(loadFinished) //Si todos los clientes han cargado todos los players (inc. el suyo)
 			{
@@ -356,14 +361,14 @@ namespace Application {
 
 	//--------------------------------------------------------
 
-	void CLobbyServerState::connexionPacketReceived(Net::CPaquete* packet)
+	void CLobbyServerState::connexionPacketReceived(Net::CPacket* packet)
 	{
 		LOG("RX CONNECT from " << packet->getConexion()->getId() );
 
 		if(_waiting){
 			//Mostramos un poco de información en el status		
 			unsigned int ip = packet->getConexion()->getAddress();
-				byte* p = (byte*)&ip;
+				Net::byte* p = (Net::byte*)&ip;
 
 			char id[100];
 				sprintf_s(id,"Client conected: %d.%d.%d.%d:%d\nWaiting for more players...",p[0],p[1],p[2],p[3], packet->getConexion()->getPort()); 				
@@ -382,11 +387,12 @@ namespace Application {
 
 	//--------------------------------------------------------
 
-	void CLobbyServerState::disconnexionPacketReceived(Net::CPaquete* packet)
+	// TODO FRS Gestionar desconnectiones y borrarles del recuento de mapas / jugadores cargados... 
+	void CLobbyServerState::disconnexionPacketReceived(Net::CPacket* packet)
 	{
 		Net::NetID clientID = packet->getConexion()->getId();
 
-		// TODO gestionar desconexiones.
+		// TODO gestionar desconnectiones.
 		LOG("RX DISCONNECT from " << clientID ); // TODO quedan libres NetIDs tras disconnect? > 8 en algun momento?
 	
 		//Eliminamos el ID del usuario que se ha desconectado.
