@@ -18,7 +18,8 @@ de una escena.
 
 #include "BaseSubsystems/Server.h"
 
-#include "Graphics/Billboard.h"#include "Graphics/Camera.h"
+#include "Graphics/Billboard.h"
+#include "Graphics/Camera.h"
 #include "Graphics/Entity.h"
 #include "Graphics/GlowMaterialListener.h"
 #include "Graphics/Server.h"

@@ -56,8 +56,8 @@ namespace Logic
 		
 		setVisibleHud(false);	
 		
-		_overlay = new Graphics::COverlay("testOverlay");
-			_overlay->createChildPanel("panelDummy", -1, -1, 1, 1);
+		_overlay = new Graphics::COverlay(_entity->getName() + "_overlay");
+			_overlay->createChildPanel(_entity->getName() + "_panel", -1, -1, 1, 1);
 	
 	//	// FRS panelDummy no hace nada, pero parece ser necesario
 	//	Graphics::COverlay *panelDummy = _server->createOverlay("panelDummy",  "Panel" );

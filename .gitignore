@@ -162,6 +162,7 @@ DocumentacionDoxygen/
 #EXCEPTIONS #
 #############
 !/Projects/Application/*.user
+!/Projects/Configure/*.user
 !/dependencies/CEGUI/projects/premake/ScriptingModules/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++bin/premake.lua

@@ -5,4 +5,4 @@ Altar CGraphics CPhysics CAltar
 Entity CGraphics
 Player CAnimatedGraphics CAvatarController CAttack CJump2 CBaseTraveler CPhysicalCharacter CLife CDeath CHudOverlay CStateMachineExecutor CAltarStateSwitcher
 AnimatedEntity CAvatarController CAttack CPhysicalCharacter CAnimatedGraphics CLifeModifier CLife CDeath 
-OtherPlayer CAnimatedGraphics CAttack CPhysicCharacter CLifeModifier CLife CDeath CHudOverlay
+OtherPlayer CAnimatedGraphics CAttack CPhysicalCharacter CLifeModifier CLife CDeath CHudOverlay
