@@ -95,6 +95,7 @@ namespace Logic
 				else
 					punto=_entity->getDegree()+10;
 					//con este metodo vemos si con la espada le estamos dando
+				
 					unsigned short resultadoAtaque=attackPlace(punto,_entity->getRing(),_entity->getBase(),false);
 					if (resultadoAtaque==2)
 					{
@@ -105,7 +106,7 @@ namespace Logic
 						message->setBool(false);
 						_entity->emitMessage(message,this);					
 					}
-
+					
 			}
 		}
 	 }
@@ -124,7 +125,7 @@ namespace Logic
 
 	void CAttack::lightAttack() 
 	{
-		//if (_lightAttack) return;
+		if (_lightAttack) return;
 		_heavyAttack=false;
 		_lightAttack=true;
 
@@ -148,7 +149,7 @@ namespace Logic
 			punto=_entity->getDegree()-10;
 		else
 			punto=_entity->getDegree()+10;
-		attackPlace(punto,_entity->getRing(),_entity->getBase(),true);
+	//	attackPlace(punto,_entity->getRing(),_entity->getBase(),true);
 	} // turn
 
 	void CAttack::heavyAttack() 
@@ -172,6 +173,7 @@ namespace Logic
 		
 		CMap::TEntityList::const_iterator it = _entity->getMap()->getEntities().begin();
 		CMap::TEntityList::const_iterator end = _entity->getMap()->getEntities().end();
+		int veces=0;
 		for(; it != end; ++it)
 		{			
 			//Si la entidad que comparo no soy yo mismo y la distancia entre las posiciones
@@ -205,9 +207,11 @@ namespace Logic
 								else
 								{
 								CMessageInt *m2 = new CMessageInt();
-								m2->setInt(-1);
+								m2->setInt(-10);
 								m2->setType(Message::LIFE_MODIFIER);						
 								(*it)->emitMessage(m2,this);
+								veces++;
+								std::cout<<veces<<std::endl;
 								Logic::CMessage *m = new Logic::CMessage();
 								m->setType(Logic::Message::CONTROL);
 								m->setAction(Logic::Message::WALK_STOP);

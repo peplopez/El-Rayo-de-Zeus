@@ -3,6 +3,6 @@ Camera CCamera
 SkyBox CGraphics
 Altar CGraphics CPhysicEntity CAltar
 Entity CGraphics
-Player CAnimatedGraphics CAvatarController CAttack CJump2 CBaseTraveler CPhysicCharacter CLife CDeath CHudOverlay CStateMachineExecutor CAltarStateSwitcher
-AnimatedEntity CAvatarController CAttack CPhysicCharacter CAnimatedGraphics CLifeModifier CLife CDeath 
-OtherPlayer CAnimatedGraphics CAttack CPhysicCharacter CLifeModifier CLife CDeath CHudOverlay
+Player CAnimatedGraphics CAvatarController CAttack CLife CJump2 CBaseTraveler CPhysicCharacter  CDeath CHudOverlay CStateMachineExecutor CAltarStateSwitcher
+AnimatedEntity CAvatarController CAttack CLife CPhysicCharacter CAnimatedGraphics CLifeModifier  CDeath 
+OtherPlayer CAnimatedGraphics CAttack CLife CPhysicCharacter CLifeModifier  CDeath CHudOverlay
