@@ -39,7 +39,9 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		CHudOverlay();
+		CHudOverlay() : IComponent(GetAltTypeIdOf(CHudOverlay)), 
+			 _overlay(0), _health(1000.0), 
+			_playersInBase(0),_visibleHud(false) { }
 		
 		/** Destructor */
 		CHudOverlay::~CHudOverlay();
@@ -83,10 +85,11 @@ namespace Logic
 		static enum eOverlayTextArea {HEALTH, HEALTHBASE, PLAYERS, DUMMY };
 		static enum ColorValue { WHITE,BLACK,RED,GREEN,BLUE };
 
-		void hudLife(float health);
-		void hudVisor();
-		void hudSpawn(int spawn);
-		void hudPlayers(short int valor);
+		//UNDONE FRS temporalmente
+		//void hudLife(float health);
+		//void hudVisor();
+		//void hudSpawn(int spawn);
+		//void hudPlayers(short int valor);
 
 		float _health;
 		int _healthBase; //la base tiene 3 vidas (3 rayos)
@@ -94,14 +97,18 @@ namespace Logic
 		short int _playersInBase; //num Players contrarios en la base del Player
 		bool _visibleHud;
 
-		Graphics::CServer* _server;
+	
 
+		// TODO FRS de momento puntero, pero podría ser estático...
 		//Overlay de juego y overlay al morir el Player.
-		Graphics::COverlay *_overlayPlay;
-		Graphics::COverlay *_overlayDie;
+		Graphics::COverlay* _overlay;
+		
 
-		Graphics::COverlay *_textAreaDie;
-		Graphics::COverlay *_textBoxArea[4];
+		//Graphics::COverlay *_textBoxArea[4];
+		//Graphics::COverlay *_overlayDie;
+
+		//Graphics::COverlay *_textAreaDie;
+		
 		 
 	}; // class CHudOverlay
 

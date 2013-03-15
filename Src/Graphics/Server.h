@@ -178,30 +178,9 @@ namespace Graphics
 
 		@return La escena activa.
 		*/
-		Ogre::OverlayManager* getOverlayManager() {return _overlayManager;}
-		
-		/**
-		Crea un Overlay.
+		Ogre::OverlayManager* getOverlayManager() {return _overlayManager;}			
 
-		@param name Nombre del Overlay.
-		*/
-		COverlay* createOverlay(const std::string &name, const std::string &type = "");
-
-		/**
-		Destruye un Overlay.
-
-		@param name Nombre del Overlay.
-		*/
-		void removeOverlay(const std::string& name);
-
-		/**
-		Devuelve un overlay dado un nombre
-
-		@param name Nombre del Overlay.
-		@return Overley devuelto o NULL en caso de no existir
-		*/
-		COverlay* getOverlay(const std::string& name);
-
+	
 		/**
 		Metodo que devuelve el height de la pantalla. Esta tomado gracias a los overlays, puede que no sea fiable 100%
 

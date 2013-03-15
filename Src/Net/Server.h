@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
-// servidor.h
+// Server.h
 //---------------------------------------------------------------------------
 
 /**
- * @file servidor.h
+ * @file Server.h
  *
  * Especifica un servidor de red.
  *
@@ -12,12 +12,12 @@
  * @date Junio, 2006
  */
 
-#ifndef __SERVIDOR_H
-#define __SERVIDOR_H
+#ifndef __Net_Server_H
+#define __Net_Server_H
 
 
-#include "paquete.h"
-#include "conexion.h"
+#include "Net/Packet.h"
+#include "Net/Connection.h"
 #include <vector>
 
 namespace Net {
@@ -27,14 +27,14 @@ namespace Net {
  * Con ella se pretende representar el comportamiento de un servidor de red genérico 
  * e independiente de la implementación.
  */
-class CServidor {
+class CServer {
 
 public:
 
 	/**
 	 * Destructor virtual.
 	 */
-	virtual ~CServidor(){}
+	virtual ~CServer(){}
 
 	/**
 	 * Inicializa el servidor escuchando en un puerto determinado.
@@ -46,32 +46,32 @@ public:
 	virtual bool init(int port, int clients, unsigned int maxinbw = 0, unsigned int maxoutbw = 0)=0;
 	
 	/**
-	 * Refresca el servidor obteniendo todos los paquetes recibidos después de la última llamada a este método
-	 * IMPORTANTE: Es responsabilidad del invocador de service() borrar los paquetes recibidos
-	 * @param paquetesRecibidos Vector de CPaquete* donde se almacenan los paquetes recibidos
+	 * Refresca el servidor obteniendo todos los packets recibidos después de la última llamada a este método
+	 * IMPORTANTE: Es responsabilidad del invocador de service() borrar los packets recibidos
+	 * @param packetsRecibidos Vector de CPacket* donde se almacenan los packets recibidos
 	 */
-	virtual void service(std::vector<CPaquete*>& paquetesRecibidos)=0;
+	virtual void service(std::vector<CPacket*>& packetsRecibidos)=0;
 
 	/**
 	 * Libera los recursos ocupados por este cliente.
-	 * Es responsabilidad de este método desconectar todas las conexiones en este punto.
+	 * Es responsabilidad de este método desconectar todas las connectiones en este punto.
 	 */ 
 	virtual void deInit()=0;
 
 	/**
-	 * Devuelve una lista de las conexiones creadas 
+	 * Devuelve una lista de las connectiones creadas 
 	 */
-	virtual std::vector<CConexion*>::iterator listarConnexiones()=0;
+	virtual std::vector<CConnection*>::iterator listConnections()=0;
 
 	/**
 	 * Envía datos a través de una conexión.
-	 * @param conexion por la que enviar los datos
+	 * @param connection por la que enviar los datos
 	 * @param data son los datos a enviar
 	 * @param longData tamaño de los datos a enviar
 	 * @param channel canal lógico por el que se enviarán los datos
 	 * @param reliable indica si el cliente debe comprobar que los datos han sido recibidos por la máquina remota
 	 */
-	virtual void sendData(void* data, size_t longData, int channel, bool reliable, CConexion* conexion)=0;
+	virtual void sendData(void* data, size_t longData, int channel, bool reliable, CConnection* connection)=0;
 
 	/**
 	 * Envía el mismo dato a todos los clientes conectados
@@ -80,12 +80,12 @@ public:
 	 * @param channel canal lógico por el que se enviarán los datos
 	 * @param reliable indica si el cliente debe comprobar que los datos han sido recibidos por la máquina remota
 	 */
-	virtual void sendAll(void* data, size_t longData, int channel, bool reliable, CConexion* exception)=0;
+	virtual void sendAll(void* data, size_t longData, int channel, bool reliable, CConnection* exception)=0;
 
 	/**
 	 * Desconecta la conexión indicada.
 	 */
-	virtual void disconnect(CConexion * conexion)=0;
+	virtual void disconnect(CConnection * connection)=0;
 
 	/**
 	 * Indica si el cliente tiene alguna conexión activa.

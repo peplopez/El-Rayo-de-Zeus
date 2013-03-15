@@ -39,6 +39,10 @@ namespace Application {
 		// FRS el Logic:: loadLevel se mueve a la parte final del lobby/menu state
 		//, ya que los mapas cargados varían dependiendo de si somos server, client o monojudador
 
+		// UNDONE FRS muestra una ventana de chat... pa que? es un misterio...
+		//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
+		//	_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
+
 		return true;
 
 	} // init
@@ -70,15 +74,12 @@ namespace Application {
 		// Queremos que el GUI maneje al jugador.
         GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
 		
-		// Activamos la ventana que nos muestra el HUD.
-		/*CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
-		/*
-		CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
-		_hudWindow->setVisible(true);
-		_hudWindow->activate();*/
-		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
-			_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
+		// Activamos la ventana que nos muestra el HUD.	
 
+		// TODO FRS activate debería poner visible implicitamente....
+		//CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
+		//	_hudWindow->setVisible(true);
+		//	_hudWindow->activate();
 
 	} // activate
 
@@ -87,9 +88,9 @@ namespace Application {
 	//  ƒ®§ Al salir de gameState (cambio de currentState)
 	void CGameState::deactivate() 
 	{
-		// Desactivamos la ventana de HUD.
-		_hudWindow->deactivate();
-		_hudWindow->setVisible(false);
+		//// Desactivamos la ventana de HUD.
+		//_hudWindow->deactivate();
+		//_hudWindow->setVisible(false);
 
 		// Desactivamos la clase que procesa eventos de entrada para 
 		// controlar al jugador.

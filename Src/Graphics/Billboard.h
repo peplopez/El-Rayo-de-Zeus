@@ -72,6 +72,10 @@ namespace Graphics
 
 		void setMaterial(const std::string &name);
 
+		// TODO FRS
+		// setVisible
+		//isVisible
+
 
 	protected:
 

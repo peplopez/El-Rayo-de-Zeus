@@ -18,7 +18,6 @@ con animaciones.
 #include "AnimatedEntity.h"
 
 #include <assert.h>
-
 #include <OgreEntity.h>
 #include <OgreAnimationState.h>
 
@@ -27,7 +26,7 @@ namespace Graphics
 		
 	bool CAnimatedEntity::setAnimation(const std::string &anim, float moment, bool loop)
 	{
-		assert(_entity  && "La entidad no ha sido cargada en la escena");
+		assert(_entity && "La entidad no ha sido cargada en la escena");
 
 		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
 			return false;

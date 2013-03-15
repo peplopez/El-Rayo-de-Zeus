@@ -15,19 +15,16 @@ la gestión de la red del juego.
 #include <vector>
 #include <map>
 
-
-
-// Predeclaracion de clases
 namespace Net {
 	class CBuffer;
-	class CServidor;
-	class CCliente;
-	class CConexion;
-	class CFactoriaRed;
-	class CFactoriaRedEnet;
-	class CPaquete;
+	class CServer;
+	class CClient;
+	class CConnection;
+	class CFactory;
+	class CFactoryENET;
+	class CPacket;
 	class IObserver;
-}
+};
 
 /**
 Namespace que engloba lo relacionado con la parte de red.
@@ -142,8 +139,8 @@ namespace Net
 
 		@param data Datos a enviar.
 		*/
-		void send(void* data, size_t longdata, CConexion* exception);
-		void send(void* data, size_t longdata, bool reliable = true, CConexion* exception = 0);
+		void send(void* data, size_t longdata, CConnection* exception);
+		void send(void* data, size_t longdata, bool reliable = true, CConnection* exception = 0);
 
 		void activateAsServer(int port, int clients = 16, unsigned int maxinbw = 0, unsigned int maxoutbw = 0);
 
@@ -192,13 +189,13 @@ namespace Net
 		*/
 		void close();
 
-		void getPackets(std::vector<Net::CPaquete*>& _paquetes);
+		void getPackets(std::vector<Net::CPacket*>& _packets);
 		
-		bool isMsgAssignID(Net::CPaquete* packet);
+		bool isMsgAssignID(Net::CPacket* packet);
 		
-		void connect(CConexion* connection);
+		void connect(CConnection* connection);
 
-		void disconnect(CConexion* connection);
+		void disconnect(CConnection* connection);
 
 	private:
 		/**
@@ -209,20 +206,20 @@ namespace Net
 		/**
 		Factoría de objetos de red
 		*/
-		Net::CFactoriaRed* _factoriaRed;
+		Net::CFactory* _netFactory;
 
 		/**
 			 Servidor de red
 		*/
-		Net::CServidor* _servidorRed;
+		Net::CServer* _netServer;
 
 		/**
 			Cliente de red
 		*/
-		Net::CCliente* _clienteRed;
+		Net::CClient* _netClient;
 
-		typedef std::pair<NetID, CConexion*> TConnectionPair;
-		typedef std::map<NetID, CConexion*> TConnectionTable;
+		typedef std::pair<NetID, CConnection*> TConnectionPair;
+		typedef std::map<NetID, CConnection*> TConnectionTable;
 		/**
 			Conexiones de red. Es decir, el servidor visto desde el cliente
 			o los clientes vistos desde el servidor. En el cliente solo se 
@@ -230,15 +227,15 @@ namespace Net
 		*/
 		TConnectionTable _connections;
 
-		CConexion* getConnection(NetID id);
+		CConnection* getConnection(NetID id);
 
-		bool addConnection(NetID id, CConexion* connection);
+		bool addConnection(NetID id, CConnection* connection);
 
 		bool removeConnection(NetID id);
 
 		std::vector<IObserver*> _observers;
 
-		std::vector<Net::CPaquete*> _paquetes;
+		std::vector<Net::CPacket*> _packets;
 
 		/**
 		ID de red una vez conectado.

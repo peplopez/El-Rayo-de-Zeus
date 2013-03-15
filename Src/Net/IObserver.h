@@ -15,7 +15,7 @@ notificadas de eventos de red.
 
 // Predeclaracion de clases
 namespace Net {
-	class CPaquete;
+	class CPacket;
 }
 
 namespace Net
@@ -23,9 +23,9 @@ namespace Net
 	class IObserver{
 	public:
 		virtual ~IObserver() {};
-		virtual void dataPacketReceived(Net::CPaquete* packet) = 0;
-		virtual void connexionPacketReceived(Net::CPaquete* packet) = 0;
-		virtual void disconnexionPacketReceived(Net::CPaquete* packet) = 0;
+		virtual void dataPacketReceived(Net::CPacket* packet) = 0;
+		virtual void connexionPacketReceived(Net::CPacket* packet) = 0;
+		virtual void disconnexionPacketReceived(Net::CPacket* packet) = 0;
 	};
 }
 

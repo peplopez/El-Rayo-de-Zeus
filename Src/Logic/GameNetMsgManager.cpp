@@ -25,7 +25,7 @@ Contiene la implementación del gestor de los mensajes de red durante la partida.
 #include "Logic/Server.h"
 
 #include "NET/Manager.h"
-#include "NET/paquete.h"
+#include "NET/packet.h"
 #include "NET/buffer.h"
 
 
@@ -123,10 +123,10 @@ namespace Logic {
 
 	//---------------------------------------------------------
 		
-	void CGameNetMsgManager::processEntityMessage(Net::CPaquete* packet)
+	void CGameNetMsgManager::processEntityMessage(Net::CPacket* packet)
 	{
 		// TODO Método que debe de ser invocado desde el método que
-		// recibe todos los paquetes de red cuando el tipo de mensaje
+		// recibe todos los packets de red cuando el tipo de mensaje
 		// de red es Net::ENTITY_MSG. Se debe sacar el ID de la entidad,
 		// recuperarla, deserializar el mensaje y enviárselo
 
@@ -167,7 +167,7 @@ namespace Logic {
 		NET: IObserver
 	*********************/
 	// Aquí es donde debemos recibir los mensajes de red
-	void CGameNetMsgManager::dataPacketReceived(Net::CPaquete* packet)
+	void CGameNetMsgManager::dataPacketReceived(Net::CPacket* packet)
 	{
 		// TODO para solo sacar el NetID no sale rentable cargarlo en un buffer
 		// O extraemos con el memcpy el netID solo

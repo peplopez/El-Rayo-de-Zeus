@@ -181,7 +181,7 @@ namespace Graphics
 	
 	//--------------------------------------------------------
 		
-	const bool CEntity::getVisible()
+	const bool CEntity::isVisible()
 	{
 		assert(_entityNode && "La entidad no ha sido cargada en la escena");
 		return _entity->isVisible();

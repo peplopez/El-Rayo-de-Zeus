@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
-// buffer.h
+// buffer.cpp
 //---------------------------------------------------------------------------
 
 /**
- * @file buffer.h
+ * @file buffer.cpp
  *
  * Implementa un buffer dinámico que los objetos utilizan para serializarse o deserializarse
  *

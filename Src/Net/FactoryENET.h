@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
-// factoriaredenet.h
+// FactoryENET.h
 //---------------------------------------------------------------------------
 
 /**
- * @file factoriaredenet.h
+ * @file FactoryENET.h
  *
  * Especifica una factoria de objetos de red implementados con ENet
  *
@@ -12,41 +12,42 @@
  * @date Octumbre, 2006
  */
 
-#ifndef __FACTORIAREDENET_H
-#define __FACTORIAREDENET_H
+#ifndef __Net_FactoryENET_H
+#define __Net_FactoryENET_H
 
-#include "servidorEnet.h"
-#include "clienteEnet.h"
-#include "factoriared.h"
+
+#include "Net/Factory.h"
+#include "Net/ServerENET.h"
+#include "Net/ClientENET.h"
 
 namespace Net {
 
 /**
  * Factoría para obtener el servidor y cliente de red implementados con la librería ENet
  */
-class CFactoriaRedEnet: public CFactoriaRed {
+class CFactoryENET: public CFactory {
 
 public:
 
-	CFactoriaRedEnet() {};
+	CFactoryENET() {};
 
-	CServidor* buildServidor();
+	CServer* buildServer();
 
 
-	CCliente*  buildCliente();
+	CClient*  buildClient();
 
 };
 
 
 
-CServidor* CFactoriaRedEnet::buildServidor()
+CServer* CFactoryENET::buildServer()
 {
-	return new CServidorENet();
+	return new CServerENET();
 }
 
-CCliente* CFactoriaRedEnet::buildCliente()
+CClient* CFactoryENET::buildClient()
 {
-	return new CClienteENet();
+	return new CClientENET();
 }
 
 

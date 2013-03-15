@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
-// servidorENet.h
+// ServerENET.h
 //---------------------------------------------------------------------------
 
 /**
- * @file servidorENet.h
+ * @file ServerENET.h
  *
  * Implementa un servidor de red con ENet
  *
@@ -12,31 +12,32 @@
  * @date Junio, 2006
  */
 
-#ifndef __SERVIDORENET_H
-#define __SERVIDORENET_H
+#ifndef __Net_ServerENET_H
+#define __Net_ServerENET_H
 
 
-#include "servidor.h"
-#include "enet/enet.h"
+#include "Server.h"
+
+#include "Enet/enet.h"
 
 namespace Net {
 
 /**
  * Servidor de red implementado mediante la librería eNet
  */
-class CServidorENet: public CServidor {
+class CServerENET: public CServer {
 
 public:
 
 	/**
 	 * Constructor
 	 */ 
-	CServidorENet();
+	CServerENET();
 
 	/**
 	 * Destructor
 	 */
-	virtual ~CServidorENet();
+	virtual ~CServerENET();
 
 	/**
 	 * Inicializa el servidor escuchando en un puerto determinado.
@@ -48,32 +49,32 @@ public:
 	bool init(int port, int clients, unsigned int maxinbw = 0, unsigned int maxoutbw = 0);
 	
 	/**
-	 * Refresca el servidor obteniendo todos los paquetes recibidos después de la última llamada a este método
-	 * IMPORTANTE: Es responsabilidad del invocador de service() borrar los paquetes recibidos
-	 * @param paquetesRecibidos Vector de CPaquete* donde se almacenan los paquetes recibidos
+	 * Refresca el servidor obteniendo todos los packets recibidos después de la última llamada a este método
+	 * IMPORTANTE: Es responsabilidad del invocador de service() borrar los packets recibidos
+	 * @param packetsRecibidos Vector de CPacket* donde se almacenan los packets recibidos
 	 */
-	void service(std::vector<CPaquete*>& paquetesRecibidos);
+	void service(std::vector<CPacket*>& packetsRecibidos);
 
 	/**
 	 * Libera los recursos ocupados por este cliente.
-	 * Es responsabilidad de este método desconectar todas las conexiones en este punto.
+	 * Es responsabilidad de este método desconectar todas las connectiones en este punto.
 	 */ 
 	void deInit();
 	
 	/**
-	 * Devuelve una lista de las conexiones creadas 
+	 * Devuelve una lista de las connectiones creadas 
 	 */
-	std::vector<CConexion*>::iterator listarConnexiones();
+	std::vector<CConnection*>::iterator listConnections();
 
 	/**
 	 * Envía datos a través de una conexión.
-	 * @param conexion por la que enviar los datos
+	 * @param connection por la que enviar los datos
 	 * @param data son los datos a enviar
 	 * @param longData tamaño de los datos a enviar
 	 * @param channel canal lógico por el que se enviarán los datos
 	 * @param reliable indica si el cliente debe comprobar que los datos han sido recibidos por la máquina remota
 	 */
-	void sendData(void* data, size_t longData, int channel, bool reliable, CConexion* conexion);
+	void sendData(void* data, size_t longData, int channel, bool reliable, CConnection* connection);
 
 	/**
 	 * Envía el mismo dato a todos los clientes conectados
@@ -82,12 +83,12 @@ public:
 	 * @param channel canal lógico por el que se enviarán los datos
 	 * @param reliable indica si el cliente debe comprobar que los datos han sido recibidos por la máquina remota
 	 */
-	void sendAll(void* data, size_t longData, int channel, bool reliable, CConexion* exception = 0);
+	void sendAll(void* data, size_t longData, int channel, bool reliable, CConnection* exception = 0);
 
 	/**
 	 * Desconecta la conexión indicada.
 	 */
-	void disconnect(CConexion * conexion);
+	void disconnect(CConnection * connection);
 
 	/**
 	 * Indica si el cliente tiene alguna conexión activa.
@@ -109,15 +110,15 @@ private:
 
 	void disconnectAll();
 
-	void disconnectReceived(CConexion* conexion);
+	void disconnectReceived(CConnection* connection);
 	
 	EstadoServidorENet estado;
 
-	std::vector<CConexion*> listaConexiones;
+	std::vector<CConnection*> _connectionsList;
 
 	ENetHost* server;
 };
 
 } // namespace Net
 
-#endif // __SERVIDOR_H
+#endif // __Net_ServerENET_H

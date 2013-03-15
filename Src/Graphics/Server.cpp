@@ -110,6 +110,9 @@ namespace Graphics
 			while(it != end)			
 				removeScene( (*it++).second );
 
+		// OVERLAYS
+		_overlayManager->destroyAll(); // destroys all overlays
+
 	} // close
 
 	//--------------------------------------------------------
@@ -187,45 +190,7 @@ namespace Graphics
 		setActiveScene( _scenes[name] );
 	} // setActiveScene
 
-
-
-	/****************
-		OVERLAYS
-	*****************/
-
-	COverlay* CServer::createOverlay(const std::string &name, const std::string &type){
 	
-		//Nos aseguramos de que no exista ya un overlay con este nombre.
-		//assert(_overlayManager->hasOverlayElement(name));
-
-		COverlay *overlay = new COverlay(name, type);
-		std::pair<std::string,COverlay*> aux(name, overlay);
-		//_overlays.insert(aux);
-
-		return overlay;
-	} // createOverlayelement
-
-		
-	//--------------------------------------------------------
-
-	void CServer::removeOverlay(const std::string& name){
-		_overlayManager->destroy(name);
-	} //removeOverlayElement
-	//--------------------------------------------------------
-	
-	COverlay* CServer::getOverlay(const std::string& name){
-		if(_overlayManager->hasOverlayElement(name)){
-			return new COverlay(_overlayManager->getOverlayElement(name)); // FRS Por qué estos news?
-		}else {
-			if(_overlayManager->getByName(name)){
-				return new COverlay(_overlayManager->getByName(name));
-			}
-			return 0;
-		}
-	} //get Overlay
-	//--------------------------------------------------------
-	
-
 	// TODO FRS Es necesario pasar a través del overlayManager
 	// El ancho y el alto deberían ser cosas independientes de los overlays, no?
 	int CServer::getScreenWidth(){

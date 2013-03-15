@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
-// conexionENet.h
+// ConnectionENET.h
 //---------------------------------------------------------------------------
 
 /**
- * @file conexionENet.h
+ * @file ConnectionENET.h
  *
  * Representa una conexión con un peer implementada con ENet.
  *
@@ -13,36 +13,36 @@
  */
 
 
-#include "conexionENet.h"
+#include "ConnectionENET.h"
 
 namespace Net {
 
-	void CConexionENet::setENetPeer(ENetPeer* p)
+	void CConnectionENET::setENetPeer(ENetPeer* p)
 	{
 		_peer = p;
 	};
 
-	ENetPeer* CConexionENet::getENetPeer()
+	ENetPeer* CConnectionENET::getENetPeer()
 	{
 		return _peer;
 	};
 
-	void CConexionENet::setId(NetID id)
+	void CConnectionENET::setId(NetID id)
 	{
 		_id = id;
 	}
 
-	NetID CConexionENet::getId()
+	NetID CConnectionENET::getId()
 	{
 		return _id;
 	}
 
-	int CConexionENet::getAddress()
+	int CConnectionENET::getAddress()
 	{
 		return _peer->address.host;
 	}
 
-	short CConexionENet::getPort()
+	short CConnectionENET::getPort()
 	{
 		return _peer->address.port;
 	}

@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
-// paquete.h
+// packet.h
 //---------------------------------------------------------------------------
 
 /**
- * @file paquete.h
+ * @file packet.h
  *
  * Representación de los datos transmitidos por red
  *
@@ -12,49 +12,49 @@
  * @date Octumbre, 2006
  */
 
-#ifndef __PAQUETE_H
-#define __PAQUETE_H
+#ifndef __Net_Packet_H
+#define __Net_Packet_H
 
-#include "conexion.h"
+#include "Connection.h"
 
 namespace Net {
 
 	/**
-	 * Los paquetes manejarán bytes
+	 * Los packets manejarán bytes
 	 */
 	typedef unsigned char byte;
 
 	/**
-	 * Identificador de paquetes
+	 * Identificador de packets
 	 */
-    enum TipoPaquete{
-		DATOS,
-		CONEXION,
-		DESCONEXION,
+    enum PacketType{
+		DATA,
+		CONNECT,
+		DISCONNECT,
 		CONTROL
 	};
 
 /**
  * Clase que representa de los datos transmitidos por red
  */
-class CPaquete {
+class CPacket {
 
 public:
 
 	/**
-	 * Constructora. Crea un paquete de datos.
-	 * @param tipo del paquete
-	 * @param data es el contenido del paquete
+	 * Constructora. Crea un packet de datos.
+	 * @param tipo del packet
+	 * @param data es el contenido del packet
 	 * @param dataLength es el tamaño de los datos (data)
-	 * @param conexion es la conexión por la que se transmiten
+	 * @param connection es la conexión por la que se transmiten
 	 * @param canan es el canal por el que se transmiten
 	 */
-	CPaquete(TipoPaquete tipo, byte* data, size_t dataLength, CConexion* conexion, unsigned char canal);
+	CPacket(PacketType tipo, byte* data, size_t dataLength, CConnection* connection, unsigned char canal);
 
 	/**
 	 * Destructura
 	 */
-	~CPaquete();
+	~CPacket();
 
 	/**
 	 * Obtener los datos
@@ -62,34 +62,34 @@ public:
 	byte* getData();
 
 	/**
-	 * Establecer el contenido del paquete
+	 * Establecer el contenido del packet
 	 */
 	void setData(byte* data, size_t length);
 
 	/**
-	 * Obtener el tamaño de los datos del paquete
+	 * Obtener el tamaño de los datos del packet
 	 */ 
 	size_t getDataLength();
 
 	/**
 	 * Obtener el tipo de los datos
 	 */
-	TipoPaquete getTipo();
+	PacketType getTipo();
 
 	/**
 	 * Establecer el tipo de los datos
 	 */
-	void setTipo(TipoPaquete tipo);
+	void setTipo(PacketType tipo);
 
 	/**
 	 * Establecer la conexión que transmite los datos
 	 */ 
-	void setConexion(CConexion* conexion);
+	void setConexion(CConnection* connection);
 
 	/**
 	 * Obtener la conexión que transmite los datos
 	 */ 
-	CConexion* getConexion();
+	CConnection* getConexion();
 
 	/**
 	 * Establecer el canal que transmite los datos
@@ -105,8 +105,8 @@ protected:
 	unsigned char _canal;
 	size_t _dataLength;
 	byte* _data;
-	TipoPaquete _tipoPaquete;
-	CConexion* _conexion;
+	PacketType _packetType;
+	CConnection* _connection;
 
 };
 

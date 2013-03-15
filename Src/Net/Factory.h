@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------
-// factoriared.h
+// FactoryENET.h
 //---------------------------------------------------------------------------
 
 /**
- * @file factoriared.h
+ * @file FactoryENET.h
  *
  * Especifica una factoria (abstracta) de objetos de red
  *
@@ -12,29 +12,29 @@
  * @date Octumbre, 2006
  */
 
-#ifndef __FACTORIARED_H
-#define __FACTORIARED_H
-
-#include "servidor.h"
-#include "cliente.h"
+#ifndef __Net_Factory_H
+#define __Net_Factory_H
 
 namespace Net {
+
+	class CServer;
+	class CClient;
 
 /**
  * Factoría para obtener el servidor y cliente de red
  */
-class CFactoriaRed {
+class CFactory {
 
 public:
 	/**
 	 * Obtiene un servidor
 	 */
-	virtual CServidor* buildServidor()=0;
+	virtual CServer* buildServer()=0;
 
 	/**
 	 * Obtiene un cliente
 	 */
-	virtual CCliente*  buildCliente()=0;
+	virtual CClient*  buildClient()=0;
 };
 
 

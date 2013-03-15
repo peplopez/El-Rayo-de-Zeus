@@ -49,7 +49,7 @@ namespace Logic
 	@date Febrero, 2011
 	*/
 	// TODO Implementar Net::CManager::IObserver para poder recibir 
-	// paquetes de datos (mensajes de red)
+	// packets de datos (mensajes de red)
 	class CGameNetMsgManager : public Net::IObserver
 	{
 	public:
@@ -96,9 +96,9 @@ namespace Logic
 		/******************
 			NET::IOBSERVER
 		******************/
-		virtual void dataPacketReceived(Net::CPaquete* packet);
-		virtual void connexionPacketReceived(Net::CPaquete* packet) {};
-		virtual void disconnexionPacketReceived(Net::CPaquete* packet) {};
+		virtual void dataPacketReceived(Net::CPacket* packet);
+		virtual void connexionPacketReceived(Net::CPacket* packet) {};
+		virtual void disconnexionPacketReceived(Net::CPacket* packet) {};
 		
 
 	protected:
@@ -121,7 +121,7 @@ namespace Logic
 
 		@param packet Datos con la serialización del mensaje.
 		*/
-		void processEntityMessage(Net::CPaquete* packet);
+		void processEntityMessage(Net::CPacket* packet);
 
 	private:
 		/**
