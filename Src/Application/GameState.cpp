@@ -35,14 +35,9 @@ namespace Application {
 	bool CGameState::init() 
 	{
 		CApplicationState::init();
-
 		// FRS el Logic:: loadLevel se mueve a la parte final del lobby/menu state
 		//, ya que los mapas cargados varían dependiendo de si somos server, client o monojudador
-
-		// UNDONE FRS muestra una ventana de chat... pa que? es un misterio...
-		//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
-		//	_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
-
+		
 		return true;
 
 	} // init
@@ -70,17 +65,9 @@ namespace Application {
 		// Activamos el mapa que ha sido cargado para la partida (incluye la activacion de la escenas)
 		Logic::CServer::getSingletonPtr()->activateMap();
 
-
 		// Queremos que el GUI maneje al jugador.
         GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
 		
-		// Activamos la ventana que nos muestra el HUD.	
-
-		// TODO FRS activate debería poner visible implicitamente....
-		//CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
-		//	_hudWindow->setVisible(true);
-		//	_hudWindow->activate();
-
 	} // activate
 
 	//--------------------------------------------------------
@@ -88,12 +75,7 @@ namespace Application {
 	//  ƒ®§ Al salir de gameState (cambio de currentState)
 	void CGameState::deactivate() 
 	{
-		//// Desactivamos la ventana de HUD.
-		//_hudWindow->deactivate();
-		//_hudWindow->setVisible(false);
-
-		// Desactivamos la clase que procesa eventos de entrada para 
-		// controlar al jugador.
+		// Desactivamos la clase que procesa eventos de entrada para  controlar al jugador.
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
 		
 		// Desactivamos el mapa de la partida (incluye la desactivacion de la escenas)
@@ -108,7 +90,6 @@ namespace Application {
 	void CGameState::tick(unsigned int msecs) 
 	{
 		CApplicationState::tick(msecs);
-
 		// FRS Los siguientes ticks no se colocan a nivel de C3DApplication::tick
 		// porque a diferencia de otros servers, sólo deben actualizarse durante el GameState)
 		
@@ -147,7 +128,7 @@ namespace Application {
 
 		// TODO
 		case GUI::Key::PAUSE:
-			_app->setState("pause");
+			_app->setState("pause"); // TODO FRS no existe todavía el estado pause
 			break;
 
 		default:
