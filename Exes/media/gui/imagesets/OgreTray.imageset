@@ -31,11 +31,23 @@
     <Image Name="TextBoxR" XPos="152" YPos="76" Width="13" Height="6" />
     <Image Name="TextBoxT" XPos="146" YPos="63" Width="6" Height="13" />
     <Image Name="BandsFull" XPos="1" YPos="2" Width="1" Height="30" />
-    <Image Name="ButtonUpB" XPos="16" YPos="22" Width="104" Height="11" />
-    <Image Name="ButtonUpL" XPos="5" YPos="12" Width="11" Height="10" />
-    <Image Name="ButtonUpM" XPos="16" YPos="12" Width="104" Height="10" />
-    <Image Name="ButtonUpR" XPos="120" YPos="12" Width="11" Height="10" />
-    <Image Name="ButtonUpT" XPos="16" YPos="1" Width="104" Height="11" />
+    
+	<!-- <Image Name="ButtonUpB" XPos="16" YPos="22" Width="104" Height="11" /> -->
+	<Image Name="ButtonUpB" XPos="16" YPos="88" Width="104" Height="11" />
+	
+    <!-- <Image Name="ButtonUpL" XPos="5" YPos="12" Width="11" Height="10" /> -->
+	<Image Name="ButtonUpL" XPos="5" YPos="78" Width="11" Height="10" />
+	
+    <!--<Image Name="ButtonUpM" XPos="16" YPos="12" Width="104" Height="10" />-->
+	<Image Name="ButtonUpM" XPos="16" YPos="78" Width="104" Height="10" />
+	
+	<!-- <Image Name="ButtonUpR" XPos="120" YPos="12" Width="11" Height="10" /> -->
+	<Image Name="ButtonUpR" XPos="120" YPos="78" Width="11" Height="10" />
+	
+    <!-- <Image Name="ButtonUpT" XPos="16" YPos="1" Width="104" Height="11" /> -->
+	<Image Name="ButtonUpT" XPos="16" YPos="67" Width="104" Height="11" />
+	
+	
     <Image Name="MiniTrayB" XPos="178" YPos="103" Width="8" Height="12" />
     <Image Name="MiniTrayL" XPos="166" YPos="95" Width="12" Height="8" />
     <Image Name="MiniTrayM" XPos="178" YPos="95" Width="8" Height="8" />
@@ -45,10 +57,19 @@
     <Image Name="TextBoxBR" XPos="152" YPos="82" Width="13" Height="13" />
     <Image Name="TextBoxTL" XPos="133" YPos="63" Width="13" Height="13" />
     <Image Name="TextBoxTR" XPos="152" YPos="63" Width="13" Height="13" />
-    <Image Name="ButtonUpBL" XPos="5" YPos="22" Width="11" Height="11" />
-    <Image Name="ButtonUpBR" XPos="120" YPos="22" Width="11" Height="11" />
-    <Image Name="ButtonUpTL" XPos="5" YPos="1" Width="11" Height="11" />
-    <Image Name="ButtonUpTR" XPos="120" YPos="1" Width="11" Height="11" />
+	
+   <!--  <Image Name="ButtonUpBL" XPos="5" YPos="22" Width="11" Height="11" /> -->
+	<Image Name="ButtonUpBL" XPos="5" YPos="88" Width="11" Height="11" />
+	
+    <!-- <Image Name="ButtonUpBR" XPos="120" YPos="22" Width="11" Height="11" /> -->
+	<Image Name="ButtonUpBR" XPos="120" YPos="88" Width="11" Height="11" />
+	
+    <!--<Image Name="ButtonUpTL" XPos="5" YPos="1" Width="11" Height="11" />-->
+	<Image Name="ButtonUpTL" XPos="5" YPos="67" Width="11" Height="11" />
+	
+    <!-- <Image Name="ButtonUpTR" XPos="120" YPos="1" Width="11" Height="11" /> -->
+	<Image Name="ButtonUpTR" XPos="120" YPos="67" Width="11" Height="11" />
+	
     <Image Name="HorzTrackL" XPos="58" YPos="100" Width="5" Height="15" />
     <Image Name="HorzTrackM" XPos="63" YPos="100" Width="14" Height="15" />
     <Image Name="HorzTrackR" XPos="77" YPos="100" Width="5" Height="15" />
@@ -56,7 +77,9 @@
     <Image Name="MiniTrayBR" XPos="186" YPos="103" Width="12" Height="12" />
     <Image Name="MiniTrayTL" XPos="166" YPos="83" Width="12" Height="12" />
     <Image Name="MiniTrayTR" XPos="186" YPos="83" Width="12" Height="12" />
-	<Image Name="MouseArrow" XPos="1" YPos="185" Width="26" Height="44" />
+	
+	<Image Name="MouseArrow" XPos="1" YPos="205" Width="26" Height="44" />
+	
     <Image Name="SeparatorL" XPos="173" YPos="71" Width="20" Height="4" />
     <Image Name="SeparatorM" XPos="193" YPos="71" Width="10" Height="4" />
     <Image Name="SeparatorR" XPos="203" YPos="71" Width="20" Height="4" />
@@ -68,19 +91,40 @@
     <Image Name="ButtonDownM" XPos="15" YPos="78" Width="106" Height="10" />
     <Image Name="ButtonDownR" XPos="121" YPos="78" Width="11" Height="10" />
     <Image Name="ButtonDownT" XPos="15" YPos="67" Width="106" Height="11" />
-    <Image Name="ButtonOverB" XPos="16" YPos="55" Width="104" Height="11" />
-    <Image Name="ButtonOverL" XPos="5" YPos="45" Width="11" Height="10" />
-    <Image Name="ButtonOverM" XPos="16" YPos="45" Width="104" Height="10" />
-    <Image Name="ButtonOverR" XPos="120" YPos="45" Width="11" Height="10" />
-    <Image Name="ButtonOverT" XPos="16" YPos="34" Width="104" Height="11" />
+	
+    <!-- <Image Name="ButtonOverB" XPos="16" YPos="55" Width="104" Height="11" /> -->
+	<Image Name="ButtonOverB" XPos="16" YPos="125" Width="104" Height="11" />
+	
+    <!-- <Image Name="ButtonOverL" XPos="5" YPos="45" Width="11" Height="10" /> -->
+	<Image Name="ButtonOverL" XPos="5" YPos="115" Width="11" Height="10" />
+	
+    <!--<Image Name="ButtonOverM" XPos="16" YPos="45" Width="104" Height="10" />-->
+	<Image Name="ButtonOverM" XPos="16" YPos="115" Width="104" Height="10" />
+	
+    <!-- <Image Name="ButtonOverR" XPos="120" YPos="45" Width="11" Height="10" /> -->
+	<Image Name="ButtonOverR" XPos="120" YPos="115" Width="11" Height="10" />
+	
+    <!-- <Image Name="ButtonOverT" XPos="16" YPos="34" Width="104" Height="11" /> -->
+	<Image Name="ButtonOverT" XPos="16" YPos="104" Width="104" Height="11" />
+	
+	
     <Image Name="ButtonDownBL" XPos="4" YPos="88" Width="11" Height="11" />
     <Image Name="ButtonDownBR" XPos="121" YPos="88" Width="11" Height="11" />
     <Image Name="ButtonDownTL" XPos="4" YPos="67" Width="11" Height="11" />
     <Image Name="ButtonDownTR" XPos="121" YPos="67" Width="11" Height="11" />
-    <Image Name="ButtonOverBL" XPos="5" YPos="55" Width="11" Height="11" />
+	
+	
+<!--     <Image Name="ButtonOverBL" XPos="5" YPos="55" Width="11" Height="11" />
     <Image Name="ButtonOverBR" XPos="120" YPos="55" Width="11" Height="11" />
     <Image Name="ButtonOverTL" XPos="5" YPos="34" Width="11" Height="11" />
-    <Image Name="ButtonOverTR" XPos="120" YPos="34" Width="11" Height="11" />
+    <Image Name="ButtonOverTR" XPos="120" YPos="34" Width="11" Height="11" /> -->
+	
+    <Image Name="ButtonOverBL" XPos="5" YPos="125" Width="11" Height="11" />
+    <Image Name="ButtonOverBR" XPos="120" YPos="125" Width="11" Height="11" />
+    <Image Name="ButtonOverTL" XPos="5" YPos="104" Width="11" Height="11" />
+    <Image Name="ButtonOverTR" XPos="120" YPos="104" Width="11" Height="11" />	
+	
+	
     <Image Name="GenericBrush" XPos="3" YPos="178" Width="6" Height="6" />
     <Image Name="MiniTextBoxB" XPos="145" YPos="21" Width="8" Height="9" />
     <Image Name="MiniTextBoxL" XPos="136" YPos="13" Width="9" Height="8" />

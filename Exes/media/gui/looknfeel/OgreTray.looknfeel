@@ -1271,7 +1271,8 @@
 :::: PushButton
 -->
     <WidgetLook name="OgreTray/PushButton">
-        <PropertyDefinition name="NormalTextColour" initialValue="88FFFFFF" redrawOnWrite="true" />
+        <!--<PropertyDefinition name="NormalTextColour" initialValue="88FFFFFF" redrawOnWrite="true" /> --> <!-- azul -->
+		<PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" /> 
         <PropertyDefinition name="HoverTextColour" initialValue="FF000000" redrawOnWrite="true" />
         <PropertyDefinition name="PushedTextColour" initialValue="FF000000" redrawOnWrite="true" />
         <PropertyDefinition name="DisabledTextColour" initialValue="FF888888" redrawOnWrite="true" />
@@ -1299,10 +1300,12 @@
                 <Image type="TopRightCorner" imageset="OgreTrayImages" image="ButtonUpTR" />
                 <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="ButtonUpBL" />
                 <Image type="BottomRightCorner" imageset="OgreTrayImages" image="ButtonUpBR" />
+				
                 <Image type="LeftEdge" imageset="OgreTrayImages" image="ButtonUpL" />
                 <Image type="TopEdge" imageset="OgreTrayImages" image="ButtonUpT" />
                 <Image type="RightEdge" imageset="OgreTrayImages" image="ButtonUpR" />
                 <Image type="BottomEdge" imageset="OgreTrayImages" image="ButtonUpB" />
+				
                 <Image type="Background" imageset="OgreTrayImages" image="ButtonUpM" />
             </FrameComponent>
         </ImagerySection>
@@ -1314,14 +1317,16 @@
                     <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
                     <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
                 </Area>
-                <Image type="TopLeftCorner" imageset="OgreTrayImages" image="ButtonOverTL" />
+				<Image type="TopLeftCorner" imageset="OgreTrayImages" image="ButtonOverTL" />
                 <Image type="TopRightCorner" imageset="OgreTrayImages" image="ButtonOverTR" />
                 <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="ButtonOverBL" />
                 <Image type="BottomRightCorner" imageset="OgreTrayImages" image="ButtonOverBR" />
+				
                 <Image type="LeftEdge" imageset="OgreTrayImages" image="ButtonOverL" />
                 <Image type="TopEdge" imageset="OgreTrayImages" image="ButtonOverT" />
                 <Image type="RightEdge" imageset="OgreTrayImages" image="ButtonOverR" />
                 <Image type="BottomEdge" imageset="OgreTrayImages" image="ButtonOverB" />
+				
                 <Image type="Background" imageset="OgreTrayImages" image="ButtonOverM" />
             </FrameComponent>
         </ImagerySection>
