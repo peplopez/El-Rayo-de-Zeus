@@ -44,7 +44,7 @@ namespace Logic
 		DEC_FACTORY(CLife);
 	public:
 
-		CLife() : IComponent(GetAltTypeIdOf(CLife)), _LIFE_MAX(0), _life(0), _lifeBarPosition(0), _lifeBarWidth(0), _lifeBarHeight(0){}
+		CLife() : IComponent(GetAltTypeIdOf(CLife)), _LIFE_MAX(0), _life(0), _lifeBarPosition(0), _lifeBarWidth(0), _lifeBarHeight(0),_modifiyingLife(0){}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
@@ -81,6 +81,7 @@ namespace Logic
 		/** Atributo que indica la altura del billboard		*/
 		float _lifeBarHeight;
 
+		int _modifiyingLife;
 
 		void CLife::modifyLife(int);
 

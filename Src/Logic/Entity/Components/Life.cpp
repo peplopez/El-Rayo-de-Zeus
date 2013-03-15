@@ -72,6 +72,8 @@ namespace Logic
 
 	void CLife::process(CMessage *message)
 	{
+				_modifiyingLife++;
+		//std::cout<<_modifiyingLife<<std::endl;
 		modifyLife( static_cast<CMessageInt*>(message)->getInt() );
 	} // process
 
@@ -79,6 +81,7 @@ namespace Logic
 	//---------------------------------------------------------
 
 	void CLife::modifyLife(int lifeModifier) {
+
 
 		Math::delimit( _life += lifeModifier, 0, _LIFE_MAX); // Disminuir/ aumentar la vida de la entidad
 			
@@ -113,7 +116,7 @@ namespace Logic
 				1.0f							// v2
 			);
 
-	
+
 	} // modifyLife
 
 
