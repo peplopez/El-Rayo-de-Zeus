@@ -87,7 +87,7 @@ namespace Graphics
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
 		CAnimatedEntity(const std::string &name, const std::string &mesh):
-					CEntity(name,mesh), _currentAnimation(0),_rewinding(false) {}
+					CEntity(name,mesh), _currentAnimation(0),_rewinding(false),_momentEnabled(true) {}
 
 		/**
 		Destructor de la aplicación.
@@ -159,8 +159,14 @@ namespace Graphics
 		Animación que tiene la entidad activada.
 		*/
 		Ogre::AnimationState *_currentAnimation;
-
+		/**
+		Para revovinar una animación
+		*/
 		bool _rewinding;
+		/**
+		Para que solo se envie un mensaje al llegar un momento de la animación. No tantos como ticks
+		*/
+		bool _momentEnabled;
 	}; // class CAnimatedEntity
 
 } // namespace Graphics
