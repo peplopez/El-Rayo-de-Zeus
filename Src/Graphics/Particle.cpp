@@ -1,18 +1,3 @@
-//David Llanso Tutoria
-/*
-
-//Constructor
-CParticle(name){
-
-	_bbset = CServer::getSingletonPtr()->getActiveScene()->createParticle(name);
-}
-
-// Destructor 
-
-*/
-//metodos de setDimensions....activate, deactivate, setcoord...
-//Dentro se utilizaria. _bbset->getParticle(0) para acceder al primer Particle del conjunto de Particles.
-
 //---------------------------------------------------------------------------
 // Particle.cpp
 //---------------------------------------------------------------------------
@@ -44,7 +29,7 @@ Contiene la implementación de la clase que maneja el Particle.
 
 namespace Graphics 
 {
-	//Constructor de la clase CParticle. Donde se crea un ParticleSet (de momento con 1 sólo Particle)
+	//Constructor de la clase CParticle.
 	CParticle::CParticle(const std::string &name, const std::string &templateName)
 	{
 		Graphics::CScene* _scen = Graphics::CServer::getSingletonPtr()->getActiveScene();
