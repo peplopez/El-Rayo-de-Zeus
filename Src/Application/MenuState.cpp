@@ -55,7 +55,7 @@ namespace Application {
 		CEGUI::WindowManager::getSingleton().getWindow("Menu/Exit")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CMenuState::exitReleased, this));
-	
+
 		return true;
 
 	} // init
@@ -218,7 +218,7 @@ namespace Application {
 		// si el jugador es el jugador local. Al ser el monojugador lo es.
 		Logic::CServer::getSingletonPtr()->getMap()->createPlayer("Mono", "marine.mesh", true);
 
-		// TODO Deberíamos poder propocionar caracteríasticas  (nombre, modelo, etc.)... ==> Ampliar MenuState...
+		// TODO Deberíamos poder propocionar características  (nombre, modelo, etc.)... ==> Ampliar MenuState...
 
 
 		return true;
@@ -242,5 +242,6 @@ namespace Application {
 		return true;
 
 	} // multiplayerReleased
+
 
 } // namespace Application

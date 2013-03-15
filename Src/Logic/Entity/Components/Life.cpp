@@ -105,7 +105,7 @@ namespace Logic
 		}		
 
 		// LIFEBAR CONTROL
-		float ratio = _life / _LIFE_MAX;
+		float ratio = (float)_life / (float)_LIFE_MAX;
 			_lifeBar.setCoordenadas(
 				(1.0f - ratio) / 2.0f,			// u1
 				0.0f,							// v1

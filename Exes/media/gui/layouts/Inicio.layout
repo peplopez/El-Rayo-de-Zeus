@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="Inicio" >
+		<Property Name="FrameEnabled" Value="false" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Window Type="OgreTray/StaticImage" Name="Inicio/BackGround" >
+			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="Image" Value="set:Background image:Background" />
+            <Property Name="AlwaysOnTop" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+			<Window Type="OgreTray/TitleInit" Name="Inicio/BackGround/TitleInit" >
+				<Property Name="Font" Value="DejaVuSans-10" />
+                <Property Name="Text" Value="Press Space or Return key to continue" />
+                <Property Name="AlwaysOnTop" Value="True" />
+				<Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.4,0},{0.7,0},{0.6,0}}" />
+            </Window>
+        </Window>		
+    </Window>
+</GUILayout>
