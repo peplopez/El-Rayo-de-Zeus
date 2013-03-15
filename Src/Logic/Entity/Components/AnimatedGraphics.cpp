@@ -92,6 +92,7 @@ namespace Logic
 				/*if (message->getAction()==Message::UNDEF)
 					_animatedGraphicsEntity->setAnimation(maux->getString(),0.8,maux->getBool());
 				else*/
+
 				_animatedGraphicsEntity->setAnimation(maux->getString(),0,maux->getBool());
 
 				LOG("SET_ANIMATION: " << maux->getString());

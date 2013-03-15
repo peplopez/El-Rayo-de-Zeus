@@ -125,7 +125,7 @@ namespace Graphics
 				_observer->animationFinished(_currentAnimation->getAnimationName());
 
 			if(_observer && _currentAnimation->getAnimationName().compare("FireKatana")==0)
-				if (_currentAnimation->getTimePosition()>0.5 )
+				if (_currentAnimation->getTimePosition()>0.6 )
 				_observer->animationMomentReached("FireKatana");
 
 			if(_observer && _currentAnimation->getAnimationName().compare("GetObject")==0)

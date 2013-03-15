@@ -22,7 +22,7 @@ angular de entidades.
 #include "Logic/Entity/Messages/MessageFloat.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
 #include "Logic/Entity/Messages/MessageString.h"
-
+#include "Logic/Entity/Messages/MessageInt.h"
 
 
 //declaración de la clase
@@ -37,8 +37,8 @@ namespace Logic
 
 		if(entityInfo->hasAttribute("attackPower"))
 			_attackPower = entityInfo->getFloatAttribute("attackPower");
-		if (_entity->getType()=="AnimatedEntity")
-			_covering=true;
+		if (_entity->getType()=="OtherPlayer")
+			cover();
 		return true;
 		}
 
@@ -117,7 +117,7 @@ namespace Logic
 		message->setType(Message::SET_ANIMATION);
 		message->setString("Crouch");
 		message->setAction(Message::UNDEF);
-		message->setBool(false);
+		message->setBool(true);
 		_entity->emitMessage(message,this);
 	 }
 
@@ -193,13 +193,8 @@ namespace Logic
 						if (grado>limiteIzquierdo && grado<limiteDerecho )
 						{
 							if (!soloInfo)
-							{
-								CMessageString *m2 = new CMessageString();
-								m2->setString("luminoso");
-								m2->setType(Message::SET_MATERIAL);						
-								(*it)->emitMessage(m2,this);
-								
-								if ((*it)->getComponent<CAttack>()->_covering==true)
+							{							
+								if ((*it)->getComponent<CAttack>()->_covering==true && (*it)->getSense()!=_entity->getSense())
 								{
 									Logic::CMessage *m = new Logic::CMessage();
 									m->setType(Logic::Message::CONTROL);
@@ -207,14 +202,24 @@ namespace Logic
 									(*it)->emitMessage(m);
 									return 2; //Impacto en el que el objetivo está cubriendose
 								}
-							} else
-							{
+								else
+								{
+								CMessageInt *m2 = new CMessageInt();
+								m2->setInt(-1);
+								m2->setType(Message::LIFE_MODIFIER);						
+								(*it)->emitMessage(m2,this);
 								Logic::CMessage *m = new Logic::CMessage();
 								m->setType(Logic::Message::CONTROL);
 								m->setAction(Logic::Message::WALK_STOP);
 								(*it)->emitMessage(m);
+								return 1;
+								}
 							}
-							return 1; //Impacto con daño
+							else
+							{
+							//a
+							}
+							 //Impacto con daño
 						}
 					}
 				}
