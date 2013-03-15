@@ -59,7 +59,7 @@ vslog.txt
 *.opensdf
 *.suo
 *.ncb
-*.user # puede que alguno sea necesario para sinc config de proyecto
+*.user
 *.vcproj
 
 # ROOT #
@@ -104,8 +104,7 @@ DocumentacionDoxygen/
 /dependencies/CEGUI/projects/premake/XMLParserModules/expatParser/CEGUIExpatParser.*
 
 /dependencies/include/*
-/dependencies/lib/Debug/*
-/dependencies/lib/Release/*
+/dependencies/lib/*/*
 
 /dependencies/lua/bin/
 /dependencies/lua/lib/
@@ -162,17 +161,11 @@ DocumentacionDoxygen/
 
 #EXCEPTIONS #
 #############
+!/Projects/Application/*.user
 !/dependencies/CEGUI/projects/premake/ScriptingModules/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++bin/premake.lua
 !/dependencies/include/enet/
-!/dependencies/include/PhysX/
-!/dependencies/lib/*/PhysX*.lib
 !/dependencies/lib/*/enet.lib
-!/dependencies/lib/*/lua51.lib
-!/dependencies/lib/*/NxCharacter.lib
 !/dependencies/luabind/bjam.exe
-!/dependencies/bin/*/PhysX*.dll
-!/dependencies/bin/*/cudart32_30_9.dll
-!/dependencies/bin/*/NxCharacter.dll
 
