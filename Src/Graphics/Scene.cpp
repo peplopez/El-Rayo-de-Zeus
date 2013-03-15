@@ -21,6 +21,8 @@ de una escena.
 #include "StaticEntity.h"
 #include "BaseSubsystems/Server.h"
 
+#include "GlowMaterialListener.h"
+
 #include <assert.h>
 
 #include <OgreRoot.h>
@@ -33,6 +35,9 @@ de una escena.
 #include <OgreBillboardSet.h>
 #include "Graphics/Entity.h"
 #include <OgreParticleSystem.h>
+
+#include <OgreCompositorManager.h>
+
 
 namespace Graphics 
 {
@@ -132,7 +137,13 @@ namespace Graphics
 
 		_directionalLight1->setDirection(-150, -150, 0);
 		//_directionalLight2->setDirection(150, -150, 0);
-		
+
+		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_camera->getViewport(), "Glow");
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_camera->getViewport(), "Glow", true);
+
+		GlowMaterialListener *gml = new GlowMaterialListener();
+		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
+
 		//_directionalLight->setType(Ogre::Light::LT_POINT);
 		//_directionalLight->setPosition(0, 100, 0);
 		

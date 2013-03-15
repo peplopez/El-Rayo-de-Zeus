@@ -23,6 +23,7 @@ namespace Ogre
 {
 	class Camera;
 	class SceneNode;
+	class Viewport;
 }
 namespace Graphics 
 {
@@ -100,6 +101,10 @@ namespace Graphics
 		/**
 		*/
 		Ogre::SceneNode* getCameraNode() {return _cameraNode;}
+
+		/**
+		*/
+		Ogre::Viewport* getViewport();
 
 	protected:
 		

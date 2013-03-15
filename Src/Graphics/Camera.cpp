@@ -24,6 +24,7 @@ Contiene la implementación de la clase que maneja la cámara.
 #include <OgreCamera.h>
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
+#include <OgreViewport.h>
 
 namespace Graphics 
 {
@@ -104,5 +105,9 @@ namespace Graphics
 		_targetNode->setPosition(newPosition);
 	}
 
+	Ogre::Viewport* CCamera::getViewport()
+	{
+		return _camera->getViewport();
+	}
 
 } // namespace Graphics
