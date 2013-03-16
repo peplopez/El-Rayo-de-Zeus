@@ -144,11 +144,11 @@ namespace Logic
 		else
 		message2->setFloat(_entity->getDegree()+10);		
 		_entity->emitMessage(message2,this);*/
-		float punto;
+		/*float punto;
 		if (_entity->getSense()==Logic::LogicalPosition::RIGHT)
 			punto=_entity->getDegree()-10;
 		else
-			punto=_entity->getDegree()+10;
+			punto=_entity->getDegree()+10;*/
 	//	attackPlace(punto,_entity->getRing(),_entity->getBase(),true);
 	} // turn
 
@@ -157,12 +157,7 @@ namespace Logic
 		if (_heavyAttack) return;
 		_heavyAttack=true;
 		_lightAttack=false;
-		CMessageBoolString *message = new CMessageBoolString();
-		message->setType(Message::SET_ANIMATION);
-		message->setString("FireKatana");
-		message->setAction(Message::HEAVY_ATTACK);
-		message->setBool(false);
-		_entity->emitMessage(message,this);
+
 	} // turn
 
 	//este metodo devuelve null si no se está ocupando ese grado o la entidad que ocupa ese espacio

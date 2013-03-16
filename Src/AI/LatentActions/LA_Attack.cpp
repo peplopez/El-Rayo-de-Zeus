@@ -66,6 +66,16 @@ namespace AI
 				message->setBool(false);
 				_entity->emitMessage(message);		
 				break;
+			}	
+			case 2:
+			{
+				CMessageBoolString *message = new CMessageBoolString();
+				message->setType(Message::SET_ANIMATION);
+				message->setString("Death");
+				message->setAction(Message::LIGHT_ATTACK);
+				message->setBool(false);
+				_entity->emitMessage(message);		
+				break;
 			}
 		}
 		return RUNNING;
@@ -80,7 +90,7 @@ namespace AI
 	*/
 	void CLA_Attack::OnStop()
 	{
-		
+		awakeComponents();
 	}
 
 	/**
@@ -144,7 +154,7 @@ namespace AI
 			(message->getAction() == Message::LIGHT_ATTACK||
 			message->getAction() == Message::HEAVY_ATTACK)))
 			||
-			((message->getType()==Message::ANIMATION_MOMENT) || (message->getType()==Message::ANIMATION_FINISHED) || (message->getType()==Message::SET_ANIMATION));
+			(((message->getType()==Message::ANIMATION_MOMENT) &&  _initialCombatState!=2) || (message->getType()==Message::ANIMATION_FINISHED) || (message->getType()==Message::SET_ANIMATION));
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
@@ -161,13 +171,15 @@ namespace AI
 				CMessageString* maux = static_cast<CMessageString*>(message);
 				if (maux->getString().compare("FireKatana")==0 )
 				{	
-					awakeComponents();
 					finish(false);
 					//_lightAttack=_heavyAttack=false;//stopMovement();
 				}
 				else if (maux->getString().compare("GetObject")==0)
 				{
-					awakeComponents();
+					finish(false);				
+				}
+				else if (maux->getString().compare("Death")==0)
+				{
 					finish(false);				
 				}_comboOportunity=false;
 				break;
@@ -176,15 +188,12 @@ namespace AI
 			{
 				if (message->getAction()==Message::WALK_LEFT || message->getAction()==Message::WALK_RIGHT)
 				{
-					awakeComponents();
-					finish(false);
-					
+					finish(false);					
 				}
-
 				break;
 			}	
 		case Message::ANIMATION_MOMENT:
-			{
+			{				
 				_comboOportunity=true;
 				break;
 				//querré saber cual animación es, de momento se que solo puedo recibir un tipo de animación
@@ -200,13 +209,21 @@ namespace AI
 			{
 
 				if (_comboOportunity)
-					if (message->getAction()==Message::LIGHT_ATTACK)
-					{
-						awakeComponents();
-						_comboOportunity=false;
-						finish(true);
-						
-					}break;
+				{
+					if (_initialCombatState<1)
+						if (message->getAction()==Message::LIGHT_ATTACK)
+						{
+							_comboOportunity=false;
+							finish(true);
+						}					
+					if (_initialCombatState==1)
+						if (message->getAction()==Message::HEAVY_ATTACK)
+						{
+							_comboOportunity=false;
+							finish(true);
+						}
+					}
+					break;
 			}
 		}
 			// TODO PRÁCTICA IA

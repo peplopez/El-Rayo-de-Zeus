@@ -173,6 +173,7 @@ namespace AI
 			int idle = this->addNode(new CLAIdle(entity)); // Aunque hagamos new, la FSM los delete por dentro
 			int l_attack0=this->addNode(new CLA_Attack(entity,0));
 			int l_attack1=this->addNode(new CLA_Attack(entity,1));
+			int l_attack2=this->addNode(new CLA_Attack(entity,2));
 
 
 			//this->addNode(new CLAL_Atack(_entity)); // Aunque hagamos new, la FSM los delete por dentro
@@ -181,8 +182,10 @@ namespace AI
 			this->addEdge(l_attack0, idle, new CConditionFail());
 			this->addEdge(l_attack0, l_attack1, new CConditionSuccess());
 			//this->addEdge(l_attack0, l_attack1, new CConditionFail());
-			this->addEdge(l_attack1, l_attack0, new CConditionSuccess());
+			this->addEdge(l_attack1, l_attack2, new CConditionSuccess());
 			this->addEdge(l_attack1, idle, new CConditionFail());
+			this->addEdge(l_attack2, idle, new CConditionFail());
+
 
 			
 		
