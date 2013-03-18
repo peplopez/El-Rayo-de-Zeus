@@ -6,3 +6,4 @@ Entity CGraphics
 Player CAnimatedGraphics CAvatarController  CJump2 CBaseTraveler CAttack CPhysicalCharacter CLife CHudOverlay CStateMachineExecutor CAltarStateSwitcher
 AnimatedEntity CAvatarController CAttack CPhysicalCharacter CAnimatedGraphics CLifeModifier CLife CDeath 
 OtherPlayer CAnimatedGraphics CAttack CPhysicalCharacter CLifeModifier CLife CDeath
+PowerUp CGraphics CPhysics CLifeModifier

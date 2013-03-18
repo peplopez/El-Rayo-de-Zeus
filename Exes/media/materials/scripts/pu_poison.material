@@ -44,7 +44,7 @@ material bomba
 
 			texture_unit
 			{
-				texture Poison.png
+				texture pu_Poison.png
 				tex_address_mode clamp clamp
 				transform 2.7 0 0 0 0 1.7 0 0.02 0 0 1 0 0 0 0 1
 			}
