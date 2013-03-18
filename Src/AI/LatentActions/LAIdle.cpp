@@ -28,6 +28,8 @@ namespace AI
 	{
 	//	_entity->getComponent<CAttack>()->resetAttackFlags();
 		//while(
+		
+		std::cout<<"idle"<<std::endl;
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
 		message->setString("IdleKatana");

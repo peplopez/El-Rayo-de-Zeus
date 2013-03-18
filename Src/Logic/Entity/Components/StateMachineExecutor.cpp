@@ -66,8 +66,8 @@ namespace Logic
 				// volver a ser ejecutada
 				if (_currentAction != 0)
 				{	
-					_currentStateMachine->reset();
-					_currentAction->reset();
+					
+					_currentAction->reset();_currentStateMachine->reset();
 				}// Sacamos la nueva acción
 				_currentAction = _currentStateMachine->getCurrentNode();
 			}
