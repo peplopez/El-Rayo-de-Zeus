@@ -55,6 +55,8 @@ namespace Logic
 		void startSwitchingState();
 		void stopSwitchingState(Logic::Sense targetSense);
 
+		CEntity* getTarget(){return _target;};
+
 	protected:
 
 		/**

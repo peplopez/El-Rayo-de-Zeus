@@ -212,14 +212,14 @@ namespace AI
 		@param messageType Tipo de mensaje que estamos escuchando
 		*/
 		//Message::TMessageType::
-		CConditionMessageAction(Logic::Message::TMessageType messageType, Logic::Message::TActionType actionType, bool startActivated,Logic::Message::TMessageType messageTypeToActivate, Logic::Message::TActionType actionTypeToActivate) : _received(false) {
+		CConditionMessageAction(Logic::Message::TMessageType messageType, Logic::Message::TActionType actionType, bool startActivated,Logic::Message::TMessageType messageTypeToActivate) : _received(false) {
 			_received=false;
 			_messageType = messageType;
 			_actionType = actionType;
 			_initialStatus=startActivated;
 			_enabled= _initialStatus;
 			_messageTypeToActivate=messageTypeToActivate;
-			_actionTypeToActivate=actionTypeToActivate;
+			//_actionTypeToActivate=actionTypeToActivate;
 		}
 		/**
 		En el check sólo tenemos que comprobar el flag _received. Este flag
@@ -301,7 +301,7 @@ namespace AI
 		Logic::Message::TMessageType _messageTypeToActivate;
 	 	
 		/** Acción del mensaje que hará que se active la condición */
-		Logic::Message::TActionType _actionTypeToActivate;
+	//	Logic::Message::TActionType _actionTypeToActivate;
 	};
 } // namespace Logic
 

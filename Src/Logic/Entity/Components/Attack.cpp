@@ -37,8 +37,8 @@ namespace Logic
 
 		if(entityInfo->hasAttribute("attackPower"))
 			_attackPower = entityInfo->getFloatAttribute("attackPower");
-		if (_entity->getType()=="OtherPlayer")
-			cover();
+	/*	if (_entity->getType()=="OtherPlayer")
+			cover();*/
 		return true;
 		}
 

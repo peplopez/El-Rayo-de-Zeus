@@ -53,7 +53,9 @@ namespace Logic
 			COLLISION				= 0X18,
 			SPACE_REQUEST			= 0x19, //para mandar un mensaje en el que preguntas si un punto del espacio está ocupado
 			ANIMATION_MOMENT		= 0x20,
-			REWIND_ANIMATION		= 0x21
+			REWIND_ANIMATION		= 0x21,
+			ALTAR_ACTIVATED 		= 0x22,
+			ALTAR_DEACTIVATED 		= 0x23
 		};
 
 		enum TActionType : unsigned char

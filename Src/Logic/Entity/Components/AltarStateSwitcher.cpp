@@ -126,9 +126,10 @@ namespace Logic
 			_entity->getComponent<CAvatarController>()->sleep();
 			_switchingState = true;
 			
-			CMessage *m = new CMessage();
+			CMessageUInt *m = new CMessageUInt();
 			m->setType(Message::CONTROL);
 			m->setAction(Message::SWITCH_ALTAR);
+			m->setUInt(_entity->getEntityID());
 			_target->emitMessage(m);
 				
 			CMessageBoolString *message = new CMessageBoolString();

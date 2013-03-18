@@ -401,5 +401,11 @@ Map ={
 		base=3,		
 	},	
 	
+	gemelo = {
+		type = "OtherPlayer",
+		base=3,
+		ring=0,
+		degrees=120,		
+	},		
 
 }
