@@ -179,7 +179,10 @@ namespace AI
 			int h_attack1=this->addNode(new CLA_Attack(entity,1,Message::HEAVY_ATTACK));
 			int l_attack2=this->addNode(new CLA_Attack(entity,2,Message::LIGHT_ATTACK));
 
+			//int h_attack0Fatality=this->addNode(new CLA_Attack(entity,0,Message::HEAVY_ATTACK));
+			//int h_attack1Fatality=this->addNode(new CLA_Attack(entity,1,Message::HEAVY_ATTACK));
 			int h_attack2Fatality=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
+			
 			//this->addNode(new CLAL_Atack(_entity)); // Aunque hagamos new, la FSM los delete por dentro
 			//this->addEdge(idle, l_attack, new CConditionMessage<CLatentAction>(TMessageType::CONTROL,TActionType::LIGHT_ATTACK));
 			//COMBO 1
@@ -192,11 +195,11 @@ namespace AI
 			this->addEdge(h_attack2, idle, new CConditionFail());
 
 			//COMBO 2
-			this->addEdge(idle, h_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,true,Message::ANIMATION_MOMENT,Message::GO_DOWN));
-			this->addEdge(h_attack0, idle, new CConditionFail());
-			this->addEdge(h_attack0, h_attack1, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::ANIMATION_MOMENT,Message::GO_DOWN));
+			//this->addEdge(idle, h_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,true,Message::ANIMATION_MOMENT,Message::GO_DOWN));
+			//this->addEdge(h_attack0, idle, new CConditionFail());
+			//this->addEdge(h_attack0, h_attack1, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::ANIMATION_MOMENT,Message::GO_DOWN));
 			this->addEdge(h_attack1, l_attack2, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,false,Message::ANIMATION_MOMENT,Message::GO_DOWN));
-			this->addEdge(h_attack1, idle, new CConditionFail());
+			//this->addEdge(h_attack1, idle, new CConditionFail());
 			this->addEdge(l_attack2, idle, new CConditionFail());
 			
 			//COMBO 3

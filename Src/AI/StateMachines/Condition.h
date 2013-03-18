@@ -237,8 +237,6 @@ namespace AI
 			// de nuevo a false para el siguiente tick
 			bool receivedThisTick = _received;
 			_received = false;
-			if (receivedThisTick)
-				int i=0;
 			return receivedThisTick;
 		}
 
@@ -263,12 +261,8 @@ namespace AI
 			else
 				//return 
 				if (message->getType() == _messageTypeToActivate)  //ignoramos el actiontoactivate
-				{
-					if (_enabled)
-					{_enabled=true; return false;}
-					else
-					{_enabled=true; return false;}
-
+				{		
+					_enabled=true; return false;
 				}	
 		};
 		/**
@@ -287,6 +281,7 @@ namespace AI
 			{	
 				_enabled=_initialStatus;
 				_received = (message->getType() == _messageType && message->getAction()==_actionType) || _received;
+				if (_received) reset();
 			}
 		};
 

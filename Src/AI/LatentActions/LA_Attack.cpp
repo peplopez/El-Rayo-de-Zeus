@@ -32,20 +32,20 @@ namespace AI
 		
 		//Desactivación de componentes
 		sleepComponents();
-
-		std::cout<<_initialCombatState<<std::endl;
+		std::cout<<_initialCombatState<<std::endl;		
+		std::cout<<(int)_action<<std::endl;
 		switch(_initialCombatState)
 		{
 			case 0:
-				{
-					CMessageBoolString *message = new CMessageBoolString();
-					message->setType(Message::SET_ANIMATION);
-					message->setString("FireKatana");
-					message->setAction(_action);
-					message->setBool(false);
-					_entity->emitMessage(message);
-					break;
-				}
+			{
+				CMessageBoolString *message = new CMessageBoolString();
+				message->setType(Message::SET_ANIMATION);
+				message->setString("FireKatana");
+				message->setAction(_action);
+				message->setBool(false);
+				_entity->emitMessage(message);
+				break;
+			}
 			case 1:
 			{
 				CMessageBoolString *message = new CMessageBoolString();
@@ -112,7 +112,7 @@ namespace AI
 		if (_initialCombatState==2 && _yawAmount>=0 && _action==Message::HEAVY_ATTACK)
 		{
 			_yawAmount++;
-			_entity->yaw(_entity->getYaw()+0.5);
+			_entity->yaw(_entity->getYaw()+0.3);
 			if (_yawAmount>50) 
 				{
 					_yawAmount=-10;
