@@ -24,7 +24,7 @@ Contiene la declaración de la clase que maneja el Overlay.
 namespace Ogre 
 {
 	class OverlayManager;
-}
+};
 
 namespace Graphics 
 {
@@ -67,12 +67,19 @@ namespace Graphics
 		*/
 		~COverlay();
 
-		void createChildPanel(const std::string& name,
-			float left, float top, float width, float height);
-		void createChildTextArea(const std::string& name,
-			float left, float top, float width, float height);
-		void createChildElement(const std::string &type, const std::string& name, 
-			float left, float top, float width, float height);
+		/*********************
+			CREATE CHILDS
+		*********************/
+
+		//	PANELS	
+		void createChildPanel(const std::string& name, 
+			float left, float top, float width, float height,
+			const std::string &material = ""); 
+	
+		//	TEXT AREA		
+		void createChildTextArea(const std::string &panelName, const std::string &name,
+			float left, float top, float width, float height,
+			const std::string &font, float fontSize, const std::string &text = "");
 
 		/** Vacía el overlay de todos sus hijos*/ 
 		void clear();
@@ -186,7 +193,7 @@ namespace Graphics
 		Cambia el tamaño de la letra por el indicado
 		@param textSize, tamaño de la letra
 		*/
-		void setChildFontSize(const std::string &childName, const float fontSize);
+		void setChildFontSize(const std::string &childName, float fontSize);
 	
 
 		/**
@@ -207,6 +214,9 @@ namespace Graphics
 
 		std::string _name;
 		Ogre::GuiMetricsMode _metricsMode;
+
+		Ogre::OverlayElement* createChildElement(const std::string &type, const std::string& name, 
+			float left, float top, float width, float height);
 	
 	}; // class COverlay
 
