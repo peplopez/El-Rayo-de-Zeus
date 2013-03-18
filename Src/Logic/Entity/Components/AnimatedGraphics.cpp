@@ -114,7 +114,7 @@ namespace Logic
 		CMessageString *msg = new CMessageString();
 		msg->setType(Message::ANIMATION_FINISHED);
 		msg->setString(animation);
-		_entity->emitMessage(msg);		
+		_entity->emitMessage(msg);
 
 		// Si acaba una animación y tenemos una por defecto la ponemos
 		_graphicalEntity->stopAllAnimations();

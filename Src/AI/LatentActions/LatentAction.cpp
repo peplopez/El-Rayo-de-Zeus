@@ -57,6 +57,7 @@ namespace AI
 			// tenemos que llamar a onAbort (porque en realidad
 			// abortamos la acción)
 			this->OnStop();
+			
 			if (_status == RUNNING || _status == SUSPENDED)
 				this->OnAbort();
 			// Dejamos el estado listo para volver a ejecutarla

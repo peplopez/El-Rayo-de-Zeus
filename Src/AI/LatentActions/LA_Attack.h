@@ -34,7 +34,7 @@ namespace AI
 		
 		@param time Tiempo de espera
 		*/
-		CLA_Attack(CEntity* entity,unsigned short initialCombatState) : CLatentAction(),_comboOportunity(false) {this->setEntity(entity);_initialCombatState=initialCombatState;_comboOportunity=false;};
+		CLA_Attack(CEntity* entity,unsigned short initialCombatState, Message::TActionType action) : CLatentAction(),_comboOportunity(false) {this->setEntity(entity);_initialCombatState=initialCombatState;_action=action;_comboOportunity=false;};
 		/**
 		Destructor
 		*/
@@ -118,6 +118,10 @@ namespace AI
 		bool _comboOportunity;
 		
 		unsigned short _initialCombatState;
+
+		Message::TActionType _action;
+		float _initialYaw;
+		float _yawAmount;
 	};
 
 } //namespace AI 

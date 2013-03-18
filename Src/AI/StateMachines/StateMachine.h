@@ -28,8 +28,7 @@ de ejemplo.
 #include "../LatentActions/LAIdle.h"
 #include "../LatentActions/LA_Attack.h"
 #include "Logic/Entity/Messages/Message.h"
-//#include "LARoutes.h"
-//#include "LAExecuteSM.h"
+
 
 using namespace Logic;
 
@@ -117,6 +116,7 @@ namespace AI
 		
 		virtual void process(CMessage *message);
 
+		void reset();
 	protected:
 		/**
 		Tipo que guarda la información de las aristas salientes de un nodo.
@@ -171,22 +171,42 @@ namespace AI
 			// y CLAWait)
 //			int idle = this->addNode(new CLAIdle(_entity));
 			int idle = this->addNode(new CLAIdle(entity)); // Aunque hagamos new, la FSM los delete por dentro
-			int l_attack0=this->addNode(new CLA_Attack(entity,0));
-			int l_attack1=this->addNode(new CLA_Attack(entity,1));
-			int l_attack2=this->addNode(new CLA_Attack(entity,2));
+			int l_attack0=this->addNode(new CLA_Attack(entity,0,Message::LIGHT_ATTACK));
+			int l_attack1=this->addNode(new CLA_Attack(entity,1,Message::LIGHT_ATTACK));
+			int h_attack2=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
 
+			int h_attack0=this->addNode(new CLA_Attack(entity,0,Message::HEAVY_ATTACK));
+			int h_attack1=this->addNode(new CLA_Attack(entity,1,Message::HEAVY_ATTACK));
+			int l_attack2=this->addNode(new CLA_Attack(entity,2,Message::LIGHT_ATTACK));
 
+			int h_attack2Fatality=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
 			//this->addNode(new CLAL_Atack(_entity)); // Aunque hagamos new, la FSM los delete por dentro
 			//this->addEdge(idle, l_attack, new CConditionMessage<CLatentAction>(TMessageType::CONTROL,TActionType::LIGHT_ATTACK));
-			this->addEdge(idle, l_attack0, new CConditionFinished());
+			//COMBO 1
+			this->addEdge(idle, l_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,true,Message::ANIMATION_MOMENT,Message::GO_DOWN));
+				//((Logic::Message::CONTROL,Logic::Message::LIGHT_ATTACK));
 			this->addEdge(l_attack0, idle, new CConditionFail());
-			this->addEdge(l_attack0, l_attack1, new CConditionSuccess());
-			//this->addEdge(l_attack0, l_attack1, new CConditionFail());
-			this->addEdge(l_attack1, l_attack2, new CConditionSuccess());
+			this->addEdge(l_attack0, l_attack1,new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,false,Message::ANIMATION_MOMENT,Message::GO_DOWN));
+			this->addEdge(l_attack1, h_attack2, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::ANIMATION_MOMENT,Message::GO_DOWN));
 			this->addEdge(l_attack1, idle, new CConditionFail());
+			this->addEdge(h_attack2, idle, new CConditionFail());
+
+			//COMBO 2
+			this->addEdge(idle, h_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,true,Message::ANIMATION_MOMENT,Message::GO_DOWN));
+			this->addEdge(h_attack0, idle, new CConditionFail());
+			this->addEdge(h_attack0, h_attack1, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::ANIMATION_MOMENT,Message::GO_DOWN));
+			this->addEdge(h_attack1, l_attack2, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,false,Message::ANIMATION_MOMENT,Message::GO_DOWN));
+			this->addEdge(h_attack1, idle, new CConditionFail());
 			this->addEdge(l_attack2, idle, new CConditionFail());
-
-
+			
+			//COMBO 3
+			this->addEdge(idle, h_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,true,Message::ANIMATION_MOMENT,Message::GO_DOWN));
+			this->addEdge(h_attack0, idle, new CConditionFail());
+			this->addEdge(h_attack0, h_attack1, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::ANIMATION_MOMENT,Message::GO_DOWN));
+			this->addEdge(h_attack1, h_attack2Fatality, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::ANIMATION_MOMENT,Message::GO_DOWN));
+			this->addEdge(h_attack1, idle, new CConditionFail());
+			this->addEdge(h_attack2Fatality, idle, new CConditionFail());
+			
 			
 		
 			//this->addEdge(routeTo, routeTo, new CConditionFail() );
@@ -263,6 +283,7 @@ namespace AI
 		}
 		// Añadimos el par (condición, nodo de destino)
 		vector->push_back(std::pair<ICondition<TNode>*, int>(cond, idDest));
+
 	} // addEdge
 //////////////////////////////
 	template <class TNode>
@@ -295,6 +316,22 @@ namespace AI
 		}
 		return false;
 	} // update
+	template <class TNode>
+	void CStateMachine<TNode>::reset()
+	{
+		// Buscamos la lista de aristas que salen del nodo actual
+		EdgeList::iterator it = _edges->find(_currentNodeId);
+		if (it != _edges->end()) {
+			// Sacamos el nodo actual por si hay que comprobar la condición
+			TNode* node = _nodes[_currentNodeId];
+			PairVector* vector = (*it).second;
+			// Para cada elemento del vector (arista que sale del nodo actual)
+			for (PairVector::iterator edgeIt = vector->begin(); edgeIt != vector->end(); edgeIt++){
+				// Si la condición es verdadera
+				edgeIt->first->reset();					
+				}
+			}				
+	} // reset
 //////////////////////////////
 	template <class TNode>
 	TNode* CStateMachine<TNode>::getCurrentNode()
