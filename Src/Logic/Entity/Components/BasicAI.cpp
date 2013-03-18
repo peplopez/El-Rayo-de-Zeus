@@ -81,6 +81,7 @@ namespace Logic
 						_entity->emitMessage(m2);
 						break;
 					}
+				}
 				case Message::ALTAR_ACTIVATED:
 				{
 					if(_entity->getComponent<CAltarStateSwitcher>()->getTarget() == _entity->getMap()->getEntityByName(static_cast<CMessageString*>(message)->getString()))
@@ -89,17 +90,8 @@ namespace Logic
 						m3->setType(Logic::Message::CONTROL);
 						m3->setAction(Logic::Message::WALK_RIGHT);
 						_entity->emitMessage(m3);
-						break;
-					
+						break;					
 					}
-
-				}
-				
-		/*		if( message->getAction() == Message::TRIGGER_EXIT)
-				{
-				
-				}*/
-				break;
 				}
 		}
 	 }
