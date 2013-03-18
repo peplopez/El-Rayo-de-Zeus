@@ -16,10 +16,12 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
 #include "Logic/Maps/Map.h"
-
+#include "Logic/Server.h"
 
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageUIntString.h"
+#include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageUInt.h"
 
 #define DEBUG 1
 #if DEBUG
@@ -40,7 +42,8 @@ namespace Logic
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;				
-
+		_player=NULL;
+		
 		return true;
 
 	} // spawn
@@ -76,6 +79,8 @@ namespace Logic
 		case Message::CONTROL:
 			if(message->getAction() == Message::SWITCH_ALTAR)
 			{
+				CMessageUInt *maux = static_cast<CMessageUInt*>(message);
+				_player=_entity->getMap()->getEntityByID( maux->getUInt() );
 				startSwitchingState();
 			}
 			else if(message->getAction() == Message::STOP_SWITCH)
@@ -130,6 +135,13 @@ namespace Logic
 					m->setString("altaractivado");
 					m->setUInt(0);
 					_entity->emitMessage(m,this);
+					if (_player!=NULL)		
+					{
+					CMessageString *m2 = new CMessageString();	
+					m2->setType(Message::ALTAR_ACTIVATED);
+					m2->setString(_entity->getName());
+					_player->emitMessage(m2,this);
+					}
 				}
 
 				else 
@@ -140,7 +152,13 @@ namespace Logic
 					m->setString("Material.001");
 					m->setUInt(0);
 					_entity->emitMessage(m,this);
-
+					if (_player!=NULL)
+					{
+					CMessageString *m2 = new CMessageString();	
+					m2->setType(Message::ALTAR_ACTIVATED);
+					m2->setString(_entity->getName());
+					_player->emitMessage(m2,this);
+					}
 				}
 				_acumTime = _switchingTime;
 			}

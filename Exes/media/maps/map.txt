@@ -84,7 +84,6 @@ Map ={
 		logicInput=true,
 		ring=0,
 		base=3,		
-		static = true,
 	},
 	
 	Altar23 = {
@@ -362,7 +361,7 @@ Map ={
 	gemelo = {
 		type = "OtherPlayer",
 		base=3,
-		ring=2,
+		ring=0,
 		degrees=120,		
 	},		
 
