@@ -73,9 +73,9 @@ Map ={
 	gemelo = {
 		type = "OtherPlayer",
 		base=3,
-		ring=2,
+		ring=0,
 		degrees=120,		
-	},	
+	},
 
 	
 	
@@ -325,10 +325,8 @@ Map ={
 	Altar13 = {
 		type = "Altar",
 		degrees=60,
-		logicInput=true,
 		ring=0,
-		base=3,		
-		static = true,
+		base=3,	
 	},
 	
 	Altar23 = {
@@ -401,11 +399,6 @@ Map ={
 		base=3,		
 	},	
 	
-	gemelo = {
-		type = "OtherPlayer",
-		base=3,
-		ring=0,
-		degrees=120,		
-	},		
+			
 
 }
