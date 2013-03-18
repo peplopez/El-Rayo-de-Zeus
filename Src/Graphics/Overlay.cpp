@@ -19,9 +19,10 @@ Contiene la implementación de la clase que representa un Overlay.
 
 #include <assert.h>
 
-
-#include <OgreTextAreaOverlayElement.h>
 #include <OgreOverlayManager.h>
+#include <OgreOverlayContainer.h>
+#include <OgreTextAreaOverlayElement.h>
+
 
 namespace Graphics 
 {	
@@ -60,26 +61,8 @@ namespace Graphics
 	} // ~COverlay
 
 	//------------------------------------------------------------
-
-	void COverlay::createChildPanel(const std::string& name, 
-		float left, float top, float width, float height)
-	{
-		assert( !_overlayManager->hasOverlayElement(name) && "Ya existe un elemento hijo con el mismo nombre" );
-		createChildElement(ChildType::PANEL, name, left, top, width, height);		
-	} //createChildPanel
-
-	//------------------------------------------------------------
-
-	void COverlay::createChildTextArea(const std::string &name,
-		float left, float top, float width, float height)
-	{
-		createChildElement(ChildType::TEXTAREA, name, left, top, width, height);
-	} // createChildTextArea
-
-	//------------------------------------------------------------
-
-	
-	void COverlay::createChildElement(const std::string &type, const std::string& name, 
+		
+	Ogre::OverlayElement* COverlay::createChildElement(const std::string &type, const std::string& name, 
 		float left, float top, float width, float height)
 	{		
 		assert( !_overlayManager->hasOverlayElement(name) && "Ya existe un elemento hijo con el mismo nombre" );
@@ -90,6 +73,45 @@ namespace Graphics
 			newChild->setDimensions(width, height); 
 		
 		_childElements[name] = newChild;
+
+		return newChild;
+	} // createChildTextArea
+
+
+	//------------------------------------------------------------
+	
+	void COverlay::createChildPanel(const std::string& name, 
+		float left, float top, float width, float height,
+		const std::string& material)
+	{
+		assert( !_overlayManager->hasOverlayElement(name) && "Ya existe un elemento hijo con el mismo nombre" );
+		
+		Ogre::OverlayElement* newChild = 
+			createChildElement(ChildType::PANEL, name, left, top, width, height);
+
+		if(material.length() > 0)
+			newChild->setMaterialName(material);
+
+		_overlay->add2D( static_cast<Ogre::OverlayContainer*>(newChild) );
+	} //createChildPanel
+
+	//------------------------------------------------------------
+
+
+	void COverlay::createChildTextArea(const std::string &panelName, const std::string &name,
+		float left, float top, float width, float height,
+		const std::string &font, float fontSize, const std::string &text)
+	{
+		assert(_childElements[panelName] && "No existe un panel hijo con ese nombre en este overlay!");
+
+		Ogre::TextAreaOverlayElement* newChild = static_cast<Ogre::TextAreaOverlayElement*>(
+			createChildElement(ChildType::TEXTAREA, name, left, top, width, height)
+		);									
+			newChild->setFontName(font);
+			newChild->setCharHeight(fontSize);
+			newChild->setCaption(text);
+
+		static_cast<Ogre::OverlayContainer*>( _childElements[panelName] )->addChild(newChild);
 	} // createChildTextArea
 
 	//------------------------------------------------------------
@@ -106,7 +128,7 @@ namespace Graphics
 		GET's & SET's
 	********************/		
 		
-	void COverlay::setChildFontSize(const std::string &childName, const float fontSize)
+	void COverlay::setChildFontSize(const std::string &childName, float fontSize)
 	{
 		assert(_childElements[childName] && "No existe un elemento con ese nombre en este overlay!");
 		assert(_childElements[childName]->getTypeName() == ChildType::TEXTAREA

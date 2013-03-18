@@ -1,0 +1,49 @@
+
+material NoMaterial
+{
+	technique
+	{
+		pass
+		{
+		}
+
+	}
+
+}
+
+
+
+material oro
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			diffuse 0.964706 0.635294 0.0588235 1
+			specular 1 1 1 1 53
+		}
+
+	}
+
+}
+
+
+
+material materialmanzana
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.992157 0.584314 0 1
+			diffuse 0.992157 0.584314 0 1
+			specular 0.658824 0.658824 0.230588 1 11
+			emissive 0.34 0.34 0.34 1
+		}
+
+	}
+
+}
+
+
