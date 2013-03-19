@@ -3,6 +3,7 @@
     <Imageset Name ="OgreTrayImages" Filename="OgreTray.imageset" />
 	<Imageset Name="Background" Filename="MenuBackground.imageset" />
 	<Imageset Name="BackgroundInit" Filename="MenuBackgroundInit.imageset" />
+	<Imageset Name="HudBackground" Filename="HudBackground.imageset" />
     <Font Filename="DejaVuSans-10.font" />
     <LookNFeel Filename="OgreTray.looknfeel" />
     <WindowRendererSet Filename="CEGUIFalagardWRBase" />
@@ -14,6 +15,11 @@
     <FalagardMapping WindowType="OgreTray/HorizontalScrollbar"  TargetType="CEGUI/Scrollbar"        Renderer="Falagard/Scrollbar"           LookNFeel="OgreTray/HorizontalScrollbar" />
     <FalagardMapping WindowType="OgreTray/StaticText"           TargetType="DefaultWindow"          Renderer="Falagard/StaticText"          LookNFeel="OgreTray/StaticText" />
     <FalagardMapping WindowType="OgreTray/Title"                TargetType="DefaultWindow"          Renderer="Falagard/Default"             LookNFeel="OgreTray/MiniTray" />
+	<FalagardMapping WindowType="OgreTray/NumAltares"           TargetType="DefaultWindow"          Renderer="Falagard/Default"             LookNFeel="OgreTray/MiniTrayNumAltares" />
+	<FalagardMapping WindowType="OgreTray/PuntosMerito"         TargetType="DefaultWindow"          Renderer="Falagard/Default"             LookNFeel="OgreTray/MiniTrayPuntosMerito" />	
+	<FalagardMapping WindowType="OgreTray/TitlePuntosMerito"    TargetType="DefaultWindow"          Renderer="Falagard/Default"             LookNFeel="OgreTray/MiniTrayPuntosMerito" />	
+	<FalagardMapping WindowType="OgreTray/TitleEnemigos"        TargetType="DefaultWindow"          Renderer="Falagard/Default"             LookNFeel="OgreTray/MiniTrayPuntosMerito" />	
+	<FalagardMapping WindowType="OgreTray/NumEnemigos"          TargetType="DefaultWindow"          Renderer="Falagard/Default"             LookNFeel="OgreTray/MiniTrayPuntosMerito" />		
 	<FalagardMapping WindowType="OgreTray/TitleInit"            TargetType="DefaultWindow"          Renderer="Falagard/Default"             LookNFeel="OgreTray/MiniTrayInit" />	
     <FalagardMapping WindowType="OgreTray/CaptionedStaticText"  TargetType="DefaultWindow"          Renderer="Falagard/StaticText"          LookNFeel="OgreTray/CaptionedStaticText" />
     <FalagardMapping WindowType="OgreTray/ProgressBar"          TargetType="CEGUI/ProgressBar"      Renderer="Falagard/ProgressBar"         LookNFeel="OgreTray/ProgressBar" />

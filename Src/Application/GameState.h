@@ -187,11 +187,37 @@ namespace Application
 		Ventana que muestra el HUD con informacion para el player.
 		*/
 		CEGUI::Window* _hudWindow;
+		CEGUI::Window* _timeWindow;
+
+		//PT
+		CEGUI::Window* _NumberEnemyWindow;
+		CEGUI::Window* _PuntosMeritoWindow;
+		CEGUI::Window* _NumberAltaresActivatedWindow;
 
 		/**
 		Tiempo de juego en milisegundos.
 		*/
 		unsigned int _time;
+
+		//PT
+		/**
+		Numero de enemigos en la base
+		*/
+		unsigned int _numberEnemies;
+
+		/**
+		Puntos de merito
+		*/
+
+		unsigned int _puntosMerito;
+
+		/**
+		Numero de altares activados
+		*/
+
+		unsigned int _numberAltaresActivated;
+
+
 
 	}; // CGameState
 

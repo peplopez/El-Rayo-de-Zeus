@@ -41,6 +41,7 @@ namespace GUI {
 	CServer::~CServer()
 	{
 		_instance = 0;
+		_currentWindow = NULL;
 
 	} // ~CServer
 	
@@ -201,5 +202,9 @@ namespace GUI {
 		return false;
 
 	} // mouseReleased
+
+	void CServer::setText(const std::string& msg) {
+			_currentWindow->setText(msg.c_str());
+	}
 
 } // namespace GUI

@@ -1,27 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <GUILayout >
-    <Window Type="OgreTray/FrameWindow" Name="Hud" >
-        <Property Name="Font" Value="DejaVuSans-10" />
-        <Property Name="Text" Value="Texto HUD" />
-        <Property Name="AlwaysOnTop" Value="True" />
-        <Property Name="CaptionFont" Value="DejaVuSans-10" />
-        <Property Name="TitlebarEnabled" Value="True" />
-        <Property Name="UnifiedAreaRect" Value="{{0.014991,0},{0.358182,0},{0.519469,0},{0.775455,0}}" />
+    <Window Type="OgreTray/StaticImage" Name="Hud" >
+		<Property Name="FrameEnabled" Value="false" />
+        <Property Name="AlwaysOnTop" Value="False" />
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.23,0},{0.30,0}}" />
+		<Property Name="Image" Value="set:HudBackground image:HudBackgroundImage" />
 		
-		<Window Type="TaharezLook/Editbox" Name="Hud/EditBox" >
-            <Property Name="MaxTextLength" Value="1073741823" />
-            <Property Name="UnifiedAreaRect" Value="{{0.0201637,0},{0.787097,0},{0.694549,0},{0.957693,0}}" />
-            <Property Name="TextParsingEnabled" Value="False" />
+		<Window Type="OgreTray/StaticImage" Name="Hud/RayoBase1" >
+			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="AlwaysOnTop" Value="False" />
+			<Property Name="Image" Value="set:HudBackground image:RayosBase" />
+            <Property Name="UnifiedAreaRect" Value="{{0.47,0},{0.125,0},{0.57,0},{0.3,0}}" />
         </Window>
 		
-        <Window Type="TaharezLook/Button" Name="Hud/SendButton" >
-            <Property Name="Text" Value="Send" />
-            <Property Name="UnifiedAreaRect" Value="{{0.732211,0},{0.812349,0},{0.928283,0},{0.946832,0}}" />
+		<Window Type="OgreTray/StaticImage" Name="Hud/RayoBase2" >
+			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="AlwaysOnTop" Value="False" />
+			<Property Name="Image" Value="set:HudBackground image:RayosBase" />
+            <Property Name="UnifiedAreaRect" Value="{{0.62,0},{0.125,0},{0.72,0},{0.3,0}}" />
+        </Window>
+
+		<Window Type="OgreTray/StaticImage" Name="Hud/RayoBase3" >
+			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="AlwaysOnTop" Value="False" />
+			<Property Name="Image" Value="set:HudBackground image:RayosBase" />
+            <Property Name="UnifiedAreaRect" Value="{{0.77,0},{0.125,0},{0.87,0},{0.3,0}}" />
         </Window>
 		
-        <Window Type="TaharezLook/Listbox" Name="Hud/ChatBox" >
-            <Property Name="UnifiedAreaRect" Value="{{0.00534809,0},{0.0131038,0},{0.949636,0},{0.762443,0}}" />
-        </Window>		
+		<Window Type="OgreTray/TitleEnemigos" Name="Hud/TitleEnemigos" >
+			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="Font" Value="DejaVuSans-8" />
+			<Property Name="Text" Value="Enemigos:" />
+			<Property Name="AlwaysOnTop" Value="False" />
+			<Property Name="CaptionFont" Value="DejaVuSans-8" />
+			<Property Name="UnifiedAreaRect" Value="{{0.45,0},{0.45,0},{0.85,0},{0.64,0}}" />
+		</Window>	
+
+		<Window Type="OgreTray/NumEnemigos" Name="Hud/NumEnemigos" >
+			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="Font" Value="DejaVuSans-8" />
+			<Property Name="Text" Value="0" />
+			<Property Name="AlwaysOnTop" Value="False" />
+			<Property Name="CaptionFont" Value="DejaVuSans-8" />
+			<Property Name="UnifiedAreaRect" Value="{{0.86,0},{0.45,0},{0.95,0},{0.64,0}}" />
+		</Window>
+
+		<Window Type="OgreTray/TitlePuntosMerito" Name="Hud/TitlePuntosMerito" >
+			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="Font" Value="DejaVuSans-8" />
+			<Property Name="Text" Value="P.M" />
+			<Property Name="AlwaysOnTop" Value="False" />
+			<Property Name="CaptionFont" Value="DejaVuSans-8" />
+			<Property Name="UnifiedAreaRect" Value="{{0.45,0},{0.65,0},{0.64,0},{0.75,0}}" />
+		</Window>
+
+		<Window Type="OgreTray/PuntosMerito" Name="Hud/PuntosMerito" >
+			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="Font" Value="DejaVuSans-8" />
+			<Property Name="Text" Value="355" />
+			<Property Name="AlwaysOnTop" Value="False" />
+			<Property Name="CaptionFont" Value="DejaVuSans-8" />
+			<Property Name="UnifiedAreaRect" Value="{{0.45,0},{0.75,0},{0.64,0},{0.85,0}}" />
+		</Window>		
+		
+		<Window Type="OgreTray/StaticImage" Name="Hud/Altares" >
+			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="AlwaysOnTop" Value="False" />
+			<Property Name="Image" Value="set:HudBackground image:Altares" />
+            <Property Name="UnifiedAreaRect" Value="{{0.65,0},{0.65,0},{0.75,0},{0.85,0}}" />
+        </Window>
+		
+		<Window Type="OgreTray/NumAltares" Name="Hud/NumAltares" >
+			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="Font" Value="DejaVuSans-8" />
+			<Property Name="Text" Value="5/11" />
+			<Property Name="AlwaysOnTop" Value="False" />
+			<Property Name="CaptionFont" Value="DejaVuSans-8" />
+			<Property Name="UnifiedAreaRect" Value="{{0.755,0},{0.65,0},{0.95,0},{0.85,0}}" />
+		</Window>		
+		
     </Window>
 </GUILayout>

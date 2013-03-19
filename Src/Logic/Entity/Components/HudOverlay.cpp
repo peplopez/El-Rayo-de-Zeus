@@ -57,7 +57,7 @@ namespace Logic
 		setVisibleHud(false);	
 		
 		_overlay = new Graphics::COverlay(_entity->getName() + "_overlay");
-			_overlay->createChildPanel(_entity->getName() + "_panel", -1, -1, 1, 1);
+		_overlay->createChildPanel(_entity->getName() + "_panel", -1, -1, 1, 1);
 	
 	//	// FRS panelDummy no hace nada, pero parece ser necesario
 	//	Graphics::COverlay *panelDummy = _server->createOverlay("panelDummy",  "Panel" );
@@ -193,8 +193,8 @@ namespace Logic
 						hudLife(message._float);*/
 				case Message::HUD:
 					//CMessageFloat *maux = static_cast<CMessageFloat*>(message);
-//					if(message->getAction() == Message::DISPLAY_HUD)
-//						hudVisor();
+					if(message->getAction() == Message::DISPLAY_HUD)
+						hudVisor();
 					/*if(!message._string.compare("addPlayerToBase"))
 						hudPlayers(1);
 					if(!message._string.compare("minusPlayerToBase"))
@@ -253,12 +253,12 @@ namespace Logic
 	//}
 
 
-	//void CHudOverlay::hudVisor(){
-	//	if(_overlayPlay->isVisible())
-	//		_overlayPlay->setVisible(false);
-	//	else
-	//		_overlayPlay->setVisible(true);
-	//}
+	void CHudOverlay::hudVisor(){
+		if(_overlay->isVisible())
+			_overlay->setVisible(false);
+		else
+			_overlay->setVisible(true);
+	}
 
 
 

@@ -87,7 +87,7 @@ namespace Logic
 
 		//UNDONE FRS temporalmente
 		//void hudLife(float health);
-		//void hudVisor();
+		void hudVisor();
 		//void hudSpawn(int spawn);
 		//void hudPlayers(short int valor);
 

@@ -29,6 +29,7 @@ namespace GUI
 namespace CEGUI
 {
 	class System;
+	class Window; //PT
 }
 
 // Declaración de la clase
@@ -145,6 +146,13 @@ namespace GUI
 		*/
 		bool mouseReleased(const CMouseState &mouseState);
 
+	/**
+	 * Show a text on the GUI screen.
+	 *
+	 * @param msg Message that is going to be shown on screen.
+	 */
+		void setText(const std::string& msg);
+
 	protected:
 
 		/**
@@ -188,6 +196,12 @@ namespace GUI
 		Sistema de la interfaz gráfica de usuario CEGUI.
 		*/
 		CEGUI::System *_GUISystem;
+
+	/**
+	* Puntero a la ventana CEGUI que esta actualmente siendo renderizada.
+	* Si no se esta renderizando ninguna interfaz de usuario es NULL
+	*/
+		CEGUI::Window *_currentWindow;
 
 	private:
 		/**
