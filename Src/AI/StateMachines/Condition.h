@@ -64,6 +64,8 @@ namespace AI
 		@param msg Mensaje recibido.
 		*/
 		virtual void process(CMessage *message) {};
+
+		virtual void reset(){};
 	}; // class CCondition
 
 	/**
@@ -196,6 +198,111 @@ namespace AI
 		Logic::Message::TActionType _actionType;
 	};
 
+	/**
+	Esta clase define una condición que devuelve true 
+	si se recibió un mensaje de un tipo concreto en el último tick
+	*/
+	template <class CLatentAction>
+	class CConditionMessageAction : public ICondition<CLatentAction>
+	{
+	public:
+		/**
+		En el constructor recibimos el tipo de mensaje que 
+		hará saltar la condición
+		@param messageType Tipo de mensaje que estamos escuchando
+		*/
+		//Message::TMessageType::
+		CConditionMessageAction(Logic::Message::TMessageType messageType, Logic::Message::TActionType actionType, bool startActivated,Logic::Message::TMessageType messageTypeToActivate) : _received(false) {
+			_received=false;
+			_messageType = messageType;
+			_actionType = actionType;
+			_initialStatus=startActivated;
+			_enabled= _initialStatus;
+			_messageTypeToActivate=messageTypeToActivate;
+			//_actionTypeToActivate=actionTypeToActivate;
+		}
+		/**
+		En el check sólo tenemos que comprobar el flag _received. Este flag
+		se habrá activado en process si durante este tick hemos recibido
+		un mensaje del tipo adecuado.
+		Una vez hecha la comprobación, reseteamos el flag a false.
+		@param currentNode Nodo al que pertenece la condición (no se usa)
+		@param entity Entidad que ejecuta el comportamiento (no se usa)
+		@return true o false según si se cumple la condición o no.
+
+		*/
+		bool check(CLatentAction* currentNode, CEntity* entity) { 
+			// TODO PRÁCTICA IA
+			// Tenemos que comprobar el flag _received y luego actualizarlo
+			// de nuevo a false para el siguiente tick
+			bool receivedThisTick = _received;
+			_received = false;
+			return receivedThisTick;
+		}
+
+		void reset() { //PeP: para resetear el estado de la condición de activada o desactivada.
+			_enabled=_initialStatus;
+		}
+
+		/**
+		Devuelve true si el tipo del mensaje recibido coincide con el 
+		que estamos esperando
+		@param msg Mensaje que ha recibido la entidad.
+		@return true Si la acción está en principio interesada
+		por ese mensaje.
+		*/
+		virtual bool accept(const CMessage *message) {
+			// TODO PRÁCTICA IA
+			// La condición debe aceptar mensajes del tipo indicado en _messageType
+			if (_enabled)
+			{	
+				return (message->getType() == _messageType && message->getAction()==_actionType);
+			}
+			else
+				//return 
+				if (message->getType() == _messageTypeToActivate)  //ignoramos el actiontoactivate
+				{		
+					_enabled=true; return false;
+				}	
+		};
+		/**
+		Procesa el mensaje recibido. Como sólo aceptamos mensajes del
+		tipo en el que estamos interesados aquí directamente ponemos 
+		el flag a true.
+
+		@param msg Mensaje recibido.
+		*/
+		virtual void process(CMessage *message) {
+			// TODO PRÁCTICA IA
+			// Actualizamos el flag _received si el mensaje es del tipo _messageType
+			//CMessageBoolString *maux = static_cast<CMessageBoolString*>(message);
+			if (_enabled)
+			if (message->getType() == _messageType && message->getAction()==_actionType)
+			{	
+				_enabled=_initialStatus;
+				_received = (message->getType() == _messageType && message->getAction()==_actionType) || _received;
+				if (_received) reset();
+			}
+		};
+
+	private:
+		/** Flag que se activa cuando recibimos un mensaje del tipo en el que estamos interesados */
+		bool _received;
+		/** Flag que se indica si de inicio está activada la recepción de ese mensaje o se precisa que antes llegue otro mensaje que lo active */
+		bool _initialStatus;
+		/** Flag que se indica si de inicio está activada la recepción de ese mensaje o se precisa que antes llegue otro mensaje que lo active */
+		bool _enabled;
+		/** Tipo del mensaje que esperamos */
+		Logic::Message::TMessageType _messageType;
+	 	
+		/** Acción del mensaje que esperamos */
+		Logic::Message::TActionType _actionType;
+		/** Tipo del mensaje que hará que se active la condición */
+		Logic::Message::TMessageType _messageTypeToActivate;
+	 	
+		/** Acción del mensaje que hará que se active la condición */
+	//	Logic::Message::TActionType _actionTypeToActivate;
+	};
 } // namespace Logic
 
 #endif // __AI_Condition_H

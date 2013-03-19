@@ -9,13 +9,10 @@
 #ifndef __Logic_HudOverlay_H
 #define __Logic_HudOverlay_H
 
-//#include "Graphics/Server.h"
 #include "Logic/Entity/Component.h"
-
 
 namespace Graphics 
 {
-	class CServer;
 	class COverlay;
 }
 
@@ -40,8 +37,8 @@ namespace Logic
 		Constructor por defecto; en la clase base no hace nada.
 		*/
 		CHudOverlay() : IComponent(GetAltTypeIdOf(CHudOverlay)), 
-			 _overlay(0), _health(1000.0), 
-			_playersInBase(0),_visibleHud(false) { }
+			 _overlay(0), _health(1000), _healthBase(0), _base(0),
+			 _playersInBase(0), _visibleHud(false) { }
 		
 		/** Destructor */
 		CHudOverlay::~CHudOverlay();
@@ -86,29 +83,23 @@ namespace Logic
 		static enum ColorValue { WHITE,BLACK,RED,GREEN,BLUE };
 
 		//UNDONE FRS temporalmente
-		//void hudLife(float health);
-		void hudVisor();
-		//void hudSpawn(int spawn);
-		//void hudPlayers(short int valor);
+		
+		void displayHud();
+		void hudSpawn(int spawn);
+		void hudPlayers(short int valor);
+		void hudLife(float health);
 
-		float _health;
-		int _healthBase; //la base tiene 3 vidas (3 rayos)
-		int _base; //numero de base
-		short int _playersInBase; //num Players contrarios en la base del Player
+		unsigned int _health;
+		unsigned int _healthBase; //la base tiene 3 vidas (3 rayos)
+		unsigned int _base; //numero de base
+		unsigned int _playersInBase; //num Players contrarios en la base del Player
 		bool _visibleHud;
-
-	
+		
 
 		// TODO FRS de momento puntero, pero podría ser estático...
 		//Overlay de juego y overlay al morir el Player.
 		Graphics::COverlay* _overlay;
-		
-
-		//Graphics::COverlay *_textBoxArea[4];
-		//Graphics::COverlay *_overlayDie;
-
-		//Graphics::COverlay *_textAreaDie;
-		
+		Graphics::COverlay* _overlayDie;
 		 
 	}; // class CHudOverlay
 

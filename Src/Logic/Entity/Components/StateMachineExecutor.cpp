@@ -65,8 +65,10 @@ namespace Logic
 				// Dejamos la acción anterior lista para que pueda
 				// volver a ser ejecutada
 				if (_currentAction != 0)
-					_currentAction->reset();
-				// Sacamos la nueva acción
+				{	
+					
+					_currentAction->reset();_currentStateMachine->reset();
+				}// Sacamos la nueva acción
 				_currentAction = _currentStateMachine->getCurrentNode();
 			}
 			if (_currentAction != 0)
@@ -86,9 +88,10 @@ namespace Logic
 	{
 		// TODO PRÁCTICA IA
 		// El método accept delega en el método accept de la acción latente actual
-		if (_currentAction != 0)
-			return _currentAction->accept(message);
-		return false;
+		if (_currentStateMachine != NULL && _currentStateMachine->accept(message))
+			return true;
+		if(_currentAction != NULL) // Si no, delegamos en currentAction
+			return _currentAction->accept(message); 
 	}
 	//---------------------------------------------------------
 	/**
@@ -99,8 +102,10 @@ namespace Logic
 	{
 		// TODO PRÁCTICA IA
 		// El método process delega en el método process de la acción latente actual
-		if (_currentAction != 0)
-			_currentAction->process(message);
+		if (_currentStateMachine != NULL)
+			_currentStateMachine->process(message);
+		if(_currentAction != NULL) // Si no, delegamos en currentAction
+			_currentAction->process(message);	
 	}
 	//---------------------------------------------------------
 

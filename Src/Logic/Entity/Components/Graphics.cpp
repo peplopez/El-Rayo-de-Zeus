@@ -68,18 +68,13 @@ namespace Logic
 		Vector3 scale = Vector3::UNIT_SCALE;
 
 		// HACK FRS Esto lo suyo es que el modelo ya lo traiga , no?
-			if(_entity->getType().compare("AnimatedEntity")==0)			
-				scale *= 0.5;	
-			else if(_entity->getType().compare("Altar")==0)			
-				scale *= 3;	
-			else if(_entity->getType().compare("SkyBox")==0)		
-				scale = Vector3(2,10,2);				
-			else if(_entity->getType().compare("World")==0 
-				&& _entity->getRing() == LogicalPosition::CENTRAL_RING)
-				scale = Vector3(1.3,1.0,1.3);
+		// o meter la escala como vector en el map
+		if(_entity->getType() == "World"
+			&& _entity->getRing() == LogicalPosition::CENTRAL_RING)
+			scale = Vector3(1.3,1.0,1.3);
 		//
-			else if(entityInfo->hasAttribute("scale") )
-				scale *=  entityInfo->getFloatAttribute("scale");
+		else if(entityInfo->hasAttribute("scaleFactor") )
+			scale *=  entityInfo->getFloatAttribute("scaleFactor");
 
 		_graphicalEntity->setTransform(_entity->getTransform());
 		_graphicalEntity->setScale(scale);	

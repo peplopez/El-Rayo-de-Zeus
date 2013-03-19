@@ -29,42 +29,56 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Attack::OnStart()
 	{
+		
 		//Desactivación de componentes
 		sleepComponents();
-
-		std::cout<<_initialCombatState<<std::endl;
+		std::cout<<_initialCombatState<<std::endl;		
+		std::cout<<(int)_action<<std::endl;
 		switch(_initialCombatState)
 		{
 			case 0:
-				{
-					CMessageBoolString *message = new CMessageBoolString();
-					message->setType(Message::SET_ANIMATION);
-					message->setString("FireKatana");
-					message->setAction(Message::LIGHT_ATTACK);
-					message->setBool(false);
-					_entity->emitMessage(message);
-					break;
-				// TODO PRÁCTICA IA
-				// Al iniciar el wait, calculamos el instante de tiempo en 
-				// el que se tiene que finalizar la acción. 
-				// El tiempo de espera se guarda en _time.
-				// Para obtener el instante actual podemos usar 
-				// Application::CBaseApplication::getSingletonPtr()->getAppTime()
-				//
-				//_endingTime = Application::CBaseApplication::getSingletonPtr()->getAppTime() + _time; 
-				// Otra opción es usar
-				// BaseSubsystems::CServer::getSingletonPtr()->getAppTimer()
-				// para sacar el timer de la aplicación y usar su método 
-				// getMilliseconds.
-				}
+			{
+				CMessageBoolString *message = new CMessageBoolString();
+				message->setType(Message::SET_ANIMATION);
+				message->setString("FireKatana");
+				message->setAction(_action);
+				message->setBool(false);
+				_entity->emitMessage(message);
+				break;
+			}
 			case 1:
 			{
 				CMessageBoolString *message = new CMessageBoolString();
 				message->setType(Message::SET_ANIMATION);
 				message->setString("GetObject");
-				message->setAction(Message::LIGHT_ATTACK);
+				message->setAction(_action);
 				message->setBool(false);
 				_entity->emitMessage(message);		
+				break;
+			}	
+			case 2:
+			{
+				if (_action==Message::HEAVY_ATTACK)
+				{CMessageBoolString *message = new CMessageBoolString();
+				message->setType(Message::SET_ANIMATION);
+				message->setString("INDEFINIDO");
+				message->setAction(_action);
+				message->setBool(false);
+				_entity->emitMessage(message);	
+				_initialYaw=_entity->getYaw();
+				_yawAmount=0;
+				}
+				else
+				{
+				CMessageBoolString *message = new CMessageBoolString();
+				message->setType(Message::SET_ANIMATION);
+				message->setString("Death");
+				message->setAction(_action);
+				message->setBool(false);
+				_entity->emitMessage(message);	
+				//_initialYaw=_entity->getYaw();
+				//_yawAmount=0;				
+				}
 				break;
 			}
 		}
@@ -80,7 +94,7 @@ namespace AI
 	*/
 	void CLA_Attack::OnStop()
 	{
-		
+		awakeComponents();
 	}
 
 	/**
@@ -95,6 +109,22 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Attack::OnRun() 
 	{
+		if (_initialCombatState==2 && _yawAmount>=0 && _action==Message::HEAVY_ATTACK)
+		{
+			_yawAmount++;
+			_entity->yaw(_entity->getYaw()+0.3);
+			if (_yawAmount>50) 
+				{
+					_yawAmount=-10;
+					_entity->setYaw(_initialYaw);
+				/*	CMessageString *msg = new CMessageString();
+					msg->setType(Message::ANIMATION_FINISHED);
+					msg->setAction(_action);
+					msg->setString("Death");
+					_entity->emitMessage(msg);*/
+					finish(false);
+				}				
+		}
 		// TODO PRÁCTICA IA
 		// En cada paso de ejecución tendremos que comprobar si hemos
 		// superado el tiempo de espera. Según lo hayamos superado o no,
@@ -140,11 +170,12 @@ namespace AI
 	bool CLA_Attack::accept(const CMessage *message)
 	{		
 		// la accion latente de ataque solo acepta mensajes de ataque en el momento que la oportunidad de combo está activada.
-		return (_comboOportunity && (message->getType() == Message::CONTROL && 
+		return/* (_comboOportunity && (message->getType() == Message::CONTROL && 
 			(message->getAction() == Message::LIGHT_ATTACK||
 			message->getAction() == Message::HEAVY_ATTACK)))
-			||
-			((message->getType()==Message::ANIMATION_MOMENT) || (message->getType()==Message::ANIMATION_FINISHED) || (message->getType()==Message::SET_ANIMATION));
+			||*/
+			/*(message->getType()==Message::ANIMATION_MOMENT) &&  _initialCombatState!=2)*/
+			((message->getType()==Message::ANIMATION_FINISHED) || (message->getType()==Message::SET_ANIMATION));
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
@@ -156,18 +187,20 @@ namespace AI
 	{
 		switch(message->getType())
 		{
-		case Message::ANIMATION_FINISHED:
+		case Message::ANIMATION_FINISHED: //ConditionFail
 			{
 				CMessageString* maux = static_cast<CMessageString*>(message);
 				if (maux->getString().compare("FireKatana")==0 )
 				{	
-					awakeComponents();
 					finish(false);
 					//_lightAttack=_heavyAttack=false;//stopMovement();
 				}
 				else if (maux->getString().compare("GetObject")==0)
 				{
-					awakeComponents();
+					finish(false);				
+				}
+				else if (maux->getString().compare("Death")==0)
+				{
 					finish(false);				
 				}_comboOportunity=false;
 				break;
@@ -176,15 +209,12 @@ namespace AI
 			{
 				if (message->getAction()==Message::WALK_LEFT || message->getAction()==Message::WALK_RIGHT)
 				{
-					awakeComponents();
-					finish(false);
-					
+					finish(false);					
 				}
-
 				break;
 			}	
 		case Message::ANIMATION_MOMENT:
-			{
+			{				
 				_comboOportunity=true;
 				break;
 				//querré saber cual animación es, de momento se que solo puedo recibir un tipo de animación
@@ -196,18 +226,26 @@ namespace AI
 					//con este metodo vemos si con la espada le estamos dando
 					attackPlace(punto,_entity->getRing(),_entity->getBase(),false);*/
 			}
-			case Message::CONTROL: //si estamos aquí es que el jugador ha aprovechado la oportunidad que tenia de realizar un combo.
+		/*	case Message::CONTROL: //si estamos aquí es que el jugador quiere aprovechar la oportunidad que tenia de realizar un combo. Dependiendo de 
 			{
 
 				if (_comboOportunity)
-					if (message->getAction()==Message::LIGHT_ATTACK)
-					{
-						awakeComponents();
-						_comboOportunity=false;
-						finish(true);
-						
-					}break;
-			}
+				{
+					if (_initialCombatState<1)
+						if (message->getAction()==Message::LIGHT_ATTACK)
+						{
+							_comboOportunity=false;
+							finish(true);
+						}					
+					if (_initialCombatState==1)//en el tercer ataque del combo
+						if (message->getAction()==Message::HEAVY_ATTACK)
+						{
+							_comboOportunity=false;
+							finish(true);
+						}
+					}
+					break;
+			}*/
 		}
 			// TODO PRÁCTICA IA
 		// La acción no procesa mensajes

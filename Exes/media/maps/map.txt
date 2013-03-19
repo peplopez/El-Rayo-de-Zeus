@@ -1,161 +1,6 @@
 Map ={
 	
-	Altar1 = {
-		type = "Altar",
-		degrees=60,
-		ring=0,
-		base=0,
-	},
-	
-	Altar2 = {
-		type = "Altar",
-		degrees=180,
-		ring=0,
-		base=0,
-	},
-	
-	Altar3 = {
-		type = "Altar",
-		degrees=300,
-		ring=0,
-		base=0,		
-	},
-	
-	Altar4 = {
-		type = "Altar",
-		degrees=36,
-		ring=1,
-		base=0,
-	},
-	Altar5 = {
-		type = "Altar",
-		degrees=108,
-		ring=1,
-		base=0,
-	},
-	
-	Altar6 = {
-		type = "Altar",
-		degrees=180,
-		ring=1,
-		base=0,
-	},
-	
-	Altar7 = {
-		type = "Altar",
-		degrees=252,
-		ring=1,
-		base=0,		
-	},
-	
-	Altar8 = {
-		type = "Altar",
-		degrees=324,
-		ring=1,
-		base=0,		
-	},
-	
-	Altar9 = {
-		type = "Altar",
-		degrees=60,
-		ring=2,
-		base=0,		
-	},
-	
-	Altar10 = {
-		type = "Altar",
-		degrees=180,
-		logicInput=true,
-		ring=2,
-		base=0,		
-	},
-	
-	Altar11 = {
-		type = "Altar",
-		degrees=300,
-		ring=2,
-		base=0,		
-	},
 
-	
-	Altar13 = {
-		type = "Altar",
-		degrees=60,
-		logicInput=true,
-		ring=0,
-		base=3,		
-		static = true,
-	},
-	
-	Altar23 = {
-		type = "Altar",
-		degrees=180,
-		ring=0,
-		base=3,		
-	},
-	
-	Altar33 = {
-		type = "Altar",
-		degrees=300,
-		ring=0,
-		base=3,		
-	},
-	
-	Altar43 = {
-		type = "Altar",
-		degrees=36,
-		ring=1,
-		base=3,		
-	},
-	
-	Altar53 = {
-		type = "Altar",
-		degrees=108,
-		ring=1,
-		base=3,		
-	},
-	
-	Altar63 = {
-		type = "Altar",
-		degrees=180,
-		ring=1,
-		base=3,		
-	},
-	
-	Altar73 = {
-		type = "Altar",
-		degrees=252,
-		ring=1,
-		base=3,		
-	},
-	
-	Altar83 = {
-		type = "Altar",
-		degrees=324,
-		ring=1,
-		base=3,		
-	},
-	
-	Altar93 = {
-		type = "Altar",
-		degrees=60,
-		ring=2,
-		base=3,		
-	},
-	
-	Altar103 = {
-		type = "Altar",
-		degrees=180,
-		ring=2,
-		base=3,		
-	},
-	
-	Altar113 = {
-		type = "Altar",
-		degrees=300,
-		ring=2,
-		base=3,		
-	},
 	
 	Camera = {
 		type = "Camera",
@@ -171,6 +16,68 @@ Map ={
 		logicInput=true,
 		radio=120,
 	},
+	
+	puApple1 = {
+		type = "PUApple",
+		base=3,
+		ring=0,
+		degrees=0,
+	},
+	puThrone1 = {
+		type = "PUThrone",
+		base=3,
+		ring=0,
+		degrees=120,
+	},
+	puPandora1 = {
+		type = "PUPandora",
+		base=3,
+		ring=2,
+		degrees=0,
+	},
+	puPoison1 = {
+		type = "PUPoison",
+		base=3,
+		ring=1,
+		degrees=180,
+	},
+	puTime1 = {
+		type = "PUTime",
+		base=3,
+		ring=2,
+		degrees=120,
+	},
+	
+	
+	bioshockLOGICO74 = {
+		type = "Bigdaddy",
+		base=3,
+		ring=1,
+		degrees=300,		
+	},	
+	
+	peludo = {
+		type = "Spider",
+		base=3,
+		ring=1,
+		degrees=80,		
+	},
+
+	peluda = {
+		type = "Spider",
+		base=3,
+		ring=2,
+		degrees=70,		
+	},	
+	
+	gemelo = {
+		type = "OtherPlayer",
+		base=3,
+		ring=0,
+		degrees=120,		
+	},
+
+	
 	
 	WorldAbajo0 = {
 		type = "World",
@@ -337,33 +244,161 @@ Map ={
 		ring=2,
 	},
 	
+		Altar1 = {
+		type = "Altar",
+		degrees=60,
+		ring=0,
+		base=0,
+	},
 	
-	bioshockLOGICO74 = {
-		type = "Bigdaddy",
-		base=3,
-		ring=1,
-		degrees=300,		
-	},	
+	Altar2 = {
+		type = "Altar",
+		degrees=180,
+		ring=0,
+		base=0,
+	},
 	
-	peludo = {
-		type = "Spider",
-		base=3,
+	Altar3 = {
+		type = "Altar",
+		degrees=300,
+		ring=0,
+		base=0,		
+	},
+	
+	Altar4 = {
+		type = "Altar",
+		degrees=36,
 		ring=1,
-		degrees=80,		
+		base=0,
+	},
+	Altar5 = {
+		type = "Altar",
+		degrees=108,
+		ring=1,
+		base=0,
+	},
+	
+	Altar6 = {
+		type = "Altar",
+		degrees=180,
+		ring=1,
+		base=0,
+	},
+	
+	Altar7 = {
+		type = "Altar",
+		degrees=252,
+		ring=1,
+		base=0,		
+	},
+	
+	Altar8 = {
+		type = "Altar",
+		degrees=324,
+		ring=1,
+		base=0,		
+	},
+	
+	Altar9 = {
+		type = "Altar",
+		degrees=60,
+		ring=2,
+		base=0,		
+	},
+	
+	Altar10 = {
+		type = "Altar",
+		degrees=180,
+		logicInput=true,
+		ring=2,
+		base=0,		
+	},
+	
+	Altar11 = {
+		type = "Altar",
+		degrees=300,
+		ring=2,
+		base=0,		
 	},
 
-	peluda = {
-		type = "Spider",
-		base=3,
+	
+	Altar13 = {
+		type = "Altar",
+		degrees=60,
+		ring=0,
+		base=3,	
+	},
+	
+	Altar23 = {
+		type = "Altar",
+		degrees=180,
+		ring=0,
+		base=3,		
+	},
+	
+	Altar33 = {
+		type = "Altar",
+		degrees=300,
+		ring=0,
+		base=3,		
+	},
+	
+	Altar43 = {
+		type = "Altar",
+		degrees=36,
+		ring=1,
+		base=3,		
+	},
+	
+	Altar53 = {
+		type = "Altar",
+		degrees=108,
+		ring=1,
+		base=3,		
+	},
+	
+	Altar63 = {
+		type = "Altar",
+		degrees=180,
+		ring=1,
+		base=3,		
+	},
+	
+	Altar73 = {
+		type = "Altar",
+		degrees=252,
+		ring=1,
+		base=3,		
+	},
+	
+	Altar83 = {
+		type = "Altar",
+		degrees=324,
+		ring=1,
+		base=3,		
+	},
+	
+	Altar93 = {
+		type = "Altar",
+		degrees=60,
 		ring=2,
-		degrees=70,		
+		base=3,		
+	},
+	
+	Altar103 = {
+		type = "Altar",
+		degrees=180,
+		ring=2,
+		base=3,		
+	},
+	
+	Altar113 = {
+		type = "Altar",
+		degrees=300,
+		ring=2,
+		base=3,		
 	},	
 	
-	gemelo = {
-		type = "OtherPlayer",
-		base=3,
-		ring=2,
-		degrees=120,		
-	},		
+			
 
 }

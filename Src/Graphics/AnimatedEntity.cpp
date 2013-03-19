@@ -133,6 +133,8 @@ namespace Graphics
 				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
 			if(_observer && _currentAnimation->getAnimationName().compare("GetObject")==0)
 				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
+			if(_observer && _currentAnimation->getAnimationName().compare("Death")==0)
+				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
 
 			if(_observer && _currentAnimation->getAnimationName().compare("FireKatana")==0)
 				if (_momentEnabled)
@@ -147,6 +149,13 @@ namespace Graphics
 				{
 					_momentEnabled=false;				
 					_observer->animationMomentReached("GetObject");
+				}
+			if(_observer && _currentAnimation->getAnimationName().compare("Death")==0)
+				if (_momentEnabled)
+				if (_currentAnimation->getTimePosition()>0.6)
+				{
+					_momentEnabled=false;				
+					_observer->animationMomentReached("Death");
 				}
 		}
 

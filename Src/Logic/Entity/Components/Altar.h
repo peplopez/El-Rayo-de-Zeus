@@ -74,6 +74,7 @@ namespace Logic
 		*/
 		int _acumTime;
 		
+		CEntity* _player;
 
 	}; // class CAltar
 

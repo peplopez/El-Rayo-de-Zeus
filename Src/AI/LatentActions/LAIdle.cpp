@@ -27,7 +27,9 @@ namespace AI
 	CLatentAction::LAStatus CLAIdle::OnStart()
 	{
 	//	_entity->getComponent<CAttack>()->resetAttackFlags();
-
+		//while(
+		
+		std::cout<<"idle"<<std::endl;
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
 		message->setString("IdleKatana");
@@ -114,7 +116,8 @@ namespace AI
 	bool CLAIdle::accept(const CMessage *message)
 	{		
 		// La acción no acepta mensajes
-		return (message->getType() == Message::CONTROL && message->getAction()==Message::LIGHT_ATTACK);
+		return false;
+		return (message->getType() == Message::CONTROL && (message->getAction()==Message::LIGHT_ATTACK || message->getAction()==Message::HEAVY_ATTACK));
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
@@ -126,8 +129,11 @@ namespace AI
 	{
 		// TODO PRÁCTICA IA
 		// La acción no procesa mensajes
-		if(message->getType() == Message::CONTROL && message->getAction()==Message::LIGHT_ATTACK)
-			finish(true); // bool = exito o fallo
+		/*if(message->getType() == Message::CONTROL)
+			 if ( message->getAction()==Message::LIGHT_ATTACK)
+				finish(true); // bool = exito o fallo
+			 else
+				finish(false);*/
 	}
 
 	void CLAIdle::sleepComponents(){}
