@@ -78,10 +78,37 @@
   <!-- TARGET DE GENERACION DE LOS PROYECTOS DE VISUAL -->
   <!-- =============================================== -->
 
-<target name="generaSLN">
+<target name="generaSLNdebug">
    <!-- Generamos el proyecto de Visual 2008 (premake no -->
    <!-- soporta aún Visual 2010) -->
-   <exec executable="${basedir}/projects/premake/build_vs2008.bat" dir="${basedir}/projects/premake">
+   <exec executable="${basedir}/projects/premake/build_vs2008_debug.bat" dir="${basedir}/projects/premake">
+   </exec>
+
+   <!-- Y convertimos a Visual 2010 -->
+   <!-- Primero borramos los resultados de la conversión anterior -->
+   <!-- para que Visual no nos saque una ventana preguntando qué hacer -->
+   <!-- con ellos... -->
+   <delete verbose="true">
+      <fileset dir="${basedir}/projects/premake" includes="**/*.vcxproj"/>
+      <fileset dir="${basedir}/projects/premake" includes="**/*.vcxproj.filters"/>
+      <fileset dir="${basedir}/projects/premake" includes="UpgradeLog*.XML"/>
+   </delete>
+   <delete verbose="true" dir="${basedir}/projects/premake/Backup"/>
+   <delete verbose="true" dir="${basedir}/projects/premake/_UpgradeReport_Files"/>
+
+   <!-- Y luego llamamos a Visual -->
+   <vc10 projectfolder="${basedir}/projects/premake" 
+        upgrade="true"
+        logfile="${vslogfile}">
+     <targets dir="${basedir}/projects/premake" includes="${ceguiSLN}"/>
+   </vc10>
+   <delete file = "${vslogfile}"/>
+</target>
+
+<target name="generaSLNrelease">
+   <!-- Generamos el proyecto de Visual 2008 (premake no -->
+   <!-- soporta aún Visual 2010) -->
+   <exec executable="${basedir}/projects/premake/build_vs2008_release.bat" dir="${basedir}/projects/premake">
    </exec>
 
    <!-- Y convertimos a Visual 2010 -->
@@ -191,7 +218,7 @@ Parametros:
 <!-- Objetivo que compila el proyecto en modo Debug. -->
 <target name="debug"
         description="Compilación (incremental) en modo Debug"
-        depends="generaSLN">
+        depends="generaSLNdebug">
 
   <antcall target="compilaSln">
     <param name="config" value="Debug"/>
@@ -208,7 +235,7 @@ Parametros:
 <!-- Objetivo que compila el proyecto en modo Release. -->
 <target name="release"
         description="Compilación (incremental) en modo Release"
-        depends="generaSLN">
+        depends="generaSLNrelease">
 
   <antcall target="compilaSln">
     <param name="config" value="Release"/>
@@ -234,7 +261,7 @@ Parametros:
 <!-- Objetivo que compila todo el proyecto en modo Debug. -->
 <target name="redebug"
         description="Compilación desde cero en modo Debug"
-        depends="cleanDebug, generaSLN">
+        depends="cleanDebug, generaSLNdebug">
 
   <antcall target="compilaSln">
     <param name="config" value="Debug"/>
@@ -251,7 +278,7 @@ Parametros:
 <!-- Objetivo que compila todo el proyecto en modo Release. -->
 <target name="rerelease"
         description="Compilación desde cero en modo Release"
-        depends="cleanRelease, generaSLN">
+        depends="cleanRelease, generaSLNrelease">
 
   <antcall target="compilaSln">
     <param name="config" value="Release"/>
