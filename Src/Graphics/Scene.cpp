@@ -19,6 +19,7 @@ de una escena.
 #include "BaseSubsystems/Server.h"
 
 #include "Graphics/Billboard.h"
+#include "Graphics/Light.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Entity.h"
 #include "Graphics/GlowMaterialListener.h"
@@ -73,42 +74,18 @@ namespace Graphics
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
 						->addViewport(_camera->getCamera());
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
-		
-		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
-		//Sombras Chulas - Consumen mucho*/
-		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
-		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.9f,0.9f,0.9f));
-
-		// Además de la luz ambiente creamos una luz direccional que 
-		// hace que se vean mejor los volúmenes de las entidades.
-		_directionalLight1 = _sceneMgr->createLight("directional light1");
-		//_directionalLight2 = _sceneMgr->createLight("directional light2");
-
-		_directionalLight1->setDiffuseColour(.5f,.5f,.5f);
-		//_directionalLight2->setDiffuseColour(.5f,.5f,.5f);
-
-		_directionalLight1->setSpecularColour(.5f,.5f,.5f);
-		//_directionalLight2->setSpecularColour(.5f,.5f,.5f);
-
-		_directionalLight1->setType(Ogre::Light::LT_DIRECTIONAL);
-		//_directionalLight2->setType(Ogre::Light::LT_DIRECTIONAL);
-
-		_directionalLight1->setPosition(150, 150, 0);
-		//_directionalLight2->setPosition(-150, 150, 0);
-
-		_directionalLight1->setDirection(-150, -150, 0);
-		//_directionalLight2->setDirection(150, -150, 0);
-
-		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_camera->getViewport(), "Glow");
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_camera->getViewport(), "Glow", true);
+		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Glow", true);
 
 		GlowMaterialListener *gml = new GlowMaterialListener();
 		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
 
-		//_directionalLight->setType(Ogre::Light::LT_POINT);
-		//_directionalLight->setPosition(0, 100, 0);
-		
+		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.6f,0.6f,0.6f));
+
+		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
+		//Sombras Chulas - Consumen mucho*/
+		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
 	} // activate
 
@@ -166,6 +143,8 @@ namespace Graphics
 
 	} // addEntity
 
+	//--------------------------------------------------------
+
 	void CScene::remove(CEntity* entity)
 	{
 		entity->deattachFromScene();
@@ -185,6 +164,7 @@ namespace Graphics
 
 	} // addStaticEntity
 
+	//--------------------------------------------------------
 
 	void CScene::remove(CStaticEntity* entity)
 	{
@@ -232,6 +212,29 @@ namespace Graphics
 		billboard->deattachFromScene();
 		_billboards.remove(billboard);
 	} // removeBillboard
+
+
+	//---------- LIGHTS -------------------------
+
+	bool CScene::add(CLight *light)
+	{
+		if(!light->load())
+			return false;
+		_lights.push_back(light);
+		return true;
+
+	} // addBillboard
+
+	
+	//--------------------------------------------------------
+
+	void CScene::remove(CLight* light)
+	{
+		light->unload();
+		_lights.remove(light);
+	} // removeBillboard
+
+
 
 
 	//--------------------------------------------------------

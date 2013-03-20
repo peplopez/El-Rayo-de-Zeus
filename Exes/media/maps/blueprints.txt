@@ -7,3 +7,4 @@ Player CAnimatedGraphics CAvatarController  CJump2 CBaseTraveler CAttack CPhysic
 AnimatedEntity CAvatarController CAttack CPhysicalCharacter CAnimatedGraphics CLifeModifier CLife CDeath 
 OtherPlayer CAvatarController CAnimatedGraphics CAttack CPhysicalCharacter CLifeModifier CLife CDeath CAltarStateSwitcher CBasicAI
 PowerUp CGraphics CPhysics CLifeModifier
+Light CGraphics CLight

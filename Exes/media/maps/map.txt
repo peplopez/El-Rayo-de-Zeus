@@ -1,7 +1,5 @@
 Map ={
 	
-
-	
 	Camera = {
 		type = "Camera",
 		distance = 150,
@@ -10,40 +8,46 @@ Map ={
 		targetHeight = 7,
 		angularSpeed = 1,
 		ring=1,
-		base=9,
+		base=0,
 		degrees=0;
 		sense=0,
 		logicInput=true,
 		radio=120,
 	},
 	
+	pointLight1 = {
+		type = "PointLight",
+		position = {75, 75, 0},
+	},
+		
+	
 	puApple1 = {
 		type = "PUApple",
-		base=3,
+		base=0,
 		ring=0,
 		degrees=0,
 	},
 	puThrone1 = {
 		type = "PUThrone",
-		base=3,
+		base=0,
 		ring=0,
 		degrees=120,
 	},
 	puPandora1 = {
 		type = "PUPandora",
-		base=3,
+		base=0,
 		ring=2,
 		degrees=0,
 	},
 	puPoison1 = {
 		type = "PUPoison",
-		base=3,
+		base=0,
 		ring=1,
 		degrees=180,
 	},
 	puTime1 = {
 		type = "PUTime",
-		base=3,
+		base=0,
 		ring=2,
 		degrees=120,
 	},
@@ -51,211 +55,62 @@ Map ={
 	
 	bioshockLOGICO74 = {
 		type = "Bigdaddy",
-		base=3,
+		base=0,
 		ring=1,
 		degrees=300,		
 	},	
 	
 	peludo = {
 		type = "Spider",
-		base=3,
+		base=0,
 		ring=1,
 		degrees=80,		
 	},
 
 	peluda = {
 		type = "Spider",
-		base=3,
+		base=0,
 		ring=2,
 		degrees=70,		
 	},	
 	
 	gemelo = {
 		type = "OtherPlayer",
-		base=3,
+		base=0,
 		ring=0,
 		degrees=120,		
 	},
-
 	
-	
-	WorldAbajo0 = {
+	LowerRing = {
 		type = "World",
 		base=0,
 		ring=0,
 	},
 	
-	WorldCentro0 = {
+	CenterRing = {
 		type = "World",
 		base=0,
 		ring=1,
 	},
 	
-	WorldArriba0= {
+	UpperRing = {
 		type = "World",
 		base=0,
 		ring=2,
 	},
 	
-	WorldAbajo1 = {
-		type = "World",
-		base=1,
-		ring=0,
-	},
-	
-	WorldCentro1 = {
-		type = "World",
-		base=1,
-		ring=1,
-	},
-	
-	WorldArriba1 = {
-		type = "World",
-		base=1,
-		ring=2,
-	},
-
-	WorldAbajo2 = {
-		type = "World",
-		base=2,
-		ring=0,
-	},
-	
-	WorldCentro2 = {
-		type = "World",
-		base=2,
-		ring=1,
-	},
-	
-	WorldArriba2 = {
-		type = "World",
-		base=2,
-		ring=2,
-	},
-	
-	WorldAbajo3 = {
-		type = "World",
-		base=3,
-		ring=0,
-	},
-	
-	WorldCentro3 = {
-		type = "World",
-		base=3,
-		ring=1,
-	},
-	
-	WorldArriba3 = {
-		type = "World",
-		base=3,
-		ring=2,
-	},
-
-	
-	WorldAbajo4 = {
-		type = "World",
-		base=4,
-		ring=0,
-	},
-	
-	WorldCentro4 = {
-		type = "World",
-		base=4,
-		ring=1,
-	},
-	
-	WorldArriba4 = {
-		type = "World",
-		base=4,
-		ring=2,
-	},
-	
-	WorldAbajo5 = {
-		type = "World",
-		base=5,
-		ring=0,
-	},
-	
-	WorldCentro5 = {
-		type = "World",
-		base=5,
-		ring=1,
-	},
-	
-	WorldArriba5 = {
-		type = "World",
-		base=5,
-		ring=2,
-	},
-
-	
-	WorldAbajo6 = {
-		type = "World",
-		base=6,
-		ring=0,
-	},
-	
-	WorldCentro6 = {
-		type = "World",
-		base=6,
-		ring=1,
-	},
-	
-	WorldArriba6 = {
-		type = "World",
-		base=6,
-		ring=2,
-	},
-	
-	WorldAbajo7 = {
-		type = "World",
-		base=7,
-		ring=0,
-	},
-	
-	WorldCentro7 = {
-		type = "World",
-		base=7,
-		ring=1,
-	},
-	
-	WorldArriba7 = {
-		type = "World",
-		base=7,
-		ring=2,
-	},
-
-		
-	WorldAbajo8 = {
-		type = "World",
-		base=8,
-		ring=0,
-	},
-	
-	WorldCentro8 = {
-		type = "World",
-		base=8,
-		ring=1,
-	},
-	
-	WorldArriba8 = {
-		type = "World",
-		base=8,
-		ring=2,
-	},
-	
-		Altar1 = {
+	Altar1 = {
 		type = "Altar",
 		degrees=60,
 		ring=0,
-		base=0,
+		base=0,	
 	},
 	
 	Altar2 = {
 		type = "Altar",
 		degrees=180,
 		ring=0,
-		base=0,
+		base=0,		
 	},
 	
 	Altar3 = {
@@ -269,20 +124,21 @@ Map ={
 		type = "Altar",
 		degrees=36,
 		ring=1,
-		base=0,
+		base=0,		
 	},
+	
 	Altar5 = {
 		type = "Altar",
 		degrees=108,
 		ring=1,
-		base=0,
+		base=0,		
 	},
 	
 	Altar6 = {
 		type = "Altar",
 		degrees=180,
 		ring=1,
-		base=0,
+		base=0,		
 	},
 	
 	Altar7 = {
@@ -309,7 +165,6 @@ Map ={
 	Altar10 = {
 		type = "Altar",
 		degrees=180,
-		logicInput=true,
 		ring=2,
 		base=0,		
 	},
@@ -319,86 +174,6 @@ Map ={
 		degrees=300,
 		ring=2,
 		base=0,		
-	},
-
-	
-	Altar13 = {
-		type = "Altar",
-		degrees=60,
-		ring=0,
-		base=3,	
-	},
-	
-	Altar23 = {
-		type = "Altar",
-		degrees=180,
-		ring=0,
-		base=3,		
-	},
-	
-	Altar33 = {
-		type = "Altar",
-		degrees=300,
-		ring=0,
-		base=3,		
-	},
-	
-	Altar43 = {
-		type = "Altar",
-		degrees=36,
-		ring=1,
-		base=3,		
-	},
-	
-	Altar53 = {
-		type = "Altar",
-		degrees=108,
-		ring=1,
-		base=3,		
-	},
-	
-	Altar63 = {
-		type = "Altar",
-		degrees=180,
-		ring=1,
-		base=3,		
-	},
-	
-	Altar73 = {
-		type = "Altar",
-		degrees=252,
-		ring=1,
-		base=3,		
-	},
-	
-	Altar83 = {
-		type = "Altar",
-		degrees=324,
-		ring=1,
-		base=3,		
-	},
-	
-	Altar93 = {
-		type = "Altar",
-		degrees=60,
-		ring=2,
-		base=3,		
-	},
-	
-	Altar103 = {
-		type = "Altar",
-		degrees=180,
-		ring=2,
-		base=3,		
-	},
-	
-	Altar113 = {
-		type = "Altar",
-		degrees=300,
-		ring=2,
-		base=3,		
-	},	
-	
-			
+	},				
 
 }

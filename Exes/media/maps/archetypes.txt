@@ -9,6 +9,15 @@ Map = {
 		physicTrigger = true,
 	},
 	
+	PointLight = {
+		type = "Light",
+		lightType = "point",
+		diffuseColour = {0.5, 0.5, 0.5},
+		specularColour = {0.5, 0.5, 0.5},
+		model = "pu_Apple.mesh",
+		scaleFactor = 0.2,	
+	},
+	
 	BarraVida = {
 		type = "BarraVida",
 		model = "plane.mesh",
@@ -25,7 +34,7 @@ Map = {
 		model = "bioshock.mesh",
 		scaleFactor = 0.5,
 		logicInput = true,
-		base=1,
+		base=0,
 		ring=0,		
 		degrees=0,
 		sense=1,
@@ -43,7 +52,7 @@ Map = {
 		model = "aranna.mesh",
 		scaleFactor = 0.5,
 		logicInput = true,
-		base=1,
+		base=0,
 		ring=0,		
 		degrees=0,
 		sense=1,
@@ -60,7 +69,7 @@ Map = {
 		type = "Player",
 		model = "marine.mesh",
 		logicInput=true,
-		base=3,
+		base=0,
 		ring=1,
 		degrees=0,
 		sense=1,

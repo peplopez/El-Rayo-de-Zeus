@@ -28,7 +28,8 @@ namespace Ogre
 	class StaticGeometry;
 	class Light;
 	class ParticleSystem;
-}
+};
+
 namespace Graphics 
 {
 	class CServer;
@@ -36,7 +37,8 @@ namespace Graphics
 	class CEntity;
 	class CStaticEntity;
 	class CBillboard;
-}
+	class CLight;
+};
 
 namespace Graphics 
 {
@@ -137,12 +139,22 @@ namespace Graphics
 		*/
 		void remove(CStaticEntity* entity);
 
-
+		/*
+		*/
 		bool add(CBillboard* billboard);
+		
+		/*
+		*/
 		void remove(CBillboard* billboard);
 
+		/**
+		*/
+		bool add(CLight* light);
 
-		
+		/**
+		*/
+		void remove(CLight* light);
+
 
 // UNDONABLE FRS
 		//Pablo
@@ -170,6 +182,7 @@ namespace Graphics
 		friend class CStaticEntity;
 		friend class CCamera;
 		friend class CBillboard;
+		friend class CLight;
 
 		/**
 		Nombre de la escena.
@@ -225,6 +238,11 @@ namespace Graphics
 		/**	Tipos para la lista de billboards.	*/
 		typedef std::list<CBillboard*> TBillboards;
 
+		/**
+		Tipos para la lista de luces.
+		*/
+		typedef std::list<CLight*> TLights;
+
 
 		/**
 		Lista de entidades dinámicas.
@@ -236,8 +254,14 @@ namespace Graphics
 		*/
 		TStaticEntities _staticEntities;
 
+		
 		/** Lista de billboards en escena */
 		TBillboards _billboards;
+
+		/** 
+		Lista de luces en la escena 
+		*/
+		TLights _lights;
 
 		/**
 		Geometría estática de la escena.
@@ -285,6 +309,7 @@ namespace Graphics
 		modificar los valores de las entidades estáticas.
 		*/
 		void buildStaticGeometry();
+
 		/**
 		Devuelve el gestor de la escena de Ogre
 
