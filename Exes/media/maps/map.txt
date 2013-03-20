@@ -17,7 +17,7 @@ Map ={
 	
 	pointLight1 = {
 		type = "PointLight",
-		position = {75, 75, 0},
+		position = {150, 100, 0},
 	},
 		
 	
