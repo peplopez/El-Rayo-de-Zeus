@@ -81,7 +81,7 @@ namespace Graphics
 		GlowMaterialListener *gml = new GlowMaterialListener();
 		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
 
-		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.6f,0.6f,0.6f));
+		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
 
 		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
 		//Sombras Chulas - Consumen mucho*/
@@ -218,7 +218,7 @@ namespace Graphics
 
 	bool CScene::add(CLight *light)
 	{
-		if(!light->load())
+		if(!light->attachToScene(this))
 			return false;
 		_lights.push_back(light);
 		return true;
@@ -230,7 +230,7 @@ namespace Graphics
 
 	void CScene::remove(CLight* light)
 	{
-		light->unload();
+		light->deattachFromScene();
 		_lights.remove(light);
 	} // removeBillboard
 

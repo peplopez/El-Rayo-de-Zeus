@@ -12,8 +12,8 @@ Map = {
 	PointLight = {
 		type = "Light",
 		lightType = "point",
-		diffuseColour = {0.5, 0.5, 0.5},
-		specularColour = {0.5, 0.5, 0.5},
+		diffuseColour = {0.9, 0.9, 0.9},
+		specularColour = {0.9, 0.9, 0.9},
 		model = "pu_Apple.mesh",
 		scaleFactor = 0.2,	
 	},

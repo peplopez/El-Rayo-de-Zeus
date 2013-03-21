@@ -17,10 +17,10 @@ Map ={
 	
 	pointLight1 = {
 		type = "PointLight",
-		position = {150, 100, 0},
+		position = {0, 100, 0},
 	},
-		
 	
+		
 	puApple1 = {
 		type = "PUApple",
 		base=0,

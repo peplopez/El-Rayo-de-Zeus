@@ -68,26 +68,13 @@ namespace Logic
 
 	bool CLight::accept(const CMessage *message)
 	{
-		return	 message->getType() == Message::SET_TRANSFORM;
+		return false;
 	} // accept
 	
 	//---------------------------------------------------------
 
 	void CLight::process(CMessage *message)
 	{
-		switch(message->getType())
-		{
-		case Message::SET_TRANSFORM:
-			{
-			CMessageTF *maux = static_cast<CMessageTF*>(message);
-			Vector3 posaux;
-			Vector3 scaleaux;
-			Quaternion orientaux;
-			maux->getTransform().decomposition(posaux, scaleaux, orientaux);
-			_graphicalLight->setPosition(posaux);
-			}
-			break;
-		}
 
 	} // process
 
@@ -97,7 +84,8 @@ namespace Logic
 	{		
 		assert( _scene && "LOGIC::GRAPHICS>> No existe escena gráfica!");
 		
-		Graphics::CLight* light = new Graphics::CLight(_entity->getName(), _scene);
+		Graphics::CLight* light = new Graphics::CLight(_entity->getName());
+		_scene->add(light);
 
 		if(entityInfo->hasAttribute("lightType"))
 		{
@@ -127,7 +115,11 @@ namespace Logic
 		return light;
 
 	} // createGraphicalEntity
-	
+
+	void CLight::tick(unsigned int msecs)
+	{
+
+	}	
 	
 
 } // namespace Logic

@@ -53,6 +53,8 @@ namespace Logic
 
 		virtual void process(CMessage *message);
 
+		virtual void tick(unsigned int msecs);
+
 	protected:
 
 		/**	Luz gráfica.*/

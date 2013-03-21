@@ -41,7 +41,8 @@ namespace Graphics
 		/**
 		Constructor de la clase.
 		*/
-		CLight(const std::string &name, CScene* scene);
+		CLight(const std::string &name) 
+			: _name(name), _light(0), _scene(0), _loaded(false) {}
 
 		/**
 		Destructor de la luz.
@@ -86,21 +87,13 @@ namespace Graphics
 
 		friend class CScene;
 
-		/** 
+		/**
 		*/
-		Ogre::Light* _light;
+		bool attachToScene(CScene *scene);
 
 		/**
 		*/
-		CScene* _scene;	
-
-		/**
-		*/
-		bool load();
-
-		/**
-		*/
-		void unload();
+		bool deattachFromScene();
 
 		/**
 		*/
@@ -112,9 +105,25 @@ namespace Graphics
 		*/
 		std::string _name;
 
+		/** 
+		*/
+		Ogre::Light* _light;
+
+		/**
+		*/
+		CScene* _scene;	
+
 		/**
 		*/
 		bool _loaded;
+
+		/**
+		*/
+		bool load();
+
+		/**
+		*/
+		void unload();
 
 
 	}; // class CLight

@@ -26,32 +26,58 @@ Contiene la implementación de la clase que representa una luz.
 namespace Graphics 
 {
 
-	CLight::CLight(const std::string &name, CScene* scene)
-			: _name(name), _light(0), _scene(scene), _loaded(false)
-	{
-		load();
-	}
-
-	//-------------------------------------------------------
-
 	CLight::~CLight() 
 	{
-		unload();	
-	} // ~CEntity
+		assert(!_scene && "¡¡Para destruir una luz ésta no puede pertenecer a una escena!!");
+	} // ~CLight
 	
 	//-------------------------------------------------------
+	
+	bool CLight::attachToScene(CScene *scene)
+	{
+		assert(scene && "¡¡La luz debe asociarse a una escena!!");
 		
+		// Si la luz está cargada por otro gestor de escena.
+		if(_loaded) {			
+			if(_scene != scene)
+				return false;
+			else
+				return true; // Si ya estaba cargado en la escena se devuelve cierto.
+		
+		} else { // Si no está cargado forzamos su carga.		
+			_scene = scene;
+			return load();
+		}
+	} // attachToScene
+
+	//-------------------------------------------------------		
+		
+	bool CLight::deattachFromScene()
+	{
+		// Si  la luz no está cargada no se puede quitar de
+		// una escena. Ya que no pertenecerá a ninguna.
+		if(!_loaded)
+			return false;		
+		else { // Si está cargada forzamos su descarga.
+			assert(_scene && "¡¡La luz debe estar asociada a una escena!!");
+			unload();
+			_scene = 0;
+			return true;
+		}
+	} // deattachFromScene
+
+	//-------------------------------------------------------	
+
 	bool CLight::load()
 	{
 		try{
 			_light = _scene->getSceneMgr()->createLight(_name);
+			_loaded = true;
+			return true;
 		} catch(std::exception e){
 			return false;
 		}
 
-		_loaded = true;
-
-		return true;
 	} // load
 	
 	//--------------------------------------------------------
@@ -63,6 +89,7 @@ namespace Graphics
 			// desacoplamos la entidad de su nodo
 			_scene->getSceneMgr()->destroyLight(_light);
 			_light = 0;
+			_loaded = false;
 		}
 
 	} // unload
@@ -74,6 +101,10 @@ namespace Graphics
 	} // tick
 
 	//--------------------------------------------------------
+
+	/**********************
+		GET's & SET's
+	***********************/
 
 	void CLight::setType(const std::string &type)
 	{
