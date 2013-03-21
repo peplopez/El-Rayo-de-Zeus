@@ -72,7 +72,7 @@ namespace AI
 				{
 				CMessageBoolString *message = new CMessageBoolString();
 				message->setType(Message::SET_ANIMATION);
-				message->setString("Death");
+				message->setString("Damage");
 				message->setAction(_action);
 				message->setBool(false);
 				_entity->emitMessage(message);	
@@ -199,7 +199,7 @@ namespace AI
 				{
 					finish(false);				
 				}
-				else if (maux->getString().compare("Death")==0)
+				else if (maux->getString().compare("Damage")==0)
 				{
 					finish(false);				
 				}_comboOportunity=false;

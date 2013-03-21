@@ -82,7 +82,7 @@ Map = {
 	
 	OtherPlayer = {
 		type = "OtherPlayer",
-		model = "marine.mesh",
+		model = "loco.mesh",
 		logicInput=true,
 		base=3,
 		ring=1,

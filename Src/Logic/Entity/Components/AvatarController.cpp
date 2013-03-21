@@ -27,7 +27,7 @@ de la entidad.
 
 namespace Logic 
 {
-	IMP_FACTORY(CAvatarController);
+	IMP_FACTORY(CAvatarController);//*=0.92 y defrag
 	
 	//---------------------------------------------------------
 

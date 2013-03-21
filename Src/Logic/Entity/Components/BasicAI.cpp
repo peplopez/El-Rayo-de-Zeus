@@ -79,8 +79,8 @@ namespace Logic
 						m2->setAction(Logic::Message::SWITCH_ALTAR);
 						m2->setUInt(_entity->getEntityID());
 						_entity->emitMessage(m2);
-						break;
-					}
+						
+					}break;
 				}
 				case Message::ALTAR_ACTIVATED:
 				{

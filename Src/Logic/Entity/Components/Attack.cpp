@@ -177,7 +177,7 @@ namespace Logic
 
 			if(_entity != (*it) )
 			{
-				if (((*it)->getType().compare("Altar")!=0)&& ((*it)->getType().compare("World")!=0)&& ((*it)->getType().compare("SkyBox")!=0))
+				if (((*it)->getType().compare("PowerUp")!=0)&&((*it)->getType().compare("Altar")!=0)&& ((*it)->getType().compare("World")!=0)&& ((*it)->getType().compare("SkyBox")!=0))
 				{//lo que hay que  hacer es que no se itere sobre entidades que no tengan componente CCollider, de momento se hace esa comprobación
 
 			
@@ -185,8 +185,10 @@ namespace Logic
 					{								
 						//float limiteIzquierdo=(*it)->getDegree()-(*it)->getAngularBox();
 						//float limiteDerecho=(*it)->getDegree()+(*it)->getAngularBox();
-						float limiteIzquierdo=(*it)->getDegree()-5;
+						float limiteIzquierdo=(*it)->getDegree()-5; //aquí se está asumiendo que es un angular box de 5
 						float limiteDerecho=(*it)->getDegree()+5;
+						if (_entity->getDegree()<grado) limiteIzquierdo =_entity->getDegree();
+						else if (_entity->getDegree()>grado) limiteDerecho =_entity->getDegree();
 						if ((*it)->getComponent<CAttack>()!=NULL)
 						if (grado>limiteIzquierdo && grado<limiteDerecho )
 						{
