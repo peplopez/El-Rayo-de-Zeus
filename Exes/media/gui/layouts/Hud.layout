@@ -10,21 +10,21 @@
 		<Window Type="OgreTray/StaticImage" Name="Hud/RayoBase1" >
 			<Property Name="FrameEnabled" Value="false" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="Image" Value="set:HudBackground image:RayosBase" />
+			<Property Name="Image" Value="set:HudBackground image:RayoActivado" />
             <Property Name="UnifiedAreaRect" Value="{{0.47,0},{0.125,0},{0.57,0},{0.3,0}}" />
         </Window>
 		
 		<Window Type="OgreTray/StaticImage" Name="Hud/RayoBase2" >
 			<Property Name="FrameEnabled" Value="false" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="Image" Value="set:HudBackground image:RayosBase" />
+			<Property Name="Image" Value="set:HudBackground image:RayoActivado" />
             <Property Name="UnifiedAreaRect" Value="{{0.62,0},{0.125,0},{0.72,0},{0.3,0}}" />
         </Window>
 
 		<Window Type="OgreTray/StaticImage" Name="Hud/RayoBase3" >
 			<Property Name="FrameEnabled" Value="false" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="Image" Value="set:HudBackground image:RayosBase" />
+			<Property Name="Image" Value="set:HudBackground image:RayoActivado" />
             <Property Name="UnifiedAreaRect" Value="{{0.77,0},{0.125,0},{0.87,0},{0.3,0}}" />
         </Window>
 		

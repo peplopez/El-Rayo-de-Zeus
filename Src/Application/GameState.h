@@ -183,16 +183,19 @@ namespace Application
 		Graphics::CScene* _scene;
 
 
+
+		CEGUI::Window* _timeWindow;
+		//PT
 		/**
-		Ventana que muestra el HUD con informacion para el player.
+		Ventanas que muestran el HUD con informacion para el player.
 		*/
 		CEGUI::Window* _hudWindow;
-		CEGUI::Window* _timeWindow;
-
-		//PT
 		CEGUI::Window* _NumberEnemyWindow;
 		CEGUI::Window* _PuntosMeritoWindow;
 		CEGUI::Window* _NumberAltaresActivatedWindow;
+		CEGUI::Window* _Rayo1Window;
+		CEGUI::Window* _Rayo2Window;
+		CEGUI::Window* _Rayo3Window;
 
 		/**
 		Tiempo de juego en milisegundos.
@@ -216,6 +219,12 @@ namespace Application
 		*/
 
 		unsigned int _numberAltaresActivated;
+
+		/**
+		Vida de la base (Rayos)
+		*/
+
+		unsigned int _rayosBase;
 
 
 

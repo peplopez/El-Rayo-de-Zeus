@@ -28,7 +28,7 @@
 *.jar
 *.rar
 *.tar
-*.zip
+*.zip  #PT: cuidado con esto porque seguramente queramos incluir zips mas adelante
 
 # Logs and databases #
 ######################
@@ -113,6 +113,8 @@ DocumentacionDoxygen/
 
 /dependencies/luabind/bin/msvc-9.0/
 
+
+# PT: cambiar *.2010..... por *.user es mejor.
 /dependencies/Ogre/build/
 /dependencies/OgreDependencies/Debug/
 /dependencies/OgreDependencies/Release/
@@ -161,8 +163,8 @@ DocumentacionDoxygen/
 
 #EXCEPTIONS #
 #############
-!/Projects/Application/*.user
-!/Projects/Configure/*.user
+!/Projects/Application/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir.
+!/Projects/Configure/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir.
 !/dependencies/CEGUI/projects/premake/ScriptingModules/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++bin/premake.lua

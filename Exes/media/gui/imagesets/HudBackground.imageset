@@ -2,5 +2,6 @@
 <Imageset Name="HudBackground" Imagefile="../backgrounds/Hud4.png" NativeHorzRes="588" NativeVertRes="607" AutoScaled="true">
  	<Image Name="HudBackgroundImage" XPos="0.0" YPos="0.0" Width="588" Height="407" />
 	<Image Name="Altares" XPos="0.0" YPos="520.0" Width="45" Height="86" />
-	<Image Name="RayosBase" XPos="58.0" YPos="418.0" Width="66" Height="82" />
+	<Image Name="RayoActivado" XPos="58.0" YPos="418.0" Width="60" Height="82" />
+	<Image Name="RayoDesactivado" XPos="1.0" YPos="417.0" Width="60" Height="82" />
 </Imageset>

@@ -148,6 +148,7 @@ namespace BaseSubsystems
 
 	bool CServer::open()
 	{
+		//PT: Antes de inicializar CEGUI, inicializar LUA
 		if( !initOgre() ||
 			!initOIS() ||
 			!initCEGUI() )

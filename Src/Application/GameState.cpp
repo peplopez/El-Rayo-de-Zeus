@@ -58,6 +58,7 @@ namespace Application {
 	_numberEnemies = 0;
 	_puntosMerito = 100;
 	_numberAltaresActivated = 0;
+	_rayosBase = 3;
 
 		return true;
 
@@ -102,6 +103,10 @@ namespace Application {
 		_NumberEnemyWindow = _hudWindow->getChild("Hud/NumEnemigos");
 		_PuntosMeritoWindow = _hudWindow->getChild("Hud/PuntosMerito");
 		_NumberAltaresActivatedWindow = _hudWindow->getChild("Hud/NumAltares");
+
+		_Rayo1Window = _hudWindow->getChild("Hud/RayoBase1");
+		_Rayo2Window = _hudWindow->getChild("Hud/RayoBase2");
+		_Rayo3Window = _hudWindow->getChild("Hud/RayoBase3");
 
 		
 	} // activate
@@ -207,6 +212,15 @@ namespace Application {
 				_puntosMerito += 10;
 				textPuntosMerito <<  _puntosMerito;
 				_PuntosMeritoWindow->setText(textPuntosMerito.str());
+			break;
+		case GUI::Key::P:
+				_rayosBase--;
+				if(_rayosBase == 2)
+					_Rayo3Window->setProperty("Image","set:HudBackground image:RayoDesactivado");
+				else if(_rayosBase == 1)
+					_Rayo2Window->setProperty("Image","set:HudBackground image:RayoDesactivado");
+				else if(_rayosBase == 0)
+					_Rayo1Window->setProperty("Image","set:HudBackground image:RayoDesactivado");
 			break;
 		default:
 			return false;
