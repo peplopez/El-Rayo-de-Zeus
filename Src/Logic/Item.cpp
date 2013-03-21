@@ -1,20 +1,20 @@
 /**
-@file Life.cpp
+@file Item.cpp
 
 Contiene la implementación del componente que controla la vida de una entidad.
  
-@see Logic::CLifeModifier
+@see Logic::CItem
 @see Logic::IComponent
 
 @author FRS
 @date 17-02-2013
 */
 
-#include "LifeModifier.h"
+#include "Item.h"
 
 
 #include "Logic/Entity/Entity.h"
-#include "Logic/Entity/Messages/MessageInt.h"
+#include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
 #include "Logic/Maps/Map.h"
 #include "Logic/Server.h"
@@ -24,42 +24,36 @@ Contiene la implementación del componente que controla la vida de una entidad.
 
 namespace Logic 
 {
-	IMP_FACTORY(CLifeModifier);
+	IMP_FACTORY(CItem);
 	
 	//---------------------------------------------------------
 
-	bool CLifeModifier::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
-	{
-		if(!IComponent::spawn(entity,map,entityInfo))
-			return false;
-
-		if(entityInfo->hasAttribute("lifeModifier"))
-			_LIFE_MODIFIER = entityInfo->getIntAttribute("lifeModifier");
-		
-		return true;
-
-	} // spawn
-
-	//---------------------------------------------------------
-	
-	bool CLifeModifier::accept(const CMessage *message) {
+	bool CItem::accept(const CMessage *message) {
 		return	message->getType() == TMessageType::TRIGGER &&
 				message->getAction() == TActionType::TRIGGER_ENTER;
 	} // accept
 
 	//---------------------------------------------------------
 
-	void CLifeModifier::process(CMessage *message){
+	void CItem::process(CMessage *message){
 
 		CMessageUInt* rxMsg = static_cast<CMessageUInt*>(message);
 		CEntity* entity = Logic::CServer::getSingletonPtr()->getMap()
 			->getEntityByID( rxMsg->getUInt() );
 
-		CMessageInt *txMsg = new CMessageInt();
-			txMsg->setInt(_LIFE_MODIFIER);
-			txMsg->setType(TMessageType::LIFE_MODIFIER);
-				entity->emitMessage(txMsg, this);
+		// FRS Sólo cogen items los players
+		if(entity->getType() == "Player" || entity->getType() == "OtherPlayer") {	
+
+			CMessage *txMsg = new CMessage();
+				txMsg->setType(TMessageType::DEAD); // Si alguien nos coge, morimos
+				_entity->emitMessage(txMsg, this);
+
+			// TODO FRS También habría que notificar, en cada impl. hija de este CItem padre,
+			// que se ha cogido el item X o que dicho item causa X efecto sobre el player.
+		}
+
 	} // process
+
 
 } // namespace Logic
 

@@ -50,7 +50,7 @@ namespace Logic
 	public:
 
 		CLife() : IComponent(GetAltTypeIdOf(CLife)), 
-			_LIFE_MAX(0), _life(0), _lifeBarBB(0), _modifiyingLife(0) {}
+			_LIFE_MAX(0), _life(0), _lifeBarBB(0){}
 		
 		~CLife();
 		
@@ -72,8 +72,7 @@ namespace Logic
 		int _life;
 
 		void modifyLife(int);
-
-		int _modifiyingLife;
+	
 	}; // class CLife
 
 	REG_FACTORY(CLife);
