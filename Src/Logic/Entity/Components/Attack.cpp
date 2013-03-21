@@ -187,7 +187,8 @@ namespace Logic
 						//float limiteDerecho=(*it)->getDegree()+(*it)->getAngularBox();
 						float limiteIzquierdo=(*it)->getDegree()-5;
 						float limiteDerecho=(*it)->getDegree()+5;
-						if ((grado>=limiteIzquierdo && grado<=limiteDerecho) ||
+						if ((*it)->getComponent<CAttack>()!=NULL)
+							if ((grado>=limiteIzquierdo && grado<=limiteDerecho) ||
 							(grado>=limiteIzquierdo && grado>=limiteDerecho && _entity->getDegree()<=limiteIzquierdo && _entity->getDegree()<=limiteDerecho) ||
 							(grado<=limiteIzquierdo && grado<=limiteDerecho && _entity->getDegree()>=limiteIzquierdo && _entity->getDegree()>=limiteDerecho) 
 							)
