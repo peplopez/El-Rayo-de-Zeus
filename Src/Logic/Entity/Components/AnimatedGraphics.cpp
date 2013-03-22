@@ -59,7 +59,7 @@ namespace Logic
 				// Paramos todas las animaciones antes de poner una nueva.
 				// Un control más sofisticado debería permitir interpolación
 				// de animaciones. Galeon no lo plantea.
-				static_cast<Graphics::CAnimatedEntity*>(_graphicalEntity)->stopAllAnimations();
+				_graphicalEntity->stopAllAnimations();
 				/*if (maux->getString().compare("FireAK47")==0)
 					_graphicalEntity->setAnimation(maux->getString(),0,maux->getBool());
 				else	*/	
@@ -111,10 +111,10 @@ namespace Logic
 	void CAnimatedGraphics::animationFinished(const std::string &animation)
 	{
 		// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
-		CMessageString *msg = new CMessageString();
-		msg->setType(Message::ANIMATION_FINISHED);
-		msg->setString(animation);
-		_entity->emitMessage(msg);
+		CMessageString *txMsg = new CMessageString();
+			txMsg->setType(Message::ANIMATION_FINISHED);
+			txMsg->setString(animation);
+			_entity->emitMessage(txMsg);
 
 		// Si acaba una animación y tenemos una por defecto la ponemos
 		_graphicalEntity->stopAllAnimations();

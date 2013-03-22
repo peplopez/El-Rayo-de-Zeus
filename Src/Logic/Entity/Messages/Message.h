@@ -109,6 +109,8 @@ namespace Logic
 
 	public:
 
+		// TODO FRS Quizá estaría bien un ctor con el MessageType / Action como argumentos...
+
 		/**
 		Constructor básico
 		*/
