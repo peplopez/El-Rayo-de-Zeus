@@ -75,9 +75,10 @@ namespace Logic
 		// MUERTO
 		case Message::DEAD:		{				
 			CMessageBoolString *txMsg = new CMessageBoolString(); // Poner la animación de muerte
-				txMsg->setType(TMessageType::SET_ANIMATION);	
+				txMsg->setType(TMessageType::SET_ANIMATION);
+				txMsg->setString("Death");	
 				txMsg->setBool(false);
-				txMsg->setString("Death");			
+				_entity->emitMessage(txMsg);
 		} break;	
 		
 		// ANIMACION FINALIZADA		
