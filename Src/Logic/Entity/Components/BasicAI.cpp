@@ -99,8 +99,8 @@ namespace Logic
 	void CBasicAI::tick(unsigned int msecs)
 	{
 			IComponent::tick(msecs);
-			if (CServer::getSingletonPtr()->getPlayer()->getBase()==_entity->getBase())
-				if (CServer::getSingletonPtr()->getPlayer()->getRing()==_entity->getRing())
+			if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase()==_entity->getLogicalPosition()->getBase())
+				if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing())
 				{
 				//en el mismo anillo
 					//ser agresivo

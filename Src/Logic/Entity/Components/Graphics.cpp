@@ -70,7 +70,7 @@ namespace Logic
 		// HACK FRS Esto lo suyo es que el modelo ya lo traiga , no?
 		// o meter la escala como vector en el map
 		if(_entity->getType() == "World"
-			&& _entity->getRing() == LogicalPosition::CENTRAL_RING)
+			&& _entity->getLogicalPosition()->getRing() == LogicalPosition::CENTRAL_RING)
 			scale = Vector3(1.3,1.0,1.3);
 		//
 		else if(entityInfo->hasAttribute("scaleFactor") )

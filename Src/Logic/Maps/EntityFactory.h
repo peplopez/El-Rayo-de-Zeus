@@ -165,7 +165,7 @@ namespace Logic
 		*/
 
 		CEntity *createEntity(const std::string &archetype,
-			const Logic::TLogicalPosition &pos);
+			const Logic::CLogicalPosition *pos);
 		/**
 		Destruye el CEntity pasado como parámetro. La destrucción
 		es inmediata, por lo que el <em>invocante debe garantizar</em>

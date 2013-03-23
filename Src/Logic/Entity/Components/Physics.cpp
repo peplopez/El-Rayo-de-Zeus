@@ -84,7 +84,7 @@ namespace Logic {
 		assert(_scene && "LOGIC::PHYSICS>> No existe escena física!");		
 
 		// Obtenemos la posición de la entidad. 
-		const TLogicalPosition logicPos = _entity->getLogicalPosition();
+		CLogicalPosition* logicPos = _entity->getLogicalPosition();
 	
 		// Leer el ancho del angular box
 		assert(entityInfo->hasAttribute("physicWidth")); 

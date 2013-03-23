@@ -108,11 +108,11 @@ namespace Logic
 			if (_jumpSpeed < 0)
 				_justJumped = false;
 			
-			if (_entity->getHeight() == 0 && !_justJumped) 
+			if (_entity->getLogicalPosition()->getHeight() == 0 && !_justJumped) 
 			{
 				_jumping=false;
 				_jumpSpeed = 0.13f;
-				
+				//assert(_entity->getComponent<CAvatarController>()==NULL);
 				if (_entity->getComponent<CAvatarController>()->isWalkingRight())
 					_entity->getComponent<CAvatarController>()->walkRight();
 				else if (_entity->getComponent<CAvatarController>()->isWalkingLeft())

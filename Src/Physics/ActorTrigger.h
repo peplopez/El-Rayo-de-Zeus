@@ -30,7 +30,7 @@ namespace Physics
 
 		typedef std::vector<CActor*>	TActors;
 
-		CActorTrigger(const Logic::TLogicalPosition &position, 
+		CActorTrigger(Logic::CLogicalPosition *position, 
 					const float angularWidth, const float height, IObserver *component) 
 					: CActor(position, angularWidth, height, component) {};
 		

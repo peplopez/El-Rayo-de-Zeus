@@ -97,6 +97,7 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Physics.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\RingTraveler.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\LogicalPosition.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\Message.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBool.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloat.cpp" />

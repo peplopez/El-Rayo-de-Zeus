@@ -133,6 +133,9 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BasicAI.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\LogicalPosition.cpp">
+      <Filter>Entity\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedGraphics.h">

@@ -166,10 +166,10 @@ namespace Logic
 
 		if (_switchingState)
 		{	
-			if (_entity->getSense() == Logic::Sense::RIGHT || _entity->getSense() == Logic::Sense::LEFT)
+			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT || _entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT)
 				_targetSense = Logic::Sense::LOOKING_CENTER;
 		
-			if (_entity->getSense() == Logic::Sense::RIGHT)
+			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT)
 			{
 				float tickRotation = Math::PI * 0.005 * msecs;
 				_entity->yaw(tickRotation);
@@ -177,12 +177,12 @@ namespace Logic
 				if (_acumRotation >= Math::PI/2)
 				{
 					_entity->yaw(-(_acumRotation - Math::PI/2));
-					_entity->setSense(Logic::Sense::LOOKING_CENTER);
+					_entity->getLogicalPosition()->setSense(Logic::Sense::LOOKING_CENTER);
 					_targetSense = Logic::Sense::UNDEFINED;
 					_acumRotation = 0;
 				}
 			}
-			else if (_entity->getSense() == Logic::Sense::LEFT)
+			else if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT)
 			{
 				float tickRotation = Math::PI * 0.005 * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
 				_entity->yaw(-tickRotation);
@@ -190,13 +190,13 @@ namespace Logic
 				if (_acumRotation >= Math::PI/2)
 				{
 					_entity->yaw(_acumRotation - Math::PI/2);
-					_entity->setSense(Logic::Sense::LOOKING_CENTER);
+					_entity->getLogicalPosition()->setSense(Logic::Sense::LOOKING_CENTER);
 					_targetSense = Logic::Sense::UNDEFINED;
 					_acumRotation = 0;
 				}
 			}
 
-			else if (_entity->getSense() == Logic::Sense::LOOKING_CENTER)
+			else if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
 			{
 				if (_targetSense == Logic::Sense::RIGHT)
 				{
@@ -206,7 +206,7 @@ namespace Logic
 					if (_acumRotation >= Math::PI/2)
 					{
 						_entity->yaw(_acumRotation - Math::PI/2);
-						_entity->setSense(Logic::Sense::RIGHT);
+						_entity->getLogicalPosition()->setSense(Logic::Sense::RIGHT);
 						_targetSense = Logic::Sense::UNDEFINED;
 						_switchingState = false;
 						_acumRotation = 0;
@@ -221,7 +221,7 @@ namespace Logic
 					if (_acumRotation >= Math::PI/2)
 					{
 						_entity->yaw(-(_acumRotation - Math::PI/2));
-						_entity->setSense(Logic::Sense::LEFT);
+						_entity->getLogicalPosition()->setSense(Logic::Sense::LEFT);
 						_targetSense = Logic::Sense::UNDEFINED;
 						_switchingState = false;
 						_acumRotation = 0;

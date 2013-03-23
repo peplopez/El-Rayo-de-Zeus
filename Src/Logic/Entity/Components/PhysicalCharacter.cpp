@@ -90,14 +90,21 @@ namespace Logic {
 		// usando la información proporcionada por el motor de física	
 		// Este a genera  SET_TRANSFORM por debajo que informa al CGraphics
 
-		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()._degrees - _physicalActor->getLogicPosition()._degrees));
+		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()->getDegree() - _physicalActor->getLogicPosition()->getDegree()));
 
-		
+		//assert((_entity->getLogicalPosition()->getDegree() - _physicalActor->getLogicPosition()->getDegree())==0);
 		// HACK ESC - PEACHO HaCK para que no se sobreescriba el sense con el del actor físico
-		Logic::TLogicalPosition pos =_physicalActor->getLogicPosition();
-		pos._sense = _entity->getSense();
+		//Logic::CLogicalPosition* pos =_physicalActor->getLogicPosition();
+		Logic::CLogicalPosition* pos = new CLogicalPosition();
+		pos->setBase(_physicalActor->getLogicPosition()->getBase());
+		pos->setRing(_physicalActor->getLogicPosition()->getRing());
+		pos->setHeight(_physicalActor->getLogicPosition()->getHeight());
+		pos->setDegree(_physicalActor->getLogicPosition()->getDegree());
+		//pos->setDegree(_physicalActor->getLogicPosition()->getDegree());
 
-		_entity->setLogicalPosition( pos ); 
+		pos->setSense(_entity->getLogicalPosition()->getSense());
+
+		_entity->setLogicalPosition(pos); 
 
 
 

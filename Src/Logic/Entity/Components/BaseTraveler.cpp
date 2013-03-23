@@ -85,10 +85,10 @@ namespace Logic
 			CMessageChar *m = new CMessageChar();	
 				m->setType(Message::AVATAR_MOVE);
 				m->setAction(Message::CHANGE_BASE);
-				m->setChar( base - (int) _entity->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
+				m->setChar( base - (int) _entity->getLogicalPosition()->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
 			_entity->emitMessage(m,this);
 
-		LOG("Change Base from " << _entity->getBase() << " to " << base );
+		LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << base );
 
 			// UNDONE
 		/*	if (_entity->getRing()==Ring::UPPER_RING)

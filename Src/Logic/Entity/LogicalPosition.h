@@ -6,7 +6,7 @@
 /**
 @file LogicalPosition.h
 
-Contiene el tipo de datos de un mensaje.
+Contiene la deficion de la clase que maneja las posiciones lógicas
 
 @see Logic::LogicalPosition
 
@@ -20,6 +20,11 @@ Contiene el tipo de datos de un mensaje.
 
 #include "BaseSubsystems/Math.h"
 
+//#include "../Server.h"
+/*namespace Logic
+{	
+	class CServer;
+}*/
 namespace Logic
 {
 	/**
@@ -66,19 +71,124 @@ namespace Logic
 	@date Diciembre, 2012
     @ingroup grupoEntidad
 	*/
-	struct TLogicalPosition
-	{	
-		Ring _ring; // Anillo
+	class CLogicalPosition
+	{					
+	public:
+		
+		CLogicalPosition();
+		~CLogicalPosition();
+		
+		/**
+		Establece la posición de la entidad en grados.
+
+		@param position Nueva posición.
+		*/
+		void setDegree(const float &degree);
+
+		/**
+		Devuelve la posición de la entidad.
+		en grados
+		@return Posición de la entidad en el entorno.
+		*/
+		const float getDegree() const ;
+		
+
+		/**
+		Establece la altura de la entidad con respeto al plano XZ (ANILLO) sobre el que se encuentra
+
+		@param height, nueva altura
+		*/
+		void setHeight(const float &height);
+
+		/**
+		Devuelve la altura de la entidad.
+		
+		@return Height de la entidad con respecto al anillo actual.
+		*/
+		const float getHeight() const ;
+
+		/**
+		Establece la base de la entidad. 
+		NO Avisa a los componentes
+		del cambio. Mas adelante vere si es necesario pero creo que no
+
+		@param base nueva
+		*/
+		void setBase(const unsigned short &base);
+
+		/**
+		Devuelve la base de la entidad.
+		
+		@return Base de la entidad en el entorno.
+		*/
+		unsigned short getBase() const;
+
+		/**
+		Establece el anillo de la entidad. 
+		NO Avisa a los componentes
+		del cambio. Mas adelante vere si es necesario pero creo que no
+
+		@param Ring nueva
+		*/
+		void setRing(const LogicalPosition::Ring &ring);
+
+		/**
+		Devuelve el anillo de la entidad.
+		
+		@return Ring de la entidad en el entorno.
+		*/
+		LogicalPosition::Ring getRing() const ;
+
+		/**
+		Devuelve el radio sobre el que se mueve la entidad.
+		NO USAREMOS SET_RADIO, con los cambios de anillo usamos setRing()
+		@return Radio de la entidad en el entorno.
+		*/
+		const float getRadio();
+		/*{
+			return CServer::getSingletonPtr()->getRingRadio(_base,_ring);
+		}*/
+		
+		/**
+		Establece la anchura de la entidad gráfica
+		@param angularBox nuevo
+		*/
+		void setSense(const Logic::Sense sense) ;
+
+		/**
+		Devuelve la anchura de la entidad gráfica.
+		
+		@return AngularBox de la entidad en el entorno.
+		*/
+		const Logic::Sense getSense() const ;
+		
+		
+	/*	void setDegree(const float &degree)
+		{
+			_pos._degrees=degree;
+		}*/
+
+		//---------------------------------------------------------
+	/*
+		void setRing(const LogicalPosition::Ring &ring)
+		{
+			_pos._ring=ring;
+		}*/
+
+		//---------------------------------------------------------
+
+		/*const float getRadio()
+		{		
+		
+		}*/
+
+	private:
+		LogicalPosition::Ring _ring; // Anillo
 		Sense _sense; // Sentido
 		unsigned short _base; // Número de base: 1-8			
 		float _degrees; // Grados	
 		float _height; // Altura
 
-		TLogicalPosition() :
-			_ring(LogicalPosition::Ring::CENTRAL_RING), 
-			_sense(LogicalPosition::Sense::LEFT), 
-			_base(0), _degrees(0),_height(0)
-			{}
 	}; 
 
 } // namespace Logic

@@ -90,13 +90,13 @@ namespace Logic
 			{
 				//querré saber cual animación es, de momento se que solo puedo recibir un tipo de animación
 				float punto;
-				if (_entity->getSense()==Logic::LogicalPosition::RIGHT)
-					punto=_entity->getDegree()-10;
+				if (_entity->getLogicalPosition()->getSense()==Logic::LogicalPosition::RIGHT)
+					punto=_entity->getLogicalPosition()->getDegree()-10;
 				else
-					punto=_entity->getDegree()+10;
+					punto=_entity->getLogicalPosition()->getDegree()+10;
 					//con este metodo vemos si con la espada le estamos dando
 				
-					unsigned short resultadoAtaque=attackPlace(punto,_entity->getRing(),_entity->getBase(),false);
+					unsigned short resultadoAtaque=attackPlace(punto,_entity->getLogicalPosition()->getRing(),_entity->getLogicalPosition()->getBase(),false);
 					if (resultadoAtaque==2)
 					{
 						CMessageBoolString *message = new CMessageBoolString();
@@ -181,20 +181,20 @@ namespace Logic
 				{//lo que hay que  hacer es que no se itere sobre entidades que no tengan componente CCollider, de momento se hace esa comprobación
 
 			
-					if (base==(*it)->getBase() && ring==(*it)->getRing())	
+					if (base==(*it)->getLogicalPosition()->getBase() && ring==(*it)->getLogicalPosition()->getRing())	
 					{								
 						//float limiteIzquierdo=(*it)->getDegree()-(*it)->getAngularBox();
 						//float limiteDerecho=(*it)->getDegree()+(*it)->getAngularBox();
-						float limiteIzquierdo=(*it)->getDegree()-5; //aquí se está asumiendo que es un angular box de 5
-						float limiteDerecho=(*it)->getDegree()+5;
-						if (_entity->getDegree()<grado) limiteIzquierdo =_entity->getDegree();
-						else if (_entity->getDegree()>grado) limiteDerecho =_entity->getDegree();
+						float limiteIzquierdo=(*it)->getLogicalPosition()->getDegree()-5; //aquí se está asumiendo que es un angular box de 5
+						float limiteDerecho=(*it)->getLogicalPosition()->getDegree()+5;
+						if (_entity->getLogicalPosition()->getDegree()<grado) limiteIzquierdo =_entity->getLogicalPosition()->getDegree();
+						else if (_entity->getLogicalPosition()->getDegree()>grado) limiteDerecho =_entity->getLogicalPosition()->getDegree();
 						if ((*it)->getComponent<CAttack>()!=NULL)
 						if (grado>limiteIzquierdo && grado<limiteDerecho )
 						{
 							if (!soloInfo)
 							{							
-								if ((*it)->getComponent<CAttack>()->_covering==true && (*it)->getSense()!=_entity->getSense())
+								if ((*it)->getComponent<CAttack>()->_covering==true && (*it)->getLogicalPosition()->getSense()!=_entity->getLogicalPosition()->getSense())
 								{
 									Logic::CMessage *m = new Logic::CMessage();
 									m->setType(Logic::Message::CONTROL);

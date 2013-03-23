@@ -16,13 +16,9 @@ de la entidad.
 #include "Attack.h"
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
-
-
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
-
-
 
 
 namespace Logic 
@@ -168,7 +164,7 @@ namespace Logic
 		//si estamos andado hacia la derecha y no está girando
 		if(_walkingRight && _targetSense == Logic::Sense::UNDEFINED)
 		{		
-			if (_entity->getSense() == Logic::Sense::RIGHT)
+			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT)
 			{
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
@@ -185,7 +181,7 @@ namespace Logic
 		//si estamos andado hacia la hacia la izquierda y no está rotando
 		else if (_walkingLeft && _targetSense == Logic::Sense::UNDEFINED)
 		{
-			if (_entity->getSense() == Logic::Sense::LEFT)
+			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT)
 			{
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
@@ -208,7 +204,7 @@ namespace Logic
 			if (_acumRotation >= Math::PI)
 			{
 				_entity->yaw(_acumRotation - Math::PI);
-				_entity->setSense(Logic::Sense::RIGHT);
+				_entity->getLogicalPosition()->setSense(Logic::Sense::RIGHT);
 				_targetSense = Logic::Sense::UNDEFINED;
 				_acumRotation = 0;
 			}
@@ -222,7 +218,7 @@ namespace Logic
 			if (_acumRotation >= Math::PI)
 			{
 				_entity->yaw(-(_acumRotation - Math::PI));
-				_entity->setSense(Logic::Sense::LEFT);
+				_entity->getLogicalPosition()->setSense(Logic::Sense::LEFT);
 				_targetSense = Logic::Sense::UNDEFINED;
 				_acumRotation = 0;
 			}

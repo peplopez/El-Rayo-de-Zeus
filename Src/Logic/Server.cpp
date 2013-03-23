@@ -188,7 +188,7 @@ namespace Logic {
 		return true;
 	}
 
-	Vector3 CServer::getRingPositions(unsigned short base,Logic::LogicalPosition::Ring ring)
+	Vector3 CServer::getRingPositions(unsigned short base,LogicalPosition::Ring ring)
 	{
 		Vector3 retorno= Vector3::ZERO;
 			switch (ring)

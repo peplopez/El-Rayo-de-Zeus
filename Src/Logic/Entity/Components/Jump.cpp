@@ -103,14 +103,14 @@ namespace Logic
 				_gravity-=0.01;
 				if ((_jumpPower+_gravity)<0 && (_jumpPower+_gravity)>-0.015) //si esta suma es menor que cero es que está bajando. 
 					_justJumped = false;
-				if (_entity->getHeight() == 0 && !_justJumped)
+				if (_entity->getLogicalPosition()->getHeight() == 0 && !_justJumped)
 				{
 					_jumping = false;
 					//_gravidty
 					Logic::CMessageFloat *m = new Logic::CMessageFloat();
 					m->setType(Logic::Message::AVATAR_MOVE);
 					m->setAction(Logic::Message::JUMP);
-					m->setFloat(-_entity->getHeight());
+					m->setFloat(-_entity->getLogicalPosition()->getHeight());
 					_entity->emitMessage(m);
 
 				}

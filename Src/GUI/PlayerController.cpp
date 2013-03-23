@@ -75,14 +75,14 @@ namespace GUI {
 			switch(key.keyId)
 			{
 			case GUI::Key::W: //subir anillo superior
-				if (_controlledAvatar->getRing()==Logic::LogicalPosition::UPPER_RING)
+				if (_controlledAvatar->getLogicalPosition()->getRing()==Logic::LogicalPosition::UPPER_RING)
 					return false;			
 				m->setAction(Logic::Message::GO_UP); // Pablo
 				_controlledAvatar->emitMessage(m);
 				break;
 			
 			case GUI::Key::S: //bajar anillo inferior
-				if (_controlledAvatar->getRing()==Logic::LogicalPosition::LOWER_RING)
+				if (_controlledAvatar->getLogicalPosition()->getRing()==Logic::LogicalPosition::LOWER_RING)
 					return false;			
 				m->setAction(Logic::Message::GO_DOWN); 
 				_controlledAvatar->emitMessage(m);
@@ -116,7 +116,7 @@ namespace GUI {
 			case GUI::Key::NUMBER1:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setUShort(1);								
-				if (_controlledAvatar->getBase()==m2->getUShort())
+				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;
@@ -124,7 +124,7 @@ namespace GUI {
 			case GUI::Key::NUMBER2:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setUShort(2);
-				if (_controlledAvatar->getBase()==m2->getUShort())
+				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;	
@@ -132,7 +132,7 @@ namespace GUI {
 			case GUI::Key::NUMBER3:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setUShort(3);
-				if (_controlledAvatar->getBase()==m2->getUShort())
+				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;
@@ -140,7 +140,7 @@ namespace GUI {
 			case GUI::Key::NUMBER4:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setUShort(4);
-				if (_controlledAvatar->getBase()==m2->getUShort())
+				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;	
@@ -148,7 +148,7 @@ namespace GUI {
 			case GUI::Key::NUMBER5:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setUShort(5);
-				if (_controlledAvatar->getBase()==m2->getUShort())
+				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;
@@ -156,7 +156,7 @@ namespace GUI {
 			case GUI::Key::NUMBER6:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setUShort(6);
-				if (_controlledAvatar->getBase()==m2->getUShort())
+				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;	
@@ -164,7 +164,7 @@ namespace GUI {
 			case GUI::Key::NUMBER7:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setUShort(7);
-				if (_controlledAvatar->getBase()==m2->getUShort())
+				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;
@@ -172,7 +172,7 @@ namespace GUI {
 			case GUI::Key::NUMBER8:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setUShort(8);
-				if (_controlledAvatar->getBase()==m2->getUShort())
+				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;
@@ -180,7 +180,7 @@ namespace GUI {
 			case GUI::Key::NUMBER0:
 				m2->setAction(Logic::Message::CHANGE_BASE);
 				m2->setUShort(0);
-				if (_controlledAvatar->getBase()==m2->getUShort())
+				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
 				_controlledAvatar->emitMessage(m2);
 				break;	
