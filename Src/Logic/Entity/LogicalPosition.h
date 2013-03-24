@@ -83,7 +83,7 @@ namespace Logic
 
 		@param position Nueva posición.
 		*/
-		void setDegree(const float &degree);
+		void setDegree(const float degree);
 
 		/**
 		Devuelve la posición de la entidad.
@@ -98,7 +98,7 @@ namespace Logic
 
 		@param height, nueva altura
 		*/
-		void setHeight(const float &height);
+		void setHeight(const float height);
 
 		/**
 		Devuelve la altura de la entidad.
@@ -114,7 +114,7 @@ namespace Logic
 
 		@param base nueva
 		*/
-		void setBase(const unsigned short &base);
+		void setBase(const unsigned short base);
 
 		/**
 		Devuelve la base de la entidad.
@@ -130,7 +130,7 @@ namespace Logic
 
 		@param Ring nueva
 		*/
-		void setRing(const LogicalPosition::Ring &ring);
+		void setRing(const LogicalPosition::Ring ring);
 
 		/**
 		Devuelve el anillo de la entidad.
@@ -161,26 +161,6 @@ namespace Logic
 		@return AngularBox de la entidad en el entorno.
 		*/
 		const Logic::Sense getSense() const ;
-		
-		
-	/*	void setDegree(const float &degree)
-		{
-			_pos._degrees=degree;
-		}*/
-
-		//---------------------------------------------------------
-	/*
-		void setRing(const LogicalPosition::Ring &ring)
-		{
-			_pos._ring=ring;
-		}*/
-
-		//---------------------------------------------------------
-
-		/*const float getRadio()
-		{		
-		
-		}*/
 
 	private:
 		LogicalPosition::Ring _ring; // Anillo

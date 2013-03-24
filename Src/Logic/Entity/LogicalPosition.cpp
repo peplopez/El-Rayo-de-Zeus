@@ -31,6 +31,8 @@ namespace Logic
 		//assert(!_map && "¡¡Antes de destruir la entidad debe desacoplarse del mapa!!");
 
 		//destroyAllComponents();
+
+		//Me temo que esta destrucción no es suficiente. Hay que destruir todo lo creado por esta clase.
 		delete this;
 
 	} // ~CEntity
@@ -39,9 +41,26 @@ namespace Logic
 
 		@param position Nueva posición.
 		*/
-		void CLogicalPosition::setDegree(const float &degree)
+		void CLogicalPosition::setDegree(const float degree)
 		{
-			_degrees=degree;
+			if (degree>=0 && degree<360)
+				_degrees=degree;
+			else
+			{
+				float decimal=degree-(int)degree;
+				int grados=(int)degree%360;
+
+				if (_degrees>360)
+				{				
+					_degrees=grados;
+				}
+				else //menor que cero
+				{
+					_degrees=360-(int)abs(grados);
+				}
+				_degrees+=decimal;
+			}
+			//_degrees=degree;
 		}
 
 		/**
@@ -50,20 +69,7 @@ namespace Logic
 		@return Posición de la entidad en el entorno.
 		*/
 		const float CLogicalPosition::getDegree() const { 
-			if (_degrees>=0 && _degrees<360)
-				return _degrees;
-
-			float decimal=_degrees-(int)_degrees;
-			int grados=(int)_degrees%360;
-
-			if (_degrees>360)
-			{				
-				return grados+decimal;
-			}
-			else //menor que cero
-			{
-				return 360-(int)abs(grados)+decimal;
-			}
+			return _degrees;
 		}
 
 		/**
@@ -71,7 +77,7 @@ namespace Logic
 
 		@param height, nueva altura
 		*/
-		void CLogicalPosition::setHeight(const float &height)
+		void CLogicalPosition::setHeight(const float height)
 		{
 			_height=height;
 		}
@@ -92,7 +98,7 @@ namespace Logic
 
 		@param base nueva
 		*/
-		void CLogicalPosition::setBase(const unsigned short &base)  {_base=base;}
+		void CLogicalPosition::setBase(const unsigned short base)  {_base=base;}
 
 		/**
 		Devuelve la base de la entidad.
@@ -108,7 +114,7 @@ namespace Logic
 
 		@param Ring nueva
 		*/
-		void CLogicalPosition::setRing(const LogicalPosition::Ring &ring)
+		void CLogicalPosition::setRing(const LogicalPosition::Ring ring)
 		{	
 			_ring=ring;
 		}
