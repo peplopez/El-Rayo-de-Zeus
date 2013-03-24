@@ -52,7 +52,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CGraphics() : IComponent(GetAltTypeIdOf(CGraphics)), _isStatic(false), _graphicalEntity(0) {}
+		CGraphics() : IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0) {}
 
 		CGraphics(altTypeId id) : IComponent(id), _graphicalEntity(0) {}
 
@@ -107,9 +107,7 @@ namespace Logic
 		*/
 		std::string _model;
 
-		/** Informa sobre se representa como CStaticEntity o como CEntity dinámica */
-		bool _isStatic;
-
+		
 	    /**
 		Método virtual que construye la entidad gráfica de la entidad. Otros
 		componentes pueden sobreescribirlo para inicializar otro tipo de

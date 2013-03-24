@@ -68,53 +68,14 @@ namespace Graphics
 		@param name Nombre de la entidad.
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
-		CEntity::CEntity(const std::string &name, const std::string &mesh)
-		: _name(name), _mesh(mesh), _entity(0)  {} 
+		CEntity::CEntity(const std::string &name, const std::string &mesh, bool isStatic = false)
+		: _name(name), _mesh(mesh), _entity(0), _isStatic(isStatic) {} 
 
 
 		/******************
 			GET's & SET's
 		********************/
-
-		/**
-		Cambia la posición y orientación de la entidad.
-
-		@param transform Referencia a la matriz de transformación con la 
-		que debe posicionarse y orientarse la entidad.
-		*/
-		void setTransform(const Matrix4 &transform);
-
-		/**
-		Cambia la posición de la entidad.
-
-		@param position Nueva posición para el nodo que contiene la entidad 
-		de Ogre.
-		*/
-		void setPosition(const Vector3& position);
-
-		/**
-		Cambia la orientación de la entidad.
-
-		@param orientation Referencia a la matriz de rotación con la que debe 
-		orientarse la entidad.
-		*/
-		void setOrientation(const Matrix3 &orientation);
-
-	
-		/**
-		 Establece la propiedad visible de la entidad. Si
-		 la entidad está puesta invisible, no debería dibujarse.
-		 La propiedad indica si la entidad debe dibujarse o no,
-		 es decir, no está relacionada con si la entidad está
-		 dentro del campo de visión de la cámara o no.
-		 <p>
-		 El método cambia la propiedad visible a todas las 
-		 subentidades o nodos que contenga _entityNode.
-
-		 @param visible Nuevo valor de la propiedad visible.
-		 */
-		void setVisible(bool visible);
-
+			
 		/**
 		 Devuelve el valor de la propiedad visible.
 		 La propiedad indica si la entidad debe dibujarse o no,
@@ -124,45 +85,18 @@ namespace Graphics
 		 @return Cierto si la entidad es visible (está activa 
 		 para ser reenderizada).
 		*/
-		const bool isVisible();
+		bool isVisible() const;
 
-		Ogre::SceneNode* getEntityNode();
-		/**
-		 Escala la entidad.
-
-		 @param scale Valores de la escala en los diferentes ejes.
-		 */
-		void setScale(const Vector3 &scale);
-
-		/**
-		 Escala la entidad.
-
-		 @param scale Valor de la escala para los 3 ejes.
-		 */
-		void setScale(float scale);
-
-		/**
-		 Devuelve el valor de la escala de la entidad.
-
-		 @return Valores de la escala en los diferentes ejes.
-		*/
-		const Vector3 &getScale();
-
-		/**
-		Devuelve la entidad de Ogre.
-
-		@return puntero a la entidad de Ogre.
-		*/
-		Ogre::Entity* getEntity() {return _entity;}
-
+		bool isStatic() const { return _isStatic; }
 
 		/**
 		*/
 		void setMaterial(const std::string &materialName);
-
 		/**
 		*/
-		void setSubEntityMaterial(const std::string &materialName, const unsigned int subEntityIndex); 
+		void setSubEntityMaterial(const std::string &materialName, unsigned int subEntityIndex); 
+
+
 
 	protected:
 
@@ -177,36 +111,6 @@ namespace Graphics
 		*/
 		Ogre::Entity *_entity;
 
-		/**
-		Quizás es mejor meter la clase CScene
-		Controla todos los elementos Ogre de una escena. Su equivalente
-		en la lógica del juego sería el mapa o nivel. 
-		*/
-		CScene *_scene;
-
-		/**
-		Nodo que contiene la entidad de Ogre.
-		*/
-		Ogre::SceneNode *_entityNode;
-
-
-		/**
-		Añade la entidad al SceneManager pasado por parámetro. Si la entidad
-		no está cargada se fuerza su carga.
-
-		@param sceneMgr Gestor de la escena de Ogre a la que se quiere añadir
-		la entidad.
-		@return true si la entidad se pudo cargar y añadir a la escena.
-		*/
-		bool attachToScene(CScene *scene);
-
-		/**
-		Descarga una entidad de la escena en la que se encuentra cargada.
-
-		@return true si la entidad se descargo y eliminó de la escena
-		correctamente. Si la entidad no estaba cargada se devuelve false.
-		*/
-		bool deattachFromScene();
 		
 		/**
 		Carga la entidad gráfica correspondiente al nombre _mesh. No hace 
@@ -225,16 +129,6 @@ namespace Graphics
 		*/
 		void unload();
 		
-		/**
-		Actualiza el estado de la entidad cada ciclo. En esta clase no se
-		necesita actualizar el estado cada ciclo, pero en las hijas puede que
-		si.
-		
-		@param secs Número de segundos transcurridos desde la última llamada.
-		*/
-		virtual void tick(float secs);
-
-
 		
 	private:
 		
@@ -248,10 +142,7 @@ namespace Graphics
 		*/
 		std::string _mesh;
 
-		/**
-		Indica si la entidad ha sido cargada en el motor gráfico.
-		*/
-		bool _loaded;
+		bool _isStatic;
 
 	}; // class CEntity
 

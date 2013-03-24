@@ -22,6 +22,7 @@ Contiene la declaración de la clase base de cualquier elemento de escena.
 namespace Ogre 
 {
 	class SceneNode;
+	class SceneManager;
 };
 
 namespace Graphics 
@@ -57,6 +58,29 @@ namespace Graphics
 		*/
 		virtual ~CSceneElement();
 
+		/**
+		Segundo paso de la carga de un elemento gráfico estática. Añade el
+		elemento a la geometría estática de la escena. En este paso, al añadir
+		el elemento que contiene el nodo a la geometría estática, el nodo que 
+		contiene el elemento se desacopla de la escena para que la entidad 
+		no se pinte dos veces, una por geometría estática y otra por estar en 
+		un nodo de la escena.
+		<p>
+		@remarks Una vez añadido el elemento a la geometría estática las modificaciones
+		hechas en sus atributos no tendrán efecto en
+		lo que se verá en la escena, así que se deben hacer todos los cambios antes
+		de invocar a este método. Se mantiene sin embargo las estructuras de las 
+		entidades dinámicas de Ogre por si se requieren para cargar de nuevo en otra
+		escena.
+
+		@return true si la geometría estática se pudo crear correctamente.
+		*/
+		bool CSceneElement::addToStaticGeometry(); 
+		// FRS Movido a esta clase base porque es el único friend de CScene
+		// y, por tanto, el único con acceso a _scene->getStaticGeometry()->addSceneNode(_node)
+		// Además, a la geometría estática se le pasa un nodo de escena genérico,
+		// el cual puede contener cualquier tipo de objeto.
+
 
 		/******************
 			GET's & SET's
@@ -83,7 +107,6 @@ namespace Graphics
 		 */
 		void setVisible(bool visible); 
 
-
 		/**
 		Cambia la posición y orientación del elemento gráfico.
 		@param transform Referencia a la matriz de transformación con la 
@@ -103,6 +126,7 @@ namespace Graphics
 		*/
 		void setOrientation(const Matrix3 &orientation);
 
+		// TODO FRS Getters de los 3 de arriba en caso de demanda
 
 		// UNDONE FRS Analizar usos y si es necesario devolver ref
 		///**
@@ -121,7 +145,7 @@ namespace Graphics
 		 Escala el elemento
 		 @param scale Valor de la escala para los 3 ejes.
 		 */
-		void setScale(float scale);
+		void setScale(const float scale){ setScale( scale * Vector3::UNIT_SCALE ); } // setScale
 		
 
 
@@ -142,6 +166,11 @@ namespace Graphics
 		Nodo que contiene el elemento de escena
 		*/
 		Ogre::SceneNode *_node;
+
+		/**
+		Indica si el elemento ha sido cargada en el motor gráfico.
+		*/
+		bool _loaded;
 
 
 		/**
@@ -184,14 +213,7 @@ namespace Graphics
 		*/
 		virtual void tick(float msecs) {}
 
-
-		
-	private:
-		
-		/**
-		Indica si el elemento ha sido cargada en el motor gráfico.
-		*/
-		bool _loaded;
+		Ogre::SceneManager* CSceneElement::getSceneMgr();
 
 	}; // class CSceneElement
 

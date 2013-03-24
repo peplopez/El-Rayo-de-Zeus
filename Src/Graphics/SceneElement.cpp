@@ -21,6 +21,7 @@ Contiene la implementacion de la clase base de cualquier elemento de escena.
 
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
+#include <OgreStaticGeometry.h>
 
 namespace Graphics 
 {
@@ -78,7 +79,19 @@ namespace Graphics
 
 	} // unload
 	
-	
+	//--------------------------------------------------------
+
+	bool CSceneElement::addToStaticGeometry()
+	{
+		if(_node){
+			_scene->getStaticGeometry()->addSceneNode(_node);
+			_node->detachAllObjects();
+			return true;
+		
+		} else
+			return false;
+
+	} // addToStaticGeometry
 
 
 
@@ -86,6 +99,10 @@ namespace Graphics
 	/********************
 		GET's & SET's
 	*******************/
+
+	Ogre::SceneManager* CSceneElement::getSceneMgr() { 
+		return _scene->getSceneMgr();					
+	}
 
 	//---------------------- VISIBLE ----------------------------------
 		
@@ -104,8 +121,8 @@ namespace Graphics
 	{
 		assert( _node && "El elemento no ha sido cargado en la escena");
 		if(_node) {
-			_node->setPosition(transform.getTrans());
-			_node->setOrientation(transform.extractQuaternion());
+			_node->setPosition( transform.getTrans() );
+			_node->setOrientation( transform.extractQuaternion() );
 		}
 	} // setTransform
 		
@@ -132,13 +149,9 @@ namespace Graphics
 		assert(_node && "El elemento no ha sido cargado en la escena");
 		if(_node)
 			_node->setScale(scale);
-
 	} // setScale
 		
-	void CSceneElement::setScale(const float scale)
-	{
-		setScale( scale * Vector3::UNIT_SCALE );
-	} // setScale
+	
 
 
 } // namespace Graphics

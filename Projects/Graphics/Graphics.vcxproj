@@ -91,11 +91,10 @@
     <ClCompile Include="..\..\Src\Graphics\Entity.cpp" />
     <ClCompile Include="..\..\Src\Graphics\GlowMaterialListener.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Overlay.cpp" />
-    <ClCompile Include="..\..\Src\Graphics\Particle.cpp" />
+    <ClCompile Include="..\..\Src\Graphics\ParticleSystem.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Scene.cpp" />
     <ClCompile Include="..\..\Src\Graphics\SceneElement.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Server.cpp" />
-    <ClCompile Include="..\..\Src\Graphics\StaticEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Graphics\AnimatedEntity.h" />
@@ -105,11 +104,10 @@
     <ClInclude Include="..\..\Src\Graphics\Entity.h" />
     <ClInclude Include="..\..\Src\Graphics\GlowMaterialListener.h" />
     <ClInclude Include="..\..\Src\Graphics\Overlay.h" />
-    <ClInclude Include="..\..\Src\Graphics\Particle.h" />
+    <ClInclude Include="..\..\Src\Graphics\ParticleSystem.h" />
     <ClInclude Include="..\..\Src\Graphics\Scene.h" />
     <ClInclude Include="..\..\Src\Graphics\SceneElement.h" />
     <ClInclude Include="..\..\Src\Graphics\Server.h" />
-    <ClInclude Include="..\..\Src\Graphics\StaticEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseSubsystems\BaseSubsystems.vcxproj">

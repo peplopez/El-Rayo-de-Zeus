@@ -17,35 +17,33 @@ de una escena.
 #include "Scene.h"
 
 #include "BaseSubsystems/Server.h"
-
-#include "Graphics/Billboard.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Entity.h"
 #include "Graphics/GlowMaterialListener.h"
 #include "Graphics/Server.h"
-#include "Graphics/StaticEntity.h"
-
+#include "Graphics/SceneElement.h"
 #include "Logic/Server.h"
 
 #include <assert.h>
-
 #include <OgreRoot.h>
 #include <OgreSceneManager.h>
 #include <OgreRenderWindow.h>
 #include <OgreViewport.h>
 #include <OgreStaticGeometry.h>
-#include <OgreColourValue.h>
+
+
+//#include <OgreColourValue.h>
 
 //PT
-#include <OgreParticleSystem.h> // TODO FRS Por desvincular (al igual que billboardSet)
-#include <OgreCompositorManager.h>
+//#include <OgreParticleSystem.h> // TODO FRS Por desvincular (al igual que billboardSet)
+//#include <OgreCompositorManager.h>
 
 
 namespace Graphics 
 {
 
 	CScene::CScene(const std::string& name) : _name(name), _viewport(0), 
-			_staticGeometry(0), _directionalLight1(0), _directionalLight2(0), counterParticles(0)
+			_staticGeometry(0), _directionalLight1(0), _directionalLight2(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
@@ -155,6 +153,11 @@ namespace Graphics
 		SCENE ELEMENTS
 	************************/
 
+	//---------- GENERIC SCENE ELEMENTS (p.e. billboards, parcticles, etc)-----------
+
+	bool CScene::add(CSceneElement* sceneElement) {		return sceneElement->attachToScene(this);	}
+	void CScene::remove(CSceneElement* sceneElement) {	sceneElement->deattachFromScene();			} 
+
 
 	//---------- ENTITIES -------------------------
 
@@ -162,39 +165,27 @@ namespace Graphics
 	{
 		if(!entity->attachToScene(this))
 			return false;
-		_dynamicEntities.push_back(entity);
-		return true;
 
+		else {
+			entity->isStatic() ?
+				_staticEntities.push_back(entity) :
+				_dynamicEntities.push_back(entity);
+
+			return true;
+		}
 	} // addEntity
 
 	void CScene::remove(CEntity* entity)
 	{
 		entity->deattachFromScene();
-		_dynamicEntities.remove(entity);
+
+		entity->isStatic() ?		
+			_staticEntities.remove(entity) :
+			_dynamicEntities.remove(entity);
+
 	} // addEntity
 
-
-
-	//----------STATIC ENTITIES-------------------------
-
-	bool CScene::add(CStaticEntity* entity)
-	{
-		if(!entity->attachToScene(this))
-			return false;
-		_staticEntities.push_back(entity);
-		return true;
-
-	} // addStaticEntity
-
-
-	void CScene::remove(CStaticEntity* entity)
-	{
-		entity->deattachFromScene();
-		_staticEntities.remove(entity);
-
-	} // addStaticEntity
-
-
+	
 	void CScene::buildStaticGeometry()
 	{
 		if(!_staticGeometry && !_staticEntities.empty())
@@ -202,10 +193,10 @@ namespace Graphics
 			_staticGeometry = 
 					_sceneMgr->createStaticGeometry("static");
 
-			TStaticEntities::const_iterator it = _staticEntities.begin();
-			TStaticEntities::const_iterator end = _staticEntities.end();
-			for(; it != end; it++)
-				(*it)->addToStaticGeometry();
+			TEntities::const_iterator it = _staticEntities.begin();
+			TEntities::const_iterator end = _staticEntities.end();
+				for(; it != end; it++)
+					(*it)->addToStaticGeometry();
 
 			_staticGeometry->build();
 		}

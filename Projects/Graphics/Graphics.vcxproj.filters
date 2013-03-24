@@ -41,17 +41,14 @@
     <ClCompile Include="..\..\Src\Graphics\Entity.cpp">
       <Filter>SceneElements\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Graphics\Particle.cpp">
-      <Filter>SceneElements\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Graphics\StaticEntity.cpp">
-      <Filter>SceneElements\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Graphics\AnimatedEntity.cpp">
       <Filter>SceneElements\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Graphics\Overlay.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Graphics\ParticleSystem.cpp">
+      <Filter>SceneElements\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,22 +70,19 @@
     <ClInclude Include="..\..\Src\Graphics\SceneElement.h">
       <Filter>SceneElements\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Graphics\StaticEntity.h">
-      <Filter>SceneElements\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Graphics\Overlay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Graphics\Billboard.h">
       <Filter>SceneElements\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Graphics\Particle.h">
-      <Filter>SceneElements\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Graphics\Entity.h">
       <Filter>SceneElements\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Graphics\AnimatedEntity.h">
+      <Filter>SceneElements\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Graphics\ParticleSystem.h">
       <Filter>SceneElements\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
