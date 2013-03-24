@@ -183,6 +183,9 @@ namespace Graphics
 		_activeScene->activate(); 
 	} // setActiveScene
 	
+
+	//--------------------------------------------------------
+
 	void CServer::setActiveScene(const std::string& name)
 	{
 		assert(_scenes.find(name) == _scenes.end() &&
@@ -190,6 +193,7 @@ namespace Graphics
 		setActiveScene( _scenes[name] );
 	} // setActiveScene
 
+	//--------------------------------------------------------
 	
 	// TODO FRS Es necesario pasar a través del overlayManager
 	// El ancho y el alto deberían ser cosas independientes de los overlays, no?

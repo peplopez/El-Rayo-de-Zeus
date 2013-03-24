@@ -144,15 +144,15 @@ namespace Application {
 			//if (!Logic::CServer::getSingletonPtr()->loadMap("map.txt"))
 			//	return false;
 
-			_mapsToLoad.push_back("mapPlayer.txt");
-			_mapsToLoad.push_back("mapNPC.txt");
+			_mapsToLoad.push_back("mapPlayer");
+			_mapsToLoad.push_back("mapNPC");
 
 			if (!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad))
 				return false;
 		
 			// Llamamos al método de creación del jugador. Deberemos decidir
 			// si el jugador es el jugador local. Al ser el monojugador lo es.
-			Logic::CServer::getSingletonPtr()->getMap("playermap.txt")->createPlayer("Mono", "marine.mesh", true);
+			Logic::CServer::getSingletonPtr()->getMap("mapNPC")->createPlayer("Mono", "marine.mesh", true);
 
 			// TODO Deberíamos poder propocionar caracteríasticas  (nombre, modelo, etc.)... ==> Ampliar MenuState...
 			break;
@@ -216,15 +216,15 @@ namespace Application {
 		if (!Logic::CServer::getSingletonPtr()->setRingPositions())//[ƒ®§] Esto no deberia ejecutarse como parte del loadLevel...?
 			return false;
 
-		_mapsToLoad.push_back("mapPlayer.txt");
-		_mapsToLoad.push_back("mapNPC.txt");
+		_mapsToLoad.push_back("mapPlayer");
+		_mapsToLoad.push_back("mapNPC");
 
 		if (!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad))
 			return false;
 		
 		// Llamamos al método de creación del jugador. Deberemos decidir
 		// si el jugador es el jugador local. Al ser el monojugador lo es.
-		Logic::CServer::getSingletonPtr()->getMap("mapPlayer.txt")->createPlayer("Mono", "marine.mesh", true);
+		Logic::CServer::getSingletonPtr()->getMap("mapNPC")->createPlayer("Mono", "marine.mesh", true);
 
 		// TODO Deberíamos poder propocionar características  (nombre, modelo, etc.)... ==> Ampliar MenuState...
 

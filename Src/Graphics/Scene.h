@@ -208,14 +208,6 @@ namespace Graphics
 		*/
 		Ogre::SceneManager *_sceneMgr;
 		
-		/**
-		Luz direccional que se crea por defecto en la escena. Gráficamente
-		mejora la escena bastante respecto a tener solo luz ambiente ya que
-		se ven mejor los volúmenes de las entidades.
-		*/
-		Ogre::Light* _directionalLight1;
-
-		Ogre::Light* _directionalLight2;
 
 		/**
 		Camara desde la que se verá la escena. Puede haber cámaras más
@@ -223,8 +215,7 @@ namespace Graphics
 		ellas se encargarán de mover esta instancia.
 		*/
 		CCamera *_camera;
-
-		
+	
 
 		/**
 		Tipos para la lista de entidades.

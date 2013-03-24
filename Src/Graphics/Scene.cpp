@@ -46,7 +46,7 @@ namespace Graphics
 {
 
 	CScene::CScene(const std::string& name) : _name(name), _viewport(0), 
-			_staticGeometry(0), _directionalLight1(0), _directionalLight2(0), counterParticles(0)
+			_staticGeometry(0), counterParticles(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
@@ -93,16 +93,6 @@ namespace Graphics
 
 	void CScene::deactivate()
 	{
-		if(_directionalLight1)
-		{
-			_sceneMgr->destroyLight(_directionalLight1);
-			_directionalLight1 = 0;
-		}
-		if(_directionalLight2)
-		{
-			_sceneMgr->destroyLight(_directionalLight2);
-			_directionalLight2 = 0;
-		}
 		if(_viewport)
 		{
 			BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->

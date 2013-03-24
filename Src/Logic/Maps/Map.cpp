@@ -112,7 +112,7 @@ namespace Logic {
 	{
 		// Completamos la ruta con el nombre proporcionado
 		std::string completePath(MAP_FILE_PATH);
-			completePath = completePath + filename;
+			completePath = completePath + filename + ".txt";
 				
 				if(!Map::CMapParser::getSingletonPtr()->parseFile(completePath)){ // Parseamos el fichero
 					assert(!"No se ha podido parsear el mapa.");
