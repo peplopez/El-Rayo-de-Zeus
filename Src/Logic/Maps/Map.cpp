@@ -137,8 +137,6 @@ namespace Logic {
 				assert(entity && "No se pudo crear una entidad del mapa");
 			}
 
-		//Add ESC - registramos el mapa que se acaba de leer como mapa actual.
-		entityFactory->setCurrentMap(map);
 
 		return map;
 

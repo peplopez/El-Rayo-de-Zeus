@@ -47,6 +47,13 @@ namespace Logic
 	*/
 	class CServer
 	{
+
+	protected:
+
+		typedef std::list<std::string> TMapList;
+		typedef std::map<std::string, CMap*> TMaps;	
+
+
 	public:
 
 		/**
@@ -92,21 +99,35 @@ namespace Logic
 		/**
 		Si hay un nivel cargado lo descarga  destruye.
 		*/
-		void unLoadMap();
+		void unLoadMap(const std::string &filename);
 
 		/**
 		Función que activa el mapa en curso.
 
 		@return true si la inicialización fue correcta.
 		*/
-		bool activateMap();
+		bool activateMap(const std::string &filename);
 
 		/**
 		Función que desactiva el mapa en curso.
 		*/
-		void deactivateMap();
+		void deactivateMap(const std::string &filename);
 
-	
+
+		/**
+		*/
+
+		bool loadWorld(const TMapList mapList);
+
+		void unLoadWorld();
+
+		/**
+		*/
+		bool activateAllMaps();
+
+		/**
+		*/
+		void deactivateAllMaps();
 
 		/**
 		Para inicializar las estructuras que contienen las posiciones de los anillos
@@ -128,7 +149,7 @@ namespace Logic
 
 		@return Mapa con las entidades de juego.
 		*/
-		CMap *getMap() {return _map;}
+		CMap *getMap(const std::string mapName);
 
 		/**
 		Devuelve la entidad del jugador.
@@ -176,7 +197,11 @@ namespace Logic
 		/**
 		Mapa donde se encuentran todas las entidades lógicas.
 		*/
-		CMap *_map;
+		//CMap *_map;
+
+		/**
+		*/
+		TMaps _maps;
 
 		/**
 		Entidad del jugador.

@@ -56,7 +56,7 @@ namespace Application {
 	void CGameState::release() 
 	{
 		// Liberamos el nivel junto con las escenas físico-graficas.
-		Logic::CServer::getSingletonPtr()->unLoadMap();
+		Logic::CServer::getSingletonPtr()->unLoadWorld();
 		Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
 		Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
 
@@ -71,7 +71,7 @@ namespace Application {
 		CApplicationState::activate();
 		
 		// Activamos el mapa que ha sido cargado para la partida (incluye la activacion de la escenas)
-		Logic::CServer::getSingletonPtr()->activateMap();
+		Logic::CServer::getSingletonPtr()->activateAllMaps();
 
 		// Queremos que el GUI maneje al jugador.
         GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
@@ -90,7 +90,7 @@ namespace Application {
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
 		
 		// Desactivamos el mapa de la partida (incluye la desactivacion de la escenas)
-		Logic::CServer::getSingletonPtr()->deactivateMap();
+		Logic::CServer::getSingletonPtr()->deactivateAllMaps();
 		
 		CApplicationState::deactivate();
 
@@ -137,7 +137,7 @@ namespace Application {
 		switch(key.keyId)
 		{
 		case GUI::Key::ESCAPE:
-			Logic::CServer::getSingletonPtr()->unLoadMap();
+			Logic::CServer::getSingletonPtr()->unLoadWorld();
 			Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
 			Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
 			_app->setState("menu");

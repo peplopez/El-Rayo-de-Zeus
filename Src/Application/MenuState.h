@@ -52,6 +52,11 @@ namespace Application
 	*/
 	class CMenuState : public CApplicationState 
 	{
+	
+	protected:
+
+		typedef std::list<std::string> TMapList;
+
 	public:
 		/** 
 		Constructor de la clase 
@@ -167,6 +172,8 @@ namespace Application
 		Ventana CEGUI que muestra el menú.
 		*/
 		CEGUI::Window* _menuWindow;
+
+		TMapList _mapsToLoad;
 		
 		/**
 		Función que se quiere realizar cuando se pulse el botón start.
@@ -181,6 +188,10 @@ namespace Application
 		bool exitReleased(const CEGUI::EventArgs& e);
 
 		bool multiplayerReleased(const CEGUI::EventArgs& e);
+
+
+
+		
 
 	}; // CMenuState
 

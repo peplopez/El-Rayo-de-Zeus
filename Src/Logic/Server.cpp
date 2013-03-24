@@ -27,7 +27,7 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-	CServer::CServer() : _map(0), _gameNetMsgManager(0)
+	CServer::CServer() :  _gameNetMsgManager(0)
 	{
 		_instance = this;
 
@@ -99,7 +99,7 @@ namespace Logic {
 
 	void CServer::close() 
 	{
-		unLoadMap();
+		unLoadWorld();
 
 		Logic::CGameNetMsgManager::Release();
 
@@ -117,7 +117,12 @@ namespace Logic {
 		// Eliminamos las entidades que se han marcado para ser eliminadas.
 		Logic::CEntityFactory::getSingletonPtr()->deleteDefferedEntities();
 
-		_map->tick(msecs);
+		TMaps::const_iterator it = _maps.begin();
+		TMaps::const_iterator end = _maps.end();
+
+		
+		for (; it != end; ++it)
+			  it->second->tick(msecs);
 
 	} // tick
 
@@ -128,9 +133,9 @@ namespace Logic {
 	{
 		// solo admitimos un mapa cargado, si iniciamos un nuevo nivel 
 		// se borra el mapa anterior.
-		unLoadMap();
+		unLoadMap(filename);
 
-		if(_map = CMap::createMapFromFile(filename))
+		if(_maps[filename] = CMap::createMapFromFile(filename))
 			return true;		
 
 		return false;
@@ -139,41 +144,119 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-	void CServer::unLoadMap()
+	void CServer::unLoadMap(const std::string &filename)
 	{
-		if(_map)
+		TMaps::const_iterator it = _maps.find(filename);
+		
+		if(it != _maps.end())
 		{
-			_map->deactivate();
-			delete _map;
-			_map = 0;
+			it->second->deactivate();
+			delete _maps[filename];
+			_maps[filename] = 0;
+			_maps.erase(it);
 		}
-		_player = 0;
+		//_player = 0;
 
 	} // unLoadLevel
 
 	//---------------------------------------------------------
 
-	bool CServer::activateMap() 
+	bool CServer::loadWorld(const TMapList mapList)
+	{
+		TMapList::const_iterator it = mapList.begin();
+		TMapList::const_iterator end = mapList.end();
+		
+		bool loaded = false;
+
+		for (; it != end; ++it)
+			loaded = loadMap(*it);
+
+		return loaded;
+	}
+
+	
+	//---------------------------------------------------------
+
+	void CServer::unLoadWorld()
+	{
+		TMaps::const_iterator it = _maps.begin();
+		TMaps::const_iterator end = _maps.end();
+		
+		while (it != end)
+			unLoadMap(it++->first);
+		
+		_player = 0;
+	}
+
+
+	//---------------------------------------------------------
+
+	bool CServer::activateMap(const std::string &filename) 
 	{
 		// Se activa la escucha del oyente de los mensajes de red para el estado de juego.
-		_gameNetMsgManager->activate();
-		return _map->activate();
+		//_gameNetMsgManager->activate();
+		return _maps[filename]->activate();
 
 	} // activateMap
 
 	//---------------------------------------------------------
 
-	void CServer::deactivateMap() 
+	void CServer::deactivateMap(const std::string &filename) 
 	{
-		if(_map)
-			_map->deactivate();
-		_gameNetMsgManager->deactivate(); // Se desactiva la escucha del oyente de los mensajes de red para el estado de juego.
+		TMaps::const_iterator it = _maps.find(filename);
+		
+		if(it != _maps.end())
+			it->second->deactivate();
+		//_gameNetMsgManager->deactivate(); // Se desactiva la escucha del oyente de los mensajes de red para el estado de juego.
 	} // deactivateMap
 
 	//---------------------------------------------------------
 
-	
+	bool CServer::activateAllMaps()
+	{
+		TMaps::const_iterator it = _maps.begin();
+		TMaps::const_iterator end = _maps.end();
 
+		bool activated = false;
+
+		for (; it != end; ++it)
+			activated = it->second->activate();
+
+		_gameNetMsgManager->activate();
+
+		return activated;
+
+	}
+
+	//---------------------------------------------------------
+
+	/**
+	*/
+	void CServer::deactivateAllMaps()
+	{
+		TMaps::const_iterator it = _maps.begin();
+		TMaps::const_iterator end = _maps.end();
+
+		for (; it != end; ++it)
+			it->second->deactivate();
+
+		_gameNetMsgManager->deactivate();
+	}
+
+	//---------------------------------------------------------
+	
+	CMap* CServer::getMap(const std::string mapName)
+	{
+		TMaps::const_iterator it = _maps.find(mapName);
+
+		if (it != _maps.end())
+			return it->second;
+		
+		return NULL;
+	}
+
+
+	//---------------------------------------------------------
 	bool CServer::setRingPositions()
 	{
 		//inicializamos la estructura de posiciones de los anillos
