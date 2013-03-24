@@ -16,9 +16,11 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Maps/EntityFactory.h"
 #include "Application/BaseApplication.h"
 
+#include "Logic/Entity/Components/AvatarController.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
+
 
 namespace Logic 
 {
@@ -72,13 +74,18 @@ namespace Logic
 
 		switch(message->getType())
 		{
+
 		// MUERTO
-		case Message::DEAD:		{				
+		case Message::DEAD:		{	
+
+			_entity->getComponent<CAvatarController>()->sleep(); // Desactivamos control de teclado
+
 			CMessageBoolString *txMsg = new CMessageBoolString(); // Poner la animación de muerte
 				txMsg->setType(TMessageType::SET_ANIMATION);
 				txMsg->setString("Death");	
 				txMsg->setBool(false);
 				_entity->emitMessage(txMsg);
+
 		} break;	
 		
 		// ANIMACION FINALIZADA		
