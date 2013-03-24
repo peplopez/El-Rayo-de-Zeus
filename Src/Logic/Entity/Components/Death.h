@@ -56,6 +56,13 @@ namespace Logic
 		void process(CMessage *message);
 
 
+	private:
+
+		void death(CMessage *message);
+		void deathAnimated(CMessage *message);
+		
+
+
 	}; // class CLife
 
 	REG_FACTORY(CDeath);

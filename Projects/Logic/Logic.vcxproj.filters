@@ -136,6 +136,9 @@
     <ClCompile Include="..\..\Src\Logic\Entity\LogicalPosition.cpp">
       <Filter>Entity\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Item.cpp">
+      <Filter>Entity\Components\Items\Source Files</Filter>
+    </ClCompile>    
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedGraphics.h">
@@ -285,6 +288,9 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BasicAI.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Item.h">
+      <Filter>Entity\Components\Items\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Logic.rc" />
@@ -331,6 +337,15 @@
     </Filter>
     <Filter Include="Entity\Messages\Source Files">
       <UniqueIdentifier>{097047ba-44d7-4706-8c53-310006a2ef8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Components\Items">
+      <UniqueIdentifier>{46b8b350-8a2e-4b40-b742-8ff615cf41bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Components\Items\Header Files">
+      <UniqueIdentifier>{03ef27d5-310b-4311-874d-61fcc6039e13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Components\Items\Source Files">
+      <UniqueIdentifier>{788f6b1c-e799-49c5-bcb3-6146ac8233fe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

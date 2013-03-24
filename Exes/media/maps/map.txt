@@ -1,7 +1,4 @@
-Map ={
-	
-
-	
+Map ={	
 	Camera = {
 		type = "Camera",
 		distance = 150,
@@ -22,30 +19,35 @@ Map ={
 		base=3,
 		ring=0,
 		degrees=0,
+		lifeModifier=20,
 	},
 	puThrone1 = {
 		type = "PUThrone",
 		base=3,
 		ring=0,
 		degrees=120,
+		lifeModifier=10,
 	},
 	puPandora1 = {
 		type = "PUPandora",
 		base=3,
 		ring=2,
 		degrees=0,
+		lifeModifier=-200,
 	},
 	puPoison1 = {
 		type = "PUPoison",
 		base=3,
 		ring=1,
 		degrees=180,
+		lifeModifier=-20,
 	},
 	puTime1 = {
 		type = "PUTime",
 		base=3,
 		ring=2,
 		degrees=120,
+		lifeModifier=50,
 	},
 	
 	

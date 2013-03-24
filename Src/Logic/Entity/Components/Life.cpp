@@ -79,8 +79,6 @@ namespace Logic
 
 	void CLife::process(CMessage *message)
 	{
-				_modifiyingLife++;
-		//std::cout<<_modifiyingLife<<std::endl;
 		modifyLife( static_cast<CMessageInt*>(message)->getInt() );
 	} // process
 
