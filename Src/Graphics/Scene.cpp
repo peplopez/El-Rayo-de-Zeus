@@ -68,7 +68,8 @@ namespace Graphics
 	
 	void CScene::activate()
 	{
-		buildStaticGeometry();
+		buildStaticGeometry(); // FRS Se debe construir en cada activación?
+
 		// HACK en pruebas
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
 						->addViewport(_camera->getCamera());
@@ -151,7 +152,7 @@ namespace Graphics
 
 
 	/************************
-		GRAPHICAL ELEMENTS
+		SCENE ELEMENTS
 	************************/
 
 
@@ -213,77 +214,6 @@ namespace Graphics
 
 
 
-	//---------- BILLBOARDS -------------------------
-
-	bool CScene::add(CBillboard* billboard)
-	{
-		if(!billboard->attachToScene(this))
-			return false;
-		_billboards.push_back(billboard);
-		return true;
-
-	} // addBillboard
-
-	
-	//--------------------------------------------------------
-
-	void CScene::remove(CBillboard* billboard)
-	{
-		billboard->deattachFromScene();
-		_billboards.remove(billboard);
-	} // removeBillboard
-
-
-	//--------------------------------------------------------
-
-	//PT. Eliminacion de un sceneNode
-	void CScene::deleteSceneNode(const std::string &name)
-	{
-		if(_sceneMgr->hasSceneNode(name+"_node"))
-		{
-			_sceneMgr->destroySceneNode(name+"_node");
-		}
-
-	}//deleteSceneNode
-
-
-
-	//PT. Creacion de una particula
-	Ogre::ParticleSystem* CScene::createParticula(const std::string &name1, const std::string &name2)
-	{
-
-	char numstr[21]; // enough to hold all numbers up to 64-bits
-	sprintf(numstr, "%d", counterParticles);
-
-	// Creamos nuestro sistema de partículas :)
-	Ogre::ParticleSystem *pssmoke;
-	pssmoke = _sceneMgr->createParticleSystem(name1+numstr, name2);
-
-	// Creamos un nodo y atachamos la particula pssmoke a ese scenenode
-	Ogre::SceneNode* sceneNode = _sceneMgr->createSceneNode(name1+"_particleSystemNode_"+numstr);
-	sceneNode->attachObject(pssmoke);
-
-	if(_sceneMgr->hasSceneNode(name1+"_node"))
-	{
-		_sceneMgr->getSceneNode(name1+"_node")->addChild(sceneNode);
-	}
-
-	// Desvinculamos el sistema de partículas del nodo
-	/*
-	sceneNode->detachObject(pssmoke);
- 
-	// Destruimos el nodo
-	_sceneMgr->destroySceneNode(sceneNode);
- 
-	// Destruimos el sistema de partículas
-	_sceneMgr->destroyParticleSystem(pssmoke);
-	*/
-
-	counterParticles++;
-
-	return pssmoke;
-
-	}//createParticula
 	
 
 } // namespace Graphics

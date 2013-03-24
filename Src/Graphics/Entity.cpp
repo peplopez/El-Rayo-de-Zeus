@@ -14,9 +14,9 @@ Contiene la implementación de la clase que representa una entidad gráfica.
 */
 
 #include "Entity.h"
-#include "Scene.h"
 
-#include "BaseSubsystems/Server.h"
+#include "Graphics/Scene.h"
+
 #include "BaseSubsystems/Math.h"
 
 #include <assert.h>
@@ -28,55 +28,6 @@ Contiene la implementación de la clase que representa una entidad gráfica.
 
 namespace Graphics 
 {
-
-
-	CEntity::~CEntity() 
-	{
-		assert(!_scene && "¡¡Para destruir una entidad esta no puede pertenecer a una escena!!");
-		
-	} // ~CEntity
-	
-	//--------------------------------------------------------
-		
-	bool CEntity::attachToScene(CScene *scene)
-	{
-		assert(scene && "¡¡La entidad debe asociarse a una escena!!");
-		
-		// Si la entidad está cargada por otro gestor de escena.
-		if(_loaded) {			
-			if(_scene != scene)
-				return false;
-			else
-				return true; // Si ya estaba cargada en la escena se devuelve cierto.
-		
-		} else { // Si no está cargada forzamos su carga.		
-			_scene = scene;
-			return load();
-		}
-
-	} // attachToScene
-	
-	//--------------------------------------------------------
-		
-	bool CEntity::deattachFromScene()
-	{
-		// Si la entidad no está cargada no se puede quitar de
-		// una escena. Ya que no pertenecerá a ninguna.
-		if(!_loaded)
-			return false;
-		// Si la entidad está cargada forzamos su descarga.
-		else
-		{
-			assert(_scene && "¡¡La entidad debe estar asociada a una escena!!");
-			unload();
-			_scene = 0;
-		}
-
-		return true;
-
-	} // deattachFromScene
-	
-	//--------------------------------------------------------
 		
 	bool CEntity::load()
 	{

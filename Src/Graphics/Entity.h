@@ -16,19 +16,13 @@ Contiene la declaración de la clase que representa una entidad gráfica.
 #ifndef __Graphics_Entity_H
 #define __Graphics_Entity_H
 
-#include "BaseSubsystems/Math.h"
+#include "Graphics\SceneElement.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 
 {
 	class Entity;
-	class SceneNode;
-}
-
-namespace Graphics 
-{
-	class CScene;
-}
+};
 
 namespace Graphics 
 {
@@ -64,7 +58,7 @@ namespace Graphics
 	@author David Llansó
 	@date Julio, 2010
 	*/
-	class CEntity 
+	class CEntity : public CSceneElement
 	{
 	public:
 
@@ -75,13 +69,7 @@ namespace Graphics
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
 		CEntity::CEntity(const std::string &name, const std::string &mesh)
-		: _name(name), _mesh(mesh), _entity(0), _entityNode(0), _scene(0), _loaded(false) {} 
-
-		/**
-		Destructor de la aplicación.
-		*/
-		virtual ~CEntity();
-
+		: _name(name), _mesh(mesh), _entity(0)  {} 
 
 
 		/******************
