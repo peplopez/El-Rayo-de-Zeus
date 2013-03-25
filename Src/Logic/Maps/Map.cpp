@@ -63,8 +63,8 @@ namespace Logic {
 		if(_isActive)
 			return true;
 
-		Graphics::CServer::getSingletonPtr()->setActiveScene(_graphicScene);	
-		Physics::CServer::getSingletonPtr()->setActiveScene(_physicScene);	
+		//Graphics::CServer::getSingletonPtr()->setActiveScene(_graphicScene);	
+		//Physics::CServer::getSingletonPtr()->setActiveScene(_physicScene);	
 
 		// Activamos todas las entidades registradas en el mapa.
 		_isActive = true;

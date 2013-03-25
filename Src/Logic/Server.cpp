@@ -19,6 +19,10 @@ la gestión de la lógica del juego.
 #include "Logic/Entity/RingStruct.h"
 #include "Logic/GameNetMsgManager.h"
 
+#include "Graphics\Server.h"
+#include "Physics\Server.h"
+
+
 #include <cassert>
 
 namespace Logic {
@@ -223,6 +227,9 @@ namespace Logic {
 			activated = it->second->activate();
 
 		_gameNetMsgManager->activate();
+
+		Graphics::CServer::getSingletonPtr()->setActiveScene(_player->getMap()->getGraphicScene());
+		Physics::CServer::getSingletonPtr()->setActiveScene(_player->getMap()->getPhysicScene());	
 
 		return activated;
 

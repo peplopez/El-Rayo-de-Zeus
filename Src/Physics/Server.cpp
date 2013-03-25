@@ -27,7 +27,7 @@ namespace Physics {
 
 	CServer::CServer() :  _activeScene(0) 
 	{
-		assert(!_instance && "PHYSICS::SERVER>> Segunda inicialización de Graphics::CServer no permitida!");
+		assert(!_instance && "PHYSICS::SERVER>> Segunda inicialización de Physics::CServer no permitida!");
 		_instance = this;
 	} // CServer
 
