@@ -20,7 +20,7 @@ namespace Graphics
 	class CBillboard;
 }
 
-namespace Logic
+namespace Logicavnc
 {
 	class CMessage;
 }
@@ -72,6 +72,9 @@ namespace Logic
 		int _life;
 
 		void modifyLife(int);
+
+		/** ruta del sonido asociado */
+		std::string _audio;
 	
 	}; // class CLife
 

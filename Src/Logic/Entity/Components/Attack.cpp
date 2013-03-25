@@ -23,7 +23,7 @@ angular de entidades.
 #include "Logic/Entity/Messages/MessageBoolString.h"
 #include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageInt.h"
-
+#include "Logic/Entity/Messages/MessageAudio.h"
 
 //declaración de la clase
 namespace Logic 
@@ -37,8 +37,10 @@ namespace Logic
 
 		if(entityInfo->hasAttribute("attackPower"))
 			_attackPower = entityInfo->getFloatAttribute("attackPower");
-	/*	if (_entity->getType()=="OtherPlayer")
-			cover();*/
+		if (_entity->getName()=="locoCubriendose")
+			cover();
+		if (entityInfo->hasAttribute("audioCubriendose") )
+			_audioCubriendose = entityInfo->getStringAttribute("audioCubriendose");
 		return true;
 		}
 
@@ -104,7 +106,11 @@ namespace Logic
 						message->setString("FireKatana");
 						message->setAction(Message::UNDEF);
 						message->setBool(false);
-						_entity->emitMessage(message,this);					
+						_entity->emitMessage(message,this);	
+
+					
+
+
 					}
 					
 			}
@@ -116,7 +122,7 @@ namespace Logic
 		_covering=true;
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
-		message->setString("Crouch");
+		message->setString("CrouchKatana");
 		message->setAction(Message::UNDEF);
 		message->setBool(true);
 		_entity->emitMessage(message,this);
@@ -168,7 +174,7 @@ namespace Logic
 		
 		CMap::TEntityList::const_iterator it = _entity->getMap()->getEntities().begin();
 		CMap::TEntityList::const_iterator end = _entity->getMap()->getEntities().end();
-		int veces=0;
+
 		for(; it != end; ++it)
 		{			
 			//Si la entidad que comparo no soy yo mismo y la distancia entre las posiciones
@@ -187,19 +193,32 @@ namespace Logic
 						//float limiteDerecho=(*it)->getDegree()+(*it)->getAngularBox();
 						float limiteIzquierdo=(*it)->getLogicalPosition()->getDegree()-5; //aquí se está asumiendo que es un angular box de 5
 						float limiteDerecho=(*it)->getLogicalPosition()->getDegree()+5;
-						if (_entity->getLogicalPosition()->getDegree()<grado) limiteIzquierdo =_entity->getLogicalPosition()->getDegree();
-						else if (_entity->getLogicalPosition()->getDegree()>grado) limiteDerecho =_entity->getLogicalPosition()->getDegree();
+					//	if (_entity->getLogicalPosition()->getDegree()<grado) limiteIzquierdo =_entity->getLogicalPosition()->getDegree();
+					//	else if (_entity->getLogicalPosition()->getDegree()>grado) limiteDerecho =_entity->getLogicalPosition()->getDegree();
 						if ((*it)->getComponent<CAttack>()!=NULL)
-						if (grado>limiteIzquierdo && grado<limiteDerecho )
+						if (grado>limiteIzquierdo && grado<limiteDerecho 
+							|| (grado>=limiteIzquierdo && grado>=limiteDerecho &&  _entity->getLogicalPosition()->getDegree()<=limiteIzquierdo && _entity->getLogicalPosition()->getDegree()<=limiteDerecho) 
+							||  (grado<=limiteIzquierdo && grado<=limiteDerecho &&  _entity->getLogicalPosition()->getDegree()>=limiteIzquierdo && _entity->getLogicalPosition()->getDegree()>=limiteDerecho) 
+							)
 						{
 							if (!soloInfo)
-							{							
+							{				
+								if ((*it)->getComponent<CAttack>()!=NULL)
 								if ((*it)->getComponent<CAttack>()->_covering==true && (*it)->getLogicalPosition()->getSense()!=_entity->getLogicalPosition()->getSense())
 								{
 									Logic::CMessage *m = new Logic::CMessage();
 									m->setType(Logic::Message::CONTROL);
 									m->setAction(Logic::Message::WALK_STOP);
 									(*it)->emitMessage(m);
+
+								
+									Logic::CMessageAudio *cubiertoAudio=new Logic::CMessageAudio();		
+									cubiertoAudio->setType(Message::AUDIO);			
+									cubiertoAudio->setPath("media\\audio\\Sword_scrape2.wav");//ñapa
+									cubiertoAudio->setId("impactoCubriendose");
+									cubiertoAudio->setPosition(_entity->getPosition());
+									(*it)->emitMessage(cubiertoAudio);
+										
 									return 2; //Impacto en el que el objetivo está cubriendose
 								}
 								else
@@ -208,8 +227,8 @@ namespace Logic
 								m2->setInt(-10);
 								m2->setType(Message::LIFE_MODIFIER);						
 								(*it)->emitMessage(m2,this);
-								veces++;
-								std::cout<<veces<<std::endl;
+								//veces++;
+								//std::cout<<veces<<std::endl;
 								Logic::CMessage *m = new Logic::CMessage();
 								m->setType(Logic::Message::CONTROL);
 								m->setAction(Logic::Message::WALK_STOP);

@@ -54,7 +54,7 @@ namespace Logic
 	
 	bool CBasicAI::accept(const CMessage *message)
 	{//aviso de que tanto accept como process son un poco hack, pero es es solo hasta tener un componente NPCCONTROLLER
-	//	return false;
+			
 		return (message->getType() == Message::TRIGGER && 
 			(message->getAction() == Message::TRIGGER_ENTER||
 			message->getAction() == Message::TRIGGER_EXIT) || message->getType() == Message::ALTAR_ACTIVATED ||  message->getAction() == Message::COVER) || (message->getType()==Message::ANIMATION_FINISHED ||message->getType()==Message::ANIMATION_MOMENT);
@@ -99,6 +99,8 @@ namespace Logic
 	void CBasicAI::tick(unsigned int msecs)
 	{
 			IComponent::tick(msecs);
+				if (_entity->getName()!="locoCubriendose")
+	
 			if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase()==_entity->getLogicalPosition()->getBase())
 				if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing())
 				{

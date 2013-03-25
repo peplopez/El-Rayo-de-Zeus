@@ -19,6 +19,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Entity/Messages/MessageAudio.h"
 
 namespace Logic 
 {
@@ -31,6 +32,7 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
+		_audio = "media\\audio\\fallecimiento.wav";
 		return true;
 	} // spawn
 	
@@ -79,6 +81,13 @@ namespace Logic
 				txMsg->setString("Death");	
 				txMsg->setBool(false);
 				_entity->emitMessage(txMsg);
+				/* Aquí ponemos el sonido */
+			Logic::CMessageAudio *maudio=new Logic::CMessageAudio();		
+			maudio->setType(Message::AUDIO);			
+			maudio->setPath(_audio);
+			maudio->setId("muerte");
+			maudio->setPosition(_entity->getPosition());
+			_entity->emitMessage(maudio);
 		} break;	
 		
 		// ANIMACION FINALIZADA		

@@ -61,7 +61,8 @@ namespace Logic
 		void death(CMessage *message);
 		void deathAnimated(CMessage *message);
 		
-
+		/** ruta del sonido asociado */
+		std::string _audio;
 
 	}; // class CLife
 

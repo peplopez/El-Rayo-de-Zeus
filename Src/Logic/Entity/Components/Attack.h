@@ -139,6 +139,8 @@ namespace Logic
 		bool _heavyAttack;
 
 		bool _covering;
+		
+		std::string _audioCubriendose;
 	}; // class CAttack
 
 	REG_FACTORY(CAttack);

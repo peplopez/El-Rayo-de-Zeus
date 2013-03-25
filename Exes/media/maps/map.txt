@@ -72,14 +72,19 @@ Map ={
 		degrees=70,		
 	},	
 	
-	gemelo = {
+	loco = {
 		type = "OtherPlayer",
 		base=3,
 		ring=0,
 		degrees=120,		
 	},
 
-	
+	locoCubriendose = {
+		type = "OtherPlayer",
+		base=3,
+		ring=2,
+		degrees=220,		
+	},
 	
 	WorldAbajo0 = {
 		type = "World",

@@ -55,7 +55,8 @@ namespace Logic
 			ANIMATION_MOMENT		= 0x20,
 			REWIND_ANIMATION		= 0x21,
 			ALTAR_ACTIVATED 		= 0x22,
-			ALTAR_DEACTIVATED 		= 0x23
+			ALTAR_DEACTIVATED 		= 0x23,
+			AUDIO			 		= 0x24			
 		};
 
 		enum TActionType : unsigned char
