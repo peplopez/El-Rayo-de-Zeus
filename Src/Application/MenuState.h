@@ -55,7 +55,7 @@ namespace Application
 	
 	protected:
 
-		typedef std::list<std::string> TMapList;
+		typedef std::list<std::string> TMapNameList;
 
 	public:
 		/** 
@@ -173,7 +173,9 @@ namespace Application
 		*/
 		CEGUI::Window* _menuWindow;
 
-		TMapList _mapsToLoad;
+		/**
+		*/
+		TMapNameList _mapsToLoad;
 		
 		/**
 		Función que se quiere realizar cuando se pulse el botón start.

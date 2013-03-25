@@ -19,9 +19,6 @@ la gestión de la lógica del juego.
 #include "Logic/Entity/RingStruct.h"
 #include "Logic/GameNetMsgManager.h"
 
-#include "Graphics\Server.h"
-#include "Physics\Server.h"
-
 
 #include <cassert>
 
@@ -165,10 +162,10 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	bool CServer::loadWorld(const TMapList mapList)
+	bool CServer::loadWorld(const TMapNameList mapList)
 	{
-		TMapList::const_iterator it = mapList.begin();
-		TMapList::const_iterator end = mapList.end();
+		TMapNameList::const_iterator it = mapList.begin();
+		TMapNameList::const_iterator end = mapList.end();
 		
 		bool loaded = false;
 
@@ -228,8 +225,8 @@ namespace Logic {
 
 		_gameNetMsgManager->activate();
 
-		Graphics::CServer::getSingletonPtr()->setActiveScene(_player->getMap()->getGraphicScene());
-		Physics::CServer::getSingletonPtr()->setActiveScene(_player->getMap()->getPhysicScene());	
+		
+		_player->getMap()->setVisible();
 
 		return activated;
 
@@ -262,8 +259,8 @@ namespace Logic {
 		return NULL;
 	}
 
-
 	//---------------------------------------------------------
+
 	bool CServer::setRingPositions()
 	{
 		//inicializamos la estructura de posiciones de los anillos
@@ -277,6 +274,8 @@ namespace Logic {
 		}
 		return true;
 	}
+
+	//---------------------------------------------------------
 
 	Vector3 CServer::getRingPositions(unsigned short base,Logic::LogicalPosition::Ring ring)
 	{
@@ -303,6 +302,8 @@ namespace Logic {
 			}
 
 	}
+
+	//---------------------------------------------------------
 
 	float CServer::getRingRadio(unsigned short base,Logic::LogicalPosition::Ring ring)
 	{

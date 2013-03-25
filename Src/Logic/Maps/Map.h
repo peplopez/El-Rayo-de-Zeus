@@ -93,6 +93,11 @@ namespace Logic
 		*/
 		void deactivate();
 
+
+		/**
+		*/
+		void setVisible();
+
 		/**
 		Función llamada en cada frame para que se realicen las funciones
 		de actualización adecuadas.

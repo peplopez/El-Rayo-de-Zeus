@@ -50,7 +50,7 @@ namespace Logic
 
 	protected:
 
-		typedef std::list<std::string> TMapList;
+		typedef std::list<std::string> TMapNameList;
 		typedef std::map<std::string, CMap*> TMaps;	
 
 
@@ -116,9 +116,10 @@ namespace Logic
 
 		/**
 		*/
+		bool loadWorld(const TMapNameList mapList);
 
-		bool loadWorld(const TMapList mapList);
-
+		/**
+		*/
 		void unLoadWorld();
 
 		/**

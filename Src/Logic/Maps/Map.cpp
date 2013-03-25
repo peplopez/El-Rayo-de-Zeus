@@ -98,6 +98,12 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
+	void CMap::setVisible()
+	{
+		Graphics::CServer::getSingletonPtr()->setActiveScene(this->getGraphicScene());
+	}
+		
+	//---------------------------------------------------------
 	void CMap::tick(unsigned int msecs) 
 	{
 		TEntityList::const_iterator it = _entityList.begin();

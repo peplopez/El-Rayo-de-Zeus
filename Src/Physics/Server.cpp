@@ -98,8 +98,12 @@ namespace Physics {
 
 	void CServer::tick(unsigned int msecs) 
 	{
-		if(_activeScene != _dummyScene)
-			_activeScene->tick(msecs);
+		TScenes::const_iterator it = _scenes.begin();
+		TScenes::const_iterator end = _scenes.end();
+
+		for (; it != end; ++it)
+			if(it->second != _dummyScene)
+				it->second->tick(msecs);
 	} // tick
 
 	
