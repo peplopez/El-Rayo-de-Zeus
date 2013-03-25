@@ -35,10 +35,18 @@ namespace Graphics
 				_node->attachObject(_entity);		
 
 			// HACK Emily: cutre - para attach del arma en el Player
-			if(!_name.compare("Mono")) { // que es como llamamos al player en el mapa		
-				Ogre::Entity *weapon = getSceneMgr()->createEntity("weapon", "Katana.mesh");
-					_entity->attachObjectToBone("Bip01 R Hand",weapon);
-			}
+			if(_name == "Mono")  // que es como llamamos al player en el mapa		
+				_entity->attachObjectToBone("Bip01 R Hand", 
+					getSceneMgr()->createEntity("weapon", "Katana.mesh")
+				);			
+
+			 
+
+			 int n = _entity->getNumSubEntities();
+
+			 Ogre::Entity::ChildObjectListIterator it = _entity->getAttachedObjectIterator();
+			 
+
 
 			_loaded = true;
 

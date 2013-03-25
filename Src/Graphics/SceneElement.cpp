@@ -77,6 +77,7 @@ namespace Graphics
 			_node = 0;
 		}
 
+		_loaded = false;
 	} // unload
 	
 	//--------------------------------------------------------
