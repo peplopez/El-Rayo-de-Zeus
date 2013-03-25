@@ -70,6 +70,8 @@ DocumentacionDoxygen/
 #######
 /Exes/*.*
 !/Exes/resources.cfg
+!/Exes/media/audio/*.*
+
 
 #PROJECTS #
 ###########
@@ -169,4 +171,3 @@ DocumentacionDoxygen/
 !/dependencies/include/enet/
 !/dependencies/lib/*/enet.lib
 !/dependencies/luabind/bjam.exe
-
