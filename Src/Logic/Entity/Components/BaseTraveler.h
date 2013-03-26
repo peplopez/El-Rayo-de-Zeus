@@ -77,13 +77,7 @@ namespace Logic
 		@param msecs Milisegundos transcurridos desde el último tick.
 		*/
 		void tick(unsigned int msecs);
-
 		
-		/**
-		Provoca que la entidad cambie de base. Conlleva un cambio del eje de giro en su coordenada y
-		*/
-		void changeBase(int base);
-
 		void resetChangingBase(){_changingBase=false;}
 
 		bool isChangingBase(){return _changingBase;}

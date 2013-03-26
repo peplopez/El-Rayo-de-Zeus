@@ -57,7 +57,7 @@ namespace Logic
 	
 	bool CRingTraveler::accept(const CMessage *message)
 	{//que no os confunda el nombre de mensaje CHANGE_PLANE es tanto para cambiar de base como de anillo dentro de la base. Apreciad que en cualquier caso siempre es un cambio de anillo, de ahí el nombre
-		return (!_changingRing && message->getType() == Message::CONTROL && (
+		return (!_changingRing && isAwake() && message->getType() == Message::CONTROL && (
 						message->getAction() == Message::GO_DOWN || 
 						message->getAction() == Message::GO_UP
 				));
