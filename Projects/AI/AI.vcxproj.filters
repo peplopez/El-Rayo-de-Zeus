@@ -56,6 +56,12 @@
     <ClCompile Include="..\..\Src\AI\StateMachines\StateMachine.cpp">
       <Filter>Decision\StateMachines\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Run.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Jump.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\AI\Server.h">
@@ -78,6 +84,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\AI\StateMachines\StateMachine.h">
       <Filter>Decision\StateMachines\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Run.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Jump.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

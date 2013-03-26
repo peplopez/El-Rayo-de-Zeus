@@ -217,11 +217,9 @@ namespace GUI {
 			{
 			case GUI::Key::A:
 			case GUI::Key::D:
-				//m._string = "stopStrafe";
 				m->setAction(Logic::Message::WALK_STOP);
 				break;
 			case GUI::Key::LSHIFT:
-				//m._string = "stopStrafe";
 				m->setAction(Logic::Message::WALK_STOP);
 				break;
 			default:

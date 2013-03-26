@@ -48,6 +48,11 @@ namespace Logic
 
 		void jump();
 
+		bool getJumping()
+		{
+			return _jumping;
+		}
+
 		
 
 	protected:

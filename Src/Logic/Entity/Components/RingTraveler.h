@@ -39,7 +39,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CRingTraveler() : IComponent(GetAltTypeIdOf(CRingTraveler)),_changingRing(false),_changingRingTime(0),_maxChangingRingTime(2000) {}
+		CRingTraveler() : IComponent(GetAltTypeIdOf(CRingTraveler)),_changingRing(false),_changingRingTime(0),_maxChangingRingTime(2000),_toUp(1) {}
 
 		CRingTraveler(altTypeId id) : IComponent(id),_changingRing(false),_changingRingTime(0),_maxChangingRingTime(2000) {}
 
@@ -88,9 +88,15 @@ namespace Logic
 		*/
 		void tick(unsigned int msecs);
 
+		void resetChangingRing(){_changingRing=false;}
+
+		bool isChangingRing(){return _changingRing;}
+
 	protected:
 
 		bool _changingRing;	
+
+		char _toUp;
 
 		float _changingRingTime;
 		

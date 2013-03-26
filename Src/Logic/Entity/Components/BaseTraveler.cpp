@@ -56,9 +56,9 @@ namespace Logic
 	
 	bool CBaseTraveler::accept(const CMessage *message)
 	{//que no os confunda el nombre de mensaje CHANGE_PLANE es tanto para cambiar de base como de anillo dentro de la base. Apreciad que en cualquier caso siempre es un cambio de anillo, de ahэ el nombre
-		return (CRingTraveler::accept(message) || 
+		return (!_changingBase && (CRingTraveler::accept(message) || 
 					(message->getType() == Message::CONTROL &&
-					message->getAction() == Message::CHANGE_BASE));
+					message->getAction() == Message::CHANGE_BASE)));
 
 	} // accept
 	
@@ -72,7 +72,10 @@ namespace Logic
 		{
 		case Message::CONTROL:
 			if(message->getAction() == Message::CHANGE_BASE)
-				CBaseTraveler::changeBase(maux->getUShort());		
+			{
+				_destiny=maux->getUShort();
+				_changingBase=true;		
+			}
 		}
 
 	} // process
@@ -80,17 +83,9 @@ namespace Logic
 			
 	void CBaseTraveler::changeBase(int base)
 	{
-		_changingBase=true;
+		
 
-			CMessageChar *m = new CMessageChar();	
-				m->setType(Message::AVATAR_MOVE);
-				m->setAction(Message::CHANGE_BASE);
-				m->setChar( base - (int) _entity->getLogicalPosition()->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
-			_entity->emitMessage(m,this);
-
-		LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << base );
-
-			// UNDONE
+					// UNDONE
 		/*	if (_entity->getRing()==Ring::UPPER_RING)
 			{
 				_entity->setBase(base);
@@ -115,10 +110,10 @@ namespace Logic
 
 	void CBaseTraveler::tick(unsigned int msecs)
 	{
-			//CRingTraveler::tick(msecs);
+			CRingTraveler::tick(msecs);
 			IComponent::tick(msecs);
 			
-			if (_changingRing || _changingBase)
+			if (_changingBase)
 			{
 				if(_entity->isPlayer())
 				{
@@ -132,6 +127,14 @@ namespace Logic
 						_changingBaseTime+=msecs;
 						if (_changingBaseTime>_maxChangingBaseTime)
 						{
+							CMessageChar *m0 = new CMessageChar();	
+							m0->setType(Message::AVATAR_MOVE);
+							m0->setAction(Message::CHANGE_BASE);
+							m0->setChar( _destiny - (int) _entity->getLogicalPosition()->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
+				     		_entity->emitMessage(m0,this);
+
+							LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _destiny );
+
 							_changingBase=false;
 							_changingBaseTime=0;
 							CMessageString *m2 = new CMessageString();	
@@ -140,7 +143,7 @@ namespace Logic
 							_entity->emitMessage(m2,this);
 						}
 					}
-					if (_changingRing)
+					/*if (_changingRing)
 						{
 						_changingRingTime+=msecs;
 						if (_changingRingTime>_maxChangingRingTime)
@@ -152,7 +155,7 @@ namespace Logic
 							m3->setString("marine");
 							_entity->emitMessage(m3,this);
 						}
-					}
+					}*/
 				}
 			}
 		}

@@ -84,6 +84,10 @@ namespace Logic
 		*/
 		void changeBase(int base);
 
+		void resetChangingBase(){_changingBase=false;}
+
+		bool isChangingBase(){return _changingBase;}
+
 	protected:
 
 		bool _changingBase;	
@@ -91,6 +95,8 @@ namespace Logic
 		float _changingBaseTime;
 
 		float _maxChangingBaseTime;
+
+		unsigned short _destiny;
 
 	}; // class CBaseTraveler
 

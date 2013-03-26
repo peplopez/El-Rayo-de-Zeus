@@ -85,12 +85,12 @@ namespace Logic
 
 		// Cambiamos la animación si no seguimos desplazándonos
 		// lateralmente
-		CMessageBoolString *message = new CMessageBoolString();
+		/*CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
 		message->setString("IdleKatana");
 		message->setBool(true);
 		_entity->emitMessage(message,this);
-
+		*/
 	} // stopWalk
 	
 	//---------------------------------------------------------

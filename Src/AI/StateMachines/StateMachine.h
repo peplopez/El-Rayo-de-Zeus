@@ -18,15 +18,19 @@ de ejemplo.
 #define __AI_StateMachine_H
 
 
-#include "Condition.h"
-#include "Logic/Entity/Entity.h"
 
+#include "Logic/Entity/Entity.h"
+#include "Condition.h"
 
 #include "../LatentActions/LatentAction.h"
 #include "../LatentActions/SimpleLatentActions.h"
 
 #include "../LatentActions/LAIdle.h"
 #include "../LatentActions/LA_Attack.h"
+#include "../LatentActions/LA_Run.h"
+#include "../LatentActions/LA_Jump.h"
+
+
 #include "Logic/Entity/Messages/Message.h"
 
 
@@ -179,6 +183,11 @@ namespace AI
 			int h_attack1=this->addNode(new CLA_Attack(entity,1,Message::HEAVY_ATTACK));
 			int l_attack2=this->addNode(new CLA_Attack(entity,2,Message::LIGHT_ATTACK));
 
+			int l_run=this->addNode(new CLA_Run(entity,Sense::LEFT));			
+			int r_run=this->addNode(new CLA_Run(entity,Sense::RIGHT));
+			int jumping=this->addNode(new CLA_Jump(entity));
+
+
 			//int h_attack0Fatality=this->addNode(new CLA_Attack(entity,0,Message::HEAVY_ATTACK));
 			//int h_attack1Fatality=this->addNode(new CLA_Attack(entity,1,Message::HEAVY_ATTACK));
 			int h_attack2Fatality=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
@@ -187,7 +196,29 @@ namespace AI
 			//this->addEdge(idle, l_attack, new CConditionMessage<CLatentAction>(TMessageType::CONTROL,TActionType::LIGHT_ATTACK));
 			//COMBO 1
 			this->addEdge(idle, l_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,true,Message::ANIMATION_MOMENT));
-				//((Logic::Message::CONTROL,Logic::Message::LIGHT_ATTACK));
+			this->addEdge(idle, l_run, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_LEFT,true,Message::ANIMATION_MOMENT));
+			this->addEdge(idle, r_run, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_RIGHT,true,Message::ANIMATION_MOMENT));
+
+			this->addEdge(idle, l_run, new CConditionFlagWalkingActivated(Sense::LEFT));
+			this->addEdge(idle, r_run, new CConditionFlagWalkingActivated(Sense::RIGHT));
+
+			this->addEdge(idle, jumping, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::JUMP,true,Message::ANIMATION_MOMENT));
+			this->addEdge(l_run, jumping, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::JUMP,true,Message::ANIMATION_MOMENT));
+			this->addEdge(r_run, jumping, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::JUMP,true,Message::ANIMATION_MOMENT));
+			
+			this->addEdge(jumping, idle, new CConditionFlagJumpingActivated());
+			
+
+			this->addEdge(l_run, idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_STOP,true,Message::ANIMATION_MOMENT));
+			this->addEdge(r_run, idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_STOP,true,Message::ANIMATION_MOMENT));
+			
+			this->addEdge(l_run, l_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,true,Message::ANIMATION_MOMENT));
+			this->addEdge(r_run, l_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,true,Message::ANIMATION_MOMENT));
+			this->addEdge(l_run, h_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,true,Message::ANIMATION_MOMENT));
+			this->addEdge(r_run, h_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,true,Message::ANIMATION_MOMENT));
+			
+			
+			//((Logic::Message::CONTROL,Logic::Message::LIGHT_ATTACK));
 			this->addEdge(l_attack0, idle, new CConditionFail());
 			this->addEdge(l_attack0, l_attack1,new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,false,Message::ANIMATION_MOMENT));
 			this->addEdge(l_attack1, h_attack2, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::ANIMATION_MOMENT));
