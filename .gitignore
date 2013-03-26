@@ -70,6 +70,7 @@ DocumentacionDoxygen/
 #######
 /Exes/*.*
 !/Exes/resources.cfg
+!/Exes/fmodex.dll
 !/Exes/media/audio/*.*
 
 
@@ -171,4 +172,5 @@ DocumentacionDoxygen/
 !/dependencies/include/enet/
 !/dependencies/include/fmod/
 !/dependencies/lib/*/enet.lib
+!/dependencies/lib/*/fmodex_vc.lib
 !/dependencies/luabind/bjam.exe
