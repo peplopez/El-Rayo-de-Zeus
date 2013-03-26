@@ -38,15 +38,7 @@ namespace Graphics
 			if(_name == "Mono")  // que es como llamamos al player en el mapa		
 				_entity->attachObjectToBone("Bip01 R Hand", 
 					getSceneMgr()->createEntity("weapon", "Katana.mesh")
-				);			
-
-			 
-
-			 int n = _entity->getNumSubEntities();
-
-			 Ogre::Entity::ChildObjectListIterator it = _entity->getAttachedObjectIterator();
-			 
-
+				);	
 
 			_loaded = true;
 
@@ -73,7 +65,7 @@ namespace Graphics
 			_entity = 0;
 		}
 
-	} // load
+	} // unload
 
 	
 	
