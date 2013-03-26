@@ -169,5 +169,6 @@ DocumentacionDoxygen/
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++bin/premake.lua
 !/dependencies/include/enet/
+!/dependencies/include/fmod/
 !/dependencies/lib/*/enet.lib
 !/dependencies/luabind/bjam.exe
