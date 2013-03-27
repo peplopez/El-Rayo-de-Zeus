@@ -64,6 +64,10 @@ namespace Application
 	{
 	public:
 		/**
+		quiero poder llamar a tick desde clock.cpp
+		*/
+		friend class IClock;
+		/**
 		Constructor de la clase
 		*/
 		CBaseApplication();
@@ -227,6 +231,13 @@ namespace Application
 		*/
 		virtual bool mouseReleased(const GUI::CMouseState &mouseState);
 
+		/** PeP
+		Quiero acceder al clock para intentar ponerle un timeObserver
+		@return Devuelve  un puntero al reloj
+		*/
+		IClock* getClock(){return _clock;}
+
+	
 	protected:
 
 		/**

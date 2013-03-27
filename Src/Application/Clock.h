@@ -12,7 +12,7 @@ Contiene la declaración de un interfaz para un temporizador.
 @author David Llansó
 @date Julio, 2010
 */
-
+#include <list>
 #ifndef __Application_Clock_H
 #define __Application_Clock_H
 
@@ -81,6 +81,7 @@ namespace Application
 	class IClock
 	{
 	public:
+		friend class CBaseApplication;
 		/** 
 		Constructor de la clase 
 		*/
@@ -120,25 +121,29 @@ namespace Application
 		*/
 		unsigned int getLastFrameDuration() const { return _lastFrameDuration; }
 
-		
-		void timeRequest(const unsigned long x);
-		//void timeRequest(IClockListener* timeObserver,const unsigned long x);
-	
-				/**
+		/**
 		Funcin que registra al oyente de la entidad grfica. Por 
 		simplicidad solo habr un oyente por entidad.
 		*/
-		void setTimeObserver(IClockListener* observer)
-											{_observer = observer;}
+		void addTimeObserver(std::pair<IClockListener*,unsigned long> par)
+		{
+			par.second=par.second+getTime();// así tengo el momento exacto en el que avisar
+			_timeObservers.push_back(par);
+		}
 
+		
 		/**
 		Funci?n que quita al oyente de la entidad gr?fica. Por 
 		simplicidad solo habr? un oyente por entidad.
 		*/
-		void removeTimeObserver(IClockListener* observer)
-							{if(_observer = observer) _observer = 0;}
+		void removeTimeObserver(std::pair<IClockListener*,unsigned long> par)
+		{
+			_timeObservers.remove(par);
+		}			
+
 
 	protected:
+
 
 		/**
 		 Método que devuelve la "hora física" del sistema
@@ -166,13 +171,19 @@ namespace Application
 		*/
 		unsigned int _lastFrameDuration;
 
+				/**
+		Tipo lista de CEntity donde guardaremos los pendientes de borrar.
+		*/
+		typedef std::list<std::pair<IClockListener*,unsigned long>> TTimeObserverList; //typedef std::list<CMessage*> TMessageList;
+
 		/**
-		Objeto oyente que es informado de cambios en la entidad como 
+		Lista de objetos oyentes que es informado de cambios en la entidad como 
 		la terminaci?n de los tiempos solicitados. Por simplicidad solo habr?
 		un oyente por entidad.
 		*/
-		IClockListener* _observer;	
-	}; // IClock
+		TTimeObserverList _timeObservers;
+
+		}; // IClock
 
 	
 } // namespace Application

@@ -193,6 +193,21 @@ namespace Application {
 		// El método es virtual. Si para una aplicación concreta, se
 		// identifican cosas comunes a todos los estados, se pueden
 		// añadir en la implementación del método de esa aplicación.
+		
+		//Pep: aquí implemento la comprobación de tiempo
+		if (!_clock->_timeObservers.empty())
+		{
+			IClock::TTimeObserverList::const_iterator it = _clock->_timeObservers.begin();
+			for(; it != _clock->_timeObservers.end(); it++)
+			{
+				if (_clock->getTime()>=(*it).second)
+				{
+					(*it).first->timeArrived();
+					_clock->removeTimeObserver((*it));
+					break;
+				}
+			}
+		}
 
 		if (_currentState)
 			_currentState->tick(msecs);
