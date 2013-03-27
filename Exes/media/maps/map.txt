@@ -25,7 +25,7 @@ Map ={
 		type = "PUThrone",
 		base=3,
 		ring=0,
-		degrees=150,
+		degrees=270,
 		lifeModifier=10,
 	},
 	puPandora1 = {
@@ -39,7 +39,7 @@ Map ={
 		type = "PUPoison",
 		base=3,
 		ring=1,
-		degrees=180,
+		degrees=30,
 		lifeModifier=-20,
 	},
 	puTime1 = {

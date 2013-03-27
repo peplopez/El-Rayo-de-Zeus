@@ -59,7 +59,7 @@ namespace Graphics
 
 		// UNDONE FRS Necesario?
 			//_entity->detachAllObjectsFromBone(); // TODO Necesario hacer detach y destroy en arbol?
-			//getSceneMgr()->destroyEntity( "weapon" );
+			//getSceneMgr()->destroyEntity( "weapon" ); FRS este destroy se ejecuta cuando cualquier entidad muere...
 		//
 			getSceneMgr()->destroyEntity(_entity);
 			_entity = 0;

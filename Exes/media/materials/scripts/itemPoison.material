@@ -13,23 +13,6 @@ material NoMaterial
 
 
 
-material oro
-{
-	technique
-	{
-		pass
-		{
-			ambient 0 0 0 1
-			diffuse 0.964706 0.635294 0.0588235 1
-			specular 1 1 1 1 53
-		}
-
-	}
-
-}
-
-
-
 material bomba
 {
 	technique
@@ -44,9 +27,9 @@ material bomba
 
 			texture_unit
 			{
-				texture pu_Poison.png
+				texture poison.png
 				tex_address_mode clamp clamp
-				transform 2.7 0 0 0 0 1.7 0 0.02 0 0 1 0 0 0 0 1
+				transform 1.9 0 0 0 0 1.6 0 0.02 0 0 1 0 0 0 0 1
 			}
 		}
 

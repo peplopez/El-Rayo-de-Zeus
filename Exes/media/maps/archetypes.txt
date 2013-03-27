@@ -107,7 +107,7 @@ Map = {
 	
 	PUApple = {
 		type = "PowerUp",
-		model = "pu_Apple.mesh",
+		model = "puApple.mesh",
 		scaleFactor = 0.2,
 		logicInput=true,
 		hpModifier=10,	
@@ -117,7 +117,7 @@ Map = {
 	},
 	PUThrone = {
 		type = "PowerUp",
-		model = "pu_Throne.mesh",
+		model = "puThrone.mesh",
 		scaleFactor = 0.2,
 		logicInput=true,
 		hpModifier=10,	
@@ -127,7 +127,7 @@ Map = {
 	},
 	PUPandora = {
 		type = "PowerUp",
-		model = "pu_Pandora.mesh",
+		model = "puPandora.mesh",
 		scaleFactor = 0.2,
 		sense = 1,
 		logicInput=true,
@@ -138,7 +138,7 @@ Map = {
 	},
 	PUPoison = {
 		type = "PowerUp",
-		model = "pu_Poison.mesh",
+		model = "puPoison.mesh",
 		scaleFactor = 0.2,
 		logicInput=true,
 		hpModifier=10,	
@@ -148,7 +148,7 @@ Map = {
 	},
 	PUTime = {
 		type = "PowerUp",
-		model = "pu_Time.mesh",
+		model = "puClock.mesh",
 		scaleFactor = 0.2,
 		logicInput=true,
 		hpModifier=10,	

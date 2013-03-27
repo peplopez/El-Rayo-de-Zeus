@@ -1,21 +1,4 @@
 
-material oro
-{
-	technique
-	{
-		pass
-		{
-			ambient 0 0 0 1
-			diffuse 0.964706 0.635294 0.0588235 1
-			specular 1 1 1 1 53
-		}
-
-	}
-
-}
-
-
-
 material Tapadelrelojdearena
 {
 	technique
