@@ -200,10 +200,10 @@ namespace Application {
 			IClock::TTimeObserverList::const_iterator it = _clock->_timeObservers.begin();
 			for(; it != _clock->_timeObservers.end(); it++)
 			{
-				if (_clock->getTime()>=(*it).second)
+				if (_clock->getTime()>=(*it).second.second)
 				{
-					(*it).first->timeArrived();
-					_clock->removeTimeObserver((*it));
+					(*it).second.first->timeArrived();
+					_clock->removeTimeObserver((*it).first);
 					break;
 				}
 			}

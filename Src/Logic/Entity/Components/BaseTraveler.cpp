@@ -43,7 +43,7 @@ namespace Logic
 	
 	void CBaseTraveler::timeArrived()
 	{
-		if (_changingBase)
+		if (_changingBase && !this->isChangingRing())
 		{
 			LOG("EXITO");
 			CMessageChar *m0 = new CMessageChar();	
@@ -54,8 +54,6 @@ namespace Logic
 
 			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _destiny );
 
-			_changingBase=false;
-			_changingBaseTime=0;
 			CMessageString *m2 = new CMessageString();	
 			m2->setType(Message::SET_MATERIAL);
 			m2->setString("marine");
@@ -63,6 +61,10 @@ namespace Logic
 		}
 		else
 				CRingTraveler::timeArrived();
+
+		_changingBase=false;
+		_changingBaseTime=0;
+			
 	
 	}
 	//---------------------------------------------------------

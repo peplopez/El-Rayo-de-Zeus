@@ -161,7 +161,7 @@ namespace Audio
 		& canal); // devuelve el canal que asigna
 		ERRCHECK(result);
 		// el sonido ya está reproduciendo!!
-		float volume=0.7; // valor entre 0 y 1
+		float volume=0.7f; // valor entre 0 y 1
 		result = canal->setVolume(volume);
 		ERRCHECK(result);
 
@@ -198,7 +198,7 @@ namespace Audio
 		& canal); // devuelve el canal que asigna
 		ERRCHECK(result);
 		// el sonido ya está reproduciendo!!
-		float volume=0.7; // valor entre 0 y 1
+		float volume=0.7f; // valor entre 0 y 1
 		result = canal->setVolume(volume);
 		ERRCHECK(result);
 
@@ -235,7 +235,7 @@ namespace Audio
 		& canal); // devuelve el canal que asigna
 		ERRCHECK(result);
 		// el sonido ya está reproduciendo!!
-		float volume=0.7; // valor entre 0 y 1
+		float volume=0.7f; // valor entre 0 y 1
 		result = canal->setVolume(volume);
 		ERRCHECK(result);
 
@@ -277,7 +277,7 @@ namespace Audio
 		& canal); // devuelve el canal que asigna
 		ERRCHECK(result);
 		// el sonido ya está reproduciendo!!
-		float volume=0.7; // valor entre 0 y 1
+		float volume=0.7f; // valor entre 0 y 1
 		result = canal->setVolume(volume);
 		ERRCHECK(result);
 
@@ -346,7 +346,7 @@ namespace Audio
 		& canal); // devuelve el canal que asigna
 		ERRCHECK(result);
 		// el sonido ya está reproduciendo!!
-		float volume=0.7; // valor entre 0 y 1
+		float volume=0.7f; // valor entre 0 y 1
 		result = canal->setVolume(volume);
 		ERRCHECK(result);
 
@@ -383,7 +383,7 @@ namespace Audio
 		& canal); // devuelve el canal que asigna
 		ERRCHECK(result);
 		// el sonido ya está reproduciendo!!
-		float volume=0.7; // valor entre 0 y 1
+		float volume=0.7f; // valor entre 0 y 1
 		result = canal->setVolume(volume);
 		ERRCHECK(result);
 

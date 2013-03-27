@@ -12,7 +12,7 @@ Contiene la declaración de un interfaz para un temporizador.
 @author David Llansó
 @date Julio, 2010
 */
-#include <list>
+#include <map>
 #ifndef __Application_Clock_H
 #define __Application_Clock_H
 
@@ -125,10 +125,11 @@ namespace Application
 		Funcin que registra al oyente de la entidad grfica. Por 
 		simplicidad solo habr un oyente por entidad.
 		*/
-		void addTimeObserver(std::pair<IClockListener*,unsigned long> par)
-		{
-			par.second=par.second+getTime();// así tengo el momento exacto en el que avisar
-			_timeObservers.push_back(par);
+		void addTimeObserver(int index, IClockListener* listener, unsigned long time)
+		{//std::pair<IClockListener*,unsigned long> par
+			std::pair<IClockListener*,unsigned long> par= std::pair<IClockListener*,unsigned long>(listener,time+getTime());
+			//par.second=par.second+getTime();// así tengo el momento exacto en el que avisar
+			_timeObservers[index]=par;
 		}
 
 		
@@ -136,9 +137,9 @@ namespace Application
 		Funci?n que quita al oyente de la entidad gr?fica. Por 
 		simplicidad solo habr? un oyente por entidad.
 		*/
-		void removeTimeObserver(std::pair<IClockListener*,unsigned long> par)
+		void removeTimeObserver(int index)
 		{			
-			_timeObservers.remove(par);
+			_timeObservers.erase(index);
 		}			
 
 
@@ -174,7 +175,8 @@ namespace Application
 				/**
 		Tipo lista de CEntity donde guardaremos los pendientes de borrar.
 		*/
-		typedef std::list<std::pair<IClockListener*,unsigned long>> TTimeObserverList; //typedef std::list<CMessage*> TMessageList;
+		//typedef std::list<std::pair<IClockListener*,unsigned long>> TTimeObserverList; //typedef std::list<CMessage*> TMessageList;
+		typedef std::map<int, std::pair<IClockListener*,unsigned long>> TTimeObserverList; //typedef std::list<CMessage*> TMessageList;
 
 		/**
 		Lista de objetos oyentes que es informado de cambios en la entidad como 

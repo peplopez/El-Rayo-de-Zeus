@@ -40,7 +40,9 @@ namespace AI
 		{
 		case Message::CHANGE_BASE:
 			{	//activo un reloj
-				_reloj->addTimeObserver(std::pair<IClockListener*,unsigned long>(this,_maxChangingBaseTime));		
+				//(int index, IClockListener* listener, unsigned long time)
+				_reloj->addTimeObserver(0,this,_maxChangingBaseTime);
+					//std::pair<IClockListener*,unsigned long>(this,_maxChangingBaseTime));		
 				
 				CMessageString *m = new CMessageString();	
 				m->setType(Message::SET_MATERIAL);
@@ -50,8 +52,8 @@ namespace AI
 			}
 			case Message::CHANGE_RING:
 			{	//activo un reloj
-				_reloj->addTimeObserver(std::pair<IClockListener*,unsigned long>(this,_maxChangingRingTime));		
-				
+			//	_reloj->addTimeObserver(std::pair<IClockListener*,unsigned long>(this,_maxChangingRingTime));		
+				_reloj->addTimeObserver(1,this,_maxChangingRingTime);
 				CMessageString *m = new CMessageString();	
 				m->setType(Message::SET_MATERIAL);
 				m->setString("transito");
@@ -72,6 +74,8 @@ namespace AI
 	void CLA_Change::OnStop()
 	{
 		std::cout<<"AI::StateMachine::ChangeSALIENDO"<<std::endl;	
+		_reloj->removeTimeObserver(0);		
+		_reloj->removeTimeObserver(1);			
 		awakeComponents();
 	}
 
@@ -108,6 +112,8 @@ namespace AI
 		// Cuando se aborta se queda en estado terminado con fallo
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)
 		{
+			_reloj->removeTimeObserver(0);		
+			_reloj->removeTimeObserver(1);		
 			_entity->getComponent<CBaseTraveler>()->resetChangingBase();			
 			_entity->getComponent<CBaseTraveler>()->resetChangingRing();
 		}
@@ -148,8 +154,8 @@ namespace AI
 		{
 			case Message::CONTROL: //si estamos aquí es que el jugador quiere aprovechar la oportunidad que tenia de realizar un combo. Dependiendo de 
 			{
-				if (_action==Message::CHANGE_BASE)
-				{
+				if (_action==Message::CHANGE_BASE)				{
+					
 					CMessageString *m2 = new CMessageString();	
 					m2->setType(Message::SET_MATERIAL);
 					m2->setString("marine");
@@ -157,7 +163,7 @@ namespace AI
 					finish(false);
 				}
 				if (_action==Message::GO_DOWN || _action==Message::GO_UP)
-				{
+				{			
 					CMessageString *m2 = new CMessageString();	
 					m2->setType(Message::SET_MATERIAL);
 					m2->setString("marine");
