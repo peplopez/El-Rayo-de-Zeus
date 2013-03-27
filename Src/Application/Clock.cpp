@@ -14,6 +14,7 @@ Contiene la implementación de un interfaz para un temporizador.
 */
 
 #include "Clock.h"
+#include "BaseApplication.h"
 
 namespace Application {
 
@@ -21,6 +22,20 @@ namespace Application {
 		unsigned long newTime = getPhysicalTime();
 		_lastFrameDuration = newTime - _lastTime;
 		_lastTime = newTime;
+	}
+
+	void IClock::timeRequest(const unsigned long x)//		void timeRequest(IClockListener* timeObserver,const unsigned long x);
+	{
+		unsigned long initialTime = getPhysicalTime();		
+		unsigned long destityTime = getPhysicalTime()+x;
+		
+	do{
+		//_contando++;
+		//
+		updateTime();
+		} while (_lastTime<destityTime);
+	
+		_observer->timeArrived();
 	}
 
 } // namespace Application

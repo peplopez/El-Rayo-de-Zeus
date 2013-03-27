@@ -12,6 +12,8 @@ gráfica de la entidad.
 */
 
 #include "Logic/Entity/Entity.h"
+#include "../../../Application/OgreClock.h" 
+#include "../../../Application/BaseApplication.h" 
 
 #include "Logic/Entity/Components/BaseTraveler.h"
 
@@ -19,6 +21,8 @@ gráfica de la entidad.
 #include "Logic/Entity/Messages/MessageChar.h"
 #include "Logic/Entity/Messages/MessageUShort.h"
 #include "Logic/Entity/Messages/MessageString.h"
+
+
 
 #define DEBUG 1
 #if DEBUG
@@ -35,11 +39,13 @@ namespace Logic
 	//---------------------------------------------------------
 
 	CBaseTraveler::~CBaseTraveler() 
-	{
-
-
-	} // ~CGraphics
+	{	} // ~CGraphics
 	
+	void CBaseTraveler::timeArrived()
+	{
+		LOG("EXITO");
+
+	}
 	//---------------------------------------------------------
 
 	bool CBaseTraveler::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
@@ -47,6 +53,12 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;		
 
+		// Creamos el reloj basado en Ogre.
+		//COgreClock
+		//_reloj = new Application::COgreClock();
+		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
+		_reloj->setTimeObserver(this);//este se quitaria
+		
 		return true;
 
 	} // spawn
@@ -68,6 +80,7 @@ namespace Logic
 	{
 		CRingTraveler::process(message);
 		CMessageUShort *maux = static_cast<CMessageUShort*>(message); // TODO FRS esto podría ser char...
+		
 		switch(message->getType())
 		{
 		case Message::CONTROL:
@@ -75,6 +88,8 @@ namespace Logic
 			{
 				_destiny=maux->getUShort();
 				_changingBase=true;		
+				_reloj->timeRequest(1000);
+				//_reloj->timeRequest(this, 5000);				
 			}
 		}
 

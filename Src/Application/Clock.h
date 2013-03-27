@@ -18,6 +18,28 @@ Contiene la declaración de un interfaz para un temporizador.
 
 namespace Application 
 {
+		/**
+	Esta clase debe ser implementada por las clases que quieren
+	registrarse en una entidad animada para enterarse de cuando
+	terminan las animaciones de ésta.
+	
+	@ingroup graphicsGroup
+
+	@author David Llansó
+	@date Julio, 2010
+	*/
+	class IClockListener 
+	{
+	public:
+
+		/**
+		Método que te avisa pasado un tiempo
+
+		@param animation Nombre de la animaci?n terminada.
+		*/
+		virtual void timeArrived()=0;
+
+	}; // CAnimatedEntityListener
 	/**
 	Reloj de la aplicación, que sirve para controlar el tiempo de la
 	aplicación.
@@ -55,6 +77,7 @@ namespace Application
 	@author David Llansó, Marco Antonio Gómez Martín
 	@date Agosto, 2010
 	*/
+
 	class IClock
 	{
 	public:
@@ -97,6 +120,24 @@ namespace Application
 		*/
 		unsigned int getLastFrameDuration() const { return _lastFrameDuration; }
 
+		
+		void timeRequest(const unsigned long x);
+		//void timeRequest(IClockListener* timeObserver,const unsigned long x);
+	
+				/**
+		Funcin que registra al oyente de la entidad grfica. Por 
+		simplicidad solo habr un oyente por entidad.
+		*/
+		void setTimeObserver(IClockListener* observer)
+											{_observer = observer;}
+
+		/**
+		Funci?n que quita al oyente de la entidad gr?fica. Por 
+		simplicidad solo habr? un oyente por entidad.
+		*/
+		void removeTimeObserver(IClockListener* observer)
+							{if(_observer = observer) _observer = 0;}
+
 	protected:
 
 		/**
@@ -125,8 +166,15 @@ namespace Application
 		*/
 		unsigned int _lastFrameDuration;
 
+		/**
+		Objeto oyente que es informado de cambios en la entidad como 
+		la terminaci?n de los tiempos solicitados. Por simplicidad solo habr?
+		un oyente por entidad.
+		*/
+		IClockListener* _observer;	
 	}; // IClock
 
+	
 } // namespace Application
 
 #endif //  __Application_Clock_H

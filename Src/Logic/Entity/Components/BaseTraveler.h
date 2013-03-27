@@ -15,11 +15,18 @@ de los elementos del juego
 
 #include "Logic/Entity/Component.h"
 #include "RingTraveler.h"
+#include "../../../Application/Clock.h"
+
 
 namespace Logic
 {
-	class CMessage;
+	class CMessage;	
 }
+/*namespace Application
+{
+class IClock;
+}*/
+
 //declaración de la clase
 namespace Logic 
 {
@@ -32,7 +39,7 @@ namespace Logic
 	@author Jose Luis López Sánchez
 	@date Febrero, 2013
 */
-	class CBaseTraveler :  public CRingTraveler
+	class CBaseTraveler :  public CRingTraveler, public Application::IClockListener
 	{
 		DEC_FACTORY(CBaseTraveler);
 	public:
@@ -41,7 +48,9 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CBaseTraveler() : CRingTraveler(GetAltTypeIdOf(CBaseTraveler)),_changingBase(false),_changingBaseTime(0),_maxChangingBaseTime(5000) {}
+		CBaseTraveler() : CRingTraveler(GetAltTypeIdOf(CBaseTraveler)),_changingBase(false),_changingBaseTime(0),_maxChangingBaseTime(2500), _reloj(0)
+		{				
+		}
 
 		/**
 		Destructor (virtual); Quita de la escena y destruye la entidad gráfica.
@@ -82,6 +91,17 @@ namespace Logic
 
 		bool isChangingBase(){return _changingBase;}
 
+		////////////////////////////////////////
+		// Métodos de IClockListener //
+		////////////////////////////////////////
+		/**
+		Método que será invocado siempre que se termine una animación.
+		Las animaciones en cíclicas no invocarán nunca este método.
+
+		@param animation Nombre de la animación terminada.
+		*/
+		void timeArrived();
+	
 	protected:
 
 		bool _changingBase;	
@@ -91,6 +111,8 @@ namespace Logic
 		float _maxChangingBaseTime;
 
 		unsigned short _destiny;
+
+		Application::IClock* _reloj;
 
 	}; // class CBaseTraveler
 
