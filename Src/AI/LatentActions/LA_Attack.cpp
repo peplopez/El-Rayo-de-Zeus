@@ -32,8 +32,8 @@ namespace AI
 		
 		//Desactivación de componentes
 		sleepComponents();
-		std::cout<<_initialCombatState<<std::endl;		
-		std::cout<<(int)_action<<std::endl;
+		std::cout<<"AI::INITIALCOMBATSTATE: "+_initialCombatState<<std::endl;		
+		std::cout<<"AI::INITIA_ACTION: "+(int)_action<<std::endl;
 		switch(_initialCombatState)
 		{
 			case 0:
@@ -153,6 +153,7 @@ namespace AI
 	CLatentAction::LAStatus CLA_Attack::OnAbort() 
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
+		if (_entity->getComponent<CAttack>()!=NULL)
 		_entity->getComponent<CAttack>()->resetAttackFlags();
 	
 		return FAIL;

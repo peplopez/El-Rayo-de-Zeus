@@ -9,7 +9,7 @@ Contiene la implementación de la clase principal de audio, llevará el control de
 
 @see Audio::CServer
 
-@author Jose Antonio García Yáñez
+@author Jose 
 @date Marzo, 2013
 */
 

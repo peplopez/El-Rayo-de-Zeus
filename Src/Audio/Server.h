@@ -6,7 +6,7 @@ la gestión del audio en el juego.
 
 @see Audio::CServer
 
-@author Jose Antonio García Yáñez
+@author Jose 
 @date Marzo, 2013
 */
 #ifndef __Audio_Server_H
@@ -36,7 +36,7 @@ namespace Audio
 	implementado como un singlenton de inicialización explícita. Sirve 
 	para comunicar a FMOD los eventos de sonido que tenga que reproducir.
 
-	@author Jose Antonio García Yáñez
+	@author Jose
 	@date Marzo, 2013
 	*/
 	class CServer

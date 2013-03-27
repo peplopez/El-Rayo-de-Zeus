@@ -17,8 +17,6 @@ de ejemplo.
 #ifndef __AI_StateMachine_H
 #define __AI_StateMachine_H
 
-
-
 #include "Logic/Entity/Entity.h"
 #include "Condition.h"
 
@@ -29,7 +27,7 @@ de ejemplo.
 #include "../LatentActions/LA_Attack.h"
 #include "../LatentActions/LA_Run.h"
 #include "../LatentActions/LA_Jump.h"
-
+#include "../LatentActions/LA_Change.h"
 
 #include "Logic/Entity/Messages/Message.h"
 
@@ -187,6 +185,9 @@ namespace AI
 			int r_run=this->addNode(new CLA_Run(entity,Sense::RIGHT));
 			int jumping=this->addNode(new CLA_Jump(entity));
 
+			int changingBase=this->addNode(new CLA_Change(entity,Message::CHANGE_BASE));			
+			int changingRing=this->addNode(new CLA_Change(entity,Message::CHANGE_RING));
+
 
 			//int h_attack0Fatality=this->addNode(new CLA_Attack(entity,0,Message::HEAVY_ATTACK));
 			//int h_attack1Fatality=this->addNode(new CLA_Attack(entity,1,Message::HEAVY_ATTACK));
@@ -241,8 +242,17 @@ namespace AI
 			this->addEdge(h_attack1, idle, new CConditionFail());
 			this->addEdge(h_attack2Fatality, idle, new CConditionFail());
 			
+			//solo hago posible viajar desde idle
+			this->addEdge(idle, changingBase, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::CHANGE_BASE,true,Message::ANIMATION_MOMENT));
+			this->addEdge(idle, changingRing, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_DOWN,true,Message::ANIMATION_MOMENT));
+			this->addEdge(idle, changingRing, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_UP,true,Message::ANIMATION_MOMENT));
+			this->addEdge(changingBase, idle, new CConditionFinished());
+			this->addEdge(changingRing, idle, new CConditionFinished());
+			//this->addEdge(changingBase, idle, new CConditionSuccess());
+			//this->addEdge(changingRing, idle, new CConditionSuccess());
 			
-		
+			
+
 			//this->addEdge(routeTo, routeTo, new CConditionFail() );
 			//this->addEdge(wait, routeTo, new CConditionFinished() );
 			// Por último hay que decir cuál es el nodo inicial.

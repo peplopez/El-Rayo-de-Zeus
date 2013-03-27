@@ -39,26 +39,31 @@ namespace Logic
 	//---------------------------------------------------------
 
 	CBaseTraveler::~CBaseTraveler() 
-	{	} // ~CGraphics
+	{	} // ~CBaseTraveler
 	
 	void CBaseTraveler::timeArrived()
 	{
-		LOG("EXITO");
-		CMessageChar *m0 = new CMessageChar();	
-		m0->setType(Message::AVATAR_MOVE);
-		m0->setAction(Message::CHANGE_BASE);
-		m0->setChar( _destiny - (int) _entity->getLogicalPosition()->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
-		_entity->emitMessage(m0,this);
+		if (_changingBase)
+		{
+			LOG("EXITO");
+			CMessageChar *m0 = new CMessageChar();	
+			m0->setType(Message::AVATAR_MOVE);
+			m0->setAction(Message::CHANGE_BASE);
+			m0->setChar( _destiny - (int) _entity->getLogicalPosition()->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
+			_entity->emitMessage(m0,this);
 
-		LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _destiny );
+			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _destiny );
 
-		_changingBase=false;
-		_changingBaseTime=0;
-		CMessageString *m2 = new CMessageString();	
-		m2->setType(Message::SET_MATERIAL);
-		m2->setString("marine");
-		_entity->emitMessage(m2,this);			
-
+			_changingBase=false;
+			_changingBaseTime=0;
+			CMessageString *m2 = new CMessageString();	
+			m2->setType(Message::SET_MATERIAL);
+			m2->setString("marine");
+			_entity->emitMessage(m2,this);
+		}
+		else
+				CRingTraveler::timeArrived();
+	
 	}
 	//---------------------------------------------------------
 
@@ -67,8 +72,6 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;		
 
-		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
-		
 		return true;
 
 	} // spawn
@@ -98,8 +101,6 @@ namespace Logic
 			{
 				_destiny=maux->getUShort();
 				_changingBase=true;
-				//Le pedimos al servidor de tiempo que nos avise dento de 2000 milisegundos.
-				_reloj->addTimeObserver(std::pair<IClockListener*,unsigned long>(this,3000));		
 			}
 		}
 
@@ -115,46 +116,11 @@ namespace Logic
 			{
 				if(_entity->isPlayer())
 				{
-					CMessageString *m = new CMessageString();	
+				/*	CMessageString *m = new CMessageString();	
 					m->setType(Message::SET_MATERIAL);
 					m->setString("transito");
 					_entity->emitMessage(m,this);
-
-					/*if (_changingBase)
-					{
-						_changingBaseTime+=msecs;
-						if (_changingBaseTime>_maxChangingBaseTime)
-						{
-							CMessageChar *m0 = new CMessageChar();	
-							m0->setType(Message::AVATAR_MOVE);
-							m0->setAction(Message::CHANGE_BASE);
-							m0->setChar( _destiny - (int) _entity->getLogicalPosition()->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
-				     		_entity->emitMessage(m0,this);
-
-							LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _destiny );
-
-							_changingBase=false;
-							_changingBaseTime=0;
-							CMessageString *m2 = new CMessageString();	
-							m2->setType(Message::SET_MATERIAL);
-							m2->setString("marine");
-							_entity->emitMessage(m2,this);
-						}
-					}*/
-					/*if (_changingRing)
-						{
-						_changingRingTime+=msecs;
-						if (_changingRingTime>_maxChangingRingTime)
-						{
-							_changingRing=false;
-							_changingRingTime=0;
-							CMessageString *m3 = new CMessageString();	
-							m3->setType(Message::SET_MATERIAL);
-							m3->setString("marine");
-							_entity->emitMessage(m3,this);
-						}
-					}*/
-				}
+				*/}
 			}
 		}
 

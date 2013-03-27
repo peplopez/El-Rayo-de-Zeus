@@ -1,20 +1,20 @@
 /**
-@file CLA_Run.h
+@file CLA_Idle.h
 
 En este fichero se implementan algunas acciones 
 latentes básicas.
 
 @author Jose Luis Löpez
 @date Marzo 2013
-
 */
+
 #pragma once
 
-#ifndef __AI_RUNLatentActions_H
-#define __AI_RUNLatentActions_H
+#ifndef __AI_CHANGELatentActions_H
+#define __AI_CHANGELatentActions_H
 
 #include "LatentAction.h"
-
+#include "../../Application/Clock.h"
 #include "Logic/Entity/Entity.h"
 
 using namespace Logic;
@@ -25,7 +25,7 @@ namespace AI
 	/**
 	Esta acción espera durante un periodo de tiempo indicado en el constructor.
 	*/
-	class CLA_Run : public CLatentAction
+	class CLA_Change : public CLatentAction, public Application::IClockListener
 	{
 	public:
 		/**
@@ -33,11 +33,11 @@ namespace AI
 		
 		@param time Tiempo de espera
 		*/
-		CLA_Run(CEntity* entity, Sense sentido) : CLatentAction() {this->setEntity(entity); _sense=sentido;};
+		CLA_Change(CEntity* entity, Message::TActionType action) : CLatentAction(),_maxChangingRingTime(1500),_maxChangingBaseTime(2500) {this->setEntity(entity);_action=action;};
 		/**
 		Destructor
 		*/
-		~CLA_Run() {};
+		~CLA_Change() {};
 
 		/**
 		Método invocado al principio de la ejecución de la acción,
@@ -104,15 +104,33 @@ namespace AI
 		@param msg Mensaje recibido.
 		*/
 		virtual void process( CMessage *message);
+		
 		virtual void sleepComponents();
 
 		virtual void awakeComponents();
+				////////////////////////////////////////
+		// Métodos de IClockListener //
+		////////////////////////////////////////
+		/**
+		Método que será invocado siempre que se termine una animación.
+		Las animaciones en cíclicas no invocarán nunca este método.
 
+		@param animation Nombre de la animación terminada.
+		*/
+		void timeArrived();
 
 	protected:
-		Sense _sense;
+		
+		unsigned short _initialCombatState;
+
+		Message::TActionType _action;
+
+		float _maxChangingBaseTime;
+
+		float _maxChangingRingTime;
+		Application::IClock* _reloj;
 	};
 
 } //namespace AI 
 
-#endif // __LOGIC_IDLELatentActions_H
+#endif // __AI_CHANGELatentActions_H

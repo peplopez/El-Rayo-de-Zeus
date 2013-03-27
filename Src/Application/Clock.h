@@ -137,7 +137,7 @@ namespace Application
 		simplicidad solo habr? un oyente por entidad.
 		*/
 		void removeTimeObserver(std::pair<IClockListener*,unsigned long> par)
-		{
+		{			
 			_timeObservers.remove(par);
 		}			
 

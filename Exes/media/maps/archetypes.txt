@@ -85,7 +85,7 @@ Map = {
 	
 	OtherPlayer = {
 		type = "OtherPlayer",
-		model = "loco.mesh",
+		model = "corriendo.mesh",
 		logicInput=true,
 		base=3,
 		ring=1,
@@ -99,7 +99,7 @@ Map = {
 		lifeBarHeight = 1.0,	
 		lifeBase = 3,		
 		angularSpeed = 0.0325,
-		defaultAnimation = "Idle",
+		defaultAnimation = "spartan_run",
 		logicInput=true,
 		jumpPower = 0.08,
 		gravity = 0.1,

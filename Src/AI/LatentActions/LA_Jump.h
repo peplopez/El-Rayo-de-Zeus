@@ -11,8 +11,8 @@ latentes básicas.
 
 #pragma once
 
-#ifndef __LOGIC_JUMPLatentActions_H
-#define __LOGIC_JUMPLatentActions_H
+#ifndef __AI_JUMPLatentActions_H
+#define __AI_JUMPLatentActions_H
 
 #include "LatentAction.h"
 

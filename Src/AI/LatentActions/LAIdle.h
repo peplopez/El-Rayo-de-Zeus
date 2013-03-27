@@ -11,8 +11,8 @@ latentes básicas.
 
 #pragma once
 
-#ifndef __LOGIC_IDLELatentActions_H
-#define __LOGIC_IDLELatentActions_H
+#ifndef __AI_IDLELatentActions_H
+#define __AI_IDLELatentActions_H
 
 #include "LatentAction.h"
 

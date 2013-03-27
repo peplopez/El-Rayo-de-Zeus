@@ -10,8 +10,8 @@ latentes básicas.
 
 #pragma once
 
-#ifndef __LOGIC_ATTACKLatentActions_H
-#define __LOGIC_ATTACKLatentActions_H
+#ifndef __AI_ATTACKLatentActions_H
+#define __AI_ATTACKLatentActions_H
 
 #include "LatentAction.h"
 

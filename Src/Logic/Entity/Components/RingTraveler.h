@@ -39,9 +39,10 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CRingTraveler() : IComponent(GetAltTypeIdOf(CRingTraveler)),_changingRing(false),_changingRingTime(0),_maxChangingRingTime(1000),_toUp(1) {}
+		CRingTraveler() : IComponent(GetAltTypeIdOf(CRingTraveler)),_changingRing(false),_changingRingTime(0),_toUp(1) {}
 
-		CRingTraveler(altTypeId id) : IComponent(id),_changingRing(false),_changingRingTime(0),_maxChangingRingTime(2000) {}
+		CRingTraveler(altTypeId id) : IComponent(id),_changingRing(false),_changingRingTime(0)
+		{}
 
 		/**
 		Destructor (virtual); Quita de la escena y destruye la entidad gráfica.
@@ -92,6 +93,12 @@ namespace Logic
 
 		bool isChangingRing(){return _changingRing;}
 
+		/**
+		Método que será invocado siempre que se termine una el reloj 
+		llegue al evento solicitado desde la máquina de estados.		
+		*/
+		void timeArrived();
+
 	protected:
 
 		bool _changingRing;	
@@ -99,8 +106,6 @@ namespace Logic
 		char _toUp;
 
 		float _changingRingTime;
-		
-		float _maxChangingRingTime;
 
 	}; // class CRingTraveler
 

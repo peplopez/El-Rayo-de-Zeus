@@ -39,7 +39,7 @@ namespace Logic
 	@author Jose Luis López Sánchez
 	@date Febrero, 2013
 */
-	class CBaseTraveler :  public CRingTraveler, public Application::IClockListener
+	class CBaseTraveler :  public CRingTraveler
 	{
 		DEC_FACTORY(CBaseTraveler);
 	public:
@@ -48,7 +48,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CBaseTraveler() : CRingTraveler(GetAltTypeIdOf(CBaseTraveler)),_changingBase(false),_changingBaseTime(0),_maxChangingBaseTime(2500), _reloj(0)
+		CBaseTraveler() : CRingTraveler(GetAltTypeIdOf(CBaseTraveler)),_changingBase(false),_changingBaseTime(0)
 		{				
 		}
 
@@ -91,14 +91,9 @@ namespace Logic
 
 		bool isChangingBase(){return _changingBase;}
 
-		////////////////////////////////////////
-		// Métodos de IClockListener //
-		////////////////////////////////////////
 		/**
-		Método que será invocado siempre que se termine una animación.
-		Las animaciones en cíclicas no invocarán nunca este método.
-
-		@param animation Nombre de la animación terminada.
+		Método que será invocado siempre que se termine una el reloj 
+		llegue al evento solicitado desde la máquina de estados.		
 		*/
 		void timeArrived();
 	
@@ -108,11 +103,9 @@ namespace Logic
 
 		float _changingBaseTime;
 
-		float _maxChangingBaseTime;
-
 		unsigned short _destiny;
 
-		Application::IClock* _reloj;
+
 
 	}; // class CBaseTraveler
 

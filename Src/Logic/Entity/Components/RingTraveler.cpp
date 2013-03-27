@@ -36,17 +36,34 @@ namespace Logic
 
 	CRingTraveler::~CRingTraveler() 
 	{
-
-
-	} // ~CGraphics
+	} // ~CGRingTraveler
 	
+	void CRingTraveler::timeArrived()
+	{
+		if (_changingRing)
+		{
+			CMessageChar *m0 = new CMessageChar();	
+			m0->setType(Message::AVATAR_MOVE);
+			m0->setAction(Message::CHANGE_RING);		
+			m0->setChar(_toUp);
+			_entity->emitMessage(m0,this);	
+			LOG("Change Ring: " << (int) m0->getChar() );
+							
+			_changingRing=false;
+			_changingRingTime=0;
+			CMessageString *m3 = new CMessageString();	
+			m3->setType(Message::SET_MATERIAL);
+			m3->setString("marine");
+			_entity->emitMessage(m3,this);
+		}
+	}
+
 	//---------------------------------------------------------
 
 	bool CRingTraveler::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
-			return false;
-		
+			return false;		
 
 		return true;
 
@@ -76,31 +93,6 @@ namespace Logic
 	
  	} // process
 
-	
-	// UNDONE ƒ®§
-	//void CRingTraveler::goDown()
-	//{
-	//	//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
-	//	_changingRing=true;
-
-	//	CMessageInt *m = new CMessageInt();	
-	//		m->setType(Message::AVATAR_MOVE);
-	//		m->setAction(Message::CHANGE_RING);		
-	//		m->setInt(-1); // -1 Anillo
-	//	_entity->emitMessage(m,this);	
-	//}
-	//	
-	//void CRingTraveler::goUp()
-	//{
-	//	_changingRing=true;
-
-	//	CMessageInt *m = new CMessageInt();	
-	//		m->setType(Message::AVATAR_MOVE);
-	//		m->setAction(Message::CHANGE_RING);		
-	//		m->setInt(1); // +1 Anillo
-	//	_entity->emitMessage(m,this);		
-	//}
-
 	void CRingTraveler::tick(unsigned int msecs)
 	{
 			IComponent::tick(msecs);
@@ -109,7 +101,7 @@ namespace Logic
 			{
 				if(_entity->isPlayer())
 				{
-
+/*
 			CMessageString *m = new CMessageString();	
 					m->setType(Message::SET_MATERIAL);
 					m->setString("transito");
@@ -136,9 +128,10 @@ namespace Logic
 							_entity->emitMessage(m3,this);
 						}
 					}
-				}
-			}
+				
+			*/}
 		}
+	}
 
 } // namespace Logic
 
