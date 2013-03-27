@@ -89,6 +89,9 @@ namespace Graphics
 
 		bool isStatic() const { return _isStatic; }
 
+		void attachToHand(const std::string &meshName);
+		void deattachToHand(const std::string &meshName);
+
 		/**
 		*/
 		void setMaterial(const std::string &materialName);

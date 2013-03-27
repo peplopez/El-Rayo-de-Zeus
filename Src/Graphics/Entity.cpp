@@ -57,9 +57,9 @@ namespace Graphics
 		
 		if(_entity){
 
-		// HACK Emily 2ª parte
-			_entity->detachAllObjectsFromBone(); // TODO Necesario hacer detach y destroy en arbol?
-			getSceneMgr()->destroyEntity( "weapon" );
+		// UNDONE FRS Necesario?
+			//_entity->detachAllObjectsFromBone(); // TODO Necesario hacer detach y destroy en arbol?
+			//getSceneMgr()->destroyEntity( "weapon" );
 		//
 			getSceneMgr()->destroyEntity(_entity);
 			_entity = 0;
@@ -80,15 +80,27 @@ namespace Graphics
 		return _entity->isVisible();
 	} // getPosition
 	
-	////--------------------------------------------------------
+	//--------------------------------------------------------
 
-	// UNDONE FRS En principio no sería legal sacar ogre de graphics
+	void CEntity::attachToHand(const std::string &meshName) 
+	{
+		assert(_node && "La entidad no ha sido cargada en la escena");
+		if(!_node) return;
 
-	//Ogre::SceneNode* CEntity::getEntityNode()
-	//{
-	//	assert(_node && "La entidad no ha sido cargada en la escena");
-	//	return _node;
-	//}
+		_entity->attachObjectToBone("Bip01 R Hand", 
+				getSceneMgr()->createEntity(_name + "_hand", meshName)
+			);	
+	} // setMaterial
+
+	//--------------------------------------------------------
+
+	void CEntity::deattachToHand(const std::string &meshName) 
+	{
+		assert(_node && "La entidad no ha sido cargada en la escena");
+		if(_node) 
+			_entity->detachObjectFromBone(_name + "_hand");	
+	} // setMaterial
+
 
 	//--------------------------------------------------------
 

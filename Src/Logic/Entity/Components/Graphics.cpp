@@ -50,8 +50,12 @@ namespace Logic
 
 		_scene = map->getGraphicScene();
 			assert(_scene && "Escena gráfica es NULL");
+
 		assert(entityInfo->hasAttribute("model"));
 			_model = entityInfo->getStringAttribute("model");
+
+		if(entityInfo->hasAttribute("modelWeapon"))
+			_modelWeapon = entityInfo->getStringAttribute("modelWeapon");
 
 		_graphicalEntity = createGraphicalEntity(entityInfo);
 			if(!_graphicalEntity)
@@ -59,17 +63,20 @@ namespace Logic
 		
 		Vector3 scale = Vector3::UNIT_SCALE;
 
-		// HACK FRS Esto lo suyo es que el modelo ya lo traiga , no?
-		// o meter la escala como vector en el map
+	// HACK FRS Esto lo suyo es que el modelo ya lo traiga , no?
+	// o meter la escala como vector en el map
 		if(_entity->getType() == "World"
 			&& _entity->getRing() == LogicalPosition::CENTRAL_RING)
 			scale = Vector3(1.3,1.0,1.3);
-		//
+	//
 		else if(entityInfo->hasAttribute("scaleFactor") )
 			scale *=  entityInfo->getFloatAttribute("scaleFactor");
 
 		_graphicalEntity->setTransform(_entity->getTransform());
 		_graphicalEntity->setScale(scale);	
+		
+		if(_modelWeapon.length() > 0)
+			_graphicalEntity->attachToHand(_modelWeapon);
 
 		return true;
 

@@ -52,9 +52,11 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CGraphics() : IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0) {}
+		CGraphics() : 
+		  IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0), _scene(0), _model(""), _modelWeapon("") {}
 
-		CGraphics(altTypeId id) : IComponent(id), _graphicalEntity(0) {}
+		CGraphics(altTypeId id) : 
+		IComponent(id), _graphicalEntity(0), _scene(0), _model(""), _modelWeapon(""){}
 
 		/**
 		Destructor (virtual); Quita de la escena y destruye la entidad gráfica.
@@ -106,6 +108,7 @@ namespace Logic
 		Atributo con el nombre del modelo gráfico de la entidad.
 		*/
 		std::string _model;
+		std::string _modelWeapon;
 
 		
 	    /**

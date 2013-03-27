@@ -59,6 +59,7 @@ Map = {
 	Player = {
 		type = "Player",
 		model = "marine.mesh",
+		modelWeapon = "Katana.mesh",
 		logicInput=true,
 		base=3,
 		ring=1,
