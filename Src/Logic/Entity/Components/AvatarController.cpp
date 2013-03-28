@@ -162,9 +162,9 @@ namespace Logic
 		IComponent::tick(msecs);
 
 		//si estamos andado hacia la derecha y no está girando
-		if(_walkingRight && _targetSense == Logic::Sense::UNDEFINED)
+		if(_walkingRight && _targetSense == Logic::LogicalPosition::UNDEFINED)
 		{		
-			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT)
+			if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::RIGHT)
 			{
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
@@ -175,13 +175,13 @@ namespace Logic
 			//rotar hacia derecha
 			else
 			{
-				_targetSense = Logic::Sense::RIGHT;
+				_targetSense = Logic::LogicalPosition::RIGHT;
 			}
 		}
 		//si estamos andado hacia la hacia la izquierda y no está rotando
-		else if (_walkingLeft && _targetSense == Logic::Sense::UNDEFINED)
+		else if (_walkingLeft && _targetSense == Logic::LogicalPosition::UNDEFINED)
 		{
-			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT)
+			if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
 			{
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
@@ -192,34 +192,34 @@ namespace Logic
 			//rotar hacia izquierda
 			else
 			{
-				_targetSense = Logic::Sense::LEFT;
+				_targetSense = Logic::LogicalPosition::LEFT;
 			}
 		}
 		//rotacion a derechas
-		else if (_targetSense == Logic::Sense::RIGHT)
+		else if (_targetSense == Logic::LogicalPosition::RIGHT)
 		{
-			float tickRotation = Math::PI * 0.005 * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+			float tickRotation = Math::PI * 0.005f * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
 			_entity->yaw(-tickRotation);
 			_acumRotation += tickRotation;
 			if (_acumRotation >= Math::PI)
 			{
 				_entity->yaw(_acumRotation - Math::PI);
-				_entity->getLogicalPosition()->setSense(Logic::Sense::RIGHT);
-				_targetSense = Logic::Sense::UNDEFINED;
+				_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::RIGHT);
+				_targetSense = Logic::LogicalPosition::UNDEFINED;
 				_acumRotation = 0;
 			}
 		}
 		//rotacion a izquierdas
-		else if (_targetSense == Logic::Sense::LEFT)
+		else if (_targetSense == Logic::LogicalPosition::LEFT)
 		{
-			float tickRotation = Math::PI * 0.005 * msecs;
+			float tickRotation = Math::PI * 0.005f * msecs;
 			_entity->yaw(tickRotation);
 			_acumRotation += tickRotation;
 			if (_acumRotation >= Math::PI)
 			{
 				_entity->yaw(-(_acumRotation - Math::PI));
-				_entity->getLogicalPosition()->setSense(Logic::Sense::LEFT);
-				_targetSense = Logic::Sense::UNDEFINED;
+				_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LEFT);
+				_targetSense = Logic::LogicalPosition::UNDEFINED;
 				_acumRotation = 0;
 			}
 		}	

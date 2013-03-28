@@ -181,7 +181,7 @@ namespace Logic {
 		
 		for (int i=0;i<=Logic::NUM_BASES;++i)
 		{
-			Logic::base.posBase[i]._down=Logic::startingBasesPosition+i*Logic::separationBetweenBases;
+			Logic::base.posBase[i]._down=Logic::startingBasesPosition+(float)i*Logic::separationBetweenBases;
 			Logic::base.posBase[i]._center=base.posBase[i]._down+Logic::separationBetweenRings;
 			Logic::base.posBase[i]._up=base.posBase[i]._down+2*Logic::separationBetweenRings;
 		}

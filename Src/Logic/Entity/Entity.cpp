@@ -73,7 +73,7 @@ namespace Logic
 			_pos->setSense(static_cast<Logic::Sense>(entityInfo->getIntAttribute("sense")));
 		else
 			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna por defecto dirección LEFT
-			_pos->setSense(Sense::LEFT);
+			_pos->setSense(Logic::LogicalPosition::LEFT);
 
 		if(entityInfo->hasAttribute("base"))					
 			_pos->setBase(entityInfo->getIntAttribute("base"));
@@ -83,7 +83,7 @@ namespace Logic
 		else			
 			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
 			//pese a todo no pete.
-			_pos->setRing(Ring::CENTRAL_RING);  
+			_pos->setRing(Logic::LogicalPosition::CENTRAL_RING);  
 
 		// UNDONE ƒ®§ Este height ya se inicializa a 0 en el ctor por defecto de TLogicalPosition
 		//_pos->_height = 0;

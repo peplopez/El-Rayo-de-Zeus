@@ -29,7 +29,7 @@ namespace AI
 
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
-		if (_sense==Sense::RIGHT)
+		if (_sense==Logic::LogicalPosition::RIGHT)
 			message->setAction(Message::WALK_RIGHT);		
 		else
 			message->setAction(Message::WALK_LEFT);				

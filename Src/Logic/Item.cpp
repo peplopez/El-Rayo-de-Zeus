@@ -29,8 +29,8 @@ namespace Logic
 	//---------------------------------------------------------
 
 	bool CItem::accept(const CMessage *message) {
-		return	message->getType() == TMessageType::TRIGGER &&
-				message->getAction() == TActionType::TRIGGER_ENTER;
+		return	message->getType() == Logic::Message::TRIGGER &&
+				message->getAction() == Logic::Message::TRIGGER_ENTER;
 	} // accept
 
 	//---------------------------------------------------------
@@ -45,7 +45,7 @@ namespace Logic
 		if(entity->getType() == "Player" || entity->getType() == "OtherPlayer") {	
 
 			CMessage *txMsg = new CMessage();
-				txMsg->setType(TMessageType::DEAD); // Si alguien nos coge, morimos
+				txMsg->setType(Logic::Message::DEAD); // Si alguien nos coge, morimos
 				_entity->emitMessage(txMsg, this);
 
 			// TODO FRS También habría que notificar, en cada impl. hija de este CItem padre,

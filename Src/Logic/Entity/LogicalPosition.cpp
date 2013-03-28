@@ -12,6 +12,7 @@ Contiene la implementación de la clase que maneja las posiciones lógicas
 
 @author Jose Luis López Sánchez
 */
+#pragma warning (disable : 4244 ) //Hay una perdida de precisión que compenso con _degrees+=decimal;. Asi que el warning está asumido
 #include "Logic\Entity\LogicalPosition.h"
 
 #include "../Server.h"

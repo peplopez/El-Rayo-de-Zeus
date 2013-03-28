@@ -41,7 +41,7 @@ namespace AI
 		case Message::CHANGE_BASE:
 			{	//activo un reloj
 				//(int index, IClockListener* listener, unsigned long time)
-				_reloj->addTimeObserver(0,this,_maxChangingBaseTime);
+				_reloj->addTimeObserver(0,this,(unsigned long)_maxChangingBaseTime);
 					//std::pair<IClockListener*,unsigned long>(this,_maxChangingBaseTime));		
 				
 				CMessageString *m = new CMessageString();	
@@ -53,7 +53,7 @@ namespace AI
 			case Message::CHANGE_RING:
 			{	//activo un reloj
 			//	_reloj->addTimeObserver(std::pair<IClockListener*,unsigned long>(this,_maxChangingRingTime));		
-				_reloj->addTimeObserver(1,this,_maxChangingRingTime);
+				_reloj->addTimeObserver(1,this,(unsigned long)_maxChangingRingTime);
 				CMessageString *m = new CMessageString();	
 				m->setType(Message::SET_MATERIAL);
 				m->setString("transito");

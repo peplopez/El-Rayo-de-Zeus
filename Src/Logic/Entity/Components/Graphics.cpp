@@ -71,7 +71,7 @@ namespace Logic
 		// o meter la escala como vector en el map
 		if(_entity->getType() == "World"
 			&& _entity->getLogicalPosition()->getRing() == LogicalPosition::CENTRAL_RING)
-			scale = Vector3(1.3,1.0,1.3);
+			scale = Vector3(1.3f,1.0f,1.3f);
 		//
 		else if(entityInfo->hasAttribute("scaleFactor") )
 			scale *=  entityInfo->getFloatAttribute("scaleFactor");

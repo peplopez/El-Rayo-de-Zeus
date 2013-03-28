@@ -47,7 +47,7 @@ namespace Logic
 		defecto.
 		*/
 		// Pablo. Añadido la inicialización de _jumping y _timeJumping
-		CJump() : IComponent(GetAltTypeIdOf(CJump)), _jumping(false),_jumpPower(0),_initialGravity(0),_gravity(0.01), _justJumped(false){}
+		CJump() : IComponent(GetAltTypeIdOf(CJump)), _jumping(false),_jumpPower(0),_initialGravity(0),_gravity(0.01f), _justJumped(false){}
 		// divididio entre 32
 		/**
 		Inicialización del componente, utilizando la información extraída de

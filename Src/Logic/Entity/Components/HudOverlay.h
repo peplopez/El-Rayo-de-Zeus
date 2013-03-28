@@ -15,7 +15,7 @@ namespace Graphics
 {
 	class COverlay;
 }
-
+//PeP: Pablo, el campo _health o es float o unsigned int, los metodos que lo usan trabajan con floats. O se cambian los métodos o se cambia el tipo de _health
 
 //declaración de la clase
 namespace Logic 

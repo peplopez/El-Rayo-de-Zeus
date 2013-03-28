@@ -181,8 +181,8 @@ namespace AI
 			int h_attack1=this->addNode(new CLA_Attack(entity,1,Message::HEAVY_ATTACK));
 			int l_attack2=this->addNode(new CLA_Attack(entity,2,Message::LIGHT_ATTACK));
 
-			int l_run=this->addNode(new CLA_Run(entity,Sense::LEFT));			
-			int r_run=this->addNode(new CLA_Run(entity,Sense::RIGHT));
+			int l_run=this->addNode(new CLA_Run(entity,Logic::LogicalPosition::LEFT));			
+			int r_run=this->addNode(new CLA_Run(entity,Logic::LogicalPosition::RIGHT));
 			int jumping=this->addNode(new CLA_Jump(entity));
 
 			int changingBase=this->addNode(new CLA_Change(entity,Message::CHANGE_BASE));			
@@ -200,8 +200,8 @@ namespace AI
 			this->addEdge(idle, l_run, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_LEFT,true,Message::ANIMATION_MOMENT));
 			this->addEdge(idle, r_run, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_RIGHT,true,Message::ANIMATION_MOMENT));
 
-			this->addEdge(idle, l_run, new CConditionFlagWalkingActivated(Sense::LEFT));
-			this->addEdge(idle, r_run, new CConditionFlagWalkingActivated(Sense::RIGHT));
+			this->addEdge(idle, l_run, new CConditionFlagWalkingActivated(Logic::LogicalPosition::LEFT));
+			this->addEdge(idle, r_run, new CConditionFlagWalkingActivated(Logic::LogicalPosition::RIGHT));
 
 			this->addEdge(idle, jumping, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::JUMP,true,Message::ANIMATION_MOMENT));
 			this->addEdge(l_run, jumping, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::JUMP,true,Message::ANIMATION_MOMENT));

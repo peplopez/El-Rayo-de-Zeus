@@ -43,8 +43,8 @@ namespace Logic
 	//---------------------------------------------------------
 	
 	bool CLifeModifier::accept(const CMessage *message) {
-		return	message->getType() == TMessageType::TRIGGER &&
-				message->getAction() == TActionType::TRIGGER_ENTER;
+		return	message->getType() == Logic::Message::TRIGGER &&
+				message->getAction() == Logic::Message::TRIGGER_ENTER;
 	} // accept
 
 	//---------------------------------------------------------
@@ -57,7 +57,7 @@ namespace Logic
 
 		CMessageInt *txMsg = new CMessageInt();
 			txMsg->setInt(_LIFE_MODIFIER);
-			txMsg->setType(TMessageType::LIFE_MODIFIER);
+			txMsg->setType(Logic::Message::LIFE_MODIFIER);
 				entity->emitMessage(txMsg, this);
 	} // process
 

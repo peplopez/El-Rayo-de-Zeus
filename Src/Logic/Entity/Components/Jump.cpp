@@ -100,7 +100,7 @@ namespace Logic
 				m->setFloat(_jumpPower+_gravity*msecs);
 				_entity->emitMessage(m);
 
-				_gravity-=0.01;
+				_gravity-=0.01f;
 				if ((_jumpPower+_gravity)<0 && (_jumpPower+_gravity)>-0.015) //si esta suma es menor que cero es que está bajando. 
 					_justJumped = false;
 				if (_entity->getLogicalPosition()->getHeight() == 0 && !_justJumped)

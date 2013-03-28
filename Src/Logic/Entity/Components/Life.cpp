@@ -104,14 +104,14 @@ namespace Logic
 		if(_life <= 0) {
 
 			CMessage *msg = new CMessage();
-				msg->setType(TMessageType::DEAD);
+			msg->setType(Logic::Message::DEAD);
 				_entity->emitMessage(msg, this);
 		
 		// DAMAGE / HEAL 
 		} else { // Solo animaciones
 
 			CMessageBoolString *msg = new CMessageBoolString();
-				msg->setType(TMessageType::SET_ANIMATION);	
+				msg->setType(Logic::Message::SET_ANIMATION);	
 				msg->setBool(false);
 			/* Aquí ponemos el sonido */
 			Logic::CMessageAudio *maudio=new Logic::CMessageAudio();		

@@ -139,7 +139,7 @@ namespace AI
 	class CConditionFlagWalkingActivated : public ICondition<CLatentAction>
 	{
 	public:
-		CConditionFlagWalkingActivated(Sense sentido) : _sense(Sense::LEFT) {
+		CConditionFlagWalkingActivated(Sense sentido) : _sense(Logic::LogicalPosition::LEFT) {
 			_sense=sentido;
 		}
 
@@ -147,12 +147,12 @@ namespace AI
 		{
 			if (entity->getComponent<CAvatarController>()!=NULL)
 			{
-				if (_sense==Sense::LEFT)
+				if (_sense==Logic::LogicalPosition::LEFT)
 					return entity->getComponent<CAvatarController>()->isWalkingLeft();
 				else
 					return entity->getComponent<CAvatarController>()->isWalkingRight(); 
 			}
-	
+			return false;
 		}
 
 	private:
@@ -167,6 +167,7 @@ namespace AI
 		{
 			if  (entity->getComponent<CJump2>()!=NULL)			
 				return !entity->getComponent<CJump2>()->getJumping();
+			return false;
 		}
 };
 
@@ -311,6 +312,7 @@ namespace AI
 				{		
 					_enabled=true; return false;
 				}	
+				return false;
 		};
 		/**
 		Procesa el mensaje recibido. Como sólo aceptamos mensajes del

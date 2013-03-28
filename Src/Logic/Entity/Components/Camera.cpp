@@ -11,7 +11,7 @@ de una escena.
 @date Agosto, 2010
 */
 //#include     <cmath>
-
+#pragma warning (disable : 4244 ) 
 #include "Camera.h"
 
 #include "Logic/Server.h"
@@ -137,7 +137,10 @@ namespace Logic
 		
 		//inercia de la camara
 		Vector3 cameraTarget=CServer::getSingletonPtr()->getRingPositions(_target->getLogicalPosition()->getBase(),_target->getLogicalPosition()->getRing());
-		_currentPos += ((Vector3(_target->getPosition().x*_targetDistance,cameraTarget.y+126,_target->getPosition().z*_targetDistance)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035*0.05*msecs;//0.05*
+		_currentPos =_currentPos+ (
+			(Vector3(_target->getPosition().x*_targetDistance,cameraTarget.y+126,_target->getPosition().z*_targetDistance) +
+			Vector3(0,_targetHeight*2,0)) -
+			_currentPos) * 0.035f*0.05f*msecs;//0.05*
 		
 			_graphicsCamera->setCameraPosition(_currentPos);
 

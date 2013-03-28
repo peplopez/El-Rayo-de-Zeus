@@ -64,7 +64,7 @@ namespace Logic
 
 
 	void CDeath::death (CMessage *message) {
-		if(message->getType() == TMessageType::DEAD)		
+		if(message->getType() == Logic::Message::DEAD)		
 			CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
 	} // death
 
@@ -77,7 +77,7 @@ namespace Logic
 		// MUERTO
 		case Message::DEAD:		{				
 			CMessageBoolString *txMsg = new CMessageBoolString(); // Poner la animación de muerte
-				txMsg->setType(TMessageType::SET_ANIMATION);
+				txMsg->setType(Logic::Message::SET_ANIMATION);
 				txMsg->setString("Death");	
 				txMsg->setBool(false);
 				_entity->emitMessage(txMsg);

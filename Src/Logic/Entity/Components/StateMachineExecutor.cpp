@@ -92,6 +92,7 @@ namespace Logic
 			return true;
 		if(_currentAction != NULL) // Si no, delegamos en currentAction
 			return _currentAction->accept(message); 
+		return false;
 	}
 	//---------------------------------------------------------
 	/**
