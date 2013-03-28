@@ -11,7 +11,7 @@ material aranna/blinn5
 
 			texture_unit
 			{
-				texture aranna3.jpg
+				texture spider.jpg
 				tex_coord_set 0
 				colour_op modulate
 				scale 1 1

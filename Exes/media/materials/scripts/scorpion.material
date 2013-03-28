@@ -10,7 +10,7 @@ material Escorpion/TEXFACE/escorpion.jpg
 			emissive 0 0 0 1
 			texture_unit
 			{
-				texture escorpion.jpg
+				texture scorpion.jpg
 				colour_op modulate
 			}
 		}

@@ -1,4 +1,5 @@
 Map ={	
+	
 	Camera = {
 		type = "Camera",
 		distance = 150,
@@ -58,8 +59,8 @@ Map ={
 		degrees=300,		
 	},	
 	
-	peludo = {
-		type = "Spider",
+	pitxito = {
+		type = "Scorpion",
 		base=3,
 		ring=1,
 		degrees=80,		
