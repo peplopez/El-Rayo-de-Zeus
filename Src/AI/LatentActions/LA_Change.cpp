@@ -146,7 +146,7 @@ namespace AI
 				}
 				else
 				{
-					//_contador=1.0f;
+					_contador=0.0f;
 					_actionScale=Message::Y_AXIS;
 					m->setAction(_actionScale);	
 					timeArrived();
