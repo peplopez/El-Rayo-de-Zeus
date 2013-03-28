@@ -126,27 +126,15 @@ namespace AI
 
 	void CLA_Cover::sleepComponents()
 	{
-		/*if (_entity->getComponent<CAttack>()!=NULL)
-		_entity->getComponent<CAttack>()->resetAttackFlags();
 		if (_entity->getComponent<CAvatarController>()!=NULL)
-		_entity->getComponent<CAvatarController>()->sleep();
-		if (_entity->getComponent<CJump2>()!=NULL)
-		_entity->getComponent<Logic::CJump2>()->sleep();
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
-		_entity->getComponent<CBaseTraveler>()->sleep();*/
+				_entity->getComponent<CAvatarController>()->sleep();		
 	}
 
 	void CLA_Cover::awakeComponents()
-	{/*
-		if (_entity->getComponent<CAttack>()!=NULL)
-		_entity->getComponent<CAttack>()->resetAttackFlags();
+	{ 
 		if (_entity->getComponent<CAvatarController>()!=NULL)
-		_entity->getComponent<CAvatarController>()->awake();
-		if (_entity->getComponent<CJump2>()!=NULL)
-		_entity->getComponent<Logic::CJump2>()->awake();
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
-		_entity->getComponent<CBaseTraveler>()->awake();
-	*/}
+				_entity->getComponent<CAvatarController>()->awake();
+	}
 
 	
 } //namespace LOGIC
