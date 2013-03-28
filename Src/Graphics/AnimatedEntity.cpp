@@ -125,6 +125,7 @@ namespace Graphics
 			else
 				_currentAnimation->addTime(secs);
 			// Comprobamos si la animaci?n ha terminado para avisar
+		
 			if(_observer && _currentAnimation->hasEnded())
 				_observer->animationFinished(_currentAnimation->getAnimationName());
 

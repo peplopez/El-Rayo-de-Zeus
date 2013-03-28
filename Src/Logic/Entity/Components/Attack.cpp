@@ -120,12 +120,15 @@ namespace Logic
 	 void CAttack::cover()
 	 {
 		_covering=true;
-		CMessageBoolString *message = new CMessageBoolString();
-		message->setType(Message::SET_ANIMATION);
-		message->setString("CrouchKatana");
-		message->setAction(Message::UNDEF);
-		message->setBool(true);
-		_entity->emitMessage(message,this);
+			if (_entity->getType()!="Player")
+			{//porque por ahora el loco no ejecuta maquina de estados
+				CMessageBoolString *message = new CMessageBoolString();
+				message->setType(Message::SET_ANIMATION);
+				message->setString("CrouchKatana");
+				message->setAction(Message::UNDEF);
+				message->setBool(true);
+				_entity->emitMessage(message,this);
+			}
 	 }
 
 

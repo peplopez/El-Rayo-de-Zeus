@@ -83,7 +83,8 @@ Map ={
 		type = "OtherPlayer",
 		base=3,
 		ring=2,
-		degrees=220,		
+		degrees=220,
+		defaultAnimation = "Crouch",
 	},
 	
 	WorldAbajo0 = {

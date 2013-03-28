@@ -31,6 +31,10 @@ namespace Logic
 			if (_currentStateMachine != 0) delete _currentStateMachine;
 			// Saca una instancia de la máquina de estado de la factoría
 			_currentStateMachine = AI::CStateMachineFactory::getStateMachine(smName, entity);
+				/*if(entityInfo->hasAttribute("initialNode")) {
+					int isName = entityInfo->getIntAttribute("initialNode");
+					_currentStateMachine->setInitialNode();
+				}*/
 		}
 		return true;
 	}

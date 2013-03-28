@@ -65,6 +65,9 @@
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_Change.cpp">
       <Filter>Decision\LatentActions\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Cover.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\AI\Server.h">
@@ -95,6 +98,9 @@
       <Filter>Decision\LatentActions\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\AI\LatentActions\LA_Change.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Cover.h">
       <Filter>Decision\LatentActions\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

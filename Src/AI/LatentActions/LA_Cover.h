@@ -1,5 +1,5 @@
 /**
-@file CLA_Idle.h
+@file LA_Cover.h
 
 En este fichero se implementan algunas acciones 
 latentes básicas.
@@ -10,11 +10,10 @@ latentes básicas.
 
 #pragma once
 
-#ifndef __AI_CHANGELatentActions_H
-#define __AI_CHANGELatentActions_H
+#ifndef __AI_COVERLatentActions_H
+#define __AI_COVERLatentActions_H
 
 #include "LatentAction.h"
-#include "../../Application/Clock.h"
 #include "Logic/Entity/Entity.h"
 
 using namespace Logic;
@@ -25,7 +24,7 @@ namespace AI
 	/**
 	Esta acción espera durante un periodo de tiempo indicado en el constructor.
 	*/
-	class CLA_Change : public CLatentAction, public Application::IClockListener
+	class CLA_Cover : public CLatentAction
 	{
 	public:
 		/**
@@ -33,11 +32,11 @@ namespace AI
 		
 		@param time Tiempo de espera
 		*/
-		CLA_Change(CEntity* entity, Message::TActionType action) : CLatentAction(),_maxChangingRingTime(1500),_maxChangingBaseTime(2500) {this->setEntity(entity);_action=action;};
+		CLA_Cover(CEntity* entity) : CLatentAction() {this->setEntity(entity);};
 		/**
 		Destructor
 		*/
-		~CLA_Change() {};
+		~CLA_Cover() {};
 
 		/**
 		Método invocado al principio de la ejecución de la acción,
@@ -108,34 +107,12 @@ namespace AI
 		virtual void sleepComponents();
 
 		virtual void awakeComponents();
-				////////////////////////////////////////
-		// Métodos de IClockListener //
-		////////////////////////////////////////
-		/**
-		Método que será invocado siempre que se termine una animación.
-		Las animaciones en cíclicas no invocarán nunca este método.
-
-		@param animation Nombre de la animación terminada.
-		*/
-		void timeArrived();
 
 	protected:
 		
-		Message::TActionType _action;
-
-		float _maxChangingBaseTime;
-
-		float _maxChangingRingTime;
-		Application::IClock* _reloj;
-
-		float _contador;
-		Message::TActionType _actionScale;
-
-		unsigned short _desencogiendo;
-
-		float _velocidad;
+	//	Message::TActionType _action;
 	};
 
 } //namespace AI 
 
-#endif // __AI_CHANGELatentActions_H
+#endif // __AI_COVERLatentActions_H

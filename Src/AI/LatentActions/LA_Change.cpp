@@ -15,7 +15,7 @@ namespace AI
 
 
 //////////////////////////////
-//	Implementación de CLAIdle
+//	Implementación de CLA_Change
 //////////////////////////////
 
 	/**
@@ -46,7 +46,7 @@ namespace AI
 				//(int index, IClockListener* listener, unsigned long time)
 		//		_reloj->addTimeObserver(0,this,(unsigned long)_maxChangingBaseTime);
 					//std::pair<IClockListener*,unsigned long>(this,_maxChangingBaseTime));		
-				
+				_velocidad=0.01;
 				CMessageString *m = new CMessageString();	
 				m->setType(Message::SET_MATERIAL);
 				m->setString("transito");
@@ -57,6 +57,7 @@ namespace AI
 			{	//activo un reloj
 			//	_reloj->addTimeObserver(std::pair<IClockListener*,unsigned long>(this,_maxChangingRingTime));		
 				//_reloj->addTimeObserver(1,this,(unsigned long)_maxChangingRingTime);
+				_velocidad=0.05;
 				CMessageString *m = new CMessageString();	
 				m->setType(Message::SET_MATERIAL);
 				m->setString("transito");
@@ -77,8 +78,8 @@ namespace AI
 	void CLA_Change::OnStop()
 	{
 		std::cout<<"AI::StateMachine::ChangeSALIENDO"<<std::endl;	
-		_reloj->removeTimeObserver(0);		
-		_reloj->removeTimeObserver(1);			
+	//	_reloj->removeTimeObserver(0);		
+		//_reloj->removeTimeObserver(1);			
 		awakeComponents();
 	}
 
@@ -103,7 +104,7 @@ namespace AI
 
 			if (_contador>0.3)
 			{
-				_contador=_contador + (-0.01f+(_desencogiendo*0.02));		
+				_contador=_contador + (-_velocidad+(_desencogiendo*_velocidad*2));		
 				m->setFloat(_contador);
 				_entity->emitMessage(m);
 			}
@@ -112,15 +113,13 @@ namespace AI
 				_actionScale=Message::Y_AXIS;
 				_contador=1.0f;
 				m->setAction(_actionScale);
-
-
 			}
 
 			else
 
 			if (_contador<1)
 			{
-				_contador=_contador + (-0.01f+(_desencogiendo*0.02));		
+				_contador=_contador + (-_velocidad+(_desencogiendo*_velocidad*2));		
 				m->setFloat(_contador);
 				_entity->emitMessage(m);
 			}
@@ -129,7 +128,7 @@ namespace AI
 				_actionScale=Message::Y_AXIS;
 				_contador=1.0f;
 				m->setAction(_actionScale);
-				timeArrived();
+				timeArrived();//aquí es el final
 
 			}
 
@@ -140,7 +139,7 @@ namespace AI
 	
 				if (_contador>0.3)
 				{							
-					_contador=_contador + (-0.01f+(_desencogiendo*0.02));
+					_contador=_contador + (-_velocidad+(_desencogiendo*_velocidad*2));
 					m->setFloat(_contador);
 					_entity->emitMessage(m);
 				}
@@ -155,7 +154,7 @@ namespace AI
 			else
 				if (_contador<1)
 				{							
-					_contador=_contador + (-0.01f+(_desencogiendo*0.02));
+					_contador=_contador + (-_velocidad+(_desencogiendo*_velocidad*2));
 					m->setFloat(_contador);
 					_entity->emitMessage(m);
 				}
@@ -190,8 +189,8 @@ namespace AI
 		// Cuando se aborta se queda en estado terminado con fallo
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)
 		{
-			_reloj->removeTimeObserver(0);		
-			_reloj->removeTimeObserver(1);		
+		//	_reloj->removeTimeObserver(0);		
+		//	_reloj->removeTimeObserver(1);		
 			_entity->getComponent<CBaseTraveler>()->resetChangingBase();			
 			_entity->getComponent<CBaseTraveler>()->resetChangingRing();
 		}
@@ -257,7 +256,11 @@ namespace AI
 
 	void CLA_Change::sleepComponents()
 	{
-		/*if (_entity->getComponent<CAttack>()!=NULL)
+		if (_action!=Message::CHANGE_BASE)
+			if (_entity->getComponent<CAvatarController>()!=NULL)
+				_entity->getComponent<CAvatarController>()->sleep();
+		
+			/*if (_entity->getComponent<CAttack>()!=NULL)
 		_entity->getComponent<CAttack>()->resetAttackFlags();
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 		_entity->getComponent<CAvatarController>()->sleep();
@@ -268,7 +271,12 @@ namespace AI
 	}
 
 	void CLA_Change::awakeComponents()
-	{/*
+	{
+		if (_action!=Message::CHANGE_BASE)
+			if (_entity->getComponent<CAvatarController>()!=NULL)
+				_entity->getComponent<CAvatarController>()->awake();
+		
+		/*
 		if (_entity->getComponent<CAttack>()!=NULL)
 		_entity->getComponent<CAttack>()->resetAttackFlags();
 		if (_entity->getComponent<CAvatarController>()!=NULL)

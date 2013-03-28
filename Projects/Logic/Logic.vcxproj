@@ -85,6 +85,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Audio.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\FloatingMovement.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageAudio.cpp" />
     <ClCompile Include="..\..\Src\Logic\Item.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Altar.cpp" />
@@ -135,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Audio.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\FloatingMovement.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageAudio.h" />
     <ClInclude Include="..\..\Src\Logic\Item.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Altar.h" />

@@ -28,6 +28,7 @@ de ejemplo.
 #include "../LatentActions/LA_Run.h"
 #include "../LatentActions/LA_Jump.h"
 #include "../LatentActions/LA_Change.h"
+#include "../LatentActions/LA_Cover.h"
 
 #include "Logic/Entity/Messages/Message.h"
 
@@ -185,6 +186,7 @@ namespace AI
 			int r_run=this->addNode(new CLA_Run(entity,Logic::LogicalPosition::RIGHT));
 			int jumping=this->addNode(new CLA_Jump(entity));
 
+			int covering=this->addNode(new CLA_Cover(entity));
 			int changingBase=this->addNode(new CLA_Change(entity,Message::CHANGE_BASE));			
 			int changingRing=this->addNode(new CLA_Change(entity,Message::CHANGE_RING));
 
@@ -250,6 +252,8 @@ namespace AI
 			this->addEdge(changingRing, idle, new CConditionFinished());
 			//this->addEdge(changingBase, idle, new CConditionSuccess());
 			//this->addEdge(changingRing, idle, new CConditionSuccess());
+			this->addEdge(idle, covering, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::COVER,true,Message::ANIMATION_MOMENT));
+			this->addEdge(covering,idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_STOP,true,Message::ANIMATION_MOMENT));
 			
 			
 

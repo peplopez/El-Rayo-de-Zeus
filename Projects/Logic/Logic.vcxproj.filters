@@ -124,9 +124,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicalCharacter.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.cpp">
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageUIntString.cpp">
       <Filter>Entity\Messages\Source Files</Filter>
     </ClCompile>
@@ -144,6 +141,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageAudio.cpp">
       <Filter>Entity\Messages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\FloatingMovement.cpp">
+      <Filter>Entity\Components\Items\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -302,6 +305,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageAudio.h">
       <Filter>Entity\Messages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\FloatingMovement.h">
+      <Filter>Entity\Components\Items\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
