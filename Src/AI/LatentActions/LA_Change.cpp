@@ -8,6 +8,7 @@
 #include "../StateMachines/StateMachine.h"
 #include "LA_Change.h"
 #include "Logic/Entity/Messages/MessageChar.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
 
 namespace AI
 {
@@ -33,15 +34,17 @@ namespace AI
 	{		
 		//Desactivación de componentes
 		sleepComponents();		
+		_contador=1.0f;
+		_actionScale=Message::Z_AXIS;
 		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
-		
+		_desencogiendo=0;
 		std::cout<<"AI::StateMachine::Change"<<std::endl;
 		switch(_action)
 		{
 		case Message::CHANGE_BASE:
 			{	//activo un reloj
 				//(int index, IClockListener* listener, unsigned long time)
-				_reloj->addTimeObserver(0,this,(unsigned long)_maxChangingBaseTime);
+		//		_reloj->addTimeObserver(0,this,(unsigned long)_maxChangingBaseTime);
 					//std::pair<IClockListener*,unsigned long>(this,_maxChangingBaseTime));		
 				
 				CMessageString *m = new CMessageString();	
@@ -53,7 +56,7 @@ namespace AI
 			case Message::CHANGE_RING:
 			{	//activo un reloj
 			//	_reloj->addTimeObserver(std::pair<IClockListener*,unsigned long>(this,_maxChangingRingTime));		
-				_reloj->addTimeObserver(1,this,(unsigned long)_maxChangingRingTime);
+				//_reloj->addTimeObserver(1,this,(unsigned long)_maxChangingRingTime);
 				CMessageString *m = new CMessageString();	
 				m->setType(Message::SET_MATERIAL);
 				m->setString("transito");
@@ -91,6 +94,81 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Change::OnRun() 
 	{
+		CMessageFloat *m = new CMessageFloat();	
+		m->setType(Message::SET_SCALE);
+		m->setAction(_actionScale);
+		if (_actionScale==Message::Z_AXIS)
+		{
+			if (_desencogiendo==0)
+
+			if (_contador>0.3)
+			{
+				_contador=_contador + (-0.01f+(_desencogiendo*0.02));		
+				m->setFloat(_contador);
+				_entity->emitMessage(m);
+			}
+			else
+			{
+				_actionScale=Message::Y_AXIS;
+				_contador=1.0f;
+				m->setAction(_actionScale);
+
+
+			}
+
+			else
+
+			if (_contador<1)
+			{
+				_contador=_contador + (-0.01f+(_desencogiendo*0.02));		
+				m->setFloat(_contador);
+				_entity->emitMessage(m);
+			}
+			else
+			{
+				_actionScale=Message::Y_AXIS;
+				_contador=1.0f;
+				m->setAction(_actionScale);
+				timeArrived();
+
+			}
+
+		}
+		if (_actionScale==Message::Y_AXIS)
+		{
+			if (_desencogiendo==0)
+	
+				if (_contador>0.3)
+				{							
+					_contador=_contador + (-0.01f+(_desencogiendo*0.02));
+					m->setFloat(_contador);
+					_entity->emitMessage(m);
+				}
+				else
+				{
+					//_contador=1.0f;
+					_actionScale=Message::Y_AXIS;
+					m->setAction(_actionScale);	
+					timeArrived();
+
+				}
+			else
+				if (_contador<1)
+				{							
+					_contador=_contador + (-0.01f+(_desencogiendo*0.02));
+					m->setFloat(_contador);
+					_entity->emitMessage(m);
+				}
+				else
+				{
+					_contador=0.3f;
+					_actionScale=Message::Z_AXIS;
+					m->setAction(_actionScale);	
+					//timeArrived();
+				}
+		}
+		
+
 		if (this->getStatus()!=SUCCESS && this->getStatus()!=FAIL)
 			return RUNNING;
 		else 
@@ -202,6 +280,7 @@ namespace AI
 	*/}
 	void CLA_Change::timeArrived()
 	{//El primer if es para ignorar eventos externos si no estoy en el estado
+		
 		if (this->getStatus()!=SUCCESS && this->getStatus()!=FAIL && this->getStatus()!=RUNNING)
 		{//cancelando viaje
 
@@ -212,7 +291,12 @@ namespace AI
 			_entity->getComponent<CBaseTraveler>()->timeArrived();
 			//_entity->getComponent<CRingTraveler>()->timeArrived();				
 		}
-	
-		finish(true);
+		if (_desencogiendo==0) 
+			_desencogiendo=1;
+		else
+		{
+			_desencogiendo=0;
+			finish(true);
+		}
 	}
 } //namespace LOGIC

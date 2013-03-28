@@ -22,10 +22,14 @@ gráfica de la entidad.
 #include "Graphics/StaticEntity.h"
 #include "Logic/Maps/EntityFactory.h"
 
+
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageTF.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
 #include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageUIntString.h"
+
+
 
 namespace Logic 
 {
@@ -90,7 +94,8 @@ namespace Logic
 		return	 message->getType() == Message::SET_TRANSFORM ||
 				 message->getType() == Message::SET_TRANSFORM_QUAT ||
 				 message->getType() == Message::SET_MATERIAL ||
-				 message->getType() == Message::SET_SUBENTITY_MATERIAL ;
+				 message->getType() == Message::SET_SUBENTITY_MATERIAL ||
+				 message->getType() == Message::SET_SCALE;
 
 	} // accept
 	
@@ -100,25 +105,51 @@ namespace Logic
 	{
 		switch(message->getType())
 		{
-		case Message::SET_TRANSFORM:
+			case Message::SET_TRANSFORM:
 			{
-			CMessageTF *maux = static_cast<CMessageTF*>(message);
-			_graphicalEntity->setTransform(maux->getTransform());
+				CMessageTF *maux = static_cast<CMessageTF*>(message);
+				_graphicalEntity->setTransform(maux->getTransform());
 			}
-			break;
-		case Message::SET_TRANSFORM_QUAT:
-			//graphicalEntity->setTransform(message._quat);
-			break;
-		case Message::SET_MATERIAL:
+				break;
+			case Message::SET_TRANSFORM_QUAT:
+				//graphicalEntity->setTransform(message._quat);
+				break;
+			case Message::SET_MATERIAL:
 			{
-			CMessageString *maux2 = static_cast<CMessageString*>(message);
-			_graphicalEntity->setMaterial(maux2->getString());
+				CMessageString *maux2 = static_cast<CMessageString*>(message);
+				_graphicalEntity->setMaterial(maux2->getString());
 			}
-			break;
-		case Message::SET_SUBENTITY_MATERIAL:
+				break;
+			case Message::SET_SUBENTITY_MATERIAL:
 			{
-			CMessageUIntString *maux3 = static_cast<CMessageUIntString*>(message);
-			_graphicalEntity->setSubEntityMaterial(maux3->getString(), maux3->getUInt());
+				CMessageUIntString *maux3 = static_cast<CMessageUIntString*>(message);
+				_graphicalEntity->setSubEntityMaterial(maux3->getString(), maux3->getUInt());
+				break;
+			}
+			case Message::SET_SCALE:
+			{
+
+				CMessageFloat *maux4 = static_cast<CMessageFloat*>(message);
+				
+				Vector3 escalaInicial=_graphicalEntity->getScale();
+				//(maux4->getFloat(),maux4->getFloat(),maux4->getFloat());
+				if (maux4->getAction()==Message::X_AXIS)
+					escalaInicial.x=maux4->getFloat();
+				if (maux4->getAction()==Message::Y_AXIS)
+					escalaInicial.y=maux4->getFloat();
+				if (maux4->getAction()==Message::Z_AXIS)
+					escalaInicial.z=maux4->getFloat();
+				if (maux4->getAction()==Message::UNDEF)
+				{
+					/*escalaInicial.x=maux4->getFloat();
+					escalaInicial.y=maux4->getFloat();
+					escalaInicial.z=maux4->getFloat();
+				*/}
+						std::cout<<escalaInicial<<std::endl;
+						
+				_graphicalEntity->setScale(escalaInicial);
+				//_graphicalEntity->setScale(maux4->getFloat());
+				break;
 			}
 		}
 

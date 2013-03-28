@@ -129,6 +129,11 @@ namespace AI
 
 		float _maxChangingRingTime;
 		Application::IClock* _reloj;
+
+		float _contador;
+		Message::TActionType _actionScale;
+
+		unsigned short _desencogiendo;
 	};
 
 } //namespace AI 

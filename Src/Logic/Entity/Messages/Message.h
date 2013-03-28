@@ -56,7 +56,8 @@ namespace Logic
 			REWIND_ANIMATION		= 0x21,
 			ALTAR_ACTIVATED 		= 0x22,
 			ALTAR_DEACTIVATED 		= 0x23,
-			AUDIO			 		= 0x24			
+			AUDIO			 		= 0x24,
+			SET_SCALE		 		= 0x25
 		};
 
 		enum TActionType : unsigned char
@@ -81,7 +82,11 @@ namespace Logic
 			DISPLAY_HUD			= 0x23,
 			TRIGGER_ENTER		= 0x24,
 			TRIGGER_EXIT		= 0x25,
-			COVER				= 0x26
+			COVER				= 0x26,
+			X_AXIS				= 0x27,
+			Y_AXIS				= 0x28,
+			Z_AXIS				= 0x29
+
 		};
 	}
 
