@@ -109,8 +109,8 @@ namespace Logic
 			{
 				CMessageTF *maux = static_cast<CMessageTF*>(message);
 				_graphicalEntity->setTransform(maux->getTransform());
-			}
 				break;
+			}				
 			case Message::SET_TRANSFORM_QUAT:
 				//graphicalEntity->setTransform(message._quat);
 				break;
@@ -118,8 +118,8 @@ namespace Logic
 			{
 				CMessageString *maux2 = static_cast<CMessageString*>(message);
 				_graphicalEntity->setMaterial(maux2->getString());
-			}
 				break;
+			}				
 			case Message::SET_SUBENTITY_MATERIAL:
 			{
 				CMessageUIntString *maux3 = static_cast<CMessageUIntString*>(message);

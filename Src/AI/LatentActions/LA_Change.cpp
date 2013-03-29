@@ -62,6 +62,10 @@ namespace AI
 				m->setType(Message::SET_MATERIAL);
 				m->setString("transito");
 				_entity->emitMessage(m);
+							CMessageString *m2 = new CMessageString();	
+			m2->setType(Message::SET_MATERIAL);
+			m2->setString("marineRojo");
+			_entity->emitMessage(m2);	
 				break;
 			}	
 		}
@@ -288,4 +292,5 @@ namespace AI
 			finish(true);
 		}
 	}
+	
 } //namespace LOGIC

@@ -75,7 +75,7 @@ namespace Graphics
 			_currentAnimation = 0;
 
 		*/		return true;
-	} // stopAnimation
+	} // 
 
 
 	//--------------------------------------------------------

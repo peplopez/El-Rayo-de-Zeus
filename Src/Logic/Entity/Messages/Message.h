@@ -83,9 +83,10 @@ namespace Logic
 			TRIGGER_ENTER		= 0x24,
 			TRIGGER_EXIT		= 0x25,
 			COVER				= 0x26,
-			X_AXIS				= 0x27,
-			Y_AXIS				= 0x28,
-			Z_AXIS				= 0x29
+			NO_COVER			= 0x27,
+			X_AXIS				= 0x28,
+			Y_AXIS				= 0x29,
+			Z_AXIS				= 0x30
 
 		};
 	}

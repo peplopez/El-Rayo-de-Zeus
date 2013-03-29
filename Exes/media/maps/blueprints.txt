@@ -4,6 +4,6 @@ SkyBox CGraphics
 Altar CGraphics CPhysics CAltar
 Entity CGraphics
 Player CAnimatedGraphics CAvatarController CJump2 CBaseTraveler CAttack CStateMachineExecutor CLife CDeath CHudOverlay CPhysicalCharacter CAltarStateSwitcher CAudio
-AnimatedEntity CAvatarController CAttack CPhysicalCharacter CAnimatedGraphics CLifeModifier CLife CDeath CAudio
-OtherPlayer CAvatarController CAnimatedGraphics CAttack CPhysicalCharacter CLifeModifier CLife CDeath CAltarStateSwitcher CBasicAI CAudio
+AnimatedEntity CAnimatedGraphics CAvatarController CAttack CPhysicalCharacter CLifeModifier CLife CDeath CAudio
+OtherPlayer CAnimatedGraphics CAvatarController CAttack CPhysicalCharacter CLifeModifier CLife CDeath CAltarStateSwitcher CBasicAI CAudio
 PowerUp CGraphics CFloatingMovement CPhysics CLifeModifier

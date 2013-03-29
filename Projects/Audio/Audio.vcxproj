@@ -90,6 +90,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>C:\Master\El-Rayo-de-Zeus\Projects\Audio\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

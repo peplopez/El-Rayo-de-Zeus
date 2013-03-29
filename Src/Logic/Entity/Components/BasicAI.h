@@ -15,6 +15,7 @@ angular de entidades.
 
 #include "Logic/Entity/Component.h"
 #include "BaseSubsystems/Math.h"
+#include "../../../Application/Clock.h"
 
 
 //declaración de la clase
@@ -34,7 +35,7 @@ namespace Logic
 	@author David Llansó García
 	@date Agosto, 2010
 */
-	class CBasicAI : public IComponent
+	class CBasicAI : public IComponent, public Application::IClockListener
 	{
 		DEC_FACTORY(CBasicAI);
 	public:
@@ -107,12 +108,21 @@ namespace Logic
 		@param message Mensaje a procesar.
 		*/
 		void process(CMessage *message);
-	
+					////////////////////////////////////////
+		// Métodos de IClockListener //
+		////////////////////////////////////////
+		/**
+		Método que será invocado siempre que se termine una animación.
+		Las animaciones en cíclicas no invocarán nunca este método.
+
+		@param animation Nombre de la animación terminada.
+		*/
+		void timeArrived();
 
 	protected:
-
+		Application::IClock* _reloj;
 		
-	}; // class CAttack
+	}; // class CBasicAI
 
 	REG_FACTORY(CBasicAI);
 

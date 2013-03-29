@@ -39,6 +39,7 @@ namespace Logic
 			_attackPower = entityInfo->getFloatAttribute("attackPower");
 		if (_entity->getName()=="locoCubriendose")
 			cover();
+
 		if (entityInfo->hasAttribute("audioCubriendose") )
 			_audioCubriendose = entityInfo->getStringAttribute("audioCubriendose");
 		return true;
@@ -47,6 +48,13 @@ namespace Logic
 	bool CAttack::activate()
 	{				
 		_lightAttack=_heavyAttack=false;
+				if (_entity->getType()=="OtherPlayer")
+		{
+			CMessageString *m = new CMessageString();	
+			m->setType(Message::SET_MATERIAL);
+			m->setString("marineRojo");
+			_entity->emitMessage(m);	
+		}
 		return true;
 	}		
 
@@ -81,9 +89,8 @@ namespace Logic
 			{
 				CMessageString* maux = static_cast<CMessageString*>(message);
 				if (maux->getString().compare("FireKatana")==0)
-				{
-					
-					_lightAttack=_heavyAttack=false;//stopMovement();
+				{					
+					_lightAttack=_heavyAttack=false;
 				}
 				break;
 			}
@@ -106,13 +113,8 @@ namespace Logic
 						message->setString("FireKatana");
 						message->setAction(Message::UNDEF);
 						message->setBool(false);
-						_entity->emitMessage(message,this);	
-
-					
-
-
-					}
-					
+						_entity->emitMessage(message,this);
+					}					
 			}
 		}
 	 }
@@ -138,27 +140,7 @@ namespace Logic
 		_heavyAttack=false;
 		_lightAttack=true;
 
-	/*	CMessageBoolString *message = new CMessageBoolString();
-		message->setType(Message::SET_ANIMATION);
-		message->setAction(Message::LIGHT_ATTACK);
-		message->setString("FireAK47");
-		message->setBool(false);
-		_entity->emitMessage(message,this);
-		*/
-		//envio mensaje para averiguar sin con este ataque le he arreado a alguien o no
-		/*CMessageFloat *message2 = new CMessageFloat();
-		message2->setType(Message::SPACE_REQUEST);
-		if (_entity->getSense()==Logic::LogicalPosition::RIGHT)
-		message2->setFloat(_entity->getDegree()-10);
-		else
-		message2->setFloat(_entity->getDegree()+10);		
-		_entity->emitMessage(message2,this);*/
-		/*float punto;
-		if (_entity->getSense()==Logic::LogicalPosition::RIGHT)
-			punto=_entity->getDegree()-10;
-		else
-			punto=_entity->getDegree()+10;*/
-	//	attackPlace(punto,_entity->getRing(),_entity->getBase(),true);
+
 	} // turn
 
 	void CAttack::heavyAttack() 
@@ -171,10 +153,7 @@ namespace Logic
 
 	//este metodo devuelve null si no se está ocupando ese grado o la entidad que ocupa ese espacio
 	unsigned short CAttack::attackPlace(float grado, short ring, short base,bool soloInfo)
-	{//acotar
-		//averiguo el espacio que ocupo:
-
-		
+	{//acotar				
 		CMap::TEntityList::const_iterator it = _entity->getMap()->getEntities().begin();
 		CMap::TEntityList::const_iterator end = _entity->getMap()->getEntities().end();
 
@@ -182,7 +161,6 @@ namespace Logic
 		{			
 			//Si la entidad que comparo no soy yo mismo y la distancia entre las posiciones
 			//de las dos es menor de la distancia de colisión (o radio)
-
 
 			if(_entity != (*it) )
 			{
@@ -213,7 +191,6 @@ namespace Logic
 									m->setType(Logic::Message::CONTROL);
 									m->setAction(Logic::Message::WALK_STOP);
 									(*it)->emitMessage(m);
-
 								
 									Logic::CMessageAudio *cubiertoAudio=new Logic::CMessageAudio();		
 									cubiertoAudio->setType(Message::AUDIO);			
@@ -226,33 +203,24 @@ namespace Logic
 								}
 								else
 								{
-								CMessageInt *m2 = new CMessageInt();
-								m2->setInt(-10);
-								m2->setType(Message::LIFE_MODIFIER);						
-								(*it)->emitMessage(m2,this);
-								//veces++;
-								//std::cout<<veces<<std::endl;
-								Logic::CMessage *m = new Logic::CMessage();
-								m->setType(Logic::Message::CONTROL);
-								m->setAction(Logic::Message::WALK_STOP);
-								(*it)->emitMessage(m);
-								return 1;
+									CMessageInt *m2 = new CMessageInt();
+									m2->setInt(-10);
+									m2->setType(Message::LIFE_MODIFIER);						
+									(*it)->emitMessage(m2,this);
+									//veces++;
+									//std::cout<<veces<<std::endl;
+									Logic::CMessage *m = new Logic::CMessage();
+									m->setType(Logic::Message::CONTROL);
+									m->setAction(Logic::Message::WALK_STOP);
+									(*it)->emitMessage(m);
+									return 1; //Impacto con daño
 								}
 							}
-							else
-							{
-							//a
-							}
-							 //Impacto con daño
 						}
 					}
 				}
-			}
-
-				//Logic::TMessage m;
-				//m._type = Logic::Message::CONTACT;				
-				//_entity->emitMessage(m,this);				
-			}		
+			}					
+		}		
 		return 0; //le has dado al aire
 		}
 

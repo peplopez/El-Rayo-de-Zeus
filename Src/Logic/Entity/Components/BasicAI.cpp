@@ -36,15 +36,51 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
+		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
+	
 		/*if(entityInfo->hasAttribute("attackPower"))
 			_attackPower = entityInfo->getFloatAttribute("attackPower");
 		if (_entity->getType()=="OtherPlayer")
 			cover();*/
 		return true;
+	}
+
+	void CBasicAI::timeArrived()
+	{
+		int v1 = rand() % 2; 
+		if (v1==0)
+		{
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
+			m->setAction(Logic::Message::WALK_RIGHT);
+			_entity->emitMessage(m);
 		}
+		else
+		{
+			if (_entity->getLogicalPosition()->getSense()==Logic::LogicalPosition::LEFT )
+			{	
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
+				m->setAction(Logic::Message::WALK_RIGHT);
+				_entity->emitMessage(m);
+			}
+			else
+			{
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
+				m->setAction(Logic::Message::WALK_LEFT);
+				_entity->emitMessage(m);
+			
+			}
+		}
+	}
 
 	bool CBasicAI::activate()
 	{				
+		Logic::CMessage *m = new Logic::CMessage();
+		m->setType(Logic::Message::CONTROL);
+		m->setAction(Logic::Message::WALK_RIGHT);
+		_entity->emitMessage(m);
 		return true;
 	}		
 
@@ -57,8 +93,9 @@ namespace Logic
 			
 		return (message->getType() == Message::TRIGGER && 
 			(message->getAction() == Message::TRIGGER_ENTER||
-			message->getAction() == Message::TRIGGER_EXIT) || message->getType() == Message::ALTAR_ACTIVATED ||  message->getAction() == Message::COVER) || (message->getType()==Message::ANIMATION_FINISHED ||message->getType()==Message::ANIMATION_MOMENT);
-
+			message->getAction() == Message::TRIGGER_EXIT) || message->getType() == Message::ALTAR_ACTIVATED ||  message->getAction() == Message::COVER) || (message->getType()==Message::ANIMATION_FINISHED 
+			||message->getType()==Message::ANIMATION_MOMENT
+			||message->getType()==Message::COLLISION);
 	}
 		
 	 void CBasicAI::process(CMessage *message)
@@ -86,12 +123,56 @@ namespace Logic
 				{
 					if(_entity->getComponent<CAltarStateSwitcher>()->getTarget() == _entity->getMap()->getEntityByName(static_cast<CMessageString*>(message)->getString()))
 					{
-						Logic::CMessage *m3 = new Logic::CMessage();
-						m3->setType(Logic::Message::CONTROL);
-						m3->setAction(Logic::Message::WALK_RIGHT);
-						_entity->emitMessage(m3);
+						int accion=rand()%3;
+						if (accion)
+						{	
+							Logic::CMessage *m = new Logic::CMessage();
+							m->setType(Logic::Message::CONTROL);
+							m->setAction(Logic::Message::WALK_RIGHT);
+							_entity->emitMessage(m);
+						}
+						else
+						{
+							if (accion)
+							{
+								Logic::CMessage *m = new Logic::CMessage();
+								m->setType(Logic::Message::CONTROL);
+								m->setAction(Logic::Message::WALK_LEFT);
+								_entity->emitMessage(m);
+							}
+							else{
+								Logic::CMessage *m = new Logic::CMessage();
+								m->setType(Logic::Message::CONTROL);
+								m->setAction(Logic::Message::LIGHT_ATTACK);
+								_entity->emitMessage(m);
+							}
+							}
 						break;					
 					}
+				}
+				case Message::COLLISION:
+				{
+				//	if(_entity->getComponent<CAltarStateSwitcher>()->getTarget() == _entity->getMap()->getEntityByName(static_cast<CMessageString*>(message)->getString()))
+					//{
+					int accion=rand()%2;
+						if (accion==0)
+						{	
+						Logic::CMessage *m = new Logic::CMessage();
+						m->setType(Logic::Message::CONTROL);
+						m->setAction(Logic::Message::LIGHT_ATTACK);
+						_entity->emitMessage(m);
+						}
+						else
+						{
+						Logic::CMessage *m4 = new Logic::CMessage();
+						m4->setType(Logic::Message::CONTROL);
+						m4->setAction(Logic::Message::WALK_STOP);
+						_entity->emitMessage(m4);
+						_reloj->addTimeObserver(2,this,2500);		
+						break;
+						}
+
+					//}
 				}
 		}
 	 }
@@ -99,25 +180,24 @@ namespace Logic
 	void CBasicAI::tick(unsigned int msecs)
 	{
 			IComponent::tick(msecs);
-				if (_entity->getName()!="locoCubriendose")
-	
-			if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase()==_entity->getLogicalPosition()->getBase())
-				if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing())
-				{
-				//en el mismo anillo
-					//ser agresivo
-					if (!(_entity->getComponent<CAvatarController>()->isWalkingLeft() || _entity->getComponent<CAvatarController>()->isWalkingRight() ))
+			if (_entity->getName()!="locoCubriendose")
+				if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase()==_entity->getLogicalPosition()->getBase())
+					if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing())
 					{
-						Logic::CMessage *m = new Logic::CMessage();
-						m->setType(Logic::Message::CONTROL);
-						m->setAction(Logic::Message::WALK_RIGHT);
-						_entity->emitMessage(m);
+					//en el mismo anillo
+						//ser agresivo
+						if (!(_entity->getComponent<CAvatarController>()->isWalkingLeft() || _entity->getComponent<CAvatarController>()->isWalkingRight() ))
+						{
+						/*	Logic::CMessage *m = new Logic::CMessage();
+							m->setType(Logic::Message::CONTROL);
+							m->setAction(Logic::Message::WALK_RIGHT);
+							_entity->emitMessage(m);*/
+						}
 					}
-				}
-				else
-				{
+					else
+					{
 				
-				}
+					}
 				//activar sus altares o buscarle, cambiar de anillo.
 					
 	} //fin de CBasicAI:tick

@@ -220,7 +220,7 @@ namespace GUI {
 				m->setAction(Logic::Message::WALK_STOP);
 				break;
 			case GUI::Key::LSHIFT:
-				m->setAction(Logic::Message::COVER);
+				m->setAction(Logic::Message::NO_COVER);
 				break;
 			default:
 				return false;

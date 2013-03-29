@@ -255,7 +255,7 @@ namespace AI
 			this->addEdge(idle, covering, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::COVER,true,Message::ANIMATION_MOMENT));
 			this->addEdge(l_run, covering, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::COVER,true,Message::ANIMATION_MOMENT));			
 			this->addEdge(r_run, covering, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::COVER,true,Message::ANIMATION_MOMENT));			
-			this->addEdge(covering,idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::COVER,true,Message::ANIMATION_MOMENT));
+			this->addEdge(covering,idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::NO_COVER,true,Message::ANIMATION_MOMENT));
 			
 			
 

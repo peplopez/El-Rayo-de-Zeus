@@ -100,9 +100,19 @@ namespace Logic
 			setYaw(Math::fromDegreesToRadians(_pos->getDegree()));
 			//
 			if (_pos->getSense()==LogicalPosition::RIGHT)
-				this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));
+				{
+				if (_type=="Player")
+					this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));
+				else
+					this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));		
+				}
 			else
-				this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
+				if (_type=="Player")				
+					this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
+				else
+					this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));
+				
+		
 		}
 		else //logicInput=false
 		{

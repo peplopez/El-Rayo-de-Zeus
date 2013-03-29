@@ -136,7 +136,15 @@ namespace Logic {
 
 	} // onTrigger
 
-	
+	void  CPhysics::onCollision (Physics::IObserver* other) //PeP
+	{
+		// Construimos un mensaje de tipo TOUCHED o UNTOUCHED 
+		// y lo enviamos a todos los componentes de la entidad.
 
-	
+		CMessageUInt* txMsg = new CMessageUInt();
+		txMsg->setType( Message::COLLISION ); 	
+			
+			txMsg->setUInt( static_cast<CPhysics*>(other)->getEntity()->getEntityID() );
+		_entity->emitMessage(txMsg);
+	}
 }

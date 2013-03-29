@@ -83,7 +83,7 @@ namespace Logic
 		***************/
 		//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
 		virtual void onTrigger(IObserver* other, bool enter);
-		virtual void onCollision(IObserver* other) {};
+		virtual void onCollision(IObserver* other);
 
 	protected:
 

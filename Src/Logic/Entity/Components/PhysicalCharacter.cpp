@@ -134,6 +134,9 @@ namespace Logic {
 	void CPhysicalCharacter::onCollision(IObserver* other) {
 		CPhysics::onCollision(other);
 		LOG(_entity->getName() << ": \"Auch! Me he chocado!\"");
+		
+		
+		//_entity->emitMessage(m,this);
 	}
 
 	void  CPhysicalCharacter::onTrigger (Physics::IObserver* other, bool enter) 
