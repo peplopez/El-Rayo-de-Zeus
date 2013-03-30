@@ -12,11 +12,9 @@
 
 namespace AI
 {
-
-
-//////////////////////////////
+////////////////////////////////
 //	Implementación de CLA_Change
-//////////////////////////////
+////////////////////////////////
 
 	/**
 	Método invocado al principio de la ejecución de la acción,
@@ -46,7 +44,7 @@ namespace AI
 				//(int index, IClockListener* listener, unsigned long time)
 		//		_reloj->addTimeObserver(0,this,(unsigned long)_maxChangingBaseTime);
 					//std::pair<IClockListener*,unsigned long>(this,_maxChangingBaseTime));		
-				_velocidad=0.01;
+				_velocidad=0.01f;
 				CMessageString *m = new CMessageString();	
 				m->setType(Message::SET_MATERIAL);
 				m->setString("transito");
@@ -57,15 +55,11 @@ namespace AI
 			{	//activo un reloj
 			//	_reloj->addTimeObserver(std::pair<IClockListener*,unsigned long>(this,_maxChangingRingTime));		
 				//_reloj->addTimeObserver(1,this,(unsigned long)_maxChangingRingTime);
-				_velocidad=0.05;
+				_velocidad=0.05f;
 				CMessageString *m = new CMessageString();	
 				m->setType(Message::SET_MATERIAL);
 				m->setString("transito");
 				_entity->emitMessage(m);
-							CMessageString *m2 = new CMessageString();	
-			m2->setType(Message::SET_MATERIAL);
-			m2->setString("marineRojo");
-			_entity->emitMessage(m2);	
 				break;
 			}	
 		}

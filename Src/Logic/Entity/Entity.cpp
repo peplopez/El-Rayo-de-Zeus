@@ -101,13 +101,13 @@ namespace Logic
 			//
 			if (_pos->getSense()==LogicalPosition::RIGHT)
 				{
-				if (_type=="Player")
+					if (_type=="Player" || _type=="OtherPlayer")
 					this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));
 				else
 					this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));		
 				}
 			else
-				if (_type=="Player")				
+				if (_type=="Player" || _type=="OtherPlayer")				
 					this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
 				else
 					this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));

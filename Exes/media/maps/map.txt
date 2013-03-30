@@ -18,7 +18,7 @@ Map ={
 		type = "PUApple",
 		base=3,
 		ring=1,
-		degrees=0,
+		degrees=50,
 		lifeModifier=20,
 	},
 	puThrone1 = {

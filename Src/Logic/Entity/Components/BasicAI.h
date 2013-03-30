@@ -44,7 +44,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CBasicAI() : IComponent(GetAltTypeIdOf(CBasicAI)){}
+		CBasicAI() : IComponent(GetAltTypeIdOf(CBasicAI)),_agresivo(true){}
 
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -122,6 +122,7 @@ namespace Logic
 	protected:
 		Application::IClock* _reloj;
 		
+		bool _agresivo;
 	}; // class CBasicAI
 
 	REG_FACTORY(CBasicAI);

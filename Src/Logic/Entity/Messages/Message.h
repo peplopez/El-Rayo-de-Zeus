@@ -76,7 +76,7 @@ namespace Logic
 			CHANGE_DIRECTION	= 0x17,
 			CHANGE_BASE			= 0x18,
 			CHANGE_RING			= 0x19,
-			UPDATE_LIFE			= 0x20,
+			HEAL				= 0x20,
 			LIGHT_ATTACK		= 0x21,
 			HEAVY_ATTACK		= 0x22,
 			DISPLAY_HUD			= 0x23,
@@ -86,8 +86,8 @@ namespace Logic
 			NO_COVER			= 0x27,
 			X_AXIS				= 0x28,
 			Y_AXIS				= 0x29,
-			Z_AXIS				= 0x30
-
+			Z_AXIS				= 0x30,
+			DAMAGE				= 0x31
 		};
 	}
 

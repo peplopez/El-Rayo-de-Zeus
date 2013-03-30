@@ -29,6 +29,7 @@ de ejemplo.
 #include "../LatentActions/LA_Jump.h"
 #include "../LatentActions/LA_Change.h"
 #include "../LatentActions/LA_Cover.h"
+#include "../LatentActions/LA_Beaten.h"
 
 #include "Logic/Entity/Messages/Message.h"
 
@@ -165,14 +166,6 @@ namespace AI
 		*/
 		CSHercules(CEntity* entity) : CStateMachine(entity) {
 
-			// TODO PRÁCTICA IA
-			// Aquí tiene que venir el código para crear la máquina de estado:
-			// En primer lugar se añaden los nodos. A continuación, utilizando 
-			// los ids que obtenemos al añadir los nodos se añaden las aristas.
-			// Por último hay que decir cuál es el nodo inicial.
-			// En este caso los nodos son acciones latentes (CLARouteToRandom 
-			// y CLAWait)
-//			int idle = this->addNode(new CLAIdle(_entity));
 			int idle = this->addNode(new CLAIdle(entity)); // Aunque hagamos new, la FSM los delete por dentro
 			int l_attack0=this->addNode(new CLA_Attack(entity,0,Message::LIGHT_ATTACK));
 			int l_attack1=this->addNode(new CLA_Attack(entity,1,Message::LIGHT_ATTACK));
@@ -189,14 +182,10 @@ namespace AI
 			int covering=this->addNode(new CLA_Cover(entity));
 			int changingBase=this->addNode(new CLA_Change(entity,Message::CHANGE_BASE));			
 			int changingRing=this->addNode(new CLA_Change(entity,Message::CHANGE_RING));
-
-
-			//int h_attack0Fatality=this->addNode(new CLA_Attack(entity,0,Message::HEAVY_ATTACK));
-			//int h_attack1Fatality=this->addNode(new CLA_Attack(entity,1,Message::HEAVY_ATTACK));
 			int h_attack2Fatality=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
-			
-			//this->addNode(new CLAL_Atack(_entity)); // Aunque hagamos new, la FSM los delete por dentro
-			//this->addEdge(idle, l_attack, new CConditionMessage<CLatentAction>(TMessageType::CONTROL,TActionType::LIGHT_ATTACK));
+
+			int damaged=this->addNode(new CLA_Beaten(entity));
+		
 			//COMBO 1
 			this->addEdge(idle, l_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,true,Message::ANIMATION_MOMENT));
 			this->addEdge(idle, l_run, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_LEFT,true,Message::ANIMATION_MOMENT));
@@ -219,9 +208,7 @@ namespace AI
 			this->addEdge(r_run, l_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,true,Message::ANIMATION_MOMENT));
 			this->addEdge(l_run, h_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,true,Message::ANIMATION_MOMENT));
 			this->addEdge(r_run, h_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,true,Message::ANIMATION_MOMENT));
-			
-			
-			//((Logic::Message::CONTROL,Logic::Message::LIGHT_ATTACK));
+
 			this->addEdge(l_attack0, idle, new CConditionFail());
 			this->addEdge(l_attack0, l_attack1,new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,false,Message::ANIMATION_MOMENT));
 			this->addEdge(l_attack1, h_attack2, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::ANIMATION_MOMENT));
@@ -229,11 +216,7 @@ namespace AI
 			this->addEdge(h_attack2, idle, new CConditionFail());
 
 			//COMBO 2
-			//this->addEdge(idle, h_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,true,Message::ANIMATION_MOMENT));
-			//this->addEdge(h_attack0, idle, new CConditionFail());
-			//this->addEdge(h_attack0, h_attack1, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::ANIMATION_MOMENT));
 			this->addEdge(h_attack1, l_attack2, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,false,Message::ANIMATION_MOMENT));
-			//this->addEdge(h_attack1, idle, new CConditionFail());
 			this->addEdge(l_attack2, idle, new CConditionFail());
 			
 			//COMBO 3
@@ -250,19 +233,17 @@ namespace AI
 			this->addEdge(idle, changingRing, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_UP,true,Message::ANIMATION_MOMENT));
 			this->addEdge(changingBase, idle, new CConditionFinished());
 			this->addEdge(changingRing, idle, new CConditionFinished());
-			//this->addEdge(changingBase, idle, new CConditionSuccess());
-			//this->addEdge(changingRing, idle, new CConditionSuccess());
+
 			this->addEdge(idle, covering, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::COVER,true,Message::ANIMATION_MOMENT));
 			this->addEdge(l_run, covering, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::COVER,true,Message::ANIMATION_MOMENT));			
 			this->addEdge(r_run, covering, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::COVER,true,Message::ANIMATION_MOMENT));			
 			this->addEdge(covering,idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::NO_COVER,true,Message::ANIMATION_MOMENT));
 			
-			
+			this->addEdge(idle, damaged, new CConditionMessageAction<CLatentAction>(Message::LIFE_MODIFIER,Message::DAMAGE,true,Message::ANIMATION_MOMENT));
+			this->addEdge(damaged, idle,  new CConditionSuccess());  // es un exito que no me hayan dado de nuevo mientras me estaban dando. Vuelvo a Idle, estado desde el cual me puedo cubrir o contraatacar
+			this->addEdge(damaged, damaged,  new CConditionMessageAction<CLatentAction>(Message::LIFE_MODIFIER,Message::DAMAGE,true,Message::ANIMATION_MOMENT));  //si mientras estoy en estado de daño me vuelven a dar vuelvo a poner la animación de daño, vuelvo al principio del estado en el que estoy
 
-			//this->addEdge(routeTo, routeTo, new CConditionFail() );
-			//this->addEdge(wait, routeTo, new CConditionFinished() );
 			// Por último hay que decir cuál es el nodo inicial.
-
 			this->setInitialNode(idle);
 		}
 	};

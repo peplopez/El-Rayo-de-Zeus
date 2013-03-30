@@ -123,9 +123,9 @@ namespace Logic
 			if(lifeModifier < 0)
 				msg->setString("Damage"); //Poner la animación de herido.
 			else if(lifeModifier > 0)
-				msg->setString("Heal"); // Poner la animación de curacion
+				msg->setString("FireUzi"); // Poner la animación de curacion
 
-			_entity->emitMessage(msg, this);
+			//_entity->emitMessage(msg, this); //cancelo el envio, estoy haciendolo en la maquina de estados
 		}		
 
 		// LIFEBAR CONTROL

@@ -206,6 +206,8 @@ namespace Logic
 									CMessageInt *m2 = new CMessageInt();
 									m2->setInt(-10);
 									m2->setType(Message::LIFE_MODIFIER);						
+									m2->setAction(Message::DAMAGE);						
+
 									(*it)->emitMessage(m2,this);
 									//veces++;
 									//std::cout<<veces<<std::endl;

@@ -57,6 +57,10 @@ namespace Logic
 
 		CMessageInt *txMsg = new CMessageInt();
 			txMsg->setInt(_LIFE_MODIFIER);
+			if (_LIFE_MODIFIER<0)
+				txMsg->setAction(Message::DAMAGE);
+			else
+				txMsg->setAction(Message::HEAL);			
 			txMsg->setType(Logic::Message::LIFE_MODIFIER);
 				entity->emitMessage(txMsg, this);
 	} // process

@@ -114,4 +114,4 @@ namespace AI
 
 } //namespace AI 
 
-#endif // __LOGIC_IDLELatentActions_H
+#endif // __AI_IDLELatentActions_H

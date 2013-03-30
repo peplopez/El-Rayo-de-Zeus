@@ -108,7 +108,7 @@ namespace Logic
 	{
 		_walkingLeft = false;
 		_walkingRight = true;
-	if (_entity->getType()!="Player")
+	/*if (_entity->getType()!="Player")
 	{
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
@@ -117,7 +117,7 @@ namespace Logic
 		message->setString("RunKatana");
 		message->setBool(true);
 		_entity->emitMessage(message,this);
-	}
+	}*/
 		
 	}
 
@@ -131,7 +131,7 @@ namespace Logic
 	
 
 		// Cambiamos la animación	
-		if (_entity->getType()!="Player")
+		/*if (_entity->getType()!="Player")
 	{
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);		
@@ -141,7 +141,7 @@ namespace Logic
 		message->setBool(true);
 		_entity->emitMessage(message,this);
 		
-	}
+	}*/
 	}
 
 	//---------------------------------------------------------
@@ -153,7 +153,7 @@ namespace Logic
 	
 		// Cambiamos la animación si no seguimos desplazándonos
 		// lateralmente
-			if (_entity->getType()!="Player")
+		/*	if (_entity->getType()!="Player")
 				{
 					CMessageBoolString *message = new CMessageBoolString();
 					message->setType(Message::SET_ANIMATION);		
@@ -163,7 +163,7 @@ namespace Logic
 					_entity->emitMessage(message,this);
 		
 				} // stopWalk
-	
+	*/
 	}
 	//---------------------------------------------------------
 

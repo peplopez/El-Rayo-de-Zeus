@@ -81,6 +81,7 @@
     <ClCompile Include="..\..\Src\AI\LatentActions\LAIdle.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LatentAction.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_Attack.cpp" />
+    <ClCompile Include="..\..\src\AI\LatentActions\LA_Beaten.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_Change.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_Cover.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_Jump.cpp" />
@@ -90,6 +91,7 @@
     <ClCompile Include="..\..\Src\AI\StateMachines\StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\AI\LatentActions\LA_Beaten.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LAIdle.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LatentAction.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LA_Attack.h" />

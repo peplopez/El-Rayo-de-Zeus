@@ -103,7 +103,8 @@ namespace Logic
 		switch(message->getType())
 		{
 			case Message::TRIGGER:
-				{					
+				{		
+					if (!_agresivo)
 					if(message->getAction() == Message::TRIGGER_ENTER)
 					{
 						Logic::CMessage *m = new Logic::CMessage();
@@ -117,10 +118,11 @@ namespace Logic
 						m2->setUInt(_entity->getEntityID());
 						_entity->emitMessage(m2);
 						
-					}break;
+					}
+					break;
 				}
 				case Message::ALTAR_ACTIVATED:
-				{
+				{	//este if es para saber si yo soy el que estaba activando el altar que se ha activado
 					if(_entity->getComponent<CAltarStateSwitcher>()->getTarget() == _entity->getMap()->getEntityByName(static_cast<CMessageString*>(message)->getString()))
 					{
 						int accion=rand()%3;
@@ -152,27 +154,23 @@ namespace Logic
 				}
 				case Message::COLLISION:
 				{
-				//	if(_entity->getComponent<CAltarStateSwitcher>()->getTarget() == _entity->getMap()->getEntityByName(static_cast<CMessageString*>(message)->getString()))
-					//{
 					int accion=rand()%2;
-						if (accion==0)
-						{	
+					if (accion==0)
+					{	
 						Logic::CMessage *m = new Logic::CMessage();
 						m->setType(Logic::Message::CONTROL);
 						m->setAction(Logic::Message::LIGHT_ATTACK);
 						_entity->emitMessage(m);
-						}
-						else
-						{
+					}
+					else
+					{
 						Logic::CMessage *m4 = new Logic::CMessage();
 						m4->setType(Logic::Message::CONTROL);
 						m4->setAction(Logic::Message::WALK_STOP);
 						_entity->emitMessage(m4);
 						_reloj->addTimeObserver(2,this,2500);		
-						break;
-						}
-
-					//}
+					}
+					break;
 				}
 		}
 	 }
