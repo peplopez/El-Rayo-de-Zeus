@@ -33,7 +33,7 @@ namespace Logic
 
 		//destroyAllComponents();
 
-		//Me temo que esta destrucción no es suficiente. Hay que destruir todo lo creado por esta clase.
+		//PeP: Me temo que esta destrucción no es suficiente. Hay que destruir todo lo creado por esta clase.
 		delete this;
 
 	} // ~CEntity
