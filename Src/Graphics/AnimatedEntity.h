@@ -132,6 +132,7 @@ namespace Graphics
 
 		bool rewind(const std::string &anim,const bool loop);
 
+		bool pauseAnimation(const std::string &anim,float moment);
 
 
 	protected:

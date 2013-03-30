@@ -74,6 +74,8 @@ namespace Logic
 
 			case Message::STOP_ANIMATION:
 				_graphicalEntity->stopAnimation(maux->getString());
+			//	_graphicalEntity->pauseAnimation(maux->getString(),_graphical);
+
 				LOG("STOP_ANIMATION: " << maux2->getString());
 				break;
 			case Message::REWIND_ANIMATION:
@@ -110,15 +112,19 @@ namespace Logic
 	
 	void CAnimatedGraphics::animationFinished(const std::string &animation)
 	{
-		// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
-		CMessageString *txMsg = new CMessageString();
-			txMsg->setType(Message::ANIMATION_FINISHED);
-			txMsg->setString(animation);
-			_entity->emitMessage(txMsg);
+		if (animation!="Death")
+		{
+			// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
+			CMessageString *txMsg = new CMessageString();
+				txMsg->setType(Message::ANIMATION_FINISHED);
+				txMsg->setString(animation);
+				_entity->emitMessage(txMsg);
 
-		// Si acaba una animación y tenemos una por defecto la ponemos
-		_graphicalEntity->stopAllAnimations();
-		_graphicalEntity->setAnimation(_defaultAnimation,0,true);
+			// Si acaba una animación y tenemos una por defecto la ponemos
+			_graphicalEntity->stopAllAnimations();
+			_graphicalEntity->setAnimation(_defaultAnimation,0,true);
+		}
+
 	}
 
 		

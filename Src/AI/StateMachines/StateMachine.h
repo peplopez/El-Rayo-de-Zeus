@@ -30,6 +30,7 @@ de ejemplo.
 #include "../LatentActions/LA_Change.h"
 #include "../LatentActions/LA_Cover.h"
 #include "../LatentActions/LA_Beaten.h"
+#include "../LatentActions/LA_Death.h"
 
 #include "Logic/Entity/Messages/Message.h"
 
@@ -185,7 +186,7 @@ namespace AI
 			int h_attack2Fatality=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
 
 			int damaged=this->addNode(new CLA_Beaten(entity));
-		
+			int dead=this->addNode(new CLA_Death(entity));
 			//COMBO 1
 			this->addEdge(idle, l_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,true,Message::ANIMATION_MOMENT));
 			this->addEdge(idle, l_run, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_LEFT,true,Message::ANIMATION_MOMENT));
@@ -240,8 +241,16 @@ namespace AI
 			this->addEdge(covering,idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::NO_COVER,true,Message::ANIMATION_MOMENT));
 			
 			this->addEdge(idle, damaged, new CConditionMessageAction<CLatentAction>(Message::LIFE_MODIFIER,Message::DAMAGE,true,Message::ANIMATION_MOMENT));
+			this->addEdge(l_run, damaged, new CConditionMessageAction<CLatentAction>(Message::LIFE_MODIFIER,Message::DAMAGE,true,Message::ANIMATION_MOMENT));
+			this->addEdge(r_run, damaged, new CConditionMessageAction<CLatentAction>(Message::LIFE_MODIFIER,Message::DAMAGE,true,Message::ANIMATION_MOMENT));
+			this->addEdge(jumping, damaged, new CConditionMessageAction<CLatentAction>(Message::LIFE_MODIFIER,Message::DAMAGE,true,Message::ANIMATION_MOMENT));
+
+
+			
 			this->addEdge(damaged, idle,  new CConditionSuccess());  // es un exito que no me hayan dado de nuevo mientras me estaban dando. Vuelvo a Idle, estado desde el cual me puedo cubrir o contraatacar
 			this->addEdge(damaged, damaged,  new CConditionMessageAction<CLatentAction>(Message::LIFE_MODIFIER,Message::DAMAGE,true,Message::ANIMATION_MOMENT));  //si mientras estoy en estado de daño me vuelven a dar vuelvo a poner la animación de daño, vuelvo al principio del estado en el que estoy
+			this->addEdge(damaged, dead,  new CConditionMessageAction<CLatentAction>(Message::DEAD,Message::DAMAGE,true,Message::ANIMATION_MOMENT));  //si mientras estoy en estado de daño me vuelven a dar vuelvo a poner la animación de daño, vuelvo al principio del estado en el que estoy
+			this->addEdge(dead, idle,  new CConditionSuccess());
 
 			// Por último hay que decir cuál es el nodo inicial.
 			this->setInitialNode(idle);

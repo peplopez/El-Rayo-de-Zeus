@@ -28,7 +28,13 @@ Map ={
 		degrees=120,
 		lifeModifier=10,
 	},
-
+	puPandora1 = {
+		type = "PUPandora",
+		base=3,
+		ring=2,
+		degrees=200,
+		lifeModifier=-200,
+	},
 	puPoison1 = {
 		type = "PUPoison",
 		base=3,

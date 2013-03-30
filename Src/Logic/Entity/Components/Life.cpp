@@ -105,7 +105,8 @@ namespace Logic
 
 			CMessage *msg = new CMessage();
 			msg->setType(Logic::Message::DEAD);
-				_entity->emitMessage(msg, this);
+			msg->setAction(Logic::Message::DAMAGE);
+			_entity->emitMessage(msg, this);
 		
 		// DAMAGE / HEAL 
 		} else { // Solo animaciones

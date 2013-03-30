@@ -71,6 +71,9 @@
     <ClCompile Include="..\..\src\AI\LatentActions\LA_Beaten.cpp">
       <Filter>Decision\LatentActions\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\AI\LatentActions\LA_Death.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\AI\Server.h">
@@ -107,6 +110,9 @@
       <Filter>Decision\LatentActions\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\AI\LatentActions\LA_Beaten.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\AI\LatentActions\LA_Death.h">
       <Filter>Decision\LatentActions\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

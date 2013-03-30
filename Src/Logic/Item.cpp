@@ -16,6 +16,8 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
+#include "Logic/Entity/Messages/MessageInt.h"
+
 #include "Logic/Maps/Map.h"
 #include "Logic/Server.h"
 
@@ -44,9 +46,21 @@ namespace Logic
 		// FRS Sólo cogen items los players
 		if(entity->getType() == "Player" || entity->getType() == "OtherPlayer") {	
 
-			CMessage *txMsg = new CMessage();
-				txMsg->setType(Logic::Message::DEAD); // Si alguien nos coge, morimos
-				_entity->emitMessage(txMsg, this);
+			//CMessage *txMsg = new CMessage();
+				//txMsg->setType(Logic::Message::DEAD); // Si alguien nos coge, morimos
+				//txMsg->setAction(Logic::Message::DAMAGE);
+
+				//txMsg->setType(Logic::Message::LIFE_MODIFIER); // Si alguien nos coge, morimos
+//				txMsg->setAction(Logic::Message::DAMAGE);
+
+				//_entity->emitMessage(txMsg, this);
+
+
+			CMessageInt *txMsg = new CMessageInt();
+			txMsg->setInt(-500);
+			txMsg->setAction(Message::DAMAGE);		
+			txMsg->setType(Logic::Message::LIFE_MODIFIER);
+			entity->emitMessage(txMsg, this);
 
 			// TODO FRS También habría que notificar, en cada impl. hija de este CItem padre,
 			// que se ha cogido el item X o que dicho item causa X efecto sobre el player.
