@@ -1,54 +1,50 @@
 //---------------------------------------------------------------------------
-// GameStatus.h
+// RingInfo.h
 //---------------------------------------------------------------------------
 
 /**
-@file GameStatus.h
+@file RingInfo.h
 
 Esta es la clase principal de gestión del juego. Contiene clases como son Bases, Players, Stats, etc.
-@see Logic::GameStatus
+@see Logic::RingInfo
 
 @author Jose Luis López Sánchez
 */
 #pragma once
-#ifndef __Logic_Base_H
-#define __Logic_Base_H
+#ifndef __Logic_RingInfo_H
+#define __Logic_RingInfo_H
+
+#include <string>
+#include <map>
 
 #include "Logic\Entity\LogicalPosition.h"
-#include <string>
-#include <list>
 namespace Logic
 {
-	class CRing;
-	class CPlayer;
+	class CAltarInfo;
+	//class CPlayerInfo;
 }
 namespace Logic
 {
-	class CBase
+	class CRingInfo
 	{
 	public:
-		CBase(const unsigned short numRings);
+		CRingInfo(const unsigned short numAltars, Ring tipo);
 
-		~CBase();
+		~CRingInfo();
 		/**
-			Para obtener el número de defensores de la base.
+			Para obtener el número de defensores en el anillo
 		*/
 		unsigned int getDefenders();
 
 		/**
-			Para obtener el número de atacantes en la base. Así saber que la base está calentita.
+			Para obtener el número de atacantes en el anillo. Así saber que el anillo está calentito.
 		*/
 		unsigned int getAttakers();
-				
-		/**
-			Número de altares
-		*/
-		const unsigned short _numAltars;
 
 		/**
-			Número de anillos
+			Número de altares en el anillo
 		*/
-		const unsigned short _numRings;  //ya se que siempre serán 3, pero por si acaso.
+		const unsigned short _numAltars;
 
 		/**
 			getters y setters
@@ -60,17 +56,18 @@ namespace Logic
 		bool getAllAltarsActivated(){return _AllAltarsActivated;}
 
 		void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
-		
+	
 	protected:
 		
 		/**
-			crea los anillos
+			Crea los altares
 		*/
-		Logic::CRing* CBase::createRing(const unsigned short altars, Ring tipo);
+		Logic::CAltarInfo* CRingInfo::createAltar();
+		
 		/**
-			Puntero al Player dueño de la base.
+			Id enumerado que dice que tipo de anillo soy
 		*/
-		const CPlayer* _player;
+		const Ring _tipo;
 				
 		/**
 			Número de altares activados
@@ -78,24 +75,19 @@ namespace Logic
 		unsigned short _numActivatedAltars;
 		
 		/**
-			Base Activada (todos sus altares activados
+			Anillo Activado (todos sus altares activados)
 		*/
 		bool _AllAltarsActivated;
 
 		/**
-			Vida, numero de rayos que tiene, de 0 a 3
+		Tipo para la lista de altares
 		*/
-		unsigned short _life;
+		typedef std::map<std::string,CAltarInfo*> TAltars;
 		
 		/**
-		Tipo para la lista de Anillos
+		Lista de los altares
 		*/
-		typedef std::list<CRing*> TRings;
-		
-		/**
-		Lista de los anillos
-		*/
-		TRings _rings;
+		TAltars _altars;
 	};
 }
 

@@ -151,19 +151,19 @@
     <ClCompile Include="..\..\Src\Logic\GameStatus.cpp">
       <Filter>GameStatus\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Base.cpp">
-      <Filter>GameStatus\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Player.cpp">
-      <Filter>GameStatus\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Ring.cpp">
-      <Filter>GameStatus\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Ranking.cpp">
       <Filter>GameStatus\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Logic\AltarInfo.cpp">
+      <Filter>GameStatus\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\BaseInfo.cpp">
+      <Filter>GameStatus\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\PlayerInfo.cpp">
+      <Filter>GameStatus\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\RingInfo.cpp">
       <Filter>GameStatus\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -330,19 +330,19 @@
     <ClInclude Include="..\..\Src\Logic\GameStatus.h">
       <Filter>GameStatus\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Base.h">
-      <Filter>GameStatus\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Player.h">
-      <Filter>GameStatus\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Ring.h">
-      <Filter>GameStatus\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Ranking.h">
       <Filter>GameStatus\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Logic\AltarInfo.h">
+      <Filter>GameStatus\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\BaseInfo.h">
+      <Filter>GameStatus\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\PlayerInfo.h">
+      <Filter>GameStatus\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\RingInfo.h">
       <Filter>GameStatus\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

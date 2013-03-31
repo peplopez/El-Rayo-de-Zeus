@@ -1,26 +1,24 @@
 //---------------------------------------------------------------------------
-// Base.cpp
+// BaseInfoInfo.cpp
 //---------------------------------------------------------------------------
 
 
 /**
-@file Base.cpp
+@file BaseInfo.cpp
 
 Contiene la implementación de la clase que maneja las posiciones lógicas
 
-@see Logic::Base
+@see Logic::BaseInfo
 
 @author Jose Luis López Sánchez
 */
 
-#include "Logic\Base.h"
-#include "Logic\Ring.h"
-
-//using namespace Logic;
+#include "Logic\BaseInfo.h"
+#include "Logic\RingInfo.h"
 
 namespace Logic
 {
-	CBase::CBase(const unsigned short numRings):_numRings(numRings),_AllAltarsActivated(false),_numActivatedAltars(0),_life(1),_numAltars(11)
+	CBaseInfo::CBaseInfo(const unsigned short numRings):_numRings(numRings),_AllAltarsActivated(false),_numActivatedAltars(0),_life(1),_numAltars(11)
 	{		
 		//_rings=new CRingnumPlayers;
 		//_numBases=numPlayers+1;
@@ -39,14 +37,14 @@ namespace Logic
 				altars=3;
 				tipo=tipo=LogicalPosition::UPPER_RING;			
 			}
-			Logic::CRing* ring=createRing(altars,tipo);
+			Logic::CRingInfo* ring=createRing(altars,tipo);
 			if (ring!=0)	
 				_rings.push_back(ring);
 		}
 
 	}
 	
-	CBase::~CBase()
+	CBaseInfo::~CBaseInfo()
 	{	
 		//delete &_bases;	//me teneis que enseñar a destruir bien...		
 		//delete &_players;
@@ -55,11 +53,11 @@ namespace Logic
 	//---------------------------------------------------------
 
 	
-	Logic::CRing* CBase::createRing(const unsigned short numAltars, Ring tipo)
+	Logic::CRingInfo* CBaseInfo::createRing(const unsigned short numAltars, Ring tipo)
 	{		
 		//assert( &_bases );//&& "LOGIC::GRAPHICS>> No existe escena gráfica!");
 
-		Logic::CRing* ring=new CRing(numAltars, tipo);
+		Logic::CRingInfo* ring=new CRingInfo(numAltars, tipo);
 		if (ring)
 			return ring;
 

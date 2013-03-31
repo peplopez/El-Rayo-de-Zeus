@@ -14,7 +14,7 @@ Contiene la implementación de la clase que maneja las posiciones lógicas
 */
 
 #include "Logic\GameStatus.h"
-#include "Logic\Base.h"
+#include "Logic\BaseInfo.h"
 
 #include <assert.h>
 //using namespace Logic;
@@ -22,13 +22,14 @@ Contiene la implementación de la clase que maneja las posiciones lógicas
 namespace Logic 
 {
 	CGameStatus::CGameStatus(const unsigned short numPlayers)
-	{		
+	{
+
 		_numPlayers=numPlayers;
 		_numBases=numPlayers+1;
 		
 		for(int i=0; i<_numBases; i++)//creamos las bases con 3 anillos cada una
 		{
-			Logic::CBase* base=createBase(3);
+			Logic::CBaseInfo* base=createBase(3);
 			if (base!=0)	
 				_bases.push_back(base);
 		}
@@ -42,11 +43,11 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	Logic::CBase* CGameStatus::createBase(const unsigned short rings)
+	Logic::CBaseInfo* CGameStatus::createBase(const unsigned short rings)
 	{		
 		assert( &_bases );//&& "LOGIC::GRAPHICS>> No existe escena gráfica!");
 
-		Logic::CBase* base=new Logic::CBase(3);
+		Logic::CBaseInfo* base=new Logic::CBaseInfo(3);
 		if (base)
 			return base;
 

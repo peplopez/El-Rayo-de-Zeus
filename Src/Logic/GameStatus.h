@@ -17,8 +17,8 @@ Esta es la clase principal de gestión del juego. Contiene clases como son Bases,
 #include <list>
 namespace Logic
 {
-	class CBase;
-	class CPlayer;
+	class CBaseInfo;
+	class CPlayerInfo;
 }
 namespace Logic
 {
@@ -29,12 +29,27 @@ namespace Logic
 
 		~CGameStatus();
 
+		//opciones que van a ir a Ranking
+		/**
+			Tiempo programado como necesario en la partida creada
+			para que el altar cambie desde activado a desactivado
+			y viceversa.
+			Se asume que es el mismo para todos los altares de la 
+			partida y que este tiempo jamás cambia.
+		*/
+		//const unsigned long _activationTime;
+
+		/**
+			Puntos de mérito que supone activar un altar.
+		*/
+		//const unsigned int _scoreAltar;
+		
 	protected:
 	
 		/**
 			crea las bases
 		*/
-		Logic::CBase* createBase(const unsigned short rings);
+		Logic::CBaseInfo* createBase(const unsigned short rings);
 
 		/**
 			Número de jugadores
@@ -48,7 +63,7 @@ namespace Logic
 		/**
 		Tipo para la lista de Bases
 		*/
-		typedef std::list<CPlayer*> TPlayers;
+		typedef std::list<CPlayerInfo*> TPlayers;
 
 		/**
 		Lista de las Bases
@@ -58,7 +73,7 @@ namespace Logic
 		/**
 		Tipo para la lista de Bases
 		*/
-		typedef std::list<CBase*> TBases;
+		typedef std::list<CBaseInfo*> TBases;
 
 		/**
 		Lista de las Bases
