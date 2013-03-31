@@ -28,7 +28,7 @@ namespace Physics
 	{
 	public:
 
-		typedef std::vector<CActor*>	TActors;
+		typedef std::set<CActor*> TActors;
 
 		CActorTrigger(const Logic::TLogicalPosition &position, 
 					const float angularWidth, const float height, IObserver *component) 
@@ -39,13 +39,11 @@ namespace Physics
 
 		bool enters(CActor*); // TODO FRS no sé si me molan estos nombres de métodos... xD
 		bool exits(CActor*);
-		
+		bool isOnTrigger(CActor* actor) { return _actorsOnTrigger.count(actor); }
 		
 	private:
 
-		TActors _actorsOnTrigger;
-
-		bool isOnTrigger(CActor* actor);
+		TActors _actorsOnTrigger;	
 
 	}; // class CActorTrigger
 

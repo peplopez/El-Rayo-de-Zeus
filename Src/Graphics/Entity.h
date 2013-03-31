@@ -18,6 +18,8 @@ Contiene la declaración de la clase que representa una entidad gráfica.
 
 #include "Graphics\SceneElement.h"
 
+#include <stack>
+
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 
 {
@@ -26,6 +28,12 @@ namespace Ogre
 
 namespace Graphics 
 {
+
+	enum TAttachPoint {
+			HEAD,
+			HAND
+	};
+
 	/**
 	Clase que representa una entidad gráfica. Contiene una referencia a
 	una entidad de Ogre y al Nodo que la contiene.
@@ -72,6 +80,33 @@ namespace Graphics
 		: _name(name), _mesh(mesh), _entity(0), _isStatic(isStatic) {} 
 
 
+		/************
+			ATTACH
+		**************/
+/*		void attachToHead(const std::string &mesh) { 
+			attach(TBoneName::HEAD, mesh); 
+		}
+		void attachToHand(const std::string &mesh){ 
+			attach(TBoneName::HAND, mesh); 
+		}	*/	
+		
+		/*void detachFromHead() {	detach( _name.append("_head") ); }
+		void detachFromHand() {	detach( _name.append("_hand") ); }*/
+
+		/**
+			Unir el model mesh al hueso toBone
+			FRS De momento, no permite "atachar" el mismo mesh más de una vez en un único cuerpo.
+		*/
+		void attach(TAttachPoint attachPoint, const std::string &mesh) {
+			attach( BONE_DICTIONARY[attachPoint], mesh);
+		}		
+		void detach(TAttachPoint detachPoint) {
+			detach( BONE_DICTIONARY[detachPoint] );
+		}
+		void attach(const std::string &toBone, const std::string &mesh);
+		void detach(const std::string &fromBone);	
+		
+
 		/******************
 			GET's & SET's
 		********************/
@@ -87,10 +122,7 @@ namespace Graphics
 		*/
 		bool isVisible() const;
 
-		bool isStatic() const { return _isStatic; }
-
-		void attachToHand(const std::string &meshName);
-		void deattachToHand(const std::string &meshName);
+		bool isStatic() const { return _isStatic; }		
 
 		/**
 		*/
@@ -134,7 +166,20 @@ namespace Graphics
 		
 		
 	private:
-		
+
+		 // DICCIONARIO TAttachPoint -> BoneName
+		typedef std::map<TAttachPoint, std::string> TBoneDictionary;
+
+			static TBoneDictionary BONE_DICTIONARY;
+
+				static TBoneDictionary initBoneDictionary() {
+					TBoneDictionary dictionary;
+						dictionary[TAttachPoint::HEAD] = "Bip01 Head";
+						dictionary[TAttachPoint::HAND] = "Bip01 R Hand";
+					// TODO añadir on demand...
+					return dictionary;
+				}
+
 		/**
 		Nombre de la entidad.
 		*/
@@ -145,7 +190,15 @@ namespace Graphics
 		*/
 		std::string _mesh;
 
+
+		typedef std::stack<Ogre::Entity*> TAttachedMeshes;
+		typedef std::map<std::string, TAttachedMeshes> TBoneObjectsTable;
+			TBoneObjectsTable _boneObjectsTable;
+		
 		bool _isStatic;
+
+		
+
 
 	}; // class CEntity
 

@@ -41,7 +41,7 @@ Map ={
 		base=3,
 		ring=1,
 		degrees=30,
-		lifeModifier=-20,
+		lifeModifier=0,
 	},
 	puTime1 = {
 		type = "PUTime",

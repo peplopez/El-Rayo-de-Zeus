@@ -98,16 +98,14 @@ namespace Logic
 				_entity->emitMessage(msg, this);
 		
 		// DAMAGE / HEAL 
-		} else { // Solo animaciones
+		} else if(lifeModifier) { // Solo animaciones
 
 			CMessageBoolString *msg = new CMessageBoolString();
 				msg->setType(TMessageType::SET_ANIMATION);	
 				msg->setBool(false);
 
-			if(lifeModifier < 0)
-				msg->setString("Damage"); //Poner la animación de herido.
-			else if(lifeModifier > 0)
-				msg->setString("Heal"); // Poner la animación de curacion
+			lifeModifier < 0 ?	msg->setString("Damage") : //Poner la animación de herido.
+								msg->setString("Heal"); // Poner la animación de curacion
 
 			_entity->emitMessage(msg, this);
 		}		

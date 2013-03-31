@@ -15,6 +15,7 @@ gráfica de la entidad.
 
 #include "Logic/Entity/Component.h"
 
+
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Graphics 
 {
@@ -53,10 +54,10 @@ namespace Logic
 		defecto.
 		*/
 		CGraphics() : 
-		  IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0), _scene(0), _model(""), _modelWeapon("") {}
+		  IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0), _scene(0), _model("") {}
 
 		CGraphics(altTypeId id) : 
-		IComponent(id), _graphicalEntity(0), _scene(0), _model(""), _modelWeapon(""){}
+		IComponent(id), _graphicalEntity(0), _scene(0), _model(""){}
 
 		/**
 		Destructor (virtual); Quita de la escena y destruye la entidad gráfica.
@@ -95,6 +96,7 @@ namespace Logic
 
 	protected:
 
+		
 		/**	Entidad gráfica.*/
 		Graphics::CEntity *_graphicalEntity;
 
@@ -108,10 +110,9 @@ namespace Logic
 		Atributo con el nombre del modelo gráfico de la entidad.
 		*/
 		std::string _model;
-		std::string _modelWeapon;
-
 		
-	    /**
+		
+		/**
 		Método virtual que construye la entidad gráfica de la entidad. Otros
 		componentes pueden sobreescribirlo para inicializar otro tipo de
 		entidades gráficas (animadas, etc.).

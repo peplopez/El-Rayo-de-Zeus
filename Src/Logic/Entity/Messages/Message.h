@@ -55,7 +55,9 @@ namespace Logic
 			ANIMATION_MOMENT		= 0x20,
 			REWIND_ANIMATION		= 0x21,
 			ALTAR_ACTIVATED 		= 0x22,
-			ALTAR_DEACTIVATED 		= 0x23
+			ALTAR_DEACTIVATED 		= 0x23,
+			ATTACH					= 0x24,
+			DETACH					= 0x25
 		};
 
 		enum TActionType : unsigned char
@@ -80,7 +82,11 @@ namespace Logic
 			DISPLAY_HUD			= 0x23,
 			TRIGGER_ENTER		= 0x24,
 			TRIGGER_EXIT		= 0x25,
-			COVER				= 0x26
+			COVER				= 0x26,
+			ATTACH_TO_HEAD		= 0x27, // FRS si el número de attach points creciera mucho, habría que considerar el pasar esa info como argumento en lugar de como action
+			ATTACH_TO_HAND		= 0x28,
+			DETACH_FROM_HEAD	= 0x29,
+			DETACH_FROM_HAND	= 0x30
 		};
 	}
 

@@ -23,7 +23,7 @@ gráfica de una entidad estática.
 #include "Logic/Entity/Messages/MessageBoolString.h"
 #include "Logic/Entity/Messages/MessageString.h"
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "LOGIC::ANIMATED>> " << msg << std::endl;
@@ -51,11 +51,13 @@ namespace Logic
 	void CAnimatedGraphics::process(CMessage *message)
 	{
 		CGraphics::process(message);
-		CMessageBoolString *maux = static_cast<CMessageBoolString*>(message);
-		CMessageString *maux2 = static_cast<CMessageString*>(message);
+		
+		
 		switch(message->getType())
 		{
-			case Message::SET_ANIMATION:
+			case Message::SET_ANIMATION: {
+
+				CMessageBoolString *rxMsg = static_cast<CMessageBoolString*>(message);
 				// Paramos todas las animaciones antes de poner una nueva.
 				// Un control más sofisticado debería permitir interpolación
 				// de animaciones. Galeon no lo plantea.
@@ -67,18 +69,22 @@ namespace Logic
 					_graphicalEntity->setAnimation(maux->getString(),0.8,maux->getBool());
 				else*/
 
-				_graphicalEntity->setAnimation(maux->getString(),0,maux->getBool());
+				_graphicalEntity->setAnimation(rxMsg ->getString(), 0, rxMsg ->getBool());
 
-				LOG("SET_ANIMATION: " << maux->getString());
-				break;
+				LOG("SET_ANIMATION: " << rxMsg->getString());
+			}	break;
 
-			case Message::STOP_ANIMATION:
-				_graphicalEntity->stopAnimation(maux->getString());
-				LOG("STOP_ANIMATION: " << maux2->getString());
-				break;
-			case Message::REWIND_ANIMATION:
-				_graphicalEntity->rewind(maux->getString(),maux->getBool());
-				break;
+			case Message::STOP_ANIMATION:	{
+				CMessageString *rxMsg = static_cast<CMessageString*>(message);
+				_graphicalEntity->stopAnimation(rxMsg ->getString());
+				LOG("STOP_ANIMATION: " << rxMsg->getString());
+			}	break;
+
+			case Message::REWIND_ANIMATION:	{
+				CMessageBoolString *rxMsg = static_cast<CMessageBoolString*>(message);
+				_graphicalEntity->rewind(rxMsg ->getString(), rxMsg->getBool() );
+				LOG("REWIND_ANIMATION: " << rxMsg->getString());
+			}	break;
 		}
 
 	} // process

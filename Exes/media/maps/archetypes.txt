@@ -79,6 +79,7 @@ Map = {
 		type = "Player",
 		model = "marine.mesh",
 		modelWeapon = "Katana.mesh",
+		modelHelmet = "barril.mesh",
 		logicInput=true,
 		base=3,
 		ring=1,

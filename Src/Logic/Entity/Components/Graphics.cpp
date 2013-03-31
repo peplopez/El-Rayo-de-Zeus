@@ -54,9 +54,6 @@ namespace Logic
 		assert(entityInfo->hasAttribute("model"));
 			_model = entityInfo->getStringAttribute("model");
 
-		if(entityInfo->hasAttribute("modelWeapon"))
-			_modelWeapon = entityInfo->getStringAttribute("modelWeapon");
-
 		_graphicalEntity = createGraphicalEntity(entityInfo);
 			if(!_graphicalEntity)
 				return false;
@@ -69,15 +66,24 @@ namespace Logic
 			&& _entity->getRing() == LogicalPosition::CENTRAL_RING)
 			scale = Vector3(1.3,1.0,1.3);
 	//
+
 		else if(entityInfo->hasAttribute("scaleFactor") )
 			scale *=  entityInfo->getFloatAttribute("scaleFactor");
 
 		_graphicalEntity->setTransform(_entity->getTransform());
 		_graphicalEntity->setScale(scale);	
 		
-		if(_modelWeapon.length() > 0)
-			_graphicalEntity->attachToHand(_modelWeapon);
 
+		// ATTACHs
+	// TODO  FRS Esto estaría guapo tron extraerlo directamente como lista de pares desde el map.txt
+		if(entityInfo->hasAttribute("modelWeapon"))
+			_graphicalEntity->attach( Graphics::TAttachPoint::HAND, 
+				entityInfo->getStringAttribute("modelWeapon") );
+
+		if(entityInfo->hasAttribute("modelHelmet"))
+			_graphicalEntity->attach( Graphics::TAttachPoint::HEAD, 
+				entityInfo->getStringAttribute("modelHelmet") );	
+	//
 		return true;
 
 	} // spawn
@@ -89,7 +95,8 @@ namespace Logic
 		return	 message->getType() == Message::SET_TRANSFORM ||
 				 message->getType() == Message::SET_TRANSFORM_QUAT ||
 				 message->getType() == Message::SET_MATERIAL ||
-				 message->getType() == Message::SET_SUBENTITY_MATERIAL ;
+				 message->getType() == Message::SET_SUBENTITY_MATERIAL ||
+				 message->getType() == Message::ATTACH;
 
 	} // accept
 	
@@ -97,29 +104,42 @@ namespace Logic
 
 	void CGraphics::process(CMessage *message)
 	{
-		switch(message->getType())
-		{
-		case Message::SET_TRANSFORM:
-			{
-			CMessageTF *maux = static_cast<CMessageTF*>(message);
-			_graphicalEntity->setTransform(maux->getTransform());
+		switch( message->getType() ) {
+		
+		case Message::SET_TRANSFORM: {			
+			CMessageTF *rxMsg = static_cast<CMessageTF*>(message);
+			_graphicalEntity->setTransform(rxMsg->getTransform());			
+		}	break;
+	
+		case Message::SET_MATERIAL: {			
+			CMessageString *rxMsg = static_cast<CMessageString*>(message);
+			_graphicalEntity->setMaterial(rxMsg->getString());			
+		}	break;
+
+		case Message::SET_SUBENTITY_MATERIAL:{
+			CMessageUIntString *rxMsg = static_cast<CMessageUIntString*>(message);
+			_graphicalEntity->setSubEntityMaterial(rxMsg->getString(), rxMsg->getUInt());
+		}	break;
+
+		case Message::ATTACH: {
+			CMessageString *rxMsg = static_cast<CMessageString*>(message);
+			switch( message->getAction() ) {
+				case Message::ATTACH_TO_HEAD:	
+					_graphicalEntity->attach( Graphics::TAttachPoint::HEAD, rxMsg->getString() );	
+					break;
+				case Message::ATTACH_TO_HAND:	
+					_graphicalEntity->attach( Graphics::TAttachPoint::HAND,	rxMsg->getString() );	
+					break;
+				case Message::DETACH_FROM_HEAD:	
+					_graphicalEntity->detach( Graphics::TAttachPoint::HEAD );	
+					break;
+				case Message::DETACH_FROM_HAND:	
+					_graphicalEntity->detach( Graphics::TAttachPoint::HAND );	
+					break;
 			}
-			break;
-		case Message::SET_TRANSFORM_QUAT:
-			//graphicalEntity->setTransform(message._quat);
-			break;
-		case Message::SET_MATERIAL:
-			{
-			CMessageString *maux2 = static_cast<CMessageString*>(message);
-			_graphicalEntity->setMaterial(maux2->getString());
-			}
-			break;
-		case Message::SET_SUBENTITY_MATERIAL:
-			{
-			CMessageUIntString *maux3 = static_cast<CMessageUIntString*>(message);
-			_graphicalEntity->setSubEntityMaterial(maux3->getString(), maux3->getUInt());
-			}
-		}
+		} break;
+
+		} // switch
 
 	} // process
 

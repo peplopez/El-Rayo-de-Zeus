@@ -24,6 +24,7 @@ Contiene la implementación de la clase que representa una entidad gráfica.
 
 namespace Graphics 
 {
+	CEntity::TBoneDictionary CEntity::BONE_DICTIONARY = CEntity::initBoneDictionary();
 		
 	bool CEntity::load()
 	{
@@ -33,12 +34,6 @@ namespace Graphics
 			_node = getSceneMgr()->getRootSceneNode()
 					->createChildSceneNode(_name + "_node");		
 				_node->attachObject(_entity);		
-
-			// HACK Emily: cutre - para attach del arma en el Player
-			if(_name == "Mono")  // que es como llamamos al player en el mapa		
-				_entity->attachObjectToBone("Bip01 R Hand", 
-					getSceneMgr()->createEntity("weapon", "Katana.mesh")
-				);	
 
 			_loaded = true;
 
@@ -67,7 +62,51 @@ namespace Graphics
 
 	} // unload
 
+
+
+	/***************
+		ATTACH
+	***************/
 	
+	void CEntity::attach(const std::string &toBone, const std::string &mesh) 
+	{
+		assert(_node && "La entidad no ha sido cargada en la escena");
+		if(!_node) return;
+
+		std::string objectName = _name + '.';
+			objectName.append( mesh, 0, mesh.find_last_of('.') ); // Sufijo = meshName sin la extension (.mesh)
+
+		// FRS De momento, no permite "atachar" el mismo mesh más de una vez en un único cuerpo.
+		assert( !getSceneMgr()->hasEntity(objectName) && "Ya existe un objeto con el mismo nombre en la escena");
+		
+		TAttachedMeshes boneObjects = _boneObjectsTable[toBone];
+			if( !boneObjects.empty() )				// Si ya había objetos "atachados" a ese hueso
+				boneObjects.top()->setVisible(false); // ocultamos el último attach que tenía el hueso	
+
+		Ogre::Entity* newObject = getSceneMgr()->createEntity(objectName, mesh);			
+			_entity->attachObjectToBone(toBone, newObject);
+			boneObjects.push(newObject);
+
+	} // attach
+
+	//--------------------------------------------------------	
+
+	void CEntity::detach(const std::string &fromBone) 
+	{
+		assert(_node && "La entidad no ha sido cargada en la escena");
+
+		TAttachedMeshes boneObjects = _boneObjectsTable[fromBone];
+			if( boneObjects.empty() ) 
+				return;				// Ningún objeto "atachado" a ese hueso
+
+		getSceneMgr()->destroyEntity(  boneObjects.top() ); // Eliminamos último attach
+
+		boneObjects.pop();						// lo desapilamos
+		boneObjects.top()->setVisible(true);	//  y activamos el siguiente apilado
+	} // detach
+
+
+
 	
 	/********************
 		GET's & SET's
@@ -82,27 +121,6 @@ namespace Graphics
 	
 	//--------------------------------------------------------
 
-	void CEntity::attachToHand(const std::string &meshName) 
-	{
-		assert(_node && "La entidad no ha sido cargada en la escena");
-		if(!_node) return;
-
-		_entity->attachObjectToBone("Bip01 R Hand", 
-				getSceneMgr()->createEntity(_name + "_hand", meshName)
-			);	
-	} // setMaterial
-
-	//--------------------------------------------------------
-
-	void CEntity::deattachToHand(const std::string &meshName) 
-	{
-		assert(_node && "La entidad no ha sido cargada en la escena");
-		if(_node) 
-			_entity->detachObjectFromBone(_name + "_hand");	
-	} // setMaterial
-
-
-	//--------------------------------------------------------
 
 	void CEntity::setMaterial(const std::string &materialName) 
 	{
