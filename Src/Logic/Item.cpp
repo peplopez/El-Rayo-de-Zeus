@@ -16,6 +16,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
+#include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
 #include "Logic/Maps/Map.h"
 #include "Logic/Server.h"
@@ -29,6 +30,19 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
+	bool CItem::spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo)
+	{		
+		if(!IComponent::spawn(entity,map,entityInfo))
+			return false;
+
+		if( entityInfo->hasAttribute("modelOnHand") )
+			_modelOnHand = entityInfo->getStringAttribute("modelOnHand");
+
+		return true;		
+	} // spawn
+
+
+	//---------------------------------------------------------
 	bool CItem::accept(const CMessage *message) {
 		return	message->getType() == TMessageType::TRIGGER &&
 				message->getAction() == TActionType::TRIGGER_ENTER;
@@ -52,10 +66,20 @@ namespace Logic
 
 			// GET OBJECT ANIM
 			CMessageBoolString *txMsg2 = new CMessageBoolString();
-				txMsg2->setType(TMessageType::SET_ANIMATION); // Si alguien nos coge, morimos
+				txMsg2->setType(TMessageType::SET_ANIMATION); 
 				txMsg2->setBool(false);
 				txMsg2->setString("GetObject");
 				otherEntity->emitMessage(txMsg2); // TODO FRS falta desactivar INPUT => migrar esto a FSM de animaciones
+
+			// ATTACH TO HAND
+			if( _modelOnHand.length() > 0 ) {
+				CMessageString *txMsg3 = new CMessageString();
+					txMsg3->setType(TMessageType::ATTACH); 
+					txMsg3->setAction(TActionType::ATTACH_TO_HAND);
+					txMsg3->setString(_modelOnHand);
+					otherEntity->emitMessage(txMsg3);
+			}
+
 
 			// TODO FRS También habría que notificar, en cada impl. hija de este CItem padre,
 			// que se ha cogido el item X o que dicho item causa X efecto sobre el player.

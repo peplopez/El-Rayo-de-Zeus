@@ -28,16 +28,6 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CDeath::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
-	{
-		if(!IComponent::spawn(entity,map,entityInfo))
-			return false;
-
-		return true;
-	} // spawn
-	
-	//---------------------------------------------------------
-
 	bool CDeath::accept(const CMessage *message)
 	{
 		return	message->getType() == Message::DEAD ||

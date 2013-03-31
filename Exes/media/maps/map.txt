@@ -43,8 +43,8 @@ Map ={
 		degrees=30,
 		lifeModifier=0,
 	},
-	puTime1 = {
-		type = "PUTime",
+	puClock1 = {
+		type = "PUClock",
 		base=3,
 		ring=2,
 		degrees=120,

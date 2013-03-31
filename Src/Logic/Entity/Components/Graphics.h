@@ -47,6 +47,7 @@ namespace Logic
 	class CGraphics : public IComponent
 	{
 		DEC_FACTORY(CGraphics);
+
 	public:
 
 		/**
@@ -54,10 +55,10 @@ namespace Logic
 		defecto.
 		*/
 		CGraphics() : 
-		  IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0), _scene(0), _model("") {}
+			IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0), _scene(0), _model("") {}
 
 		CGraphics(altTypeId id) : 
-		IComponent(id), _graphicalEntity(0), _scene(0), _model(""){}
+			IComponent(id), _graphicalEntity(0), _scene(0), _model(""){}
 
 		/**
 		Destructor (virtual); Quita de la escena y destruye la entidad gráfica.

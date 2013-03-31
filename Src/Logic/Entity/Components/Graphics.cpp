@@ -93,7 +93,6 @@ namespace Logic
 	bool CGraphics::accept(const CMessage *message)
 	{
 		return	 message->getType() == Message::SET_TRANSFORM ||
-				 message->getType() == Message::SET_TRANSFORM_QUAT ||
 				 message->getType() == Message::SET_MATERIAL ||
 				 message->getType() == Message::SET_SUBENTITY_MATERIAL ||
 				 message->getType() == Message::ATTACH;
