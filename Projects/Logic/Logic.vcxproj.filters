@@ -163,7 +163,7 @@
     <ClCompile Include="..\..\Src\Logic\Ranking.cpp">
       <Filter>GameStatus\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Logic\Altar.cpp">
+    <ClCompile Include="..\..\src\Logic\AltarInfo.cpp">
       <Filter>GameStatus\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -342,7 +342,7 @@
     <ClInclude Include="..\..\Src\Logic\Ranking.h">
       <Filter>GameStatus\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Logic\Altar.h">
+    <ClInclude Include="..\..\src\Logic\AltarInfo.h">
       <Filter>GameStatus\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
