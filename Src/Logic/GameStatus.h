@@ -14,7 +14,6 @@ Esta es la clase principal de gestión del juego. Contiene clases como son Bases,
 #ifndef __Logic_GameStatus_H
 #define __Logic_GameStatus_H
 
-#include <string>
 #include <list>
 namespace Logic
 {
@@ -30,7 +29,13 @@ namespace Logic
 
 		~CGameStatus();
 
+
+	/**
+			crea las bases
+		*/
+		Logic::CBase* createBase(const unsigned short rings);
 	protected:
+	
 		/**
 			Número de jugadores
 		*/
