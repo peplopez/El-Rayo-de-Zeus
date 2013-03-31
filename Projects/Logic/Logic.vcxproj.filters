@@ -163,6 +163,9 @@
     <ClCompile Include="..\..\Src\Logic\Ranking.cpp">
       <Filter>GameStatus\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Logic\Altar.cpp">
+      <Filter>GameStatus\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedGraphics.h">
@@ -337,6 +340,9 @@
       <Filter>GameStatus\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Ranking.h">
+      <Filter>GameStatus\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Logic\Altar.h">
       <Filter>GameStatus\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

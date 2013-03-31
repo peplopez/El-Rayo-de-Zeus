@@ -14,6 +14,7 @@ Esta es la clase principal de gestión del juego. Contiene clases como son Bases,
 #ifndef __Logic_Base_H
 #define __Logic_Base_H
 
+#include "Logic\Entity\LogicalPosition.h"
 #include <string>
 #include <list>
 namespace Logic
@@ -59,9 +60,13 @@ namespace Logic
 		bool getAllAltarsActivated(){return _AllAltarsActivated;}
 
 		void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
-	
+		
 	protected:
 		
+		/**
+			crea los anillos
+		*/
+		Logic::CRing* CBase::createRing(const unsigned short altars, Ring tipo);
 		/**
 			Puntero al Player dueño de la base.
 		*/

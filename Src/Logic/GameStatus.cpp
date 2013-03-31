@@ -26,7 +26,7 @@ namespace Logic
 		_numPlayers=numPlayers;
 		_numBases=numPlayers+1;
 		
-		for(int i=0; i<_numBases; i++)
+		for(int i=0; i<_numBases; i++)//creamos las bases con 3 anillos cada una
 		{
 			Logic::CBase* base=createBase(3);
 			if (base!=0)	
@@ -51,5 +51,5 @@ namespace Logic
 			return base;
 
 		return 0;
-	} // createGraphicalEntity
+	} // createBase
 }

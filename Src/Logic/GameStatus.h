@@ -29,13 +29,13 @@ namespace Logic
 
 		~CGameStatus();
 
-
-	/**
+	protected:
+	
+		/**
 			crea las bases
 		*/
 		Logic::CBase* createBase(const unsigned short rings);
-	protected:
-	
+
 		/**
 			Número de jugadores
 		*/
