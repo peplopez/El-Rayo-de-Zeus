@@ -16,7 +16,7 @@ Esta es la clase principal de gestión del juego. Contiene clases como son Bases,
 
 #include "Logic\Entity\LogicalPosition.h"
 #include <string>
-#include <list>
+#include <vector>
 namespace Logic
 {
 	class CRingInfo;
@@ -80,6 +80,8 @@ namespace Logic
 
 		void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
 		
+		CRingInfo* getRing(unsigned short ring);
+
 	protected:
 		
 		/**
@@ -109,7 +111,7 @@ namespace Logic
 		/**
 		Tipo para la lista de Anillos
 		*/
-		typedef std::list<CRingInfo*> TRings;
+		typedef std::vector<CRingInfo*> TRings;
 		
 		/**
 		Lista de los anillos

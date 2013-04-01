@@ -40,7 +40,10 @@ namespace Logic
 		delete &_bases;	//me teneis que enseñar a destruir bien...		
 		delete &_players;
 	}
-
+	CBaseInfo* CGameStatus::getBase(unsigned short base)
+	{
+			return _bases[base];
+	}
 	//---------------------------------------------------------
 
 	Logic::CBaseInfo* CGameStatus::createBase(const unsigned short rings)

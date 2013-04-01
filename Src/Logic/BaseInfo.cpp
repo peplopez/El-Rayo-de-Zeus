@@ -52,7 +52,11 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	
+	CRingInfo* CBaseInfo::getRing(unsigned short ring)
+		{
+			return _rings[ring];
+		}
+
 	Logic::CRingInfo* CBaseInfo::createRing(const unsigned short numAltars, Ring tipo)
 	{		
 		//assert( &_bases );//&& "LOGIC::GRAPHICS>> No existe escena gráfica!");

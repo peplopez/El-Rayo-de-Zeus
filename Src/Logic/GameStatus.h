@@ -14,7 +14,7 @@ Esta es la clase principal de gestión del juego. Contiene clases como son Bases,
 #ifndef __Logic_GameStatus_H
 #define __Logic_GameStatus_H
 
-#include <list>
+#include <vector>
 namespace Logic
 {
 	class CBaseInfo;
@@ -43,6 +43,9 @@ namespace Logic
 			Puntos de mérito que supone activar un altar.
 		*/
 		//const unsigned int _scoreAltar;
+		CBaseInfo* getBase(unsigned short base);
+		
+		//void setBases();
 		
 	protected:
 	
@@ -63,7 +66,7 @@ namespace Logic
 		/**
 		Tipo para la lista de Bases
 		*/
-		typedef std::list<CPlayerInfo*> TPlayers;
+		typedef std::vector<CPlayerInfo*> TPlayers;
 
 		/**
 		Lista de las Bases
@@ -73,7 +76,7 @@ namespace Logic
 		/**
 		Tipo para la lista de Bases
 		*/
-		typedef std::list<CBaseInfo*> TBases;
+		typedef std::vector<CBaseInfo*> TBases;
 
 		/**
 		Lista de las Bases

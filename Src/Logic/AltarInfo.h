@@ -11,8 +11,8 @@ Clase que guarda información sobre el altar
 @author Jose Luis López Sánchez
 */
 #pragma once
-#ifndef __Logic_RingInfo_H
-#define __Logic_RingInfo_H
+#ifndef __Logic_AltarInfo_H
+#define __Logic_AltarInfo_H
 
 #include <string>
 #include <list>
@@ -21,7 +21,7 @@ Clase que guarda información sobre el altar
 namespace Logic
 {
 	class CEntity;
-	class CPlayer;
+	class CPlayerInfo;
 
 }
 namespace Logic
@@ -29,26 +29,26 @@ namespace Logic
 	class CAltarInfo
 	{
 	public:
-		CAltarInfo(const unsigned short numAltars, Ring tipo);
+		CAltarInfo():_altar(NULL)// Esto es así hasta saber como será la escena que emilio está haciendo.
+		{}
 
-		~CAltarInfo();
+		~CAltarInfo(){}
 		
 		/**
 			 Para saber quien es el que está usando el altar
 		*/
-		CPlayer* getPlayer();
+		CPlayerInfo* getPlayer();
 
 		/**
 			 Para notificar quien es el que está usando el altar
 		*/
-		void setPlayer(const CPlayer* playerChanging);
+		void setPlayer(const CPlayerInfo* playerChanging);
 
 		//quizá queramos poner un metodo que te devuelva quien es el dueño del altar.
 
 		/**
 			getters y setters
 		*/
-
 		
 	protected:
 		
@@ -71,7 +71,7 @@ namespace Logic
 		/**
 			Puntero al CEntity que representa éste altar lógico.
 		*/		
-		Logic::CEntity* _cAltar;
+		Logic::CEntity* _altar;
 
 	};
 }
