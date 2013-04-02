@@ -15,7 +15,12 @@ Contiene la implementación de la clase RingInfo
 
 #include "Logic\RingInfo.h"
 #include "Logic\AltarInfo.h"
-//using namespace Logic;
+#include "Logic\Entity\Entity.h"
+
+namespace Logic
+{
+	class CEntity;
+}
 
 namespace Logic
 {
@@ -34,22 +39,17 @@ namespace Logic
 	
 	CRingInfo::~CRingInfo()
 	{	
-		
 	}
 
 
-	Logic::CAltarInfo* CRingInfo::createAltar(std::string id)
+	Logic::CAltarInfo* CRingInfo::createAltar(Logic::CEntity* entity)
 	{
-		//assert
-		Logic::CAltarInfo* altar=new CAltarInfo(id);
+		Logic::CAltarInfo* altar=new CAltarInfo(entity);
 		if (altar)
 		{
-
+			_altars[altar->getEntity()->getEntityID()]=altar;
 			return altar;
 		}
 		return 0;
-
 	}
-		
-	//---------------------------------------------------------
 }

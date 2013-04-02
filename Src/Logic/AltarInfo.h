@@ -18,19 +18,22 @@ Clase que guarda información sobre el altar
 #include <list>
 
 #include "Logic\Entity\LogicalPosition.h"
+
 namespace Logic
 {
 	class CEntity;
 	class CPlayerInfo;
-
 }
+
 namespace Logic
 {
 	class CAltarInfo
 	{
 	public:
-		CAltarInfo(std::string id):_altar(NULL)// Esto es así hasta saber como será la escena que emilio está haciendo.
-		{}
+		CAltarInfo(Logic::CEntity* entity):_altar(entity)// Esto es así hasta saber como será la escena que emilio está haciendo.
+		{
+		
+		}
 
 		~CAltarInfo(){}
 		
@@ -46,7 +49,8 @@ namespace Logic
 
 		//quizá queramos poner un metodo que te devuelva quien es el dueño del altar.
 
-		//void setEntity();
+		Logic::CEntity* getEntity(){return _altar;}
+
 
 		/**
 			getters y setters

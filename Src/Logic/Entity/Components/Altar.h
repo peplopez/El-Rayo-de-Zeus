@@ -15,12 +15,14 @@ activacion/desactivación de un Altar.
 #define __Logic_Altar_H
 
 #include "Logic/Entity/Component.h"
+#include "Application/BaseApplication.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 
 namespace Logic
 {
 	class CMessage;
+	class CGameStatus;
 }
 
 //declaración de la clase
@@ -75,6 +77,8 @@ namespace Logic
 		int _acumTime;
 		
 		CEntity* _player;
+
+		Logic::CGameStatus* _gameStatus;
 
 	}; // class CAltar
 

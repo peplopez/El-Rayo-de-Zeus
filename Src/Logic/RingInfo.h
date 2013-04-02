@@ -18,10 +18,11 @@ Esta es la clase principal de gestión del juego. Contiene clases como son Bases,
 #include <map>
 
 #include "Logic\Entity\LogicalPosition.h"
+#include "Logic\Maps\EntityID.h"
 namespace Logic
 {
 	class CAltarInfo;
-	//class CPlayerInfo;
+	class CEntity;
 }
 namespace Logic
 {
@@ -63,7 +64,7 @@ namespace Logic
 		/**
 			Crea los altares
 		*/
-		Logic::CAltarInfo* CRingInfo::createAltar(std::string id);
+		Logic::CAltarInfo* CRingInfo::createAltar(Logic::CEntity* entity);
 		
 		/**
 			Id enumerado que dice que tipo de anillo soy
@@ -83,7 +84,7 @@ namespace Logic
 		/**
 		Tipo para la lista de altares
 		*/
-		typedef std::map<std::string,CAltarInfo*> TAltars;
+		typedef std::map<unsigned int,CAltarInfo*> TAltars;
 		
 		/**
 		Lista de los altares

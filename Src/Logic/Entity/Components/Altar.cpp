@@ -27,9 +27,8 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/RingInfo.h"
 #include "Logic/BaseInfo.h"
 #include "Application/BaseApplication.h"
+
 #include "../../../Application/GameState.h"
-
-
 #define DEBUG 1
 #if DEBUG
 #	include <iostream>
@@ -50,9 +49,11 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;				
 		_player=NULL;
-		Application::CBaseApplication::getSingletonPtr()->_gameStateInstance->_gameStatus->
-		getBase(entity->getLogicalPosition()->getBase())->getRing(entity->getLogicalPosition()->getRing())->
-		createAltar(entity->getName());
+		//creamos un puntero al gamestatus global (que es única estancia)
+		_gameStatus=Application::CBaseApplication::getSingletonPtr()->getGameState()->getGameStatus();
+		//creamos un altar pasandole la entidad propietaria del presente compontente.
+		_gameStatus->getBase(entity->getLogicalPosition()->getBase())->getRing(entity->getLogicalPosition()->getRing())->
+		createAltar(entity);
 		return true;
 
 	} // spawn
@@ -61,7 +62,9 @@ namespace Logic
 
 	bool CAltar::activate()
 	{
+		_gameStatus->getBase(0);
 		_acumTime = _switchingTime;
+
 		return true;
 	} // activate
 	

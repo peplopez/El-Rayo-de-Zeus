@@ -237,11 +237,16 @@ namespace Application
 		@return Devuelve  un puntero al reloj
 		*/
 		IClock* getClock(){return _clock;}
-		
+	
+		Application::CGameState* getGameState(){return _gameStateInstance;}
+	protected:
+	
+		/** PeP
+		Puntero al GameState
+		@return Devuelve  un puntero estado GameState
+		*/
 		Application::CGameState* _gameStateInstance;
 	
-	protected:
-
 		/**
 		Realiza un cambio de estado, avisando al estado saliente
 		y al estado entrante del hecho.

@@ -176,9 +176,7 @@ namespace Application
 		*/
 		virtual bool mouseReleased(const GUI::CMouseState &mouseState);
 
-
-		
-		Logic::CGameStatus* _gameStatus;
+		Logic::CGameStatus* getGameStatus(){return _gameStatus;}
 	protected:
 
 		/**
@@ -220,8 +218,11 @@ namespace Application
 		*/
 
 		unsigned int _numberAltaresActivated;
-
-
+	
+		/**
+		Puntero al gamestatus global
+		*/
+		Logic::CGameStatus* _gameStatus;
 	}; // CGameState
 
 } // namespace Application
