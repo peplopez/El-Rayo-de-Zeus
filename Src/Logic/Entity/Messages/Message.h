@@ -55,7 +55,9 @@ namespace Logic
 			ANIMATION_MOMENT		= 0x20,
 			REWIND_ANIMATION		= 0x21,
 			ALTAR_ACTIVATED 		= 0x22,
-			ALTAR_DEACTIVATED 		= 0x23
+			ALTAR_DEACTIVATED 		= 0x23,
+			AUDIO			 		= 0x24,
+			SET_SCALE		 		= 0x25
 		};
 
 		enum TActionType : unsigned char
@@ -74,13 +76,18 @@ namespace Logic
 			CHANGE_DIRECTION	= 0x17,
 			CHANGE_BASE			= 0x18,
 			CHANGE_RING			= 0x19,
-			UPDATE_LIFE			= 0x20,
+			HEAL				= 0x20,
 			LIGHT_ATTACK		= 0x21,
 			HEAVY_ATTACK		= 0x22,
 			DISPLAY_HUD			= 0x23,
 			TRIGGER_ENTER		= 0x24,
 			TRIGGER_EXIT		= 0x25,
-			COVER				= 0x26
+			COVER				= 0x26,
+			NO_COVER			= 0x27,
+			X_AXIS				= 0x28,
+			Y_AXIS				= 0x29,
+			Z_AXIS				= 0x30,
+			DAMAGE				= 0x31
 		};
 	}
 
@@ -108,6 +115,8 @@ namespace Logic
 	{
 
 	public:
+
+		// TODO FRS Quizá estaría bien un ctor con el MessageType / Action como argumentos...
 
 		/**
 		Constructor básico

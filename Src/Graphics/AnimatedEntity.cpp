@@ -57,6 +57,19 @@ namespace Graphics
 		return true;
 
 	} // stopAnimation
+	bool CAnimatedEntity::pauseAnimation(const std::string &anim,float moment)
+	{
+		assert(_entity  && "La entidad no ha sido cargada en la escena");
+
+		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
+			return false;
+		Ogre::AnimationState *animation = _entity->getAnimationState(anim);
+		animation->setEnabled(false);
+		//if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
+		animation->setTimePosition(moment);  // De lo contrario, no dejan de lanzar el evento finished a los observers
+
+	} // pauseAnimation
+
 
 		//--------------------------------------------------------
 		
@@ -75,7 +88,7 @@ namespace Graphics
 			_currentAnimation = 0;
 
 		*/		return true;
-	} // stopAnimation
+	} // 
 
 
 	//--------------------------------------------------------
@@ -125,6 +138,7 @@ namespace Graphics
 			else
 				_currentAnimation->addTime(secs);
 			// Comprobamos si la animaci?n ha terminado para avisar
+		
 			if(_observer && _currentAnimation->hasEnded())
 				_observer->animationFinished(_currentAnimation->getAnimationName());
 
@@ -133,7 +147,7 @@ namespace Graphics
 				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
 			if(_observer && _currentAnimation->getAnimationName().compare("GetObject")==0)
 				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
-			if(_observer && _currentAnimation->getAnimationName().compare("Death")==0)
+			if(_observer && _currentAnimation->getAnimationName().compare("Damage")==0)
 				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
 
 			if(_observer && _currentAnimation->getAnimationName().compare("FireKatana")==0)
@@ -150,12 +164,12 @@ namespace Graphics
 					_momentEnabled=false;				
 					_observer->animationMomentReached("GetObject");
 				}
-			if(_observer && _currentAnimation->getAnimationName().compare("Death")==0)
+			if(_observer && _currentAnimation->getAnimationName().compare("Damage")==0)
 				if (_momentEnabled)
 				if (_currentAnimation->getTimePosition()>0.6)
 				{
 					_momentEnabled=false;				
-					_observer->animationMomentReached("Death");
+					_observer->animationMomentReached("Damage");
 				}
 		}
 

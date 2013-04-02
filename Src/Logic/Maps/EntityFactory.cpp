@@ -291,7 +291,7 @@ namespace Logic
 	//---------------------------------------------------------
 
 	Logic::CEntity *CEntityFactory::createEntity(const std::string &archetype,
-		const Logic::TLogicalPosition &pos)
+		const Logic::CLogicalPosition* pos)
 	{
 		//Se busca en el std::map de archetypes el tipo del *entityInfo
 

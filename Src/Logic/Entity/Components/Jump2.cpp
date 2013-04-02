@@ -85,12 +85,12 @@ namespace Logic
 
 		// Cambiamos la animación si no seguimos desplazándonos
 		// lateralmente
-		CMessageBoolString *message = new CMessageBoolString();
+		/*CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
 		message->setString("IdleKatana");
 		message->setBool(true);
 		_entity->emitMessage(message,this);
-
+		*/
 	} // stopWalk
 	
 	//---------------------------------------------------------
@@ -101,18 +101,18 @@ namespace Logic
 
 		if (_jumping)
 		{
-			_jumpSpeed -= 0.0003 * msecs;  //gravedad 0.0003f
+			_jumpSpeed -= 0.0003f * msecs;  //gravedad 0.0003f
 			float tickHeight = _jumpSpeed * msecs;
 
 			//si estamos en trayectoria descendente activamos salida del salto
 			if (_jumpSpeed < 0)
 				_justJumped = false;
 			
-			if (_entity->getHeight() == 0 && !_justJumped) 
+			if (_entity->getLogicalPosition()->getHeight() == 0 && !_justJumped) 
 			{
 				_jumping=false;
 				_jumpSpeed = 0.13f;
-				
+				//assert(_entity->getComponent<CAvatarController>()==NULL);
 				if (_entity->getComponent<CAvatarController>()->isWalkingRight())
 					_entity->getComponent<CAvatarController>()->walkRight();
 				else if (_entity->getComponent<CAvatarController>()->isWalkingLeft())

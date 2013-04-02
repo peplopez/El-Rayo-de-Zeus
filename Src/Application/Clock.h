@@ -12,12 +12,34 @@ Contiene la declaración de un interfaz para un temporizador.
 @author David Llansó
 @date Julio, 2010
 */
-
+#include <map>
 #ifndef __Application_Clock_H
 #define __Application_Clock_H
 
 namespace Application 
 {
+		/**
+	Esta clase debe ser implementada por las clases que quieren
+	registrarse en una entidad animada para enterarse de cuando
+	terminan las animaciones de ésta.
+	
+	@ingroup graphicsGroup
+
+	@author David Llansó
+	@date Julio, 2010
+	*/
+	class IClockListener 
+	{
+	public:
+
+		/**
+		Método que te avisa pasado un tiempo
+
+		@param animation Nombre de la animaci?n terminada.
+		*/
+		virtual void timeArrived()=0;
+
+	}; // CAnimatedEntityListener
 	/**
 	Reloj de la aplicación, que sirve para controlar el tiempo de la
 	aplicación.
@@ -55,9 +77,11 @@ namespace Application
 	@author David Llansó, Marco Antonio Gómez Martín
 	@date Agosto, 2010
 	*/
+
 	class IClock
 	{
 	public:
+		friend class CBaseApplication;
 		/** 
 		Constructor de la clase 
 		*/
@@ -97,7 +121,30 @@ namespace Application
 		*/
 		unsigned int getLastFrameDuration() const { return _lastFrameDuration; }
 
+		/**
+		Funcin que registra al oyente de la entidad grfica. Por 
+		simplicidad solo habr un oyente por entidad.
+		*/
+		void addTimeObserver(int index, IClockListener* listener, unsigned long time)
+		{//std::pair<IClockListener*,unsigned long> par
+			std::pair<IClockListener*,unsigned long> par= std::pair<IClockListener*,unsigned long>(listener,time+getTime());
+			//par.second=par.second+getTime();// así tengo el momento exacto en el que avisar
+			_timeObservers[index]=par;
+		}
+
+		
+		/**
+		Funci?n que quita al oyente de la entidad gr?fica. Por 
+		simplicidad solo habr? un oyente por entidad.
+		*/
+		void removeTimeObserver(int index)
+		{			
+			_timeObservers.erase(index);
+		}			
+
+
 	protected:
+
 
 		/**
 		 Método que devuelve la "hora física" del sistema
@@ -125,8 +172,22 @@ namespace Application
 		*/
 		unsigned int _lastFrameDuration;
 
-	}; // IClock
+				/**
+		Tipo lista de CEntity donde guardaremos los pendientes de borrar.
+		*/
+		//typedef std::list<std::pair<IClockListener*,unsigned long>> TTimeObserverList; //typedef std::list<CMessage*> TMessageList;
+		typedef std::map<int, std::pair<IClockListener*,unsigned long>> TTimeObserverList; //typedef std::list<CMessage*> TMessageList;
 
+		/**
+		Lista de objetos oyentes que es informado de cambios en la entidad como 
+		la terminaci?n de los tiempos solicitados. Por simplicidad solo habr?
+		un oyente por entidad.
+		*/
+		TTimeObserverList _timeObservers;
+
+		}; // IClock
+
+	
 } // namespace Application
 
 #endif //  __Application_Clock_H

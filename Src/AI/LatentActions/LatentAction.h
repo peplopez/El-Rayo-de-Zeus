@@ -150,7 +150,7 @@ namespace AI
 		
 		virtual void sleepComponents()=0;
 
-			virtual void awakeComponents()=0;
+		virtual void awakeComponents()=0;
 
 		// void awakeComponents();
 

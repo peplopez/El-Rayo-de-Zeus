@@ -2,7 +2,10 @@
 
 #include "Application/BaseApplication.h"
 #include "../../Logic/Entity/Components/Attack.h"
+
 #include "../StateMachines/StateMachine.h"
+
+
 
 namespace AI
 {
@@ -26,10 +29,10 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLAIdle::OnStart()
 	{
-	//	_entity->getComponent<CAttack>()->resetAttackFlags();
+		
 		//while(
 		
-		std::cout<<"idle"<<std::endl;
+		std::cout<<"AI::StateMachine::idle"<<std::endl;
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
 		message->setString("IdleKatana");

@@ -62,9 +62,10 @@ namespace Logic
 		/**
 		Constructor por defecto.
 		*/
-		CPhysics();
-
-		CPhysics(altTypeId id);
+		CPhysics::CPhysics() : 
+		  IComponent(GetAltTypeIdOf(CPhysics)), _physicalActor(0), _isTrigger(false), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0){}
+		CPhysics::CPhysics(altTypeId id) : 
+		  IComponent(id),  _physicalActor(0), _isTrigger(false), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0){	}
 
 		/**
 		Destructor. Elimina el objeto físico de la escena y lo destruye. 
@@ -82,13 +83,15 @@ namespace Logic
 		***************/
 		//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
 		virtual void onTrigger(IObserver* other, bool enter);
-		virtual void onCollision(IObserver* other) {};
+		virtual void onCollision(IObserver* other);
 
 	protected:
 
 		// UNDONE FRS Physics::CServer* _server; // Servidor de física
 		Physics::CScene* _scene; // Servidor de física
 		Physics::CActor* _physicalActor; // Actor que representa la entidad física
+
+		bool _isTrigger; // FRS Necesario para el dtor
 
 		// Desplazamiento recibido en los últimos mensajes de tipo MOVE.
 		// Sirve para mover entidades físicas cinemáticas y de character.

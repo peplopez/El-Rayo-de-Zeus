@@ -90,17 +90,21 @@ namespace Logic {
 		// usando la información proporcionada por el motor de física	
 		// Este a genera  SET_TRANSFORM por debajo que informa al CGraphics
 
-		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()._degrees - _physicalActor->getLogicPosition()._degrees));
+		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()->getDegree() - _physicalActor->getLogicPosition()->getDegree()));
 
-		
+		//assert((_entity->getLogicalPosition()->getDegree() - _physicalActor->getLogicPosition()->getDegree())==0);
 		// HACK ESC - PEACHO HaCK para que no se sobreescriba el sense con el del actor físico
-		Logic::TLogicalPosition pos =_physicalActor->getLogicPosition();
-		pos._sense = _entity->getSense();
-
-		_entity->setLogicalPosition( pos ); 
-
-
-
+		//Logic::CLogicalPosition* pos =_physicalActor->getLogicPosition();
+		
+		// PeP: este hack, no es muy hardcore? estamos haciendo un new en cada tick por cada actor físico que haya en escena. Hay que mirarlo
+		Logic::CLogicalPosition* pos = new CLogicalPosition();
+		pos->setBase(_physicalActor->getLogicPosition()->getBase());
+		pos->setRing(_physicalActor->getLogicPosition()->getRing());
+		pos->setHeight(_physicalActor->getLogicPosition()->getHeight());
+		pos->setDegree(_physicalActor->getLogicPosition()->getDegree());
+		pos->setSense(_entity->getLogicalPosition()->getSense());
+		_entity->setLogicalPosition(pos); 
+		
 		// TODO Efecto de la gravedad quizá sea necesario..?
 		//if (_falling) { // PeP: _entity->getHeight() también nos proporciona la misma info, si es 0 está en el suelo.
 		//	_movement += Vector3(0,-1,0);
@@ -130,6 +134,9 @@ namespace Logic {
 	void CPhysicalCharacter::onCollision(IObserver* other) {
 		CPhysics::onCollision(other);
 		LOG(_entity->getName() << ": \"Auch! Me he chocado!\"");
+		
+		
+		//_entity->emitMessage(m,this);
 	}
 
 	void  CPhysicalCharacter::onTrigger (Physics::IObserver* other, bool enter) 

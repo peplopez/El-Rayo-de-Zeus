@@ -23,6 +23,7 @@ para representar character controllers.
 
 #include "Physics/Scene.h"
 #include "Physics/Actor.h"
+#include "Physics/ActorTrigger.h"
 
 #define DEBUG 1
 #if DEBUG
@@ -38,24 +39,16 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	CPhysics::CPhysics() : IComponent(GetAltTypeIdOf(CPhysics)), _physicalActor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
-	{
-		// UNDONE FRS _server = Physics::CServer::getSingletonPtr();
-	}
-	CPhysics::CPhysics(altTypeId id) : IComponent(id),  _physicalActor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
-	{
-		// UNDONE FRS _server = Physics::CServer::getSingletonPtr();
-	}
-
-	//---------------------------------------------------------
-
 	CPhysics::~CPhysics() 
 	{
-		if ( _physicalActor ) {
-			_scene->removeActor(  _physicalActor ); // Eliminar el actor de la escena			
+		if ( _physicalActor ) { // TODO FRS Quizá este tipo de comprobación sucia debería hacerla la propia scene en su remove
+			_isTrigger ? 
+				_scene->removeActor(  static_cast<Physics::CActorTrigger*>(_physicalActor) ):
+				_scene->removeActor(  _physicalActor ); // Eliminar el actor de la escena	
+
 			delete _physicalActor;
 		}
-		// UNDONE FRS _server = 0;
+		
 	} 
 
 	//---------------------------------------------------------
@@ -84,7 +77,7 @@ namespace Logic {
 		assert(_scene && "LOGIC::PHYSICS>> No existe escena física!");		
 
 		// Obtenemos la posición de la entidad. 
-		const TLogicalPosition logicPos = _entity->getLogicalPosition();
+		CLogicalPosition* logicPos = _entity->getLogicalPosition();
 	
 		// Leer el ancho del angular box
 		assert(entityInfo->hasAttribute("physicWidth")); 
@@ -94,13 +87,12 @@ namespace Logic {
 		assert(entityInfo->hasAttribute("physicHeight"));
 		const float physicHeight = entityInfo->getFloatAttribute("physicHeight");
 
-		// TRIGGER: Leer si es un trigger (por defecto no)
-		bool isTrigger = false;
+		// TRIGGER: Leer si es un trigger (por defecto no)	
 		if (entityInfo->hasAttribute("physicTrigger"))
-			isTrigger = entityInfo->getBoolAttribute("physicTrigger");
+			_isTrigger = entityInfo->getBoolAttribute("physicTrigger");
 		
 		// TRIGGER
-		if(isTrigger)  {
+		if(_isTrigger)  {
 			Physics::CActorTrigger* trigger = new Physics::CActorTrigger(logicPos, physicWidth, physicHeight, this);
 				if( _scene->addActor(trigger ) ) // Añadir el actor a la escena
 					return trigger ;
@@ -144,7 +136,15 @@ namespace Logic {
 
 	} // onTrigger
 
-	
+	void  CPhysics::onCollision (Physics::IObserver* other) //PeP
+	{
+		// Construimos un mensaje de tipo TOUCHED o UNTOUCHED 
+		// y lo enviamos a todos los componentes de la entidad.
 
-	
+		CMessageUInt* txMsg = new CMessageUInt();
+		txMsg->setType( Message::COLLISION ); 	
+			
+			txMsg->setUInt( static_cast<CPhysics*>(other)->getEntity()->getEntityID() );
+		_entity->emitMessage(txMsg);
+	}
 }

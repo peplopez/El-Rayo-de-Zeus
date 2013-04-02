@@ -22,12 +22,13 @@ si la acción asociada al nodo ha terminado con fallo).
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
-
+#include "Logic/Entity/Components/AvatarController.h"
+#include "Logic/Entity/Components/Jump2.h"
 #include "../LatentActions/LatentAction.h"
 
 using namespace Logic;
 
-namespace AI 
+namespace AI
 {
 	/**
 	Interfaz que deberán implementar las condiciones de 
@@ -78,6 +79,9 @@ namespace AI
 		bool check(TNode* currentNode, CEntity* entity) { return true; }
 	};
 	
+
+	
+
 	/**
 	Esta clase define una condición que se evalúa a true si la 
 	acción a la que pertenece ha terminado.
@@ -126,10 +130,54 @@ namespace AI
 		}
 	};
 
+
+
+	/**
+	Esta clase define una condición que siempre se evalúa a true.
+	*/
+
+	class CConditionFlagWalkingActivated : public ICondition<CLatentAction>
+	{
+	public:
+		CConditionFlagWalkingActivated(Sense sentido) : _sense(Logic::LogicalPosition::LEFT) {
+			_sense=sentido;
+		}
+
+		bool check(CLatentAction* currentNode, CEntity* entity)
+		{
+			if (entity->getComponent<CAvatarController>()!=NULL)
+			{
+				if (_sense==Logic::LogicalPosition::LEFT)
+					return entity->getComponent<CAvatarController>()->isWalkingLeft();
+				else
+					return entity->getComponent<CAvatarController>()->isWalkingRight(); 
+			}
+			return false;
+		}
+
+	private:
+		Sense _sense;
+	};
+
+
+	class CConditionFlagJumpingActivated : public ICondition<CLatentAction>
+	{
+	public:
+		bool check(CLatentAction* currentNode, CEntity* entity)
+		{
+			if  (entity->getComponent<CJump2>()!=NULL)			
+				return !entity->getComponent<CJump2>()->getJumping();
+			return false;
+		}
+};
+
+
+
 	/**
 	Esta clase define una condición que devuelve true 
 	si se recibió un mensaje de un tipo concreto en el último tick
 	*/
+
 	template <class TNode>
 	class CConditionMessage : public ICondition<TNode>
 	{
@@ -264,6 +312,7 @@ namespace AI
 				{		
 					_enabled=true; return false;
 				}	
+				return false;
 		};
 		/**
 		Procesa el mensaje recibido. Como sólo aceptamos mensajes del
