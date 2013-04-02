@@ -47,9 +47,6 @@
     <ClCompile Include="..\..\Src\Graphics\Overlay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Graphics\ParticleSystem.cpp">
-      <Filter>SceneElements\Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Graphics\Camera.h">
@@ -80,9 +77,6 @@
       <Filter>SceneElements\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Graphics\AnimatedEntity.h">
-      <Filter>SceneElements\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Graphics\ParticleSystem.h">
       <Filter>SceneElements\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

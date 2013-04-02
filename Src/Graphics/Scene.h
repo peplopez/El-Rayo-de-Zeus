@@ -17,6 +17,8 @@ de una escena.
 #ifndef __Graphics_Scene_H
 #define __Graphics_Scene_H
 
+#include "BaseSubsystems/Math.h"
+
 #include <list>
 
 // Predeclaración de clases para ahorrar tiempo de compilación
@@ -26,8 +28,7 @@ namespace Ogre
 	class Viewport;
 	class SceneManager;
 	class StaticGeometry;
-	class Light;
-	class ParticleSystem;
+	class Light;	
 };
 
 namespace Graphics 
@@ -35,7 +36,6 @@ namespace Graphics
 	class CServer;
 	class CCamera;
 	class CEntity;
-	class CStaticEntity;
 	class CSceneElement;
 };
 
@@ -120,7 +120,10 @@ namespace Graphics
 		bool add(CSceneElement* sceneElement);
 		void remove(CSceneElement* sceneElement);
 
-
+		// PARTICLES
+		void createParticleSystem(const std::string& templateName, const std::string& parentEntity); // pos relativa a otra entidad
+		void createParticleSystem(const std::string& templateName, const Vector3& position); // pos absoluta
+		
 
 	protected:
 

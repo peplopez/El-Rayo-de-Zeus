@@ -17,12 +17,12 @@ de una escena.
 #include "Scene.h"
 
 #include "BaseSubsystems/Server.h"
+
 #include "Graphics/Camera.h"
 #include "Graphics/Entity.h"
 #include "Graphics/GlowMaterialListener.h"
 #include "Graphics/Server.h"
 #include "Graphics/SceneElement.h"
-#include "Logic/Server.h"
 
 #include <assert.h>
 #include <OgreRoot.h>
@@ -205,6 +205,42 @@ namespace Graphics
 
 
 
+	//-------------------PARTICLES------------------
+
+	// TODO FRS quizá sea necesario temporizar las particulas sin padre para borrar su nodo
+	// TODO FRS estamos limitando a una partícula por entidad
+
+	// POS. RELATIVA (particulas hijas de otra entidad gráfica)
+	void CScene::createParticleSystem(const std::string& templateName, const std::string& parentEntity) 
+	{
+		assert( getSceneMgr()->hasSceneNode( parentEntity + "_node") && "No existe la entidad de referencia" ); 
+				
+		_sceneMgr->getSceneNode( parentEntity + "_node")->attachObject( 
+			_sceneMgr->createParticleSystem(parentEntity + "_ps", templateName) // Suponemos un único PS por entidad
+		);
+	}
+
+
+
+	// POSICIÓN ABSOLUTA
+	void CScene::createParticleSystem(const std::string& templateName, const Vector3& position) 
+	{		 		
+		 _sceneMgr->getRootSceneNode()
+				->createChildSceneNode(position)
+				->attachObject( 
+			_sceneMgr->createParticleSystem("_ps", templateName)
+		);
+	}
+
+	// TODO FRS DestructorSi fuera necesario...
+		// Desvinculamos el sistema de partículas del nodo
+		/*
+		sceneNode->detachObject(pssmoke); 
+		// Destruimos el nodo
+		_sceneMgr->destroySceneNode(sceneNode); 
+		// Destruimos el sistema de partículas
+		_sceneMgr->destroyParticleSystem(pssmoke);
+		*/
 	
 
 } // namespace Graphics
