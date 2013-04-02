@@ -65,10 +65,8 @@ namespace Application {
 
 	//inicialización del GameStatus:
 	// se supone que hemos elegido ya en este punto cuantos jugadores somos
-	Logic::CGameStatus* gameStatus=new Logic::CGameStatus(8);
-	//Logic::CBaseInfo* base=gameStatus->getBase(0);
-	//Logic::CRingInfo* ring=base->getRing(0);	
-	gameStatus->getBase(0)->getRing(0);
+	_gameStatus=new Logic::CGameStatus(8);
+	//gameStatus->getBase(0)->getRing(0);
 
 
 		return true;

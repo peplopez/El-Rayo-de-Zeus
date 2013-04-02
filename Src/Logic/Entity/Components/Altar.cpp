@@ -23,6 +23,13 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
 
+#include "Logic/GameStatus.h"
+#include "Logic/RingInfo.h"
+#include "Logic/BaseInfo.h"
+#include "Application/BaseApplication.h"
+#include "../../../Application/GameState.h"
+
+
 #define DEBUG 1
 #if DEBUG
 #	include <iostream>
@@ -43,7 +50,9 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;				
 		_player=NULL;
-		
+		Application::CBaseApplication::getSingletonPtr()->_gameStateInstance->_gameStatus->
+		getBase(entity->getLogicalPosition()->getBase())->getRing(entity->getLogicalPosition()->getRing())->
+		createAltar(entity->getName());
 		return true;
 
 	} // spawn

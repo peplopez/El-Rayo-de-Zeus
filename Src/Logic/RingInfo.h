@@ -59,10 +59,11 @@ namespace Logic
 	
 	protected:
 		
+		friend class CAltar;
 		/**
 			Crea los altares
 		*/
-		Logic::CAltarInfo* CRingInfo::createAltar();
+		Logic::CAltarInfo* CRingInfo::createAltar(std::string id);
 		
 		/**
 			Id enumerado que dice que tipo de anillo soy

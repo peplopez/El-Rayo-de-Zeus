@@ -38,7 +38,10 @@ namespace CEGUI
 {
 	class Window;
 }
-
+namespace Logic
+{
+	class CGameStatus;
+}
 namespace Application 
 {
 	/**
@@ -174,7 +177,8 @@ namespace Application
 		virtual bool mouseReleased(const GUI::CMouseState &mouseState);
 
 
-
+		
+		Logic::CGameStatus* _gameStatus;
 	protected:
 
 		/**
@@ -216,7 +220,6 @@ namespace Application
 		*/
 
 		unsigned int _numberAltaresActivated;
-
 
 
 	}; // CGameState

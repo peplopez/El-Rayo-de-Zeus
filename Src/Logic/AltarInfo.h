@@ -29,7 +29,7 @@ namespace Logic
 	class CAltarInfo
 	{
 	public:
-		CAltarInfo():_altar(NULL)// Esto es así hasta saber como será la escena que emilio está haciendo.
+		CAltarInfo(std::string id):_altar(NULL)// Esto es así hasta saber como será la escena que emilio está haciendo.
 		{}
 
 		~CAltarInfo(){}
@@ -45,6 +45,8 @@ namespace Logic
 		void setPlayer(const CPlayerInfo* playerChanging);
 
 		//quizá queramos poner un metodo que te devuelva quien es el dueño del altar.
+
+		//void setEntity();
 
 		/**
 			getters y setters

@@ -29,6 +29,7 @@ namespace Application
 {
   class CApplicationState;
   class IClock;
+    class CGameState;
 }
 
 /**
@@ -236,7 +237,8 @@ namespace Application
 		@return Devuelve  un puntero al reloj
 		*/
 		IClock* getClock(){return _clock;}
-
+		
+		Application::CGameState* _gameStateInstance;
 	
 	protected:
 

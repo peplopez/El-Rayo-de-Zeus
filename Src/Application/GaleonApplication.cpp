@@ -57,8 +57,9 @@ namespace Application {
 		if(!addState("inicio", new CInitState(this)))
 			return false;
 		if(!addState("menu", new CMenuState(this)))
-			return false;		
-		if(!addState("game", new CGameState(this)))
+			return false;	
+		_gameStateInstance=new CGameState(this);
+		if(!addState("game", _gameStateInstance))
 			return false;
 		if(!addState("exit", new CExitState(this)))
 			return false;
