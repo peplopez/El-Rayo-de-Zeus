@@ -1,11 +1,12 @@
 //---------------------------------------------------------------------------
-// GameStatus.h
+// BaseInfo.h
 //---------------------------------------------------------------------------
 
 /**
-@file GameStatus.h
+@file BaseInfo.h
 
-Esta es la clase principal de gestión del juego. Contiene clases como son Bases, Players, Stats, etc.
+Esta es la clase que representa una base y que contiene anillos. Contiene entre otras
+cosas un puntero al dueño de la base (CPlayerInfo, lista de CRingInfo).
 @see Logic::GameStatus
 
 @author Jose Luis López Sánchez
@@ -78,8 +79,8 @@ namespace Logic
 	
 		bool getAllAltarsActivated();
 
-		void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
-		
+		//void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
+		void updateAllAltarsActivated();
 		CRingInfo* getRing(unsigned short ring);
 
 	protected:
@@ -87,7 +88,7 @@ namespace Logic
 		/**
 			crea los anillos
 		*/
-		Logic::CRingInfo* CBaseInfo::createRing(const unsigned short altars, Ring tipo);
+		Logic::CRingInfo* createRing(const unsigned short altars, Ring tipo);
 		/**
 			Puntero al Player dueño de la base.
 		*/

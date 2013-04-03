@@ -139,6 +139,9 @@ namespace Logic
 			{
 				_switchingState = false;
 				_on = !_on;
+				/* avisamos a continuación al _gameStatus*/
+				_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsActivated();
+					
 				if (_on)
 				{
 					LOG(_entity->getName() << ": activado")
@@ -147,7 +150,7 @@ namespace Logic
 					m->setString("altaractivado");
 					m->setUInt(0);
 					_entity->emitMessage(m,this);
-					if (_player!=NULL)		
+				if (_player!=NULL)		
 					{
 					CMessageString *m2 = new CMessageString();	
 					m2->setType(Message::ALTAR_ACTIVATED);

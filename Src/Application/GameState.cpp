@@ -158,9 +158,8 @@ namespace Application {
 		text << "Time: " << _time/1000;
 
 		//_timeWindow->setText(text.str());
-		if (_gameStatus->getBase(3)->getAllAltarsActivated()//ASÍ SE ESTÁ EJECUTANDO DEMASIADO, SOLO HA DE HACERLO CUANDO SE ACTIVE O DESACTIVE UN ALTAR. MODULO DE PERCEPCIÓN.
+		if (_gameStatus->getBase(3)->getAllAltarsActivated())
 		std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN BASE 3"<<std::endl;
-
 
 	} // tick
 

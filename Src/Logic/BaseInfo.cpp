@@ -53,6 +53,11 @@ namespace Logic
 	//---------------------------------------------------------
 	bool CBaseInfo::getAllAltarsActivated()
 	{
+		return _AllAltarsActivated;
+		
+	}
+	void CBaseInfo::updateAllAltarsActivated()
+	{
 		_AllAltarsActivated=false;
 		unsigned int counter=0;
 		if(this->getRing(Logic::LogicalPosition::LOWER_RING)->getAllAltarsActivated())
@@ -67,13 +72,13 @@ namespace Logic
 		}
 		if(this->getRing(Logic::LogicalPosition::UPPER_RING)->getAllAltarsActivated())
 		{
-			std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN ANILLO 0"<<std::endl;
+			std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN ANILLO 2"<<std::endl;
 			counter++;
 		}
 		if (counter==3)
 			_AllAltarsActivated=true;
-		return _AllAltarsActivated;
 	}
+
 	CRingInfo* CBaseInfo::getRing(unsigned short ring)
 		{
 			return _rings[ring];
