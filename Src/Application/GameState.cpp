@@ -27,6 +27,7 @@ Contiene la implementación del estado de juego.
 
 #include "Logic/GameStatus.h"
 #include "Logic/BaseInfo.h"
+#include "Logic/RingInfo.h"
 
 
 #include <CEGUISystem.h>
@@ -157,6 +158,9 @@ namespace Application {
 		text << "Time: " << _time/1000;
 
 		//_timeWindow->setText(text.str());
+		if (_gameStatus->getBase(3)->getAllAltarsActivated()//ASÍ SE ESTÁ EJECUTANDO DEMASIADO, SOLO HA DE HACERLO CUANDO SE ACTIVE O DESACTIVE UN ALTAR. MODULO DE PERCEPCIÓN.
+		std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN BASE 3"<<std::endl;
+
 
 	} // tick
 

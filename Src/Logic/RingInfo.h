@@ -50,11 +50,11 @@ namespace Logic
 		/**
 			getters y setters
 		*/
-		unsigned short getNumActivatedAltars(){return _numActivatedAltars;}
+		unsigned short getNumActivatedAltars();
 
 		void setNumActivatedAltars(const unsigned short numActivatedAltars){_numActivatedAltars=numActivatedAltars;}
 	
-		bool getAllAltarsActivated(){return _AllAltarsActivated;}
+		bool getAllAltarsActivated();
 
 		void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
 	

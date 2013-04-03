@@ -41,6 +41,23 @@ namespace Logic
 	{	
 	}
 
+	unsigned short CRingInfo::getNumActivatedAltars()
+	{
+		TAltars::const_iterator itr;
+		 _numActivatedAltars=0;
+		 for(itr = _altars.begin(); itr != _altars.end(); ++itr){
+			 //std::cout << "Key: " << (*itr).first << " Value: " << (*itr).second->isActivated();
+			 if ((*itr).second->isActivated())_numActivatedAltars++;
+		 }
+		 return _numActivatedAltars;
+	}
+
+	bool CRingInfo::getAllAltarsActivated()
+	{
+		if (getNumActivatedAltars()>=_numAltars)
+			return true;
+		return false;
+	}
 
 	Logic::CAltarInfo* CRingInfo::createAltar(Logic::CEntity* entity)
 	{

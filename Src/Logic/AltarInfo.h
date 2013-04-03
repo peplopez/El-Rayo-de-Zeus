@@ -30,10 +30,7 @@ namespace Logic
 	class CAltarInfo
 	{
 	public:
-		CAltarInfo(Logic::CEntity* entity):_altar(entity)// Esto es así hasta saber como será la escena que emilio está haciendo.
-		{
-		
-		}
+		CAltarInfo(Logic::CEntity* entity);
 
 		~CAltarInfo(){}
 		
@@ -51,10 +48,10 @@ namespace Logic
 
 		Logic::CEntity* getEntity(){return _altar;}
 
-
 		/**
 			getters y setters
 		*/
+		bool isActivated();
 		
 	protected:
 		

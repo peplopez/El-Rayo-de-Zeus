@@ -53,6 +53,8 @@ namespace Logic
 		void startSwitchingState();
 		void stopSwitchingState();
 
+		bool isActivated(){return _on;}
+
 	protected:
 
 		/**
