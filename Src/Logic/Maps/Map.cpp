@@ -15,6 +15,12 @@ Contiene la implementación de la clase CMap, Un mapa lógico.
 #include "Logic/Entity/Entity.h"
 #include "EntityFactory.h"
 
+#include "Logic/Entity/Components/Graphics.h"
+#include "Logic/Entity/Components/Physics.h"
+
+#include "Logic/Entity/Components/AnimatedGraphics.h"
+#include "Logic/Entity/Components/PhysicalCharacter.h"
+
 #include "Map/MapParser.h"
 #include "Map/MapEntity.h"
 
@@ -210,6 +216,27 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
+	void CMap::insertEntity(CEntity *entity)
+	{
+		if( !_entityMap.count(entity->getEntityID() ) )
+		{			
+			_entityMap[entity->getEntityID()] = entity;
+			_entityList.push_back(entity);
+			entity->_map = this;
+			if (entity->getComponent<CGraphics>() != NULL)
+				_graphicScene->add(entity->getComponent<CGraphics>()->getGraphicalEntity());
+			if (entity->getComponent<CAnimatedGraphics>() != NULL)
+				_graphicScene->add(entity->getComponent<CAnimatedGraphics>()->getGraphicalEntity());
+			if (entity->getComponent<CPhysics>() != NULL)
+				_physicScene->addActor(entity->getComponent<CPhysics>()->getPhysicalActor());
+			if (entity->getComponent<CPhysicalCharacter>() != NULL)
+				_physicScene->addActor(entity->getComponent<CPhysicalCharacter>()->getPhysicalActor());
+		}
+
+	} // addEntity
+
+	//--------------------------------------------------------
+
 	void CMap::removeEntity(CEntity *entity)
 	{
 		if(_entityMap.count( entity->getEntityID() ) )
@@ -219,6 +246,14 @@ namespace Logic {
 			entity->_map = 0;
 			_entityMap.erase(entity->getEntityID());
 			_entityList.remove(entity);
+			if (entity->getComponent<CGraphics>() != NULL)
+				_graphicScene->remove(entity->getComponent<CGraphics>()->getGraphicalEntity());
+			if (entity->getComponent<CAnimatedGraphics>() != NULL)
+				_graphicScene->remove(entity->getComponent<CAnimatedGraphics>()->getGraphicalEntity());
+			if (entity->getComponent<CPhysics>() != NULL)
+				_physicScene->removeActor(entity->getComponent<CPhysics>()->getPhysicalActor());
+			if (entity->getComponent<CPhysicalCharacter>() != NULL)
+				_physicScene->removeActor(entity->getComponent<CPhysicalCharacter>()->getPhysicalActor());
 		}
 
 	} // removeEntity

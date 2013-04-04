@@ -76,6 +76,8 @@ namespace Logic
 		virtual bool accept(const CMessage *message) { return false; }
 		virtual void process(CMessage *message) {}
 		virtual void tick(unsigned int msecs) {}
+
+		virtual Physics::CActor* getPhysicalActor() { return _physicalActor;}
  
 		/**************
 			IOBSERVER

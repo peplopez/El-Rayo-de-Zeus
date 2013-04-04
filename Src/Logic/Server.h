@@ -51,7 +51,14 @@ namespace Logic
 	protected:
 
 		typedef std::list<std::string> TMapNameList;
+
+		typedef std::vector<std::string> TMapNameVector;
+		
 		typedef std::map<std::string, CMap*> TMaps;	
+
+		typedef std::list<CEntity*> TEntityList;
+		
+		typedef std::map<int, TEntityList> TMapEntityLists;
 
 
 	public:
@@ -166,7 +173,13 @@ namespace Logic
 		*/
 		void setPlayer(CEntity *player) {_player = player;}
 
-	
+		/**
+		*/
+		void deferredMoveEntity(CEntity *entity, int targetMap);
+
+		/**
+		*/
+		void moveDefferedEntities();
 
 	protected:
 		/**
@@ -203,6 +216,14 @@ namespace Logic
 		/**
 		*/
 		TMaps _maps;
+
+		/**
+		*/
+		TMapNameVector _mapNames;
+
+		/**
+		*/
+		TMapEntityLists _entitiesToMove;
 
 		/**
 		Entidad del jugador.

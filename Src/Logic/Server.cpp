@@ -14,6 +14,8 @@ la gestión de la lógica del juego.
 #include "Logic/Maps/Map.h"
 
 #include "Logic/Maps/EntityFactory.h"
+#include "Logic/Maps/Map.h"
+//#include "Logic/Entity/Entity.h"
 
 #include "Map/MapParser.h"
 #include "Logic/Entity/RingStruct.h"
@@ -116,6 +118,7 @@ namespace Logic {
 	void CServer::tick(unsigned int msecs) 
 	{
 		// Eliminamos las entidades que se han marcado para ser eliminadas.
+		moveDefferedEntities();
 		Logic::CEntityFactory::getSingletonPtr()->deleteDefferedEntities();
 
 		TMaps::const_iterator it = _maps.begin();
@@ -170,7 +173,10 @@ namespace Logic {
 		bool loaded = false;
 
 		for (; it != end; ++it)
+		{
 			loaded = loadMap(*it);
+			_mapNames.push_back(*it);
+		}
 
 		return loaded;
 	}
@@ -257,6 +263,46 @@ namespace Logic {
 			return it->second;
 		
 		return NULL;
+	}
+
+	//---------------------------------------------------------
+
+	void CServer::deferredMoveEntity(CEntity *entity, int targetMap)
+	{
+		assert(entity);
+		_entitiesToMove[targetMap].push_back(entity);
+
+	}
+
+
+
+	//---------------------------------------------------------
+
+	void CServer::moveDefferedEntities()
+	{
+		TMapEntityLists::iterator it = _entitiesToMove.begin();
+		TMapEntityLists::const_iterator end = _entitiesToMove.end();
+
+		for (; it != end; ++it)
+		{
+			TEntityList::const_iterator entity = it->second.begin();
+			TEntityList::const_iterator entityEnd = it->second.end();
+
+			for (; entity != entityEnd; ++entity)
+			{
+				if ((*entity)->isPlayer())
+				{
+					(*entity)->getMap()->removeEntity(*entity);
+					_maps[ _mapNames[it->first - 1] ]->insertEntity(*entity);
+					(*entity)->activate();
+					_player->getMap()->setVisible();
+				}
+
+			}
+
+			it->second.clear();
+		}
+
 	}
 
 	//---------------------------------------------------------

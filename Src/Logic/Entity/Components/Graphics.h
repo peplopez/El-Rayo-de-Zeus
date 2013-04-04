@@ -91,6 +91,8 @@ namespace Logic
 		*/
 		virtual void process(CMessage *message);
 
+		virtual Graphics::CEntity* getGraphicalEntity() { return _graphicalEntity;}
+
 	protected:
 
 		/**	Entidad gráfica.*/

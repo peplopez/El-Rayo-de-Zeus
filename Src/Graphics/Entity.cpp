@@ -117,6 +117,7 @@ namespace Graphics
 		{
 			_scene->getSceneMgr()->destroyEntity(_entity);
 			_entity = 0;
+			_loaded = false;
 		}
 
 	} // load

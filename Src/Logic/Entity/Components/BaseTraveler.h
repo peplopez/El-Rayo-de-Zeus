@@ -82,7 +82,7 @@ namespace Logic
 		/**
 		Provoca que la entidad cambie de base. Conlleva un cambio del eje de giro en su coordenada y
 		*/
-		void changeBase(int base);
+		void changeBase(unsigned short base);
 
 	protected:
 

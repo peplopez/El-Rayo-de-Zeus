@@ -116,6 +116,10 @@ namespace Logic
 		*/
 		void addEntity(CEntity *entity);
 
+		/*
+		*/
+		void insertEntity(CEntity *entity);
+
 		/**
 		Elimina una entidad del mapa. Si la entidad no estaba incluida
 		no se hace nada. La función desactiva previamente la entidad si
@@ -205,6 +209,7 @@ namespace Logic
 			GET's & SET's
 		******************/
 		bool isActive() { return _isActive; }
+
 
 	private:
 

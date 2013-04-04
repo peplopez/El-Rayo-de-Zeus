@@ -20,6 +20,8 @@ gráfica de la entidad.
 #include "Logic/Entity/Messages/MessageUShort.h"
 #include "Logic/Entity/Messages/MessageString.h"
 
+#include "Logic/Server.h"
+
 #define DEBUG 1
 #if DEBUG
 #	include <iostream>
@@ -55,7 +57,7 @@ namespace Logic
 
 	
 	bool CBaseTraveler::accept(const CMessage *message)
-	{//que no os confunda el nombre de mensaje CHANGE_PLANE es tanto para cambiar de base como de anillo dentro de la base. Apreciad que en cualquier caso siempre es un cambio de anillo, de ahí el nombre
+	{
 		return (CRingTraveler::accept(message) || 
 					(message->getType() == Message::CONTROL &&
 					message->getAction() == Message::CHANGE_BASE));
@@ -77,41 +79,25 @@ namespace Logic
 
 	} // process
 
-			
-	void CBaseTraveler::changeBase(int base)
+	//---------------------------------------------------------
+
+	void CBaseTraveler::changeBase(unsigned short base)
 	{
 		_changingBase=true;
-
+			/*
 			CMessageChar *m = new CMessageChar();	
 				m->setType(Message::AVATAR_MOVE);
 				m->setAction(Message::CHANGE_BASE);
-				m->setChar( base - (int) _entity->getBase() ); // ƒ®§ Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
+				m->setChar( base - _entity->getBase() ); // ƒ®§ Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
 			_entity->emitMessage(m,this);
-
+			*/
+			Logic::CServer* srv = Logic::CServer::getSingletonPtr();
+			srv->deferredMoveEntity(_entity, base);
 		LOG("Change Base from " << _entity->getBase() << " to " << base );
-
-			// UNDONE
-		/*	if (_entity->getRing()==Ring::UPPER_RING)
-			{
-				_entity->setBase(base);
-				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-				_entity->setPosition(newPosition);
-			}
-			if (_entity->getRing()==Ring::CENTRAL_RING)
-			{
-				_entity->setBase(base);
-				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-				_entity->setPosition(newPosition);
-			}
-			if (_entity->getRing()==Ring::LOWER_RING)
-			{
-				_entity->setBase(base);
-				Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-				_entity->setPosition(newPosition);
-			}*/
 
 	}
 
+	//---------------------------------------------------------
 
 	void CBaseTraveler::tick(unsigned int msecs)
 	{

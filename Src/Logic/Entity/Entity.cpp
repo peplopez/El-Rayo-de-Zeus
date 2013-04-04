@@ -142,6 +142,9 @@ namespace Logic
 			int i=0;
 		}
 
+		if (isPlayer())
+			setIsPlayer(true);
+
 		// Activamos los componentes
 		TComponentMap::const_iterator it;
 		// TODO TComponentList::const_iterator it;
@@ -164,8 +167,8 @@ namespace Logic
 		// Si éramos el jugador, le decimos al servidor que ya no hay.
 		// y evitamos que se nos siga informando de los movimientos que 
 		// debemos realizar
-		if (isPlayer())
-			setIsPlayer(false);
+		//if (isPlayer())
+		//	setIsPlayer(false);
 
 		TComponentMap::const_iterator it; // TODO TComponentList::const_iterator it;
 
