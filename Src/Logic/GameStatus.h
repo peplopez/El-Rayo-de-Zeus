@@ -14,7 +14,10 @@ Esta es la clase principal de gestión del juego. Contiene clases como son Bases,
 #ifndef __Logic_GameStatus_H
 #define __Logic_GameStatus_H
 
+
+#include "Logic\PlayerInfo.h"//como quito este include??
 #include <vector>
+
 namespace Logic
 {
 	class CBaseInfo;
@@ -53,6 +56,11 @@ namespace Logic
 			crea las bases
 		*/
 		Logic::CBaseInfo* createBase(const unsigned short rings);
+		
+		/**
+			crea los jugadores
+		*/
+		Logic::CPlayerInfo* createPlayer(Logic::Hero heroe, const CBaseInfo* miBase, Logic::CEntity* entity);
 
 		/**
 			Número de jugadores
@@ -64,12 +72,12 @@ namespace Logic
 		unsigned short _numBases; 
 
 		/**
-		Tipo para la lista de Bases
+		Tipo para la lista de Jugadores
 		*/
 		typedef std::vector<CPlayerInfo*> TPlayers;
 
 		/**
-		Lista de las Bases
+		Lista de los Jugadores
 		*/
 		TPlayers _players;
 

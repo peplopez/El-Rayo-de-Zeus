@@ -89,10 +89,6 @@ namespace Logic
 			crea los anillos
 		*/
 		Logic::CRingInfo* createRing(const unsigned short altars, Ring tipo);
-		/**
-			Puntero al Player dueño de la base.
-		*/
-		const CPlayerInfo* _player;
 				
 		/**
 			Número de altares activados

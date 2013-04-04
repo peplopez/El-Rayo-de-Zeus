@@ -13,15 +13,15 @@ Esta es la clase principal de gestión del juego. Contiene clases como son Bases,
 #pragma once
 #ifndef __Logic_PlayerInfo_H
 #define __Logic_PlayerInfo_H
-
-//#include "Logic\Entity\LogicalPosition.h"
 #include <string>
 
 using namespace std;
+
 namespace Logic
 {
 	class CBaseInfo;
 	class CPlayerInfo;
+	class CEntity;
 }
 namespace Logic
 {
@@ -30,10 +30,22 @@ namespace Logic
 		Pero más adelante es posible que sí que sea interesante saber cosas como quien es el que más altares lleva activados,
 		quien ha matado a mas enemigos, quien es el que más viaja... ¿Desbloquear logros?...recompensas...
 	*/
+	enum Hero : unsigned short
+		{	
+			AQUILES	=0,
+			ATALANTA=1,
+			HECTOR	=2,
+			HERCULES=3,
+			HIPOLITA=4,
+			PERSEO	=5,
+			TESEO	=6, 
+			ULISES	=7
+		};
+
 	class CPlayerInfo
 	{
 	public:
-		CPlayerInfo(const CBaseInfo* miBase);	//CONSTRUIR TAMBIÉN CON EL COLOR.
+		CPlayerInfo(Hero heroe,const CBaseInfo* miBase,Logic::CEntity* entity);	//CONSTRUIR TAMBIÉN CON EL COLOR.
 
 		~CPlayerInfo();
 		/**
@@ -47,15 +59,59 @@ namespace Logic
 		@return quizá no sea un int y sí un enumerado.
 		*/
 		int getHealthStatus();
-
-		
-		
-	protected:
 		
 		/**
-			crea los anillos
+		getters y setters
 		*/
-		Logic::CRingInfo* createRing(const unsigned short altars, Ring tipo);
+		unsigned int getBasesActivated()
+		{
+			return _basesActivated;
+		}
+		
+		unsigned int getAltarsActivated()
+		{
+			return _altarsActivated;
+		}
+
+		
+		unsigned int getHeroesKilled()
+		{
+			return _heroesKilled;
+		}
+
+		unsigned int getCreaturesKilled()
+		{
+			return _creaturesKilled;
+		}
+
+		unsigned int getMeritPoints()
+		{
+			return _meritPoints;
+		}
+
+		unsigned int getMyDeaths()
+		{
+			return _myDeaths;
+		}
+
+		bool hasThreeCombos()
+		{
+			return _hasThreeCombos;
+		}
+
+		unsigned int getMeritPointsSpent()
+		{
+			return _meritPointsSpent;
+		}
+
+		unsigned int getLostCreatures() //habrá que ampliarlo despues con los escuderos
+		{
+			return _lostCreatures;
+		}
+
+	protected:
+		
+		Hero _hero ;
 		/**
 			Puntero al Player dueño de la base.
 		*/
@@ -118,6 +174,10 @@ namespace Logic
 		*/
 		string _playerName;
 
+		/**
+			Puntero al CEntity que representa éste player/bot lógico
+		*/		
+		Logic::CEntity* _player;
 	};
 }
 
