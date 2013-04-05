@@ -21,7 +21,7 @@ Esta es la clase principal de gestión del juego. Contiene clases como son Bases,
 namespace Logic
 {
 	class CBaseInfo;
-	class CPlayerInfo;
+
 }
 namespace Logic
 {
@@ -46,7 +46,10 @@ namespace Logic
 			Puntos de mérito que supone activar un altar.
 		*/
 		//const unsigned int _scoreAltar;
+		
 		CBaseInfo* getBase(unsigned short base);
+		
+		CPlayerInfo* getPlayer(unsigned short player);
 		
 		//void setBases();
 		

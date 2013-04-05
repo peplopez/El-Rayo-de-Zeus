@@ -32,14 +32,14 @@ namespace Logic
 	*/
 	enum Hero : unsigned short
 		{	
-			AQUILES	=0,
-			ATALANTA=1,
-			HECTOR	=2,
-			HERCULES=3,
-			HIPOLITA=4,
-			PERSEO	=5,
-			TESEO	=6, 
-			ULISES	=7
+			AQUILES ,	
+			ATALANTA,
+			HECTOR	,
+			HERCULES,
+			HIPOLITA,
+			PERSEO	,
+			TESEO	, 
+			ULISES	,
 		};
 
 	class CPlayerInfo
@@ -53,6 +53,18 @@ namespace Logic
 		*/
 		int getLife();
 		int getLifeMax();
+
+		bool attachCEntity(CEntity* entidad)
+		{
+			if (entidad!=NULL)
+			 {
+				 _player =entidad;
+				 //TODO: aquí refresco todos los datos que puedan ser obtenidos desde la entidad _player.
+
+				return true;
+			}
+			return false;
+		}
 
 		/**
 		Devuelve si está envenenado, aturdido, convertido en piedra...

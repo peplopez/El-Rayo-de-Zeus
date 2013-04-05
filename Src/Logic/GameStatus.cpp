@@ -41,10 +41,7 @@ namespace Logic
 			
 			Logic::CPlayerInfo* player=createPlayer(Logic::AQUILES,base,NULL); //la base 0 es lobby
 			if (player!=0) //el puntero al centity es null porque un componente se encargará de rellenarlo externamente.
-
 				_players.push_back(player);
-			
-
 		}
 	}
 	
@@ -57,6 +54,12 @@ namespace Logic
 	{
 			return _bases[base];
 	}
+
+	CPlayerInfo* CGameStatus::getPlayer(unsigned short player)
+	{
+			return _players[player];
+	}
+
 	//---------------------------------------------------------
 
 	Logic::CBaseInfo* CGameStatus::createBase(const unsigned short rings)

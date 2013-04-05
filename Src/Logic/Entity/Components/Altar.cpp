@@ -23,12 +23,14 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
 
+
+/*para tener un acceso directo al gamestatus*/
 #include "Logic/GameStatus.h"
 #include "Logic/RingInfo.h"
 #include "Logic/BaseInfo.h"
 #include "Application/BaseApplication.h"
-
 #include "../../../Application/GameState.h"
+
 #define DEBUG 1
 #if DEBUG
 #	include <iostream>

@@ -31,7 +31,7 @@ Map ={
 	puPandora1 = {
 		type = "PUPandora",
 		base=3,
-		ring=2,
+		ring=1,
 		degrees=200,
 		lifeModifier=-200,
 	},
@@ -74,14 +74,14 @@ Map ={
 	
 	loco = {
 		type = "OtherPlayer",
-		base=3,
+		base=1,
 		ring=0,
 		degrees=120,		
 	},
 
 	locoCubriendose = {
 		type = "OtherPlayer",
-		base=3,
+		base=2,
 		ring=2,
 		degrees=220,
 		defaultAnimation = "Crouch",
