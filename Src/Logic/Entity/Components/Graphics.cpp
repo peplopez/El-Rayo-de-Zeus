@@ -76,8 +76,12 @@ namespace Logic
 
 		// ATTACHs
 	// TODO  FRS Esto estaría guapo tron extraerlo directamente como lista de pares desde el map.txt
+		if(entityInfo->hasAttribute("modelShield"))
+			_graphicalEntity->attach( Graphics::TAttachPoint::ARM_L, 
+				entityInfo->getStringAttribute("modelShield") );
+
 		if(entityInfo->hasAttribute("modelWeapon"))
-			_graphicalEntity->attach( Graphics::TAttachPoint::HAND, 
+			_graphicalEntity->attach( Graphics::TAttachPoint::HAND_R, 
 				entityInfo->getStringAttribute("modelWeapon") );
 
 		if(entityInfo->hasAttribute("modelHelmet"))
@@ -127,13 +131,13 @@ namespace Logic
 					_graphicalEntity->attach( Graphics::TAttachPoint::HEAD, rxMsg->getString() );	
 					break;
 				case Message::ATTACH_TO_HAND:	
-					_graphicalEntity->attach( Graphics::TAttachPoint::HAND,	rxMsg->getString() );	
+					_graphicalEntity->attach( Graphics::TAttachPoint::HAND_R,	rxMsg->getString() );	
 					break;
 				case Message::DETACH_FROM_HEAD:	
 					_graphicalEntity->detach( Graphics::TAttachPoint::HEAD );	
 					break;
 				case Message::DETACH_FROM_HAND:	
-					_graphicalEntity->detach( Graphics::TAttachPoint::HAND );	
+					_graphicalEntity->detach( Graphics::TAttachPoint::HAND_R );	
 					break;
 			}
 		} break;

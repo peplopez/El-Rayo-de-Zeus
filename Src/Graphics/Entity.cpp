@@ -79,7 +79,7 @@ namespace Graphics
 		// FRS De momento, no permite "atachar" el mismo mesh más de una vez en un único cuerpo.
 		assert( !getSceneMgr()->hasEntity(objectName) && "Ya existe un objeto con el mismo nombre en la escena");
 		
-		TAttachedMeshes boneObjects = _boneObjectsTable[toBone];
+		TAttachedMeshes& boneObjects = _boneObjectsTable[toBone];
 			if( !boneObjects.empty() )				// Si ya había objetos "atachados" a ese hueso
 				boneObjects.top()->setVisible(false); // ocultamos el último attach que tenía el hueso	
 
@@ -95,7 +95,7 @@ namespace Graphics
 	{
 		assert(_node && "La entidad no ha sido cargada en la escena");
 
-		TAttachedMeshes boneObjects = _boneObjectsTable[fromBone];
+		TAttachedMeshes& boneObjects = _boneObjectsTable[fromBone];
 			if( boneObjects.empty() ) 
 				return;				// Ningún objeto "atachado" a ese hueso
 

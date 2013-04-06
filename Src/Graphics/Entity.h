@@ -30,8 +30,11 @@ namespace Graphics
 {
 
 	enum TAttachPoint {
-			HEAD,
-			HAND
+			ARM_L,
+			ARM_R,
+			HAND_L,
+			HAND_R,
+			HEAD
 	};
 
 	/**
@@ -174,8 +177,11 @@ namespace Graphics
 
 				static TBoneDictionary initBoneDictionary() {
 					TBoneDictionary dictionary;
-						dictionary[TAttachPoint::HEAD] = "Bip01 Head";
-						dictionary[TAttachPoint::HAND] = "Bip01 R Hand";
+						dictionary[TAttachPoint::ARM_L] =	"Bip01 L Forearm";
+						dictionary[TAttachPoint::ARM_R] =	"Bip01 R Forearm";
+						dictionary[TAttachPoint::HAND_L] =	"Bip01 L Hand";
+						dictionary[TAttachPoint::HAND_R] =	"Bip01 R Hand";
+						dictionary[TAttachPoint::HEAD] =	"Bip01 Head";
 					// TODO añadir on demand...
 					return dictionary;
 				}
