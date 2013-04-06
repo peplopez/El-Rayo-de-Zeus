@@ -22,11 +22,11 @@ Datos en cuanto a IA, percepción y gestión del juego.
 
 namespace Logic
 {
-	CPlayerInfo::CPlayerInfo(Hero heroe,const CBaseInfo* miBase,Logic::CEntity* entity):_player(entity),_miBase(miBase),_basesActivated(0),
+	CPlayerInfo::CPlayerInfo(const CBaseInfo* miBase, Logic::CEntity* entity):_player(entity),_miBase(miBase),_basesActivated(0),
 		_altarsActivated(0),_heroesKilled(0),_creaturesKilled(0),_meritPoints(0),_myDeaths(0),
-		_hasThreeCombos(true),_meritPointsSpent(0),_lostCreatures(0),_hero(heroe)
+		_hasThreeCombos(true),_meritPointsSpent(0),_lostCreatures(0),_playerName("")
 	{
-		_playerName="Hercules"; //dependerá del enumerado Hero
+
 	}
 
 	CPlayerInfo::~CPlayerInfo()

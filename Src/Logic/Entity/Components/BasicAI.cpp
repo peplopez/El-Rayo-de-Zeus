@@ -27,6 +27,15 @@ angular de entidades.
 #include "Logic/Entity/Components/AltarStateSwitcher.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
 //declaración de la clase
+
+/*para tener un acceso directo al gamestatus*/
+#include "Logic/GameStatus.h"
+#include "Logic/RingInfo.h"
+#include "Logic/BaseInfo.h"
+#include "Application/BaseApplication.h"
+#include "../../../Application/GameState.h"
+
+
 namespace Logic 
 {
 	IMP_FACTORY(CBasicAI);
@@ -36,6 +45,7 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
+		_gameStatus=Application::CBaseApplication::getSingletonPtr()->getGameState()->getGameStatus();
 		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
 	
 		/*if(entityInfo->hasAttribute("attackPower"))

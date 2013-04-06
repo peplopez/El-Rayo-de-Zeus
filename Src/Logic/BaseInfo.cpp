@@ -46,8 +46,8 @@ namespace Logic
 	
 	CBaseInfo::~CBaseInfo()
 	{	
-		//delete &_bases;	//me teneis que enseñar a destruir bien...		
-		//delete &_players;
+		_rings.clear();
+		//delete &_rings;	//me teneis que enseñar a destruir bien...		
 	}
 
 	//---------------------------------------------------------

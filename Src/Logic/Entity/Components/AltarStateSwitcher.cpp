@@ -23,6 +23,13 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/Entity/Messages/MessageBoolString.h"
 
 
+/*para tener un acceso directo al gamestatus*/
+#include "Logic/GameStatus.h"
+#include "Logic/RingInfo.h"
+#include "Logic/BaseInfo.h"
+#include "Logic/AltarInfo.h"
+#include "Application/BaseApplication.h"
+#include "../../../Application/GameState.h"
 
 #define DEBUG 1
 #if DEBUG
@@ -42,7 +49,9 @@ namespace Logic
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;				
-
+	
+		_gameStatus=Application::CBaseApplication::getSingletonPtr()->getGameState()->getGameStatus();
+	
 		return true;
 
 	} // spawn
@@ -65,7 +74,8 @@ namespace Logic
 	bool CAltarStateSwitcher::accept(const CMessage *message)
 	{
 		return (message->getType() == Message::TRIGGER ||
-					message->getType() == Message::CONTROL);
+					message->getType() == Message::CONTROL
+/*Pep, mensaje mio*/||message->getType() == Message::ALTAR_ACTIVATED );
 
 	} // accept
 	
@@ -109,7 +119,11 @@ namespace Logic
 			{
 				stopSwitchingState(Logic::LogicalPosition::RIGHT);
 			}
-
+			break;
+			case Message::ALTAR_ACTIVATED:
+			{
+				_gameStatus->getPlayer(_entity->getOriginBase())->increaseAltarsActivated();
+			}
 		}
 	} // process
 	
@@ -122,8 +136,8 @@ namespace Logic
 		
 		if (_switchingAllowed && !_switchingState)
 		{
-
-			_entity->getComponent<CAvatarController>()->sleep();
+			if (_entity->getComponent<CAvatarController>()!=NULL)
+				_entity->getComponent<CAvatarController>()->sleep();
 			_switchingState = true;
 			
 			CMessageUInt *m = new CMessageUInt();

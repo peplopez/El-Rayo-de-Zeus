@@ -63,7 +63,7 @@ namespace Logic
 		/**
 			crea los jugadores
 		*/
-		Logic::CPlayerInfo* createPlayer(Logic::Hero heroe, const CBaseInfo* miBase, Logic::CEntity* entity);
+		Logic::CPlayerInfo* createPlayer(const CBaseInfo* miBase, Logic::CEntity* entity);
 
 		/**
 			Número de jugadores

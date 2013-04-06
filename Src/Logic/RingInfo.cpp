@@ -38,7 +38,9 @@ namespace Logic
 	}
 	
 	CRingInfo::~CRingInfo()
-	{	
+	{
+		_altars.clear();
+	//	delete &_altars;
 	}
 
 	unsigned short CRingInfo::getNumActivatedAltars()

@@ -32,6 +32,7 @@ namespace Logic
 		CRingInfo(const unsigned short numAltars, Ring tipo);
 
 		~CRingInfo();
+		
 		/**
 			Para obtener el número de defensores en el anillo
 		*/
@@ -58,6 +59,10 @@ namespace Logic
 
 		void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
 	
+		/*CAltarInfo* getAltar(string altar)
+		{
+			return _altars[altar];
+		}*/
 	protected:
 		
 		friend class CAltar;

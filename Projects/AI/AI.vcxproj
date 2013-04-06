@@ -88,6 +88,10 @@
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_Jump.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_Run.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\SimpleLatentActions.cpp" />
+    <ClCompile Include="..\..\Src\AI\Perception\PerceptionEntity.cpp" />
+    <ClCompile Include="..\..\Src\AI\Perception\PerceptionEntityFactory.cpp" />
+    <ClCompile Include="..\..\Src\AI\Perception\PerceptionManager.cpp" />
+    <ClCompile Include="..\..\Src\AI\Perception\SightSensor.cpp" />
     <ClCompile Include="..\..\Src\AI\Server.cpp" />
     <ClCompile Include="..\..\Src\AI\StateMachines\StateMachine.cpp" />
   </ItemGroup>
@@ -102,6 +106,13 @@
     <ClInclude Include="..\..\Src\AI\LatentActions\LA_Jump.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LA_Run.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\SimpleLatentActions.h" />
+    <ClInclude Include="..\..\Src\AI\Perception\PerceptionEntity.h" />
+    <ClInclude Include="..\..\Src\AI\Perception\PerceptionEntityFactory.h" />
+    <ClInclude Include="..\..\Src\AI\Perception\PerceptionListener.h" />
+    <ClInclude Include="..\..\Src\AI\Perception\PerceptionManager.h" />
+    <ClInclude Include="..\..\Src\AI\Perception\PerceptionSignal.h" />
+    <ClInclude Include="..\..\Src\AI\Perception\Sensor.h" />
+    <ClInclude Include="..\..\Src\AI\Perception\SightSensor.h" />
     <ClInclude Include="..\..\Src\AI\Server.h" />
     <ClInclude Include="..\..\Src\AI\StateMachines\Condition.h" />
     <ClInclude Include="..\..\Src\AI\StateMachines\StateMachine.h" />

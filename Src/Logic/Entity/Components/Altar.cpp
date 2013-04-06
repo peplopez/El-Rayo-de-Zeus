@@ -28,6 +28,7 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/GameStatus.h"
 #include "Logic/RingInfo.h"
 #include "Logic/BaseInfo.h"
+#include "Logic/AltarInfo.h"
 #include "Application/BaseApplication.h"
 #include "../../../Application/GameState.h"
 
@@ -54,8 +55,9 @@ namespace Logic
 		//creamos un puntero al gamestatus global (que es única estancia)
 		_gameStatus=Application::CBaseApplication::getSingletonPtr()->getGameState()->getGameStatus();
 		//creamos un altar pasandole la entidad propietaria del presente compontente.
-		_gameStatus->getBase(entity->getLogicalPosition()->getBase())->getRing(entity->getLogicalPosition()->getRing())->
+		_altarInfo=_gameStatus->getBase(entity->getLogicalPosition()->getBase())->getRing(entity->getLogicalPosition()->getRing())->
 		createAltar(entity);
+		
 		return true;
 
 	} // spawn
@@ -64,7 +66,6 @@ namespace Logic
 
 	bool CAltar::activate()
 	{
-		_gameStatus->getBase(0);
 		_acumTime = _switchingTime;
 
 		return true;
@@ -142,7 +143,6 @@ namespace Logic
 				_switchingState = false;
 				_on = !_on;
 				/* avisamos a continuación al _gameStatus*/
-				_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsActivated();
 					
 				if (_on)
 				{
@@ -152,15 +152,20 @@ namespace Logic
 					m->setString("altaractivado");
 					m->setUInt(0);
 					_entity->emitMessage(m,this);
+					//_gameStatus->getPlayer(_entity->getLogicalPosition()->getBase())->increaseAltarsActivated();
+				
 				if (_player!=NULL)		
 					{
+					//aviso a _gameStatus
+					//de momento no, lo haré de otra manera, en AltarStateSwitcher
+					//	_altarInfo->setPlayer(_player);
+
 					CMessageString *m2 = new CMessageString();	
 					m2->setType(Message::ALTAR_ACTIVATED);
 					m2->setString(_entity->getName());
 					_player->emitMessage(m2,this);
 					}
 				}
-
 				else 
 				{
 					LOG(_entity->getName() << ": desactivado")
@@ -177,6 +182,7 @@ namespace Logic
 					_player->emitMessage(m2,this);
 					}
 				}
+				_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsActivated();
 				_acumTime = _switchingTime;
 			}
 		}

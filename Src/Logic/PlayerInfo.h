@@ -30,7 +30,7 @@ namespace Logic
 		Pero más adelante es posible que sí que sea interesante saber cosas como quien es el que más altares lleva activados,
 		quien ha matado a mas enemigos, quien es el que más viaja... ¿Desbloquear logros?...recompensas...
 	*/
-	enum Hero : unsigned short
+	/*enum Hero : string
 		{	
 			AQUILES ,	
 			ATALANTA,
@@ -40,12 +40,12 @@ namespace Logic
 			PERSEO	,
 			TESEO	, 
 			ULISES	,
-		};
+		};*/
 
 	class CPlayerInfo
 	{
 	public:
-		CPlayerInfo(Hero heroe,const CBaseInfo* miBase,Logic::CEntity* entity);	//CONSTRUIR TAMBIÉN CON EL COLOR.
+		CPlayerInfo(const CBaseInfo* miBase, Logic::CEntity* entity);	//CONSTRUIR TAMBIÉN CON EL COLOR.
 
 		~CPlayerInfo();
 		/**
@@ -75,16 +75,22 @@ namespace Logic
 		/**
 		getters y setters
 		*/
+
+		//por el momento todos los getters, id añadiendo solo los setters que sean necesarios.
 		unsigned int getBasesActivated()
 		{
 			return _basesActivated;
 		}
 		
+		void increaseAltarsActivated()
+		{
+			_altarsActivated++;
+		}
+
 		unsigned int getAltarsActivated()
 		{
 			return _altarsActivated;
 		}
-
 		
 		unsigned int getHeroesKilled()
 		{
@@ -121,9 +127,21 @@ namespace Logic
 			return _lostCreatures;
 		}
 
+		void setHeroName(string heroName)
+		{
+			_heroName=heroName;
+		}
+
+		string getHeroName()
+		{
+			return _heroName;
+		}
+
 	protected:
-		
-		Hero _hero ;
+		/**
+			Enumerado del tipo de heroe, es posible que al final lo quite.
+		*/
+		//Hero _hero ;
 		/**
 			Puntero al Player dueño de la base.
 		*/

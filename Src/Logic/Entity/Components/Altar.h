@@ -23,6 +23,7 @@ namespace Logic
 {
 	class CMessage;
 	class CGameStatus;
+	class CAltarInfo;
 }
 
 //declaración de la clase
@@ -82,6 +83,7 @@ namespace Logic
 
 		Logic::CGameStatus* _gameStatus;
 
+		Logic::CAltarInfo* _altarInfo;
 	}; // class CAltar
 
 	REG_FACTORY(CAltar);
