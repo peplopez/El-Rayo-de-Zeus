@@ -145,6 +145,14 @@ namespace Graphics
 	
 	//-------------------------- SCALE ------------------------------
 		
+
+	const Vector3& CSceneElement::getScale()
+	{
+		assert(_node && "El elemento no ha sido cargado en la escena");
+		if(_node)
+			return _node->getScale();
+	}
+
 	void CSceneElement::setScale(const Vector3 &scale)
 	{
 		assert(_node && "El elemento no ha sido cargado en la escena");
@@ -152,7 +160,7 @@ namespace Graphics
 			_node->setScale(scale);
 	} // setScale
 		
-	
+
 
 
 } // namespace Graphics

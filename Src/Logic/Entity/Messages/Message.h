@@ -57,7 +57,7 @@ namespace Logic
 			ALTAR_ACTIVATED 		= 0x22,
 			ALTAR_DEACTIVATED 		= 0x23,
 			ATTACH					= 0x24,
-			DETACH					= 0x25
+			DETACH					= 0x25,
 			AUDIO			 		= 0x26,
 			SET_SCALE		 		= 0x27
 		};

@@ -216,7 +216,7 @@ namespace Application {
 			
 		// Llamamos al método de creación del jugador. Deberemos decidir
 		// si el jugador es el jugador local. Al ser el monojugador lo es.
-		Logic::CServer::getSingletonPtr()->getMap()->createPlayer("Mono", true, "spartan.mesh");
+		Logic::CServer::getSingletonPtr()->getMap()->createPlayer("Mono", true);
 
 		// TODO Deberíamos poder propocionar características  (nombre, modelo, etc.)... ==> Ampliar MenuState...
 

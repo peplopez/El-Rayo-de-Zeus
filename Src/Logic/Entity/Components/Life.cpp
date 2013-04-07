@@ -108,9 +108,8 @@ namespace Logic
 			maudio->setId("impacto");
 			maudio->setPosition(_entity->getPosition());
 // TODO
-			lifeModifier < 0 ?	maudio->setPath(_audio)) : //Poner el sonido de herido. 
-								maudio->setPath(_audio)); // Poner el sonido de curacion
-
+			lifeModifier < 0 ?	maudio->setPath(_audio): //Poner el sonido de herido. 
+								maudio->setPath(_audio); // Poner el sonido de curacion
 
 			_entity->emitMessage(maudio);
 		}		

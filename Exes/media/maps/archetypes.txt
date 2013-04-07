@@ -79,7 +79,7 @@ Map = {
 	
 	Player = {
 		type = "Player",
-		model = "spartan.mesh",
+		model = "marine.mesh",
 		modelWeapon = "katana.mesh",
 		modelShield = "shield.mesh",
 		modelHelmet = "helmet.mesh",
@@ -107,7 +107,7 @@ Map = {
 	
 	Espartano = {
 		type = "OtherPlayer",
-		model = "spartan.mesh",
+		model = "marine.mesh",
 		logicInput=true,
 		base=3,
 		ring=1,

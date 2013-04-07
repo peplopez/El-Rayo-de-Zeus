@@ -75,27 +75,6 @@ namespace Graphics
 
 	} // pauseAnimation
 
-
-		//--------------------------------------------------------
-		
-	bool CAnimatedEntity::rewind(const std::string &anim,const bool moment)
-	{
-		_rewinding=true;
-		/*if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
-			return false;
-		Ogre::AnimationState *animation = _entity->getAnimationState(anim);
-		animation->setTimePosition(secs);
-		*///if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
-			//animation->setTimePosition(0);  // De lo contrario, no dejan de lanzar el evento finished a los observers
-
-		// Si la animación a parar es la animación activa ya no lo estará.
-		/*if(animation == _currentAnimation)
-			_currentAnimation = 0;
-
-		*/		return true;
-	} // 
-
-
 	//--------------------------------------------------------
 		
 	void CAnimatedEntity::stopAllAnimations()

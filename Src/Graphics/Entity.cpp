@@ -136,25 +136,6 @@ namespace Graphics
 		if(_node)
 			_entity->getSubEntity(subEntityIndex)->setMaterialName(materialName);
 	} // setSubEntityMaterial
-	
-	
-
-	const Vector3 &CEntity::getScale()
-	{
-		Vector3 escala;
-		if(_entityNode)
-			escala=_entityNode->getScale();
-		return escala;
-	}
-
-	/*float CEntity::getScaleX()
-	{
-		//assert(_entityNode && "La entidad no ha sido cargada en la escena");
-		Vector3 escala;
-		if(_entityNode)
-			escala=_entityNode->getScale();
-		return escala.x;
-	}*/ // setScale
 
 
 } // namespace Graphics

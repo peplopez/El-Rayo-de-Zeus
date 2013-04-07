@@ -177,7 +177,7 @@ namespace Graphics
 
 				static TBoneDictionary initBoneDictionary() {
 					TBoneDictionary dictionary;
-//*
+/*
 						dictionary[TAttachPoint::ARM_L] =	"LeftForeArm";		// SPARTAN
 						dictionary[TAttachPoint::ARM_R] =	"RightForeArm";
 						dictionary[TAttachPoint::HAND_L] =	"LeftHand";

@@ -78,6 +78,7 @@ namespace Logic
 		{
 
 		// MUERTO
+		case Message::DEAD: {
 			CMessageBoolString *txMsg = new CMessageBoolString(); // Poner la animación de muerte
 				txMsg->setType(TMessageType::SET_ANIMATION);
 				txMsg->setString("Death");	
@@ -90,7 +91,6 @@ namespace Logic
 			maudio->setId("muerte");
 			maudio->setPosition(_entity->getPosition());
 			_entity->emitMessage(maudio);
-
 		} break;	
 		
 		// ANIMACION FINALIZADA		

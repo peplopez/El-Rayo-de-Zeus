@@ -135,6 +135,9 @@ namespace Graphics
 		//*/
 		//const Vector3 &getScale() const;
 
+
+		const Vector3& getScale();
+
 		/**
 		 Escala el elemento
 		 @param scale Valores de la escala en los diferentes ejes.
