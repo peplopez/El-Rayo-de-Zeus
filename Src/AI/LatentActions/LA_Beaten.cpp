@@ -4,7 +4,7 @@
 #include "../../Logic/Entity/Components/Attack.h"
 
 #include "../StateMachines/StateMachine.h"
-
+#include "Logic/Entity/Messages/MessageString.h"
 
 
 namespace AI

@@ -14,23 +14,40 @@ Esta es la clase principal de gestión del juego. Contiene clases como son Bases,
 #ifndef __Logic_GameStatus_H
 #define __Logic_GameStatus_H
 
-
-#include "Logic\PlayerInfo.h"//como quito este include??
 #include <vector>
 
 namespace Logic
 {
 	class CBaseInfo;
-
+	class CPlayerInfo;
+	class CEntity;
 }
 namespace Logic
 {
 	class CGameStatus
 	{
 	public:
-		CGameStatus(const unsigned short numPlayers);
 
-		~CGameStatus();
+		/**
+		Devuelve la única instancia de la clase CServer.
+		
+		@return Única instancia de la clase CServer.
+		*/
+		static CGameStatus* getSingletonPtr() {return _instance;}
+
+	
+		/**
+		Inicializa la instancia
+
+		@return Devuelve false si no se ha podido inicializar.
+		*/
+		static bool Init(const unsigned short numPlayers);
+
+		/**
+		Libera la instancia de CGameNetMsgManager. Debe llamarse al finalizar la 
+		aplicación.
+		*/
+		static void Release();
 
 		//opciones que van a ir a Ranking
 		/**
@@ -55,6 +72,9 @@ namespace Logic
 		
 	protected:
 	
+		CGameStatus(const unsigned short numPlayers);
+
+		~CGameStatus();
 		/**
 			crea las bases
 		*/
@@ -93,6 +113,12 @@ namespace Logic
 		Lista de las Bases
 		*/
 		TBases _bases;
+
+	private:
+				/**
+		Única instancia de la clase.
+		*/
+		static CGameStatus* _instance;
 	};
 //TBases _bases;
 }

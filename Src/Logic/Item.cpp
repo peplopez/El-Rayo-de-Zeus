@@ -55,13 +55,13 @@ namespace Logic
 
 				//_entity->emitMessage(txMsg, this);
 
-
+			/*
 			CMessageInt *txMsg = new CMessageInt();
 			txMsg->setInt(-500);
 			txMsg->setAction(Message::DAMAGE);		
 			txMsg->setType(Logic::Message::LIFE_MODIFIER);
 			entity->emitMessage(txMsg, this);
-
+			*/
 			// TODO FRS También habría que notificar, en cada impl. hija de este CItem padre,
 			// que se ha cogido el item X o que dicho item causa X efecto sobre el player.
 		}

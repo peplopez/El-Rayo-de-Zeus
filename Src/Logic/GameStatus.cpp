@@ -22,17 +22,14 @@ Contiene la implementación de la clase que maneja las posiciones lógicas
 
 namespace Logic 
 {
+	CGameStatus* CGameStatus::_instance = 0;
+
 	CGameStatus::CGameStatus(const unsigned short numPlayers)
 	{
-
+		_instance=this;
 		_numPlayers=numPlayers;
 		_numBases=numPlayers+1;//base adicional para Lobby
 		
-	/*	Logic::CBaseInfo* base=createBase(3); //la base 0 es lobby
-			if (base!=0)
-				_bases.push_back(base);*/
-			
-
 		for(int i=0; i<=_numPlayers; i++)//creamos las bases con 3 anillos cada una
 		{
 			Logic::CBaseInfo* base=createBase(3); //la base 0 es lobby
@@ -47,18 +44,42 @@ namespace Logic
 	
 	CGameStatus::~CGameStatus()
 	{	
+		_instance=0;
 		_bases.clear();
 		_players.clear();
-		//delete &_bases;	//me teneis que enseñar a destruir bien...		
-		//delete &_players;
 	}
+
+		bool CGameStatus::Init(const unsigned short numPlayers)
+	{
+		assert(!_instance && "Segunda inicialización de Logic::CGameNetMsgManager no permitida!");
+
+		new CGameStatus(numPlayers);
+
+		return true;
+
+	} // Init
+
+	//--------------------------------------------------------
+
+	void CGameStatus::Release()
+	{
+		assert(_instance && "Logic::CGameNetMsgManager no está inicializado!");
+
+		if(_instance)
+			delete _instance;
+
+	} // Release
+
 	CBaseInfo* CGameStatus::getBase(unsigned short base)
 	{
+		
+		if (_bases.empty()) return NULL;
 		return _bases[base];
 	}
 
 	CPlayerInfo* CGameStatus::getPlayer(unsigned short player)
 	{
+		if (_players.empty()) return NULL;
 		return _players[player];
 	}
 	

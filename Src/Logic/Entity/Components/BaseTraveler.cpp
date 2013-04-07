@@ -29,9 +29,7 @@ gráfica de la entidad.
 #include "Logic/GameStatus.h"
 #include "Logic/RingInfo.h"
 #include "Logic/BaseInfo.h"
-#include "Application/BaseApplication.h"
-#include "../../../Application/GameState.h"
-
+#include "Logic/PlayerInfo.h"
 
 #define DEBUG 1
 #if DEBUG
@@ -86,7 +84,9 @@ namespace Logic
 		//lo hago aquí mismo, en algún componente hay que hacerlo y en principio solo los personajes
 		//player  (ya sea humano o bot) pueden viajar entre bases.
 		
-		_gameStatus=Application::CBaseApplication::getSingletonPtr()->getGameState()->getGameStatus();
+		//_gameStatus=Application::CBaseApplication::getSingletonPtr()->getGameState()->getGameStatus();
+			
+		_gameStatus=CGameStatus::getSingletonPtr();
 		//creamos un altar pasandole la entidad propietaria del presente compontente.
 		//IMPORTANTE: Hay que tener en cuenta que una unidad pertenece SIEMPRE a la base en la que nace.
 		//también es imporante tener en cuenta, que los arrays _base y _players tienen una corresponendencia de índice

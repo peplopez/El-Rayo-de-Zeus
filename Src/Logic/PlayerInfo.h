@@ -16,7 +16,7 @@ Esta es la clase principal de gestión del juego. Contiene clases como son Bases,
 #include <string>
 
 using namespace std;
-
+//#include "Logic/Entity/Entity.h"
 namespace Logic
 {
 	class CBaseInfo;
@@ -137,6 +137,13 @@ namespace Logic
 			return _heroName;
 		}
 
+		bool inMyBase();
+		
+		void setInMyBase(bool inMyBase)
+		{
+			_inMyBase=inMyBase;
+		}
+
 	protected:
 		/**
 			Enumerado del tipo de heroe, es posible que al final lo quite.
@@ -203,6 +210,11 @@ namespace Logic
 		Un objeto con datos como email, nick, password...
 		*/
 		string _playerName;
+		
+		/**
+		Indica si estás en tu base en un instante dado
+		*/
+		bool _inMyBase;
 
 		/**
 			Puntero al CEntity que representa éste player/bot lógico

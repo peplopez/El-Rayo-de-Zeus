@@ -112,8 +112,9 @@ namespace Logic
 		} else { // Solo animaciones
 
 			CMessageBoolString *msg = new CMessageBoolString();
-				msg->setType(Logic::Message::SET_ANIMATION);	
-				msg->setBool(false);
+			msg->setType(Logic::Message::SET_ANIMATION);	
+			msg->setBool(false);
+		
 			/* Aquí ponemos el sonido */
 			Logic::CMessageAudio *maudio=new Logic::CMessageAudio();		
 			maudio->setType(Message::AUDIO);			

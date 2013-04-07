@@ -66,13 +66,13 @@ namespace Application {
 
 	//inicialización del GameStatus:
 	// se supone que hemos elegido ya en este punto cuantos jugadores somos
-	if (_gameStatus==0)
+	/*if (_gameStatus==0)
 		_gameStatus=new Logic::CGameStatus(8);
 	else
 		delete _gameStatus;
-		
+		*/
 		return true;
-		
+	
 	} // init
 
 	//--------------------------------------------------------
@@ -93,14 +93,14 @@ namespace Application {
 	// ƒ®§ Al entrar en GameState (cambio de currentState)
 	void CGameState::activate() 
 	{
-			if (_gameStatus!=0)
+		/*	if (_gameStatus!=0)
 			{
 				delete _gameStatus; //se reinicia el juego... esto no es pausa de juego, es reinicio,
 				//al menos de momento. Llegar al estado GameState es reinciar partida.
 				_gameStatus=new Logic::CGameStatus(8);
 			}else			
 				_gameStatus=new Logic::CGameStatus(8);
-
+*/
 		CApplicationState::activate();
 	
 		// Activamos el mapa que ha sido cargado para la partida (incluye la activacion de la escenas)
@@ -167,9 +167,9 @@ namespace Application {
 		text << "Time: " << _time/1000;
 
 		//_timeWindow->setText(text.str());
-		if (_gameStatus->getBase(3)->getAllAltarsActivated())
+	/*	if (_gameStatus->getBase(3)->getAllAltarsActivated())
 		std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN BASE 3"<<std::endl;
-
+		*/
 	} // tick
 
 	

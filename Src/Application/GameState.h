@@ -72,7 +72,7 @@ namespace Application
 		Constructor de la clase 
 		*/
 		CGameState(CBaseApplication *app) : CApplicationState(app), 
-			_scene(0), _time(0),_gameStatus(0) {}
+			_scene(0), _time(0) {}
 
 		/** 
 		Destructor 
@@ -176,7 +176,7 @@ namespace Application
 		*/
 		virtual bool mouseReleased(const GUI::CMouseState &mouseState);
 
-		Logic::CGameStatus* getGameStatus(){return _gameStatus;}
+		//Logic::CGameStatus* getGameStatus(){return _gameStatus;}
 	protected:
 
 		/**
@@ -222,7 +222,7 @@ namespace Application
 		/**
 		Puntero al gamestatus global
 		*/
-		Logic::CGameStatus* _gameStatus;
+		//Logic::CGameStatus* _gameStatus;
 	}; // CGameState
 
 } // namespace Application

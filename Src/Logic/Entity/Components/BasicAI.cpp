@@ -26,15 +26,15 @@ angular de entidades.
 #include "Logic/Entity/Components/AvatarController.h"
 #include "Logic/Entity/Components/AltarStateSwitcher.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
+#include "Logic/Entity/Messages/MessageUShort.h"
+
 //declaración de la clase
 
 /*para tener un acceso directo al gamestatus*/
 #include "Logic/GameStatus.h"
 #include "Logic/RingInfo.h"
 #include "Logic/BaseInfo.h"
-#include "Application/BaseApplication.h"
-#include "../../../Application/GameState.h"
-
+#include "Logic/PlayerInfo.h"
 
 namespace Logic 
 {
@@ -45,7 +45,8 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
-		_gameStatus=Application::CBaseApplication::getSingletonPtr()->getGameState()->getGameStatus();
+		//_gameStatus=Application::CBaseApplication::getSingletonPtr()->getGameState()->getGameStatus();
+		_gameStatus=CGameStatus::getSingletonPtr();
 		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
 	
 		/*if(entityInfo->hasAttribute("attackPower"))
@@ -186,9 +187,15 @@ namespace Logic
 	 }
 	
 	void CBasicAI::tick(unsigned int msecs)
-	{
+	{	//Esta primera comprobación es para saber si debo de ser agresivo
+		if (_gameStatus->getPlayer(_entity->getOriginBase())!=NULL)
+		if (_gameStatus->getPlayer(_entity->getOriginBase())->inMyBase())
+			_agresivo=true;
+		else
+			_agresivo=false;
+		
 			IComponent::tick(msecs);
-			if (_entity->getName()!="locoCubriendose")
+			// (_entity->getName()!="locoCubriendose")
 				if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase()==_entity->getLogicalPosition()->getBase())
 					if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing())
 					{
@@ -203,9 +210,35 @@ namespace Logic
 						}
 					}
 					else
-					{
-				
+					{//en diferente anillo.
+						//cambiemos de anillo.
+						Logic::CMessage *m = new Logic::CMessage();
+						m->setType(Logic::Message::CONTROL);
+						m->setAction(Logic::Message::WALK_STOP);
+						_entity->emitMessage(m);
+					
+
+						Logic::CMessage *m2 = new Logic::CMessage();
+						m2->setType(Logic::Message::CONTROL);
+						if (_entity->getLogicalPosition()->getRing()<CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing())	
+							m2->setAction(Logic::Message::GO_UP);
+						else
+							m2->setAction(Logic::Message::GO_DOWN);
+						_entity->emitMessage(m2);
 					}
+				else
+				{//en diferente base.						
+					Logic::CMessage *m = new Logic::CMessage();
+					m->setType(Logic::Message::CONTROL);
+					m->setAction(Logic::Message::WALK_STOP);
+					_entity->emitMessage(m);
+					
+					Logic::CMessageUShort *m3= new Logic::CMessageUShort();
+					m3->setType(Logic::Message::CONTROL);
+					m3->setAction(Logic::Message::CHANGE_BASE);
+					m3->setUShort(CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase());
+					_entity->emitMessage(m3);
+				}
 				//activar sus altares o buscarle, cambiar de anillo.
 					
 	} //fin de CBasicAI:tick

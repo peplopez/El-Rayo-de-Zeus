@@ -21,6 +21,7 @@ namespace Logic
 	class CMap;
 	class CEntity;
 	class CGameNetMsgManager;
+	class CGameStatus;
 }
 
 /**
@@ -185,6 +186,11 @@ namespace Logic
 		Gestor de los mensajes que llegan por la red
 		*/
 		Logic::CGameNetMsgManager* _gameNetMsgManager;
+
+		/**
+		Gestor del estado del juego
+		*/
+		Logic::CGameStatus* _gameStatus;
 
 	private:
 		/**

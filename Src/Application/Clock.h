@@ -142,7 +142,10 @@ namespace Application
 			_timeObservers.erase(index);
 		}			
 
-
+		void removeAllTimeObserver(int index)
+		{			
+			_timeObservers.clear();
+		}			
 	protected:
 
 

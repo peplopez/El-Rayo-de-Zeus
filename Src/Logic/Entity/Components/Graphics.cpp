@@ -141,14 +141,12 @@ namespace Logic
 					escalaInicial.z=maux4->getFloat();
 				if (maux4->getAction()==Message::UNDEF)
 				{
-					/*escalaInicial.x=maux4->getFloat();
+					escalaInicial.x=maux4->getFloat();
 					escalaInicial.y=maux4->getFloat();
 					escalaInicial.z=maux4->getFloat();
-				*/}
-						std::cout<<escalaInicial<<std::endl;
-						
+				}
+					
 				_graphicalEntity->setScale(escalaInicial);
-				//_graphicalEntity->setScale(maux4->getFloat());
 				break;
 			}
 		}
