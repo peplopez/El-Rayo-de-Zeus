@@ -31,30 +31,23 @@ namespace Logic
 	@author FRS
 	@date 17-02-2013
 */
-	class CLifeModifier : public IComponent //, IPhysics
+	class CLifeModifier : public IComponent 
 	{
 		DEC_FACTORY(CLifeModifier);
 	public:
 
-		CLifeModifier() : IComponent(GetAltTypeIdOf(CLifeModifier)), _HP_MODIFIER(0) {}
+		CLifeModifier() : IComponent(GetAltTypeIdOf(CLifeModifier)), _LIFE_MODIFIER(0) {}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
-
-		bool activate();
-		void deactivate();
-
-		/**********************
-			PHYSICS::IOBSERVER
-		**********************/
-		void onTrigger();
-
-
+		bool accept(const CMessage *message);
+		void process(CMessage *message);
+		
 	protected:
 		
 		/**
 		Modificador de vida
 		*/
-		int _HP_MODIFIER;
+		int _LIFE_MODIFIER;
 
 	}; // class CLifeModifier
 

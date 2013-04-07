@@ -99,15 +99,15 @@ namespace Logic
 				startSwitchingState();
 			else if(message->getAction() == Message::WALK_RIGHT)
 			{	
-				stopSwitchingState(Logic::Sense::RIGHT);
+				stopSwitchingState(Logic::LogicalPosition::RIGHT);
 			}
 			else if(message->getAction() == Message::WALK_LEFT)
 			{	
-				stopSwitchingState(Logic::Sense::LEFT);
+				stopSwitchingState(Logic::LogicalPosition::LEFT);
 			}
 			else
 			{
-				stopSwitchingState(Logic::Sense::RIGHT);
+				stopSwitchingState(Logic::LogicalPosition::RIGHT);
 			}
 
 		}
@@ -144,7 +144,7 @@ namespace Logic
 	void CAltarStateSwitcher::stopSwitchingState(Logic::Sense targetSense)
 	{
 		
-		if (_switchingState && _targetSense == Logic::Sense::UNDEFINED &&  _switchingAllowed)
+		if (_switchingState && _targetSense == Logic::LogicalPosition::UNDEFINED &&  _switchingAllowed)
 		{
 		
 			_targetSense = targetSense;
@@ -166,63 +166,63 @@ namespace Logic
 
 		if (_switchingState)
 		{	
-			if (_entity->getSense() == Logic::Sense::RIGHT || _entity->getSense() == Logic::Sense::LEFT)
-				_targetSense = Logic::Sense::LOOKING_CENTER;
+			if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::RIGHT || _entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
+				_targetSense = Logic::LogicalPosition::LOOKING_CENTER;
 		
-			if (_entity->getSense() == Logic::Sense::RIGHT)
+			if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::RIGHT)
 			{
-				float tickRotation = Math::PI * 0.005 * msecs;
+				float tickRotation = Math::PI * 0.005f * msecs;
 				_entity->yaw(tickRotation);
 				_acumRotation += tickRotation;
 				if (_acumRotation >= Math::PI/2)
 				{
 					_entity->yaw(-(_acumRotation - Math::PI/2));
-					_entity->setSense(Logic::Sense::LOOKING_CENTER);
-					_targetSense = Logic::Sense::UNDEFINED;
+					_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LOOKING_CENTER);
+					_targetSense = Logic::LogicalPosition::UNDEFINED;
 					_acumRotation = 0;
 				}
 			}
-			else if (_entity->getSense() == Logic::Sense::LEFT)
+			else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
 			{
-				float tickRotation = Math::PI * 0.005 * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+				float tickRotation = Math::PI * 0.005f * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
 				_entity->yaw(-tickRotation);
 				_acumRotation += tickRotation;
 				if (_acumRotation >= Math::PI/2)
 				{
 					_entity->yaw(_acumRotation - Math::PI/2);
-					_entity->setSense(Logic::Sense::LOOKING_CENTER);
-					_targetSense = Logic::Sense::UNDEFINED;
+					_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LOOKING_CENTER);
+					_targetSense = Logic::LogicalPosition::UNDEFINED;
 					_acumRotation = 0;
 				}
 			}
 
-			else if (_entity->getSense() == Logic::Sense::LOOKING_CENTER)
+			else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LOOKING_CENTER)
 			{
-				if (_targetSense == Logic::Sense::RIGHT)
+				if (_targetSense == Logic::LogicalPosition::RIGHT)
 				{
-					float tickRotation = Math::PI * 0.005 * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+					float tickRotation = Math::PI * 0.005f * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
 					_entity->yaw(-tickRotation);
 					_acumRotation += tickRotation;
 					if (_acumRotation >= Math::PI/2)
 					{
 						_entity->yaw(_acumRotation - Math::PI/2);
-						_entity->setSense(Logic::Sense::RIGHT);
-						_targetSense = Logic::Sense::UNDEFINED;
+						_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::RIGHT);
+						_targetSense = Logic::LogicalPosition::UNDEFINED;
 						_switchingState = false;
 						_acumRotation = 0;
 						_entity->getComponent<CAvatarController>()->awake();
 					}
 				}
-				else if (_targetSense == Logic::Sense::LEFT)
+				else if (_targetSense == Logic::LogicalPosition::LEFT)
 				{
-					float tickRotation = Math::PI * 0.005 * msecs;
+					float tickRotation = Math::PI * 0.005f * msecs;
 					_entity->yaw(tickRotation);
 					_acumRotation += tickRotation;
 					if (_acumRotation >= Math::PI/2)
 					{
 						_entity->yaw(-(_acumRotation - Math::PI/2));
-						_entity->setSense(Logic::Sense::LEFT);
-						_targetSense = Logic::Sense::UNDEFINED;
+						_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LEFT);
+						_targetSense = Logic::LogicalPosition::UNDEFINED;
 						_switchingState = false;
 						_acumRotation = 0;
 						_entity->getComponent<CAvatarController>()->awake();

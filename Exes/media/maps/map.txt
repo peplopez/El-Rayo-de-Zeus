@@ -1,7 +1,4 @@
-Map ={
-	
-
-	
+Map ={	
 	Camera = {
 		type = "Camera",
 		distance = 150,
@@ -20,32 +17,37 @@ Map ={
 	puApple1 = {
 		type = "PUApple",
 		base=3,
-		ring=0,
-		degrees=0,
+		ring=1,
+		degrees=50,
+		lifeModifier=20,
 	},
 	puThrone1 = {
 		type = "PUThrone",
 		base=3,
-		ring=0,
+		ring=1,
 		degrees=120,
+		lifeModifier=10,
 	},
 	puPandora1 = {
 		type = "PUPandora",
 		base=3,
 		ring=2,
-		degrees=0,
+		degrees=200,
+		lifeModifier=-200,
 	},
 	puPoison1 = {
 		type = "PUPoison",
 		base=3,
 		ring=1,
 		degrees=180,
+		lifeModifier=-20,
 	},
 	puTime1 = {
 		type = "PUTime",
 		base=3,
-		ring=2,
+		ring=1,
 		degrees=120,
+		lifeModifier=50,
 	},
 	
 	
@@ -70,14 +72,20 @@ Map ={
 		degrees=70,		
 	},	
 	
-	gemelo = {
+	loco = {
 		type = "OtherPlayer",
 		base=3,
 		ring=0,
 		degrees=120,		
 	},
 
-	
+	locoCubriendose = {
+		type = "OtherPlayer",
+		base=3,
+		ring=2,
+		degrees=220,
+		defaultAnimation = "Crouch",
+	},
 	
 	WorldAbajo0 = {
 		type = "World",

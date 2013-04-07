@@ -35,7 +35,7 @@ namespace Physics
 	public:
 
 		CActor();
-		CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, IObserver *component);
+		CActor(Logic::CLogicalPosition* position, const float angularWidth, const float height, IObserver *component);
 		
 		virtual ~CActor() {}
 
@@ -54,8 +54,8 @@ namespace Physics
 		/************************
 			GETTER's & SETTER's
 		************************/
-		void setLogicPosition(const Logic::TLogicalPosition &position) {_logicPosition=position;}
-		Logic::TLogicalPosition &getLogicPosition() {return _logicPosition;}
+		void setLogicPosition(Logic::CLogicalPosition* &position) {_logicPosition=position;}
+		Logic::CLogicalPosition* &getLogicPosition() {return _logicPosition;}
 
 		void setBoxWidth(const float angularWidth) {_boxWidth=angularWidth;}
 		float getBoxWidth() {return _boxWidth;}
@@ -74,7 +74,7 @@ namespace Physics
 
 		//CScene *_scene;
 
-		Logic::TLogicalPosition _logicPosition;
+		Logic::CLogicalPosition* _logicPosition;
 
 		float _boxWidth;
 		float _boxHeight;

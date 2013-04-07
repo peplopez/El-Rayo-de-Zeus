@@ -49,7 +49,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAvatarController() : IComponent(GetAltTypeIdOf(CAvatarController)), _angularSpeed(0.00625f), _targetSense(Logic::Sense::UNDEFINED), _walkingRight(false), _walkingLeft(false), _acumRotation(0){}
+		CAvatarController() : IComponent(GetAltTypeIdOf(CAvatarController)), _angularSpeed(0.00625f), _targetSense(Logic::LogicalPosition::UNDEFINED), _walkingRight(false), _walkingLeft(false), _acumRotation(0){}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de

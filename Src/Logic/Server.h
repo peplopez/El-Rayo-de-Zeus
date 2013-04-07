@@ -105,9 +105,7 @@ namespace Logic
 		Función que desactiva el mapa en curso.
 		*/
 		void deactivateMap();
-
-	
-
+		
 		/**
 		Para inicializar las estructuras que contienen las posiciones de los anillos
 		*/
@@ -116,12 +114,12 @@ namespace Logic
 		/**
 		Para obtener un Vector3 con la posición del anillo
 		*/
-		virtual Vector3 getRingPositions(unsigned short base,Logic::LogicalPosition::Ring ring);
+		virtual Vector3 getRingPositions(unsigned short base, LogicalPosition::Ring ring);
 
 		/**
 		Para obtener un float con el radio de un anillo pasado por parámetro
 		*/		
-		virtual float getRingRadio(unsigned short base,Logic::LogicalPosition::Ring ring);
+		virtual float getRingRadio(unsigned short base, LogicalPosition::Ring ring);
 
 		/**
 		Devuelve el mapa lógico del juego.

@@ -56,6 +56,14 @@ namespace Logic
 		void process(CMessage *message);
 
 
+	private:
+
+		void death(CMessage *message);
+		void deathAnimated(CMessage *message);
+		
+		/** ruta del sonido asociado */
+		std::string _audio;
+
 	}; // class CLife
 
 	REG_FACTORY(CDeath);

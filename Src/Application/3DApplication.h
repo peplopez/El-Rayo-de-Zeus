@@ -51,6 +51,10 @@ namespace Application
 	{
 	public:
 		/**
+		quiero poder llamar a tick desde clock.cpp
+		*/
+		friend class IClock;
+		/**
 		Constructor de la clase
 		*/
 		C3DApplication();

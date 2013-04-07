@@ -32,8 +32,8 @@ namespace AI
 		
 		//Desactivación de componentes
 		sleepComponents();
-		std::cout<<_initialCombatState<<std::endl;		
-		std::cout<<(int)_action<<std::endl;
+		std::cout<<"AI::INITIALCOMBATSTATE: "+_initialCombatState<<std::endl;		
+		std::cout<<"AI::INITIA_ACTION: "+(int)_action<<std::endl;
 		switch(_initialCombatState)
 		{
 			case 0:
@@ -72,7 +72,7 @@ namespace AI
 				{
 				CMessageBoolString *message = new CMessageBoolString();
 				message->setType(Message::SET_ANIMATION);
-				message->setString("Death");
+				message->setString("Damage");
 				message->setAction(_action);
 				message->setBool(false);
 				_entity->emitMessage(message);	
@@ -112,7 +112,7 @@ namespace AI
 		if (_initialCombatState==2 && _yawAmount>=0 && _action==Message::HEAVY_ATTACK)
 		{
 			_yawAmount++;
-			_entity->yaw(_entity->getYaw()+0.3);
+			_entity->yaw(_entity->getYaw()+0.3f);
 			if (_yawAmount>50) 
 				{
 					_yawAmount=-10;
@@ -153,6 +153,7 @@ namespace AI
 	CLatentAction::LAStatus CLA_Attack::OnAbort() 
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
+		if (_entity->getComponent<CAttack>()!=NULL)
 		_entity->getComponent<CAttack>()->resetAttackFlags();
 	
 		return FAIL;
@@ -199,7 +200,7 @@ namespace AI
 				{
 					finish(false);				
 				}
-				else if (maux->getString().compare("Death")==0)
+				else if (maux->getString().compare("Damage")==0)
 				{
 					finish(false);				
 				}_comboOportunity=false;

@@ -81,14 +81,26 @@
     <ClCompile Include="..\..\Src\AI\LatentActions\LAIdle.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LatentAction.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_Attack.cpp" />
+    <ClCompile Include="..\..\src\AI\LatentActions\LA_Beaten.cpp" />
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Change.cpp" />
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Cover.cpp" />
+    <ClCompile Include="..\..\src\AI\LatentActions\LA_Death.cpp" />
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Jump.cpp" />
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Run.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\SimpleLatentActions.cpp" />
     <ClCompile Include="..\..\Src\AI\Server.cpp" />
     <ClCompile Include="..\..\Src\AI\StateMachines\StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\AI\LatentActions\LA_Beaten.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LAIdle.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LatentAction.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LA_Attack.h" />
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Change.h" />
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Cover.h" />
+    <ClInclude Include="..\..\src\AI\LatentActions\LA_Death.h" />
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Jump.h" />
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Run.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\SimpleLatentActions.h" />
     <ClInclude Include="..\..\Src\AI\Server.h" />
     <ClInclude Include="..\..\Src\AI\StateMachines\Condition.h" />

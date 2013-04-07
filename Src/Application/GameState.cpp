@@ -25,6 +25,8 @@ Contiene la implementación del estado de juego.
 
 #include "Physics/Server.h"
 
+#include "Logic/GameStatus.h"
+
 #include <CEGUISystem.h>
 #include <CEGUIWindowManager.h>
 #include <CEGUIWindow.h>
@@ -59,6 +61,10 @@ namespace Application {
 	_puntosMerito = 100;
 	_numberAltaresActivated = 0;
 	_rayosBase = 3;
+
+	//inicialización del GameStatus:
+	// se supone que hemos elegido ya en este punto cuantos jugadores somos
+	Logic::CGameStatus* gameStatus=new Logic::CGameStatus(8);
 
 		return true;
 

@@ -15,11 +15,18 @@ de los elementos del juego
 
 #include "Logic/Entity/Component.h"
 #include "RingTraveler.h"
+#include "../../../Application/Clock.h"
+
 
 namespace Logic
 {
-	class CMessage;
+	class CMessage;	
 }
+/*namespace Application
+{
+class IClock;
+}*/
+
 //declaración de la clase
 namespace Logic 
 {
@@ -41,7 +48,9 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CBaseTraveler() : CRingTraveler(GetAltTypeIdOf(CBaseTraveler)),_changingBase(false),_changingBaseTime(0),_maxChangingBaseTime(5000) {}
+		CBaseTraveler() : CRingTraveler(GetAltTypeIdOf(CBaseTraveler)),_changingBase(false),_changingBaseTime(0)
+		{				
+		}
 
 		/**
 		Destructor (virtual); Quita de la escena y destruye la entidad gráfica.
@@ -77,20 +86,26 @@ namespace Logic
 		@param msecs Milisegundos transcurridos desde el último tick.
 		*/
 		void tick(unsigned int msecs);
-
 		
-		/**
-		Provoca que la entidad cambie de base. Conlleva un cambio del eje de giro en su coordenada y
-		*/
-		void changeBase(int base);
+		void resetChangingBase(){_changingBase=false;}
 
+		bool isChangingBase(){return _changingBase;}
+
+		/**
+		Método que será invocado siempre que se termine una el reloj 
+		llegue al evento solicitado desde la máquina de estados.		
+		*/
+		void timeArrived();
+	
 	protected:
 
 		bool _changingBase;	
 
 		float _changingBaseTime;
 
-		float _maxChangingBaseTime;
+		unsigned short _destiny;
+
+
 
 	}; // class CBaseTraveler
 

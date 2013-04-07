@@ -51,7 +51,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../Src;../../dependencies/include/OGRE;../../dependencies/include/OIS;../../dependencies/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Src;../../dependencies/include/OGRE;../../dependencies/include/OIS;../../dependencies/include/fmod;../../dependencies/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -69,7 +69,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../Src;../../dependencies/include/OGRE;../../dependencies/include/OIS;../../dependencies/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Src;../../dependencies/include/OGRE;../../dependencies/include/OIS;../../dependencies/include/fmod;../../dependencies/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -84,6 +84,13 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\Logic\AltarInfo.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Base.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Audio.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\FloatingMovement.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageAudio.cpp" />
+    <ClCompile Include="..\..\Src\Logic\GameStatus.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Item.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Altar.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AltarStateSwitcher.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Attack.cpp" />
@@ -98,6 +105,7 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Physics.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\RingTraveler.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\StateMachineExecutor.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\LogicalPosition.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\Message.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBool.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloat.cpp" />
@@ -128,9 +136,19 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Graphics.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Life.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\NetConnector.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Player.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Ranking.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Ring.cpp" />
     <ClCompile Include="..\..\Src\Logic\Server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\Logic\AltarInfo.h" />
+    <ClInclude Include="..\..\Src\Logic\Base.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Audio.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\FloatingMovement.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageAudio.h" />
+    <ClInclude Include="..\..\Src\Logic\GameStatus.h" />
+    <ClInclude Include="..\..\Src\Logic\Item.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Altar.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AltarStateSwitcher.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Attack.h" />
@@ -180,11 +198,22 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Life.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\NetConnector.h" />
     <ClInclude Include="..\..\Src\Logic\Documentation.h" />
+    <ClInclude Include="..\..\Src\Logic\Player.h" />
+    <ClInclude Include="..\..\Src\Logic\Ranking.h" />
+    <ClInclude Include="..\..\Src\Logic\Ring.h" />
     <ClInclude Include="..\..\Src\Logic\Server.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AI\AI.vcxproj">
       <Project>{7bbe92ad-192a-42db-9b43-829ee3b07e81}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Audio\Audio.vcxproj">
+      <Project>{2a27afa1-174a-4ac6-a8ea-1aeb3cc0feab}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\BaseSubsystems\BaseSubsystems.vcxproj">
       <Project>{9c5c21d7-f23c-409d-a332-7be5a325fd7a}</Project>

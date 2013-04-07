@@ -15,6 +15,9 @@ Contiene la implementación del componente que controla la vida de una entidad.
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/MessageInt.h"
+#include "Logic/Entity/Messages/MessageUInt.h"
+#include "Logic/Maps/Map.h"
+#include "Logic/Server.h"
 
 #include "Map/MapEntity.h"
 
@@ -30,33 +33,37 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
-		if(entityInfo->hasAttribute("hpModifier"))
-			_HP_MODIFIER = entityInfo->getIntAttribute("hpModifier");
+		if(entityInfo->hasAttribute("lifeModifier"))
+			_LIFE_MODIFIER = entityInfo->getIntAttribute("lifeModifier");
 		
 		return true;
 
 	} // spawn
+
+	//---------------------------------------------------------
 	
-	//---------------------------------------------------------
-
-	bool CLifeModifier::activate() {
-		// TODO registrarse como observer fisico
-		return IComponent::activate();
-	}
+	bool CLifeModifier::accept(const CMessage *message) {
+		return	message->getType() == Logic::Message::TRIGGER &&
+				message->getAction() == Logic::Message::TRIGGER_ENTER;
+	} // accept
 
 	//---------------------------------------------------------
 
-	void CLifeModifier::deactivate() {
-		// release observer fisico
-	}
+	void CLifeModifier::process(CMessage *message){
 
-	//---------------------------------------------------------
+		CMessageUInt* rxMsg = static_cast<CMessageUInt*>(message);
+		CEntity* entity = Logic::CServer::getSingletonPtr()->getMap()
+			->getEntityByID( rxMsg->getUInt() );
 
-	void CLifeModifier::onTrigger() {
 		CMessageInt *txMsg = new CMessageInt();
-			txMsg->setInt(_HP_MODIFIER);
-			txMsg->setType(TMessageType::LIFE_MODIFIER);
-			_entity->emitMessage(txMsg, this);
-	}
+			txMsg->setInt(_LIFE_MODIFIER);
+			if (_LIFE_MODIFIER<0)
+				txMsg->setAction(Message::DAMAGE);
+			else
+				txMsg->setAction(Message::HEAL);			
+			txMsg->setType(Logic::Message::LIFE_MODIFIER);
+				entity->emitMessage(txMsg, this);
+	} // process
+
 } // namespace Logic
 

@@ -14,6 +14,7 @@ Contiene la implementación de un interfaz para un temporizador.
 */
 
 #include "Clock.h"
+#include "BaseApplication.h"
 
 namespace Application {
 

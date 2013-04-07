@@ -36,6 +36,7 @@ Map = {
 		lifeBarWidth = 20.0,
 		lifeBarHeight = 2.0,
 		lifeModifier = -10,
+		audio="media\\audio\\QUEJIDO1.wav",
 	},
 	
 	Spider = {
@@ -54,6 +55,7 @@ Map = {
 		lifeBarWidth = 20.0,
 		lifeBarHeight = 2.0,
 		lifeModifier = -10,
+		audio="media\\audio\\QUEJIDO1.wav",
 	},
 	
 	Player = {
@@ -78,11 +80,12 @@ Map = {
 		gravity = 0.1,
 		behavior="Hercules",
 		hpModifier=10,
+		audio="media\\audio\\QUEJIDO1.wav",
 	},
 	
-	OtherPlayer = {
+	Espartano = {
 		type = "OtherPlayer",
-		model = "marine.mesh",
+		model = "spartan.mesh",
 		logicInput=true,
 		base=3,
 		ring=1,
@@ -96,12 +99,40 @@ Map = {
 		lifeBarHeight = 1.0,	
 		lifeBase = 3,		
 		angularSpeed = 0.0325,
-		defaultAnimation = "Idle",
+		defaultAnimation = "run",
 		logicInput=true,
 		jumpPower = 0.08,
 		gravity = 0.1,
 		behavior="Hercules",
 		hpModifier=10,
+		audio="media\\audio\\QUEJIDO1.wav",
+		audioCubriendose="media\\audio\\Sword_scrape2.wav",
+	},
+	
+	OtherPlayer = {
+		type = "OtherPlayer",
+		model = "marine.mesh",
+		logicInput=true,
+		base=3,
+		ring=1,
+		degrees=180,
+		sense=1,
+		physicWidth = 2.5,
+		physicHeight = 2.5,
+		lifeMax = 100.0,
+		lifeBarPosition = 14.0,
+		lifeBarWidth = 10.0,
+		lifeBarHeight = 1.0,	
+		lifeBase = 3,		
+		angularSpeed = 0.0325,
+		defaultAnimation = "IdleKatana",
+		logicInput=true,
+		jumpPower = 0.08,
+		gravity = 0.1,
+		behavior="Hercules",
+		hpModifier=10,
+		audio="media\\audio\\QUEJIDO1.wav",
+		audioCubriendose="media\\audio\\Sword_scrape2.wav",
 	},
 	
 	PUApple = {
@@ -113,6 +144,9 @@ Map = {
 		physicWidth = 2.5,
 		physicHeight = 7.5,
 		physicTrigger = true,
+		orbitalOffset = 0.013,
+		orbitalSpeed = 0.004,
+		orbitalRotationSpeed = 0.001,
 	},
 	PUThrone = {
 		type = "PowerUp",
@@ -123,6 +157,9 @@ Map = {
 		physicWidth = 2.5,
 		physicHeight = 7.5,
 		physicTrigger = true,
+		orbitalOffset = 0.013,
+		orbitalSpeed = 0.004,
+		orbitalRotationSpeed = 0.001,
 	},
 	PUPandora = {
 		type = "PowerUp",
@@ -134,6 +171,9 @@ Map = {
 		physicWidth = 2.5,
 		physicHeight = 7.5,
 		physicTrigger = true,
+		orbitalOffset = 0.013,
+		orbitalSpeed = 0.004,
+		orbitalRotationSpeed = 0.001,
 	},
 	PUPoison = {
 		type = "PowerUp",
@@ -144,6 +184,9 @@ Map = {
 		physicWidth = 2.5,
 		physicHeight = 7.5,
 		physicTrigger = true,
+		orbitalOffset = 0.013,
+		orbitalSpeed = 0.004,
+		orbitalRotationSpeed = 0.001,
 	},
 	PUTime = {
 		type = "PowerUp",
@@ -154,6 +197,9 @@ Map = {
 		physicWidth = 2.5,
 		physicHeight = 7.5,
 		physicTrigger = true,
+		orbitalOffset = 0.013,
+		orbitalSpeed = 0.004,
+		orbitalRotationSpeed = 0.001,
 	},
 	
 }

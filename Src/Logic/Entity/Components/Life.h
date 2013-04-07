@@ -20,7 +20,7 @@ namespace Graphics
 	class CBillboard;
 }
 
-namespace Logic
+namespace Logicavnc
 {
 	class CMessage;
 }
@@ -50,7 +50,7 @@ namespace Logic
 	public:
 
 		CLife() : IComponent(GetAltTypeIdOf(CLife)), 
-			_LIFE_MAX(0), _life(0), _lifeBarBB(0), _modifiyingLife(0) {}
+			_LIFE_MAX(0), _life(0), _lifeBarBB(0){}
 		
 		~CLife();
 		
@@ -73,7 +73,9 @@ namespace Logic
 
 		void modifyLife(int);
 
-		int _modifiyingLife;
+		/** ruta del sonido asociado */
+		std::string _audio;
+	
 	}; // class CLife
 
 	REG_FACTORY(CLife);
