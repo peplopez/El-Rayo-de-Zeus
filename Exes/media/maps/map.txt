@@ -44,7 +44,7 @@ Map ={
 		lifeModifier=0,
 	},
 	puClock1 = {
-		type = "PUClock",
+		type = "PUHourglass",
 		base=3,
 		ring=2,
 		degrees=120,

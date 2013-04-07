@@ -188,7 +188,7 @@ namespace Graphics
 		@return true si el elemento se descargo y eliminó de la escena
 		correctamente. Si el elemento no estaba cargado se devuelve false.
 		*/
-		bool deattachFromScene();
+		bool detachFromScene();
 		
 		/**
 		Carga el elemento gráfico. No hace comprobaciónes de si ya estaba cargado

@@ -53,7 +53,7 @@ namespace Graphics
 	
 	//--------------------------------------------------------
 		
-	bool CSceneElement::deattachFromScene()
+	bool CSceneElement::detachFromScene()
 	{
 		if(!_loaded) // Si el elemento no estaba cargado no se puede quitar de
 			return false; // una escena, ya que no pertenecerá a ninguna.

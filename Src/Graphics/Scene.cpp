@@ -156,7 +156,7 @@ namespace Graphics
 	//---------- GENERIC SCENE ELEMENTS (p.e. billboards, parcticles, etc)-----------
 
 	bool CScene::add(CSceneElement* sceneElement) {		return sceneElement->attachToScene(this);	}
-	void CScene::remove(CSceneElement* sceneElement) {	sceneElement->deattachFromScene();			} 
+	void CScene::remove(CSceneElement* sceneElement) {	sceneElement->detachFromScene();			} 
 
 
 	//---------- ENTITIES -------------------------
@@ -177,7 +177,7 @@ namespace Graphics
 
 	void CScene::remove(CEntity* entity)
 	{
-		entity->deattachFromScene();
+		entity->detachFromScene();
 
 		entity->isStatic() ?		
 			_staticEntities.remove(entity) :
