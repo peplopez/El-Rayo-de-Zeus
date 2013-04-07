@@ -56,6 +56,7 @@ Map = {
 		lifeBarWidth = 20.0,
 		lifeBarHeight = 2.0,
 		lifeModifier = -10,
+		audio="media\\audio\\QUEJIDO1.wav",
 	},
 	
 	Scorpion = {
