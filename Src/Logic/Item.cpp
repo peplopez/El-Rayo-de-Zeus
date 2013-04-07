@@ -80,7 +80,7 @@ namespace Logic
 					otherEntity->emitMessage(txMsg3);
 			}
 
-			*/
+			
 			// TODO FRS También habría que notificar, en cada impl. hija de este CItem padre,
 			// que se ha cogido el item X o que dicho item causa X efecto sobre el player.
 		}
