@@ -16,10 +16,12 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Maps/EntityFactory.h"
 #include "Application/BaseApplication.h"
 
+#include "Logic/Entity/Components/AvatarController.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
 #include "Logic/Entity/Messages/MessageAudio.h"
+
 
 namespace Logic 
 {
@@ -32,7 +34,7 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
-		_audio = "media\\audio\\fallecimiento.wav";
+		_audio = "media\\audio\\fallecimiento.wav"; // FRS Usar map.txt es de débiles!!! xD
 		return true;
 	} // spawn
 	
@@ -64,7 +66,7 @@ namespace Logic
 
 
 	void CDeath::death (CMessage *message) {
-		if(message->getType() == Logic::Message::DEAD)		
+		if(message->getType() == TMessageType::DEAD)		
 			CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
 	} // death
 
@@ -74,10 +76,10 @@ namespace Logic
 
 		switch(message->getType())
 		{
+
 		// MUERTO
-		case Message::DEAD:		{				
 			CMessageBoolString *txMsg = new CMessageBoolString(); // Poner la animación de muerte
-				txMsg->setType(Logic::Message::SET_ANIMATION);
+				txMsg->setType(TMessageType::SET_ANIMATION);
 				txMsg->setString("Death");	
 				txMsg->setBool(false);
 				_entity->emitMessage(txMsg);
@@ -88,6 +90,7 @@ namespace Logic
 			maudio->setId("muerte");
 			maudio->setPosition(_entity->getPosition());
 			_entity->emitMessage(maudio);
+
 		} break;	
 		
 		// ANIMACION FINALIZADA		

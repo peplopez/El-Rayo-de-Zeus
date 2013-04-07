@@ -16,22 +16,27 @@ Contiene la declaración de la clase que representa una entidad gráfica.
 #ifndef __Graphics_Entity_H
 #define __Graphics_Entity_H
 
-#include "BaseSubsystems/Math.h"
+#include "Graphics\SceneElement.h"
+
+#include <stack>
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 
 {
 	class Entity;
-	class SceneNode;
-}
+};
 
 namespace Graphics 
 {
-	class CScene;
-}
 
-namespace Graphics 
-{
+	enum TAttachPoint {
+			ARM_L,
+			ARM_R,
+			HAND_L,
+			HAND_R,
+			HEAD
+	};
+
 	/**
 	Clase que representa una entidad gráfica. Contiene una referencia a
 	una entidad de Ogre y al Nodo que la contiene.
@@ -64,7 +69,7 @@ namespace Graphics
 	@author David Llansó
 	@date Julio, 2010
 	*/
-	class CEntity 
+	class CEntity : public CSceneElement
 	{
 	public:
 
@@ -74,59 +79,41 @@ namespace Graphics
 		@param name Nombre de la entidad.
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
-		CEntity::CEntity(const std::string &name, const std::string &mesh)
-		: _name(name), _mesh(mesh), _entity(0), _entityNode(0), _scene(0), _loaded(false) {} 
+		CEntity::CEntity(const std::string &name, const std::string &mesh, bool isStatic = false)
+		: _name(name), _mesh(mesh), _entity(0), _isStatic(isStatic) {} 
+
+
+		/************
+			ATTACH
+		**************/
+/*		void attachToHead(const std::string &mesh) { 
+			attach(TBoneName::HEAD, mesh); 
+		}
+		void attachToHand(const std::string &mesh){ 
+			attach(TBoneName::HAND, mesh); 
+		}	*/	
+		
+		/*void detachFromHead() {	detach( _name.append("_head") ); }
+		void detachFromHand() {	detach( _name.append("_hand") ); }*/
 
 		/**
-		Destructor de la aplicación.
+			Unir el model mesh al hueso toBone
+			FRS De momento, no permite "atachar" el mismo mesh más de una vez en un único cuerpo.
 		*/
-		virtual ~CEntity();
-
-
+		void attach(TAttachPoint attachPoint, const std::string &mesh) {
+			attach( BONE_DICTIONARY[attachPoint], mesh);
+		}		
+		void detach(TAttachPoint detachPoint) {
+			detach( BONE_DICTIONARY[detachPoint] );
+		}
+		void attach(const std::string &toBone, const std::string &mesh);
+		void detach(const std::string &fromBone);	
+		
 
 		/******************
 			GET's & SET's
 		********************/
-
-		/**
-		Cambia la posición y orientación de la entidad.
-
-		@param transform Referencia a la matriz de transformación con la 
-		que debe posicionarse y orientarse la entidad.
-		*/
-		void setTransform(const Matrix4 &transform);
-
-		/**
-		Cambia la posición de la entidad.
-
-		@param position Nueva posición para el nodo que contiene la entidad 
-		de Ogre.
-		*/
-		void setPosition(const Vector3& position);
-
-		/**
-		Cambia la orientación de la entidad.
-
-		@param orientation Referencia a la matriz de rotación con la que debe 
-		orientarse la entidad.
-		*/
-		void setOrientation(const Matrix3 &orientation);
-
-	
-		/**
-		 Establece la propiedad visible de la entidad. Si
-		 la entidad está puesta invisible, no debería dibujarse.
-		 La propiedad indica si la entidad debe dibujarse o no,
-		 es decir, no está relacionada con si la entidad está
-		 dentro del campo de visión de la cámara o no.
-		 <p>
-		 El método cambia la propiedad visible a todas las 
-		 subentidades o nodos que contenga _entityNode.
-
-		 @param visible Nuevo valor de la propiedad visible.
-		 */
-		void setVisible(bool visible);
-
+			
 		/**
 		 Devuelve el valor de la propiedad visible.
 		 La propiedad indica si la entidad debe dibujarse o no,
@@ -136,45 +123,18 @@ namespace Graphics
 		 @return Cierto si la entidad es visible (está activa 
 		 para ser reenderizada).
 		*/
-		const bool isVisible();
+		bool isVisible() const;
 
-		Ogre::SceneNode* getEntityNode();
-		/**
-		 Escala la entidad.
-
-		 @param scale Valores de la escala en los diferentes ejes.
-		 */
-		void setScale(const Vector3 &scale);
-
-		/**
-		 Escala la entidad.
-
-		 @param scale Valor de la escala para los 3 ejes.
-		 */
-		void setScale(float scale);
-
-		/**
-		 Devuelve el valor de la escala de la entidad.
-
-		 @return Valores de la escala en los diferentes ejes.
-		*/
-		const Vector3 &getScale();
-
-		/**
-		Devuelve la entidad de Ogre.
-
-		@return puntero a la entidad de Ogre.
-		*/
-		Ogre::Entity* getEntity() {return _entity;}
-
+		bool isStatic() const { return _isStatic; }		
 
 		/**
 		*/
 		void setMaterial(const std::string &materialName);
-
 		/**
 		*/
-		void setSubEntityMaterial(const std::string &materialName, const unsigned int subEntityIndex); 
+		void setSubEntityMaterial(const std::string &materialName, unsigned int subEntityIndex); 
+
+
 
 	protected:
 
@@ -189,36 +149,6 @@ namespace Graphics
 		*/
 		Ogre::Entity *_entity;
 
-		/**
-		Quizás es mejor meter la clase CScene
-		Controla todos los elementos Ogre de una escena. Su equivalente
-		en la lógica del juego sería el mapa o nivel. 
-		*/
-		CScene *_scene;
-
-		/**
-		Nodo que contiene la entidad de Ogre.
-		*/
-		Ogre::SceneNode *_entityNode;
-
-
-		/**
-		Añade la entidad al SceneManager pasado por parámetro. Si la entidad
-		no está cargada se fuerza su carga.
-
-		@param sceneMgr Gestor de la escena de Ogre a la que se quiere añadir
-		la entidad.
-		@return true si la entidad se pudo cargar y añadir a la escena.
-		*/
-		bool attachToScene(CScene *scene);
-
-		/**
-		Descarga una entidad de la escena en la que se encuentra cargada.
-
-		@return true si la entidad se descargo y eliminó de la escena
-		correctamente. Si la entidad no estaba cargada se devuelve false.
-		*/
-		bool deattachFromScene();
 		
 		/**
 		Carga la entidad gráfica correspondiente al nombre _mesh. No hace 
@@ -237,19 +167,33 @@ namespace Graphics
 		*/
 		void unload();
 		
-		/**
-		Actualiza el estado de la entidad cada ciclo. En esta clase no se
-		necesita actualizar el estado cada ciclo, pero en las hijas puede que
-		si.
-		
-		@param secs Número de segundos transcurridos desde la última llamada.
-		*/
-		virtual void tick(float secs);
-
-
 		
 	private:
-		
+
+		 // DICCIONARIO TAttachPoint -> BoneName
+		typedef std::map<TAttachPoint, std::string> TBoneDictionary;
+
+			static TBoneDictionary BONE_DICTIONARY;
+
+				static TBoneDictionary initBoneDictionary() {
+					TBoneDictionary dictionary;
+//*
+						dictionary[TAttachPoint::ARM_L] =	"LeftForeArm";		// SPARTAN
+						dictionary[TAttachPoint::ARM_R] =	"RightForeArm";
+						dictionary[TAttachPoint::HAND_L] =	"LeftHand";
+						dictionary[TAttachPoint::HAND_R] =	"RightHand";
+						dictionary[TAttachPoint::HEAD] =	"paracascos";
+/*/
+						dictionary[TAttachPoint::ARM_L] =	"Bip01 L Forearm";	// MARINE
+						dictionary[TAttachPoint::ARM_R] =	"Bip01 R Forearm";
+						dictionary[TAttachPoint::HAND_L] =	"Bip01 L Hand";
+						dictionary[TAttachPoint::HAND_R] =	"Bip01 R Hand";
+						dictionary[TAttachPoint::HEAD] =	"Bip01 Head";
+/**/
+					// TODO añadir on demand...
+					return dictionary;
+				}
+
 		/**
 		Nombre de la entidad.
 		*/
@@ -260,10 +204,15 @@ namespace Graphics
 		*/
 		std::string _mesh;
 
-		/**
-		Indica si la entidad ha sido cargada en el motor gráfico.
-		*/
-		bool _loaded;
+
+		typedef std::stack<Ogre::Entity*> TAttachedMeshes;
+		typedef std::map<std::string, TAttachedMeshes> TBoneObjectsTable;
+			TBoneObjectsTable _boneObjectsTable;
+		
+		bool _isStatic;
+
+		
+
 
 	}; // class CEntity
 

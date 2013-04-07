@@ -26,8 +26,8 @@ Contiene la implementación de la clase que representa un Overlay.
 
 namespace Graphics 
 {	
-	const std::string COverlay::ChildType::TEXTAREA = "TextArea";
-	const std::string COverlay::ChildType::PANEL = "Panel";
+	const std::string COverlay::TChildType::TEXTAREA = "TextArea";
+	const std::string COverlay::TChildType::PANEL = "Panel";
 
 	COverlay::COverlay(const std::string &name, MetricsMode metricsMode) :
 		_name(name), _overlayManager(0), _overlay(0)
@@ -87,7 +87,7 @@ namespace Graphics
 		assert( !_overlayManager->hasOverlayElement(name) && "Ya existe un elemento hijo con el mismo nombre" );
 		
 		Ogre::OverlayElement* newChild = 
-			createChildElement(ChildType::PANEL, name, left, top, width, height);
+			createChildElement(TChildType::PANEL, name, left, top, width, height);
 
 		if(material.length() > 0)
 			newChild->setMaterialName(material);
@@ -105,7 +105,7 @@ namespace Graphics
 		assert(_childElements[panelName] && "No existe un panel hijo con ese nombre en este overlay!");
 
 		Ogre::TextAreaOverlayElement* newChild = static_cast<Ogre::TextAreaOverlayElement*>(
-			createChildElement(ChildType::TEXTAREA, name, left, top, width, height)
+			createChildElement(TChildType::TEXTAREA, name, left, top, width, height)
 		);									
 			newChild->setFontName(font);
 			newChild->setCharHeight(fontSize);
@@ -131,7 +131,7 @@ namespace Graphics
 	void COverlay::setChildFontSize(const std::string &childName, float fontSize)
 	{
 		assert(_childElements[childName] && "No existe un elemento con ese nombre en este overlay!");
-		assert(_childElements[childName]->getTypeName() == ChildType::TEXTAREA
+		assert(_childElements[childName]->getTypeName() == TChildType::TEXTAREA
 			&& "El elemento referenciado no es un TextArea");
 
 		static_cast<Ogre::TextAreaOverlayElement*>( _childElements[childName] )
@@ -145,7 +145,7 @@ namespace Graphics
 	void COverlay::setChildFont(const std::string &childName, const std::string& font){
 		
 		assert(_childElements[childName] && "No existe un elemento con ese nombre en este overlay!");
-		assert(_childElements[childName]->getTypeName() == ChildType::TEXTAREA
+		assert(_childElements[childName]->getTypeName() == TChildType::TEXTAREA
 			&& "El elemento referenciado no es un TextArea");
 
 		static_cast<Ogre::TextAreaOverlayElement*>( _childElements[childName] )

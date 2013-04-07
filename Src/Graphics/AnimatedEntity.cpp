@@ -34,6 +34,7 @@ namespace Graphics
 		_currentAnimation->setEnabled(true);
 		_currentAnimation->setTimePosition(moment);
 		_currentAnimation->setLoop(loop);
+
 		return true;
 
 	} // setAnimation
@@ -46,17 +47,21 @@ namespace Graphics
 
 		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
 			return false;
+
 		Ogre::AnimationState *animation = _entity->getAnimationState(anim);
-		animation->setEnabled(false);
-		if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
-			animation->setTimePosition(0);  // De lo contrario, no dejan de lanzar el evento finished a los observers
+			animation->setEnabled(false);
+			if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
+				animation->setTimePosition(0);  // De lo contrario, no dejan de lanzar el evento finished a los observers
 
 		// Si la animación a parar es la animación activa ya no lo estará.
 		if(animation == _currentAnimation)
 			_currentAnimation = 0;
-		return true;
 
+		return true;
 	} // stopAnimation
+
+
+
 	bool CAnimatedEntity::pauseAnimation(const std::string &anim,float moment)
 	{
 		assert(_entity  && "La entidad no ha sido cargada en la escena");

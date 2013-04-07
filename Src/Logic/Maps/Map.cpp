@@ -146,7 +146,7 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-	void CMap::createPlayer(std::string entityName, std::string model, bool isLocalPlayer)
+	void CMap::createPlayer(std::string entityName, bool isLocalPlayer, const std::string& model)
 	{
 		// [ƒ®§] Creamos un nuevo jugador. Deberíamos tener la info del player
 		// almacenada en _playerInfo así que solo habría que modificarle el

@@ -1,4 +1,6 @@
 Map = {	
+
+
 	Altar = {
 		type = "Altar",
 		model = "altar.mesh",
@@ -41,15 +43,32 @@ Map = {
 	
 	Spider = {
 		type = "AnimatedEntity",
-		model = "aranna.mesh",
+		model = "spider.mesh",		
+		logicInput = true,
+		base=1,
+		ring=0,		
+		degrees=0,
+		sense=1,
+		physicWidth = 6,
+		physicHeight = 2,
+		lifeMax = 100.0,
+		lifeBarPosition = 30.0,
+		lifeBarWidth = 20.0,
+		lifeBarHeight = 2.0,
+		lifeModifier = -10,
+	},
+	
+	Scorpion = {
+		type = "AnimatedEntity",
+		model = "katana.mesh",
 		scaleFactor = 0.5,
 		logicInput = true,
 		base=1,
 		ring=0,		
 		degrees=0,
 		sense=1,
-		physicWidth = 3,
-		physicHeight = 1,
+		physicWidth = 6,
+		physicHeight = 2,
 		lifeMax = 100.0,
 		lifeBarPosition = 30.0,
 		lifeBarWidth = 20.0,
@@ -60,12 +79,15 @@ Map = {
 	
 	Player = {
 		type = "Player",
-		model = "marine.mesh",
+		model = "spartan.mesh",
+		modelWeapon = "katana.mesh",
+		modelShield = "shield.mesh",
+		modelHelmet = "helmet.mesh",
 		logicInput=true,
 		base=3,
 		ring=1,
 		degrees=0,
-		sense=1,
+		sense=0,
 		physicWidth = 2.5,
 		physicHeight = 2.5,
 		lifeMax = 100.0,
@@ -137,8 +159,8 @@ Map = {
 	
 	PUApple = {
 		type = "PowerUp",
-		model = "pu_Apple.mesh",
-		scaleFactor = 0.2,
+		model = "puApple.mesh",
+		modelOnHand = "itemApple.mesh",	
 		logicInput=true,
 		hpModifier=10,	
 		physicWidth = 2.5,
@@ -150,8 +172,8 @@ Map = {
 	},
 	PUThrone = {
 		type = "PowerUp",
-		model = "pu_Throne.mesh",
-		scaleFactor = 0.2,
+		model = "puThrone.mesh",
+		modelOnHand = "itemThrone.mesh",
 		logicInput=true,
 		hpModifier=10,	
 		physicWidth = 2.5,
@@ -163,8 +185,8 @@ Map = {
 	},
 	PUPandora = {
 		type = "PowerUp",
-		model = "pu_Pandora.mesh",
-		scaleFactor = 0.2,
+		model = "puPandora.mesh",
+		modelOnHand = "itemPandora.mesh",
 		sense = 1,
 		logicInput=true,
 		hpModifier=10,	
@@ -177,8 +199,8 @@ Map = {
 	},
 	PUPoison = {
 		type = "PowerUp",
-		model = "pu_Poison.mesh",
-		scaleFactor = 0.2,
+		model = "puPoison.mesh",
+		modelOnHand = "itemPoison.mesh",
 		logicInput=true,
 		hpModifier=10,	
 		physicWidth = 2.5,
@@ -188,10 +210,10 @@ Map = {
 		orbitalSpeed = 0.004,
 		orbitalRotationSpeed = 0.001,
 	},
-	PUTime = {
+	PUHourglass = {
 		type = "PowerUp",
-		model = "pu_Time.mesh",
-		scaleFactor = 0.2,
+		model = "puHourglass.mesh",
+		modelOnHand = "itemHourglass.mesh",
 		logicInput=true,
 		hpModifier=10,	
 		physicWidth = 2.5,

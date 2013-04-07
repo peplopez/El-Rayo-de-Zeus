@@ -65,7 +65,6 @@ namespace Logic
 			_graphicalScene->add(_lifeBarBB);
 			_lifeBarBB->setTextureCoords(0.0f, 0.0f, 0.5f, 1.0f);
 
-			//_audio = "media\\audio\\QUEJIDO1.wav";
 		return true;
 
 	} // spawn
@@ -82,14 +81,7 @@ namespace Logic
 
 	void CLife::process(CMessage *message)
 	{
-		switch(message->getType())
-		{
-			case Message::LIFE_MODIFIER:
-			{
-				modifyLife( static_cast<CMessageInt*>(message)->getInt() );
-				break;
-			}
-		}
+		modifyLife( static_cast<CMessageInt*>(message)->getInt() );
 	} // process
 
 
@@ -105,28 +97,22 @@ namespace Logic
 
 			CMessage *msg = new CMessage();
 			msg->setType(Logic::Message::DEAD);
-			msg->setAction(Logic::Message::DAMAGE);
+			msg->setAction(Logic::Message::DAMAGE); // HACK PeP para que funcione máquina estados
 			_entity->emitMessage(msg, this);
 		
 		// DAMAGE / HEAL 
-		} else { // Solo animaciones
-
-			CMessageBoolString *msg = new CMessageBoolString();
-				msg->setType(Logic::Message::SET_ANIMATION);	
-				msg->setBool(false);
+		} else if(lifeModifier) { // Solo animaciones
 			/* Aquí ponemos el sonido */
 			Logic::CMessageAudio *maudio=new Logic::CMessageAudio();		
-			maudio->setType(Message::AUDIO);			
-			maudio->setPath(_audio);
+			maudio->setType(Message::AUDIO);
 			maudio->setId("impacto");
 			maudio->setPosition(_entity->getPosition());
-			_entity->emitMessage(maudio);
-			if(lifeModifier < 0)
-				msg->setString("Damage"); //Poner la animación de herido.
-			else if(lifeModifier > 0)
-				msg->setString("FireUzi"); // Poner la animación de curacion
+// TODO
+			lifeModifier < 0 ?	maudio->setPath(_audio)) : //Poner el sonido de herido. 
+								maudio->setPath(_audio)); // Poner el sonido de curacion
 
-			//_entity->emitMessage(msg, this); //cancelo el envio, estoy haciendolo en la maquina de estados
+
+			_entity->emitMessage(maudio);
 		}		
 
 		// LIFEBAR CONTROL

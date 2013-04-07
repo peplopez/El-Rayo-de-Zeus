@@ -18,19 +18,15 @@ con animaciones.
 #ifndef __Graphics_AnimatedEntity_H
 #define __Graphics_AnimatedEntity_H
 
-#include "Entity.h"
+#include "Graphics\Entity.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 
 {
 	class AnimationState;
-}
+};
 
-namespace Graphics 
-{
-	class CScene;
-}
-	
+
 namespace Graphics 
 {
 	/**
@@ -89,10 +85,6 @@ namespace Graphics
 		CAnimatedEntity(const std::string &name, const std::string &mesh):
 					CEntity(name,mesh), _currentAnimation(0),_rewinding(false),_momentEnabled(true) {}
 
-		/**
-		Destructor de la aplicación.
-		*/
-		virtual ~CAnimatedEntity() {}
 
 		/**
 		Activa una animación a partir de su nombre.
@@ -120,41 +112,27 @@ namespace Graphics
 		Funcin que registra al oyente de la entidad grfica. Por 
 		simplicidad solo habr un oyente por entidad.
 		*/
-		void setObserver(CAnimatedEntityListener *observer)
-											{_observer = observer;}
+		void setObserver(CAnimatedEntityListener *observer) {_observer = observer;}
 
 		/**
 		Funci?n que quita al oyente de la entidad gr?fica. Por 
 		simplicidad solo habr? un oyente por entidad.
 		*/
-		void removeObserver(CAnimatedEntityListener *observer)
-							{if(_observer = observer) _observer = 0;}
+		void removeObserver() { _observer = 0;}
+		
+		void rewind(const std::string &anim,const bool moment)	{_rewinding=true;} 
 
-		bool rewind(const std::string &anim,const bool loop);
 
 		bool pauseAnimation(const std::string &anim,float moment);
 
-
-	protected:
+	private:
 
 		/**
 		Objeto oyente que es informado de cambios en la entidad como 
 		la terminaci?n de las animaciones. Por simplicidad solo habr?
 		un oyente por entidad.
 		*/
-		CAnimatedEntityListener *_observer;	
-
-		// Cada entidad debe pertenecer a una escena. Solo permitimos
-		// a la escena actualizar el estado.
-		friend class CScene;
-		
-		/**
-		Actualiza el estado de la entidad cada ciclo.
-		
-		@param secs Número de milisegundos transcurridos desde la última 
-		llamada.
-		*/
-		virtual void tick(float secs);
+		CAnimatedEntityListener *_observer;
 
 		/**
 		Animación que tiene la entidad activada.
@@ -168,6 +146,16 @@ namespace Graphics
 		Para que solo se envie un mensaje al llegar un momento de la animación. No tantos como ticks
 		*/
 		bool _momentEnabled;
+		
+		/**
+		Actualiza el estado de la entidad cada ciclo.
+		
+		@param secs Número de milisegundos transcurridos desde la última 
+		llamada.
+		*/
+		void tick(float secs);
+
+		
 	}; // class CAnimatedEntity
 
 } // namespace Graphics

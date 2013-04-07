@@ -1,4 +1,5 @@
 Map ={	
+	
 	Camera = {
 		type = "Camera",
 		distance = 150,
@@ -25,7 +26,7 @@ Map ={
 		type = "PUThrone",
 		base=3,
 		ring=1,
-		degrees=120,
+		degrees=270,
 		lifeModifier=10,
 	},
 	puPandora1 = {
@@ -39,11 +40,11 @@ Map ={
 		type = "PUPoison",
 		base=3,
 		ring=1,
-		degrees=180,
-		lifeModifier=-20,
+		degrees=30,
+		lifeModifier=0,
 	},
-	puTime1 = {
-		type = "PUTime",
+	puClock1 = {
+		type = "PUHourglass",
 		base=3,
 		ring=1,
 		degrees=120,
@@ -58,8 +59,8 @@ Map ={
 		degrees=300,		
 	},	
 	
-	peludo = {
-		type = "Spider",
+	pitxito = {
+		type = "Scorpion",
 		base=3,
 		ring=1,
 		degrees=80,		
