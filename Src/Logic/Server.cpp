@@ -18,7 +18,7 @@ la gestión de la lógica del juego.
 #include "Map/MapParser.h"
 #include "Logic/Entity/RingStruct.h"
 #include "Logic/GameNetMsgManager.h"
-
+#include "Logic/GameStatus.h"
 #include <cassert>
 
 namespace Logic {
@@ -130,6 +130,14 @@ namespace Logic {
 		// se borra el mapa anterior.
 		unLoadMap();
 
+		//PEP: creo el gameStatus
+		
+		// Inicializamos el gestor de los mensajes de red durante el estado de juego
+		if (!Logic::CGameStatus::Init(8))
+			return false;
+
+		_gameStatus = Logic::CGameStatus::getSingletonPtr();
+
 		if(_map = CMap::createMapFromFile(filename))
 			return true;		
 
@@ -141,8 +149,9 @@ namespace Logic {
 
 	void CServer::unLoadMap()
 	{
+
 		if(_map)
-		{
+		{		Logic::CGameStatus::Release();
 			_map->deactivate();
 			delete _map;
 			_map = 0;

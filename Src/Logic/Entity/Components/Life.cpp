@@ -102,6 +102,7 @@ namespace Logic
 		
 		// DAMAGE / HEAL 
 		} else if(lifeModifier) { // Solo animaciones
+		
 			/* Aquí ponemos el sonido */
 			Logic::CMessageAudio *maudio=new Logic::CMessageAudio();		
 			maudio->setType(Message::AUDIO);
