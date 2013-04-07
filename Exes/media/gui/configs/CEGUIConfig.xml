@@ -1,0 +1,4 @@
+<CEGUIConfig>
+	<Logging level="Error"/>
+	<!--<Scripting initScript="media/scripts/initCEGUI.lua"/>-->
+</CEGUIConfig>

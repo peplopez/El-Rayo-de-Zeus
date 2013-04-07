@@ -23,7 +23,7 @@ de ejemplo.
 
 
 #include "../LatentActions/LatentAction.h"
-#include "../LatentActions/SimpleLatentActions.h"
+//#include "../LatentActions/SimpleLatentActions.h"
 
 #include "../LatentActions/LAIdle.h"
 #include "../LatentActions/LA_Attack.h"

@@ -32,6 +32,10 @@ usados. La mayoría de ellos son parte de Ogre.
 #include <OISMouse.h>
 #include <OISKeyboard.h>
 
+//PT. LUA (Indicacion en http://mastervj.fdi.ucm.es/dokuwiki/doku.php?id=ayuda_proyectos:cegui)
+#include <ScriptingModules/LuaScriptModule/CEGUILua.h>
+#include "ScriptManager\Server.h"
+
 // CEGUI
 #include <CEGUISystem.h>
 #include <RendererModules/Ogre/CEGUIOgreRenderer.h>
@@ -148,7 +152,7 @@ namespace BaseSubsystems
 
 	bool CServer::open()
 	{
-		//PT: Antes de inicializar CEGUI, inicializar LUA
+		//PT: En el initCEGUI, antes de inicializar CEGUI, inicializar LUA
 		if( !initOgre() ||
 			!initOIS() ||
 			!initCEGUI() )
@@ -285,8 +289,20 @@ namespace BaseSubsystems
 
 	bool CServer::initCEGUI()
 	{
-		CEGUI::OgreRenderer& CEGUIRenderer =
-				 CEGUI::OgreRenderer::create(*_renderWindow);
+		CEGUI::OgreRenderer& CEGUIRenderer = CEGUI::OgreRenderer::create(*_renderWindow);
+
+		//PT (Se cambia la inicializacion de CEGUI)
+		//Indicaciones de http://mastervj.fdi.ucm.es/dokuwiki/doku.php?id=ayuda_proyectos:cegui)
+
+		/*
+		//Como en la web de ayuda a proyectos
+		CEGUI::LuaScriptModule& luaModule = CEGUI::LuaScriptModule::create(ScriptManager::CServer::getSingletonPtr()->getLuaState());
+		CEGUI::System::create(CEGUIRenderer, NULL, NULL, NULL, &luaModule); 
+
+		//Como Damn
+		//_luaModule = &CEGUI::LuaScriptModule::create(ScriptManager::CServer::getSingletonPtr()->getLuaState());
+		//CEGUI::System::create(CEGUIRenderer, NULL, NULL, NULL, _luaModule, "media/gui/configs/CEGUIConfig.xml");
+		*/
 
 		CEGUI::System::create(CEGUIRenderer);
 

@@ -42,12 +42,20 @@ namespace OIS
 namespace CEGUI
 {
 	class System;
+	class LuaScriptModule; //PT
 }
 
 namespace BaseSubsystems
 {
 	class WindowEventListener;
 }
+
+//PT
+namespace ScriptManager
+{
+	class Server;
+}
+//PT
 
 /**
 Namespace con todo lo que rodea la aplicación. Engloba los sistemas 
@@ -327,6 +335,12 @@ namespace BaseSubsystems
 		Sistema de la interfaz gráfica de usuario CEGUI.
 		*/
 		CEGUI::System *_GUISystem;
+
+		//PT
+		/**
+		Puntero al modulo de scripts de CEGUI para poder liberarlo a la salida.
+		*/
+		CEGUI::LuaScriptModule *_luaModule;
 
 	}; // class CServer
 
