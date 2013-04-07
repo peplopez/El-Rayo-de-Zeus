@@ -223,14 +223,23 @@ namespace Logic {
 			_entityMap[entity->getEntityID()] = entity;
 			_entityList.push_back(entity);
 			entity->_map = this;
+
+			//Hack ESC - Lo suyo sería crear un entity->attachTomMap(this) que llamara al attach de cada componente
 			if (entity->getComponent<CGraphics>() != NULL)
 				_graphicScene->add(entity->getComponent<CGraphics>()->getGraphicalEntity());
 			if (entity->getComponent<CAnimatedGraphics>() != NULL)
-				_graphicScene->add(entity->getComponent<CAnimatedGraphics>()->getGraphicalEntity());
+			{
+				entity->getComponent<CAnimatedGraphics>()->setScene(_graphicScene);
+				entity->getComponent<CAnimatedGraphics>()->reCreateGraphicalEntity();
+			}
 			if (entity->getComponent<CPhysics>() != NULL)
 				_physicScene->addActor(entity->getComponent<CPhysics>()->getPhysicalActor());
 			if (entity->getComponent<CPhysicalCharacter>() != NULL)
-				_physicScene->addActor(entity->getComponent<CPhysicalCharacter>()->getPhysicalActor());
+			{
+				entity->getComponent<CPhysicalCharacter>()->setScene(_physicScene);
+				entity->getComponent<CPhysicalCharacter>()->reCreateActor();
+			}
+				//_physicScene->addActor(entity->getComponent<CPhysicalCharacter>()->getPhysicalActor());
 		}
 
 	} // addEntity
@@ -246,6 +255,8 @@ namespace Logic {
 			entity->_map = 0;
 			_entityMap.erase(entity->getEntityID());
 			_entityList.remove(entity);
+
+			//Hack ESC - Lo suyo sería crear un entity->detachFromMap(this) que llamara al dettach de cada componente
 			if (entity->getComponent<CGraphics>() != NULL)
 				_graphicScene->remove(entity->getComponent<CGraphics>()->getGraphicalEntity());
 			if (entity->getComponent<CAnimatedGraphics>() != NULL)

@@ -93,6 +93,10 @@ namespace Logic
 
 		virtual Graphics::CEntity* getGraphicalEntity() { return _graphicalEntity;}
 
+		void resetScene() { _scene = NULL;}
+
+		void setScene(Graphics::CScene* scene) { _scene = scene;}
+
 	protected:
 
 		/**	Entidad gráfica.*/

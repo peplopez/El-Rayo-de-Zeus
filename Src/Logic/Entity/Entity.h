@@ -242,7 +242,7 @@ namespace Logic
 		
 		@return posición lógica
 		*/		
-		Logic::TLogicalPosition getLogicalPosition() const {return _pos;}
+		Logic::TLogicalPosition getLogicalPosition() {return _pos;}
 
 		/**
 		Establece la matriz de transformación de la entidad. Avisa a los 

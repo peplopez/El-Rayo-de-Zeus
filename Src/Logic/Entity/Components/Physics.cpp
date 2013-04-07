@@ -88,20 +88,20 @@ namespace Logic {
 	
 		// Leer el ancho del angular box
 		assert(entityInfo->hasAttribute("physicWidth")); 
-		const float physicWidth = entityInfo->getFloatAttribute("physicWidth");
+		_physicWidth = entityInfo->getFloatAttribute("physicWidth");
 
 		// Leer la altura del angular box
 		assert(entityInfo->hasAttribute("physicHeight"));
-		const float physicHeight = entityInfo->getFloatAttribute("physicHeight");
+		_physicHeight = entityInfo->getFloatAttribute("physicHeight");
 
 		// TRIGGER: Leer si es un trigger (por defecto no)
-		bool isTrigger = false;
+		_isTrigger = false;
 		if (entityInfo->hasAttribute("physicTrigger"))
-			isTrigger = entityInfo->getBoolAttribute("physicTrigger");
+			_isTrigger = entityInfo->getBoolAttribute("physicTrigger");
 		
 		// TRIGGER
-		if(isTrigger)  {
-			Physics::CActorTrigger* trigger = new Physics::CActorTrigger(logicPos, physicWidth, physicHeight, this);
+		if(_isTrigger)  {
+			Physics::CActorTrigger* trigger = new Physics::CActorTrigger(logicPos, _physicWidth, _physicHeight, this);
 				if( _scene->addActor(trigger ) ) // Añadir el actor a la escena
 					return trigger ;
 				else
@@ -109,7 +109,7 @@ namespace Logic {
 
 		// COLLIDER
 		} else {
-			Physics::CActor* collider = new Physics::CActor(logicPos, physicWidth, physicHeight, this);
+			Physics::CActor* collider = new Physics::CActor(logicPos, _physicWidth, _physicHeight, this);
 				if(_scene->addActor(collider) ) // Añadir el actor a la escena
 					return collider;
 				else
@@ -117,6 +117,35 @@ namespace Logic {
 		}
 
 	} // createActor 
+
+	//---------------------------------------------------------
+
+	// Crear el actor físico
+	Physics::CActor* CPhysics::reCreateActor()
+	{
+		assert(_scene && "LOGIC::PHYSICS>> No existe escena física!");		
+
+		delete _physicalActor;
+		// Obtenemos la posición de la entidad. 
+		TLogicalPosition logicPos = _entity->getLogicalPosition();
+	
+		// TRIGGER
+		if(_isTrigger)  {
+			_physicalActor = new Physics::CActorTrigger(logicPos, _physicWidth, _physicHeight, this);
+				if( _scene->addActor(_physicalActor ) ) // Añadir el actor a la escena
+					return _physicalActor ;
+				else
+					return 0;
+		// COLLIDER
+		} else {
+			_physicalActor = new Physics::CActor(logicPos, _physicWidth, _physicHeight, this);
+				if(_scene->addActor(_physicalActor) ) // Añadir el actor a la escena
+					return _physicalActor;
+				else
+					return 0;
+		}
+
+	} // reCreateActor 
 
 	//---------------------------------------------------------
 

@@ -115,6 +115,13 @@ namespace Graphics
 		}
 		if(_entity)
 		{
+			//ESC - cuando se hace unload queremos destruir tambien todos los objetos atachados a los huesos de la entidad.
+			Ogre::Entity::ChildObjectListIterator it =_entity->getAttachedObjectIterator();
+			while (it.hasMoreElements())
+			{
+				Ogre::Entity* entity = static_cast<Ogre::Entity*>(it.getNext());
+				_scene->getSceneMgr()->destroyEntity(entity);
+			}
 			_scene->getSceneMgr()->destroyEntity(_entity);
 			_entity = 0;
 			_loaded = false;

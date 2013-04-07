@@ -84,13 +84,14 @@ namespace Logic
 	void CBaseTraveler::changeBase(unsigned short base)
 	{
 		_changingBase=true;
-			/*
+			
 			CMessageChar *m = new CMessageChar();	
 				m->setType(Message::AVATAR_MOVE);
 				m->setAction(Message::CHANGE_BASE);
-				m->setChar( base - _entity->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
+				//m->setChar( base - _entity->getBase() );
+				m->setChar(0);// Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
 			_entity->emitMessage(m,this);
-			*/
+			
 			Logic::CServer* srv = Logic::CServer::getSingletonPtr();
 			srv->deferredMoveEntity(_entity, base);
 		LOG("Change Base from " << _entity->getBase() << " to " << base );
