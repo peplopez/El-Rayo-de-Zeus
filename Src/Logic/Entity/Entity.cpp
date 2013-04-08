@@ -182,6 +182,7 @@ namespace Logic
 	} // deactivate
 
 	//---------------------------------------------------------
+
 	void CEntity::setIsPlayer(bool isPlayer) 
 	{ 		
 		if(isPlayer == _isPlayer)
@@ -214,12 +215,13 @@ namespace Logic
 		return resultado;
 	 }
 	 
-	  const float CEntity::getY(const unsigned short base, const Logic::LogicalPosition::Ring ring)
-	  { 	
-		  Vector3 position=Vector3::ZERO;
-		  position=CServer::getSingletonPtr()->getRingPositions(base,ring);	
-		  return position.y;
-	  }
+	//---------------------------------------------------------
+	const float CEntity::getY(const unsigned short base, const Logic::LogicalPosition::Ring ring)
+	{ 	
+		Vector3 position=Vector3::ZERO;
+		position=CServer::getSingletonPtr()->getRingPositions(base,ring);	
+		return position.y;
+	}
 
 	//---------------------------------------------------------
 	void CEntity::tick(unsigned int msecs) 
