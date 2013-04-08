@@ -138,6 +138,11 @@ namespace AI
 			}
 		}
 	}
+	
+	void CLA_Death::tick(unsigned int msecs) 
+	{
+		CLatentAction::tick();
+	}
 
 	void CLA_Death::sleepComponents()
 	{

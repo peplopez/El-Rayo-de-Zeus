@@ -149,6 +149,11 @@ namespace AI
 			 else
 				finish(false);*/
 	}
+	
+	void CLAIdle::tick(unsigned int msecs) 
+	{
+		CLatentAction::tick();
+	}
 
 	void CLAIdle::sleepComponents(){}
 

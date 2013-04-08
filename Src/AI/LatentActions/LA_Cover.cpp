@@ -107,8 +107,8 @@ namespace AI
 	*/
 	bool CLA_Cover::accept(const CMessage *message)
 	{		
-		// la accion latente de ataque solo acepta mensajes de ataque en el momento que la oportunidad de combo está activada.
-		return false;
+		return false; //en capitulos anteriores quise que reciviera mensajes, ya no. lo anulo.
+					//por otra parte sabed que al ser virtual puro me obliga a implementarlo aunque no haga nada.
 		return/* (_comboOportunity && (message->getType() == Message::CONTROL && 
 			(message->getAction() == Message::LIGHT_ATTACK||
 			message->getAction() == Message::HEAVY_ATTACK)))
@@ -124,6 +124,11 @@ namespace AI
 	*/
 	void CLA_Cover::process(CMessage *message)
 	{		
+	}
+	
+	void CLA_Cover::tick(unsigned int msecs) 
+	{
+		CLatentAction::tick();
 	}
 
 	void CLA_Cover::sleepComponents()

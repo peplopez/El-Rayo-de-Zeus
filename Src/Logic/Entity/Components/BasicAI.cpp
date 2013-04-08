@@ -134,6 +134,7 @@ namespace Logic
 				}
 				case Message::ALTAR_ACTIVATED:
 				{	//este if es para saber si yo soy el que estaba activando el altar que se ha activado
+					if (!_agresivo)
 					if(_entity->getComponent<CAltarStateSwitcher>()->getTarget() == _entity->getMap()->getEntityByName(static_cast<CMessageString*>(message)->getString()))
 					{
 						int accion=rand()%3;

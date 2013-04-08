@@ -123,6 +123,11 @@ namespace AI
 			 else
 				finish(false);*/
 	}
+	
+	void CLA_Run::tick(unsigned int msecs) 
+	{
+		CLatentAction::tick();
+	}
 
 	void CLA_Run::sleepComponents(){}
 

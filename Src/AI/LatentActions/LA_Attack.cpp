@@ -109,31 +109,6 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Attack::OnRun() 
 	{
-		if (_initialCombatState==2 && _yawAmount>=0 && _action==Message::HEAVY_ATTACK)
-		{
-			_yawAmount++;
-			_entity->yaw(_entity->getYaw()+0.3f);
-			if (_yawAmount>50) 
-				{
-					_yawAmount=-10;
-					_entity->setYaw(_initialYaw);
-				/*	CMessageString *msg = new CMessageString();
-					msg->setType(Message::ANIMATION_FINISHED);
-					msg->setAction(_action);
-					msg->setString("Death");
-					_entity->emitMessage(msg);*/
-					finish(false);
-				}				
-		}
-		// TODO PRÁCTICA IA
-		// En cada paso de ejecución tendremos que comprobar si hemos
-		// superado el tiempo de espera. Según lo hayamos superado o no,
-		// la acción tendrá que pasar a un estado de terminado con éxito o
-		// quedarse en el mismo estado en ejecución.
-		/*if(Application::CBaseApplication::getSingletonPtr()->getAppTime() < _endingTime)
-			return RUNNING;
-		else 
-			return SUCCESS;*/
 		if (this->getStatus()!=SUCCESS && this->getStatus()!=FAIL)
 		return RUNNING;
 		else 
@@ -250,6 +225,27 @@ namespace AI
 		}
 			// TODO PRÁCTICA IA
 		// La acción no procesa mensajes
+	}
+
+	void CLA_Attack::tick(unsigned int msecs) 
+	{
+		if (_initialCombatState==2 && _yawAmount>=0 && _action==Message::HEAVY_ATTACK)
+		{
+			_yawAmount++;
+			_entity->yaw(_entity->getYaw()+2*0.001f*msecs);
+			if (_yawAmount>50) 
+				{
+					_yawAmount=-10;
+					_entity->setYaw(_initialYaw);
+				/*	CMessageString *msg = new CMessageString();
+					msg->setType(Message::ANIMATION_FINISHED);
+					msg->setAction(_action);
+					msg->setString("Death");
+					_entity->emitMessage(msg);*/
+					finish(false);
+				}				
+		}
+		CLatentAction::tick();
 	}
 
 	void CLA_Attack::sleepComponents()
