@@ -18,6 +18,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Entity/Messages/MessageUInt.h"
 #include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Maps/EntityFactory.h"
 #include "Logic/Maps/Map.h"
 #include "Logic/Server.h"
 
@@ -58,12 +59,7 @@ namespace Logic
 
 		// FRS Sólo cogen items los players
 		if(otherEntity->getType() == "Player" || otherEntity->getType() == "OtherPlayer") {	
-
-			// ITEM DEATH
-			CMessage *txMsg1 = new CMessage();
-				txMsg1->setType(TMessageType::DEAD); // Si alguien nos coge, morimos
-				_entity->emitMessage(txMsg1, this);
-// TODO FRS Sin CDeath habrá que hacer el deferred delete directamente
+			
 			// GET OBJECT ANIM
 			CMessageBoolString *txMsg2 = new CMessageBoolString();
 				txMsg2->setType(TMessageType::SET_ANIMATION); 
@@ -79,6 +75,14 @@ namespace Logic
 					txMsg3->setString(_modelOnHand);
 					otherEntity->emitMessage(txMsg3);
 			}
+
+			// ITEM DEATH
+			//CMessage *txMsg1 = new CMessage();
+			//	txMsg1->setType(TMessageType::DEAD); // Si alguien nos coge, morimos
+			//	_entity->emitMessage(txMsg1, this);
+
+			//FRS Sin CDeath habrá que hacer el deferred delete directamente
+			CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
 
 
 			// TODO FRS También habría que notificar, en cada impl. hija de este CItem padre,
