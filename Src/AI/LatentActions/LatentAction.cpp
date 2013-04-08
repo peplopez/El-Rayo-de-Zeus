@@ -2,6 +2,7 @@
 
 namespace AI
 {
+	
 	/**
 	Método llamado cíclicamente por el responsable de la ejecución
 	de la función latente.

@@ -76,7 +76,11 @@ namespace Logic
 				_currentAction = _currentStateMachine->getCurrentNode();
 			}
 			if (_currentAction != 0)
-				_currentAction->tick();
+			{
+				//_currentAction->tick();//llamar si eso al tick(msecs) aquí.
+				_currentAction->tick(msecs);//llamar si eso al tick(msecs) aquí.
+
+			}
 			else
 			{
 				_currentStateMachine->resetExecution();

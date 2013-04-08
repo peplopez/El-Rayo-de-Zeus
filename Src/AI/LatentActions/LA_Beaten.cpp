@@ -137,6 +137,12 @@ namespace AI
 		}
 	}
 
+	
+	void CLA_Beaten::tick(unsigned int msecs) 
+	{
+		CLatentAction::tick();
+	}
+
 	void CLA_Beaten::sleepComponents(){}
 
 	void CLA_Beaten::awakeComponents(){}

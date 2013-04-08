@@ -144,6 +144,14 @@ namespace AI
 		@param msg Mensaje recibido.
 		*/
 		virtual void process(CMessage *message) = 0;
+
+		//PeP
+		/**
+		Para que las acciones latentes vayan por tiempo, como los componentes. Este método virtual puro obliga
+		a todas las acciones latentes a tener una implementacióin de tick(msecs), aunque ésta sea vacía.
+		*/
+		virtual void tick(unsigned int msecs) = 0; 
+	
 		/**
 		Devuelve el estado actual de la acción.
 		*/
