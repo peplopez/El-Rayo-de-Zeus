@@ -55,7 +55,9 @@ namespace AI
 	*/
 	void CLA_Cover::OnStop()
 	{
+
 		std::cout<<"AI::StateMachine::CoverSALIENDO"<<std::endl;	
+
 		awakeComponents();
 	}
 
@@ -134,6 +136,8 @@ namespace AI
 	{ 
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 				_entity->getComponent<CAvatarController>()->awake();
+		if (_entity->getComponent<CAttack>()!=NULL)
+				_entity->getComponent<CAttack>()->setCovering(false);		
 	}
 
 	

@@ -1,35 +1,55 @@
 //---------------------------------------------------------------------------
-// GameStatus.h
+// BaseInfo.h
 //---------------------------------------------------------------------------
 
 /**
-@file GameStatus.h
+@file BaseInfo.h
 
-Esta es la clase principal de gestión del juego. Contiene clases como son Bases, Players, Stats, etc.
+Esta es la clase que representa una base y que contiene anillos. Contiene entre otras
+cosas un puntero al dueño de la base (CPlayerInfo, lista de CRingInfo).
 @see Logic::GameStatus
 
 @author Jose Luis López Sánchez
 */
 #pragma once
-#ifndef __Logic_Base_H
-#define __Logic_Base_H
+#ifndef __Logic_BaseInfo_H
+#define __Logic_BaseInfo_H
 
 #include "Logic\Entity\LogicalPosition.h"
 #include <string>
-#include <list>
+#include <vector>
 namespace Logic
 {
-	class CRing;
-	class CPlayer;
+	class CRingInfo;
+	class CPlayerInfo;
 }
 namespace Logic
 {
-	class CBase
+	/**
+		Cada base debe tener un color asociado. Esto no quiere decir que la base vaya a ser de ese color. 
+		Simplemente que sus altares, su iluminación emite ese color. Y quizá, que los heroes tien shaders
+		de ese color. Por ejemplo si dos jugadores decien cogerse el mismo personaje cada uno será del color
+		asociado a la base.
+	*/
+	enum Color : unsigned short
+		{	
+			WHITE	=0,
+			RED		=1,
+			BLUE	=2,
+			GREEN	=3,
+			YELLOW	=4,
+			BLACK	=5, //Suponiendo que sea un color válido, ahora por el fondo no lo es
+			ORANGE	=6,
+			VIOLET	=7,
+			BROWN	=8
+		};
+
+	class CBaseInfo
 	{
 	public:
-		CBase(const unsigned short numRings);
+		CBaseInfo(const unsigned short numRings);	//CONSTRUIR TAMBIÉN CON EL COLOR.
 
-		~CBase();
+		~CBaseInfo();
 		/**
 			Para obtener el número de defensores de la base.
 		*/
@@ -57,20 +77,18 @@ namespace Logic
 
 		void setNumActivatedAltars(const unsigned short numActivatedAltars){_numActivatedAltars=numActivatedAltars;}
 	
-		bool getAllAltarsActivated(){return _AllAltarsActivated;}
+		bool getAllAltarsActivated();
 
-		void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
-		
+		//void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
+		void updateAllAltarsActivated();
+		CRingInfo* getRing(unsigned short ring);
+
 	protected:
 		
 		/**
 			crea los anillos
 		*/
-		Logic::CRing* CBase::createRing(const unsigned short altars, Ring tipo);
-		/**
-			Puntero al Player dueño de la base.
-		*/
-		const CPlayer* _player;
+		Logic::CRingInfo* createRing(const unsigned short altars, Ring tipo);
 				
 		/**
 			Número de altares activados
@@ -90,7 +108,7 @@ namespace Logic
 		/**
 		Tipo para la lista de Anillos
 		*/
-		typedef std::list<CRing*> TRings;
+		typedef std::vector<CRingInfo*> TRings;
 		
 		/**
 		Lista de los anillos

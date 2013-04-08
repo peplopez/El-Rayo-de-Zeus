@@ -39,7 +39,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CRingTraveler() : IComponent(GetAltTypeIdOf(CRingTraveler)),_changingRing(false),_changingRingTime(0),_toUp(1) {}
+		CRingTraveler() : IComponent(GetAltTypeIdOf(CRingTraveler)),_changingRing(false),_changingRingTime(0),_toUp(1),_desencogiendo(false) {}
 
 		CRingTraveler(altTypeId id) : IComponent(id),_changingRing(false),_changingRingTime(0)
 		{}
@@ -107,6 +107,7 @@ namespace Logic
 
 		float _changingRingTime;
 
+		bool _desencogiendo;
 	}; // class CRingTraveler
 
 	REG_FACTORY(CRingTraveler);

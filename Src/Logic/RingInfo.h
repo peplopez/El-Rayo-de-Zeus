@@ -1,36 +1,38 @@
 //---------------------------------------------------------------------------
-// Ring.h
+// RingInfo.h
 //---------------------------------------------------------------------------
 
 /**
-@file Ring.h
+@file RingInfo.h
 
 Esta es la clase principal de gestión del juego. Contiene clases como son Bases, Players, Stats, etc.
-@see Logic::Ring
+@see Logic::RingInfo
 
 @author Jose Luis López Sánchez
 */
 #pragma once
-#ifndef __Logic_Ring_H
-#define __Logic_Ring_H
+#ifndef __Logic_RingInfo_H
+#define __Logic_RingInfo_H
 
 #include <string>
-#include <list>
+#include <map>
 
 #include "Logic\Entity\LogicalPosition.h"
+#include "Logic\Maps\EntityID.h"
 namespace Logic
 {
-	class CAltar;
-	//class CPlayer;
+	class CAltarInfo;
+	class CEntity;
 }
 namespace Logic
 {
-	class CRing
+	class CRingInfo
 	{
 	public:
-		CRing(const unsigned short numAltars, Ring tipo);
+		CRingInfo(const unsigned short numAltars, Ring tipo);
 
-		~CRing();
+		~CRingInfo();
+		
 		/**
 			Para obtener el número de defensores en el anillo
 		*/
@@ -49,15 +51,25 @@ namespace Logic
 		/**
 			getters y setters
 		*/
-		unsigned short getNumActivatedAltars(){return _numActivatedAltars;}
+		unsigned short getNumActivatedAltars();
 
 		void setNumActivatedAltars(const unsigned short numActivatedAltars){_numActivatedAltars=numActivatedAltars;}
 	
-		bool getAllAltarsActivated(){return _AllAltarsActivated;}
+		bool getAllAltarsActivated();
 
 		void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
 	
+		/*CAltarInfo* getAltar(string altar)
+		{
+			return _altars[altar];
+		}*/
 	protected:
+		
+		friend class CAltar;
+		/**
+			Crea los altares
+		*/
+		Logic::CAltarInfo* CRingInfo::createAltar(Logic::CEntity* entity);
 		
 		/**
 			Id enumerado que dice que tipo de anillo soy
@@ -75,12 +87,12 @@ namespace Logic
 		bool _AllAltarsActivated;
 
 		/**
-		Tipo para la lista de Anillos
+		Tipo para la lista de altares
 		*/
-		typedef std::list<CAltar*> TAltars;
+		typedef std::map<unsigned int,CAltarInfo*> TAltars;
 		
 		/**
-		Lista de los anillos
+		Lista de los altares
 		*/
 		TAltars _altars;
 	};

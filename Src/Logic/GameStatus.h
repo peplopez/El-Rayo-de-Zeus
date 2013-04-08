@@ -14,27 +14,76 @@ Esta es la clase principal de gestión del juego. Contiene clases como son Bases,
 #ifndef __Logic_GameStatus_H
 #define __Logic_GameStatus_H
 
-#include <list>
+#include <vector>
+
 namespace Logic
 {
-	class CBase;
-	class CPlayer;
+	class CBaseInfo;
+	class CPlayerInfo;
+	class CEntity;
 }
 namespace Logic
 {
 	class CGameStatus
 	{
 	public:
+
+		/**
+		Devuelve la única instancia de la clase CServer.
+		
+		@return Única instancia de la clase CServer.
+		*/
+		static CGameStatus* getSingletonPtr() {return _instance;}
+
+	
+		/**
+		Inicializa la instancia
+
+		@return Devuelve false si no se ha podido inicializar.
+		*/
+		static bool Init(const unsigned short numPlayers);
+
+		/**
+		Libera la instancia de CGameNetMsgManager. Debe llamarse al finalizar la 
+		aplicación.
+		*/
+		static void Release();
+
+		//opciones que van a ir a Ranking
+		/**
+			Tiempo programado como necesario en la partida creada
+			para que el altar cambie desde activado a desactivado
+			y viceversa.
+			Se asume que es el mismo para todos los altares de la 
+			partida y que este tiempo jamás cambia.
+		*/
+		//const unsigned long _activationTime;
+
+		/**
+			Puntos de mérito que supone activar un altar.
+		*/
+		//const unsigned int _scoreAltar;
+		
+		CBaseInfo* getBase(unsigned short base);
+		
+		CPlayerInfo* getPlayer(unsigned short player);
+		
+		//void setBases();
+		
+	protected:
+	
 		CGameStatus(const unsigned short numPlayers);
 
 		~CGameStatus();
-
-	protected:
-	
 		/**
 			crea las bases
 		*/
-		Logic::CBase* createBase(const unsigned short rings);
+		Logic::CBaseInfo* createBase(const unsigned short rings);
+		
+		/**
+			crea los jugadores
+		*/
+		Logic::CPlayerInfo* createPlayer(const CBaseInfo* miBase, Logic::CEntity* entity);
 
 		/**
 			Número de jugadores
@@ -46,24 +95,30 @@ namespace Logic
 		unsigned short _numBases; 
 
 		/**
-		Tipo para la lista de Bases
+		Tipo para la lista de Jugadores
 		*/
-		typedef std::list<CPlayer*> TPlayers;
+		typedef std::vector<CPlayerInfo*> TPlayers;
 
 		/**
-		Lista de las Bases
+		Lista de los Jugadores
 		*/
 		TPlayers _players;
 
 		/**
 		Tipo para la lista de Bases
 		*/
-		typedef std::list<CBase*> TBases;
+		typedef std::vector<CBaseInfo*> TBases;
 
 		/**
 		Lista de las Bases
 		*/
 		TBases _bases;
+
+	private:
+				/**
+		Única instancia de la clase.
+		*/
+		static CGameStatus* _instance;
 	};
 //TBases _bases;
 }

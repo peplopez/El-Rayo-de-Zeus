@@ -6,7 +6,7 @@
 #include "Application/BaseApplication.h"
 
 #include "../StateMachines/StateMachine.h"
-
+#include "Logic/Entity/Messages/MessageString.h"
 namespace AI
 {
 

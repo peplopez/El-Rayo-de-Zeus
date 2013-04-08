@@ -20,8 +20,6 @@ de juego. Es una colección de componentes.
 #include "Logic/Maps/EntityID.h"
 #include "LogicalPosition.h"
 
-
-
 #include <list>
 #include <string>
 
@@ -375,6 +373,7 @@ namespace Logic
 
 		Hace uso de de un mecanismo RTTI propio para ello
 		*/
+
 		template <typename T>
 		T* getComponent()
 		{
@@ -389,8 +388,20 @@ namespace Logic
 			std::cerr << "id no encontrado" << std::endl;
 			return NULL;	
 		}
+		
+		/**
+		Add - Pep
+		
+		*/
+		void setOriginBase(unsigned short originBase)
+		{
+			_originBase=originBase;
+		}
 
-
+		unsigned short getOriginBase()
+		{
+			return _originBase;
+		}
 	protected:
 
 		/**
@@ -469,6 +480,14 @@ namespace Logic
 		*/
 		bool _isPlayer;
 
+		/** pep: añado variable que me sirve para el gameStatus 
+		Indica la base de origen de la entidad.
+		El índice de la base en el array se corresponde
+		siempre con la posición del player en su array.
+		Conociendo el indice podemos acceder directamente a su
+		CPlayerInfo sin riesgo a equivocarnos.
+		*/
+		unsigned short _originBase;
 
 	}; // class CEntity
 

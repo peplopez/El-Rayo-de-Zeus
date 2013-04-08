@@ -56,6 +56,7 @@ Map = {
 		lifeBarWidth = 20.0,
 		lifeBarHeight = 2.0,
 		lifeModifier = -10,
+		audio="media\\audio\\QUEJIDO1.wav",
 	},
 	
 	Scorpion = {
@@ -102,6 +103,7 @@ Map = {
 		gravity = 0.1,
 		behavior="Hercules",
 		hpModifier=10,
+		hero="Hercules",
 		audio="media\\audio\\QUEJIDO1.wav",
 	},
 	
@@ -128,6 +130,7 @@ Map = {
 		behavior="Hercules",
 		hpModifier=10,
 		audio="media\\audio\\QUEJIDO1.wav",
+		hero="Hercules",
 		audioCubriendose="media\\audio\\Sword_scrape2.wav",
 	},
 	
@@ -153,6 +156,7 @@ Map = {
 		gravity = 0.1,
 		behavior="Hercules",
 		hpModifier=10,
+		hero="Aquiles",
 		audio="media\\audio\\QUEJIDO1.wav",
 		audioCubriendose="media\\audio\\Sword_scrape2.wav",
 	},

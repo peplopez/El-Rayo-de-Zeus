@@ -9,7 +9,7 @@
 #include "LA_Change.h"
 #include "Logic/Entity/Messages/MessageChar.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
-
+#include "Logic/Entity/Messages/MessageString.h"
 namespace AI
 {
 ////////////////////////////////
@@ -42,8 +42,8 @@ namespace AI
 		case Message::CHANGE_BASE:
 			{	//activo un reloj
 				//(int index, IClockListener* listener, unsigned long time)
-		//		_reloj->addTimeObserver(0,this,(unsigned long)_maxChangingBaseTime);
-					//std::pair<IClockListener*,unsigned long>(this,_maxChangingBaseTime));		
+				//_reloj->addTimeObserver(0,this,(unsigned long)_maxChangingBaseTime);
+				//std::pair<IClockListener*,unsigned long>(this,_maxChangingBaseTime));		
 				_velocidad=0.01f;
 				CMessageString *m = new CMessageString();	
 				m->setType(Message::SET_MATERIAL);
@@ -227,15 +227,16 @@ namespace AI
 	{
 		switch(message->getType())
 		{
-			case Message::CONTROL: //si estamos aquí es que el jugador quiere aprovechar la oportunidad que tenia de realizar un combo. Dependiendo de 
+			
+			case Message::CONTROL: 
 			{
-				if (_action==Message::CHANGE_BASE)				{
-					
+				if (_action==Message::CHANGE_BASE)
+				{					
 					CMessageString *m2 = new CMessageString();	
 					m2->setType(Message::SET_MATERIAL);
 					m2->setString("marine");
 					_entity->emitMessage(m2);	
-					finish(false);
+		//			finish(false);
 				}
 				if (_action==Message::GO_DOWN || _action==Message::GO_UP)
 				{			
@@ -256,7 +257,15 @@ namespace AI
 	{
 		if (_action!=Message::CHANGE_BASE)
 			if (_entity->getComponent<CAvatarController>()!=NULL)
-				_entity->getComponent<CAvatarController>()->sleep();		
+				_entity->getComponent<CAvatarController>()->sleep();
+		if (_action!=Message::GO_DOWN || _action!=Message::GO_UP)
+		{
+			if (_entity->getComponent<CAvatarController>()!=NULL)
+				_entity->getComponent<CAvatarController>()->sleep();	
+			if (_entity->getComponent<CJump2>()!=NULL)
+				_entity->getComponent<CJump2>()->sleep();	
+
+		}
 	}
 
 	void CLA_Change::awakeComponents()
@@ -264,13 +273,20 @@ namespace AI
 		if (_action!=Message::CHANGE_BASE)
 			if (_entity->getComponent<CAvatarController>()!=NULL)
 				_entity->getComponent<CAvatarController>()->awake();
+			if (_action!=Message::GO_DOWN || _action!=Message::GO_UP)
+		{
+			if (_entity->getComponent<CAvatarController>()!=NULL)
+				_entity->getComponent<CAvatarController>()->awake();	
+			if (_entity->getComponent<CJump2>()!=NULL)
+				_entity->getComponent<CJump2>()->awake();	
+
+		}
 	}
 	void CLA_Change::timeArrived()
 	{//El primer if es para ignorar eventos externos si no estoy en el estado
 		
 		if (this->getStatus()!=SUCCESS && this->getStatus()!=FAIL && this->getStatus()!=RUNNING)
 		{//cancelando viaje
-
 			return;
 		}
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)

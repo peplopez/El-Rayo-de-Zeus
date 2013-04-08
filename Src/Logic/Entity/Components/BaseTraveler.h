@@ -21,12 +21,8 @@ de los elementos del juego
 namespace Logic
 {
 	class CMessage;	
+		class CGameStatus;
 }
-/*namespace Application
-{
-class IClock;
-}*/
-
 //declaración de la clase
 namespace Logic 
 {
@@ -105,7 +101,8 @@ namespace Logic
 
 		unsigned short _destiny;
 
-
+		
+		Logic::CGameStatus* _gameStatus;
 
 	}; // class CBaseTraveler
 

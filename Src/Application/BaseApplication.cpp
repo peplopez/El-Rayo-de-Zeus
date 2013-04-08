@@ -123,7 +123,8 @@ namespace Application {
 		TStateTable::const_iterator it;
 
 		it = _states.find(name);
-
+		if (name=="game")
+			_clock->removeAllTimeObserver();
 		// Si no hay ningún estado con ese nombre, no hacemos nada
 		if (it == _states.end())
 			return false;
