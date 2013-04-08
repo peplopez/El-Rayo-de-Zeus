@@ -232,7 +232,7 @@ namespace AI
 		if (_initialCombatState==2 && _yawAmount>=0 && _action==Message::HEAVY_ATTACK)
 		{
 			_yawAmount++;
-			_entity->yaw(_entity->getYaw()+2*0.001f*msecs);
+			_entity->yaw(_entity->getYaw()+0.001f*msecs);
 			if (_yawAmount>50) 
 				{
 					_yawAmount=-10;
