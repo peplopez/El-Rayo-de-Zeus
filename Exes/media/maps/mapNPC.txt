@@ -15,6 +15,13 @@ Map ={
 		radio=120,
 	},
 	
+	Gemelo = {
+		type = "OtherPlayer",
+		base=0,
+		ring=0,
+		degrees=120,		
+	},
+	
 	BaseCamera1 = {
 		type = "BaseCamera1",
 	},
