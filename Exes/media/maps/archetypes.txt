@@ -1,7 +1,22 @@
 Map = {	
-	Altar = {
+	Altar1 = {
 		type = "Altar",
 		model = "altar.mesh",
+		activatedMaterial = "redActivated",
+		unactivatedMaterial = "Material.001",
+		scaleFactor = 3,
+		logicInput=true,
+		physicWidth = 2.5,
+		physicHeight = 7.5,
+		physicTrigger = true,
+	},
+	
+	Altar2 = {
+		type = "Altar",
+		model = "altar.mesh",
+		submaterial0 = "blueUnactivated",
+		activatedMaterial = "blueActivated",
+		unactivatedMaterial = "blueUnactivated",
 		scaleFactor = 3,
 		logicInput=true,
 		physicWidth = 2.5,

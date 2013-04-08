@@ -112,6 +112,13 @@ namespace Logic
 		Atributo con el nombre del modelo gráfico de la entidad.
 		*/
 		std::string _model;
+		
+		/**
+		*/
+		std::string _material;
+
+		std::string _subMaterial0;
+		std::string _subMaterial1;
 
 		/** Informa sobre se representa como CStaticEntity o como CEntity dinámica */
 		bool _isStatic;

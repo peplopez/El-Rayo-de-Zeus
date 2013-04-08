@@ -75,9 +75,29 @@ namespace Logic
 		//
 		else if(entityInfo->hasAttribute("scaleFactor") )
 			scale *=  entityInfo->getFloatAttribute("scaleFactor");
+			
+		if(entityInfo->hasAttribute("material"))
+		{
+			_material = entityInfo->getStringAttribute("material");
+			_graphicalEntity->setMaterial(_material);
+		}
+
+		if(entityInfo->hasAttribute("submaterial0"))
+		{
+			_subMaterial0 = entityInfo->getStringAttribute("submaterial0");
+			_graphicalEntity->setSubEntityMaterial(_subMaterial0, 0);
+		}
+
+		if(entityInfo->hasAttribute("submaterial1"))
+		{
+			_subMaterial1 = entityInfo->getStringAttribute("submaterial1");
+			_graphicalEntity->setSubEntityMaterial(_subMaterial1, 1);
+		}
+
 
 		_graphicalEntity->setTransform(_entity->getTransform());
-		_graphicalEntity->setScale(scale);	
+		_graphicalEntity->setScale(scale);
+
 
 		return true;
 

@@ -43,7 +43,13 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;				
 		_player=NULL;
+
+		if(entityInfo->hasAttribute("activatedMaterial"))
+			_activatedMaterial = entityInfo->getStringAttribute("activatedMaterial");
 		
+		if(entityInfo->hasAttribute("unactivatedMaterial"))
+			_unactivatedMaterial = entityInfo->getStringAttribute("unactivatedMaterial");
+
 		return true;
 
 	} // spawn
@@ -132,15 +138,15 @@ namespace Logic
 					LOG(_entity->getName() << ": activado")
 					CMessageUIntString *m = new CMessageUIntString();	
 					m->setType(Message::SET_SUBENTITY_MATERIAL);
-					m->setString("altaractivado");
+					m->setString(_activatedMaterial);
 					m->setUInt(0);
 					_entity->emitMessage(m,this);
 					if (_player!=NULL)		
 					{
-					CMessageString *m2 = new CMessageString();	
-					m2->setType(Message::ALTAR_ACTIVATED);
-					m2->setString(_entity->getName());
-					_player->emitMessage(m2,this);
+						CMessageString *m2 = new CMessageString();	
+						m2->setType(Message::ALTAR_ACTIVATED);
+						m2->setString(_entity->getName());
+						_player->emitMessage(m2,this);
 					}
 				}
 
@@ -149,7 +155,7 @@ namespace Logic
 					LOG(_entity->getName() << ": desactivado")
 					CMessageUIntString *m = new CMessageUIntString();	
 					m->setType(Message::SET_SUBENTITY_MATERIAL);
-					m->setString("Material.001");
+					m->setString(_unactivatedMaterial);
 					m->setUInt(0);
 					_entity->emitMessage(m,this);
 					if (_player!=NULL)

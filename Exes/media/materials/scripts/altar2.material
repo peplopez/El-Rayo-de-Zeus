@@ -17,7 +17,7 @@ material Materialunti
 	}
 }
 
-material Material.001
+material blueUnactivated
 {
 	technique
 	{
@@ -30,12 +30,12 @@ material Material.001
 
 			texture_unit Diffuse
 			{
-				texture RustySteel.jpg
+				texture RustySteelBlue.jpg
 			}
 			
 			texture_unit Environment
 			{
-				texture spheremap.png
+				texture spheremapBlue.png
 				colour_op_ex add src_texture src_current
 				colour_op_multipass_fallback one one
 				env_map spherical
@@ -44,7 +44,7 @@ material Material.001
 	}
 }
 
-material altaractivado
+material blueActivated
 {
 	technique
 	{
@@ -57,12 +57,12 @@ material altaractivado
 
 			texture_unit Diffuse
 			{
-				texture RustySteel.jpg
+				texture RustySteelBlue.jpg
 			}
 			
 			texture_unit Environment
 			{
-				texture spheremap.png
+				texture spheremapBlue.png
 				colour_op_ex add src_texture src_current
 				colour_op_multipass_fallback one one
 				env_map spherical
