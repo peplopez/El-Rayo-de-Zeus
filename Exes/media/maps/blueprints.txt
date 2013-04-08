@@ -1,5 +1,6 @@
 World CGraphics
 Camera CCamera
+BaseCamera CBaseCamera
 SkyBox CGraphics
 Altar CGraphics CPhysics CAltar
 Entity CGraphics

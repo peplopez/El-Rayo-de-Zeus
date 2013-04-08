@@ -41,8 +41,9 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CBaseTraveler() : CRingTraveler(GetAltTypeIdOf(CBaseTraveler)),_changingBase(false),_changingBaseTime(0),_maxChangingBaseTime(5000) {}
-
+		CBaseTraveler() : CRingTraveler(GetAltTypeIdOf(CBaseTraveler)),_changingBase(false),_changingBaseTime(0),
+			_maxChangingBaseTime(5000), _changeAllowed(false), _baseToGo(0) {}
+		
 		/**
 		Destructor (virtual); Quita de la escena y destruye la entidad gráfica.
 		*/
@@ -78,11 +79,6 @@ namespace Logic
 		*/
 		void tick(unsigned int msecs);
 
-		
-		/**
-		Provoca que la entidad cambie de base. Conlleva un cambio del eje de giro en su coordenada y
-		*/
-		void changeBase(unsigned short base);
 
 	protected:
 
@@ -91,6 +87,24 @@ namespace Logic
 		float _changingBaseTime;
 
 		float _maxChangingBaseTime;
+
+		/**
+		*/
+		bool _changeAllowed;
+		unsigned short _baseToGo;
+
+		/**
+		*/
+		void showBase(unsigned short base);
+
+		/**
+		*/
+		void jumpToBase();
+
+		/**
+		*/
+		void returnToPlayerBase();
+
 
 	}; // class CBaseTraveler
 

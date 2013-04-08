@@ -51,6 +51,7 @@ namespace Graphics
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
 		_camera = new CCamera(name,this);
+		_baseCamera = new CCamera("base" + name, this);
 	} // CScene
 
 	//--------------------------------------------------------
@@ -66,13 +67,14 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
-	
 	void CScene::activate()
 	{
 		buildStaticGeometry();
 		// HACK en pruebas
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
 						->addViewport(_camera->getCamera());
+
+		
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
 
 		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
@@ -90,6 +92,32 @@ namespace Graphics
 	} // activate
 
 	//--------------------------------------------------------
+	void CScene::activateBaseCam()
+	{
+		buildStaticGeometry();
+		// HACK en pruebas
+		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
+						->addViewport(_baseCamera->getCamera());
+
+		
+		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
+
+		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Glow", true);
+
+		GlowMaterialListener *gml = new GlowMaterialListener();
+		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
+
+		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
+
+		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
+		//Sombras Chulas - Consumen mucho*/
+		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
+
+	}
+
+
+	//--------------------------------------------------------
 
 	void CScene::deactivate()
 	{
@@ -99,7 +127,6 @@ namespace Graphics
 					removeViewport(_viewport->getZOrder());
 			_viewport = 0;
 		}
-
 	} // deactivate
 	
 	//--------------------------------------------------------

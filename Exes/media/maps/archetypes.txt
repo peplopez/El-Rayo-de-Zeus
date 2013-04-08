@@ -18,6 +18,13 @@ Map = {
 		scaleFactor = 0.2,	
 	},
 	
+	BaseCamera1 = {
+		type = "BaseCamera",
+		radius = 250,
+		height = 50,
+		angularspeed = 20,
+	},
+	
 	BarraVida = {
 		type = "BarraVida",
 		model = "plane.mesh",

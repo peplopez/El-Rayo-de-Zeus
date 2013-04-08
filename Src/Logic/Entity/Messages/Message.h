@@ -72,8 +72,10 @@ namespace Logic
 			JUMP				= 0x15,
 			TURN				= 0x16,
 			CHANGE_DIRECTION	= 0x17,
-			CHANGE_BASE			= 0x18,
+			SHOW_BASE			= 0x18,
 			CHANGE_RING			= 0x19,
+			CHANGE_BASE			= 0x1A,
+			GOBACK_TO_BASE		= 0x1B,
 			UPDATE_LIFE			= 0x20,
 			LIGHT_ATTACK		= 0x21,
 			HEAVY_ATTACK		= 0x22,
@@ -81,6 +83,7 @@ namespace Logic
 			TRIGGER_ENTER		= 0x24,
 			TRIGGER_EXIT		= 0x25,
 			COVER				= 0x26
+			
 		};
 	}
 

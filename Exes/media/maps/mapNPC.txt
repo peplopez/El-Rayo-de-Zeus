@@ -15,6 +15,10 @@ Map ={
 		radio=120,
 	},
 	
+	BaseCamera1 = {
+		type = "BaseCamera1",
+	},
+	
 	pointLight1 = {
 		type = "PointLight",
 		position = {0, 100, 0},

@@ -86,6 +86,8 @@ namespace Graphics
 		*/
 		CCamera *getCamera() {return _camera;}
 
+		CCamera *getBaseCamera() {return _baseCamera;}
+
 		/**
 		Devuelve el nombre de la escena.
 
@@ -215,6 +217,8 @@ namespace Graphics
 		ellas se encargarán de mover esta instancia.
 		*/
 		CCamera *_camera;
+
+		CCamera *_baseCamera;
 	
 
 		/**
@@ -275,6 +279,10 @@ namespace Graphics
 		pantalla.
 		*/
 		void activate();
+
+		/**
+		*/
+		void activateBaseCam();
 
 		/**
 		Duerme la escena y destruye su viewport para que no se siga 

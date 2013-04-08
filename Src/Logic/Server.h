@@ -181,6 +181,10 @@ namespace Logic
 		*/
 		void moveDefferedEntities();
 
+		void activateBaseCam(int targetMap);
+
+		void activatePlayerCam();
+
 	protected:
 		/**
 		Constructor.

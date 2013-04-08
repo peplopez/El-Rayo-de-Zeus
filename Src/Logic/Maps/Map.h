@@ -99,6 +99,10 @@ namespace Logic
 		void setVisible();
 
 		/**
+		*/
+		void activateBaseCam();
+
+		/**
 		Función llamada en cada frame para que se realicen las funciones
 		de actualización adecuadas.
 		<p>

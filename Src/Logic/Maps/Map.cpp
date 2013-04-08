@@ -108,7 +108,12 @@ namespace Logic {
 	{
 		Graphics::CServer::getSingletonPtr()->setActiveScene(this->getGraphicScene());
 	}
-		
+
+
+	void CMap::activateBaseCam()
+	{
+		Graphics::CServer::getSingletonPtr()->activateBaseCam(this->getGraphicScene());
+	}
 	//---------------------------------------------------------
 	void CMap::tick(unsigned int msecs) 
 	{

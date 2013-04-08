@@ -159,7 +159,6 @@ namespace Logic {
 			_maps[filename] = 0;
 			_maps.erase(it);
 		}
-		//_player = 0;
 
 	} // unLoadLevel
 
@@ -303,6 +302,18 @@ namespace Logic {
 			it->second.clear();
 		}
 
+	}
+
+	//---------------------------------------------------------
+
+	void CServer::activateBaseCam(int targetMap)
+	{
+		_maps[ _mapNames[targetMap - 1] ]->activateBaseCam();
+	}
+
+	void CServer::activatePlayerCam()
+	{
+		_player->getMap()->setVisible();
 	}
 
 	//---------------------------------------------------------
