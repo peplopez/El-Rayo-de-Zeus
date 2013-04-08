@@ -137,6 +137,7 @@ Map = {
 	OtherPlayer = {
 		type = "OtherPlayer",
 		model = "marine.mesh",
+		modelWeapon = "katana.mesh",
 		logicInput=true,
 		base=3,
 		ring=1,
