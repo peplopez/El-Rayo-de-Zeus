@@ -217,11 +217,6 @@ namespace Logic
 		*/
 		void deleteDefferedEntities();
 		
-		/**
-		Add - ESC
-		Metodo para registrar el mapa lógico donde se crearán las entidades
-		*/
-		void setCurrentMap(CMap *currentMap) { _currentMap = currentMap; }
 		
 		/**
 		Estructura que define una entidad blueprint.

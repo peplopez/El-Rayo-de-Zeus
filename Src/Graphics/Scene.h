@@ -27,9 +27,9 @@ namespace Ogre
 	class Root;
 	class Viewport;
 	class SceneManager;
-	class StaticGeometry;
-	class Light;	
+	class StaticGeometry;	
 };
+
 
 namespace Graphics 
 {
@@ -37,6 +37,9 @@ namespace Graphics
 	class CCamera;
 	class CEntity;
 	class CSceneElement;
+	class CStaticEntity;
+	class CBillboard;
+	class CLight;
 };
 
 namespace Graphics 
@@ -85,6 +88,8 @@ namespace Graphics
 		*/
 		CCamera *getCamera() {return _camera;}
 
+		CCamera *getBaseCamera() {return _baseCamera;}
+
 		/**
 		Devuelve el nombre de la escena.
 
@@ -113,6 +118,13 @@ namespace Graphics
 		*/
 		void remove(CEntity* entity);
 	
+		/**
+		*/
+		bool add(CLight* light);
+
+		/**
+		*/
+		void remove(CLight* light);
 
 
 		//---------- GENERIC SCENE ELEMENTS (p.e. billboards)-----------
@@ -135,7 +147,7 @@ namespace Graphics
 		friend class CServer;	
 		friend class CCamera;
 		friend class CSceneElement;
-	
+		friend class CLight;
 
 		/**
 		Nombre de la escena.
@@ -153,6 +165,10 @@ namespace Graphics
 		ellas se encargarán de mover esta instancia.
 		*/
 		CCamera *_camera;
+
+		/**
+		*/
+		CCamera *_baseCamera;
 
 		/** 
 		Marco en la ventana de reenderizado donde se pinta lo captado por
@@ -172,22 +188,17 @@ namespace Graphics
 		/***************
 		 SCENE ELEMENTS
 		******************/
-
-		/**
-		Luz direccional que se crea por defecto en la escena. Gráficamente
-		mejora la escena bastante respecto a tener solo luz ambiente ya que
-		se ven mejor los volúmenes de las entidades.
-		*/
-		// HACK FRS entiendo que esto será reemplazado por el CLight
-		Ogre::Light* _directionalLight1; 
-		Ogre::Light* _directionalLight2;
-
 		
 		/**
 		Tipos para la lista de entidades.
 		*/
 		typedef std::list<CEntity*> TEntities;
 	
+		/**
+		Tipos para la lista de luces.
+		*/
+		typedef std::list<CLight*> TLights;
+
 
 		/**
 		Lista de entidades dinámicas.
@@ -199,6 +210,12 @@ namespace Graphics
 		*/
 		TEntities _staticEntities; // FRS Necesario para aglomerar geom estática
 			
+		
+		/** 
+		Lista de luces en la escena 
+		*/
+		TLights _lights;
+
 		/**
 		Geometría estática de la escena.
 		*/
@@ -223,6 +240,10 @@ namespace Graphics
 		pantalla.
 		*/
 		void activate();
+
+		/**
+		*/
+		void activateBaseCam();
 
 		/**
 		Duerme la escena y destruye su viewport para que no se siga 

@@ -15,7 +15,8 @@ Contiene la implementación del estado de menú.
 */
 
 #include "MenuState.h"
-
+#include "BaseApplication.h"
+#include "Clock.h"
 #include "Logic/Server.h"
 #include "Logic/Maps/EntityFactory.h"
 #include "Logic/Maps/Map.h"
@@ -73,6 +74,8 @@ namespace Application {
 	void CMenuState::activate() 
 	{
 		CApplicationState::activate();
+
+		CBaseApplication::getSingletonPtr()->getClock()->removeAllTimeObserver();
 
 		// Activamos la ventana que nos muestra el menú y activamos el ratón.
 		CEGUI::System::getSingletonPtr()->setGUISheet(_menuWindow);
@@ -141,12 +144,18 @@ namespace Application {
 				return false;
 
 			// Cargamos el nivel a partir del nombre del mapa. 
-			if (!Logic::CServer::getSingletonPtr()->loadMap("map.txt"))
+			//if (!Logic::CServer::getSingletonPtr()->loadMap("map.txt"))
+			//	return false;
+
+			_mapsToLoad.push_back("mapRed");
+			_mapsToLoad.push_back("mapBlue");
+
+			if (!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad))
 				return false;
 		
 			// Llamamos al método de creación del jugador. Deberemos decidir
 			// si el jugador es el jugador local. Al ser el monojugador lo es.
-			Logic::CServer::getSingletonPtr()->getMap()->createPlayer("Mono", true);
+			Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true, "marine.mesh");
 
 			// TODO Deberíamos poder propocionar caracteríasticas  (nombre, modelo, etc.)... ==> Ampliar MenuState...
 			break;
@@ -210,13 +219,15 @@ namespace Application {
 		if (!Logic::CServer::getSingletonPtr()->setRingPositions())//[ƒ®§] Esto no deberia ejecutarse como parte del loadLevel...?
 			return false;
 
-		// Cargamos el nivel a partir del nombre del mapa. 
-		if (!Logic::CServer::getSingletonPtr()->loadMap("map.txt"))
+		_mapsToLoad.push_back("mapRed");
+		_mapsToLoad.push_back("mapBlue");
+
+		if (!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad))
 			return false;
-			
+		
 		// Llamamos al método de creación del jugador. Deberemos decidir
 		// si el jugador es el jugador local. Al ser el monojugador lo es.
-		Logic::CServer::getSingletonPtr()->getMap()->createPlayer("Mono", true);
+		Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true, "marine.mesh");
 
 		// TODO Deberíamos poder propocionar características  (nombre, modelo, etc.)... ==> Ampliar MenuState...
 

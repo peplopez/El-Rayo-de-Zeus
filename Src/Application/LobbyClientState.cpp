@@ -309,7 +309,7 @@ srand(time(0)); // HACK necesario subsistema random
 			// con nuestro ID de red).
 			bool isLocalPlayer = id == Net::CManager::getSingletonPtr()->getID(); // id rx == id local?
 
-			Logic::CServer::getSingletonPtr()->getMap()->createPlayer(playerNick, isLocalPlayer, playerModel);
+			Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer(playerNick, isLocalPlayer, playerModel);
 			// HACK Deberíamos poder propocionar caracteríasticas
 			// diferentes según el cliente (nombre, modelo, etc.). Esto es una
 			// aproximación, solo cambiamos el nombre y decimos si es el jugador

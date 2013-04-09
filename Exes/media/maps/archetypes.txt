@@ -1,14 +1,43 @@
 Map = {	
-
-
-	Altar = {
+	Altar1 = {
 		type = "Altar",
 		model = "altar.mesh",
+		activatedMaterial = "redActivated",
+		unactivatedMaterial = "Material.001",
 		scaleFactor = 3,
 		logicInput=true,
 		physicWidth = 2.5,
 		physicHeight = 7.5,
 		physicTrigger = true,
+	},
+	
+	Altar2 = {
+		type = "Altar",
+		model = "altar.mesh",
+		submaterial0 = "blueUnactivated",
+		activatedMaterial = "blueActivated",
+		unactivatedMaterial = "blueUnactivated",
+		scaleFactor = 3,
+		logicInput=true,
+		physicWidth = 2.5,
+		physicHeight = 7.5,
+		physicTrigger = true,
+	},
+	
+	PointLight = {
+		type = "Light",
+		lightType = "point",
+		diffuseColour = {0.9, 0.9, 0.9},
+		specularColour = {0.9, 0.9, 0.9},
+		model = "puApple.mesh",
+		scaleFactor = 0.2,	
+	},
+	
+	BaseCamera1 = {
+		type = "BaseCamera",
+		radius = 250,
+		height = 50,
+		angularspeed = 20,
 	},
 	
 	BarraVida = {
@@ -27,7 +56,7 @@ Map = {
 		model = "bioshock.mesh",
 		scaleFactor = 0.5,
 		logicInput = true,
-		base=1,
+		base=0,
 		ring=0,		
 		degrees=0,
 		sense=1,
@@ -64,7 +93,7 @@ Map = {
 		model = "katana.mesh",
 		scaleFactor = 0.5,
 		logicInput = true,
-		base=1,
+		base=0,
 		ring=0,		
 		degrees=0,
 		sense=1,
@@ -85,7 +114,7 @@ Map = {
 		modelShield = "shield.mesh",
 		modelHelmet = "helmet.mesh",
 		logicInput=true,
-		base=3,
+		base=0,
 		ring=1,
 		degrees=0,
 		sense=1,
@@ -110,11 +139,8 @@ Map = {
 	Espartano = {
 		type = "OtherPlayer",
 		model = "marine.mesh",
-		logicInput=true,
-		base=3,
-		ring=1,
-		degrees=0,
-		sense=1,
+		logicInput = true,
+		sense = 1,
 		physicWidth = 2.5,
 		physicHeight = 2.5,
 		lifeMax = 100.0,

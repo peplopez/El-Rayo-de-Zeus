@@ -166,6 +166,11 @@
     <ClCompile Include="..\..\Src\Logic\RingInfo.cpp">
       <Filter>GameStatus\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\HudCegui.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Light.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\BaseCamera.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedGraphics.h">
@@ -315,6 +320,12 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BasicAI.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Light.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\BaseCamera.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Item.h">
       <Filter>Entity\Components\Items\Header Files</Filter>
     </ClInclude>
@@ -345,6 +356,7 @@
     <ClInclude Include="..\..\Src\Logic\RingInfo.h">
       <Filter>GameStatus\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\HudCegui.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Logic.rc" />

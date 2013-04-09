@@ -182,7 +182,30 @@ namespace Graphics
 
 		_activeScene->activate(); 
 	} // setActiveScene
+
+	//--------------------------------------------------------
 	
+	void CServer::activateBaseCam(CScene* scene)
+	{
+		// En caso de que hubiese una escena activa la desactivamos.
+		if(_activeScene)
+			_activeScene->deactivate();
+
+		if(!scene) // Si se añade NULL ponemos la escena dummy.		
+			_activeScene = _dummyScene;
+		else {
+			// Sanity check. Nos aseguramos de que la escena pertenezca 
+			// al servidor. Aunque nadie más puede crear escenas...
+			assert( _scenes[ scene->getName() ] == scene && 
+				"GRAPHICS::SERVER>> Esta escena no pertenece al servidor");
+
+			_activeScene = scene;
+		}
+
+		_activeScene->activateBaseCam(); 
+	} // setActiveScene
+	//--------------------------------------------------------
+
 	void CServer::setActiveScene(const std::string& name)
 	{
 		assert(_scenes.find(name) == _scenes.end() &&
@@ -190,6 +213,7 @@ namespace Graphics
 		setActiveScene( _scenes[name] );
 	} // setActiveScene
 
+	//--------------------------------------------------------
 	
 	// TODO FRS Es necesario pasar a través del overlayManager
 	// El ancho y el alto deberían ser cosas independientes de los overlays, no?

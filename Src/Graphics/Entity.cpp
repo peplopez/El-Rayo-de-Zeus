@@ -56,6 +56,15 @@ namespace Graphics
 			//_entity->detachAllObjectsFromBone(); // TODO Necesario hacer detach y destroy en arbol?
 			//getSceneMgr()->destroyEntity( "weapon" ); FRS este destroy se ejecuta cuando cualquier entidad muere...
 		//
+			
+			//ESC - cuando se hace unload queremos destruir tambien todos los objetos atachados a los huesos de la entidad.
+			Ogre::Entity::ChildObjectListIterator it =_entity->getAttachedObjectIterator();
+			while (it.hasMoreElements())
+			{
+				Ogre::Entity* entity = static_cast<Ogre::Entity*>(it.getNext());
+				getSceneMgr()->destroyEntity(entity);
+			}
+			_loaded = false;
 			getSceneMgr()->destroyEntity(_entity);
 			_entity = 0;
 		}

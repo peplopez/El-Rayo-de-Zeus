@@ -54,7 +54,7 @@ namespace Logic
 	void CItem::process(CMessage *message){
 
 		CMessageUInt* rxMsg = static_cast<CMessageUInt*>(message);
-		CEntity* otherEntity = Logic::CServer::getSingletonPtr()->getMap()
+		CEntity* otherEntity = _entity->getMap()
 			->getEntityByID( rxMsg->getUInt() );
 
 		// FRS Sólo cogen items los players

@@ -18,11 +18,14 @@ de una escena.
 
 #include "BaseSubsystems/Server.h"
 
+#include "Graphics/Light.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Entity.h"
 #include "Graphics/GlowMaterialListener.h"
 #include "Graphics/Server.h"
 #include "Graphics/SceneElement.h"
+
+#include "Logic/Server.h"
 
 #include <assert.h>
 #include <OgreRoot.h>
@@ -43,11 +46,12 @@ namespace Graphics
 {
 
 	CScene::CScene(const std::string& name) : _name(name), _viewport(0), 
-			_staticGeometry(0), _directionalLight1(0), _directionalLight2(0)
+			_staticGeometry(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
 		_camera = new CCamera(name,this);
+		_baseCamera = new CCamera("base" + name, this);
 	} // CScene
 
 	//--------------------------------------------------------
@@ -63,7 +67,6 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
-	
 	void CScene::activate()
 	{
 		buildStaticGeometry(); // FRS Se debe construir en cada activación?
@@ -71,67 +74,60 @@ namespace Graphics
 		// HACK en pruebas
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
 						->addViewport(_camera->getCamera());
-		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
+
 		
-		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
-		//Sombras Chulas - Consumen mucho*/
-		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
+		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
 
-		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.9f,0.9f,0.9f));
-
-		// Además de la luz ambiente creamos una luz direccional que 
-		// hace que se vean mejor los volúmenes de las entidades.
-		_directionalLight1 = _sceneMgr->createLight("directional light1");
-		//_directionalLight2 = _sceneMgr->createLight("directional light2");
-
-		_directionalLight1->setDiffuseColour(.5f,.5f,.5f);
-		//_directionalLight2->setDiffuseColour(.5f,.5f,.5f);
-
-		_directionalLight1->setSpecularColour(.5f,.5f,.5f);
-		//_directionalLight2->setSpecularColour(.5f,.5f,.5f);
-
-		_directionalLight1->setType(Ogre::Light::LT_DIRECTIONAL);
-		//_directionalLight2->setType(Ogre::Light::LT_DIRECTIONAL);
-
-		_directionalLight1->setPosition(150, 150, 0);
-		//_directionalLight2->setPosition(-150, 150, 0);
-
-		_directionalLight1->setDirection(-150, -150, 0);
-		//_directionalLight2->setDirection(150, -150, 0);
-
-		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_camera->getViewport(), "Glow");
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_camera->getViewport(), "Glow", true);
+		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Glow", true);
 
 		GlowMaterialListener *gml = new GlowMaterialListener();
 		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
 
-		//_directionalLight->setType(Ogre::Light::LT_POINT);
-		//_directionalLight->setPosition(0, 100, 0);
-		
+		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
+
+		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
+		//Sombras Chulas - Consumen mucho*/
+		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
 	} // activate
+
+	//--------------------------------------------------------
+	void CScene::activateBaseCam()
+	{
+		buildStaticGeometry();
+		// HACK en pruebas
+		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
+						->addViewport(_baseCamera->getCamera());
+
+		
+		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
+
+		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Glow", true);
+
+		GlowMaterialListener *gml = new GlowMaterialListener();
+		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
+
+		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
+
+		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
+		//Sombras Chulas - Consumen mucho*/
+		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
+
+	}
+
 
 	//--------------------------------------------------------
 
 	void CScene::deactivate()
 	{
-		if(_directionalLight1)
-		{
-			_sceneMgr->destroyLight(_directionalLight1);
-			_directionalLight1 = 0;
-		}
-		if(_directionalLight2)
-		{
-			_sceneMgr->destroyLight(_directionalLight2);
-			_directionalLight2 = 0;
-		}
 		if(_viewport)
 		{
 			BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->
 					removeViewport(_viewport->getZOrder());
 			_viewport = 0;
 		}
-
 	} // deactivate
 	
 	//--------------------------------------------------------
@@ -175,9 +171,12 @@ namespace Graphics
 		}
 	} // addEntity
 
+	//--------------------------------------------------------
+
 	void CScene::remove(CEntity* entity)
 	{
 		entity->detachFromScene();
+	//--------------------------------------------------------
 
 		entity->isStatic() ?		
 			_staticEntities.remove(entity) :
@@ -202,8 +201,27 @@ namespace Graphics
 		}
 
 	} // buildStaticGeometry
+	
 
+	//---------- LIGHTS -------------------------
 
+	bool CScene::add(CLight *light)
+	{
+		if(!light->attachToScene(this))
+			return false;
+		_lights.push_back(light);
+		return true;
+
+	} // addBillboard
+
+	
+	//--------------------------------------------------------
+
+	void CScene::remove(CLight* light)
+	{
+		light->deattachFromScene();
+		_lights.remove(light);
+	} // removeBillboard
 
 	//-------------------PARTICLES------------------
 
@@ -219,8 +237,6 @@ namespace Graphics
 			_sceneMgr->createParticleSystem(parentEntity + "_ps", templateName) // Suponemos un único PS por entidad
 		);
 	}
-
-
 
 	// POSICIÓN ABSOLUTA
 	void CScene::createParticleSystem(const std::string& templateName, const Vector3& position) 

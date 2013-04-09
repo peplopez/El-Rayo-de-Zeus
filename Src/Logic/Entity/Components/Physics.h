@@ -77,6 +77,8 @@ namespace Logic
 		virtual bool accept(const CMessage *message) { return false; }
 		virtual void process(CMessage *message) {}
 		virtual void tick(unsigned int msecs) {}
+
+		virtual Physics::CActor* getPhysicalActor() { return _physicalActor;}
  
 		/**************
 			IOBSERVER
@@ -85,13 +87,21 @@ namespace Logic
 		virtual void onTrigger(IObserver* other, bool enter);
 		virtual void onCollision(IObserver* other);
 
+		void resetScene() {_scene = NULL;}
+		void setScene(Physics::CScene* scene) {_scene = scene;}
+
+		virtual Physics::CActor* reCreateActor();
+
 	protected:
 
 		// UNDONE FRS Physics::CServer* _server; // Servidor de física
 		Physics::CScene* _scene; // Servidor de física
 		Physics::CActor* _physicalActor; // Actor que representa la entidad física
 
-		bool _isTrigger; // FRS Necesario para el dtor
+		float _physicWidth;
+		float _physicHeight;
+
+		bool _isTrigger;
 
 		// Desplazamiento recibido en los últimos mensajes de tipo MOVE.
 		// Sirve para mover entidades físicas cinemáticas y de character.

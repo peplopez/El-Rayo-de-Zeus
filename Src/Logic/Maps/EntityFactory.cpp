@@ -269,45 +269,6 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-
-	Logic::CEntity *CEntityFactory::createEntity(const std::string &archetype,
-							  const Matrix4 &transform)
-	{
-		//Se busca en el std::map de archetypes el tipo del *entityInfo
-
-		TArchetypeMap::const_iterator it = _archetypes.find(archetype);
- 
-
-		if (it != _archetypes.end())
-		{
-			CEntity *ret = createEntity(&(it->second), _currentMap);
-			ret->setTransform(transform);
-			return ret;	
-		}
-		return 0;
-
-	} // createEntity
-
-	//---------------------------------------------------------
-
-	Logic::CEntity *CEntityFactory::createEntity(const std::string &archetype,
-		const Logic::CLogicalPosition* pos)
-	{
-		//Se busca en el std::map de archetypes el tipo del *entityInfo
-
-		TArchetypeMap::const_iterator it = _archetypes.find(archetype);
- 
-		
-		if (it != _archetypes.end())
-		{
-			CEntity *ret = createEntity(&(it->second), _currentMap);
-			ret->setLogicalPosition(pos);
-			return ret;	
-		}
-		return 0;
-
-	} // createEntity
-
 	//---------------------------------------------------------
 
 	Logic::CEntity *CEntityFactory::createMergedEntity(

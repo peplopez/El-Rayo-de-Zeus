@@ -21,7 +21,7 @@ de los elementos del juego
 namespace Logic
 {
 	class CMessage;	
-		class CGameStatus;
+	class CGameStatus;
 }
 //declaración de la clase
 namespace Logic 
@@ -44,10 +44,10 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CBaseTraveler() : CRingTraveler(GetAltTypeIdOf(CBaseTraveler)),_changingBase(false),_changingBaseTime(0)
-		{				
-		}
-
+		CBaseTraveler() : CRingTraveler(GetAltTypeIdOf(CBaseTraveler)),_changingBase(false),_changingBaseTime(0),
+			_maxChangingBaseTime(5000), _changeAllowed(false), _baseToGo(0) {}
+		
+		
 		/**
 		Destructor (virtual); Quita de la escena y destruye la entidad gráfica.
 		*/
@@ -87,6 +87,7 @@ namespace Logic
 
 		bool isChangingBase(){return _changingBase;}
 
+
 		/**
 		Método que será invocado siempre que se termine una el reloj 
 		llegue al evento solicitado desde la máquina de estados.		
@@ -99,10 +100,27 @@ namespace Logic
 
 		float _changingBaseTime;
 
+		float _maxChangingBaseTime;
+
 		unsigned short _destiny;
 
 		
 		Logic::CGameStatus* _gameStatus;
+		bool _changeAllowed;
+		unsigned short _baseToGo;
+
+		/**
+		*/
+		void showBase(unsigned short base);
+
+		/**
+		*/
+		void jumpToBase();
+
+		/**
+		*/
+		void returnToPlayerBase();
+
 
 	}; // class CBaseTraveler
 

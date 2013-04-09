@@ -55,10 +55,10 @@ namespace Logic
 		defecto.
 		*/
 		CGraphics() : 
-			IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0), _scene(0), _model("") {}
+			IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0), _scene(0), _model(""), _isStatic(false) {}
 
 		CGraphics(altTypeId id) : 
-			IComponent(id), _graphicalEntity(0), _scene(0), _model(""){}
+			IComponent(id), _graphicalEntity(0), _scene(0), _model(""), _isStatic(false) {}
 
 		/**
 		Destructor (virtual); Quita de la escena y destruye la entidad gráfica.
@@ -95,6 +95,12 @@ namespace Logic
 		*/
 		virtual void process(CMessage *message);
 
+		virtual Graphics::CEntity* getGraphicalEntity() { return _graphicalEntity;}
+
+		void resetScene() { _scene = NULL;}
+
+		void setScene(Graphics::CScene* scene) { _scene = scene;}
+
 	protected:
 
 		
@@ -112,8 +118,17 @@ namespace Logic
 		*/
 		std::string _model;
 		
-		
 		/**
+		*/
+		std::string _material;
+
+		std::string _subMaterial0;
+		std::string _subMaterial1;
+
+		/** Informa sobre se representa como CStaticEntity o como CEntity dinámica */
+		bool _isStatic;
+
+	    /**
 		Método virtual que construye la entidad gráfica de la entidad. Otros
 		componentes pueden sobreescribirlo para inicializar otro tipo de
 		entidades gráficas (animadas, etc.).

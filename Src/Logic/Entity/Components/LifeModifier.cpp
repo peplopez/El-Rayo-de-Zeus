@@ -52,7 +52,7 @@ namespace Logic
 	void CLifeModifier::process(CMessage *message){
 
 		CMessageUInt* rxMsg = static_cast<CMessageUInt*>(message);
-		CEntity* entity = Logic::CServer::getSingletonPtr()->getMap()
+		CEntity* entity = _entity->getMap()
 			->getEntityByID( rxMsg->getUInt() );
 
 		CMessageInt *txMsg = new CMessageInt();

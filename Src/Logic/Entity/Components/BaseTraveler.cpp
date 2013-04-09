@@ -24,6 +24,8 @@ gráfica de la entidad.
 
 #include "Map/MapEntity.h"
 #include "Logic/Maps/Map.h"
+#include "Logic/Server.h"
+
 
 /*para tener un acceso directo al gamestatus*/
 #include "Logic/GameStatus.h"
@@ -103,10 +105,12 @@ namespace Logic
 
 	
 	bool CBaseTraveler::accept(const CMessage *message)
-	{//que no os confunda el nombre de mensaje CHANGE_PLANE es tanto para cambiar de base como de anillo dentro de la base. Apreciad que en cualquier caso siempre es un cambio de anillo, de ahí el nombre
+	{
 		return (isAwake() && !_changingBase && (CRingTraveler::accept(message) || 
-					(message->getType() == Message::CONTROL &&
-					message->getAction() == Message::CHANGE_BASE)));
+					(message->getType() == Message::CONTROL && message->getAction() == Message::SHOW_BASE) || 
+					  (message->getType() == Message::CONTROL && message->getAction() == Message::GOBACK_TO_BASE)  || 
+					   (message->getType() == Message::CONTROL && message->getAction() == Message::CHANGE_BASE)));
+		
 
 	} // accept
 	
@@ -115,20 +119,69 @@ namespace Logic
 	void CBaseTraveler::process(CMessage *message)
 	{
 		CRingTraveler::process(message);
-		CMessageUShort *maux = static_cast<CMessageUShort*>(message); // TODO FRS esto podría ser char...
+		 // TODO FRS esto podría ser char...
 		
 		switch(message->getType())
 		{
 		case Message::CONTROL:
-			if(message->getAction() == Message::CHANGE_BASE)
+			if(message->getAction() == Message::SHOW_BASE)
 			{
-				_destiny=maux->getUShort();
-				_changingBase=true;
+				CMessageUShort *maux = static_cast<CMessageUShort*>(message);
+				CBaseTraveler::showBase(maux->getUShort());	
+			}
+			if(message->getAction() == Message::GOBACK_TO_BASE)
+			{
+				CBaseTraveler::returnToPlayerBase();
+			}
+			if(message->getAction() == Message::CHANGE_BASE && _changeAllowed)
+			{
+				CBaseTraveler::jumpToBase();
 			}
 		}
+	}
+	//---------------------------------------------------------
 
-	} // process
+	void CBaseTraveler::showBase(unsigned short base)
+	{
+		_changeAllowed = true;
+		_baseToGo = base;
+	
+		Logic::CServer* srv = Logic::CServer::getSingletonPtr();
+		//srv->deferredMoveEntity(_entity, base);
+		srv->activateBaseCam(base);
+		LOG("Showing Base " <<  base );
 
+	}
+
+	//---------------------------------------------------------
+	void CBaseTraveler::returnToPlayerBase()
+	{
+		if (_changeAllowed)
+		{
+			_changeAllowed = false;
+			_baseToGo = 0;
+			
+			Logic::CServer* srv = Logic::CServer::getSingletonPtr();
+			srv->activatePlayerCam();
+		}
+	}
+
+	//---------------------------------------------------------
+	void CBaseTraveler::jumpToBase()
+	{
+		if (_changeAllowed)
+		{
+			_changeAllowed = false;
+			
+			
+			
+			Logic::CServer* srv = Logic::CServer::getSingletonPtr();
+			srv->deferredMoveEntity(_entity, _baseToGo);
+			_baseToGo = 0;
+		}
+	}
+
+	//---------------------------------------------------------
 			
 	void CBaseTraveler::tick(unsigned int msecs)
 	{
@@ -145,7 +198,7 @@ namespace Logic
 					_entity->emitMessage(m,this);
 				*/}
 			}
-		}
+	}
 
 } // namespace Logic
 
