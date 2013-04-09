@@ -15,7 +15,8 @@ Contiene la implementación del estado de menú.
 */
 
 #include "MenuState.h"
-
+#include "BaseApplication.h"
+#include "Clock.h"
 #include "Logic/Server.h"
 #include "Logic/Maps/EntityFactory.h"
 #include "Logic/Maps/Map.h"
@@ -73,6 +74,8 @@ namespace Application {
 	void CMenuState::activate() 
 	{
 		CApplicationState::activate();
+
+		CBaseApplication::getSingletonPtr()->getClock()->removeAllTimeObserver();
 
 		// Activamos la ventana que nos muestra el menú y activamos el ratón.
 		CEGUI::System::getSingletonPtr()->setGUISheet(_menuWindow);

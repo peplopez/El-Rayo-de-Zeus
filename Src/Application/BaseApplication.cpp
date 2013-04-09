@@ -123,8 +123,7 @@ namespace Application {
 		TStateTable::const_iterator it;
 
 		it = _states.find(name);
-		if (name=="game")
-			_clock->removeAllTimeObserver();
+	
 		// Si no hay ningún estado con ese nombre, no hacemos nada
 		if (it == _states.end())
 			return false;
@@ -177,7 +176,7 @@ namespace Application {
 		// Avisamos al estado actual que le vamos a eliminar
 		if (_currentState)
 			_currentState->deactivate();
-
+		
 		assert(_nextState);
 		_nextState->activate();
 		_currentState = _nextState;
@@ -201,6 +200,7 @@ namespace Application {
 			IClock::TTimeObserverList::const_iterator it = _clock->_timeObservers.begin();
 			for(; it != _clock->_timeObservers.end(); it++)
 			{
+				if (!_clock->_timeObservers.empty())
 				if (_clock->getTime()>=(*it).second.second)
 				{
 					(*it).second.first->timeArrived();
