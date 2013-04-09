@@ -133,7 +133,10 @@ namespace Logic
 		bool correct = true;
 		TComponentMap::const_iterator it; // TODO FRS acceso secuencial mejor con vector TComponentList::const_iterator it;		
 			for( it = _components.begin(); it != _components.end() && correct; ++it )
+				if (this->getEntityID() == 46)
 			        correct = it->second->spawn(this,map,entityInfo) && correct;
+				else
+					correct = it->second->spawn(this,map,entityInfo) && correct;
 				// correct = (*it)->spawn(this,map,entityInfo) && correct;
 		return correct;
 

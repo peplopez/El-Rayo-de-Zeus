@@ -100,6 +100,8 @@ namespace Logic
 
 		float _changingBaseTime;
 
+		float _maxChangingBaseTime;
+
 		unsigned short _destiny;
 
 		

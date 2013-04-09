@@ -109,7 +109,7 @@ namespace Logic
 		return (isAwake() && !_changingBase && (CRingTraveler::accept(message) || 
 					(message->getType() == Message::CONTROL && message->getAction() == Message::SHOW_BASE) || 
 					  (message->getType() == Message::CONTROL && message->getAction() == Message::GOBACK_TO_BASE)  || 
-					   (message->getType() == Message::CONTROL && message->getAction() == Message::CHANGE_BASE));
+					   (message->getType() == Message::CONTROL && message->getAction() == Message::CHANGE_BASE)));
 		
 
 	} // accept
@@ -137,6 +137,8 @@ namespace Logic
 			{
 				CBaseTraveler::jumpToBase();
 			}
+		}
+	}
 	//---------------------------------------------------------
 
 	void CBaseTraveler::showBase(unsigned short base)
@@ -196,7 +198,7 @@ namespace Logic
 					_entity->emitMessage(m,this);
 				*/}
 			}
-		}
+	}
 
 } // namespace Logic
 

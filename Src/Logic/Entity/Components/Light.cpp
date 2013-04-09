@@ -85,6 +85,7 @@ namespace Logic
 		assert( _scene && "LOGIC::GRAPHICS>> No existe escena gráfica!");
 		
 		Graphics::CLight* light = new Graphics::CLight(_entity->getName());
+		
 		_scene->add(light);
 
 		if(entityInfo->hasAttribute("lightType"))
@@ -110,7 +111,7 @@ namespace Logic
 			light->setDirection(direction);
 		}
 
-		_scene->add(light);
+		
 
 		return light;
 

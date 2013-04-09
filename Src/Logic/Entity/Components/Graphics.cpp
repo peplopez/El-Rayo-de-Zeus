@@ -19,7 +19,6 @@ gráfica de la entidad.
 
 #include "Graphics/Scene.h"
 #include "Graphics/Entity.h"
-#include "Graphics/StaticEntity.h"
 #include "Logic/Maps/EntityFactory.h"
 
 
@@ -199,11 +198,11 @@ namespace Logic
 		assert( _scene && "LOGIC::GRAPHICS>> No existe escena gráfica!");
 		assert( _model.length() > 0  && "LOGIC::GRAPHICS>> No existe modelo!");	
 		
-		bool isStatic = false;
+		_isStatic = false;
 			if(entityInfo->hasAttribute("static"))
-				isStatic = entityInfo->getBoolAttribute("static");
+				_isStatic = entityInfo->getBoolAttribute("static");
 	
-		Graphics::CEntity* graphicalEntity = new Graphics::CEntity(_entity->getName(),_model, isStatic);
+		Graphics::CEntity* graphicalEntity = new Graphics::CEntity(_entity->getName(),_model, _isStatic);
 			if( _scene->add(graphicalEntity) )		
 				return graphicalEntity;
 			else

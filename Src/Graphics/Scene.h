@@ -27,8 +27,7 @@ namespace Ogre
 	class Root;
 	class Viewport;
 	class SceneManager;
-	class StaticGeometry;
-	class Light;	
+	class StaticGeometry;	
 };
 
 
@@ -40,6 +39,7 @@ namespace Graphics
 	class CSceneElement;
 	class CStaticEntity;
 	class CBillboard;
+	class CLight;
 };
 
 namespace Graphics 
@@ -118,14 +118,10 @@ namespace Graphics
 		*/
 		void remove(CEntity* entity);
 	
-		/*
-		*/
-		
-		/*
-		*/
 		/**
 		*/
 		bool add(CLight* light);
+
 		/**
 		*/
 		void remove(CLight* light);
@@ -170,6 +166,10 @@ namespace Graphics
 		*/
 		CCamera *_camera;
 
+		/**
+		*/
+		CCamera *_baseCamera;
+
 		/** 
 		Marco en la ventana de reenderizado donde se pinta lo captado por
 		una cámara. Solo puede haber una cámara asociada a un viewport,
@@ -188,11 +188,6 @@ namespace Graphics
 		/***************
 		 SCENE ELEMENTS
 		******************/
-
-		// HACK FRS entiendo que esto será reemplazado por el CLight
-
-		CCamera *_baseCamera;
-	
 		
 		/**
 		Tipos para la lista de entidades.

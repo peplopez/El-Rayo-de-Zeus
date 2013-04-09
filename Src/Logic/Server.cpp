@@ -169,6 +169,11 @@ namespace Logic {
 
 		_gameStatus = Logic::CGameStatus::getSingletonPtr();
 
+		// Inicializamos el gestor de los mensajes de red durante el estado de juego
+		if (!Logic::CGameStatus::Init(mapList.size()))
+			return false;
+
+
 		TMapNameList::const_iterator it = mapList.begin();
 		TMapNameList::const_iterator end = mapList.end();
 		
@@ -181,11 +186,7 @@ namespace Logic {
 		}
 		
 		//PEP: creo el gameStatus
-		
-		// Inicializamos el gestor de los mensajes de red durante el estado de juego
-		if (!Logic::CGameStatus::Init(8))
-			return false;
-
+	
 
 		return loaded;
 	}

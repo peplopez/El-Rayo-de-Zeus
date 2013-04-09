@@ -1,6 +1,5 @@
 Map = {	
 	Altar1 = {
-
 		type = "Altar",
 		model = "altar.mesh",
 		activatedMaterial = "redActivated",
@@ -30,7 +29,7 @@ Map = {
 		lightType = "point",
 		diffuseColour = {0.9, 0.9, 0.9},
 		specularColour = {0.9, 0.9, 0.9},
-		model = "pu_Apple.mesh",
+		model = "puApple.mesh",
 		scaleFactor = 0.2,	
 	},
 	

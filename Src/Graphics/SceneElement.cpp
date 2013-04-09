@@ -102,6 +102,7 @@ namespace Graphics
 	*******************/
 
 	Ogre::SceneManager* CSceneElement::getSceneMgr() { 
+		assert(_scene);
 		return _scene->getSceneMgr();					
 	}
 

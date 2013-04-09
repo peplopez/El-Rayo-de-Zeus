@@ -55,10 +55,10 @@ namespace Logic
 		defecto.
 		*/
 		CGraphics() : 
-			IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0), _scene(0), _model("") {}
+			IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0), _scene(0), _model(""), _isStatic(false) {}
 
 		CGraphics(altTypeId id) : 
-			IComponent(id), _graphicalEntity(0), _scene(0), _model(""){}
+			IComponent(id), _graphicalEntity(0), _scene(0), _model(""), _isStatic(false) {}
 
 		/**
 		Destructor (virtual); Quita de la escena y destruye la entidad gráfica.

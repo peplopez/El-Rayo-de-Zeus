@@ -120,8 +120,10 @@ namespace Logic {
 
 		delete _physicalActor;
 		// Obtenemos la posición de la entidad. 
-		TLogicalPosition logicPos = _entity->getLogicalPosition();
-	
+		CLogicalPosition* logicPos = new CLogicalPosition(*(_entity->getLogicalPosition()));
+
+		_entity->getLogicalPosition();
+				
 		// TRIGGER
 		if(_isTrigger)  {
 			_physicalActor = new Physics::CActorTrigger(logicPos, _physicWidth, _physicHeight, this);

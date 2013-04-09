@@ -46,7 +46,7 @@ namespace Graphics
 {
 
 	CScene::CScene(const std::string& name) : _name(name), _viewport(0), 
-			_staticGeometry(0), counterParticles(0)
+			_staticGeometry(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
@@ -201,19 +201,7 @@ namespace Graphics
 		}
 
 	} // buildStaticGeometry
-
-
-
-	//-------------------PARTICLES------------------
-
-	// TODO FRS quizá sea necesario temporizar las particulas sin padre para borrar su nodo
-	// TODO FRS estamos limitando a una partícula por entidad
-
-	// POS. RELATIVA (particulas hijas de otra entidad gráfica)
-	void CScene::createParticleSystem(const std::string& templateName, const std::string& parentEntity) 
-	{
-		assert( getSceneMgr()->hasSceneNode( parentEntity + "_node") && "No existe la entidad de referencia" ); 
-
+	
 
 	//---------- LIGHTS -------------------------
 
@@ -235,14 +223,20 @@ namespace Graphics
 		_lights.remove(light);
 	} // removeBillboard
 
+	//-------------------PARTICLES------------------
 
+	// TODO FRS quizá sea necesario temporizar las particulas sin padre para borrar su nodo
+	// TODO FRS estamos limitando a una partícula por entidad
+
+	// POS. RELATIVA (particulas hijas de otra entidad gráfica)
+	void CScene::createParticleSystem(const std::string& templateName, const std::string& parentEntity) 
+	{
+		assert( getSceneMgr()->hasSceneNode( parentEntity + "_node") && "No existe la entidad de referencia" ); 
 				
 		_sceneMgr->getSceneNode( parentEntity + "_node")->attachObject( 
 			_sceneMgr->createParticleSystem(parentEntity + "_ps", templateName) // Suponemos un único PS por entidad
 		);
 	}
-
-
 
 	// POSICIÓN ABSOLUTA
 	void CScene::createParticleSystem(const std::string& templateName, const Vector3& position) 

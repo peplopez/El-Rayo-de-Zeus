@@ -51,13 +51,13 @@ namespace Logic
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;				
-		_player=NULL;
+
 		//creamos un puntero al gamestatus global (que es única estancia)
 		//_gameStatus=Application::CBaseApplication::getSingletonPtr()->getGameState()->getGameStatus();
 		_gameStatus=CGameStatus::getSingletonPtr();
 		//creamos un altar pasandole la entidad propietaria del presente compontente.
-		_altarInfo=_gameStatus->getBase(entity->getLogicalPosition()->getBase())->getRing(entity->getLogicalPosition()->getRing())->
-		createAltar(entity);
+		_altarInfo=_gameStatus->getBase(entity->getLogicalPosition()->
+			getBase())->getRing(entity->getLogicalPosition()->getRing())->createAltar(entity);
 
 		if(entityInfo->hasAttribute("activatedMaterial"))
 			_activatedMaterial = entityInfo->getStringAttribute("activatedMaterial");
