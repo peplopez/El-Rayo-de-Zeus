@@ -143,7 +143,7 @@ namespace Application
 		}			
 
 		void removeAllTimeObserver()
-		{			
+		{
 			_timeObservers.clear();
 		}			
 	protected:
