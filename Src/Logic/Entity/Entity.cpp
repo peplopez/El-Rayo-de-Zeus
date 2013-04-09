@@ -28,9 +28,6 @@ de juego. Es una colección de componentes.
 #include "Logic/Entity/Messages/MessageTF.h"
 #include "Logic/Entity/Messages/MessageBoolTF.h"
 
-
-
-
 namespace Logic 
 {
 	CEntity::CEntity(TEntityID entityID) : _entityID(entityID), 
@@ -76,8 +73,10 @@ namespace Logic
 			_pos->setSense(Logic::LogicalPosition::LEFT);
 
 		if(entityInfo->hasAttribute("base"))					
+		{
 			_pos->setBase(entityInfo->getIntAttribute("base"));
-
+			this->setOriginBase(_pos->getBase());
+		}
 		if(entityInfo->hasAttribute("ring"))
 			_pos->setRing(static_cast<Ring>(entityInfo->getIntAttribute("ring")));
 		else			
@@ -101,17 +100,18 @@ namespace Logic
 			//
 			if (_pos->getSense()==LogicalPosition::RIGHT)
 				{
-					if (_type=="Player" || _type=="OtherPlayer")
+				if (_type=="Player" || _type=="OtherPlayer")
 					this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));
 				else
 					this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));		
 				}
 			else
 				if (_type=="Player" || _type=="OtherPlayer")				
-					this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
-				else
+					//this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
 					this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));
-				
+				else
+					//this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));
+				this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
 		
 		}
 		else //logicInput=false

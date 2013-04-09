@@ -193,7 +193,7 @@ namespace Logic
 
 		@param name Nombre del jugador.
 		*/
-		void createPlayer(std::string entityName, std::string model, bool isLocalPlayer);
+		void createPlayer(std::string entityName, bool isLocalPlayer, const std::string& model = "");
 
 
 		/*******************

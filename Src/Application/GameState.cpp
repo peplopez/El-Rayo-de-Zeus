@@ -26,6 +26,9 @@ Contiene la implementación del estado de juego.
 #include "Physics/Server.h"
 
 #include "Logic/GameStatus.h"
+#include "Logic/BaseInfo.h"
+#include "Logic/RingInfo.h"
+
 
 #include <CEGUISystem.h>
 #include <CEGUIWindowManager.h>
@@ -60,13 +63,17 @@ namespace Application {
 	_numberEnemies = 0;
 	_puntosMerito = 100;
 	_numberAltaresActivated = 0;
+	_rayosBase = 3;
 
 	//inicialización del GameStatus:
 	// se supone que hemos elegido ya en este punto cuantos jugadores somos
-	Logic::CGameStatus* gameStatus=new Logic::CGameStatus(8);
-
+	/*if (_gameStatus==0)
+		_gameStatus=new Logic::CGameStatus(8);
+	else
+		delete _gameStatus;
+		*/
 		return true;
-
+	
 	} // init
 
 	//--------------------------------------------------------
@@ -87,8 +94,16 @@ namespace Application {
 	// ƒ®§ Al entrar en GameState (cambio de currentState)
 	void CGameState::activate() 
 	{
+		/*	if (_gameStatus!=0)
+			{
+				delete _gameStatus; //se reinicia el juego... esto no es pausa de juego, es reinicio,
+				//al menos de momento. Llegar al estado GameState es reinciar partida.
+				_gameStatus=new Logic::CGameStatus(8);
+			}else			
+				_gameStatus=new Logic::CGameStatus(8);
+*/
 		CApplicationState::activate();
-		
+	
 		// Activamos el mapa que ha sido cargado para la partida (incluye la activacion de la escenas)
 		Logic::CServer::getSingletonPtr()->activateMap();
 
@@ -109,7 +124,10 @@ namespace Application {
 		_PuntosMeritoWindow = _hudWindow->getChild("Hud/PuntosMerito");
 		_NumberAltaresActivatedWindow = _hudWindow->getChild("Hud/NumAltares");
 
-		
+		_Rayo1Window = _hudWindow->getChild("Hud/RayoBase1");
+		_Rayo2Window = _hudWindow->getChild("Hud/RayoBase2");
+		_Rayo3Window = _hudWindow->getChild("Hud/RayoBase3");
+
 	} // activate
 
 	//--------------------------------------------------------
@@ -153,12 +171,12 @@ namespace Application {
 		text << "Time: " << _time/1000;
 
 		//_timeWindow->setText(text.str());
-
+	/*	if (_gameStatus->getBase(3)->getAllAltarsActivated())
+		std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN BASE 3"<<std::endl;
+		*/
 	} // tick
 
 	
-
-
 	/**************
 		INPUT
 	*************/
@@ -213,6 +231,15 @@ namespace Application {
 				_puntosMerito += 10;
 				textPuntosMerito <<  _puntosMerito;
 				_PuntosMeritoWindow->setText(textPuntosMerito.str());
+			break;
+		case GUI::Key::P:
+				_rayosBase--;
+				if(_rayosBase == 2)
+					_Rayo3Window->setProperty("Image","set:HudBackground image:RayoDesactivado");
+				else if(_rayosBase == 1)
+					_Rayo2Window->setProperty("Image","set:HudBackground image:RayoDesactivado");
+				else if(_rayosBase == 0)
+					_Rayo1Window->setProperty("Image","set:HudBackground image:RayoDesactivado");
 			break;
 		default:
 			return false;

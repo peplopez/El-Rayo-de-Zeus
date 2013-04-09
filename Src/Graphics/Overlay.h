@@ -44,7 +44,7 @@ namespace Graphics
 	public:
 		typedef std::map<std::string, Ogre::OverlayElement*> TChildElements;
 
-		class ChildType{
+		class TChildType{
 		public:
 			static const std::string TEXTAREA;
 			static const std::string PANEL;

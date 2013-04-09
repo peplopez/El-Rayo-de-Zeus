@@ -129,8 +129,12 @@ namespace Logic
 
 		void resetAttackFlags();
 	
+		bool getCovering()
+		{return _covering;}
 
-	protected:
+		void setCovering(bool covering)
+		{_covering=covering;}	
+protected:
 
 		float _attackPower;
 		

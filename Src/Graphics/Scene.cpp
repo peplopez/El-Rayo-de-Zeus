@@ -18,34 +18,32 @@ de una escena.
 
 #include "BaseSubsystems/Server.h"
 
-#include "Graphics/Billboard.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Entity.h"
 #include "Graphics/GlowMaterialListener.h"
 #include "Graphics/Server.h"
-#include "Graphics/StaticEntity.h"
-
-#include "Logic/Server.h"
+#include "Graphics/SceneElement.h"
 
 #include <assert.h>
-
 #include <OgreRoot.h>
 #include <OgreSceneManager.h>
 #include <OgreRenderWindow.h>
 #include <OgreViewport.h>
 #include <OgreStaticGeometry.h>
-#include <OgreColourValue.h>
+
+
+//#include <OgreColourValue.h>
 
 //PT
-#include <OgreParticleSystem.h> // TODO FRS Por desvincular (al igual que billboardSet)
-#include <OgreCompositorManager.h>
+//#include <OgreParticleSystem.h> // TODO FRS Por desvincular (al igual que billboardSet)
+//#include <OgreCompositorManager.h>
 
 
 namespace Graphics 
 {
 
 	CScene::CScene(const std::string& name) : _name(name), _viewport(0), 
-			_staticGeometry(0), _directionalLight1(0), _directionalLight2(0), counterParticles(0)
+			_staticGeometry(0), _directionalLight1(0), _directionalLight2(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
@@ -68,7 +66,8 @@ namespace Graphics
 	
 	void CScene::activate()
 	{
-		buildStaticGeometry();
+		buildStaticGeometry(); // FRS Se debe construir en cada activación?
+
 		// HACK en pruebas
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
 						->addViewport(_camera->getCamera());
@@ -151,8 +150,13 @@ namespace Graphics
 
 
 	/************************
-		GRAPHICAL ELEMENTS
+		SCENE ELEMENTS
 	************************/
+
+	//---------- GENERIC SCENE ELEMENTS (p.e. billboards, parcticles, etc)-----------
+
+	bool CScene::add(CSceneElement* sceneElement) {		return sceneElement->attachToScene(this);	}
+	void CScene::remove(CSceneElement* sceneElement) {	sceneElement->detachFromScene();			} 
 
 
 	//---------- ENTITIES -------------------------
@@ -161,39 +165,27 @@ namespace Graphics
 	{
 		if(!entity->attachToScene(this))
 			return false;
-		_dynamicEntities.push_back(entity);
-		return true;
 
+		else {
+			entity->isStatic() ?
+				_staticEntities.push_back(entity) :
+				_dynamicEntities.push_back(entity);
+
+			return true;
+		}
 	} // addEntity
 
 	void CScene::remove(CEntity* entity)
 	{
-		entity->deattachFromScene();
-		_dynamicEntities.remove(entity);
+		entity->detachFromScene();
+
+		entity->isStatic() ?		
+			_staticEntities.remove(entity) :
+			_dynamicEntities.remove(entity);
+
 	} // addEntity
 
-
-
-	//----------STATIC ENTITIES-------------------------
-
-	bool CScene::add(CStaticEntity* entity)
-	{
-		if(!entity->attachToScene(this))
-			return false;
-		_staticEntities.push_back(entity);
-		return true;
-
-	} // addStaticEntity
-
-
-	void CScene::remove(CStaticEntity* entity)
-	{
-		entity->deattachFromScene();
-		_staticEntities.remove(entity);
-
-	} // addStaticEntity
-
-
+	
 	void CScene::buildStaticGeometry()
 	{
 		if(!_staticGeometry && !_staticEntities.empty())
@@ -201,10 +193,10 @@ namespace Graphics
 			_staticGeometry = 
 					_sceneMgr->createStaticGeometry("static");
 
-			TStaticEntities::const_iterator it = _staticEntities.begin();
-			TStaticEntities::const_iterator end = _staticEntities.end();
-			for(; it != end; it++)
-				(*it)->addToStaticGeometry();
+			TEntities::const_iterator it = _staticEntities.begin();
+			TEntities::const_iterator end = _staticEntities.end();
+				for(; it != end; it++)
+					(*it)->addToStaticGeometry();
 
 			_staticGeometry->build();
 		}
@@ -213,77 +205,42 @@ namespace Graphics
 
 
 
-	//---------- BILLBOARDS -------------------------
+	//-------------------PARTICLES------------------
 
-	bool CScene::add(CBillboard* billboard)
+	// TODO FRS quizá sea necesario temporizar las particulas sin padre para borrar su nodo
+	// TODO FRS estamos limitando a una partícula por entidad
+
+	// POS. RELATIVA (particulas hijas de otra entidad gráfica)
+	void CScene::createParticleSystem(const std::string& templateName, const std::string& parentEntity) 
 	{
-		if(!billboard->attachToScene(this))
-			return false;
-		_billboards.push_back(billboard);
-		return true;
-
-	} // addBillboard
-
-	
-	//--------------------------------------------------------
-
-	void CScene::remove(CBillboard* billboard)
-	{
-		billboard->deattachFromScene();
-		_billboards.remove(billboard);
-	} // removeBillboard
-
-
-	//--------------------------------------------------------
-
-	//PT. Eliminacion de un sceneNode
-	void CScene::deleteSceneNode(const std::string &name)
-	{
-		if(_sceneMgr->hasSceneNode(name+"_node"))
-		{
-			_sceneMgr->destroySceneNode(name+"_node");
-		}
-
-	}//deleteSceneNode
-
-
-
-	//PT. Creacion de una particula
-	Ogre::ParticleSystem* CScene::createParticula(const std::string &name1, const std::string &name2)
-	{
-
-	char numstr[21]; // enough to hold all numbers up to 64-bits
-	sprintf(numstr, "%d", counterParticles);
-
-	// Creamos nuestro sistema de partículas :)
-	Ogre::ParticleSystem *pssmoke;
-	pssmoke = _sceneMgr->createParticleSystem(name1+numstr, name2);
-
-	// Creamos un nodo y atachamos la particula pssmoke a ese scenenode
-	Ogre::SceneNode* sceneNode = _sceneMgr->createSceneNode(name1+"_particleSystemNode_"+numstr);
-	sceneNode->attachObject(pssmoke);
-
-	if(_sceneMgr->hasSceneNode(name1+"_node"))
-	{
-		_sceneMgr->getSceneNode(name1+"_node")->addChild(sceneNode);
+		assert( getSceneMgr()->hasSceneNode( parentEntity + "_node") && "No existe la entidad de referencia" ); 
+				
+		_sceneMgr->getSceneNode( parentEntity + "_node")->attachObject( 
+			_sceneMgr->createParticleSystem(parentEntity + "_ps", templateName) // Suponemos un único PS por entidad
+		);
 	}
 
-	// Desvinculamos el sistema de partículas del nodo
-	/*
-	sceneNode->detachObject(pssmoke);
- 
-	// Destruimos el nodo
-	_sceneMgr->destroySceneNode(sceneNode);
- 
-	// Destruimos el sistema de partículas
-	_sceneMgr->destroyParticleSystem(pssmoke);
-	*/
 
-	counterParticles++;
 
-	return pssmoke;
+	// POSICIÓN ABSOLUTA
+	void CScene::createParticleSystem(const std::string& templateName, const Vector3& position) 
+	{		 		
+		 _sceneMgr->getRootSceneNode()
+				->createChildSceneNode(position)
+				->attachObject( 
+			_sceneMgr->createParticleSystem("_ps", templateName)
+		);
+	}
 
-	}//createParticula
+	// TODO FRS DestructorSi fuera necesario...
+		// Desvinculamos el sistema de partículas del nodo
+		/*
+		sceneNode->detachObject(pssmoke); 
+		// Destruimos el nodo
+		_sceneMgr->destroySceneNode(sceneNode); 
+		// Destruimos el sistema de partículas
+		_sceneMgr->destroyParticleSystem(pssmoke);
+		*/
 	
 
 } // namespace Graphics

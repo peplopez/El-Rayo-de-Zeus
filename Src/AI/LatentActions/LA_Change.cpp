@@ -9,7 +9,7 @@
 #include "LA_Change.h"
 #include "Logic/Entity/Messages/MessageChar.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
-
+#include "Logic/Entity/Messages/MessageString.h"
 namespace AI
 {
 ////////////////////////////////
@@ -40,22 +40,23 @@ namespace AI
 		switch(_action)
 		{
 		case Message::CHANGE_BASE:
-			{	//activo un reloj
-				//(int index, IClockListener* listener, unsigned long time)
-		//		_reloj->addTimeObserver(0,this,(unsigned long)_maxChangingBaseTime);
-					//std::pair<IClockListener*,unsigned long>(this,_maxChangingBaseTime));		
-				_velocidad=0.01f;
+			{	
+				//_velocidad=0.01f;
+				_velocidad=2*0.0001f;
+				
 				CMessageString *m = new CMessageString();	
 				m->setType(Message::SET_MATERIAL);
 				m->setString("transito");
-				_entity->emitMessage(m);				
+				_entity->emitMessage(m);
 				break;
 			}
 			case Message::CHANGE_RING:
 			{	//activo un reloj
 			//	_reloj->addTimeObserver(std::pair<IClockListener*,unsigned long>(this,_maxChangingRingTime));		
 				//_reloj->addTimeObserver(1,this,(unsigned long)_maxChangingRingTime);
-				_velocidad=0.05f;
+				//_velocidad=0.05f;
+				
+				_velocidad=2*0.0005f;
 				CMessageString *m = new CMessageString();	
 				m->setType(Message::SET_MATERIAL);
 				m->setString("transito");
@@ -93,77 +94,7 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Change::OnRun() 
 	{
-		CMessageFloat *m = new CMessageFloat();	
-		m->setType(Message::SET_SCALE);
-		m->setAction(_actionScale);
-		if (_actionScale==Message::Z_AXIS)
-		{
-			if (_desencogiendo==0)
-
-			if (_contador>0.3)
-			{
-				_contador=_contador + (-_velocidad+(_desencogiendo*_velocidad*2));		
-				m->setFloat(_contador);
-				_entity->emitMessage(m);
-			}
-			else
-			{
-				_actionScale=Message::Y_AXIS;
-				_contador=1.0f;
-				m->setAction(_actionScale);
-			}
-
-			else
-
-			if (_contador<1)
-			{
-				_contador=_contador + (-_velocidad+(_desencogiendo*_velocidad*2));		
-				m->setFloat(_contador);
-				_entity->emitMessage(m);
-			}
-			else
-			{
-				_actionScale=Message::Y_AXIS;
-				_contador=1.0f;
-				m->setAction(_actionScale);
-				timeArrived();//aquí es el final
-
-			}
-
-		}
-		if (_actionScale==Message::Y_AXIS)
-		{
-			if (_desencogiendo==0)
-	
-				if (_contador>0.3)
-				{							
-					_contador=_contador + (-_velocidad+(_desencogiendo*_velocidad*2));
-					m->setFloat(_contador);
-					_entity->emitMessage(m);
-				}
-				else
-				{
-					_contador=0.0f;
-					_actionScale=Message::Y_AXIS;
-					m->setAction(_actionScale);	
-					timeArrived();
-
-				}
-			else
-				if (_contador<1)
-				{							
-					_contador=_contador + (-_velocidad+(_desencogiendo*_velocidad*2));
-					m->setFloat(_contador);
-					_entity->emitMessage(m);
-				}
-				else
-				{
-					_contador=0.3f;
-					_actionScale=Message::Z_AXIS;
-					m->setAction(_actionScale);	
-					//timeArrived();
-				}
-		}
+		
 		
 
 		if (this->getStatus()!=SUCCESS && this->getStatus()!=FAIL)
@@ -227,15 +158,16 @@ namespace AI
 	{
 		switch(message->getType())
 		{
-			case Message::CONTROL: //si estamos aquí es que el jugador quiere aprovechar la oportunidad que tenia de realizar un combo. Dependiendo de 
+			
+			case Message::CONTROL: 
 			{
-				if (_action==Message::CHANGE_BASE)				{
-					
+				if (_action==Message::CHANGE_BASE)
+				{					
 					CMessageString *m2 = new CMessageString();	
 					m2->setType(Message::SET_MATERIAL);
 					m2->setString("marine");
 					_entity->emitMessage(m2);	
-					finish(false);
+		//			finish(false);
 				}
 				if (_action==Message::GO_DOWN || _action==Message::GO_UP)
 				{			
@@ -248,15 +180,99 @@ namespace AI
 				break;
 			}
 		}
-			// TODO PRÁCTICA IA
-		// La acción no procesa mensajes
+	}
+
+	//PeP
+	void CLA_Change::tick(unsigned int msecs) 
+	{
+		CMessageFloat *m = new CMessageFloat();	
+		m->setType(Message::SET_SCALE);
+		m->setAction(_actionScale);
+		if (_actionScale==Message::Z_AXIS)
+		{
+			if (_desencogiendo==0)
+
+			if (_contador>0.3)
+			{
+				_contador=_contador + (-(_velocidad*msecs)+(_desencogiendo*(_velocidad*msecs)*2));		
+				m->setFloat(_contador);
+				_entity->emitMessage(m);
+			}
+			else
+			{
+				_actionScale=Message::Y_AXIS;
+				_contador=1.0f;
+				m->setAction(_actionScale);
+			}
+
+			else
+
+			if (_contador<1)
+			{
+				_contador=_contador + (-(_velocidad*msecs)+(_desencogiendo*(_velocidad*msecs)*2));		
+				m->setFloat(_contador);
+				_entity->emitMessage(m);
+			}
+			else
+			{
+				_actionScale=Message::Y_AXIS;
+				_contador=1.0f;
+				m->setAction(_actionScale);
+				timeArrived();//aquí es el final
+
+			}
+
+		}
+		if (_actionScale==Message::Y_AXIS)
+		{
+			if (_desencogiendo==0)
+	
+				if (_contador>0.3)
+				{							
+					_contador=_contador + (-(_velocidad*msecs)+(_desencogiendo*(_velocidad*msecs)*2));
+					m->setFloat(_contador);
+					_entity->emitMessage(m);
+				}
+				else
+				{
+					_contador=0.0f;
+					_actionScale=Message::Y_AXIS;
+					m->setAction(_actionScale);	
+					timeArrived();
+
+				}
+			else
+				if (_contador<1)
+				{							
+					_contador=_contador + (-(_velocidad*msecs)+(_desencogiendo*(_velocidad*msecs)*2));
+					m->setFloat(_contador);
+					_entity->emitMessage(m);
+				}
+				else
+				{
+					_contador=0.3f;
+					_actionScale=Message::Z_AXIS;
+					m->setAction(_actionScale);	
+				}
+		}
+
+		CLatentAction::tick();//no olvideis llamar al tick de CLatentAction
+
 	}
 
 	void CLA_Change::sleepComponents()
 	{
 		if (_action!=Message::CHANGE_BASE)
 			if (_entity->getComponent<CAvatarController>()!=NULL)
-				_entity->getComponent<CAvatarController>()->sleep();		
+				_entity->getComponent<CAvatarController>()->sleep();
+		if (_action!=Message::GO_DOWN || _action!=Message::GO_UP)
+		{
+			if (_entity->getComponent<CAvatarController>()!=NULL)
+				_entity->getComponent<CAvatarController>()->sleep();	
+			if (_entity->getComponent<CJump2>()!=NULL)
+				_entity->getComponent<CJump2>()->sleep();	
+
+		}
 	}
 
 	void CLA_Change::awakeComponents()
@@ -264,13 +280,20 @@ namespace AI
 		if (_action!=Message::CHANGE_BASE)
 			if (_entity->getComponent<CAvatarController>()!=NULL)
 				_entity->getComponent<CAvatarController>()->awake();
+			if (_action!=Message::GO_DOWN || _action!=Message::GO_UP)
+		{
+			if (_entity->getComponent<CAvatarController>()!=NULL)
+				_entity->getComponent<CAvatarController>()->awake();	
+			if (_entity->getComponent<CJump2>()!=NULL)
+				_entity->getComponent<CJump2>()->awake();	
+
+		}
 	}
 	void CLA_Change::timeArrived()
 	{//El primer if es para ignorar eventos externos si no estoy en el estado
 		
 		if (this->getStatus()!=SUCCESS && this->getStatus()!=FAIL && this->getStatus()!=RUNNING)
 		{//cancelando viaje
-
 			return;
 		}
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)

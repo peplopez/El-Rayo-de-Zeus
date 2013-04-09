@@ -38,7 +38,10 @@ namespace CEGUI
 {
 	class Window;
 }
-
+namespace Logic
+{
+	class CGameStatus;
+}
 namespace Application 
 {
 	/**
@@ -69,7 +72,7 @@ namespace Application
 		Constructor de la clase 
 		*/
 		CGameState(CBaseApplication *app) : CApplicationState(app), 
-				_scene(0), _time(0) {}
+			_scene(0), _time(0) {}
 
 		/** 
 		Destructor 
@@ -173,8 +176,7 @@ namespace Application
 		*/
 		virtual bool mouseReleased(const GUI::CMouseState &mouseState);
 
-
-
+		//Logic::CGameStatus* getGameStatus(){return _gameStatus;}
 	protected:
 
 		/**
@@ -183,16 +185,19 @@ namespace Application
 		Graphics::CScene* _scene;
 
 
+
+		CEGUI::Window* _timeWindow;
+		//PT
 		/**
-		Ventana que muestra el HUD con informacion para el player.
+		Ventanas que muestran el HUD con informacion para el player.
 		*/
 		CEGUI::Window* _hudWindow;
-		CEGUI::Window* _timeWindow;
-
-		//PT
 		CEGUI::Window* _NumberEnemyWindow;
 		CEGUI::Window* _PuntosMeritoWindow;
 		CEGUI::Window* _NumberAltaresActivatedWindow;
+		CEGUI::Window* _Rayo1Window;
+		CEGUI::Window* _Rayo2Window;
+		CEGUI::Window* _Rayo3Window;
 
 		/**
 		Tiempo de juego en milisegundos.
@@ -217,8 +222,16 @@ namespace Application
 
 		unsigned int _numberAltaresActivated;
 
+		/**
+		Vida de la base (Rayos)
+		*/
 
-
+		unsigned int _rayosBase;
+	
+		/**
+		Puntero al gamestatus global
+		*/
+		//Logic::CGameStatus* _gameStatus;
 	}; // CGameState
 
 } // namespace Application

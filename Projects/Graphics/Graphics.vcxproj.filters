@@ -9,15 +9,18 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="SceneElements">
+      <UniqueIdentifier>{53b4814b-681d-4356-9742-1109136e4eab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneElements\Source Files">
+      <UniqueIdentifier>{5268bb10-80d2-42bd-bc1d-024c1f556415}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneElements\Header Files">
+      <UniqueIdentifier>{2e7a6536-0f5d-4411-b977-6bdc7bc3bc75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Src\Graphics\AnimatedEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Graphics\Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Graphics\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Graphics\Scene.cpp">
@@ -26,33 +29,33 @@
     <ClCompile Include="..\..\Src\Graphics\Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Graphics\StaticEntity.cpp">
+    <ClCompile Include="..\..\Src\Graphics\GlowMaterialListener.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Graphics\SceneElement.cpp">
+      <Filter>SceneElements\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Graphics\Billboard.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SceneElements\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Graphics\Particle.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\Src\Graphics\Entity.cpp">
+      <Filter>SceneElements\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Graphics\AnimatedEntity.cpp">
+      <Filter>SceneElements\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Graphics\Overlay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Graphics\GlowMaterialListener.cpp">
+    <ClCompile Include="..\..\Src\Graphics\Cegui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Src\Graphics\AnimatedEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Graphics\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Graphics\Documentation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Graphics\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Graphics\Scene.h">
@@ -61,19 +64,25 @@
     <ClInclude Include="..\..\Src\Graphics\Server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Graphics\StaticEntity.h">
+    <ClInclude Include="..\..\Src\Graphics\GlowMaterialListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Graphics\Billboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Graphics\Particle.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\Src\Graphics\SceneElement.h">
+      <Filter>SceneElements\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Graphics\Overlay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Graphics\GlowMaterialListener.h">
+    <ClInclude Include="..\..\Src\Graphics\Billboard.h">
+      <Filter>SceneElements\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Graphics\Entity.h">
+      <Filter>SceneElements\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Graphics\AnimatedEntity.h">
+      <Filter>SceneElements\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Graphics\Cegui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

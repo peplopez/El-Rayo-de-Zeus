@@ -1,0 +1,17 @@
+
+material 01-Default_OgreMax
+{
+	technique Map#0
+	{
+		pass Map#1
+		{
+			ambient 0.25098 0 0 1
+			diffuse 0.25098 0 0 1
+			specular 0 0 0 1 10
+		}
+
+	}
+
+}
+
+

@@ -36,10 +36,16 @@ namespace Logic
 		DEC_FACTORY(CItem);
 	public:
 
-		CItem() : IComponent(GetAltTypeIdOf(CItem)) {}
+		CItem() : IComponent(GetAltTypeIdOf(CItem)), _modelOnHand("") {}
+
+		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
 		bool accept(const CMessage *message);
 		void process(CMessage *message);
+
+	private:
+
+		std::string _modelOnHand;
 
 	}; // class CItem
 

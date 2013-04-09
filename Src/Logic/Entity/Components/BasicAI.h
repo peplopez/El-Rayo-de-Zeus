@@ -16,9 +16,13 @@ angular de entidades.
 #include "Logic/Entity/Component.h"
 #include "BaseSubsystems/Math.h"
 #include "../../../Application/Clock.h"
-
+#include "Application/BaseApplication.h"
 
 //declaración de la clase
+namespace Logic
+{
+		class CGameStatus;
+}
 namespace Logic 
 {
 /**
@@ -123,6 +127,8 @@ namespace Logic
 		Application::IClock* _reloj;
 		
 		bool _agresivo;
+
+		Logic::CGameStatus* _gameStatus;
 	}; // class CBasicAI
 
 	REG_FACTORY(CBasicAI);

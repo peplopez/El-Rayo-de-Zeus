@@ -22,7 +22,14 @@ gráfica de la entidad.
 #include "Logic/Entity/Messages/MessageUShort.h"
 #include "Logic/Entity/Messages/MessageString.h"
 
+#include "Map/MapEntity.h"
+#include "Logic/Maps/Map.h"
 
+/*para tener un acceso directo al gamestatus*/
+#include "Logic/GameStatus.h"
+#include "Logic/RingInfo.h"
+#include "Logic/BaseInfo.h"
+#include "Logic/PlayerInfo.h"
 
 #define DEBUG 1
 #if DEBUG
@@ -73,9 +80,23 @@ namespace Logic
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;		
-
+		
+		//lo hago aquí mismo, en algún componente hay que hacerlo y en principio solo los personajes
+		//player  (ya sea humano o bot) pueden viajar entre bases.
+		
+		//_gameStatus=Application::CBaseApplication::getSingletonPtr()->getGameState()->getGameStatus();
+			
+		_gameStatus=CGameStatus::getSingletonPtr();
+		//creamos un altar pasandole la entidad propietaria del presente compontente.
+		//IMPORTANTE: Hay que tener en cuenta que una unidad pertenece SIEMPRE a la base en la que nace.
+		//también es imporante tener en cuenta, que los arrays _base y _players tienen una corresponendencia de índice
+		//es decir, _bases[1] es del jugador 1 que está guardado en _players[1]
+		_gameStatus->getPlayer(entity->getLogicalPosition()->getBase())->attachCEntity(_entity);
+		
+		if(entityInfo->hasAttribute("hero"))
+			_gameStatus->getPlayer(entity->getLogicalPosition()->getBase())->setHeroName( entityInfo->getStringAttribute("hero"));		
+		
 		return true;
-
 	} // spawn
 	
 	//---------------------------------------------------------

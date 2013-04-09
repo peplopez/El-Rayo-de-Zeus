@@ -5,8 +5,9 @@
 
 #include "../StateMachines/StateMachine.h"
 
-
-
+#include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
+#include "Logic/Entity/Messages/MessageString.h"
 namespace AI
 {
 
@@ -39,6 +40,16 @@ namespace AI
 		message->setAction(Message::WALK_STOP);
 		message->setBool(true);
 		_entity->emitMessage(message);
+
+		CMessageFloat *m2 = new CMessageFloat();	
+		m2->setType(Message::SET_SCALE);
+		m2->setFloat(1.0f);
+		m2->setAction(Message::UNDEF);
+		_entity->emitMessage(m2);
+
+		//
+		if (_entity->getComponent<CAttack>()!=NULL)
+				_entity->getComponent<CAttack>()->setCovering(false);		
 		// TODO PRÁCTICA IA
 		// Al iniciar el wait, calculamos el instante de tiempo en 
 		// el que se tiene que finalizar la acción. 
@@ -137,6 +148,11 @@ namespace AI
 				finish(true); // bool = exito o fallo
 			 else
 				finish(false);*/
+	}
+	
+	void CLAIdle::tick(unsigned int msecs) 
+	{
+		CLatentAction::tick();
 	}
 
 	void CLAIdle::sleepComponents(){}

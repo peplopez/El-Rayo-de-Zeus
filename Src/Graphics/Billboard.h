@@ -16,22 +16,14 @@ Contiene la declaración de la clase que maneja el billboard.
 #ifndef __Graphics_Billboard_H
 #define __Graphics_Billboard_H
 
-#include "BaseSubsystems/Math.h"
+#include "Graphics\SceneElement.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 
-{
-	class SceneNode;
+{	
 	class BillboardSet;
 	class Billboard;
-
-}
-
-namespace Graphics 
-{
-	class CScene;
-	class CServer;
-}
+};
 
 namespace Graphics 
 {
@@ -43,7 +35,7 @@ namespace Graphics
 	@author Pablo Terrado
 	@date Enero, 2013
 	*/
-	class CBillboard
+	class CBillboard : public CSceneElement
 	{
 	public:
 
@@ -55,14 +47,14 @@ namespace Graphics
 		CBillboard(const std::string &parentName, const Vector3& relativePos, 
 			const float width, const float height, const std::string material) :
 			_parentName(parentName), _relativePos(relativePos), 
-			_width(width), _height(height), _material(material),
-			_loaded(false), _scene(0){}
+			_width(width), _height(height), _material(material) {}
 
-		~CBillboard();
 
 		/*****************
 			GET's & SET'S
 		*******************/
+
+		bool isVisible() const;
 
 		//Poner coordenadas
 		void setTextureCoords(const float u0,const float v0,const float u1,const float v1);
@@ -72,10 +64,7 @@ namespace Graphics
 
 		void setMaterial(const std::string &name);
 
-		// TODO FRS
-		// setVisible
-		//isVisible
-
+		
 
 	protected:
 
@@ -114,18 +103,7 @@ namespace Graphics
 		BillboardSet _bbSet(conjunto de Billboards)
 		*/
 		Ogre::BillboardSet* _bbSet;
-
-		/**Controla todos los elementos Ogre de una escena. Su equivalente
-		en la lógica del juego sería el mapa o nivel. 
-		*/
-		CScene *_scene;
-
-		/**	Nodo que contiene la entidad de Ogre.*/
-		Ogre::SceneNode *_graphicalNode;
-
-		/**	Indica si el billboard ha sido cargado en el motor gráfico.	*/
-		bool _loaded;		
-		
+	
 		/**
 		Carga la entidad gráfica correspondiente al nombre _mesh. No hace 
 		comprobaciónes de si la entidad está ya cargada o de si pertenece a
@@ -134,13 +112,7 @@ namespace Graphics
 		@return true si la entidad pudo crear los objetos necesarios en Ogre
 		o si la entidad ya estaba cargada.
 		*/
-		bool load();
-
-		/**
-		Elimina las estructuras creadas en Ogre mediante load(). No hace 
-		comprobaciónes de si la entidad está o no cargada o de si pertenece
-		a una escena. Esto se debe hacer de manera externa.
-		*/
+		bool load(); 
 		void unload();
 
 	}; // class CBillboard

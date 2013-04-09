@@ -57,7 +57,7 @@ namespace Logic
 
 	bool CJump2::accept(const CMessage *message)
 	{
-		return (message->getType() == Message::CONTROL && 
+		return (isAwake() && message->getType() == Message::CONTROL && 
 					message->getAction() == Message::JUMP);
 	}
 	

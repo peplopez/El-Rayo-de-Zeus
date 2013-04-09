@@ -104,6 +104,12 @@ namespace AI
 
 		@param msg Mensaje recibido.
 		*/
+		/**
+		He añadido un tick dependiente del tiempo, no sustituye al anterior tick(). se ejecutan ambos.
+		He decidido conservar el anterior para que solo esté implementado en CLatentAction y no en todos los heredados.
+		*/
+		virtual void tick(unsigned int msecs);
+		
 		virtual void process( CMessage *message);
 		virtual void sleepComponents();
 

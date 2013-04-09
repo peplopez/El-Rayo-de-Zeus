@@ -4,7 +4,7 @@
 #include "../../Logic/Entity/Components/Attack.h"
 
 #include "../StateMachines/StateMachine.h"
-
+#include "Logic/Entity/Messages/MessageString.h"
 
 
 namespace AI
@@ -135,6 +135,12 @@ namespace AI
 				break;
 			}
 		}
+	}
+
+	
+	void CLA_Beaten::tick(unsigned int msecs) 
+	{
+		CLatentAction::tick();
 	}
 
 	void CLA_Beaten::sleepComponents(){}

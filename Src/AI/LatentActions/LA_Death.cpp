@@ -6,7 +6,7 @@
 
 #include "../StateMachines/StateMachine.h"
 #include "Logic/Entity/Messages/MessageAudio.h"
-
+#include "Logic/Entity/Messages/MessageString.h"
 
 namespace AI
 {
@@ -137,6 +137,11 @@ namespace AI
 				break;
 			}
 		}
+	}
+	
+	void CLA_Death::tick(unsigned int msecs) 
+	{
+		CLatentAction::tick();
 	}
 
 	void CLA_Death::sleepComponents()

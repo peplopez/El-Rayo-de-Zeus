@@ -369,7 +369,7 @@ material rejas
         }
     }
 }
-material canon
+material torreta_pie
 {
     set $diffuseCol "1 1 1 1"
     set $specularCol "1 1 1 10"
@@ -431,7 +431,7 @@ material canon
 
             texture_unit specMap
             {
-                texture spec.tga
+                texture canon_Spec.tga
             }
 
             texture_unit normalMap

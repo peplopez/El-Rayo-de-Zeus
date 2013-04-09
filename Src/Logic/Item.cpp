@@ -16,8 +16,9 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
-#include "Logic/Entity/Messages/MessageInt.h"
-
+#include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Maps/EntityFactory.h"
 #include "Logic/Maps/Map.h"
 #include "Logic/Server.h"
 
@@ -30,6 +31,19 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
+	bool CItem::spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo)
+	{		
+		if(!IComponent::spawn(entity,map,entityInfo))
+			return false;
+
+		if( entityInfo->hasAttribute("modelOnHand") )
+			_modelOnHand = entityInfo->getStringAttribute("modelOnHand");
+
+		return true;		
+	} // spawn
+
+
+	//---------------------------------------------------------
 	bool CItem::accept(const CMessage *message) {
 		return	message->getType() == Logic::Message::TRIGGER &&
 				message->getAction() == Logic::Message::TRIGGER_ENTER;
@@ -40,27 +54,36 @@ namespace Logic
 	void CItem::process(CMessage *message){
 
 		CMessageUInt* rxMsg = static_cast<CMessageUInt*>(message);
-		CEntity* entity = Logic::CServer::getSingletonPtr()->getMap()
+		CEntity* otherEntity = Logic::CServer::getSingletonPtr()->getMap()
 			->getEntityByID( rxMsg->getUInt() );
 
 		// FRS Sólo cogen items los players
-		if(entity->getType() == "Player" || entity->getType() == "OtherPlayer") {	
+		if(otherEntity->getType() == "Player" || otherEntity->getType() == "OtherPlayer") {	
+			
+			// GET OBJECT ANIM
+			CMessageBoolString *txMsg2 = new CMessageBoolString();
+				txMsg2->setType(TMessageType::SET_ANIMATION); 
+				txMsg2->setBool(false);
+				txMsg2->setString("GetObject");
+				otherEntity->emitMessage(txMsg2); // TODO FRS falta desactivar INPUT => migrar esto a FSM de animaciones
 
-			//CMessage *txMsg = new CMessage();
-				//txMsg->setType(Logic::Message::DEAD); // Si alguien nos coge, morimos
-				//txMsg->setAction(Logic::Message::DAMAGE);
+			// ATTACH TO HAND
+			if( _modelOnHand.length() > 0 ) {
+				CMessageString *txMsg3 = new CMessageString();
+					txMsg3->setType(TMessageType::ATTACH); 
+					txMsg3->setAction(TActionType::ATTACH_TO_HAND);
+					txMsg3->setString(_modelOnHand);
+					otherEntity->emitMessage(txMsg3);
+			}
 
-				//txMsg->setType(Logic::Message::LIFE_MODIFIER); // Si alguien nos coge, morimos
-//				txMsg->setAction(Logic::Message::DAMAGE);
+			// ITEM DEATH
+			//CMessage *txMsg1 = new CMessage();
+			//	txMsg1->setType(TMessageType::DEAD); // Si alguien nos coge, morimos
+			//	_entity->emitMessage(txMsg1, this);
 
-				//_entity->emitMessage(txMsg, this);
+			//FRS Sin CDeath habrá que hacer el deferred delete directamente
+			CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
 
-
-			CMessageInt *txMsg = new CMessageInt();
-			txMsg->setInt(-500);
-			txMsg->setAction(Message::DAMAGE);		
-			txMsg->setType(Logic::Message::LIFE_MODIFIER);
-			entity->emitMessage(txMsg, this);
 
 			// TODO FRS También habría que notificar, en cada impl. hija de este CItem padre,
 			// que se ha cogido el item X o que dicho item causa X efecto sobre el player.

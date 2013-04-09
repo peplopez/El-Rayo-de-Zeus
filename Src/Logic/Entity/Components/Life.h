@@ -58,6 +58,9 @@ namespace Logic
 		bool accept(const CMessage *message);
 		void process(CMessage *message);
 
+		int getLife(){return _life;}
+		
+		int getLifeMax(){return _LIFE_MAX;}
 	private:
 
 		Graphics::CScene* _graphicalScene;
