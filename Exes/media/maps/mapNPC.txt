@@ -1,0 +1,165 @@
+Map ={
+	
+	Camera = {
+		type = "Camera",
+		distance = 150,
+		height = 13,
+		targetDistance =3,
+		targetHeight = 7,
+		angularSpeed = 1,
+		ring=1,
+		base=0,
+		degrees=0;
+		sense=0,
+		logicInput=true,
+		radio=120,
+	},
+	
+	Gemelo = {
+		type = "OtherPlayer",
+		base=0,
+		ring=0,
+		degrees=120,		
+	},
+	
+	BaseCamera1 = {
+		type = "BaseCamera1",
+	},
+	
+	pointLight1 = {
+		type = "PointLight",
+		position = {0, 100, 0},
+	},
+	
+		
+	puApple1 = {
+		type = "PUApple",
+		base=0,
+		ring=0,
+		degrees=0,
+	},
+	puThrone1 = {
+		type = "PUThrone",
+		base=0,
+		ring=0,
+		degrees=120,
+	},
+
+	puPoison1 = {
+		type = "PUPoison",
+		base=0,
+		ring=1,
+		degrees=180,
+	},
+	puTime1 = {
+		type = "PUTime",
+		base=0,
+		ring=2,
+		degrees=120,
+	},
+	
+	
+	bioshockLOGICO74 = {
+		type = "Bigdaddy",
+		base=0,
+		ring=1,
+		degrees=300,		
+	},	
+	
+	
+	LowerRing = {
+		type = "World",
+		base=0,
+		ring=0,
+	},
+	
+	CenterRing = {
+		type = "World",
+		base=0,
+		ring=1,
+	},
+	
+	UpperRing = {
+		type = "World",
+		base=0,
+		ring=2,
+	},
+	
+	Altar1 = {
+		type = "Altar2",
+		degrees=60,
+		ring=0,
+		base=0,	
+	},
+	
+	Altar2 = {
+		type = "Altar2",
+		degrees=180,
+		ring=0,
+		base=0,		
+	},
+	
+	Altar3 = {
+		type = "Altar2",
+		degrees=300,
+		ring=0,
+		base=0,		
+	},
+	
+	Altar4 = {
+		type = "Altar2",
+		degrees=36,
+		ring=1,
+		base=0,		
+	},
+	
+	Altar5 = {
+		type = "Altar2",
+		degrees=108,
+		ring=1,
+		base=0,		
+	},
+	
+	Altar6 = {
+		type = "Altar2",
+		degrees=180,
+		ring=1,
+		base=0,		
+	},
+	
+	Altar7 = {
+		type = "Altar2",
+		degrees=252,
+		ring=1,
+		base=0,		
+	},
+	
+	Altar8 = {
+		type = "Altar2",
+		degrees=324,
+		ring=1,
+		base=0,		
+	},
+	
+	Altar9 = {
+		type = "Altar2",
+		degrees=60,
+		ring=2,
+		base=0,		
+	},
+	
+	Altar10 = {
+		type = "Altar2",
+		degrees=180,
+		ring=2,
+		base=0,		
+	},
+	
+	Altar11 = {
+		type = "Altar2",
+		degrees=300,
+		ring=2,
+		base=0,		
+	},				
+
+}

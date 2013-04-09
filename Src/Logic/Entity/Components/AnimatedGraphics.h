@@ -82,6 +82,8 @@ namespace Logic
 		*/
 		void animationFinished(const std::string &animation);
 		void animationMomentReached(const std::string &animation);
+
+		virtual Graphics::CEntity* CAnimatedGraphics::reCreateGraphicalEntity();
 	
 	
 	protected:
@@ -105,6 +107,8 @@ namespace Logic
 		@return Entidad gráfica creada, NULL si hubo algún problema.
 		*/
 		Graphics::CEntity* createGraphicalEntity(const Map::CEntity *entityInfo);
+
+
 
 	}; // class CAnimatedGraphics
 

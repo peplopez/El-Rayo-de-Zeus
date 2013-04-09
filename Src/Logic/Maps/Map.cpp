@@ -15,6 +15,12 @@ Contiene la implementación de la clase CMap, Un mapa lógico.
 #include "Logic/Entity/Entity.h"
 #include "EntityFactory.h"
 
+#include "Logic/Entity/Components/Graphics.h"
+#include "Logic/Entity/Components/Physics.h"
+
+#include "Logic/Entity/Components/AnimatedGraphics.h"
+#include "Logic/Entity/Components/PhysicalCharacter.h"
+
 #include "Map/MapParser.h"
 #include "Map/MapEntity.h"
 
@@ -63,8 +69,8 @@ namespace Logic {
 		if(_isActive)
 			return true;
 
-		Graphics::CServer::getSingletonPtr()->setActiveScene(_graphicScene);	
-		Physics::CServer::getSingletonPtr()->setActiveScene(_physicScene);	
+		//Graphics::CServer::getSingletonPtr()->setActiveScene(_graphicScene);	
+		//Physics::CServer::getSingletonPtr()->setActiveScene(_physicScene);	
 
 		// Activamos todas las entidades registradas en el mapa.
 		_isActive = true;
@@ -98,6 +104,17 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
+	void CMap::setVisible()
+	{
+		Graphics::CServer::getSingletonPtr()->setActiveScene(this->getGraphicScene());
+	}
+
+
+	void CMap::activateBaseCam()
+	{
+		Graphics::CServer::getSingletonPtr()->activateBaseCam(this->getGraphicScene());
+	}
+	//---------------------------------------------------------
 	void CMap::tick(unsigned int msecs) 
 	{
 		TEntityList::const_iterator it = _entityList.begin();
@@ -112,7 +129,7 @@ namespace Logic {
 	{
 		// Completamos la ruta con el nombre proporcionado
 		std::string completePath(MAP_FILE_PATH);
-			completePath = completePath + filename;
+			completePath = completePath + filename + ".txt";
 				
 				if(!Map::CMapParser::getSingletonPtr()->parseFile(completePath)){ // Parseamos el fichero
 					assert(!"No se ha podido parsear el mapa.");
@@ -137,8 +154,6 @@ namespace Logic {
 				assert(entity && "No se pudo crear una entidad del mapa");
 			}
 
-		//Add ESC - registramos el mapa que se acaba de leer como mapa actual.
-		entityFactory->setCurrentMap(map);
 
 		return map;
 
@@ -206,6 +221,36 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
+	void CMap::insertEntity(CEntity *entity)
+	{
+		if( !_entityMap.count(entity->getEntityID() ) )
+		{			
+			_entityMap[entity->getEntityID()] = entity;
+			_entityList.push_back(entity);
+			entity->_map = this;
+
+			//Hack ESC - Lo suyo sería crear un entity->attachTomMap(this) que llamara al attach de cada componente
+			if (entity->getComponent<CGraphics>() != NULL)
+				_graphicScene->add(entity->getComponent<CGraphics>()->getGraphicalEntity());
+			if (entity->getComponent<CAnimatedGraphics>() != NULL)
+			{
+				entity->getComponent<CAnimatedGraphics>()->setScene(_graphicScene);
+				entity->getComponent<CAnimatedGraphics>()->reCreateGraphicalEntity();
+			}
+			if (entity->getComponent<CPhysics>() != NULL)
+				_physicScene->addActor(entity->getComponent<CPhysics>()->getPhysicalActor());
+			if (entity->getComponent<CPhysicalCharacter>() != NULL)
+			{
+				entity->getComponent<CPhysicalCharacter>()->setScene(_physicScene);
+				entity->getComponent<CPhysicalCharacter>()->reCreateActor();
+			}
+				//_physicScene->addActor(entity->getComponent<CPhysicalCharacter>()->getPhysicalActor());
+		}
+
+	} // addEntity
+
+	//--------------------------------------------------------
+
 	void CMap::removeEntity(CEntity *entity)
 	{
 		if(_entityMap.count( entity->getEntityID() ) )
@@ -215,6 +260,16 @@ namespace Logic {
 			entity->_map = 0;
 			_entityMap.erase(entity->getEntityID());
 			_entityList.remove(entity);
+
+			//Hack ESC - Lo suyo sería crear un entity->detachFromMap(this) que llamara al dettach de cada componente
+			if (entity->getComponent<CGraphics>() != NULL)
+				_graphicScene->remove(entity->getComponent<CGraphics>()->getGraphicalEntity());
+			if (entity->getComponent<CAnimatedGraphics>() != NULL)
+				_graphicScene->remove(entity->getComponent<CAnimatedGraphics>()->getGraphicalEntity());
+			if (entity->getComponent<CPhysics>() != NULL)
+				_physicScene->removeActor(entity->getComponent<CPhysics>()->getPhysicalActor());
+			if (entity->getComponent<CPhysicalCharacter>() != NULL)
+				_physicScene->removeActor(entity->getComponent<CPhysicalCharacter>()->getPhysicalActor());
 		}
 
 	} // removeEntity

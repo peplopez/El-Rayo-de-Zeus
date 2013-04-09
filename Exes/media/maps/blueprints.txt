@@ -1,5 +1,6 @@
 World CGraphics
 Camera CCamera
+BaseCamera CBaseCamera
 SkyBox CGraphics
 Altar CGraphics CPhysics CAltar
 Entity CGraphics
@@ -7,3 +8,4 @@ Player CAnimatedGraphics CAvatarController CJump2 CBaseTraveler CAttack CStateMa
 AnimatedEntity CAnimatedGraphics CAvatarController CAttack CPhysicalCharacter CLifeModifier CLife CAudio
 OtherPlayer CAnimatedGraphics CAvatarController CBaseTraveler CAttack CPhysicalCharacter CLifeModifier CStateMachineExecutor CLife CAltarStateSwitcher CBasicAI CAudio
 PowerUp CGraphics CPhysics CItem CFloatingMovement CLifeModifier
+Light CGraphics CLight

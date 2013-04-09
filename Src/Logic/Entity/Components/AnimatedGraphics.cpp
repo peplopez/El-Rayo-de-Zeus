@@ -91,6 +91,27 @@ namespace Logic
 
 	//---------------------------------------------------------
 
+	Graphics::CEntity* CAnimatedGraphics::reCreateGraphicalEntity()
+	{
+		assert(_scene && "LOGIC::ANIMATED_GRAPHICS>> No existe escena gráfica!");
+		assert( _model.length() > 0  &&  "LOGIC::ANIMATED_GRAPHICS>> No existe modelo!");	
+
+		delete _graphicalEntity;
+		_graphicalEntity = new Graphics::CAnimatedEntity(_entity->getName(),_model);
+			if(!_scene->add(_graphicalEntity) )
+				return 0;
+		
+		CGraphics::_graphicalEntity = _graphicalEntity;
+
+		_graphicalEntity->setAnimation(_defaultAnimation,0,true);
+		_graphicalEntity->setObserver(this);
+		
+
+		return _graphicalEntity;
+	} // createGraphicsEntity
+
+	//---------------------------------------------------------
+
 	Graphics::CEntity* CAnimatedGraphics::createGraphicalEntity(const Map::CEntity *entityInfo)
 	{
 		assert(_scene && "LOGIC::ANIMATED_GRAPHICS>> No existe escena gráfica!");
@@ -109,7 +130,6 @@ namespace Logic
 
 		return _graphicalEntity;
 	} // createGraphicsEntity
-	
 
 	
 	//---------------------------------------------------------

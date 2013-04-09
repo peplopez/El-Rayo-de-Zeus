@@ -93,6 +93,15 @@ namespace Logic
 		*/
 		void deactivate();
 
+
+		/**
+		*/
+		void setVisible();
+
+		/**
+		*/
+		void activateBaseCam();
+
 		/**
 		Función llamada en cada frame para que se realicen las funciones
 		de actualización adecuadas.
@@ -110,6 +119,10 @@ namespace Logic
 		@param entity Entidad a añadir.
 		*/
 		void addEntity(CEntity *entity);
+
+		/*
+		*/
+		void insertEntity(CEntity *entity);
 
 		/**
 		Elimina una entidad del mapa. Si la entidad no estaba incluida
@@ -200,6 +213,7 @@ namespace Logic
 			GET's & SET's
 		******************/
 		bool isActive() { return _isActive; }
+
 
 	private:
 

@@ -78,7 +78,17 @@ namespace Logic
 		/**
 		*/
 		int _acumTime;
+
+		/**
+		*/
+		std::string _activatedMaterial;
+
+		/**
+		*/
+		std::string _unactivatedMaterial;
 		
+		/**
+		*/
 		CEntity* _player;
 
 		Logic::CGameStatus* _gameStatus;

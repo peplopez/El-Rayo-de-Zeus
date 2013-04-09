@@ -86,11 +86,14 @@ namespace Logic
 	
 	}
 
-		
+	//---------------------------------------------------------
+
 	bool CCamera::accept(const CMessage *message)
 	{
 		return message->getType() == Message::CAMERA;
 	}
+
+	//---------------------------------------------------------
 
 	 void CCamera::process(CMessage *message)
 	{
@@ -100,6 +103,8 @@ namespace Logic
 		else
 			_targetDistance-=maux->getFloat();
 	}
+
+	//---------------------------------------------------------
 
 	void CCamera::tick(unsigned int msecs)
 	{

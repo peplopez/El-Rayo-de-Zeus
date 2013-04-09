@@ -26,7 +26,7 @@ mover al jugador.
 
 namespace GUI {
 
-	CPlayerController::CPlayerController() : _controlledAvatar(0)
+	CPlayerController::CPlayerController() : _controlledAvatar(0), _baseChangeAllowed(false)
 	{
 
 	} // CPlayerController
@@ -89,7 +89,10 @@ namespace GUI {
 				break;
 
 			case GUI::Key::SPACE:
-				m->setAction(Logic::Message::JUMP);  // Pablo
+				if (_baseChangeAllowed)
+					m->setAction(Logic::Message::CHANGE_BASE);
+				else
+					m->setAction(Logic::Message::JUMP);  // Pablo
 				_controlledAvatar->emitMessage(m);
 				break;
 
@@ -114,76 +117,76 @@ namespace GUI {
 				break;
 
 			case GUI::Key::NUMBER1:
-				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setAction(Logic::Message::SHOW_BASE);
 				m2->setUShort(1);								
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
+				_baseChangeAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;
 
 			case GUI::Key::NUMBER2:
-				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setAction(Logic::Message::SHOW_BASE);
 				m2->setUShort(2);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
+				_baseChangeAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;	
 
 			case GUI::Key::NUMBER3:
-				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setAction(Logic::Message::SHOW_BASE);
 				m2->setUShort(3);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
+				_baseChangeAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;
 
 			case GUI::Key::NUMBER4:
-				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setAction(Logic::Message::SHOW_BASE);
 				m2->setUShort(4);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
+				_baseChangeAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;	
 
 			case GUI::Key::NUMBER5:
-				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setAction(Logic::Message::SHOW_BASE);
 				m2->setUShort(5);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
+				_baseChangeAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;
 
 			case GUI::Key::NUMBER6:
-				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setAction(Logic::Message::SHOW_BASE);
 				m2->setUShort(6);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
+				_baseChangeAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;	
 
 			case GUI::Key::NUMBER7:
-				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setAction(Logic::Message::SHOW_BASE);
 				m2->setUShort(7);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
+				_baseChangeAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;
 
 			case GUI::Key::NUMBER8:
-				m2->setAction(Logic::Message::CHANGE_BASE);
+				m2->setAction(Logic::Message::SHOW_BASE);
 				m2->setUShort(8);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
+				_baseChangeAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;
-
-			case GUI::Key::NUMBER0:
-				m2->setAction(Logic::Message::CHANGE_BASE);
-				m2->setUShort(0);
-				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
-					return false;
-				_controlledAvatar->emitMessage(m2);
-				break;	
 
 			case GUI::Key::V:
 				m3->setAction(Logic::Message::DISPLAY_HUD);
@@ -221,6 +224,17 @@ namespace GUI {
 				break;
 			case GUI::Key::LSHIFT:
 				m->setAction(Logic::Message::NO_COVER);
+				break;
+			case GUI::Key::NUMBER1:
+			case GUI::Key::NUMBER2:
+			case GUI::Key::NUMBER3:
+			case GUI::Key::NUMBER4:
+			case GUI::Key::NUMBER5:
+			case GUI::Key::NUMBER6:
+			case GUI::Key::NUMBER7:
+			case GUI::Key::NUMBER8:
+				m->setAction(Logic::Message::GOBACK_TO_BASE);
+				_baseChangeAllowed = false;
 				break;
 			default:
 				return false;

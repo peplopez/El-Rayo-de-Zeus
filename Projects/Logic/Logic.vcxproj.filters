@@ -315,6 +315,12 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BasicAI.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Light.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\BaseCamera.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Item.h">
       <Filter>Entity\Components\Items\Header Files</Filter>
     </ClInclude>
