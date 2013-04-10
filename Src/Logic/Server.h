@@ -176,13 +176,13 @@ namespace Logic
 
 		/**
 		*/
-		void deferredMoveEntity(CEntity *entity, int targetMap);
+		void deferredMoveEntity(CEntity *entity,const int targetMap);
 
 		/**
 		*/
 		void moveDefferedEntities();
 
-		void activateBaseCam(int targetMap);
+		void activateBaseCam(const int targetMap);
 
 		void activatePlayerCam();
 

@@ -277,7 +277,7 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	void CServer::deferredMoveEntity(CEntity *entity, int targetMap)
+	void CServer::deferredMoveEntity(CEntity *entity, const int targetMap)
 	{
 		assert(entity);
 		_entitiesToMove[targetMap].push_back(entity);
@@ -317,7 +317,7 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	void CServer::activateBaseCam(int targetMap)
+	void CServer::activateBaseCam(const int targetMap)
 	{
 		_maps[ _mapNames[targetMap - 1] ]->activateBaseCam();
 	}
