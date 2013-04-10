@@ -75,7 +75,9 @@ namespace Graphics
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
 						->addViewport(_camera->getCamera());
 
-		
+		_camera->getCamera()->setAspectRatio(
+        Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
+
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
 
 		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
@@ -99,6 +101,9 @@ namespace Graphics
 		// HACK en pruebas
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
 						->addViewport(_baseCamera->getCamera());
+
+		_baseCamera->getCamera()->setAspectRatio(
+        Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
 
 		
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
