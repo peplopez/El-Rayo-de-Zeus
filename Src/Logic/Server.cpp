@@ -303,6 +303,7 @@ namespace Logic {
 				if ((*entity)->isPlayer())
 				{
 					(*entity)->getMap()->removeEntity(*entity);
+					(*entity)->getLogicalPosition()->setBase(it->first);
 					_maps[ _mapNames[it->first - 1] ]->insertEntity(*entity);
 					(*entity)->activate();
 					_player->getMap()->setVisible();

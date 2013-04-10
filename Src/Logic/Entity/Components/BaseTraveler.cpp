@@ -53,18 +53,17 @@ namespace Logic
 	void CBaseTraveler::timeArrived()
 	{
 		if (_changingBase && !this->isChangingRing())
-		{
+		{	
+			jumpToBase();
 			LOG("EXITO");
 			CMessageChar *m0 = new CMessageChar();	
 			m0->setType(Message::AVATAR_MOVE);
 			m0->setAction(Message::CHANGE_BASE);
-			m0->setChar( _destiny - (int) _entity->getLogicalPosition()->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
+			m0->setChar( _baseToGo - (int) _entity->getLogicalPosition()->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
 			_entity->emitMessage(m0,this);
 
-
-			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _destiny );
-
-
+			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _baseToGo );
+			
 			CMessageString *m2 = new CMessageString();	
 			m2->setType(Message::SET_MATERIAL);
 			m2->setString("marine");
@@ -75,8 +74,6 @@ namespace Logic
 
 		_changingBase=false;
 		_changingBaseTime=0;
-			
-	
 	}
 	//---------------------------------------------------------
 
@@ -112,8 +109,6 @@ namespace Logic
 					(message->getType() == Message::CONTROL && message->getAction() == Message::SHOW_BASE) || 
 					  (message->getType() == Message::CONTROL && message->getAction() == Message::GOBACK_TO_BASE)  || 
 					   (message->getType() == Message::CONTROL && message->getAction() == Message::CHANGE_BASE)));
-		
-
 	} // accept
 	
 	//---------------------------------------------------------
@@ -129,7 +124,10 @@ namespace Logic
 			if(message->getAction() == Message::SHOW_BASE)
 			{
 				CMessageUShort *maux = static_cast<CMessageUShort*>(message);
-				CBaseTraveler::showBase(maux->getUShort());	
+				
+				if (_gameStatus->getNumBases()>maux->getUShort())
+					CBaseTraveler::showBase(maux->getUShort());	
+				
 			}
 			if(message->getAction() == Message::GOBACK_TO_BASE)
 			{
@@ -137,7 +135,8 @@ namespace Logic
 			}
 			if(message->getAction() == Message::CHANGE_BASE && _changeAllowed)
 			{
-				CBaseTraveler::jumpToBase();
+			//	CBaseTraveler::jumpToBase();
+				_changingBase=true;
 			}
 		}
 	}
@@ -149,10 +148,8 @@ namespace Logic
 		_baseToGo = base;
 	
 		Logic::CServer* srv = Logic::CServer::getSingletonPtr();
-		//srv->deferredMoveEntity(_entity, base);
 		srv->activateBaseCam(base);
 		LOG("Showing Base " <<  base );
-
 	}
 
 	//---------------------------------------------------------
@@ -160,8 +157,7 @@ namespace Logic
 	{
 		if (_changeAllowed)
 		{
-			_changeAllowed = false;
-		//	_baseToGo = 0;
+			_changeAllowed = false;		
 			
 			Logic::CServer* srv = Logic::CServer::getSingletonPtr();
 			srv->activatePlayerCam();
@@ -176,11 +172,9 @@ namespace Logic
 			_changeAllowed = false;
 			_changingBase=true;
 			
-			
 			Logic::CServer* srv = Logic::CServer::getSingletonPtr();
-			srv->deferredMoveEntity(_entity, _baseToGo);
-			_destiny=_baseToGo;
-		//	_baseToGo = 0;
+			_entity->getLogicalPosition()->setBase(_baseToGo);
+			srv->deferredMoveEntity(_entity, _baseToGo);			
 		}
 	}
 
