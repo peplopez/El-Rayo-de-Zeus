@@ -61,7 +61,9 @@ namespace Logic
 			m0->setChar( _destiny - (int) _entity->getLogicalPosition()->getBase() ); // ƒ®§ Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
 			_entity->emitMessage(m0,this);
 
+
 			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _destiny );
+
 
 			CMessageString *m2 = new CMessageString();	
 			m2->setType(Message::SET_MATERIAL);
@@ -82,7 +84,7 @@ namespace Logic
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;		
-		
+		_changingBase=false;
 		//lo hago aquí mismo, en algún componente hay que hacerlo y en principio solo los personajes
 		//player  (ya sea humano o bot) pueden viajar entre bases.
 		
@@ -159,7 +161,7 @@ namespace Logic
 		if (_changeAllowed)
 		{
 			_changeAllowed = false;
-			_baseToGo = 0;
+		//	_baseToGo = 0;
 			
 			Logic::CServer* srv = Logic::CServer::getSingletonPtr();
 			srv->activatePlayerCam();
@@ -172,12 +174,13 @@ namespace Logic
 		if (_changeAllowed)
 		{
 			_changeAllowed = false;
-			
+			_changingBase=true;
 			
 			
 			Logic::CServer* srv = Logic::CServer::getSingletonPtr();
 			srv->deferredMoveEntity(_entity, _baseToGo);
-			_baseToGo = 0;
+			_destiny=_baseToGo;
+		//	_baseToGo = 0;
 		}
 	}
 

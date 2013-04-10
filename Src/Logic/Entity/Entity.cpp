@@ -116,7 +116,7 @@ namespace Logic
 		}
 		else //logicInput=false
 		{
-			position=CServer::getSingletonPtr()->getRingPositions(_pos->getBase(),_pos->getRing());						
+			position=CServer::getSingletonPtr()->getRingPositions(0/*_pos->getBase()*/,_pos->getRing());						
 			_transform.setTrans(position);
 		}
 
@@ -222,7 +222,7 @@ namespace Logic
 		}
 
 		Vector3 resultado=Vector3::ZERO;
-		resultado=Math::fromCylindricalToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset,CServer::getSingletonPtr()->getRingPositions(base,ring).y+altura+126);
+		resultado=Math::fromCylindricalToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset,CServer::getSingletonPtr()->getRingPositions(0/*arreglo que se ha hecho, temporal*/,ring).y+altura+126);
 		return resultado;
 	 }
 	 
@@ -230,7 +230,7 @@ namespace Logic
 	const float CEntity::getY(const unsigned short base, const Logic::Ring ring)
 	{ 	
 		Vector3 position=Vector3::ZERO;
-		position=CServer::getSingletonPtr()->getRingPositions(base,ring);	
+		position=CServer::getSingletonPtr()->getRingPositions(0/*base*/,ring);	
 		return position.y;
 	}
 

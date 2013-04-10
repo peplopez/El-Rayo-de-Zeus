@@ -8,7 +8,7 @@ Map ={
 		targetHeight = 7,
 		angularSpeed = 1,
 		ring=1,
-		base=0,
+		base=2,
 		degrees=0;
 		sense=0,
 		logicInput=true,
@@ -17,7 +17,7 @@ Map ={
 	
 	Gemelo = {
 		type = "OtherPlayer",
-		base=0,
+		base=2,
 		ring=0,
 		degrees=120,		
 	},
@@ -34,27 +34,27 @@ Map ={
 		
 	puApple1 = {
 		type = "PUApple",
-		base=0,
+		base=2,
 		ring=0,
 		degrees=0,
 	},
 	puThrone1 = {
 		type = "PUThrone",
-		base=0,
+		base=2,
 		ring=0,
 		degrees=120,
 	},
 
 	puPoison1 = {
 		type = "PUPoison",
-		base=0,
+		base=2,
 		ring=1,
 		degrees=180,
 	},
 	
 	bioshockLOGICO74 = {
 		type = "Bigdaddy",
-		base=0,
+		base=2,
 		ring=1,
 		degrees=300,		
 	},	
@@ -62,19 +62,19 @@ Map ={
 	
 	LowerRing = {
 		type = "World",
-		base=0,
+		base=2,
 		ring=0,
 	},
 	
 	CenterRing = {
 		type = "World",
-		base=0,
+		base=2,
 		ring=1,
 	},
 	
 	UpperRing = {
 		type = "World",
-		base=0,
+		base=2,
 		ring=2,
 	},
 	
@@ -82,77 +82,77 @@ Map ={
 		type = "Altar2",
 		degrees=60,
 		ring=0,
-		base=0,	
+		base=2,	
 	},
 	
 	Altar2 = {
 		type = "Altar2",
 		degrees=180,
 		ring=0,
-		base=0,		
+		base=2,		
 	},
 	
 	Altar3 = {
 		type = "Altar2",
 		degrees=300,
 		ring=0,
-		base=0,		
+		base=2,		
 	},
 	
 	Altar4 = {
 		type = "Altar2",
 		degrees=36,
 		ring=1,
-		base=0,		
+		base=2,		
 	},
 	
 	Altar5 = {
 		type = "Altar2",
 		degrees=108,
 		ring=1,
-		base=0,		
+		base=2,		
 	},
 	
 	Altar6 = {
 		type = "Altar2",
 		degrees=180,
 		ring=1,
-		base=0,		
+		base=2,		
 	},
 	
 	Altar7 = {
 		type = "Altar2",
 		degrees=252,
 		ring=1,
-		base=0,		
+		base=2,		
 	},
 	
 	Altar8 = {
 		type = "Altar2",
 		degrees=324,
 		ring=1,
-		base=0,		
+		base=2,		
 	},
 	
 	Altar9 = {
 		type = "Altar2",
 		degrees=60,
 		ring=2,
-		base=0,		
+		base=2,		
 	},
 	
 	Altar10 = {
 		type = "Altar2",
 		degrees=180,
 		ring=2,
-		base=0,		
+		base=2,		
 	},
 	
 	Altar11 = {
 		type = "Altar2",
 		degrees=300,
 		ring=2,
-		base=0,		
+		base=2,		
 	},				
 
 }
