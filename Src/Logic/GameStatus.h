@@ -68,7 +68,9 @@ namespace Logic
 		
 		CPlayerInfo* getPlayer(unsigned short player);
 		
-		//void setBases();
+		unsigned short getNumBases(){return _numBases;}
+		
+		unsigned short getNumPlayers(){return _numPlayers;}
 		
 	protected:
 	
