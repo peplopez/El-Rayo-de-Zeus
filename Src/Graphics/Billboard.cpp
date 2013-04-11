@@ -40,9 +40,11 @@ namespace Graphics
 								->createChildSceneNode(_parentName + "_nodeBillboard");
 				_node->attachObject(_bbSet);
 
+			_loaded = true;
+				
 			setTextureCoords(_u0, _v0, _u1, _v1);
 
-			_loaded = true;
+			
 
 		} catch(std::exception e){
 			_loaded = false;
