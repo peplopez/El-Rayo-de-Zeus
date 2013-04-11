@@ -150,8 +150,8 @@ namespace AI
 		_entity->getComponent<CAttack>()->resetAttackFlags();
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 		_entity->getComponent<CAvatarController>()->sleep();
-		if (_entity->getComponent<CJump2>()!=NULL)
-		_entity->getComponent<Logic::CJump2>()->sleep();
+		if (_entity->getComponent<CJump>()!=NULL)
+		_entity->getComponent<Logic::CJump>()->sleep();
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)
 		_entity->getComponent<CBaseTraveler>()->sleep();
 	}
@@ -162,8 +162,8 @@ namespace AI
 		_entity->getComponent<CAttack>()->resetAttackFlags();
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 		_entity->getComponent<CAvatarController>()->awake();
-		if (_entity->getComponent<CJump2>()!=NULL)
-		_entity->getComponent<Logic::CJump2>()->awake();
+		if (_entity->getComponent<CJump>()!=NULL)
+		_entity->getComponent<Logic::CJump>()->awake();
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)
 		_entity->getComponent<CBaseTraveler>()->awake();
 	}

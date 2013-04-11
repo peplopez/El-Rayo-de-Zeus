@@ -23,7 +23,7 @@ si la acción asociada al nodo ha terminado con fallo).
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Components/AvatarController.h"
-#include "Logic/Entity/Components/Jump2.h"
+#include "Logic/Entity/Components/Jump.h"
 #include "../LatentActions/LatentAction.h"
 
 using namespace Logic;
@@ -165,8 +165,8 @@ namespace AI
 	public:
 		bool check(CLatentAction* currentNode, CEntity* entity)
 		{
-			if  (entity->getComponent<CJump2>()!=NULL)			
-				return !entity->getComponent<CJump2>()->getJumping();
+			if  (entity->getComponent<CJump>()!=NULL)			
+				return !entity->getComponent<CJump>()->getJumping();
 			return false;
 		}
 };

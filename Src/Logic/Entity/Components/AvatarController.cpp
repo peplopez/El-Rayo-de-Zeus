@@ -77,10 +77,10 @@ namespace Logic
 
 	bool CAvatarController::accept(const CMessage *message)
 	{
-		return (message->getType() == Message::CONTROL && 
-					(message->getAction() == Message::WALK_LEFT ||
-						message->getAction() == Message::WALK_RIGHT ||
-							message->getAction() == Message::WALK_STOP));
+		return (message->getType() == Message::CONTROL	&& 
+			(message->getAction() == Message::WALK_LEFT ||
+			message->getAction() == Message::WALK_RIGHT ||
+			message->getAction() == Message::WALK_STOP));
 	} // accept
 	
 	//---------------------------------------------------------

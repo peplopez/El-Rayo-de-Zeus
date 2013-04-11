@@ -1,7 +1,7 @@
 #include "LA_Attack.h"
 #include "../../Logic/Entity/Components/Attack.h"
 #include "../../Logic/Entity/Components/AvatarController.h"
-#include "../../Logic/Entity/Components/Jump2.h"
+#include "../../Logic/Entity/Components/Jump.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
 #include "Application/BaseApplication.h"
 
@@ -254,8 +254,8 @@ namespace AI
 		_entity->getComponent<CAttack>()->resetAttackFlags();
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 		_entity->getComponent<CAvatarController>()->sleep();
-		if (_entity->getComponent<CJump2>()!=NULL)
-		_entity->getComponent<Logic::CJump2>()->sleep();
+		if (_entity->getComponent<CJump>()!=NULL)
+		_entity->getComponent<Logic::CJump>()->sleep();
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)
 		_entity->getComponent<CBaseTraveler>()->sleep();
 	}
@@ -266,8 +266,8 @@ namespace AI
 		_entity->getComponent<CAttack>()->resetAttackFlags();
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 		_entity->getComponent<CAvatarController>()->awake();
-		if (_entity->getComponent<CJump2>()!=NULL)
-		_entity->getComponent<Logic::CJump2>()->awake();
+		if (_entity->getComponent<CJump>()!=NULL)
+		_entity->getComponent<Logic::CJump>()->awake();
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)
 		_entity->getComponent<CBaseTraveler>()->awake();
 	}
