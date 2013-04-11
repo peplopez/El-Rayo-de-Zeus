@@ -30,7 +30,7 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-	CServer::CServer() :  _gameNetMsgManager(0)
+	CServer::CServer() :  _gameNetMsgManager(0), _worldIsLoaded(false)
 	{
 		_instance = this;
 
@@ -158,6 +158,9 @@ namespace Logic {
 
 	bool CServer::loadWorld(const TMapNameList mapList)
 	{		
+		if(_worldIsLoaded)
+			unLoadWorld();
+
 		// Inicializamos el gestor de los mensajes de red durante el estado de juego
 		if (!Logic::CGameStatus::Init(mapList.size()))
 			return false;
@@ -165,29 +168,32 @@ namespace Logic {
 		TMapNameList::const_iterator it = mapList.begin();
 		TMapNameList::const_iterator end = mapList.end();
 		
-		bool loaded = false;
-			for (; it != end; ++it)
-			{
-				loaded = loadMap(*it);
-				_mapNames.push_back(*it);
-			}	
+	
+		for (; it != end; ++it)
+		{
+			_worldIsLoaded = loadMap(*it);
+			_mapNames.push_back(*it);
+		}	
 
-		return loaded;
+		return _worldIsLoaded;
 	}
 
 	//---------------------------------------------------------
 
 	void CServer::unLoadWorld()
 	{
-		TMaps::const_iterator it = _maps.begin();
-		TMaps::const_iterator end = _maps.end();
+		if(_worldIsLoaded) {
+
+			TMaps::const_iterator it = _maps.begin();
+			TMaps::const_iterator end = _maps.end();
 		
-		while (it != end)
-			unLoadMap(it++->first);
+			while (it != end)
+				unLoadMap(it++->first);
 
-		Logic::CGameStatus::Release(); // FRS 1304 Borramos GameStatus
-
-		_player = 0;
+			Logic::CGameStatus::Release(); // FRS 1304 Borramos GameStatus
+			_player = 0;
+			_worldIsLoaded = false;
+		}
 	}
 
 	//---------------------------------------------------------
