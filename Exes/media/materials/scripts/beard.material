@@ -11,7 +11,7 @@ material barba4
 
 			texture_unit
 			{
-				texture barba_DF.tga
+				texture beard_DF.tga
 			}
 		}
 

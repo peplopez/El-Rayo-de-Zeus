@@ -49,21 +49,20 @@ namespace Logic
 		_players.clear();
 	}
 
-		bool CGameStatus::Init(const unsigned short numPlayers)
+	bool CGameStatus::Init(const unsigned short numPlayers)
 	{
-		assert(!_instance && "Segunda inicialización de Logic::CGameNetMsgManager no permitida!");
+		assert(!_instance && "Segunda inicialización de Logic::CGameStatus no permitida!");
 
 		new CGameStatus(numPlayers);
 
 		return true;
-
 	} // Init
 
 	//--------------------------------------------------------
 
 	void CGameStatus::Release()
 	{
-		assert(_instance && "Logic::CGameNetMsgManager no está inicializado!");
+		assert(_instance && "Logic::CGameStatus no está inicializado!");
 
 		if(_instance)
 			delete _instance;

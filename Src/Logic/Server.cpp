@@ -102,14 +102,11 @@ namespace Logic {
 
 	void CServer::close() 
 	{
-		unLoadWorld();
-
 		Logic::CGameNetMsgManager::Release();
 
 		Logic::CEntityFactory::Release();
 		
 		Map::CMapParser::Release();
-
 	} // close
 
 	//--------------------------------------------------------
@@ -123,11 +120,9 @@ namespace Logic {
 
 		TMaps::const_iterator it = _maps.begin();
 		TMaps::const_iterator end = _maps.end();
-
 		
 		for (; it != end; ++it)
-			  it->second->tick(msecs);
-
+			it->second->tick(msecs);
 	} // tick
 
 	//---------------------------------------------------------
@@ -139,11 +134,8 @@ namespace Logic {
 		// se borra el mapa anterior.
 		unLoadMap(filename);
 
-
 		if(_maps[filename] = CMap::createMapFromFile(filename))
 			return true;
-	
-
 	} // loadLevel
 
 	//--------------------------------------------------------
@@ -165,28 +157,20 @@ namespace Logic {
 	//---------------------------------------------------------
 
 	bool CServer::loadWorld(const TMapNameList mapList)
-	{	
-
-		_gameStatus = Logic::CGameStatus::getSingletonPtr();
-
+	{		
 		// Inicializamos el gestor de los mensajes de red durante el estado de juego
 		if (!Logic::CGameStatus::Init(mapList.size()))
 			return false;
-
 
 		TMapNameList::const_iterator it = mapList.begin();
 		TMapNameList::const_iterator end = mapList.end();
 		
 		bool loaded = false;
-
-		for (; it != end; ++it)
-		{
-			loaded = loadMap(*it);
-			_mapNames.push_back(*it);
-		}
-		
-		//PEP: creo el gameStatus
-	
+			for (; it != end; ++it)
+			{
+				loaded = loadMap(*it);
+				_mapNames.push_back(*it);
+			}	
 
 		return loaded;
 	}
@@ -200,7 +184,9 @@ namespace Logic {
 		
 		while (it != end)
 			unLoadMap(it++->first);
-		
+
+		Logic::CGameStatus::Release(); // FRS 1304 Borramos GameStatus
+
 		_player = 0;
 	}
 
