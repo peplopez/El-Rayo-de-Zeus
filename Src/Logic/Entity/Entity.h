@@ -218,6 +218,15 @@ namespace Logic
 		*/
 		const std::string &getName() const { return _name; }
 
+
+		
+		/**
+		Devuelve el nombre de la entidad.
+
+		@return Nombre de la entidad.
+		*/
+		const std::string &getInitialMaterial() const { return _initialMaterial; }
+
 		/**
 		Devuelve el tipo de la entidad. Este atributo es leido de
 		la entidad del mapa en spawn().
@@ -464,6 +473,10 @@ namespace Logic
 		*/
 		Matrix4 _transform;
 
+				/**
+		Nombre de la entidad.
+		*/
+		std::string _initialMaterial;
 		/*
 		Posición de la entidad.
 		*

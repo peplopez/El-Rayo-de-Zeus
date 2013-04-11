@@ -58,6 +58,7 @@ namespace Logic
 
 	void CBasicAI::timeArrived()
 	{
+		_waiting=false;
 		int v1 = rand() % 2; 
 		if (v1==0)
 		{
@@ -180,7 +181,7 @@ namespace Logic
 						m4->setType(Logic::Message::CONTROL);
 						m4->setAction(Logic::Message::WALK_STOP);
 						_entity->emitMessage(m4);
-						_reloj->addTimeObserver(2,this,2500);		
+						
 					}
 					break;
 				}
@@ -192,15 +193,20 @@ namespace Logic
 		if (_gameStatus->getPlayer(_entity->getOriginBase())!=NULL)
 		if (_gameStatus->getPlayer(_entity->getOriginBase())->inMyBase())
 			_agresivo=true;
-		else
-			_agresivo=false;
+	/*	else
+			_agresivo=false;*/
 		
 			IComponent::tick(msecs);
 			// (_entity->getName()!="locoCubriendose")
 				if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase()==_entity->getLogicalPosition()->getBase())
 					if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing())
 					{
-					//en el mismo anillo
+						if (_waiting==false)
+						{
+							_reloj->addTimeObserver(_entity->getOriginBase(),this,2500);		
+						_waiting=true;
+						}
+						//en el mismo anillo
 						//ser agresivo
 						if (!(_entity->getComponent<CAvatarController>()->isWalkingLeft() || _entity->getComponent<CAvatarController>()->isWalkingRight() ))
 						{

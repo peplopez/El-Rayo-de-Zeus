@@ -72,6 +72,11 @@ namespace Logic
 			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna por defecto dirección LEFT
 			_pos->setSense(Logic::LogicalPosition::LEFT);
 
+		if(entityInfo->hasAttribute("initialMaterial"))
+			_initialMaterial = entityInfo->getStringAttribute("initialMaterial");	
+		else
+			_initialMaterial = "marine";	
+		
 		if(entityInfo->hasAttribute("base"))					
 		{
 			_pos->setBase(entityInfo->getIntAttribute("base"));

@@ -165,7 +165,7 @@ namespace AI
 				{					
 					CMessageString *m2 = new CMessageString();	
 					m2->setType(Message::SET_MATERIAL);
-					m2->setString("marine");
+					m2->setString(_entity->getInitialMaterial());
 					_entity->emitMessage(m2);	
 		//			finish(false);
 				}
@@ -173,7 +173,7 @@ namespace AI
 				{			
 					CMessageString *m2 = new CMessageString();	
 					m2->setType(Message::SET_MATERIAL);
-					m2->setString("marine");
+					m2->setString(_entity->getInitialMaterial());
 					_entity->emitMessage(m2);	
 					finish(false);
 				}
@@ -218,7 +218,18 @@ namespace AI
 				_actionScale=Message::Y_AXIS;
 				_contador=1.0f;
 				m->setAction(_actionScale);
+				/*if (_action==Message::CHANGE_RING)
+				{
+					CMessageChar *m0 = new CMessageChar();	
+					m0->setType(Message::AVATAR_MOVE);
+					m0->setAction(Message::CHANGE_RING);		
+					m0->setChar(_toUp);
+					_entity->emitMessage(m0,this);	
+				//	LOG("Change Ring: " << (int) m0->getChar() );
+				}
+				else*/
 				timeArrived();//aquí es el final
+
 
 			}
 

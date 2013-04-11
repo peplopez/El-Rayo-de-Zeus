@@ -9,17 +9,18 @@ Map ={
 		angularSpeed = 1,
 		ring=1,
 		base=2,
-		degrees=0;
+		degrees=0,
 		sense=0,
 		logicInput=true,
 		radio=120,
 	},
 	
-	Gemelo = {
+	GemeloBlue = {
 		type = "OtherPlayer",
 		base=2,
 		ring=0,
-		degrees=120,		
+		degrees=120,
+		initialMaterial="marineBlue",
 	},
 	
 	BaseCamera1 = {

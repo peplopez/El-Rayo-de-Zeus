@@ -24,6 +24,30 @@ Map = {
 		physicTrigger = true,
 	},
 	
+	Altar3 = {
+		type = "Altar",
+		model = "altar.mesh",
+		activatedMaterial = "greenActivated",
+		unactivatedMaterial = "greenUnactivated",
+		scaleFactor = 3,
+		logicInput=true,
+		physicWidth = 2.5,
+		physicHeight = 7.5,
+		physicTrigger = true,
+	},
+
+	Altar4 = {
+		type = "Altar",
+		model = "altar.mesh",
+		activatedMaterial = "yellowActivated",
+		unactivatedMaterial = "yellowUnactivated",
+		scaleFactor = 3,
+		logicInput=true,
+		physicWidth = 2.5,
+		physicHeight = 7.5,
+		physicTrigger = true,
+	},
+		
 	PointLight = {
 		type = "Light",
 		lightType = "point",
@@ -133,6 +157,7 @@ Map = {
 		behavior="Hercules",
 		hpModifier=10,
 		hero="Hercules",
+		initialMaterial="marine",
 		audio="media\\audio\\QUEJIDO1.wav",
 	},
 	
@@ -184,6 +209,7 @@ Map = {
 		behavior="Hercules",
 		hpModifier=10,
 		hero="Aquiles",
+		initialMaterial="marine",
 		audio="media\\audio\\QUEJIDO1.wav",
 		audioCubriendose="media\\audio\\Sword_scrape2.wav",
 	},

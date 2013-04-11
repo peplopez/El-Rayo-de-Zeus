@@ -40,6 +40,7 @@ namespace Logic
 	
 	void CRingTraveler::timeArrived()
 	{
+		//return;
 		if (_changingRing /*&& !_desencogiendo*/)
 		{
 			CMessageChar *m0 = new CMessageChar();	
@@ -56,7 +57,7 @@ namespace Logic
 		{
 			CMessageString *m3 = new CMessageString();	
 			m3->setType(Message::SET_MATERIAL);
-			m3->setString("marine");
+			m3->setString(_entity->getInitialMaterial());
 			_entity->emitMessage(m3,this);
 			_desencogiendo=false;
 		
@@ -78,7 +79,7 @@ namespace Logic
 
 	
 	bool CRingTraveler::accept(const CMessage *message)
-	{//que no os confunda el nombre de mensaje CHANGE_PLANE es tanto para cambiar de base como de anillo dentro de la base. Apreciad que en cualquier caso siempre es un cambio de anillo, de ahí el nombre
+	{
 		if (_entity->getLogicalPosition()->getRing()==Logic::LogicalPosition::LOWER_RING && message->getAction()==Message::GO_DOWN)
 			return false;
 		if (_entity->getLogicalPosition()->getRing()==Logic::LogicalPosition::UPPER_RING && message->getAction()==Message::GO_UP)

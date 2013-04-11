@@ -64,8 +64,8 @@ namespace Logic
 		
 		if(entityInfo->hasAttribute("unactivatedMaterial"))
 			_unactivatedMaterial = entityInfo->getStringAttribute("unactivatedMaterial");
-
-		return true;
+	
+	return true;
 
 	} // spawn
 	
@@ -73,6 +73,13 @@ namespace Logic
 
 	bool CAltar::activate()
 	{
+			//poner el submaterial de los altares desactivados de inicio
+			LOG(_entity->getName() << ": desactivado")
+			CMessageUIntString *m = new CMessageUIntString();	
+			m->setType(Message::SET_SUBENTITY_MATERIAL);
+			m->setString(_unactivatedMaterial);
+			m->setUInt(0);
+			_entity->emitMessage(m,this);
 		_acumTime = _switchingTime;
 
 		return true;

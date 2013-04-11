@@ -52,26 +52,30 @@ namespace Logic
 	
 	void CBaseTraveler::timeArrived()
 	{
+	
 		if (_changingBase && !this->isChangingRing())
 		{	
 			jumpToBase();
 			LOG("EXITO");
-			CMessageChar *m0 = new CMessageChar();	
+			/*CMessageChar *m0 = new CMessageChar();	
 			m0->setType(Message::AVATAR_MOVE);
 			m0->setAction(Message::CHANGE_BASE);
 			m0->setChar( _baseToGo - (int) _entity->getLogicalPosition()->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
-			_entity->emitMessage(m0,this);
+			_entity->emitMessage(m0,this);*/
 
 			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _baseToGo );
 			
 			CMessageString *m2 = new CMessageString();	
 			m2->setType(Message::SET_MATERIAL);
-			m2->setString("marine");
+			m2->setString(_entity->getInitialMaterial());
 			_entity->emitMessage(m2,this);
 		}
 		else
-				CRingTraveler::timeArrived();
-
+			//if (this->isChangingRing())
+		{
+			
+			CRingTraveler::timeArrived();
+		}
 		_changingBase=false;
 		_changingBaseTime=0;
 	}
@@ -133,10 +137,17 @@ namespace Logic
 			{
 				CBaseTraveler::returnToPlayerBase();
 			}
-			if(message->getAction() == Message::CHANGE_BASE && _changeAllowed)
+			if(message->getAction() == Message::CHANGE_BASE)// lo de _chageAllowed no funciona con los bots
 			{
-			//	CBaseTraveler::jumpToBase();
-				_changingBase=true;
+				if (_changeAllowed)
+				{
+					_changingBase=true;
+				}
+				if (_entity->getName()=="GemeloGreen" || _entity->getName()=="GemeloYellow" /*|| _entity->getName()=="GemeloBlue"*/)
+				{
+					_baseToGo= CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase();
+					_changingBase=true;
+				}
 			}
 		}
 	}
@@ -167,13 +178,12 @@ namespace Logic
 	//---------------------------------------------------------
 	void CBaseTraveler::jumpToBase()
 	{
-		if (_changeAllowed)
+		if (_changeAllowed || !_entity->isPlayer())
 		{
 			_changeAllowed = false;
 			_changingBase=true;
 			
 			Logic::CServer* srv = Logic::CServer::getSingletonPtr();
-			_entity->getLogicalPosition()->setBase(_baseToGo);
 			srv->deferredMoveEntity(_entity, _baseToGo);			
 		}
 	}

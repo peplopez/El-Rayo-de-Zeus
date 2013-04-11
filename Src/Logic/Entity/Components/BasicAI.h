@@ -48,7 +48,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CBasicAI() : IComponent(GetAltTypeIdOf(CBasicAI)),_agresivo(true){}
+		CBasicAI() : IComponent(GetAltTypeIdOf(CBasicAI)),_agresivo(true),_waiting(false){}
 
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -129,6 +129,8 @@ namespace Logic
 		bool _agresivo;
 
 		Logic::CGameStatus* _gameStatus;
+
+		bool _waiting;
 	}; // class CBasicAI
 
 	REG_FACTORY(CBasicAI);
