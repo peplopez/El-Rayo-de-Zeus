@@ -38,7 +38,9 @@ namespace Graphics
 			
 			_node = getSceneMgr()->getSceneNode( _parentName + "_node")
 								->createChildSceneNode(_parentName + "_nodeBillboard");
-				_node->attachObject(_bbSet);	
+				_node->attachObject(_bbSet);
+
+			setTextureCoords(_u0, _v0, _u1, _v1);
 
 			_loaded = true;
 
@@ -79,6 +81,7 @@ namespace Graphics
 	//Las coordenadas se le dan al Billboard.
 	void CBillboard::setTextureCoords(const float u0,const float v0,const float u1,const float v1){
 		assert(_loaded && "Imprescindible haber cargado el billboard en escena primero");
+		_u0 = u0; _v0 = v0; _u1 = u1; _v1 = v1;
 		_bbSet->getBillboard(0)->setTexcoordRect(u0,v0,u1,v1);
 	}
 

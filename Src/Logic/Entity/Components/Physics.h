@@ -78,7 +78,9 @@ namespace Logic
 		virtual void process(CMessage *message) {}
 		virtual void tick(unsigned int msecs) {}
 
-		virtual Physics::CActor* getPhysicalActor() { return _physicalActor;}
+		virtual void detachFromMap();
+		virtual void attachToMap(CMap* map);
+
  
 		/**************
 			IOBSERVER

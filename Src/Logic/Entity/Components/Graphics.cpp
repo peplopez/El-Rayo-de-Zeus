@@ -44,7 +44,22 @@ namespace Logic
 		}
 
 	} // ~CGraphics
-	
+
+	//---------------------------------------------------------
+
+	void CGraphics::detachFromMap()
+	{
+		_scene->remove(_graphicalEntity);
+	}
+
+	//---------------------------------------------------------
+
+	void CGraphics::attachToMap(CMap* map)
+	{
+		_scene = map->getGraphicScene();
+		_scene->add(_graphicalEntity);
+	}
+
 	//---------------------------------------------------------
 
 	bool CGraphics::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 

@@ -39,6 +39,24 @@ namespace Logic
 			delete _lifeBarBB;
 		}
 	}
+
+	//---------------------------------------------------------
+
+
+	void CLife::detachFromMap()
+	{
+		_graphicalScene->remove(_lifeBarBB);
+		_graphicalScene = NULL;
+	}
+
+	//---------------------------------------------------------
+
+	void CLife::attachToMap(CMap* map)
+	{
+		_graphicalScene = map->getGraphicScene();
+		_graphicalScene->add(_lifeBarBB);
+	}
+
 	//---------------------------------------------------------
 
 	bool CLife::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 

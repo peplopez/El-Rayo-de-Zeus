@@ -55,8 +55,11 @@ namespace Logic
 		~CLife();
 		
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
-		bool accept(const CMessage *message);
-		void process(CMessage *message);
+		virtual bool accept(const CMessage *message);
+		virtual void process(CMessage *message);
+
+		virtual void detachFromMap();
+		virtual void attachToMap(CMap* map);
 
 		int getLife(){return _life;}
 		

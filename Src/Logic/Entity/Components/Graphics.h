@@ -95,11 +95,8 @@ namespace Logic
 		*/
 		virtual void process(CMessage *message);
 
-		virtual Graphics::CEntity* getGraphicalEntity() { return _graphicalEntity;}
-
-		void resetScene() { _scene = NULL;}
-
-		void setScene(Graphics::CScene* scene) { _scene = scene;}
+		virtual void detachFromMap();
+		virtual void attachToMap(CMap* map);
 
 	protected:
 

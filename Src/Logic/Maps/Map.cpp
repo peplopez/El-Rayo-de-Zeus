@@ -15,19 +15,11 @@ Contiene la implementación de la clase CMap, Un mapa lógico.
 #include "Logic/Entity/Entity.h"
 #include "EntityFactory.h"
 
-#include "Logic/Entity/Components/Graphics.h"
-#include "Logic/Entity/Components/Physics.h"
-#include "Logic/Entity/Components/Life.h"
-
-#include "Logic/Entity/Components/AnimatedGraphics.h"
-#include "Logic/Entity/Components/PhysicalCharacter.h"
-
 #include "Map/MapParser.h"
 #include "Map/MapEntity.h"
 
 #include "Graphics/Server.h"
 #include "Graphics/Scene.h"
-#include "Graphics/Billboard.h"
 
 #include "Physics/Server.h"
 #include "Physics/Scene.h"
@@ -111,6 +103,7 @@ namespace Logic {
 		Graphics::CServer::getSingletonPtr()->setActiveScene(this->getGraphicScene());
 	}
 
+	//---------------------------------------------------------
 
 	void CMap::activateBaseCam()
 	{
@@ -217,49 +210,10 @@ namespace Logic {
 		{			
 			_entityMap[entity->getEntityID()] = entity;
 			_entityList.push_back(entity); 
+			entity->_map = this;
 		}
 
 	} // addEntity
-
-	//--------------------------------------------------------
-
-	void CMap::insertEntity(CEntity *entity)
-	{
-		if( !_entityMap.count(entity->getEntityID() ) )
-		{			
-
-			_entityMap[entity->getEntityID()] = entity;
-			_entityList.push_back(entity);
-			entity->_map = this;
-
-			insertIntoGraphics(entity);
-			insertIntoPhysics(entity);
-
-		}
-
-	} // insertEntity
-
-	//--------------------------------------------------------
-	
-	void CMap::insertIntoGraphics(CEntity *entity)
-	{
-		if (entity->getComponent<CGraphics>())
-			_graphicScene->add(entity->getComponent<CGraphics>()->getGraphicalEntity());
-		if (entity->getComponent<CAnimatedGraphics>())
-			_graphicScene->add(entity->getComponent<CAnimatedGraphics>()->getGraphicalEntity());		
-		if (entity->getComponent<CLife>())
-			_graphicScene->add(entity->getComponent<CLife>()->getBillboard());
-	}
-
-	//--------------------------------------------------------
-
-	void CMap::insertIntoPhysics(CEntity *entity)
-	{
-		if (entity->getComponent<CPhysics>() != NULL)
-			_physicScene->addActor(entity->getComponent<CPhysics>()->getPhysicalActor());
-		if (entity->getComponent<CPhysicalCharacter>() != NULL)
-			_physicScene->addActor(entity->getComponent<CPhysicalCharacter>()->getPhysicalActor());
-	}
 
 	//--------------------------------------------------------
 
@@ -273,33 +227,9 @@ namespace Logic {
 			entity->_map = 0;
 			_entityMap.erase(entity->getEntityID());
 			_entityList.remove(entity);
-
-			removeFromGraphics(entity);
-			removeFromPhysics(entity);
-
 		}
 
 	} // removeEntity
-
-	//--------------------------------------------------------
-
-	void CMap::removeFromGraphics(CEntity *entity)
-	{
-		if (entity->getComponent<CGraphics>())
-			_graphicScene->remove(entity->getComponent<CGraphics>()->getGraphicalEntity());
-		if (entity->getComponent<CAnimatedGraphics>())
-			_graphicScene->remove(entity->getComponent<CAnimatedGraphics>()->getGraphicalEntity());
-	}
-	
-	//--------------------------------------------------------
-	
-	void CMap::removeFromPhysics(CEntity *entity)
-	{
-		if (entity->getComponent<CPhysics>() != NULL)
-			_physicScene->removeActor(entity->getComponent<CPhysics>()->getPhysicalActor());
-		if (entity->getComponent<CPhysicalCharacter>() != NULL)
-			_physicScene->removeActor(entity->getComponent<CPhysicalCharacter>()->getPhysicalActor());
-	}
 
 	//--------------------------------------------------------
 

@@ -99,6 +99,8 @@ namespace Graphics
 		float _height;
 		std::string _material;
 
+		float _u0, _v0, _u1, _v1;
+
 		/** 
 		BillboardSet _bbSet(conjunto de Billboards)
 		*/
