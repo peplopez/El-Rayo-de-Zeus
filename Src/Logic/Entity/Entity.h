@@ -402,6 +402,7 @@ namespace Logic
 		{
 			return _originBase;
 		}
+
 	protected:
 
 		/**

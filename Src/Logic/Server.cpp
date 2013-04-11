@@ -300,11 +300,12 @@ namespace Logic {
 
 			for (; entity != entityEnd; ++entity)
 			{
+				(*entity)->getMap()->removeEntity(*entity);
+				_maps[ _mapNames[it->first - 1] ]->insertEntity(*entity);
+				(*entity)->activate();
+
 				if ((*entity)->isPlayer())
 				{
-					(*entity)->getMap()->removeEntity(*entity);
-					_maps[ _mapNames[it->first - 1] ]->insertEntity(*entity);
-					(*entity)->activate();
 					_player->getMap()->setVisible();
 				}
 

@@ -61,6 +61,9 @@ namespace Logic
 		int getLife(){return _life;}
 		
 		int getLifeMax(){return _LIFE_MAX;}
+
+		Graphics::CBillboard* getBillboard() { return _lifeBarBB; }
+		
 	private:
 
 		Graphics::CScene* _graphicalScene;

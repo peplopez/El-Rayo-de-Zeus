@@ -108,6 +108,10 @@ namespace Graphics
 		}
 		void attach(const std::string &toBone, const std::string &mesh);
 		void detach(const std::string &fromBone);	
+
+		void reattach(const std::string &toBone, const std::string &mesh);
+
+		void reattachAllMeshes();
 		
 
 		/******************
@@ -130,6 +134,7 @@ namespace Graphics
 		/**
 		*/
 		void setMaterial(const std::string &materialName);
+
 		/**
 		*/
 		void setSubEntityMaterial(const std::string &materialName, unsigned int subEntityIndex); 
@@ -158,14 +163,14 @@ namespace Graphics
 		@return true si la entidad pudo crear los objetos necesarios en Ogre
 		o si la entidad ya estaba cargada.
 		*/
-		bool load();
+		virtual bool load();
 
 		/**
 		Elimina las estructuras creadas en Ogre mediante load(). No hace 
 		comprobaciónes de si la entidad está o no cargada o de si pertenece
 		a una escena. Esto se debe hacer de manera externa.
 		*/
-		void unload();
+		virtual void unload();
 		
 		
 	private:
@@ -208,6 +213,10 @@ namespace Graphics
 		typedef std::stack<Ogre::Entity*> TAttachedMeshes;
 		typedef std::map<std::string, TAttachedMeshes> TBoneObjectsTable;
 			TBoneObjectsTable _boneObjectsTable;
+
+		typedef std::deque<std::string> TAttachedMeshNames;
+		typedef std::map<std::string, TAttachedMeshNames> TBoneObjectNamesTable;
+			TBoneObjectNamesTable _boneObjectsNameTable;
 		
 		bool _isStatic;
 

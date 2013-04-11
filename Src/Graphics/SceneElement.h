@@ -51,7 +51,7 @@ namespace Graphics
 		@param name Nombre de la entidad.
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
-		CSceneElement::CSceneElement() : _node(0), _scene(0), _loaded(false) {} 
+		CSceneElement::CSceneElement() : _node(0), _scale(Vector3::UNIT_SCALE), _scene(0), _loaded(false) {} 
 
 		/**
 		Destructor de la aplicación.
@@ -169,6 +169,11 @@ namespace Graphics
 		Nodo que contiene el elemento de escena
 		*/
 		Ogre::SceneNode *_node;
+
+		/**
+		Escala del nodo de escena
+		*/
+		Vector3 _scale;
 
 		/**
 		Indica si el elemento ha sido cargada en el motor gráfico.

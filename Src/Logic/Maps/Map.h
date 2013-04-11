@@ -124,6 +124,10 @@ namespace Logic
 		*/
 		void insertEntity(CEntity *entity);
 
+		void insertIntoGraphics(CEntity *entity);
+
+		void insertIntoPhysics(CEntity *entity);
+
 		/**
 		Elimina una entidad del mapa. Si la entidad no estaba incluida
 		no se hace nada. La función desactiva previamente la entidad si
@@ -135,6 +139,11 @@ namespace Logic
 		@param entity Entidad a eliminar.
 		*/
 		void removeEntity(CEntity *entity);
+
+		void removeFromGraphics(CEntity *entity);
+
+		void removeFromPhysics(CEntity *entity);
+
 
 		/**
 		Elimina y destruye todas las entidades del mapa dejando la lista 
