@@ -52,17 +52,16 @@ namespace Logic
 	void CLifeModifier::process(CMessage *message){
 
 		CMessageUInt* rxMsg = static_cast<CMessageUInt*>(message);
-		CEntity* entity = _entity->getMap()
-			->getEntityByID( rxMsg->getUInt() );
+		CEntity* entity = _entity->getMap()->getEntityByID( rxMsg->getUInt() );
 
 		CMessageInt *txMsg = new CMessageInt();
 			txMsg->setInt(_LIFE_MODIFIER);
-			if (_LIFE_MODIFIER<0)
+			if (_LIFE_MODIFIER < 0)
 				txMsg->setAction(Message::DAMAGE);
 			else
 				txMsg->setAction(Message::HEAL);			
-			txMsg->setType(Logic::Message::LIFE_MODIFIER);
-				entity->emitMessage(txMsg, this);
+			
+			entity->emitMessage(txMsg, this);
 	} // process
 
 } // namespace Logic

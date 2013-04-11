@@ -240,7 +240,7 @@ namespace AI
 				/*	CMessageString *msg = new CMessageString();
 					msg->setType(Message::ANIMATION_FINISHED);
 					msg->setAction(_action);
-					msg->setString("Death");
+					msg->setString("die");
 					_entity->emitMessage(msg);*/
 					finish(false);
 				}				
