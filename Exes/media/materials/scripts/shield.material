@@ -11,7 +11,7 @@ material Escudaco
 
 			texture_unit
 			{
-				texture escudo_DF.tga
+				texture shield_DF.tga
 			}
 		}
 

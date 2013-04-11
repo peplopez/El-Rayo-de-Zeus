@@ -155,7 +155,7 @@ namespace Application {
 		
 			// Llamamos al método de creación del jugador. Deberemos decidir
 			// si el jugador es el jugador local. Al ser el monojugador lo es.
-			Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true, "marine.mesh");
+			Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true);
 
 			// TODO Deberíamos poder propocionar caracteríasticas  (nombre, modelo, etc.)... ==> Ampliar MenuState...
 			break;
@@ -227,7 +227,7 @@ namespace Application {
 		
 		// Llamamos al método de creación del jugador. Deberemos decidir
 		// si el jugador es el jugador local. Al ser el monojugador lo es.
-		Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true, "marine.mesh");
+		Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true);
 
 		// TODO Deberíamos poder propocionar características  (nombre, modelo, etc.)... ==> Ampliar MenuState...
 

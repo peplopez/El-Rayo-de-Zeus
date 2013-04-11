@@ -11,7 +11,7 @@ material casco1
 
 			texture_unit
 			{
-				texture casco_DF.tga
+				texture helmet_DF.tga
 			}
 		}
 

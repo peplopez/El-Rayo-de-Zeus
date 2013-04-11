@@ -20,8 +20,7 @@ namespace Logic
 {
 	class CMap;
 	class CEntity;
-	class CGameNetMsgManager;
-	class CGameStatus;
+	class CGameNetMsgManager;	
 }
 
 /**
@@ -240,10 +239,6 @@ namespace Logic
 		*/
 		Logic::CGameNetMsgManager* _gameNetMsgManager;
 
-		/**
-		Gestor del estado del juego
-		*/
-		Logic::CGameStatus* _gameStatus;
 
 	private:
 		/**
