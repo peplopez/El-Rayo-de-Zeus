@@ -181,7 +181,6 @@ namespace Graphics
 	void CScene::remove(CEntity* entity)
 	{
 		entity->detachFromScene();
-	//--------------------------------------------------------
 
 		entity->isStatic() ?		
 			_staticEntities.remove(entity) :
@@ -189,7 +188,8 @@ namespace Graphics
 
 	} // addEntity
 
-	
+	//--------------------------------------------------------
+
 	void CScene::buildStaticGeometry()
 	{
 		if(!_staticGeometry && !_staticEntities.empty())

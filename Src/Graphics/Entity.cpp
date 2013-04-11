@@ -34,8 +34,14 @@ namespace Graphics
 			_node = getSceneMgr()->getRootSceneNode()
 					->createChildSceneNode(_name + "_node");		
 				_node->attachObject(_entity);		
+			
+			reattachAllMeshes();
+
+			_node->setScale(_scale);
 
 			_loaded = true;
+
+
 
 		} catch(std::exception e){
 			_loaded = false;
@@ -67,6 +73,7 @@ namespace Graphics
 			_loaded = false;
 			getSceneMgr()->destroyEntity(_entity);
 			_entity = 0;
+			_boneObjectsTable.clear();
 		}
 
 	} // unload
@@ -79,6 +86,16 @@ namespace Graphics
 	
 	void CEntity::attach(const std::string &toBone, const std::string &mesh) 
 	{
+		reattach(toBone, mesh);
+		_boneObjectsNameTable[toBone].push_back(mesh); 
+
+
+	} // attach
+
+	//--------------------------------------------------------	
+
+	void CEntity::reattach(const std::string &toBone, const std::string &mesh) 
+	{
 		assert(_node && "La entidad no ha sido cargada en la escena");
 		if(!_node) return;
 
@@ -89,16 +106,38 @@ namespace Graphics
 		assert( !getSceneMgr()->hasEntity(objectName) && "Ya existe un objeto con el mismo nombre en la escena");
 		
 		TAttachedMeshes& boneObjects = _boneObjectsTable[toBone];
-			if( !boneObjects.empty() )				// Si ya había objetos "atachados" a ese hueso
+			if( !boneObjects.empty() )
+				// Si ya había objetos "atachados" a ese hueso
 				boneObjects.top()->setVisible(false); // ocultamos el último attach que tenía el hueso	
 
 		Ogre::Entity* newObject = getSceneMgr()->createEntity(objectName, mesh);			
 			_entity->attachObjectToBone(toBone, newObject);
-			boneObjects.push(newObject);
+			boneObjects.push(newObject); 
 
-	} // attach
+	} // reattach
 
-	//--------------------------------------------------------	
+	//--------------------------------------------------------
+	
+	void CEntity::reattachAllMeshes()
+	{
+		//se recorre el mapa de bicolas para volver a attachar todos los meshes
+		TBoneObjectNamesTable::const_iterator boneDeque = _boneObjectsNameTable.begin();
+		TBoneObjectNamesTable::const_iterator lastBoneDeque = _boneObjectsNameTable.end();
+		for (; boneDeque != lastBoneDeque; ++boneDeque)
+		{
+			TAttachedMeshNames::const_iterator attachedMeshName = boneDeque->second.begin();
+			TAttachedMeshNames::const_iterator lastAttachedMeshName = boneDeque->second.end();
+
+			for (; attachedMeshName != lastAttachedMeshName; ++attachedMeshName)
+			{
+				reattach(boneDeque->first, *attachedMeshName);
+			}
+
+
+		}	
+	} //reattachAllMeshes()
+
+	//--------------------------------------------------------
 
 	void CEntity::detach(const std::string &fromBone) 
 	{
@@ -109,7 +148,8 @@ namespace Graphics
 				return;				// Ningún objeto "atachado" a ese hueso
 
 		getSceneMgr()->destroyEntity(  boneObjects.top() ); // Eliminamos último attach
-
+		
+		_boneObjectsNameTable[fromBone].pop_back();
 		boneObjects.pop();						// lo desapilamos
 		boneObjects.top()->setVisible(true);	//  y activamos el siguiente apilado
 	} // detach

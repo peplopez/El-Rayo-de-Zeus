@@ -44,7 +44,22 @@ namespace Logic
 		}
 
 	} // ~CGraphics
-	
+
+	//---------------------------------------------------------
+
+	void CGraphics::detachFromMap()
+	{
+		_scene->remove(_graphicalEntity);
+	}
+
+	//---------------------------------------------------------
+
+	void CGraphics::attachToMap(CMap* map)
+	{
+		_scene = map->getGraphicScene();
+		_scene->add(_graphicalEntity);
+	}
+
 	//---------------------------------------------------------
 
 	bool CGraphics::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
@@ -76,20 +91,17 @@ namespace Logic
 			
 		if(entityInfo->hasAttribute("material"))
 		{
-			_material = entityInfo->getStringAttribute("material");
-			_graphicalEntity->setMaterial(_material);
+			_graphicalEntity->setMaterial(entityInfo->getStringAttribute("material"));
 		}
 
 		if(entityInfo->hasAttribute("submaterial0"))
 		{
-			_subMaterial0 = entityInfo->getStringAttribute("submaterial0");
-			_graphicalEntity->setSubEntityMaterial(_subMaterial0, 0);
+			_graphicalEntity->setSubEntityMaterial(entityInfo->getStringAttribute("submaterial0"), 0);
 		}
 
 		if(entityInfo->hasAttribute("submaterial1"))
 		{
-			_subMaterial1 = entityInfo->getStringAttribute("submaterial1");
-			_graphicalEntity->setSubEntityMaterial(_subMaterial1, 1);
+			_graphicalEntity->setSubEntityMaterial(entityInfo->getStringAttribute("submaterial1"), 1);
 		}
 
 
@@ -198,11 +210,11 @@ namespace Logic
 		assert( _scene && "LOGIC::GRAPHICS>> No existe escena gráfica!");
 		assert( _model.length() > 0  && "LOGIC::GRAPHICS>> No existe modelo!");	
 		
-		_isStatic = false;
+		bool isStatic = false;
 			if(entityInfo->hasAttribute("static"))
-				_isStatic = entityInfo->getBoolAttribute("static");
+				isStatic = entityInfo->getBoolAttribute("static");
 	
-		Graphics::CEntity* graphicalEntity = new Graphics::CEntity(_entity->getName(),_model, _isStatic);
+		Graphics::CEntity* graphicalEntity = new Graphics::CEntity(_entity->getName(),_model, isStatic);
 			if( _scene->add(graphicalEntity) )		
 				return graphicalEntity;
 			else

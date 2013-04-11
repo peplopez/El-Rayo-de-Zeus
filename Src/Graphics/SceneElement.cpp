@@ -127,7 +127,9 @@ namespace Graphics
 			_node->setOrientation( transform.extractQuaternion() );
 		}
 	} // setTransform
-		
+
+	//------------------------------------------------------------------
+
 	void CSceneElement::setPosition(const Vector3 &position)
 	{
 		assert(_node && "El elemento no ha sido cargado en la escena");
@@ -135,6 +137,8 @@ namespace Graphics
 			_node->setPosition(position);
 
 	} // setPosition
+
+	//------------------------------------------------------------------
 	
 	void CSceneElement::setOrientation(const Matrix3 &orientation)
 	{
@@ -154,13 +158,17 @@ namespace Graphics
 			return _node->getScale();
 	}
 
+	//------------------------------------------------------------------
+
 	void CSceneElement::setScale(const Vector3 &scale)
 	{
 		assert(_node && "El elemento no ha sido cargado en la escena");
 		if(_node)
+			_scale = scale;
 			_node->setScale(scale);
 	} // setScale
-		
+
+	//------------------------------------------------------------------	
 
 
 

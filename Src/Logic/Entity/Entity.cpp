@@ -523,4 +523,27 @@ namespace Logic
 
 	//---------------------------------------------------------
 
+	void CEntity::detachFromMap()
+	{
+		_map->removeEntity(this);
+
+		TComponentMap::const_iterator it = _components.begin();
+		TComponentMap::const_iterator end = _components.end();
+		for (; it != end; ++it) {
+		     it->second->detachFromMap();		
+		}		
+	}
+
+	//---------------------------------------------------------
+
+	void CEntity::attachToMap(CMap *map)
+	{
+		map->addEntity(this);
+
+		TComponentMap::const_iterator it = _components.begin();
+		TComponentMap::const_iterator end = _components.end();
+		for (; it != end; ++it) {
+		     it->second->attachToMap(map);		
+		}		
+	}
 } // namespace Logic

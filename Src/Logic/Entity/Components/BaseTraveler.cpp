@@ -62,8 +62,12 @@ namespace Logic
 			m0->setAction(Message::CHANGE_BASE);
 			m0->setChar( _baseToGo - (int) _entity->getLogicalPosition()->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
 			_entity->emitMessage(m0,this);*/
-
+			
 			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _baseToGo );
+
+			_entity->emitMessage(m0,this);
+
+			
 			
 			CMessageString *m2 = new CMessageString();	
 			m2->setType(Message::SET_MATERIAL);
@@ -129,7 +133,7 @@ namespace Logic
 			{
 				CMessageUShort *maux = static_cast<CMessageUShort*>(message);
 				
-				if (_gameStatus->getNumBases()>maux->getUShort())
+				if (_gameStatus->getNumBases() > maux->getUShort())
 					CBaseTraveler::showBase(maux->getUShort());	
 				
 			}

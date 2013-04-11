@@ -191,7 +191,6 @@ namespace Logic {
 		return loaded;
 	}
 
-	
 	//---------------------------------------------------------
 
 	void CServer::unLoadWorld()
@@ -204,7 +203,6 @@ namespace Logic {
 		
 		_player = 0;
 	}
-
 
 	//---------------------------------------------------------
 
@@ -250,8 +248,6 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	/**
-	*/
 	void CServer::deactivateAllMaps()
 	{
 		TMaps::const_iterator it = _maps.begin();
@@ -300,12 +296,11 @@ namespace Logic {
 
 			for (; entity != entityEnd; ++entity)
 			{
-				/*if ((*entity)->isPlayer())
-				{*/
-					(*entity)->getMap()->removeEntity(*entity);
+				(*entity)->detachFromMap();
+				(*entity)->attachToMap(_maps[ _mapNames[it->first - 1] ]);
+				(*entity)->activate();
+
 					(*entity)->getLogicalPosition()->setBase(it->first);
-					_maps[ _mapNames[it->first - 1] ]->insertEntity(*entity);
-					(*entity)->activate();
 					_player->getMap()->setVisible();
 				//}
 

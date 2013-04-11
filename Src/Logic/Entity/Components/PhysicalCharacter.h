@@ -46,7 +46,7 @@ namespace Logic
 	
 	public:
 
-		CPhysicalCharacter() : CPhysics(GetAltTypeIdOf(CPhysicalCharacter)) {}
+		CPhysicalCharacter() : CPhysics(GetAltTypeIdOf(CPhysicalCharacter)), _auxPos(new Logic::CLogicalPosition()) {}
 
 		/**Este componente sólo acepta mensajes de tipo AVATAR_WALK.*/
 		bool accept(const CMessage *message);
@@ -77,6 +77,10 @@ namespace Logic
 		//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
 		void onTrigger(IObserver*, bool);
 		void onCollision(IObserver* other);
+
+	protected:
+
+		Logic::CLogicalPosition* _auxPos;
 
 		
 	}; // class CPhysicalCharacter

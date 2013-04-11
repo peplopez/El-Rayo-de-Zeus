@@ -23,13 +23,36 @@ con animaciones.
 
 namespace Graphics 
 {
-		
+	//--------------------------------------------------------
+
+	bool CAnimatedEntity::load()
+	{
+		try{
+
+			_loaded = CEntity::load();
+			
+			/**
+			HACK - ESC Para que al cambiar de escena mantengamos la animacion
+			*/
+			setAnimation(_currentAnimationName, 0, true);
+
+
+		} catch(std::exception e){
+			_loaded = false;
+		}
+
+		return _loaded;
+	} // load
+
+	//--------------------------------------------------------
+
 	bool CAnimatedEntity::setAnimation(const std::string &anim, float moment, bool loop)
 	{
 		assert(_entity && "La entidad no ha sido cargada en la escena");
 		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
 			return false;
-
+		
+		_currentAnimationName = anim;
 		_currentAnimation = _entity->getAnimationState(anim);
 		_currentAnimation->setEnabled(true);
 		_currentAnimation->setTimePosition(moment);
@@ -60,7 +83,7 @@ namespace Graphics
 		return true;
 	} // stopAnimation
 
-
+	//--------------------------------------------------------
 
 	bool CAnimatedEntity::pauseAnimation(const std::string &anim,float moment)
 	{

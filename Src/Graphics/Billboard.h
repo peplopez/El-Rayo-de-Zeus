@@ -47,7 +47,7 @@ namespace Graphics
 		CBillboard(const std::string &parentName, const Vector3& relativePos, 
 			const float width, const float height, const std::string material) :
 			_parentName(parentName), _relativePos(relativePos), 
-			_width(width), _height(height), _material(material) {}
+			_width(width), _height(height), _material(material), _u0(0), _v0(0), _u1(0.5), _v1(1) {}
 
 
 		/*****************
@@ -98,6 +98,8 @@ namespace Graphics
 		float _width;
 		float _height;
 		std::string _material;
+
+		float _u0, _v0, _u1, _v1;
 
 		/** 
 		BillboardSet _bbSet(conjunto de Billboards)

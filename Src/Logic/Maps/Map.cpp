@@ -15,12 +15,6 @@ Contiene la implementación de la clase CMap, Un mapa lógico.
 #include "Logic/Entity/Entity.h"
 #include "EntityFactory.h"
 
-#include "Logic/Entity/Components/Graphics.h"
-#include "Logic/Entity/Components/Physics.h"
-
-#include "Logic/Entity/Components/AnimatedGraphics.h"
-#include "Logic/Entity/Components/PhysicalCharacter.h"
-
 #include "Map/MapParser.h"
 #include "Map/MapEntity.h"
 
@@ -109,6 +103,7 @@ namespace Logic {
 		Graphics::CServer::getSingletonPtr()->setActiveScene(this->getGraphicScene());
 	}
 
+	//---------------------------------------------------------
 
 	void CMap::activateBaseCam()
 	{
@@ -215,36 +210,7 @@ namespace Logic {
 		{			
 			_entityMap[entity->getEntityID()] = entity;
 			_entityList.push_back(entity); 
-		}
-
-	} // addEntity
-
-	//--------------------------------------------------------
-
-	void CMap::insertEntity(CEntity *entity)
-	{
-		if( !_entityMap.count(entity->getEntityID() ) )
-		{			
-			_entityMap[entity->getEntityID()] = entity;
-			_entityList.push_back(entity);
 			entity->_map = this;
-
-			//Hack ESC - Lo suyo sería crear un entity->attachTomMap(this) que llamara al attach de cada componente
-			if (entity->getComponent<CGraphics>() != NULL)
-				_graphicScene->add(entity->getComponent<CGraphics>()->getGraphicalEntity());
-			if (entity->getComponent<CAnimatedGraphics>() != NULL)
-			{
-				entity->getComponent<CAnimatedGraphics>()->setScene(_graphicScene);
-				entity->getComponent<CAnimatedGraphics>()->reCreateGraphicalEntity();
-			}
-			if (entity->getComponent<CPhysics>() != NULL)
-				_physicScene->addActor(entity->getComponent<CPhysics>()->getPhysicalActor());
-			if (entity->getComponent<CPhysicalCharacter>() != NULL)
-			{
-				entity->getComponent<CPhysicalCharacter>()->setScene(_physicScene);
-				entity->getComponent<CPhysicalCharacter>()->reCreateActor();
-			}
-				//_physicScene->addActor(entity->getComponent<CPhysicalCharacter>()->getPhysicalActor());
 		}
 
 	} // addEntity
@@ -257,23 +223,13 @@ namespace Logic {
 		{
 			if(entity->isActivated())
 				entity->deactivate();
+
 			entity->_map = 0;
 			_entityMap.erase(entity->getEntityID());
 			_entityList.remove(entity);
-
-			//Hack ESC - Lo suyo sería crear un entity->detachFromMap(this) que llamara al dettach de cada componente
-			if (entity->getComponent<CGraphics>() != NULL)
-				_graphicScene->remove(entity->getComponent<CGraphics>()->getGraphicalEntity());
-			if (entity->getComponent<CAnimatedGraphics>() != NULL)
-				_graphicScene->remove(entity->getComponent<CAnimatedGraphics>()->getGraphicalEntity());
-			if (entity->getComponent<CPhysics>() != NULL)
-				_physicScene->removeActor(entity->getComponent<CPhysics>()->getPhysicalActor());
-			if (entity->getComponent<CPhysicalCharacter>() != NULL)
-				_physicScene->removeActor(entity->getComponent<CPhysicalCharacter>()->getPhysicalActor());
 		}
 
 	} // removeEntity
-
 
 	//--------------------------------------------------------
 

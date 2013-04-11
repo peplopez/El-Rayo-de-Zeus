@@ -411,6 +411,10 @@ namespace Logic
 		{
 			return _originBase;
 		}
+
+		void detachFromMap();
+		void attachToMap(CMap* map);
+
 	protected:
 
 		/**

@@ -95,15 +95,15 @@ namespace Logic {
 		//assert((_entity->getLogicalPosition()->getDegree() - _physicalActor->getLogicPosition()->getDegree())==0);
 		// HACK ESC - PEACHO HaCK para que no se sobreescriba el sense con el del actor físico
 		//Logic::CLogicalPosition* pos =_physicalActor->getLogicPosition();
-		
 		// PeP: este hack, no es muy hardcore? estamos haciendo un new en cada tick por cada actor físico que haya en escena. Hay que mirarlo
-		Logic::CLogicalPosition* pos = new CLogicalPosition();
-		pos->setBase(_physicalActor->getLogicPosition()->getBase());
-		pos->setRing(_physicalActor->getLogicPosition()->getRing());
-		pos->setHeight(_physicalActor->getLogicPosition()->getHeight());
-		pos->setDegree(_physicalActor->getLogicPosition()->getDegree());
-		pos->setSense(_entity->getLogicalPosition()->getSense());
-		_entity->setLogicalPosition(pos); 
+		
+		_auxPos->setBase(_physicalActor->getLogicPosition()->getBase());
+		_auxPos->setRing(_physicalActor->getLogicPosition()->getRing());
+		_auxPos->setHeight(_physicalActor->getLogicPosition()->getHeight());
+		_auxPos->setDegree(_physicalActor->getLogicPosition()->getDegree());
+		_auxPos->setSense(_entity->getLogicalPosition()->getSense());
+		
+		_entity->setLogicalPosition(_auxPos); 
 		
 		// TODO Efecto de la gravedad quizá sea necesario..?
 		//if (_falling) { // PeP: _entity->getHeight() también nos proporciona la misma info, si es 0 está en el suelo.

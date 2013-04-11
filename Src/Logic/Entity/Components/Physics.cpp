@@ -50,6 +50,21 @@ namespace Logic {
 		}
 		
 	} 
+	//---------------------------------------------------------
+	
+	void CPhysics::detachFromMap()
+	{
+		_scene->removeActor(_physicalActor);
+		_scene = NULL;
+	}
+
+	//---------------------------------------------------------
+	
+	void CPhysics::attachToMap(CMap* map)
+	{
+		_scene = map->getPhysicScene();
+		_scene->addActor(_physicalActor);
+	}
 
 	//---------------------------------------------------------
 
