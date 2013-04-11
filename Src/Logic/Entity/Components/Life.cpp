@@ -19,7 +19,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageInt.h"
+#include "Logic/Entity/Messages/MessageUInt.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
 #include "Logic/Maps/Map.h"
 #include "Logic/Entity/Messages/MessageAudio.h"
@@ -99,14 +99,16 @@ namespace Logic
 
 	void CLife::process(CMessage *message)
 	{
-		modifyLife( static_cast<CMessageInt*>(message)->getInt() );
+		modifyLife( 
+			static_cast<CMessageUInt*>(message)->getUInt() *
+			(message->getAction() == TActionType::DAMAGE ? -1 : 1)
+		);
 	} // process
 
 
 	//---------------------------------------------------------
 
 	void CLife::modifyLife(int lifeModifier) {
-
 
 		Math::delimit( _life += lifeModifier, 0, _LIFE_MAX); // Disminuir/ aumentar la vida de la entidad
 			
