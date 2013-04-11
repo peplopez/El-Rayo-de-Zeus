@@ -182,11 +182,11 @@ namespace Graphics
 
 				static TBoneDictionary initBoneDictionary() {
 					TBoneDictionary dictionary;
-/*
-						dictionary[TAttachPoint::ARM_L] =	"joint20";		// SPARTAN
-						dictionary[TAttachPoint::ARM_R] =	"joint49";
-						dictionary[TAttachPoint::HAND_L] =	"LeftHand";
-						dictionary[TAttachPoint::HAND_R] =	"RightHand";
+//*
+						dictionary[TAttachPoint::ARM_L] =	"LeftForeArm";		// SPARTAN
+						dictionary[TAttachPoint::ARM_R] =	"RightForeArm";
+						dictionary[TAttachPoint::HAND_L] =	"joint20";
+						dictionary[TAttachPoint::HAND_R] =	"joint49";
 						dictionary[TAttachPoint::HEAD] =	"paracascos";
 /*/
 						dictionary[TAttachPoint::ARM_L] =	"Bip01 L Forearm";	// MARINE
