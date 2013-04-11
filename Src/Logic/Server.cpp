@@ -297,15 +297,11 @@ namespace Logic {
 			for (; entity != entityEnd; ++entity)
 			{
 				(*entity)->detachFromMap();
+				(*entity)->getLogicalPosition()->setBase(it->first);
 				(*entity)->attachToMap(_maps[ _mapNames[it->first - 1] ]);
-				(*entity)->activate();
-
-					(*entity)->getLogicalPosition()->setBase(it->first);
-					_player->getMap()->setVisible();
-				//}
-
+				(*entity)->activate();				
+				_player->getMap()->setVisible();
 			}
-
 			it->second.clear();
 		}
 

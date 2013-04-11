@@ -65,7 +65,7 @@ namespace Logic
 			
 			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _baseToGo );
 
-			_entity->emitMessage(m0,this);
+			//_entity->emitMessage(m0,this);
 
 			
 			
