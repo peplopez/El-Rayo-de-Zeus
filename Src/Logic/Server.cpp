@@ -302,7 +302,6 @@ namespace Logic {
 
 				if ((*entity)->isPlayer())
 				{
-					(*entity)->getLogicalPosition()->setBase(it->first);
 					_player->getMap()->setVisible();
 				}
 
