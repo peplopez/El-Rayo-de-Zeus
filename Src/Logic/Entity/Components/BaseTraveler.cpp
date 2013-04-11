@@ -50,34 +50,6 @@ namespace Logic
 	CBaseTraveler::~CBaseTraveler() 
 	{	} // ~CBaseTraveler
 	
-	void CBaseTraveler::timeArrived()
-	{
-		if (_changingBase && !isChangingRing())
-		{	
-			jumpToBase();
-			LOG("EXITO");
-			CMessageChar *m0 = new CMessageChar();	
-			m0->setType(Message::AVATAR_MOVE);
-			m0->setAction(Message::CHANGE_BASE);
-			m0->setChar( _baseToGo - (int) _entity->getLogicalPosition()->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
-			
-			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _baseToGo );
-
-			_entity->emitMessage(m0,this);
-
-			
-			
-			CMessageString *m2 = new CMessageString();	
-			m2->setType(Message::SET_MATERIAL);
-			m2->setString("marine");
-			_entity->emitMessage(m2,this);
-		}
-		else
-				CRingTraveler::timeArrived();
-
-		_changingBase=false;
-		_changingBaseTime=0;
-	}
 	//---------------------------------------------------------
 
 	bool CBaseTraveler::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
@@ -138,11 +110,33 @@ namespace Logic
 			}
 			if(message->getAction() == Message::CHANGE_BASE && _changeAllowed)
 			{
-			//	CBaseTraveler::jumpToBase();
+				Logic::CServer* srv = Logic::CServer::getSingletonPtr();
+				srv->activatePlayerCam();
 				_changingBase=true;
 			}
 		}
 	}
+
+	//---------------------------------------------------------
+
+	void CBaseTraveler::timeArrived()
+	{
+		if (_changingBase && !isChangingRing())
+		{	
+			
+			jumpToBase();
+			CMessageString *m = new CMessageString();	
+			m->setType(Message::SET_MATERIAL);
+			m->setString("marine");
+			_entity->emitMessage(m,this);
+		}
+		else
+			CRingTraveler::timeArrived();
+
+		_changingBase=false;
+		_changingBaseTime=0;
+	}
+
 	//---------------------------------------------------------
 
 	void CBaseTraveler::showBase(unsigned short base)
@@ -174,6 +168,16 @@ namespace Logic
 		{
 			_changeAllowed = false;
 			_changingBase=true;
+
+			LOG("EXITO");
+			CMessageChar *m = new CMessageChar();	
+			m->setType(Message::AVATAR_MOVE);
+			m->setAction(Message::CHANGE_BASE);
+			m->setChar( _baseToGo - (int) _entity->getLogicalPosition()->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
+			
+			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _baseToGo );
+
+			_entity->emitMessage(m,this);
 			
 			Logic::CServer* srv = Logic::CServer::getSingletonPtr();
 			srv->deferredMoveEntity(_entity, _baseToGo);			
@@ -187,16 +191,6 @@ namespace Logic
 			CRingTraveler::tick(msecs);
 			IComponent::tick(msecs);
 			
-			if (_changingBase)
-			{
-				if(_entity->isPlayer())
-				{
-				/*	CMessageString *m = new CMessageString();	
-					m->setType(Message::SET_MATERIAL);
-					m->setString("transito");
-					_entity->emitMessage(m,this);
-				*/}
-			}
 	}
 
 } // namespace Logic
