@@ -114,7 +114,7 @@ namespace Logic
 		message->setType(Message::SET_ANIMATION);
 		message->setAction(Message::WALK_RIGHT);		
 		//message->setString("run");
-		message->setString("RunKatana");
+		message->setString("run");
 		message->setBool(true);
 		_entity->emitMessage(message,this);
 	}*/
@@ -137,7 +137,7 @@ namespace Logic
 		message->setType(Message::SET_ANIMATION);		
 		message->setAction(Message::WALK_LEFT);
 				//message->setString("run");
-		message->setString("RunKatana");
+		message->setString("run");
 		message->setBool(true);
 		_entity->emitMessage(message,this);
 		

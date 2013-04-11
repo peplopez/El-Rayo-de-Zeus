@@ -81,7 +81,7 @@ namespace Logic
 		case Message::DEAD: {
 			CMessageBoolString *txMsg = new CMessageBoolString(); // Poner la animación de muerte
 				txMsg->setType(TMessageType::SET_ANIMATION);
-				txMsg->setString("Death");	
+				txMsg->setString("die");	
 				txMsg->setBool(false);
 				_entity->emitMessage(txMsg);
 				/* Aquí ponemos el sonido */
@@ -97,7 +97,7 @@ namespace Logic
 		case Message::ANIMATION_FINISHED: {
 			
 			CMessageString *rxMsg = static_cast<CMessageString*>(message);
-				if(rxMsg->getString() == "Death") { // Completada animación de muerte? -> END_GAME					
+				if(rxMsg->getString() == "die") { // Completada animación de muerte? -> END_GAME					
 					if(_entity->isPlayer() ) // PLAYER MUERTO -> GameOver
 						Application::CBaseApplication::getSingletonPtr()->setState("gameOver"); // HACK Player muerto -> respawn es distinto de base muerta
 					else // Resto de entidades

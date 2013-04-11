@@ -33,7 +33,7 @@ namespace AI
 			message->setAction(Message::WALK_RIGHT);		
 		else
 			message->setAction(Message::WALK_LEFT);				
-		message->setString("RunKatana");
+		message->setString("run");
 		message->setBool(true);
 		_entity->emitMessage(message);		
 

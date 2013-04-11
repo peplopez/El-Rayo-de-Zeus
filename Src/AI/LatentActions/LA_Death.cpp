@@ -32,7 +32,7 @@ namespace AI
 		std::cout<<"AI::StateMachine::WTF-I am Death!!"<<std::endl;
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
-		message->setString("Death");
+		message->setString("die");
 		message->setAction(Message::WALK_STOP);
 		message->setBool(false);
 		_entity->emitMessage(message);
@@ -129,7 +129,7 @@ namespace AI
 		case Message::ANIMATION_FINISHED: //ConditionFail
 			{
 				CMessageString* maux = static_cast<CMessageString*>(message);
-				if (maux->getString().compare("Death")==0 )
+				if (maux->getString().compare("die")==0 )
 				{
 				//		finish(true);
 					//el finish es para cambiar a otro estado, pero de momento este el estado en el que quiero que permanezca. Otro posible estado sería desapareciendo quiza...

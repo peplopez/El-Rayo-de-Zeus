@@ -36,7 +36,7 @@ namespace AI
 		std::cout<<"AI::StateMachine::idle"<<std::endl;
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
-		message->setString("IdleKatana");
+		message->setString("idle");
 		message->setAction(Message::WALK_STOP);
 		message->setBool(true);
 		_entity->emitMessage(message);
