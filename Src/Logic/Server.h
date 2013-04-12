@@ -246,6 +246,8 @@ namespace Logic
 		*/
 		static CServer* _instance;
 
+		bool _worldIsLoaded;
+
 	}; // class CServer
 
 } // namespace Logic
