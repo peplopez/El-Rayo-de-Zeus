@@ -31,6 +31,12 @@ namespace CEGUI
 	class Window;
 }
 
+//PT. Predeclaraciones de clase
+namespace ScriptManager
+{
+	class Server;
+}
+
 namespace Application 
 {
 	/**

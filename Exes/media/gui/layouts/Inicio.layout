@@ -2,10 +2,11 @@
 
 <GUILayout >
     <Window Type="DefaultWindow" Name="Inicio" >
-		<Property Name="FrameEnabled" Value="false" />
+<!-- 		<Property Name="FrameEnabled" Value="false" />-->
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
         <Window Type="OgreTray/StaticImage" Name="Inicio/BackGround" >
 			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="BackgroundEnabled" Value="False" />
 			<Property Name="Image" Value="set:BackgroundInit image:BackgroundInit" />
             <Property Name="AlwaysOnTop" Value="False" />
             <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />

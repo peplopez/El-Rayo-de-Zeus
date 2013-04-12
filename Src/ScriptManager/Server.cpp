@@ -602,7 +602,7 @@ namespace ScriptManager {
 		assert(_lua && "No se ha hecho la inicialización de lua");
 
 		//------------------------------------------------------//
-		//			REGISTRO DEL SERVIDOR DE SCRIPTS				//
+		//			REGISTRO DEL SERVIDOR DE SCRIPTS			//
 		//------------------------------------------------------//
 		
 		luabind::module(_lua) 
@@ -616,6 +616,7 @@ namespace ScriptManager {
 				.def("loadScript", &CServer::loadExeScript)
 			];
 
+		//Con esta variable Global en LUA llamada SManager puedo cargar ficheros con el metodo loadScript
 		luabind::globals(_lua)["SManager"] = CServer::getSingletonPtr();
 
 

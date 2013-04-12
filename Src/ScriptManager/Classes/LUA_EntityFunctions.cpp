@@ -72,4 +72,5 @@ namespace ScriptManager
 		//Application::CGaleonApplication::getSingletonPtr()->setState("gameOver");
 	}
 
+
 } // namespace ScriptManager

@@ -90,8 +90,13 @@ namespace GUI {
 
 
 		//PT
-		//ScriptManager::CServer::getSingletonPtr()->loadExeScript("interfaz/initCEGUI");
+		//Carga de las plantillas y archivos de fuentes con LUA en lugar de con CEGUI
+		//No hace falta pasarle toda la ruta del script porque se supone que todos los scripts de LUA
+		//van a estar en media/scripts . Tampoco hace falta pasarle la extension .lua.
+		//Todo ello se hace en la carga del script. ScriptManager::CServer::loadScript()
+		ScriptManager::CServer::getSingletonPtr()->loadExeScript("GUI");
 
+		/*
 		//Carga de las plantillas y archivos de fuentes directamente con CEGUI
 		// Cargamos las distintas plantillas o esquemas de fichero
 		// que usaremos en nuestro GUI.
@@ -106,8 +111,10 @@ namespace GUI {
 		CEGUI::FontManager::getSingleton().create("Batang-26.font");
 		CEGUI::FontManager::getSingleton().create("handshop-30.font");
 
+
 		//Establecemos cual sera el puntero del raton
 		_GUISystem->setDefaultMouseCursor("OgreTrayImages","MouseArrow");
+		*/
 
 #ifndef NON_EXCLUSIVE_MODE_IN_WINDOW_MODE 
 		// Establecemos cual será el puntero del ratón.

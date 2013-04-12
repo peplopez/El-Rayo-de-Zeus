@@ -242,6 +242,13 @@ namespace BaseSubsystems
 		bool initCEGUI();
 
 		/**
+		Inicialización de LUA.
+
+		@return true si todo fue correctamente.
+		*/
+		bool initLUA();
+
+		/**
 		Liberación de Ogre.
 		*/
 		void releaseOgre();

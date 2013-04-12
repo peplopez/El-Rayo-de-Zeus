@@ -152,9 +152,10 @@ namespace BaseSubsystems
 
 	bool CServer::open()
 	{
-		//PT: En el initCEGUI, antes de inicializar CEGUI, inicializar LUA
+		//PT: En el initCEGUI, antes de inicializar CEGUI, inicializar LUA (initLUA)
 		if( !initOgre() ||
 			!initOIS() ||
+			!initLUA() ||
 			!initCEGUI() )
 		{
 			close();
@@ -294,17 +295,21 @@ namespace BaseSubsystems
 		//PT (Se cambia la inicializacion de CEGUI)
 		//Indicaciones de http://mastervj.fdi.ucm.es/dokuwiki/doku.php?id=ayuda_proyectos:cegui)
 
-		/*
 		//Como en la web de ayuda a proyectos
-		CEGUI::LuaScriptModule& luaModule = CEGUI::LuaScriptModule::create(ScriptManager::CServer::getSingletonPtr()->getLuaState());
-		CEGUI::System::create(CEGUIRenderer, NULL, NULL, NULL, &luaModule); 
+		//Funciona
+		//CEGUI::LuaScriptModule& luaModule = CEGUI::LuaScriptModule::create(ScriptManager::CServer::getSingletonPtr()->getLuaState());
+		//CEGUI::System::create(CEGUIRenderer, NULL, NULL, NULL, &luaModule); 
 
-		//Como Damn
+		//Con LUA
+		//No funciona teniendo un fichero de configuracion porque no estan cargados los recursos
 		//_luaModule = &CEGUI::LuaScriptModule::create(ScriptManager::CServer::getSingletonPtr()->getLuaState());
-		//CEGUI::System::create(CEGUIRenderer, NULL, NULL, NULL, _luaModule, "media/gui/configs/CEGUIConfig.xml");
-		*/
+	    //CEGUI::System::create(CEGUIRenderer, NULL, 0, NULL, _luaModule,"media/gui/configs/CEGUIConfig.xml");
 
-		CEGUI::System::create(CEGUIRenderer);
+		_luaModule = &CEGUI::LuaScriptModule::create(ScriptManager::CServer::getSingletonPtr()->getLuaState());
+	    CEGUI::System::create(CEGUIRenderer, NULL, NULL, NULL, _luaModule);
+
+	    //Con CEGUI
+		//CEGUI::System::create(CEGUIRenderer);
 
 		_GUISystem = CEGUI::System::getSingletonPtr();
 
@@ -312,6 +317,8 @@ namespace BaseSubsystems
 		// así cuando creemos un recurso no tenemos que dar una ruta completa.
 		CEGUI::DefaultResourceProvider* rp = static_cast<CEGUI::DefaultResourceProvider*>(
 			CEGUI::System::getSingleton().getResourceProvider());
+
+		//CEGUI::DefaultResourceProvider* rp = static_cast<CEGUI::DefaultResourceProvider*>(_GUISystem->getResourceProvider());
 
 		rp->setResourceGroupDirectory("fonts", "media/gui/fonts/");
 		rp->setResourceGroupDirectory("imagesets", "media/gui/imagesets/");
@@ -326,11 +333,27 @@ namespace BaseSubsystems
 		CEGUI::WidgetLookManager::setDefaultResourceGroup("looknfeels");
 		CEGUI::Scheme::setDefaultResourceGroup("schemes");
 
+
+
 		return true;
 
 	} // initCEGUI
 
 	//--------------------------------------------------------
+
+
+
+	//--------------------------------------------------------
+	//PT
+	bool CServer::initLUA()
+	{
+
+		ScriptManager::CServer::getSingletonPtr()->Init();
+
+		return true;
+
+	} // initLUA
+
 
 	void CServer::releaseOgre()
 	{
