@@ -101,7 +101,7 @@ namespace Logic
 
 		if (_jumping)
 		{
-			_jumpSpeed -= 0.0003f * msecs;  //gravedad 0.0003f
+			_jumpSpeed -= 0.0004f * msecs;  //gravedad 0.0003f
 			float tickHeight = _jumpSpeed * msecs;
 
 			//si estamos en trayectoria descendente activamos salida del salto

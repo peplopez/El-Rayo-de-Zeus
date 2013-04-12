@@ -54,11 +54,14 @@ namespace Logic
 			_changingRingTime=0;
 		}else
 		{
+			/*
 			CMessageString *m3 = new CMessageString();	
 			m3->setType(Message::SET_MATERIAL);
 			m3->setString("marine");
 			_entity->emitMessage(m3,this);
+			*/
 			_desencogiendo=false;
+
 		
 		}
 	}

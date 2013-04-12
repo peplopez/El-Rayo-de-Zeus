@@ -50,10 +50,12 @@ namespace Logic
 		_lightAttack=_heavyAttack=false;
 				if (_entity->getType()=="OtherPlayer")
 		{
+			/*
 			CMessageString *m = new CMessageString();	
 			m->setType(Message::SET_MATERIAL);
 			m->setString("marineRojo");
-			_entity->emitMessage(m);	
+			_entity->emitMessage(m);
+			*/
 		}
 		return true;
 	}		
