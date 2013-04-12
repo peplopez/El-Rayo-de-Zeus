@@ -78,8 +78,15 @@ namespace Logic
 			_audio = entityInfo->getStringAttribute("audio");
 
 		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
-		_lifeBarBB = new Graphics::CBillboard( entity->getName(), 
-			Vector3(0, lifeBarPosition, 0), lifeBarWidth, lifeBarHeight, "lifeBar");  //le paso un string con el nombre de la entidad			
+		std::stringstream ssAux; // FRS Importante añadir ID para evitar entidades gráficas con = nombre
+			ssAux << _entity->getName() << _entity->getEntityID();
+			std::string	parentName = ssAux.str();
+
+		_lifeBarBB = new Graphics::CBillboard( 
+			parentName,// nombre de la entidad gráfica de ref
+			Vector3(0, lifeBarPosition, 0), 
+			lifeBarWidth, lifeBarHeight, "lifeBar"
+		);  		
 			_graphicalScene->add(_lifeBarBB);
 			_lifeBarBB->setTextureCoords(0.0f, 0.0f, 0.5f, 1.0f);
 

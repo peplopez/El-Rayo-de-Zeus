@@ -102,9 +102,11 @@ namespace Graphics
 		*/
 		void attach(TAttachPoint attachPoint, const std::string &mesh) {
 			attach( BONE_DICTIONARY[attachPoint], mesh);
+			_boneObjectsNameTable[ BONE_DICTIONARY[attachPoint] ].push_back(mesh); 
 		}		
 		void detach(TAttachPoint detachPoint) {
 			detach( BONE_DICTIONARY[detachPoint] );
+			_boneObjectsNameTable[ BONE_DICTIONARY[detachPoint] ].pop_back();
 		}
 		void attach(const std::string &toBone, const std::string &mesh);
 		void detach(const std::string &fromBone);	

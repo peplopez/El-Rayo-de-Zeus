@@ -213,8 +213,12 @@ namespace Logic
 		bool isStatic = false;
 			if(entityInfo->hasAttribute("static"))
 				isStatic = entityInfo->getBoolAttribute("static");
-	
-		Graphics::CEntity* graphicalEntity = new Graphics::CEntity(_entity->getName(),_model, isStatic);
+
+		std::stringstream ssAux; // FRS Importante añadir ID para evitar entidades gráficas con = nombre
+			ssAux << _entity->getName() << _entity->getEntityID();
+			std::string	name = ssAux.str();
+
+		Graphics::CEntity* graphicalEntity = new Graphics::CEntity(name, _model, isStatic);
 			if( _scene->add(graphicalEntity) )		
 				return graphicalEntity;
 			else
