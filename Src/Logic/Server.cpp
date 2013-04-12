@@ -283,10 +283,11 @@ namespace Logic {
 			for (; entity != entityEnd; ++entity)
 			{
 				(*entity)->detachFromMap();
-				(*entity)->getLogicalPosition()->setBase(it->first);
 				(*entity)->attachToMap(_maps[ _mapNames[it->first - 1] ]);
-				(*entity)->activate();				
-				_player->getMap()->setVisible(); 
+				(*entity)->activate();	
+
+				if ((*entity)->isPlayer())
+					(*entity)->getMap()->setVisible(); 
 			}
 			it->second.clear();
 		}

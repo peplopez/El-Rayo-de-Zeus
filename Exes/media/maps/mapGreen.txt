@@ -71,77 +71,77 @@ Map ={
 	},
 	
 	Altar1 = {
-		type = "Altar3",
+		type = "AltarGreen",
 		degrees=60,
 		ring=0,
 		base=3,	
 	},
 	
 	Altar2 = {
-		type = "Altar3",
+		type = "AltarGreen",
 		degrees=180,
 		ring=0,
 		base=3,		
 	},
 	
 	Altar3 = {
-		type = "Altar3",
+		type = "AltarGreen",
 		degrees=300,
 		ring=0,
 		base=3,		
 	},
 	
 	Altar4 = {
-		type = "Altar3",
+		type = "AltarGreen",
 		degrees=36,
 		ring=1,
 		base=3,		
 	},
 	
 	Altar5 = {
-		type = "Altar3",
+		type = "AltarGreen",
 		degrees=108,
 		ring=1,
 		base=3,		
 	},
 	
 	Altar6 = {
-		type = "Altar3",
+		type = "AltarGreen",
 		degrees=180,
 		ring=1,
 		base=3,		
 	},
 	
 	Altar7 = {
-		type = "Altar3",
+		type = "AltarGreen",
 		degrees=252,
 		ring=1,
 		base=3,		
 	},
 	
 	Altar8 = {
-		type = "Altar3",
+		type = "AltarGreen",
 		degrees=324,
 		ring=1,
 		base=3,		
 	},
 	
 	Altar9 = {
-		type = "Altar3",
+		type = "AltarGreen",
 		degrees=60,
 		ring=2,
 		base=3,		
 	},
 	
 	Altar10 = {
-		type = "Altar3",
+		type = "AltarGreen",
 		degrees=180,
 		ring=2,
 		base=3,		
 	},
 	
 	Altar11 = {
-		type = "Altar3",
+		type = "AltarGreen",
 		degrees=300,
 		ring=2,
 		base=3,		

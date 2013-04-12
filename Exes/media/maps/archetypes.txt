@@ -1,5 +1,5 @@
 Map = {	
-	Altar1 = {
+	AltarRed = {
 		type = "Altar",
 		model = "altar.mesh",
 		activatedMaterial = "redActivated",
@@ -11,7 +11,7 @@ Map = {
 		physicTrigger = true,
 	},
 	
-	Altar2 = {
+	AltarBlue = {
 		type = "Altar",
 		model = "altar.mesh",
 		submaterial0 = "blueUnactivated",
@@ -24,9 +24,10 @@ Map = {
 		physicTrigger = true,
 	},
 	
-	Altar3 = {
+	AltarGreen = {
 		type = "Altar",
 		model = "altar.mesh",
+		submaterial0 = "greenUnactivated",
 		activatedMaterial = "greenActivated",
 		unactivatedMaterial = "greenUnactivated",
 		scaleFactor = 3,
@@ -36,9 +37,10 @@ Map = {
 		physicTrigger = true,
 	},
 
-	Altar4 = {
+	AltarYellow = {
 		type = "Altar",
 		model = "altar.mesh",
+		submaterial0 = "yellowUnactivated",
 		activatedMaterial = "yellowActivated",
 		unactivatedMaterial = "yellowUnactivated",
 		scaleFactor = 3,

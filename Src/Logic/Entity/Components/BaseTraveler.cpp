@@ -50,46 +50,13 @@ namespace Logic
 	CBaseTraveler::~CBaseTraveler() 
 	{	} // ~CBaseTraveler
 	
-	void CBaseTraveler::timeArrived()
-	{
-	
-		if (_changingBase && !this->isChangingRing())
-		{	
-			jumpToBase();
-			LOG("EXITO");
-			/*CMessageChar *m0 = new CMessageChar();	
-			m0->setType(Message::AVATAR_MOVE);
-			m0->setAction(Message::CHANGE_BASE);
-			m0->setChar( _baseToGo - (int) _entity->getLogicalPosition()->getBase() ); // ƒ®§ Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
-			_entity->emitMessage(m0,this);*/
-			
-			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _baseToGo );
-
-			//_entity->emitMessage(m0,this);
-
-			
-			
-			CMessageString *m2 = new CMessageString();	
-			m2->setType(Message::SET_MATERIAL);
-			m2->setString(_entity->getInitialMaterial());
-			_entity->emitMessage(m2,this);
-		}
-		else
-			//if (this->isChangingRing())
-		{
-			
-			CRingTraveler::timeArrived();
-		}
-		_changingBase=false;
-		_changingBaseTime=0;
-	}
 	//---------------------------------------------------------
 
 	bool CBaseTraveler::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;		
-		_changingBase=false;
+
 		//lo hago aquí mismo, en algún componente hay que hacerlo y en principio solo los personajes
 		//player  (ya sea humano o bot) pueden viajar entre bases.
 		
@@ -134,7 +101,7 @@ namespace Logic
 				CMessageUShort *maux = static_cast<CMessageUShort*>(message);
 				
 				if (_gameStatus->getNumBases() > maux->getUShort())
-					CBaseTraveler::showBase(maux->getUShort());	
+					showBase(maux->getUShort());	
 				
 			}
 			if(message->getAction() == Message::GOBACK_TO_BASE)
@@ -146,15 +113,54 @@ namespace Logic
 				if (_changeAllowed)
 				{
 					_changingBase=true;
+					_entity->getMap()->setVisible(); 
 				}
 				if (_entity->getName()=="GemeloGreen" || _entity->getName()=="GemeloYellow" /*|| _entity->getName()=="GemeloBlue"*/)
 				{
-					_baseToGo= CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase();
 					_changingBase=true;
+					CMessageUShort *maux = static_cast<CMessageUShort*>(message);
+					_baseToGo = maux->getUShort();
+
 				}
 			}
 		}
 	}
+
+	//---------------------------------------------------------
+
+	void CBaseTraveler::timeArrived()
+	{
+	
+		if (_changingBase && !isChangingRing())
+		{	
+			jumpToBase();
+			LOG("EXITO");
+
+			CMessageChar *m = new CMessageChar();	
+			m->setType(Message::AVATAR_MOVE);
+			m->setAction(Message::CHANGE_BASE);
+			m->setChar( _baseToGo - (int) _entity->getLogicalPosition()->getBase() ); // ƒ®§ Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
+			_entity->emitMessage(m,this);
+			
+			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _baseToGo );
+
+
+			
+			CMessageString *m2 = new CMessageString();	
+			m2->setType(Message::SET_MATERIAL);
+			m2->setString(_entity->getInitialMaterial());
+			_entity->emitMessage(m2,this);
+		}
+		else
+			//if (this->isChangingRing())
+		{
+			
+			CRingTraveler::timeArrived();
+		}
+		_changingBase=false;
+		_changingBaseTime=0;
+	}
+
 	//---------------------------------------------------------
 
 	void CBaseTraveler::showBase(unsigned short base)
@@ -197,18 +203,7 @@ namespace Logic
 	void CBaseTraveler::tick(unsigned int msecs)
 	{
 			CRingTraveler::tick(msecs);
-			IComponent::tick(msecs);
-			
-			if (_changingBase)
-			{
-				if(_entity->isPlayer())
-				{
-				/*	CMessageString *m = new CMessageString();	
-					m->setType(Message::SET_MATERIAL);
-					m->setString("transito");
-					_entity->emitMessage(m,this);
-				*/}
-			}
+			IComponent::tick(msecs);			
 	}
 
 } // namespace Logic
