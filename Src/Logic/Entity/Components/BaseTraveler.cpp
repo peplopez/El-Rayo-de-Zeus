@@ -125,10 +125,12 @@ namespace Logic
 		{	
 			
 			jumpToBase();
+			/*
 			CMessageString *m = new CMessageString();	
 			m->setType(Message::SET_MATERIAL);
 			m->setString("marine");
 			_entity->emitMessage(m,this);
+			*/
 		}
 		else
 			CRingTraveler::timeArrived();

@@ -148,7 +148,7 @@ namespace Logic
 				
 			CMessageBoolString *message = new CMessageBoolString();
 			message->setType(Message::SET_ANIMATION);		
-			message->setString("Idle");
+			message->setString("idle");
 			message->setBool(true);
 			_entity->emitMessage(message,this);
 		}

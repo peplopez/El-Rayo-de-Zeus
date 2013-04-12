@@ -96,7 +96,7 @@ namespace Logic
 			position=fromLogicalToCartesian(_pos->getDegree(),_pos->getHeight(), _pos->getBase(),_pos->getRing());
 			_transform.setTrans(position);
 			
-			setYaw(Math::fromDegreesToRadians(_pos->getDegree()));
+			setYaw(Math::fromDegreesToRadians(-_pos->getDegree()));
 			
 			//  UNDONE FRS: Con el modelo spartan.mesh bien orientado este HACK ya no es necesario
 			//if (_pos->getSense()==LogicalPosition::RIGHT)
