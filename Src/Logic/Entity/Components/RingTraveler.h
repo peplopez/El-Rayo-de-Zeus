@@ -68,6 +68,7 @@ namespace Logic
 		*/
 		virtual void process(CMessage *message);
 
+		 bool activate();
 		
 		///** UNDONE Гоз
 		//Provoca que la entidad baje de anillo. Conlleva un cambio del eje de giro en su coordenada y

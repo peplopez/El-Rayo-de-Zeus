@@ -89,11 +89,11 @@ namespace Logic
 
 
 		/**
-		Método que será invocado siempre que se termine una el reloj 
-		llegue al evento solicitado desde la máquina de estados.		
-		*/
-		void timeArrived();
-	
+		Métodos que serán invocados desde la máquina de estados LA_ChangeBase y LA_ChangeRing*/
+		void changeRing();
+
+		void changeBase();
+
 	protected:
 
 		bool _changingBase;	

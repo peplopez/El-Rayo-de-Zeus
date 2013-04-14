@@ -2,18 +2,18 @@
 #include "../../Logic/Entity/Components/Attack.h"
 #include "../../Logic/Entity/Components/AvatarController.h"
 #include "../../Logic/Entity/Components/Jump2.h"
-#include "../../Logic/Entity/Components/BaseTraveler.h"
 #include "Application/BaseApplication.h"
 
 #include "../StateMachines/StateMachine.h"
-#include "LA_Change.h"
+#include "LA_ChangeRing.h"
 #include "Logic/Entity/Messages/MessageChar.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
 #include "Logic/Entity/Messages/MessageString.h"
+#include "../../Logic/Entity/Components/BaseTraveler.h"
 namespace AI
 {
 ////////////////////////////////
-//	Implementación de CLA_Change
+//	Implementación de CLA_ChangeRing
 ////////////////////////////////
 
 	/**
@@ -28,7 +28,7 @@ namespace AI
 	acción a terminado (LatentAction::Completed), se invocará
 	al OnStop().
 	*/
-	CLatentAction::LAStatus CLA_Change::OnStart()
+	CLatentAction::LAStatus CLA_ChangeRing::OnStart()
 	{		
 		//Desactivación de componentes
 		sleepComponents();		
@@ -36,34 +36,14 @@ namespace AI
 		_actionScale=Message::Z_AXIS;
 		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
 		_desencogiendo=0;
-		std::cout<<"AI::StateMachine::Change"<<std::endl;
-		switch(_action)
-		{
-		case Message::CHANGE_BASE:
-			{	
-				//_velocidad=0.01f;
-				_velocidad=2*0.0001f;
-				
-				CMessageString *m = new CMessageString();	
-				m->setType(Message::SET_MATERIAL);
-				m->setString("transito");
-				_entity->emitMessage(m);
-				break;
-			}
-			case Message::CHANGE_RING:
-			{	//activo un reloj
-			//	_reloj->addTimeObserver(std::pair<IClockListener*,unsigned long>(this,_maxChangingRingTime));		
-				//_reloj->addTimeObserver(1,this,(unsigned long)_maxChangingRingTime);
-				//_velocidad=0.05f;
-				
-				_velocidad=2*0.0005f;
-				CMessageString *m = new CMessageString();	
-				m->setType(Message::SET_MATERIAL);
-				m->setString("transito");
-				_entity->emitMessage(m);
-				break;
-			}	
-		}
+		std::cout<<"AI::StateMachine::ChangeRing"<<std::endl;
+		
+		_velocidad=2*0.0005f;
+		CMessageString *m = new CMessageString();	
+		m->setType(Message::SET_MATERIAL);
+		m->setString("transito");
+		_entity->emitMessage(m);
+			
 		return RUNNING;
 	}
 
@@ -74,9 +54,9 @@ namespace AI
 
 	En la mayoría de los casos este método no hace nada.
 	*/
-	void CLA_Change::OnStop()
+	void CLA_ChangeRing::OnStop()
 	{
-		std::cout<<"AI::StateMachine::ChangeSALIENDO"<<std::endl;	
+		std::cout<<"AI::StateMachine::ChangeRing-OnStop"<<std::endl;	
 	//	_reloj->removeTimeObserver(0);		
 		//_reloj->removeTimeObserver(1);			
 		awakeComponents();
@@ -92,11 +72,8 @@ namespace AI
 	@return Estado de la acción tras la ejecución del método;
 	permite indicar si la acción ha terminado o se ha suspendido.
 	*/
-	CLatentAction::LAStatus CLA_Change::OnRun() 
+	CLatentAction::LAStatus CLA_ChangeRing::OnRun() 
 	{
-		
-		
-
 		if (this->getStatus()!=SUCCESS && this->getStatus()!=FAIL)
 			return RUNNING;
 		else 
@@ -113,18 +90,16 @@ namespace AI
 	@note <b>Importante:</b> el Abort <em>no</em> provoca la ejecución
 	de OnStop().
 	*/
-	CLatentAction::LAStatus CLA_Change::OnAbort() 
+	CLatentAction::LAStatus CLA_ChangeRing::OnAbort() 
 	{
-		// Cuando se aborta se queda en estado terminado con fallo
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
-		{
-		//	_reloj->removeTimeObserver(0);		
-		//	_reloj->removeTimeObserver(1);		
-			_entity->getComponent<CBaseTraveler>()->resetChangingBase();			
-			_entity->getComponent<CBaseTraveler>()->resetChangingRing();
-		}
+		// Cuando se aborta se queda en estado terminado con fallo		
 		if (_entity->getComponent<CRingTraveler>()!=NULL)
+		{
 			_entity->getComponent<CRingTraveler>()->resetChangingRing();
+			return FAIL;
+		}
+		if (_entity->getComponent<CBaseTraveler>()!=NULL)
+			_entity->getComponent<CBaseTraveler>()->resetChangingRing();
 		
 		return FAIL;
 	}
@@ -138,15 +113,10 @@ namespace AI
 	@return true Si la acción está en principio interesada
 	por ese mensaje.
 	*/
-	bool CLA_Change::accept(const CMessage *message)
+	bool CLA_ChangeRing::accept(const CMessage *message)
 	{		
 		// la accion latente de ataque solo acepta mensajes de ataque en el momento que la oportunidad de combo está activada.
-		return/* (_comboOportunity && (message->getType() == Message::CONTROL && 
-			(message->getAction() == Message::LIGHT_ATTACK||
-			message->getAction() == Message::HEAVY_ATTACK)))
-			||*/
-			/*(message->getType()==Message::ANIMATION_MOMENT) &&  _initialCombatState!=2)*/
-			(message->getType()==Message::CONTROL);
+		return (message->getType()==Message::CONTROL);
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
@@ -154,36 +124,23 @@ namespace AI
 
 	@param msg Mensaje recibido.
 	*/
-	void CLA_Change::process(CMessage *message)
+	void CLA_ChangeRing::process(CMessage *message)
 	{
 		switch(message->getType())
 		{
-			
 			case Message::CONTROL: 
-			{
-				if (_action==Message::CHANGE_BASE)
-				{					
-					CMessageString *m2 = new CMessageString();	
-					m2->setType(Message::SET_MATERIAL);
-					m2->setString(_entity->getInitialMaterial());
-					_entity->emitMessage(m2);	
-		//			finish(false);
-				}
-				if (_action==Message::GO_DOWN || _action==Message::GO_UP)
-				{			
-					CMessageString *m2 = new CMessageString();	
-					m2->setType(Message::SET_MATERIAL);
-					m2->setString(_entity->getInitialMaterial());
-					_entity->emitMessage(m2);	
-					finish(false);
-				}
-				break;
+			{	
+				CMessageString *m2 = new CMessageString();	
+				m2->setType(Message::SET_MATERIAL);
+				m2->setString(_entity->getInitialMaterial());
+				_entity->emitMessage(m2);	
+			//	finish(false);
 			}
 		}
 	}
 
 	//PeP
-	void CLA_Change::tick(unsigned int msecs) 
+	void CLA_ChangeRing::tick(unsigned int msecs) 
 	{
 		CMessageFloat *m = new CMessageFloat();	
 		m->setType(Message::SET_SCALE);
@@ -191,41 +148,41 @@ namespace AI
 		if (_actionScale==Message::Z_AXIS)
 		{
 			if (_desencogiendo==0)
+
+			if (_contador>0.3)
 			{
-				if (_contador>0.3)
-				{
-					_contador=_contador + (-(_velocidad*msecs)+(_desencogiendo*(_velocidad*msecs)*2));		
-					m->setFloat(_contador);
-					_entity->emitMessage(m);
-				}
-				else
-				{
-					_actionScale=Message::Y_AXIS;
-					_contador=1.0f;
-					m->setAction(_actionScale);
-				}
+				_contador=_contador + (-(_velocidad*msecs)+(_desencogiendo*(_velocidad*msecs)*2));		
+				m->setFloat(_contador);
+				_entity->emitMessage(m);
 			}
 			else
 			{
-				if (_contador<1)
-				{
-					_contador=_contador + (-(_velocidad*msecs)+(_desencogiendo*(_velocidad*msecs)*2));		
-					m->setFloat(_contador);
-					_entity->emitMessage(m);
-				}
-				else
-				{
-					_actionScale=Message::Y_AXIS;
-					_contador=1.0f;
-					m->setAction(_actionScale);
-					timeArrived();//aquí es el final
-				}
+				_actionScale=Message::Y_AXIS;
+				_contador=1.0f;
+				m->setAction(_actionScale);
 			}
+
+			else
+
+			if (_contador<1)
+			{
+				_contador=_contador + (-(_velocidad*msecs)+(_desencogiendo*(_velocidad*msecs)*2));		
+				m->setFloat(_contador);
+				_entity->emitMessage(m);
+			}
+			else
+			{
+				_actionScale=Message::Y_AXIS;
+				_contador=1.0f;
+				m->setAction(_actionScale);
+				timeArrived();//aquí es el final
+			}
+
 		}
 		if (_actionScale==Message::Y_AXIS)
 		{
 			if (_desencogiendo==0)
-			{
+	
 				if (_contador>0.3)
 				{							
 					_contador=_contador + (-(_velocidad*msecs)+(_desencogiendo*(_velocidad*msecs)*2));
@@ -240,9 +197,7 @@ namespace AI
 					timeArrived();
 
 				}
-			}
 			else
-			{
 				if (_contador<1)
 				{							
 					_contador=_contador + (-(_velocidad*msecs)+(_desencogiendo*(_velocidad*msecs)*2));
@@ -255,54 +210,45 @@ namespace AI
 					_actionScale=Message::Z_AXIS;
 					m->setAction(_actionScale);	
 				}
-			}
 		}
 
 		CLatentAction::tick();//no olvideis llamar al tick de CLatentAction
 
 	}
 
-	void CLA_Change::sleepComponents()
+	void CLA_ChangeRing::sleepComponents()
 	{
-		if (_action!=Message::CHANGE_BASE)
-			if (_entity->getComponent<CAvatarController>()!=NULL)
-				_entity->getComponent<CAvatarController>()->sleep();
-		if (_action!=Message::GO_DOWN || _action!=Message::GO_UP)
-		{
 			if (_entity->getComponent<CAvatarController>()!=NULL)
 				_entity->getComponent<CAvatarController>()->sleep();	
 			if (_entity->getComponent<CJump2>()!=NULL)
-				_entity->getComponent<CJump2>()->sleep();	
-
-		}
+				_entity->getComponent<CJump2>()->sleep();
 	}
 
-	void CLA_Change::awakeComponents()
-	{
-		if (_action!=Message::CHANGE_BASE)
-			if (_entity->getComponent<CAvatarController>()!=NULL)
-				_entity->getComponent<CAvatarController>()->awake();
-			if (_action!=Message::GO_DOWN || _action!=Message::GO_UP)
-		{
+	void CLA_ChangeRing::awakeComponents()
+	{			
 			if (_entity->getComponent<CAvatarController>()!=NULL)
 				_entity->getComponent<CAvatarController>()->awake();	
 			if (_entity->getComponent<CJump2>()!=NULL)
 				_entity->getComponent<CJump2>()->awake();	
-
-		}
 	}
-	void CLA_Change::timeArrived()
+
+	void CLA_ChangeRing::timeArrived()
 	{//El primer if es para ignorar eventos externos si no estoy en el estado
 		
 		if (this->getStatus()!=SUCCESS && this->getStatus()!=FAIL && this->getStatus()!=RUNNING)
 		{//cancelando viaje
 			return;
 		}
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
+		if (_entity->getComponent<CRingTraveler>()!=NULL || _entity->getComponent<CBaseTraveler>()!=NULL )
 		{			
-			_entity->getComponent<CBaseTraveler>()->timeArrived();
-			//_entity->getComponent<CRingTraveler>()->timeArrived();				
+			//_entity->getComponent<CRingTraveler>()->changeRing();			
+			_entity->getComponent<CBaseTraveler>()->changeRing();
+		
 		}
+		/*if (_entity->getComponent<CBaseTraveler>()!=NULL)
+		{			
+			_entity->getComponent<CBaseTraveler>()->changeRing();
+		}*/
 		if (_desencogiendo==0) 
 			_desencogiendo=1;
 		else

@@ -68,6 +68,7 @@ namespace Logic
 
 	bool CRingTraveler::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
+	
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;		
 
@@ -76,14 +77,18 @@ namespace Logic
 	} // spawn
 	
 	//---------------------------------------------------------
-
+	bool CRingTraveler::activate()
+	{
+		_desencogiendo=false;
+		return true;
+	}
 	
 	bool CRingTraveler::accept(const CMessage *message)
 	{
 		if (_entity->getLogicalPosition()->getRing()==Logic::LogicalPosition::LOWER_RING && message->getAction()==Message::GO_DOWN)
-			return false;
+			return false;//si estamos abajo no dejamos bajar mas.
 		if (_entity->getLogicalPosition()->getRing()==Logic::LogicalPosition::UPPER_RING && message->getAction()==Message::GO_UP)
-			return false;
+			return false;//si estamos arriba no dejamos subir mas.
 
 		if (_desencogiendo) return false;
 		return (!_changingRing && isAwake() && message->getType() == Message::CONTROL && (

@@ -128,7 +128,7 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	void CBaseTraveler::timeArrived()
+	void CBaseTraveler::changeBase()
 	{
 	
 		if (_changingBase && !isChangingRing())
@@ -151,14 +151,15 @@ namespace Logic
 			m2->setString(_entity->getInitialMaterial());
 			_entity->emitMessage(m2,this);
 		}
-		else
-			//if (this->isChangingRing())
-		{
-			
-			CRingTraveler::timeArrived();
-		}
 		_changingBase=false;
 		_changingBaseTime=0;
+	}
+
+	
+	void CBaseTraveler::changeRing()
+	{
+		CRingTraveler::timeArrived();
+		_changingRingTime=0;
 	}
 
 	//---------------------------------------------------------

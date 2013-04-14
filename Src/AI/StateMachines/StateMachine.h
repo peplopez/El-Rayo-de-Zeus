@@ -27,7 +27,8 @@ de ejemplo.
 #include "../LatentActions/LA_Attack.h"
 #include "../LatentActions/LA_Run.h"
 #include "../LatentActions/LA_Jump.h"
-#include "../LatentActions/LA_Change.h"
+#include "../LatentActions/LA_ChangeBase.h"
+#include "../LatentActions/LA_ChangeRing.h"
 #include "../LatentActions/LA_Cover.h"
 #include "../LatentActions/LA_Beaten.h"
 #include "../LatentActions/LA_Death.h"
@@ -181,8 +182,8 @@ namespace AI
 			int jumping=this->addNode(new CLA_Jump(entity));
 
 			int covering=this->addNode(new CLA_Cover(entity));
-			int changingBase=this->addNode(new CLA_Change(entity,Message::CHANGE_BASE));			
-			int changingRing=this->addNode(new CLA_Change(entity,Message::CHANGE_RING));
+			int changingBase=this->addNode(new CLA_ChangeBase(entity));			
+			int changingRing=this->addNode(new CLA_ChangeRing(entity));
 			int h_attack2Fatality=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
 
 			int damaged=this->addNode(new CLA_Beaten(entity));

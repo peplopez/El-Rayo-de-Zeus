@@ -156,6 +156,7 @@ namespace Graphics
 		assert(_node && "El elemento no ha sido cargado en la escena");
 		if(_node)
 			return _node->getScale();
+		return Vector3::ZERO; //Pep, así elimino un warning
 	}
 
 	//------------------------------------------------------------------
