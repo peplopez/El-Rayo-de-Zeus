@@ -126,10 +126,7 @@ namespace Graphics
 
 		bool pauseAnimation(const std::string &anim,float moment);
 
-	protected:
-
-		virtual bool load();
-
+	
 
 	private:
 
@@ -159,6 +156,9 @@ namespace Graphics
 		*/
 		bool _momentEnabled;
 		
+
+		bool load();
+
 		/**
 		Actualiza el estado de la entidad cada ciclo.
 		

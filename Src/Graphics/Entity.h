@@ -108,12 +108,8 @@ namespace Graphics
 			detach( BONE_DICTIONARY[detachPoint] );
 			_boneObjectsNameTable[ BONE_DICTIONARY[detachPoint] ].pop_back();
 		}
-		void attach(const std::string &toBone, const std::string &mesh);
-		void detach(const std::string &fromBone);	
+			
 
-		void reattach(const std::string &toBone, const std::string &mesh);
-
-		void reattachAllMeshes();
 		
 
 		/******************
@@ -144,16 +140,10 @@ namespace Graphics
 
 
 	protected:
-
-		// CScene es la única que puede añadir o eliminar entidades de una 
-		// escena y por tanto cargar o descargar entidades.
-		// Por otro lado cada entidad debe pertenecer a una escena. Solo 
-		// permitimos a la escena actualizar el estado.
-		friend class CScene;
 	
 		/**
 		Entidad de Ogre.
-		*/
+		*/ 
 		Ogre::Entity *_entity;
 
 		
@@ -223,6 +213,11 @@ namespace Graphics
 		bool _isStatic;
 
 		
+
+
+		void attach(const std::string &toBone, const std::string &mesh);
+		void detach(const std::string &fromBone);	
+		void reattachAllMeshes();
 
 
 	}; // class CEntity
