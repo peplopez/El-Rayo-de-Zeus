@@ -55,7 +55,11 @@ namespace Logic
 			ANIMATION_MOMENT		= 0x20,
 			REWIND_ANIMATION		= 0x21,
 			ALTAR_ACTIVATED 		= 0x22,
-			ALTAR_DEACTIVATED 		= 0x23
+			ALTAR_DEACTIVATED 		= 0x23,
+			ATTACH					= 0x24,
+			DETACH					= 0x25,
+			AUDIO			 		= 0x26,
+			SET_SCALE		 		= 0x27
 		};
 
 		enum TActionType : unsigned char
@@ -71,16 +75,28 @@ namespace Logic
 			WALK_BACK			= 0x14,
 			JUMP				= 0x15,
 			TURN				= 0x16,
-			CHANGE_DIRECTION	= 0x17,
-			CHANGE_BASE			= 0x18,
+			CHANGE_DIRECTION		= 0x17,
+			SHOW_BASE			= 0x18,
 			CHANGE_RING			= 0x19,
+			CHANGE_BASE			= 0x1A,
+			GOBACK_TO_BASE			= 0x1B,
 			UPDATE_LIFE			= 0x20,
-			LIGHT_ATTACK		= 0x21,
-			HEAVY_ATTACK		= 0x22,
+			LIGHT_ATTACK			= 0x21,
+			HEAVY_ATTACK			= 0x22,
 			DISPLAY_HUD			= 0x23,
-			TRIGGER_ENTER		= 0x24,
-			TRIGGER_EXIT		= 0x25,
-			COVER				= 0x26
+			TRIGGER_ENTER			= 0x24,
+			TRIGGER_EXIT			= 0x25,
+			COVER				= 0x26,
+			ATTACH_TO_HEAD		= 0x27, // FRS si el número de attach points creciera mucho, habría que considerar el pasar esa info como argumento en lugar de como action
+			ATTACH_TO_HAND		= 0x28,
+			DETACH_FROM_HEAD	= 0x29,
+			DETACH_FROM_HAND	= 0x30,
+			NO_COVER			= 0x31,
+			X_AXIS				= 0x32,
+			Y_AXIS				= 0x33,
+			Z_AXIS				= 0x34,
+			HEAL				= 0x35,
+			DAMAGE				= 0x36
 		};
 	}
 
@@ -108,6 +124,8 @@ namespace Logic
 	{
 
 	public:
+
+		// TODO FRS Quizá estaría bien un ctor con el MessageType / Action como argumentos...
 
 		/**
 		Constructor básico

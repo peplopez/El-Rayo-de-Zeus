@@ -154,10 +154,12 @@ namespace Logic {
 			Net::CManager::getSingletonPtr()->send(serialMsg.getbuffer(), serialMsg.getSize(), packet->getConexion() );
 
 		// RTX DESERIALIZADO
+
+		/*
 		CEntity* destEntity = Logic::CServer::getSingletonPtr()->getMap()->getEntityByID(destID);
 			if(destEntity != 0)
 				destEntity->emitMessage(rxMsg);
-		
+		*/
 		if(packet->getConexion()){}
 			//LOG("RX ENTITY_MSG " << rxMsg._type << " from NetID " << packet->getConexion()->getId() << " for EntityID " << destID);
 	} // processEntityMessage

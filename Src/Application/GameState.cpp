@@ -25,6 +25,11 @@ Contiene la implementación del estado de juego.
 
 #include "Physics/Server.h"
 
+#include "Logic/GameStatus.h"
+#include "Logic/BaseInfo.h"
+#include "Logic/RingInfo.h"
+
+
 #include <CEGUISystem.h>
 #include <CEGUIWindowManager.h>
 #include <CEGUIWindow.h>
@@ -45,6 +50,7 @@ namespace Application {
 	// Hay que desacoplarlo utilizando un nuevo paquete donde se abstraiga
 	// el subsistema utilizado
 
+		
 
 	// Cargamos la ventana que muestra el tiempo de juego transcurrido.
 	//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Time.layout");
@@ -60,8 +66,15 @@ namespace Application {
 	_numberAltaresActivated = 0;
 	_rayosBase = 3;
 
+	//inicialización del GameStatus:
+	// se supone que hemos elegido ya en este punto cuantos jugadores somos
+	/*if (_gameStatus==0)
+		_gameStatus=new Logic::CGameStatus(8);
+	else
+		delete _gameStatus;
+		*/
 		return true;
-
+	
 	} // init
 
 	//--------------------------------------------------------
@@ -70,7 +83,7 @@ namespace Application {
 	void CGameState::release() 
 	{
 		// Liberamos el nivel junto con las escenas físico-graficas.
-		Logic::CServer::getSingletonPtr()->unLoadMap();
+		Logic::CServer::getSingletonPtr()->unLoadWorld();
 		Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
 		Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
 
@@ -82,10 +95,18 @@ namespace Application {
 	// ƒ®§ Al entrar en GameState (cambio de currentState)
 	void CGameState::activate() 
 	{
+		/*	if (_gameStatus!=0)
+			{
+				delete _gameStatus; //se reinicia el juego... esto no es pausa de juego, es reinicio,
+				//al menos de momento. Llegar al estado GameState es reinciar partida.
+				_gameStatus=new Logic::CGameStatus(8);
+			}else			
+				_gameStatus=new Logic::CGameStatus(8);
+*/
 		CApplicationState::activate();
-		
+	
 		// Activamos el mapa que ha sido cargado para la partida (incluye la activacion de la escenas)
-		Logic::CServer::getSingletonPtr()->activateMap();
+		Logic::CServer::getSingletonPtr()->activateAllMaps();
 
 		// Queremos que el GUI maneje al jugador.
         GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
@@ -114,7 +135,6 @@ namespace Application {
 		//TODOPT
 		//ActivarHUD();
 
-		
 	} // activate
 
 	//--------------------------------------------------------
@@ -138,7 +158,7 @@ namespace Application {
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
 		
 		// Desactivamos el mapa de la partida (incluye la desactivacion de la escenas)
-		Logic::CServer::getSingletonPtr()->deactivateMap();
+		Logic::CServer::getSingletonPtr()->deactivateAllMaps();
 		
 		CApplicationState::deactivate();
 
@@ -160,12 +180,12 @@ namespace Application {
 		//std::stringstream text;
 		//text << "Time: " << _time/1000;
 		//_timeWindow->setText(text.str());
-
+	/*	if (_gameStatus->getBase(3)->getAllAltarsActivated())
+		std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN BASE 3"<<std::endl;
+		*/
 	} // tick
 
 	
-
-
 	/**************
 		INPUT
 	*************/
@@ -188,7 +208,7 @@ namespace Application {
 		switch(key.keyId)
 		{
 		case GUI::Key::ESCAPE:
-			Logic::CServer::getSingletonPtr()->unLoadMap();
+			Logic::CServer::getSingletonPtr()->unLoadWorld();
 			Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
 			Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
 			_app->setState("menu");

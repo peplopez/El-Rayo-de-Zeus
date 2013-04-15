@@ -35,7 +35,7 @@ namespace Logic
 		~CMessageBoolString() {}
 
 
-		float getBool() const { return _bool; }
+		bool getBool() const { return _bool; }
 		void setBool(const bool valor) {_bool=valor; }
 
 

@@ -164,6 +164,10 @@ namespace Graphics
 		void setActiveScene(CScene* scene);
 
 		/**
+		*/
+		void activateBaseCam(CScene* scene);
+
+		/**
 		Establece una escena como escena activa. En caso de que 
 		hubiese otra escena activa este método la desactiva y establece
 		la nueva.
@@ -184,14 +188,14 @@ namespace Graphics
 		/**
 		Metodo que devuelve el height de la pantalla. Esta tomado gracias a los overlays, puede que no sea fiable 100%
 
-		@return devuelve el heigth de la pantalla
+		@return devuelve el width de la pantalla
 		*/
 		int getScreenWidth();
 
 		/**
 		Metodo que devuelve el height de la pantalla. Esta tomado gracias a los overlays, puede que no sea fiable 100%
 
-		@return devuelve el heigth de la pantalla
+		@return devuelve el height de la pantalla
 		*/
 		int getScreenHeight();
 

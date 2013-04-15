@@ -281,7 +281,7 @@ srand(time(0)); // HACK necesario subsistema random
 				// HACK Lo suyo sería que cada uno ejecutara su propio createPlayer y que se propagara el LOAD_PLAYER como si fuera de server
 				// TX MAP LOADED
 				Net::CBuffer txSerialMsg;
-					Net::NetMessageType msgType = Net::NetMessageType::MAP_LOADED; // Informamos de carga finalizada
+					Net::NetMessageType msgType = Net::MAP_LOADED; // Informamos de carga finalizada
 						txSerialMsg.write(&msgType, sizeof(msgType));
 					Net::Serializable::serialize(txSerialMsg, playerNick);
 					Net::Serializable::serialize(txSerialMsg, playerModel);				
@@ -309,14 +309,14 @@ srand(time(0)); // HACK necesario subsistema random
 			// con nuestro ID de red).
 			bool isLocalPlayer = id == Net::CManager::getSingletonPtr()->getID(); // id rx == id local?
 
-			Logic::CServer::getSingletonPtr()->getMap()->createPlayer(playerNick, playerModel,  isLocalPlayer);
+			Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer(playerNick, isLocalPlayer, playerModel);
 			// HACK Deberíamos poder propocionar caracteríasticas
 			// diferentes según el cliente (nombre, modelo, etc.). Esto es una
 			// aproximación, solo cambiamos el nombre y decimos si es el jugador
 			// local. Los datos deberían llegar en el packet de red.
 
 			//Enviamos el mensaje de que se ha creado el jugador
-			Net::NetMessageType msg = Net::NetMessageType::PLAYER_LOADED;
+			Net::NetMessageType msg = Net::PLAYER_LOADED;
 				Net::CManager::getSingletonPtr()->send(&msg, sizeof(msg));
 
 			LOG("TX PLAYER_LOADED " << id);			

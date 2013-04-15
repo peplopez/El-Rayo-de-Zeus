@@ -20,7 +20,7 @@ namespace Graphics
 	class CBillboard;
 }
 
-namespace Logic
+namespace Logicavnc
 {
 	class CMessage;
 }
@@ -50,14 +50,23 @@ namespace Logic
 	public:
 
 		CLife() : IComponent(GetAltTypeIdOf(CLife)), 
-			_LIFE_MAX(0), _life(0), _lifeBarBB(0), _modifiyingLife(0) {}
+			_LIFE_MAX(0), _life(0), _lifeBarBB(0){}
 		
 		~CLife();
 		
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
-		bool accept(const CMessage *message);
-		void process(CMessage *message);
+		virtual bool accept(const CMessage *message);
+		virtual void process(CMessage *message);
 
+		virtual void detachFromMap();
+		virtual void attachToMap(CMap* map);
+
+		int getLife(){return _life;}
+		
+		int getLifeMax(){return _LIFE_MAX;}
+
+		Graphics::CBillboard* getBillboard() { return _lifeBarBB; }
+		
 	private:
 
 		Graphics::CScene* _graphicalScene;
@@ -73,7 +82,9 @@ namespace Logic
 
 		void modifyLife(int);
 
-		int _modifiyingLife;
+		/** ruta del sonido asociado */
+		std::string _audio;
+	
 	}; // class CLife
 
 	REG_FACTORY(CLife);

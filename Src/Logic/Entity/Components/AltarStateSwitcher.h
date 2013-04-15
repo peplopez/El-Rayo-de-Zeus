@@ -22,19 +22,19 @@ capacidad de un Character de activar/desactivar altares
 namespace Logic
 {
 	class CMessage;
+	class CGameStatus;
 }
 
 //declaración de la clase
 namespace Logic 
 {
-
 	class CAltarStateSwitcher : public IComponent
 	{
 		DEC_FACTORY(CAltarStateSwitcher);
 	public:
 
 
-		CAltarStateSwitcher() : IComponent(GetAltTypeIdOf(CAltarStateSwitcher)), _switchingState(false), _switchingAllowed(false), _target(NULL), _targetSense(Logic::Sense::UNDEFINED), _acumRotation(0) {}
+		CAltarStateSwitcher() : IComponent(GetAltTypeIdOf(CAltarStateSwitcher)), _switchingState(false), _switchingAllowed(false), _target(NULL), _targetSense(Logic::LogicalPosition::UNDEFINED), _acumRotation(0) {}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
@@ -80,7 +80,7 @@ namespace Logic
 
 		float _acumRotation;
 		
-		
+		Logic::CGameStatus* _gameStatus;
 
 	}; // class CAltarStateSwitcher
 

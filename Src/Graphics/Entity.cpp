@@ -14,10 +14,6 @@ Contiene la implementación de la clase que representa una entidad gráfica.
 */
 
 #include "Entity.h"
-#include "Scene.h"
-
-#include "BaseSubsystems/Server.h"
-#include "BaseSubsystems/Math.h"
 
 #include <assert.h>
 
@@ -28,206 +24,167 @@ Contiene la implementación de la clase que representa una entidad gráfica.
 
 namespace Graphics 
 {
-
-
-	CEntity::~CEntity() 
-	{
-		assert(!_scene && "¡¡Para destruir una entidad esta no puede pertenecer a una escena!!");
-		
-	} // ~CEntity
-	
-	//--------------------------------------------------------
-		
-	bool CEntity::attachToScene(CScene *scene)
-	{
-		assert(scene && "¡¡La entidad debe asociarse a una escena!!");
-		
-		// Si la entidad está cargada por otro gestor de escena.
-		if(_loaded) {			
-			if(_scene != scene)
-				return false;
-			else
-				return true; // Si ya estaba cargada en la escena se devuelve cierto.
-		
-		} else { // Si no está cargada forzamos su carga.		
-			_scene = scene;
-			return load();
-		}
-
-	} // attachToScene
-	
-	//--------------------------------------------------------
-		
-	bool CEntity::deattachFromScene()
-	{
-		// Si la entidad no está cargada no se puede quitar de
-		// una escena. Ya que no pertenecerá a ninguna.
-		if(!_loaded)
-			return false;
-		// Si la entidad está cargada forzamos su descarga.
-		else
-		{
-			assert(_scene && "¡¡La entidad debe estar asociada a una escena!!");
-			unload();
-			_scene = 0;
-		}
-
-		return true;
-
-	} // deattachFromScene
-	
-	//--------------------------------------------------------
+	CEntity::TBoneDictionary CEntity::BONE_DICTIONARY = CEntity::initBoneDictionary();
 		
 	bool CEntity::load()
 	{
 		try{
-			_entity = _scene->getSceneMgr()->createEntity(_name, _mesh);		
-		} catch(std::exception e){
-			return false;
-		}
-
-		_entityNode = _scene->getSceneMgr()->getRootSceneNode()->
-								createChildSceneNode(_name + "_node");
+			_entity = getSceneMgr()->createEntity(_name, _mesh);		
 		
-		_entityNode->attachObject(_entity);
-		_loaded = true;
+			_node = getSceneMgr()->getRootSceneNode()
+					->createChildSceneNode(_name + "_node");		
+				_node->attachObject(_entity);		
+			
+			reattachAllMeshes();
 
-		// HACK Emily: cutre - para attach del arma en el Player
-		if(!_name.compare("Mono")) // que es como llamamos al player en el mapa
-		{
-			Ogre::Entity *weapon = _scene->getSceneMgr()->createEntity("weapon", "Katana.mesh");
-			_entity->attachObjectToBone("Bip01 R Hand",weapon);
+			_node->setScale(_scale);
+
+			_loaded = true;
+
+
+
+		} catch(std::exception e){
+			_loaded = false;
 		}
 
-		return true;
+		return _loaded;
 	} // load
 	
 	//--------------------------------------------------------
 		
 	void CEntity::unload()
 	{
-		if(_entityNode)
-		{
-			// desacoplamos la entidad de su nodo
-			_entityNode->detachAllObjects();
-			_scene->getSceneMgr()->destroySceneNode(_entityNode);
-			_entityNode = 0;
-		}
-		if(_entity)
-		{
-			_scene->getSceneMgr()->destroyEntity(_entity);
+		CSceneElement::unload();
+		
+		if(_entity){
+
+		// UNDONE FRS Necesario?
+			//_entity->detachAllObjectsFromBone(); // TODO Necesario hacer detach y destroy en arbol?
+			//getSceneMgr()->destroyEntity( "weapon" ); FRS este destroy se ejecuta cuando cualquier entidad muere...
+		//
+			
+			//ESC - cuando se hace unload queremos destruir tambien todos los objetos atachados a los huesos de la entidad.
+			Ogre::Entity::ChildObjectListIterator it =_entity->getAttachedObjectIterator();
+			while (it.hasMoreElements())
+			{
+				Ogre::Entity* entity = static_cast<Ogre::Entity*>(it.getNext());
+				getSceneMgr()->destroyEntity(entity);
+			}
+			_loaded = false;
+			getSceneMgr()->destroyEntity(_entity);
 			_entity = 0;
+			_boneObjectsTable.clear();
 		}
 
-	} // load
-
-	//--------------------------------------------------------
-		
+	} // unload
 
 
-	void CEntity::tick(float secs)
-	{
-	} // tick
+
+	/***************
+		ATTACH
+	***************/
 	
-	//--------------------------------------------------------
-		
-	void CEntity::setTransform(const Matrix4 &transform)
+	void CEntity::attach(const std::string &toBone, const std::string &mesh) 
 	{
-		assert(_entityNode && "La entidad no ha sido cargada en la escena");
-		if(_entityNode)
+		reattach(toBone, mesh);
+		_boneObjectsNameTable[toBone].push_back(mesh); 
+
+
+	} // attach
+
+	//--------------------------------------------------------	
+
+	void CEntity::reattach(const std::string &toBone, const std::string &mesh) 
+	{
+		assert(_node && "La entidad no ha sido cargada en la escena");
+		if(!_node) return;
+
+		std::string objectName = _name + '.';
+			objectName.append( mesh, 0, mesh.find_last_of('.') ); // Sufijo = meshName sin la extension (.mesh)
+
+		// FRS De momento, no permite "atachar" el mismo mesh más de una vez en un único cuerpo.
+		assert( !getSceneMgr()->hasEntity(objectName) && "Ya existe un objeto con el mismo nombre en la escena");
+		
+		TAttachedMeshes& boneObjects = _boneObjectsTable[toBone];
+			if( !boneObjects.empty() )
+				// Si ya había objetos "atachados" a ese hueso
+				boneObjects.top()->setVisible(false); // ocultamos el último attach que tenía el hueso	
+
+		Ogre::Entity* newObject = getSceneMgr()->createEntity(objectName, mesh);			
+			_entity->attachObjectToBone(toBone, newObject);
+			boneObjects.push(newObject); 
+
+	} // reattach
+
+	//--------------------------------------------------------
+	
+	void CEntity::reattachAllMeshes()
+	{
+		//se recorre el mapa de bicolas para volver a attachar todos los meshes
+		TBoneObjectNamesTable::const_iterator boneDeque = _boneObjectsNameTable.begin();
+		TBoneObjectNamesTable::const_iterator lastBoneDeque = _boneObjectsNameTable.end();
+		for (; boneDeque != lastBoneDeque; ++boneDeque)
 		{
-			_entityNode->setPosition(transform.getTrans());
-			_entityNode->setOrientation(transform.extractQuaternion());
-		}
+			TAttachedMeshNames::const_iterator attachedMeshName = boneDeque->second.begin();
+			TAttachedMeshNames::const_iterator lastAttachedMeshName = boneDeque->second.end();
 
-	} // setTransform
-	
+			for (; attachedMeshName != lastAttachedMeshName; ++attachedMeshName)
+			{
+				reattach(boneDeque->first, *attachedMeshName);
+			}
+
+
+		}	
+	} //reattachAllMeshes()
+
 	//--------------------------------------------------------
+
+	void CEntity::detach(const std::string &fromBone) 
+	{
+		assert(_node && "La entidad no ha sido cargada en la escena");
+
+		TAttachedMeshes& boneObjects = _boneObjectsTable[fromBone];
+			if( boneObjects.empty() ) 
+				return;				// Ningún objeto "atachado" a ese hueso
+
+		getSceneMgr()->destroyEntity(  boneObjects.top() ); // Eliminamos último attach
 		
-	void CEntity::setOrientation(const Matrix3 &orientation)
-	{
-		assert(_entityNode && "La entidad no ha sido cargada en la escena");
-		if(_entityNode)
-			_entityNode->setOrientation(orientation);
+		_boneObjectsNameTable[fromBone].pop_back();
+		boneObjects.pop();						// lo desapilamos
+		boneObjects.top()->setVisible(true);	//  y activamos el siguiente apilado
+	} // detach
 
-	} // setOrientation
+
+
 	
-	//--------------------------------------------------------
+	/********************
+		GET's & SET's
+	*******************/
 
-	Ogre::SceneNode* CEntity::getEntityNode()
-	{
-		assert(_entityNode && "La entidad no ha sido cargada en la escena");
-		return _entityNode;
-	}
-
-	//--------------------------------------------------------
-
-	void CEntity::setMaterial(const std::string &materialName) 
-	{
-		assert(_entityNode && "La entidad no ha sido cargada en la escena");
-		if(_entityNode)
-			_entity->setMaterialName(materialName);
-			//_entity->getChild(0)->setMaterialName();
-
-	} // setMaterial
-
-	//--------------------------------------------------------
-	void CEntity::setSubEntityMaterial(const std::string &materialName, const unsigned int subEntityIndex) 
-	{
-		assert(_entityNode && "La entidad no ha sido cargada");
-		if(_entityNode)
-			_entity->getSubEntity(subEntityIndex)->setMaterialName(materialName);
-			//_entity->getChild(0)->setMaterialName();
-
-	} // setSubEntityMaterial
-
-	//--------------------------------------------------------
 		
-	void CEntity::setVisible(bool visible)
+	bool CEntity::isVisible() const
 	{
-		assert(_entityNode && "La entidad no ha sido cargada en la escena");
-		if(_entityNode)
-			_entityNode->setVisible(visible);
-
-	} // setVisible
-	
-	//--------------------------------------------------------
-		
-	const bool CEntity::isVisible()
-	{
-		assert(_entityNode && "La entidad no ha sido cargada en la escena");
+		assert(_node && "La entidad no ha sido cargada en la escena");
 		return _entity->isVisible();
 	} // getPosition
 	
 	//--------------------------------------------------------
-		
-	void CEntity::setPosition(const Vector3 &position)
-	{
-		assert(_entityNode && "La entidad no ha sido cargada en la escena");
-		if(_entityNode)
-			_entityNode->setPosition(position);
 
-	} // setPosition
-	
+
+	void CEntity::setMaterial(const std::string &materialName) 
+	{
+		assert(_node && "La entidad no ha sido cargada en la escena");
+		if(_node)
+			_entity->setMaterialName(materialName);	
+	} // setMaterial
+
 	//--------------------------------------------------------
-		
-	void CEntity::setScale(const Vector3 &scale)
+	void CEntity::setSubEntityMaterial(const std::string &materialName, unsigned int subEntityIndex) 
 	{
-		assert(_entityNode && "La entidad no ha sido cargada");
-		if(_entityNode)
-			_entityNode->setScale(scale);
-
-	} // setScale
-	
-	//--------------------------------------------------------
-		
-	void CEntity::setScale(const float scale)
-	{
-		assert(_entityNode && "La entidad no ha sido cargada en la escena");
-		if(_entityNode)
-			_entityNode->setScale( Vector3(scale,scale,scale) );
-
-	} // setScale
+		assert(_node && "La entidad no ha sido cargada");
+		if(_node)
+			_entity->getSubEntity(subEntityIndex)->setMaterialName(materialName);
+	} // setSubEntityMaterial
 
 
 } // namespace Graphics

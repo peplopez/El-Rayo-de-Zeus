@@ -129,8 +129,12 @@ namespace Logic
 
 		void resetAttackFlags();
 	
+		bool getCovering()
+		{return _covering;}
 
-	protected:
+		void setCovering(bool covering)
+		{_covering=covering;}	
+protected:
 
 		float _attackPower;
 		
@@ -139,6 +143,8 @@ namespace Logic
 		bool _heavyAttack;
 
 		bool _covering;
+		
+		std::string _audioCubriendose;
 	}; // class CAttack
 
 	REG_FACTORY(CAttack);

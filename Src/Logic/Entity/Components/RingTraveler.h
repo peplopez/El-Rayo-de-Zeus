@@ -39,9 +39,10 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CRingTraveler() : IComponent(GetAltTypeIdOf(CRingTraveler)),_changingRing(false),_changingRingTime(0),_maxChangingRingTime(2000) {}
+		CRingTraveler() : IComponent(GetAltTypeIdOf(CRingTraveler)),_changingRing(false),_changingRingTime(0),_toUp(1),_desencogiendo(false) {}
 
-		CRingTraveler(altTypeId id) : IComponent(id),_changingRing(false),_changingRingTime(0),_maxChangingRingTime(2000) {}
+		CRingTraveler(altTypeId id) : IComponent(id),_changingRing(false),_changingRingTime(0)
+		{}
 
 		/**
 		Destructor (virtual); Quita de la escena y destruye la entidad gráfica.
@@ -67,6 +68,7 @@ namespace Logic
 		*/
 		virtual void process(CMessage *message);
 
+		 bool activate();
 		
 		///** UNDONE ƒ®§
 		//Provoca que la entidad baje de anillo. Conlleva un cambio del eje de giro en su coordenada y
@@ -88,14 +90,25 @@ namespace Logic
 		*/
 		void tick(unsigned int msecs);
 
+		void resetChangingRing(){_changingRing=false;}
+
+		bool isChangingRing(){return _changingRing;}
+
+		/**
+		Método que será invocado siempre que se termine una el reloj 
+		llegue al evento solicitado desde la máquina de estados.		
+		*/
+		void timeArrived();
+
 	protected:
 
 		bool _changingRing;	
 
-		float _changingRingTime;
-		
-		float _maxChangingRingTime;
+		char _toUp;
 
+		float _changingRingTime;
+
+		bool _desencogiendo;
 	}; // class CRingTraveler
 
 	REG_FACTORY(CRingTraveler);

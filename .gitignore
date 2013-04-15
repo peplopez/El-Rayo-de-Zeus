@@ -70,6 +70,9 @@ DocumentacionDoxygen/
 #######
 /Exes/*.*
 !/Exes/resources.cfg
+!/Exes/fmodex.dll
+!/Exes/media/audio/*.*
+
 
 #PROJECTS #
 ###########
@@ -169,6 +172,7 @@ DocumentacionDoxygen/
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++bin/premake.lua
 !/dependencies/include/enet/
+!/dependencies/include/fmod/
 !/dependencies/lib/*/enet.lib
+!/dependencies/lib/*/fmodex_vc.lib
 !/dependencies/luabind/bjam.exe
-

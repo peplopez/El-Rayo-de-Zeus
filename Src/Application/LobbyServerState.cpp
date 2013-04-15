@@ -243,7 +243,7 @@ namespace Application {
 			_app->exitRequest();
 		
 			// Cargamos el nivel a partir del nombre del mapa. 
-		} else if (!Logic::CServer::getSingletonPtr()->loadMap("map.txt")){
+		} else if (!Logic::CServer::getSingletonPtr()->loadMap("mapRed")){
 			CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar el nivel");
 			Net::CManager::getSingletonPtr()->deactivateNetwork();
 			_app->exitRequest();
@@ -315,7 +315,7 @@ namespace Application {
 
 					// [FRS] Llamar al método de creación del jugador. Deberemos decidir
 					// si el jugador es el jugador local. Al ser el servidor ninguno lo es
-					Logic::CServer::getSingletonPtr()->getMap()->createPlayer(_playerNicks[id], _playerModels[id] , false);
+					Logic::CServer::getSingletonPtr()->getMap("mapPlayer")->createPlayer(_playerNicks[id], false, _playerModels[id]);
 					// HACK Deberíamos poder propocionar caracteríasticas
 					// diferentes según el cliente (nombre, modelo, etc.). Esto es una
 					// aproximación, solo cambiamos el nombre y decimos si es el jugador local

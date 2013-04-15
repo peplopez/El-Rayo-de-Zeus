@@ -22,7 +22,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Entity/Messages/MessageInt.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
 #include "Logic/Maps/Map.h"
-
+#include "Logic/Entity/Messages/MessageAudio.h"
 #include "Map/MapEntity.h"
 
 
@@ -39,6 +39,24 @@ namespace Logic
 			delete _lifeBarBB;
 		}
 	}
+
+	//---------------------------------------------------------
+
+
+	void CLife::detachFromMap()
+	{
+		_graphicalScene->remove(_lifeBarBB);
+		_graphicalScene = NULL;
+	}
+
+	//---------------------------------------------------------
+
+	void CLife::attachToMap(CMap* map)
+	{
+		_graphicalScene = map->getGraphicScene();
+		_graphicalScene->add(_lifeBarBB);
+	}
+
 	//---------------------------------------------------------
 
 	bool CLife::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
@@ -56,6 +74,8 @@ namespace Logic
 			float lifeBarWidth = entityInfo->getFloatAttribute("lifeBarWidth");	
 		assert( entityInfo->hasAttribute("lifeBarHeight") );
 			float lifeBarHeight = entityInfo->getFloatAttribute("lifeBarHeight");
+		if (entityInfo->hasAttribute("audio") )
+			_audio = entityInfo->getStringAttribute("audio");
 
 		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
 		_lifeBarBB = new Graphics::CBillboard( entity->getName(), 
@@ -79,8 +99,6 @@ namespace Logic
 
 	void CLife::process(CMessage *message)
 	{
-				_modifiyingLife++;
-		//std::cout<<_modifiyingLife<<std::endl;
 		modifyLife( static_cast<CMessageInt*>(message)->getInt() );
 	} // process
 
@@ -96,22 +114,23 @@ namespace Logic
 		if(_life <= 0) {
 
 			CMessage *msg = new CMessage();
-				msg->setType(TMessageType::DEAD);
-				_entity->emitMessage(msg, this);
+			msg->setType(Logic::Message::DEAD);
+			msg->setAction(Logic::Message::DAMAGE); // HACK PeP para que funcione máquina estados
+			_entity->emitMessage(msg, this);
 		
 		// DAMAGE / HEAL 
-		} else { // Solo animaciones
+		} else if(lifeModifier) { // Solo animaciones
+		
+			/* Aquí ponemos el sonido */
+			Logic::CMessageAudio *maudio=new Logic::CMessageAudio();		
+			maudio->setType(Message::AUDIO);
+			maudio->setId("impacto");
+			maudio->setPosition(_entity->getPosition());
+// TODO
+			lifeModifier < 0 ?	maudio->setPath(_audio): //Poner el sonido de herido. 
+								maudio->setPath(_audio); // Poner el sonido de curacion
 
-			CMessageBoolString *msg = new CMessageBoolString();
-				msg->setType(TMessageType::SET_ANIMATION);	
-				msg->setBool(false);
-
-			if(lifeModifier < 0)
-				msg->setString("Damage"); //Poner la animación de herido.
-			else if(lifeModifier > 0)
-				msg->setString("Heal"); // Poner la animación de curacion
-
-			_entity->emitMessage(msg, this);
+			_entity->emitMessage(maudio);
 		}		
 
 		// LIFEBAR CONTROL

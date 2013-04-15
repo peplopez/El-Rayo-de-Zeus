@@ -93,6 +93,15 @@ namespace Logic
 		*/
 		void deactivate();
 
+
+		/**
+		*/
+		void setVisible();
+
+		/**
+		*/
+		void activateBaseCam();
+
 		/**
 		Función llamada en cada frame para que se realicen las funciones
 		de actualización adecuadas.
@@ -111,6 +120,14 @@ namespace Logic
 		*/
 		void addEntity(CEntity *entity);
 
+		/*
+		*/
+		void insertEntity(CEntity *entity);
+
+		void insertIntoGraphics(CEntity *entity);
+
+		void insertIntoPhysics(CEntity *entity);
+
 		/**
 		Elimina una entidad del mapa. Si la entidad no estaba incluida
 		no se hace nada. La función desactiva previamente la entidad si
@@ -122,6 +139,11 @@ namespace Logic
 		@param entity Entidad a eliminar.
 		*/
 		void removeEntity(CEntity *entity);
+
+		void removeFromGraphics(CEntity *entity);
+
+		void removeFromPhysics(CEntity *entity);
+
 
 		/**
 		Elimina y destruye todas las entidades del mapa dejando la lista 
@@ -193,13 +215,14 @@ namespace Logic
 
 		@param name Nombre del jugador.
 		*/
-		void createPlayer(std::string entityName, std::string model, bool isLocalPlayer);
+		void createPlayer(std::string entityName, bool isLocalPlayer, const std::string& model = "");
 
 
 		/*******************
 			GET's & SET's
 		******************/
 		bool isActive() { return _isActive; }
+
 
 	private:
 

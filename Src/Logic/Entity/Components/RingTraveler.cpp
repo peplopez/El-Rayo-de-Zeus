@@ -36,32 +36,64 @@ namespace Logic
 
 	CRingTraveler::~CRingTraveler() 
 	{
-
-
-	} // ~CGraphics
+	} // ~CGRingTraveler
 	
+	void CRingTraveler::timeArrived()
+	{
+		//return;
+		if (_changingRing /*&& !_desencogiendo*/)
+		{
+			CMessageChar *m0 = new CMessageChar();	
+			m0->setType(Message::AVATAR_MOVE);
+			m0->setAction(Message::CHANGE_RING);		
+			m0->setChar(_toUp);
+			_entity->emitMessage(m0,this);	
+			LOG("Change Ring: " << (int) m0->getChar() );
+							
+			_changingRing=false;
+			_desencogiendo=true;
+			_changingRingTime=0;
+		}else
+		{
+			CMessageString *m3 = new CMessageString();	
+			m3->setType(Message::SET_MATERIAL);
+			m3->setString(_entity->getInitialMaterial());
+			_entity->emitMessage(m3,this);
+			_desencogiendo=false;
+		
+		}
+	}
+
 	//---------------------------------------------------------
 
 	bool CRingTraveler::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
+	
 		if(!IComponent::spawn(entity,map,entityInfo))
-			return false;
-		
-		
+			return false;		
 
 		return true;
 
 	} // spawn
 	
 	//---------------------------------------------------------
-
+	bool CRingTraveler::activate()
+	{
+		_desencogiendo=false;
+		return true;
+	}
 	
 	bool CRingTraveler::accept(const CMessage *message)
-	{//que no os confunda el nombre de mensaje CHANGE_PLANE es tanto para cambiar de base como de anillo dentro de la base. Apreciad que en cualquier caso siempre es un cambio de anillo, de ahí el nombre
-		return message->getType() == Message::CONTROL && (
+	{
+		if (_entity->getLogicalPosition()->getRing()==Logic::LogicalPosition::LOWER_RING && message->getAction()==Message::GO_DOWN)
+			return false;//si estamos abajo no dejamos bajar mas.
+		if (_entity->getLogicalPosition()->getRing()==Logic::LogicalPosition::UPPER_RING && message->getAction()==Message::GO_UP)
+			return false;//si estamos arriba no dejamos subir mas.
+
+		if (_desencogiendo) return false;
+		return (!_changingRing && isAwake() && message->getType() == Message::CONTROL && (
 						message->getAction() == Message::GO_DOWN || 
-						message->getAction() == Message::GO_UP
-				);
+						message->getAction() == Message::GO_UP));
 	} // accept
 	
 	//---------------------------------------------------------
@@ -70,75 +102,15 @@ namespace Logic
 	{
 		if(message->getAction() != Message::GO_DOWN && message->getAction() != Message::GO_UP ) 
 			return;
-
+		if (_changingRing || !isAwake() ) return;
 		_changingRing=true; //TODO Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
-		
-		CMessageChar *m = new CMessageChar();	
-			m->setType(Message::AVATAR_MOVE);
-			m->setAction(Message::CHANGE_RING);		
-			m->setChar( 
-				message->getAction() == Message::GO_UP ? 
-				1 : -1  // ƒ®§ GO_UP (+1) vs GO_DOWN (-1)  son las únicas dos opciones que pasan el filtro del accept
-			);
-		_entity->emitMessage(m,this);	
-
-		LOG("Change Ring: " << (int) m->getChar() );
+		message->getAction() == Message::GO_UP ? _toUp = 1 : _toUp = -1;  // ƒ®§ GO_UP (+1) vs GO_DOWN (-1)  son las únicas dos opciones que pasan el filtro del accept
  	} // process
-
-	
-	// UNDONE ƒ®§
-	//void CRingTraveler::goDown()
-	//{
-	//	//Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
-	//	_changingRing=true;
-
-	//	CMessageInt *m = new CMessageInt();	
-	//		m->setType(Message::AVATAR_MOVE);
-	//		m->setAction(Message::CHANGE_RING);		
-	//		m->setInt(-1); // -1 Anillo
-	//	_entity->emitMessage(m,this);	
-	//}
-	//	
-	//void CRingTraveler::goUp()
-	//{
-	//	_changingRing=true;
-
-	//	CMessageInt *m = new CMessageInt();	
-	//		m->setType(Message::AVATAR_MOVE);
-	//		m->setAction(Message::CHANGE_RING);		
-	//		m->setInt(1); // +1 Anillo
-	//	_entity->emitMessage(m,this);		
-	//}
 
 	void CRingTraveler::tick(unsigned int msecs)
 	{
 			IComponent::tick(msecs);
-
-		if (_changingRing)
-			{
-				if(_entity->isPlayer())
-				{
-					CMessageString *m = new CMessageString();	
-					m->setType(Message::SET_MATERIAL);
-					m->setString("transito");
-					_entity->emitMessage(m,this);
-					
-					if (_changingRing)
-						{
-						_changingRingTime+=msecs;
-						if (_changingRingTime>_maxChangingRingTime)
-						{
-							_changingRing=false;
-							_changingRingTime=0;
-							CMessageString *m3 = new CMessageString();	
-							m3->setType(Message::SET_MATERIAL);
-							m3->setString("marine");
-							_entity->emitMessage(m3,this);
-						}
-					}
-				}
-			}
-		}
+	}
 
 } // namespace Logic
 

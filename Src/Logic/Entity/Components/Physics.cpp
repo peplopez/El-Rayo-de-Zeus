@@ -23,6 +23,7 @@ para representar character controllers.
 
 #include "Physics/Scene.h"
 #include "Physics/Actor.h"
+#include "Physics/ActorTrigger.h"
 
 #define DEBUG 1
 #if DEBUG
@@ -38,25 +39,32 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	CPhysics::CPhysics() : IComponent(GetAltTypeIdOf(CPhysics)), _physicalActor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
+	CPhysics::~CPhysics() 
 	{
-		// UNDONE FRS _server = Physics::CServer::getSingletonPtr();
-	}
-	CPhysics::CPhysics(altTypeId id) : IComponent(id),  _physicalActor(0), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0)
+		if ( _physicalActor ) { // TODO FRS Quizá este tipo de comprobación sucia debería hacerla la propia scene en su remove
+			_isTrigger ? 
+				_scene->removeActor(  static_cast<Physics::CActorTrigger*>(_physicalActor) ):
+				_scene->removeActor(  _physicalActor ); // Eliminar el actor de la escena	
+
+			delete _physicalActor;
+		}
+		
+	} 
+	//---------------------------------------------------------
+	
+	void CPhysics::detachFromMap()
 	{
-		// UNDONE FRS _server = Physics::CServer::getSingletonPtr();
+		_scene->removeActor(_physicalActor);
+		_scene = NULL;
 	}
 
 	//---------------------------------------------------------
-
-	CPhysics::~CPhysics() 
+	
+	void CPhysics::attachToMap(CMap* map)
 	{
-		if ( _physicalActor ) {
-			_scene->removeActor(  _physicalActor ); // Eliminar el actor de la escena			
-			delete _physicalActor;
-		}
-		// UNDONE FRS _server = 0;
-	} 
+		_scene = map->getPhysicScene();
+		_scene->addActor(_physicalActor);
+	}
 
 	//---------------------------------------------------------
 
@@ -84,24 +92,24 @@ namespace Logic {
 		assert(_scene && "LOGIC::PHYSICS>> No existe escena física!");		
 
 		// Obtenemos la posición de la entidad. 
-		const TLogicalPosition logicPos = _entity->getLogicalPosition();
+		CLogicalPosition* logicPos = _entity->getLogicalPosition();
 	
 		// Leer el ancho del angular box
 		assert(entityInfo->hasAttribute("physicWidth")); 
-		const float physicWidth = entityInfo->getFloatAttribute("physicWidth");
+		_physicWidth = entityInfo->getFloatAttribute("physicWidth");
 
 		// Leer la altura del angular box
 		assert(entityInfo->hasAttribute("physicHeight"));
-		const float physicHeight = entityInfo->getFloatAttribute("physicHeight");
+		_physicHeight = entityInfo->getFloatAttribute("physicHeight");
 
-		// TRIGGER: Leer si es un trigger (por defecto no)
-		bool isTrigger = false;
+		// TRIGGER: Leer si es un trigger (por defecto no)	
+		_isTrigger = false;
 		if (entityInfo->hasAttribute("physicTrigger"))
-			isTrigger = entityInfo->getBoolAttribute("physicTrigger");
+			_isTrigger = entityInfo->getBoolAttribute("physicTrigger");
 		
 		// TRIGGER
-		if(isTrigger)  {
-			Physics::CActorTrigger* trigger = new Physics::CActorTrigger(logicPos, physicWidth, physicHeight, this);
+		if(_isTrigger)  {
+			Physics::CActorTrigger* trigger = new Physics::CActorTrigger(logicPos, _physicWidth, _physicHeight, this);
 				if( _scene->addActor(trigger ) ) // Añadir el actor a la escena
 					return trigger ;
 				else
@@ -109,7 +117,7 @@ namespace Logic {
 
 		// COLLIDER
 		} else {
-			Physics::CActor* collider = new Physics::CActor(logicPos, physicWidth, physicHeight, this);
+			Physics::CActor* collider = new Physics::CActor(logicPos, _physicWidth, _physicHeight, this);
 				if(_scene->addActor(collider) ) // Añadir el actor a la escena
 					return collider;
 				else
@@ -117,6 +125,37 @@ namespace Logic {
 		}
 
 	} // createActor 
+
+	//---------------------------------------------------------
+
+	// Crear el actor físico
+	Physics::CActor* CPhysics::reCreateActor()
+	{
+		assert(_scene && "LOGIC::PHYSICS>> No existe escena física!");		
+
+		delete _physicalActor;
+		// Obtenemos la posición de la entidad. 
+		CLogicalPosition* logicPos = new CLogicalPosition(*(_entity->getLogicalPosition()));
+
+		_entity->getLogicalPosition();
+				
+		// TRIGGER
+		if(_isTrigger)  {
+			_physicalActor = new Physics::CActorTrigger(logicPos, _physicWidth, _physicHeight, this);
+				if( _scene->addActor(_physicalActor ) ) // Añadir el actor a la escena
+					return _physicalActor ;
+				else
+					return 0;
+		// COLLIDER
+		} else {
+			_physicalActor = new Physics::CActor(logicPos, _physicWidth, _physicHeight, this);
+				if(_scene->addActor(_physicalActor) ) // Añadir el actor a la escena
+					return _physicalActor;
+				else
+					return 0;
+		}
+
+	} // reCreateActor 
 
 	//---------------------------------------------------------
 
@@ -144,7 +183,13 @@ namespace Logic {
 
 	} // onTrigger
 
-	
+	void  CPhysics::onCollision (Physics::IObserver* other) //PeP
+	{
 
-	
+		CMessageUInt* txMsg = new CMessageUInt();
+		txMsg->setType( Message::COLLISION ); 	
+			
+			txMsg->setUInt( static_cast<CPhysics*>(other)->getEntity()->getEntityID() );
+		_entity->emitMessage(txMsg);
+	}
 }

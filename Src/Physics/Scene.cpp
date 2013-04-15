@@ -1,4 +1,7 @@
-//---------------------------------------------------------------------------
+//----------------------------------------------12
+
+
+//-----------------------------
 // Scene.cpp
 //---------------------------------------------------------------------------
 
@@ -165,18 +168,18 @@ namespace Physics
 		{
 			if (x < 0)
 			{
-				Logic::TLogicalPosition pos = actor2->getLogicPosition();
-				pos._degrees -= x;
-				if (pos._degrees > 360)
-					pos._degrees -= 360;
+				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
+				pos->setDegree(pos->getDegree()-x);
+				if (pos->getDegree()> 360)
+					pos->setDegree(pos->getDegree()-360);
 				actor2->setLogicPosition(pos);
 			}
 			else if (x > 0)
 			{
-				Logic::TLogicalPosition pos = actor2->getLogicPosition();
-				pos._degrees -= x;
-				if (pos._degrees < 0)
-					pos._degrees += 360;
+				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
+				pos->setDegree(pos->getDegree()-x);
+				if (pos->getDegree() < 0)
+					pos->setDegree(pos->getDegree()+360);
 				actor2->setLogicPosition(pos);
 			}
 		}
@@ -184,14 +187,14 @@ namespace Physics
 		{
 			if (y < 0)
 			{
-				Logic::TLogicalPosition pos = actor2->getLogicPosition();
-				pos._height += -y;
+				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
+				pos->setHeight(pos->getHeight()-y);
 				actor2->setLogicPosition(pos);
 			}
 			else if (y > 0)
 			{
-				Logic::TLogicalPosition pos = actor2->getLogicPosition();
-				pos._height += y;
+				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
+				pos->setHeight(pos->getHeight()+y);
 				actor2->setLogicPosition(pos);
 			}
 		}

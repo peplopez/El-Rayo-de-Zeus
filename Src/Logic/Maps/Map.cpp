@@ -63,8 +63,8 @@ namespace Logic {
 		if(_isActive)
 			return true;
 
-		Graphics::CServer::getSingletonPtr()->setActiveScene(_graphicScene);	
-		Physics::CServer::getSingletonPtr()->setActiveScene(_physicScene);	
+		//Graphics::CServer::getSingletonPtr()->setActiveScene(_graphicScene);	
+		//Physics::CServer::getSingletonPtr()->setActiveScene(_physicScene);	
 
 		// Activamos todas las entidades registradas en el mapa.
 		_isActive = true;
@@ -98,6 +98,18 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
+	void CMap::setVisible()
+	{
+		Graphics::CServer::getSingletonPtr()->setActiveScene(this->getGraphicScene());
+	}
+
+	//---------------------------------------------------------
+
+	void CMap::activateBaseCam()
+	{
+		Graphics::CServer::getSingletonPtr()->activateBaseCam(this->getGraphicScene());
+	}
+	//---------------------------------------------------------
 	void CMap::tick(unsigned int msecs) 
 	{
 		TEntityList::const_iterator it = _entityList.begin();
@@ -112,7 +124,7 @@ namespace Logic {
 	{
 		// Completamos la ruta con el nombre proporcionado
 		std::string completePath(MAP_FILE_PATH);
-			completePath = completePath + filename;
+			completePath = completePath + filename + ".txt";
 				
 				if(!Map::CMapParser::getSingletonPtr()->parseFile(completePath)){ // Parseamos el fichero
 					assert(!"No se ha podido parsear el mapa.");
@@ -137,8 +149,6 @@ namespace Logic {
 				assert(entity && "No se pudo crear una entidad del mapa");
 			}
 
-		//Add ESC - registramos el mapa que se acaba de leer como mapa actual.
-		entityFactory->setCurrentMap(map);
 
 		return map;
 
@@ -146,7 +156,7 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-	void CMap::createPlayer(std::string entityName, std::string model, bool isLocalPlayer)
+	void CMap::createPlayer(std::string entityName, bool isLocalPlayer, const std::string& model)
 	{
 		// [ƒ®§] Creamos un nuevo jugador. Deberíamos tener la info del player
 		// almacenada en _playerInfo así que solo habría que modificarle el
@@ -200,6 +210,7 @@ namespace Logic {
 		{			
 			_entityMap[entity->getEntityID()] = entity;
 			_entityList.push_back(entity); 
+			entity->_map = this;
 		}
 
 	} // addEntity
@@ -212,13 +223,13 @@ namespace Logic {
 		{
 			if(entity->isActivated())
 				entity->deactivate();
+
 			entity->_map = 0;
 			_entityMap.erase(entity->getEntityID());
 			_entityList.remove(entity);
 		}
 
 	} // removeEntity
-
 
 	//--------------------------------------------------------
 

@@ -165,7 +165,7 @@ namespace Logic
 		*/
 
 		CEntity *createEntity(const std::string &archetype,
-			const Logic::TLogicalPosition &pos);
+			const Logic::CLogicalPosition *pos);
 		/**
 		Destruye el CEntity pasado como parámetro. La destrucción
 		es inmediata, por lo que el <em>invocante debe garantizar</em>
@@ -217,11 +217,6 @@ namespace Logic
 		*/
 		void deleteDefferedEntities();
 		
-		/**
-		Add - ESC
-		Metodo para registrar el mapa lógico donde se crearán las entidades
-		*/
-		void setCurrentMap(CMap *currentMap) { _currentMap = currentMap; }
 		
 		/**
 		Estructura que define una entidad blueprint.

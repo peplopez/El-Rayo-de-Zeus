@@ -11,7 +11,7 @@ de una escena.
 @date Agosto, 2010
 */
 //#include     <cmath>
-
+#pragma warning (disable : 4244 ) 
 #include "Camera.h"
 
 #include "Logic/Server.h"
@@ -86,11 +86,14 @@ namespace Logic
 	
 	}
 
-		
+	//---------------------------------------------------------
+
 	bool CCamera::accept(const CMessage *message)
 	{
 		return message->getType() == Message::CAMERA;
 	}
+
+	//---------------------------------------------------------
 
 	 void CCamera::process(CMessage *message)
 	{
@@ -100,6 +103,8 @@ namespace Logic
 		else
 			_targetDistance-=maux->getFloat();
 	}
+
+	//---------------------------------------------------------
 
 	void CCamera::tick(unsigned int msecs)
 	{
@@ -136,8 +141,11 @@ namespace Logic
 		//std::cout<<"vectorcentroprotacamara: "<<vectorCentroProtaCamara<<std::endl;
 		
 		//inercia de la camara
-		Vector3 cameraTarget=CServer::getSingletonPtr()->getRingPositions(_target->getBase(),_target->getRing());
-		_currentPos += ((Vector3(_target->getPosition().x*_targetDistance,cameraTarget.y+126,_target->getPosition().z*_targetDistance)+Vector3(0,_targetHeight*2,0)) - _currentPos) * 0.035*0.05*msecs;//0.05*
+		Vector3 cameraTarget=CServer::getSingletonPtr()->getRingPositions(0/*_target->getLogicalPosition()->getBase()*/,_target->getLogicalPosition()->getRing());
+		_currentPos =_currentPos+ (
+			(Vector3(_target->getPosition().x*_targetDistance,cameraTarget.y+126,_target->getPosition().z*_targetDistance) +
+			Vector3(0,_targetHeight*2,0)) -
+			_currentPos) * 0.035f*0.05f*msecs;//0.05*
 		
 			_graphicsCamera->setCameraPosition(_currentPos);
 

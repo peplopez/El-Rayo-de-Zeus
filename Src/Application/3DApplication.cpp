@@ -26,6 +26,8 @@ basadas en Ogre. Esta clase maneja la ejecución de todo el juego.
 #include "NET/Manager.h"
 #include "OgreClock.h"
 #include "Physics/Server.h"
+#include "Audio/Server.h"
+
 
 #include <cassert>
 
@@ -72,6 +74,9 @@ namespace Application {
 
 		// Inicialización del servidor de física.
 		if (!Physics::CServer::Init())
+			return false;
+			// Inicialización del servidor de física.
+		if (!Audio::CServer::Init())
 			return false;
 
 		// Inicializamos el servidor de IA

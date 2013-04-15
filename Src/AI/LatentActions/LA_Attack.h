@@ -1,18 +1,17 @@
 /**
-@file CLAIdle.h
+@file CLA_Idle.h
 
 En este fichero se implementan algunas acciones 
 latentes básicas.
 
-@author Gonzalo Flórez
-@date Diciembre 2010
-
+@author Jose Luis Löpez
+@date Marzo 2013
 */
 
 #pragma once
 
-#ifndef __LOGIC_ATTACKLatentActions_H
-#define __LOGIC_ATTACKLatentActions_H
+#ifndef __AI_ATTACKLatentActions_H
+#define __AI_ATTACKLatentActions_H
 
 #include "LatentAction.h"
 
@@ -106,6 +105,11 @@ namespace AI
 		*/
 		virtual void process( CMessage *message);
 
+		/**
+		He añadido un tick dependiente del tiempo, no sustituye al anterior tick(). se ejecutan ambos.
+		He decidido conservar el anterior para que solo esté implementado en CLatentAction y no en todos los heredados.
+		*/
+		virtual void tick(unsigned int msecs);
 		
 		virtual void sleepComponents();
 

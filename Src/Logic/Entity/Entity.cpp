@@ -28,9 +28,6 @@ de juego. Es una colección de componentes.
 #include "Logic/Entity/Messages/MessageTF.h"
 #include "Logic/Entity/Messages/MessageBoolTF.h"
 
-
-
-
 namespace Logic 
 {
 	CEntity::CEntity(TEntityID entityID) : _entityID(entityID), 
@@ -59,7 +56,7 @@ namespace Logic
 		_type = entityInfo->getType();
 		_logicInput=false;
 		Vector3 position=Vector3::ZERO;	
-		
+		_pos=new CLogicalPosition();
 		if(entityInfo->hasAttribute("name"))
 			_name = entityInfo->getStringAttribute("name");	
 
@@ -67,26 +64,33 @@ namespace Logic
 			_logicInput = entityInfo->getBoolAttribute("logicInput");
 
 		if(entityInfo->hasAttribute("degrees"))
-			_pos._degrees = entityInfo->getFloatAttribute("degrees");
+			_pos->setDegree(entityInfo->getFloatAttribute("degrees"));
 			
 		if(entityInfo->hasAttribute("sense"))
-			_pos._sense = static_cast<Logic::Sense>(entityInfo->getIntAttribute("sense"));
+			_pos->setSense(static_cast<Logic::Sense>(entityInfo->getIntAttribute("sense")));
 		else
 			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna por defecto dirección LEFT
-			_pos._sense = Logic::Sense::LEFT;
+			_pos->setSense(Logic::LogicalPosition::LEFT);
 
+		if(entityInfo->hasAttribute("initialMaterial"))
+			_initialMaterial = entityInfo->getStringAttribute("initialMaterial");	
+		else
+			_initialMaterial = "marine";	
+		
 		if(entityInfo->hasAttribute("base"))					
-			_pos._base = entityInfo->getIntAttribute("base");
-
+		{
+			_pos->setBase(entityInfo->getIntAttribute("base"));
+			this->setOriginBase(_pos->getBase());
+		}
 		if(entityInfo->hasAttribute("ring"))
-			_pos._ring = static_cast<Logic::Ring>(entityInfo->getIntAttribute("ring"));
+			_pos->setRing(static_cast<Ring>(entityInfo->getIntAttribute("ring")));
 		else			
 			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
 			//pese a todo no pete.
-			_pos._ring= Logic::Ring::CENTRAL_RING;  
+			_pos->setRing(Logic::LogicalPosition::CENTRAL_RING);  
 
 		// UNDONE ƒ®§ Este height ya se inicializa a 0 en el ctor por defecto de TLogicalPosition
-		//_pos._height = 0;
+		//_pos->_height = 0;
 
 		// UNDONE ƒ®§: Esta información de física es necesaria para alguien más?
 		//if(entityInfo->hasAttribute("angularBox"))					
@@ -94,21 +98,30 @@ namespace Logic
 
 		if (_logicInput)
 		{
-			position=fromLogicalToCartesian(_pos._degrees,_pos._height, _pos._base,_pos._ring);
+			position=fromLogicalToCartesian(_pos->getDegree(),_pos->getHeight(), _pos->getBase(),_pos->getRing());
 			_transform.setTrans(position);
 			
-			setYaw(Math::fromDegreesToRadians(_pos._degrees));
+			setYaw(Math::fromDegreesToRadians(_pos->getDegree()));
 			//
-			if (this->getSense()==LogicalPosition::RIGHT)
-				this->setYaw(-Math::fromDegreesToRadians(this->getDegree()));
+			if (_pos->getSense()==LogicalPosition::RIGHT)
+				{
+				if (_type=="Player" || _type=="OtherPlayer")
+					this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));
+				else
+					this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));		
+				}
 			else
-				this->setYaw(Math::fromDegreesToRadians(360-this->getDegree()+180));
-						//
-
+				if (_type=="Player" || _type=="OtherPlayer")				
+					//this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
+					this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));
+				else
+					//this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));
+				this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
+		
 		}
 		else //logicInput=false
 		{
-			position=CServer::getSingletonPtr()->getRingPositions(_pos._base,_pos._ring);						
+			position=CServer::getSingletonPtr()->getRingPositions(0/*_pos->getBase()*/,_pos->getRing());						
 			_transform.setTrans(position);
 		}
 
@@ -125,7 +138,10 @@ namespace Logic
 		bool correct = true;
 		TComponentMap::const_iterator it; // TODO FRS acceso secuencial mejor con vector TComponentList::const_iterator it;		
 			for( it = _components.begin(); it != _components.end() && correct; ++it )
+				if (this->getEntityID() == 46)
 			        correct = it->second->spawn(this,map,entityInfo) && correct;
+				else
+					correct = it->second->spawn(this,map,entityInfo) && correct;
 				// correct = (*it)->spawn(this,map,entityInfo) && correct;
 		return correct;
 
@@ -141,6 +157,9 @@ namespace Logic
 			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);
 			int i=0;
 		}
+
+		if (isPlayer())
+			setIsPlayer(true);
 
 		// Activamos los componentes
 		TComponentMap::const_iterator it;
@@ -164,8 +183,8 @@ namespace Logic
 		// Si éramos el jugador, le decimos al servidor que ya no hay.
 		// y evitamos que se nos siga informando de los movimientos que 
 		// debemos realizar
-		if (isPlayer())
-			setIsPlayer(false);
+		//if (isPlayer())
+		//	setIsPlayer(false);
 
 		TComponentMap::const_iterator it; // TODO TComponentList::const_iterator it;
 
@@ -179,6 +198,7 @@ namespace Logic
 	} // deactivate
 
 	//---------------------------------------------------------
+
 	void CEntity::setIsPlayer(bool isPlayer) 
 	{ 		
 		if(isPlayer == _isPlayer)
@@ -207,16 +227,17 @@ namespace Logic
 		}
 
 		Vector3 resultado=Vector3::ZERO;
-		resultado=Math::fromCylindricalToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset,CServer::getSingletonPtr()->getRingPositions(base,ring).y+altura+126);
+		resultado=Math::fromCylindricalToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset,CServer::getSingletonPtr()->getRingPositions(0/*arreglo que se ha hecho, temporal*/,ring).y+altura+126);
 		return resultado;
 	 }
 	 
-	  const float CEntity::getY(const unsigned short base, const Logic::LogicalPosition::Ring ring)
-	  { 	
-		  Vector3 position=Vector3::ZERO;
-		  position=CServer::getSingletonPtr()->getRingPositions(base,ring);	
-		  return position.y;
-	  }
+	//---------------------------------------------------------
+	const float CEntity::getY(const unsigned short base, const Logic::Ring ring)
+	{ 	
+		Vector3 position=Vector3::ZERO;
+		position=CServer::getSingletonPtr()->getRingPositions(0/*base*/,ring);	
+		return position.y;
+	}
 
 	//---------------------------------------------------------
 	void CEntity::tick(unsigned int msecs) 
@@ -352,20 +373,20 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	void CEntity::setLogicalPosition(const Logic::TLogicalPosition &pos)
+	void CEntity::setLogicalPosition(const Logic::CLogicalPosition *pos)
 	{
-		_pos._base		= pos._base;
-		_pos._degrees	= pos._degrees;
-		_pos._ring		= pos._ring;
-		_pos._sense		= pos._sense;
-		_pos._height	= pos._height;
+		_pos->setBase(pos->getBase());
+		_pos->setDegree(pos->getDegree());
+		_pos->setRing(pos->getRing());
+		_pos->setSense(pos->getSense());
+		_pos->setHeight(pos->getHeight());
 
 		setPosition(
 			fromLogicalToCartesian(
-				_pos._degrees,
-				_pos._height,
-				_pos._base,
-				_pos._ring
+				_pos->getDegree(),
+				_pos->getHeight(),
+				_pos->getBase(),
+				_pos->getRing()
 			)
 		);
 
@@ -502,23 +523,27 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	void CEntity::setDegree(const float &degree)
+	void CEntity::detachFromMap()
 	{
-		_pos._degrees=degree;
+		_map->removeEntity(this);
+
+		TComponentMap::const_iterator it = _components.begin();
+		TComponentMap::const_iterator end = _components.end();
+		for (; it != end; ++it) {
+		     it->second->detachFromMap();		
+		}		
 	}
 
 	//---------------------------------------------------------
-	
-	void CEntity::setRing(const LogicalPosition::Ring &ring)
-	{
-		_pos._ring=ring;
-	}
 
-	//---------------------------------------------------------
-
-	const float CEntity::getRadio()
+	void CEntity::attachToMap(CMap *map)
 	{
-		
-		return CServer::getSingletonPtr()->getRingRadio(_pos._base,_pos._ring);
+		map->addEntity(this);
+
+		TComponentMap::const_iterator it = _components.begin();
+		TComponentMap::const_iterator end = _components.end();
+		for (; it != end; ++it) {
+		     it->second->attachToMap(map);		
+		}		
 	}
 } // namespace Logic

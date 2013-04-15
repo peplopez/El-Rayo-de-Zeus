@@ -6,7 +6,7 @@
 #include "Application/BaseApplication.h"
 
 #include "../StateMachines/StateMachine.h"
-
+#include "Logic/Entity/Messages/MessageString.h"
 namespace AI
 {
 
@@ -32,8 +32,8 @@ namespace AI
 		
 		//Desactivación de componentes
 		sleepComponents();
-		std::cout<<_initialCombatState<<std::endl;		
-		std::cout<<(int)_action<<std::endl;
+		std::cout<<"AI::INITIALCOMBATSTATE: "+_initialCombatState<<std::endl;		
+		std::cout<<"AI::INITIA_ACTION: "+(int)_action<<std::endl;
 		switch(_initialCombatState)
 		{
 			case 0:
@@ -72,7 +72,7 @@ namespace AI
 				{
 				CMessageBoolString *message = new CMessageBoolString();
 				message->setType(Message::SET_ANIMATION);
-				message->setString("Death");
+				message->setString("Damage");
 				message->setAction(_action);
 				message->setBool(false);
 				_entity->emitMessage(message);	
@@ -109,31 +109,6 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Attack::OnRun() 
 	{
-		if (_initialCombatState==2 && _yawAmount>=0 && _action==Message::HEAVY_ATTACK)
-		{
-			_yawAmount++;
-			_entity->yaw(_entity->getYaw()+0.3);
-			if (_yawAmount>50) 
-				{
-					_yawAmount=-10;
-					_entity->setYaw(_initialYaw);
-				/*	CMessageString *msg = new CMessageString();
-					msg->setType(Message::ANIMATION_FINISHED);
-					msg->setAction(_action);
-					msg->setString("Death");
-					_entity->emitMessage(msg);*/
-					finish(false);
-				}				
-		}
-		// TODO PRÁCTICA IA
-		// En cada paso de ejecución tendremos que comprobar si hemos
-		// superado el tiempo de espera. Según lo hayamos superado o no,
-		// la acción tendrá que pasar a un estado de terminado con éxito o
-		// quedarse en el mismo estado en ejecución.
-		/*if(Application::CBaseApplication::getSingletonPtr()->getAppTime() < _endingTime)
-			return RUNNING;
-		else 
-			return SUCCESS;*/
 		if (this->getStatus()!=SUCCESS && this->getStatus()!=FAIL)
 		return RUNNING;
 		else 
@@ -153,6 +128,7 @@ namespace AI
 	CLatentAction::LAStatus CLA_Attack::OnAbort() 
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
+		if (_entity->getComponent<CAttack>()!=NULL)
 		_entity->getComponent<CAttack>()->resetAttackFlags();
 	
 		return FAIL;
@@ -199,7 +175,7 @@ namespace AI
 				{
 					finish(false);				
 				}
-				else if (maux->getString().compare("Death")==0)
+				else if (maux->getString().compare("Damage")==0)
 				{
 					finish(false);				
 				}_comboOportunity=false;
@@ -249,6 +225,27 @@ namespace AI
 		}
 			// TODO PRÁCTICA IA
 		// La acción no procesa mensajes
+	}
+
+	void CLA_Attack::tick(unsigned int msecs) 
+	{
+		if (_initialCombatState==2 && _yawAmount>=0 && _action==Message::HEAVY_ATTACK)
+		{
+			_yawAmount++;
+			_entity->yaw(_entity->getYaw()+0.001f*msecs);
+			if (_yawAmount>50) 
+				{
+					_yawAmount=-10;
+					_entity->setYaw(_initialYaw);
+				/*	CMessageString *msg = new CMessageString();
+					msg->setType(Message::ANIMATION_FINISHED);
+					msg->setAction(_action);
+					msg->setString("Death");
+					_entity->emitMessage(msg);*/
+					finish(false);
+				}				
+		}
+		CLatentAction::tick();
 	}
 
 	void CLA_Attack::sleepComponents()

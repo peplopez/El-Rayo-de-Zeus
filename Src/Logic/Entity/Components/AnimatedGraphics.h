@@ -70,6 +70,10 @@ namespace Logic
 		@param message Mensaje a procesar.
 		*/
 		void process(CMessage *message);
+
+
+		virtual void detachFromMap();
+		virtual void attachToMap(CMap* map);
 		
 		////////////////////////////////////////
 		// Métodos de CAnimatedEntityListener //
@@ -105,6 +109,8 @@ namespace Logic
 		@return Entidad gráfica creada, NULL si hubo algún problema.
 		*/
 		Graphics::CEntity* createGraphicalEntity(const Map::CEntity *entityInfo);
+
+
 
 	}; // class CAnimatedGraphics
 

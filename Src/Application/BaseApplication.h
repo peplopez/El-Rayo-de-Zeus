@@ -29,6 +29,7 @@ namespace Application
 {
   class CApplicationState;
   class IClock;
+    class CGameState;
 }
 
 /**
@@ -63,6 +64,10 @@ namespace Application
 							 public GUI::CMouseListener
 	{
 	public:
+		/**
+		quiero poder llamar a tick desde clock.cpp
+		*/
+		friend class IClock;
 		/**
 		Constructor de la clase
 		*/
@@ -227,8 +232,21 @@ namespace Application
 		*/
 		virtual bool mouseReleased(const GUI::CMouseState &mouseState);
 
+		/** PeP
+		Quiero acceder al clock para intentar ponerle un timeObserver
+		@return Devuelve  un puntero al reloj
+		*/
+		IClock* getClock(){return _clock;}
+	
+		Application::CGameState* getGameState(){return _gameStateInstance;}
 	protected:
-
+	
+		/** PeP
+		Puntero al GameState
+		@return Devuelve  un puntero estado GameState
+		*/
+		Application::CGameState* _gameStateInstance;
+	
 		/**
 		Realiza un cambio de estado, avisando al estado saliente
 		y al estado entrante del hecho.

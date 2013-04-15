@@ -31,6 +31,10 @@ namespace Logic
 			if (_currentStateMachine != 0) delete _currentStateMachine;
 			// Saca una instancia de la máquina de estado de la factoría
 			_currentStateMachine = AI::CStateMachineFactory::getStateMachine(smName, entity);
+				/*if(entityInfo->hasAttribute("initialNode")) {
+					int isName = entityInfo->getIntAttribute("initialNode");
+					_currentStateMachine->setInitialNode();
+				}*/
 		}
 		return true;
 	}
@@ -72,7 +76,11 @@ namespace Logic
 				_currentAction = _currentStateMachine->getCurrentNode();
 			}
 			if (_currentAction != 0)
-				_currentAction->tick();
+			{
+				//_currentAction->tick();//llamar si eso al tick(msecs) aquí.
+				_currentAction->tick(msecs);//llamar si eso al tick(msecs) aquí.
+
+			}
 			else
 			{
 				_currentStateMachine->resetExecution();
@@ -92,6 +100,7 @@ namespace Logic
 			return true;
 		if(_currentAction != NULL) // Si no, delegamos en currentAction
 			return _currentAction->accept(message); 
+		return false;
 	}
 	//---------------------------------------------------------
 	/**

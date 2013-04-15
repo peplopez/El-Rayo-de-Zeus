@@ -23,6 +23,15 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
 
+
+/*para tener un acceso directo al gamestatus*/
+#include "Logic/GameStatus.h"
+#include "Logic/RingInfo.h"
+#include "Logic/BaseInfo.h"
+#include "Logic/AltarInfo.h"
+#include "Application/BaseApplication.h"
+#include "../../../Application/GameState.h"
+
 #define DEBUG 1
 #if DEBUG
 #	include <iostream>
@@ -42,9 +51,21 @@ namespace Logic
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;				
-		_player=NULL;
+
+		//creamos un puntero al gamestatus global (que es única estancia)
+		//_gameStatus=Application::CBaseApplication::getSingletonPtr()->getGameState()->getGameStatus();
+		_gameStatus=CGameStatus::getSingletonPtr();
+		//creamos un altar pasandole la entidad propietaria del presente compontente.
+		_altarInfo = _gameStatus->getBase(entity->getLogicalPosition()->
+			getBase())->getRing(entity->getLogicalPosition()->getRing())->createAltar(entity);
+
+		if(entityInfo->hasAttribute("activatedMaterial"))
+			_activatedMaterial = entityInfo->getStringAttribute("activatedMaterial");
 		
-		return true;
+		if(entityInfo->hasAttribute("unactivatedMaterial"))
+			_unactivatedMaterial = entityInfo->getStringAttribute("unactivatedMaterial");
+	
+	return true;
 
 	} // spawn
 	
@@ -52,7 +73,15 @@ namespace Logic
 
 	bool CAltar::activate()
 	{
+			//poner el submaterial de los altares desactivados de inicio
+			LOG(_entity->getName() << ": desactivado")
+			CMessageUIntString *m = new CMessageUIntString();	
+			m->setType(Message::SET_SUBENTITY_MATERIAL);
+			m->setString(_unactivatedMaterial);
+			m->setUInt(0);
+			_entity->emitMessage(m,this);
 		_acumTime = _switchingTime;
+
 		return true;
 	} // activate
 	
@@ -127,29 +156,36 @@ namespace Logic
 			{
 				_switchingState = false;
 				_on = !_on;
+				/* avisamos a continuación al _gameStatus*/
+					
 				if (_on)
 				{
 					LOG(_entity->getName() << ": activado")
 					CMessageUIntString *m = new CMessageUIntString();	
 					m->setType(Message::SET_SUBENTITY_MATERIAL);
-					m->setString("altaractivado");
+					m->setString(_activatedMaterial);
 					m->setUInt(0);
 					_entity->emitMessage(m,this);
-					if (_player!=NULL)		
+					//_gameStatus->getPlayer(_entity->getLogicalPosition()->getBase())->increaseAltarsActivated();
+				
+				if (_player!=NULL)		
 					{
-					CMessageString *m2 = new CMessageString();	
-					m2->setType(Message::ALTAR_ACTIVATED);
-					m2->setString(_entity->getName());
-					_player->emitMessage(m2,this);
+					//aviso a _gameStatus
+					//de momento no, lo haré de otra manera, en AltarStateSwitcher
+					//	_altarInfo->setPlayer(_player);
+
+						CMessageString *m2 = new CMessageString();	
+						m2->setType(Message::ALTAR_ACTIVATED);
+						m2->setString(_entity->getName());
+						_player->emitMessage(m2,this);
 					}
 				}
-
 				else 
 				{
 					LOG(_entity->getName() << ": desactivado")
 					CMessageUIntString *m = new CMessageUIntString();	
 					m->setType(Message::SET_SUBENTITY_MATERIAL);
-					m->setString("Material.001");
+					m->setString(_unactivatedMaterial);
 					m->setUInt(0);
 					_entity->emitMessage(m,this);
 					if (_player!=NULL)
@@ -160,6 +196,7 @@ namespace Logic
 					_player->emitMessage(m2,this);
 					}
 				}
+				_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsActivated();
 				_acumTime = _switchingTime;
 			}
 		}

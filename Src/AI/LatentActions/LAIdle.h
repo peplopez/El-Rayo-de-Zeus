@@ -11,8 +11,8 @@ latentes básicas.
 
 #pragma once
 
-#ifndef __LOGIC_IDLELatentActions_H
-#define __LOGIC_IDLELatentActions_H
+#ifndef __AI_IDLELatentActions_H
+#define __AI_IDLELatentActions_H
 
 #include "LatentAction.h"
 
@@ -105,6 +105,14 @@ namespace AI
 		@param msg Mensaje recibido.
 		*/
 		virtual void process( CMessage *message);
+
+		/**
+		He añadido un tick dependiente del tiempo, no sustituye al anterior tick(). se ejecutan ambos.
+		He decidido conservar el anterior para que solo esté implementado en CLatentAction y no en todos los heredados.
+		*/
+		virtual void tick(unsigned int msecs);
+		
+
 		virtual void sleepComponents();
 
 		virtual void awakeComponents();
@@ -114,4 +122,4 @@ namespace AI
 
 } //namespace AI 
 
-#endif // __LOGIC_IDLELatentActions_H
+#endif // __AI_IDLELatentActions_H

@@ -140,6 +140,8 @@ namespace GUI
 		*/
 		Logic::CEntity *_controlledAvatar;
 
+		bool _baseChangeAllowed;
+
 	}; // class CPlayerController
 
 } // namespace GUI

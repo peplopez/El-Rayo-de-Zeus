@@ -13,13 +13,20 @@
 */
 
 #include "Actor.h"
-
+#include "../Logic/Entity/LogicalPosition.h"
 namespace Physics
 {
-		CActor::CActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, IObserver *component) : 
+		CActor::CActor(Logic::CLogicalPosition *position, const float angularWidth, const float height, IObserver *component) : 
 		_logicPosition(position), _boxWidth(angularWidth), 
 			_boxHeight(height), _component(component)
 		{
+			_logicPosition =new Logic::CLogicalPosition();
+			_logicPosition->setBase(position->getBase());
+			_logicPosition->setRing(position->getRing());
+			_logicPosition->setHeight(position->getHeight());
+			_logicPosition->setDegree(position->getDegree());
+			_logicPosition->setSense(position->getSense());
+
 		}
 
 		//--------------------------------------------------------
@@ -27,18 +34,19 @@ namespace Physics
 		void CActor::move(const float degrees, const float height, const char ring, const char base)
 		{		
 			// HACK aquí habría que recurrir a los setter securizados de logicPosition
-			_logicPosition._degrees	+= degrees;
-			_logicPosition._height	+= height;			
-			_logicPosition._ring	= static_cast<Logic::LogicalPosition::Ring>(_logicPosition._ring + ring);		
-			_logicPosition._base	+= base; 
-
-			if (_logicPosition._height < 0)
-				_logicPosition._height = 0;
 			
-			if (_logicPosition._degrees < 0)
-				_logicPosition._degrees = 360 + _logicPosition._degrees;
-			else if (_logicPosition._degrees >= 360)
-				_logicPosition._degrees = _logicPosition._degrees - 360;
+			_logicPosition->setDegree(_logicPosition->getDegree()+degrees);
+			_logicPosition->setHeight(_logicPosition->getHeight()+height);
+			_logicPosition->setRing(static_cast<Logic::LogicalPosition::Ring>(_logicPosition->getRing() + ring));		
+			_logicPosition->setBase(_logicPosition->getBase()+ base); 
+
+			if (_logicPosition->getHeight() < 0)
+				_logicPosition->setHeight(0);
+			
+			if (_logicPosition->getDegree() < 0)
+				_logicPosition->setDegree(360 + _logicPosition->getDegree());
+			else if (_logicPosition->getDegree() >= 360)
+				_logicPosition->setDegree(_logicPosition->getDegree() - 360);
 		
 		} // move
 
@@ -48,13 +56,13 @@ namespace Physics
 		bool CActor::intersects(CActor *otherActor, float &x, float &y)
 		{
 			
-			if (_logicPosition._base != otherActor->getLogicPosition()._base)
+			if (_logicPosition->getBase() != otherActor->getLogicPosition()->getBase())
 				return false;
-			if (_logicPosition._ring != otherActor->getLogicPosition()._ring)
+			if (_logicPosition->getRing() != otherActor->getLogicPosition()->getRing())
 				return false;
 			x = 0;
 			y = 0;
-			float xCenterDistance = _logicPosition._degrees - otherActor->getLogicPosition()._degrees;
+			float xCenterDistance = _logicPosition->getDegree() - otherActor->getLogicPosition()->getDegree();
 			float yCenterDistance = 0;
 			if (xCenterDistance > 180) //
 				xCenterDistance -= 360;	
@@ -63,7 +71,7 @@ namespace Physics
 			
 			if (abs(xCenterDistance) >= (_boxWidth + otherActor->getBoxWidth()))
 				return false;
-			else if (abs( yCenterDistance = (_logicPosition._height - otherActor->getLogicPosition()._height) ) >= (_boxHeight + otherActor->getBoxHeight()))
+			else if (abs( yCenterDistance = (_logicPosition->getHeight() - otherActor->getLogicPosition()->getHeight()) ) >= (_boxHeight + otherActor->getBoxHeight()))
 				return false;
 
 			// INTERSECCIÓN: devuelvo la información de la misma
@@ -91,12 +99,12 @@ namespace Physics
 		// HACK revisar
 		bool CActor::intersects(CActor *otherActor)
 		{
-			if (_logicPosition._base != otherActor->getLogicPosition()._base)
+			if (_logicPosition->getBase() != otherActor->getLogicPosition()->getBase())
 				return false;
-			if (_logicPosition._ring != otherActor->getLogicPosition()._ring)
+			if (_logicPosition->getRing() != otherActor->getLogicPosition()->getRing())
 				return false;
 
-			float xCenterDistance = _logicPosition._degrees - otherActor->getLogicPosition()._degrees;
+			float xCenterDistance = _logicPosition->getDegree() - otherActor->getLogicPosition()->getDegree();
 			float yCenterDistance = 0;
 			if (xCenterDistance > 180) //
 				xCenterDistance -= 360;	
@@ -104,7 +112,7 @@ namespace Physics
 				xCenterDistance += 360;		
 			if (abs(xCenterDistance) > (_boxWidth + otherActor->getBoxWidth()))
 				return false;
-			else if (abs( yCenterDistance = (_logicPosition._height - otherActor->getLogicPosition()._height) ) > (_boxHeight + otherActor->getBoxHeight()))
+			else if (abs( yCenterDistance = (_logicPosition->getHeight() - otherActor->getLogicPosition()->getHeight()) ) > (_boxHeight + otherActor->getBoxHeight()))
 				return false;
 
 			// INTERSECCIÓN

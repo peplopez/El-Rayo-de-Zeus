@@ -36,6 +36,15 @@
     <Filter Include="Decision\LatentActions\Source Files">
       <UniqueIdentifier>{222ebbe4-5047-4139-b5e9-6e92242dbeab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Perception">
+      <UniqueIdentifier>{d8444884-a0ed-40ba-ba07-4422655f14b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Perception\Hearder Files">
+      <UniqueIdentifier>{a09f473a-e89e-4a07-a5f9-2253a4415777}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Perception\Source Files">
+      <UniqueIdentifier>{25334947-4b2c-49e1-98b9-77c3a8f484de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\AI\Server.cpp">
@@ -52,6 +61,42 @@
     </ClCompile>
     <ClCompile Include="..\..\Src\AI\StateMachines\StateMachine.cpp">
       <Filter>Decision\StateMachines\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Run.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Jump.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Change.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Cover.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\AI\LatentActions\LA_Beaten.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\AI\LatentActions\LA_Death.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\Perception\PerceptionEntity.cpp">
+      <Filter>Perception\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\Perception\PerceptionEntityFactory.cpp">
+      <Filter>Perception\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\Perception\PerceptionManager.cpp">
+      <Filter>Perception\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\Perception\SightSensor.cpp">
+      <Filter>Perception\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_ChangeBase.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_ChangeRing.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +117,51 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\AI\StateMachines\StateMachine.h">
       <Filter>Decision\StateMachines\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Run.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Jump.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Change.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Cover.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\AI\LatentActions\LA_Beaten.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\AI\LatentActions\LA_Death.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\Perception\PerceptionEntity.h">
+      <Filter>Perception\Hearder Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\Perception\PerceptionEntityFactory.h">
+      <Filter>Perception\Hearder Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\Perception\PerceptionListener.h">
+      <Filter>Perception\Hearder Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\Perception\PerceptionManager.h">
+      <Filter>Perception\Hearder Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\Perception\PerceptionSignal.h">
+      <Filter>Perception\Hearder Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\Perception\Sensor.h">
+      <Filter>Perception\Hearder Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\Perception\SightSensor.h">
+      <Filter>Perception\Hearder Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_ChangeBase.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_ChangeRing.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

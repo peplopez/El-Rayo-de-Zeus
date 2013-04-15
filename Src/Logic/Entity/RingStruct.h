@@ -1,7 +1,6 @@
-//---------------------------------------------------------------------------
+  //---------------------------------------------------------------------------
 // RingStruct.h
 //---------------------------------------------------------------------------
-
 
 /**
 @file RingStruct.h
@@ -32,11 +31,7 @@ namespace Logic
 	const unsigned short RADIO_MAYOR=73;
 	const unsigned short RADIO_MENOR=58;
 	const unsigned int CONST_Y_ADJUST=126;
-
-
 	
-
-
 	struct Position
 		{
 			/**

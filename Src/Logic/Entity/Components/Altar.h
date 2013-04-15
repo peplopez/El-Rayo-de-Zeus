@@ -15,12 +15,15 @@ activacion/desactivación de un Altar.
 #define __Logic_Altar_H
 
 #include "Logic/Entity/Component.h"
+#include "Application/BaseApplication.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 
 namespace Logic
 {
 	class CMessage;
+	class CGameStatus;
+	class CAltarInfo;
 }
 
 //declaración de la clase
@@ -33,7 +36,8 @@ namespace Logic
 	public:
 
 
-		CAltar() : IComponent(GetAltTypeIdOf(CAltar)), _switchingState(false), _revertingState(), _on(false), _switchingTime(3000), _acumTime(0) {}
+		CAltar() : IComponent(GetAltTypeIdOf(CAltar)), _switchingState(false), 
+			_revertingState(), _on(false), _switchingTime(3000), _acumTime(0), _player(NULL) {}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
@@ -50,6 +54,8 @@ namespace Logic
 		
 		void startSwitchingState();
 		void stopSwitchingState();
+
+		bool isActivated(){return _on;}
 
 	protected:
 
@@ -73,9 +79,22 @@ namespace Logic
 		/**
 		*/
 		int _acumTime;
+
+		/**
+		*/
+		std::string _activatedMaterial;
+
+		/**
+		*/
+		std::string _unactivatedMaterial;
 		
+		/**
+		*/
 		CEntity* _player;
 
+		Logic::CGameStatus* _gameStatus;
+
+		Logic::CAltarInfo* _altarInfo;
 	}; // class CAltar
 
 	REG_FACTORY(CAltar);

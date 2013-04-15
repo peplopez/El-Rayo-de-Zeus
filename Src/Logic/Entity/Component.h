@@ -169,6 +169,13 @@ namespace Logic
 		*/
 		virtual void awake() {_awake = true;}
 
+		/**
+		*/
+		virtual void detachFromMap() {}
+
+		/**
+		*/
+		virtual void attachToMap(CMap* map) {}
 
 
 	protected:

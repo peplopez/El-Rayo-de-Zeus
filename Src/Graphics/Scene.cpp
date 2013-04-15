@@ -18,38 +18,40 @@ de una escena.
 
 #include "BaseSubsystems/Server.h"
 
-#include "Graphics/Billboard.h"
+#include "Graphics/Light.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Entity.h"
 #include "Graphics/GlowMaterialListener.h"
 #include "Graphics/Server.h"
-#include "Graphics/StaticEntity.h"
+#include "Graphics/SceneElement.h"
 
 #include "Logic/Server.h"
 
 #include <assert.h>
-
 #include <OgreRoot.h>
 #include <OgreSceneManager.h>
 #include <OgreRenderWindow.h>
 #include <OgreViewport.h>
 #include <OgreStaticGeometry.h>
-#include <OgreColourValue.h>
+
+
+//#include <OgreColourValue.h>
 
 //PT
-#include <OgreParticleSystem.h> // TODO FRS Por desvincular (al igual que billboardSet)
-#include <OgreCompositorManager.h>
+//#include <OgreParticleSystem.h> // TODO FRS Por desvincular (al igual que billboardSet)
+//#include <OgreCompositorManager.h>
 
 
 namespace Graphics 
 {
 
 	CScene::CScene(const std::string& name) : _name(name), _viewport(0), 
-			_staticGeometry(0), _directionalLight1(0), _directionalLight2(0), counterParticles(0)
+			_staticGeometry(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
 		_camera = new CCamera(name,this);
+		_baseCamera = new CCamera("base" + name, this);
 	} // CScene
 
 	//--------------------------------------------------------
@@ -65,74 +67,72 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
-	
 	void CScene::activate()
 	{
-		buildStaticGeometry();
+		buildStaticGeometry(); // FRS Se debe construir en cada activación?
+
 		// HACK en pruebas
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
 						->addViewport(_camera->getCamera());
+
+		_camera->getCamera()->setAspectRatio(
+        Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
+
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
-		
-		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
-		//Sombras Chulas - Consumen mucho*/
-		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
-		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.9f,0.9f,0.9f));
-
-		// Además de la luz ambiente creamos una luz direccional que 
-		// hace que se vean mejor los volúmenes de las entidades.
-		_directionalLight1 = _sceneMgr->createLight("directional light1");
-		//_directionalLight2 = _sceneMgr->createLight("directional light2");
-
-		_directionalLight1->setDiffuseColour(.5f,.5f,.5f);
-		//_directionalLight2->setDiffuseColour(.5f,.5f,.5f);
-
-		_directionalLight1->setSpecularColour(.5f,.5f,.5f);
-		//_directionalLight2->setSpecularColour(.5f,.5f,.5f);
-
-		_directionalLight1->setType(Ogre::Light::LT_DIRECTIONAL);
-		//_directionalLight2->setType(Ogre::Light::LT_DIRECTIONAL);
-
-		_directionalLight1->setPosition(150, 150, 0);
-		//_directionalLight2->setPosition(-150, 150, 0);
-
-		_directionalLight1->setDirection(-150, -150, 0);
-		//_directionalLight2->setDirection(150, -150, 0);
-
-		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_camera->getViewport(), "Glow");
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_camera->getViewport(), "Glow", true);
+		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Glow", true);
 
 		GlowMaterialListener *gml = new GlowMaterialListener();
 		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
 
-		//_directionalLight->setType(Ogre::Light::LT_POINT);
-		//_directionalLight->setPosition(0, 100, 0);
-		
+		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
+
+		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
+		//Sombras Chulas - Consumen mucho*/
+		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
 	} // activate
+
+	//--------------------------------------------------------
+	void CScene::activateBaseCam()
+	{
+		buildStaticGeometry();
+		// HACK en pruebas
+		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
+						->addViewport(_baseCamera->getCamera());
+
+		_baseCamera->getCamera()->setAspectRatio(
+        Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
+
+		
+		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
+
+		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Glow", true);
+
+		GlowMaterialListener *gml = new GlowMaterialListener();
+		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
+
+		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
+
+		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
+		//Sombras Chulas - Consumen mucho*/
+		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
+
+	}
+
 
 	//--------------------------------------------------------
 
 	void CScene::deactivate()
 	{
-		if(_directionalLight1)
-		{
-			_sceneMgr->destroyLight(_directionalLight1);
-			_directionalLight1 = 0;
-		}
-		if(_directionalLight2)
-		{
-			_sceneMgr->destroyLight(_directionalLight2);
-			_directionalLight2 = 0;
-		}
 		if(_viewport)
 		{
 			BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->
 					removeViewport(_viewport->getZOrder());
 			_viewport = 0;
 		}
-
 	} // deactivate
 	
 	//--------------------------------------------------------
@@ -151,8 +151,13 @@ namespace Graphics
 
 
 	/************************
-		GRAPHICAL ELEMENTS
+		SCENE ELEMENTS
 	************************/
+
+	//---------- GENERIC SCENE ELEMENTS (p.e. billboards, parcticles, etc)-----------
+
+	bool CScene::add(CSceneElement* sceneElement) {		return sceneElement->attachToScene(this);	}
+	void CScene::remove(CSceneElement* sceneElement) {	sceneElement->detachFromScene();			} 
 
 
 	//---------- ENTITIES -------------------------
@@ -161,38 +166,29 @@ namespace Graphics
 	{
 		if(!entity->attachToScene(this))
 			return false;
-		_dynamicEntities.push_back(entity);
-		return true;
 
+		else {
+			entity->isStatic() ?
+				_staticEntities.push_back(entity) :
+				_dynamicEntities.push_back(entity);
+
+			return true;
+		}
 	} // addEntity
+
+	//--------------------------------------------------------
 
 	void CScene::remove(CEntity* entity)
 	{
-		entity->deattachFromScene();
-		_dynamicEntities.remove(entity);
+		entity->detachFromScene();
+
+		entity->isStatic() ?		
+			_staticEntities.remove(entity) :
+			_dynamicEntities.remove(entity);
+
 	} // addEntity
 
-
-
-	//----------STATIC ENTITIES-------------------------
-
-	bool CScene::add(CStaticEntity* entity)
-	{
-		if(!entity->attachToScene(this))
-			return false;
-		_staticEntities.push_back(entity);
-		return true;
-
-	} // addStaticEntity
-
-
-	void CScene::remove(CStaticEntity* entity)
-	{
-		entity->deattachFromScene();
-		_staticEntities.remove(entity);
-
-	} // addStaticEntity
-
+	//--------------------------------------------------------
 
 	void CScene::buildStaticGeometry()
 	{
@@ -201,25 +197,24 @@ namespace Graphics
 			_staticGeometry = 
 					_sceneMgr->createStaticGeometry("static");
 
-			TStaticEntities::const_iterator it = _staticEntities.begin();
-			TStaticEntities::const_iterator end = _staticEntities.end();
-			for(; it != end; it++)
-				(*it)->addToStaticGeometry();
+			TEntities::const_iterator it = _staticEntities.begin();
+			TEntities::const_iterator end = _staticEntities.end();
+				for(; it != end; it++)
+					(*it)->addToStaticGeometry();
 
 			_staticGeometry->build();
 		}
 
 	} // buildStaticGeometry
+	
 
+	//---------- LIGHTS -------------------------
 
-
-	//---------- BILLBOARDS -------------------------
-
-	bool CScene::add(CBillboard* billboard)
+	bool CScene::add(CLight *light)
 	{
-		if(!billboard->attachToScene(this))
+		if(!light->attachToScene(this))
 			return false;
-		_billboards.push_back(billboard);
+		_lights.push_back(light);
 		return true;
 
 	} // addBillboard
@@ -227,63 +222,46 @@ namespace Graphics
 	
 	//--------------------------------------------------------
 
-	void CScene::remove(CBillboard* billboard)
+	void CScene::remove(CLight* light)
 	{
-		billboard->deattachFromScene();
-		_billboards.remove(billboard);
+		light->deattachFromScene();
+		_lights.remove(light);
 	} // removeBillboard
 
+	//-------------------PARTICLES------------------
 
-	//--------------------------------------------------------
+	// TODO FRS quizá sea necesario temporizar las particulas sin padre para borrar su nodo
+	// TODO FRS estamos limitando a una partícula por entidad
 
-	//PT. Eliminacion de un sceneNode
-	void CScene::deleteSceneNode(const std::string &name)
+	// POS. RELATIVA (particulas hijas de otra entidad gráfica)
+	void CScene::createParticleSystem(const std::string& templateName, const std::string& parentEntity) 
 	{
-		if(_sceneMgr->hasSceneNode(name+"_node"))
-		{
-			_sceneMgr->destroySceneNode(name+"_node");
-		}
-
-	}//deleteSceneNode
-
-
-
-	//PT. Creacion de una particula
-	Ogre::ParticleSystem* CScene::createParticula(const std::string &name1, const std::string &name2)
-	{
-
-	char numstr[21]; // enough to hold all numbers up to 64-bits
-	sprintf(numstr, "%d", counterParticles);
-
-	// Creamos nuestro sistema de partículas :)
-	Ogre::ParticleSystem *pssmoke;
-	pssmoke = _sceneMgr->createParticleSystem(name1+numstr, name2);
-
-	// Creamos un nodo y atachamos la particula pssmoke a ese scenenode
-	Ogre::SceneNode* sceneNode = _sceneMgr->createSceneNode(name1+"_particleSystemNode_"+numstr);
-	sceneNode->attachObject(pssmoke);
-
-	if(_sceneMgr->hasSceneNode(name1+"_node"))
-	{
-		_sceneMgr->getSceneNode(name1+"_node")->addChild(sceneNode);
+		assert( getSceneMgr()->hasSceneNode( parentEntity + "_node") && "No existe la entidad de referencia" ); 
+				
+		_sceneMgr->getSceneNode( parentEntity + "_node")->attachObject( 
+			_sceneMgr->createParticleSystem(parentEntity + "_ps", templateName) // Suponemos un único PS por entidad
+		);
 	}
 
-	// Desvinculamos el sistema de partículas del nodo
-	/*
-	sceneNode->detachObject(pssmoke);
- 
-	// Destruimos el nodo
-	_sceneMgr->destroySceneNode(sceneNode);
- 
-	// Destruimos el sistema de partículas
-	_sceneMgr->destroyParticleSystem(pssmoke);
-	*/
+	// POSICIÓN ABSOLUTA
+	void CScene::createParticleSystem(const std::string& templateName, const Vector3& position) 
+	{		 		
+		 _sceneMgr->getRootSceneNode()
+				->createChildSceneNode(position)
+				->attachObject( 
+			_sceneMgr->createParticleSystem("_ps", templateName)
+		);
+	}
 
-	counterParticles++;
-
-	return pssmoke;
-
-	}//createParticula
+	// TODO FRS DestructorSi fuera necesario...
+		// Desvinculamos el sistema de partículas del nodo
+		/*
+		sceneNode->detachObject(pssmoke); 
+		// Destruimos el nodo
+		_sceneMgr->destroySceneNode(sceneNode); 
+		// Destruimos el sistema de partículas
+		_sceneMgr->destroyParticleSystem(pssmoke);
+		*/
 	
 
 } // namespace Graphics

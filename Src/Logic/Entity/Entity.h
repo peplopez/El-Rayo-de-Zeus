@@ -20,8 +20,6 @@ de juego. Es una colección de componentes.
 #include "Logic/Maps/EntityID.h"
 #include "LogicalPosition.h"
 
-
-
 #include <list>
 #include <string>
 
@@ -220,6 +218,15 @@ namespace Logic
 		*/
 		const std::string &getName() const { return _name; }
 
+
+		
+		/**
+		Devuelve el nombre de la entidad.
+
+		@return Nombre de la entidad.
+		*/
+		const std::string &getInitialMaterial() const { return _initialMaterial; }
+
 		/**
 		Devuelve el tipo de la entidad. Este atributo es leido de
 		la entidad del mapa en spawn().
@@ -234,7 +241,7 @@ namespace Logic
 		
 		@param pos Nueva posición lógica de la entidad.
 		*/		
-		void setLogicalPosition(const Logic::TLogicalPosition &pos);
+		void setLogicalPosition(const Logic::CLogicalPosition *pos);
 
 		/**
 		Add PEP
@@ -242,7 +249,7 @@ namespace Logic
 		
 		@return posición lógica
 		*/		
-		Logic::TLogicalPosition getLogicalPosition() const {return _pos;}
+		Logic::CLogicalPosition* getLogicalPosition()  {return _pos;}
 
 		/**
 		Establece la matriz de transformación de la entidad. Avisa a los 
@@ -283,122 +290,17 @@ namespace Logic
 		*/
 		Vector3 getPosition() const { return _transform.getTrans(); }
 
-		/**
-		Establece la posición de la entidad en grados.
-
-		@param position Nueva posición.
-		*/
-		void setDegree(const float &degree);
-
-		/**
-		Devuelve la posición de la entidad.
-		en grados
-		@return Posición de la entidad en el entorno.
-		*/
-		const float getDegree() const { 
-			if (_pos._degrees>=0 && _pos._degrees<360)
-				return _pos._degrees;
-
-			float decimal=_pos._degrees-(int)_pos._degrees;
-			int grados=(int)_pos._degrees%360;
-
-			if (_pos._degrees>360)
-			{				
-				return grados+decimal;
-			}
-			else //menor que cero
-			{
-				return 360-(int)abs(grados)+decimal;
-			}
-		}
-
-
-
-		/**
-		Establece la altura de la entidad con respeto al plano XZ (ANILLO) sobre el que se encuentra
-
-		@param height, nueva altura
-		*/
-		void setHeight(const float &height)
-		{
-			_pos._height=height;
-		}
-
-		/**
-		Devuelve la altura de la entidad.
 		
-		@return Height de la entidad con respecto al anillo actual.
-		*/
-		const float getHeight() const { 
-		    return	_pos._height;
-		}
-
-
-		/**
-		Establece la base de la entidad. 
-		NO Avisa a los componentes
-		del cambio. Mas adelante vere si es necesario pero creo que no
-
-		@param base nueva
-		*/
-		void setBase(const unsigned short &base)  {_pos._base=base;}
-
-		/**
-		Devuelve la base de la entidad.
-		
-		@return Base de la entidad en el entorno.
-		*/
-		unsigned short getBase() const { return _pos._base; }
-
-		/**
-		Establece el anillo de la entidad. 
-		NO Avisa a los componentes
-		del cambio. Mas adelante vere si es necesario pero creo que no
-
-		@param Ring nueva
-		*/
-		void setRing(const LogicalPosition::Ring &ring);
-
-		/**
-		Devuelve el anillo de la entidad.
-		
-		@return Ring de la entidad en el entorno.
-		*/
-		LogicalPosition::Ring getRing() const { return _pos._ring; }
-
 		/**
 		Devuelve la Y del anillo de la entidad.
 		
 		@return Ring de la entidad en el entorno.
-		*/
-
+		*/		
 		const float getY(const unsigned short base, const Logic::LogicalPosition::Ring ring);
 		// Pablo
 		const float getYJump(const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
 		
-		/**
-		Devuelve el radio sobre el que se mueve la entidad.
-		NO USAREMOS SET_RADIO, con los cambios de anillo usamos setRing()
-		@return Radio de la entidad en el entorno.
-		*/
-		const float getRadio();
-
-
-		/**
-		Establece la anchura de la entidad gráfica
-		@param angularBox nuevo
-		*/
-		void setSense(const Logic::Sense sense) {_pos._sense = sense; }
-
-		/**
-		Devuelve la anchura de la entidad gráfica.
-		
-		@return AngularBox de la entidad en el entorno.
-		*/
-		const Logic::Sense getSense() const { return _pos._sense; }
-
-
 		/**
 		Establece la orientación de la entidad. Avisa a los componentes
 		del cambio.
@@ -471,8 +373,6 @@ namespace Logic
 		*/
 		bool isActivated() {return _activated;}
 
-		/**
-		*/
 		const Vector3 fromLogicalToCartesian(const float grados,const float altura, const unsigned short base, const Logic::LogicalPosition::Ring ring);
 
 		/**
@@ -482,6 +382,7 @@ namespace Logic
 
 		Hace uso de de un mecanismo RTTI propio para ello
 		*/
+
 		template <typename T>
 		T* getComponent()
 		{
@@ -496,7 +397,23 @@ namespace Logic
 			std::cerr << "id no encontrado" << std::endl;
 			return NULL;	
 		}
+		
+		/**
+		Add - Pep
+		
+		*/
+		void setOriginBase(unsigned short originBase)
+		{
+			_originBase=originBase;
+		}
 
+		unsigned short getOriginBase()
+		{
+			return _originBase;
+		}
+
+		void detachFromMap();
+		void attachToMap(CMap* map);
 
 	protected:
 
@@ -514,7 +431,8 @@ namespace Logic
 		/**
 		Estructura de datos que contiene la posición lógica
 		*/
-		Logic::TLogicalPosition _pos;
+		Logic::CLogicalPosition *_pos;
+		//Logic::CLogicalPosition _pos;
 		
 		/**
 		Tipo para la lista de componetes.
@@ -559,6 +477,10 @@ namespace Logic
 		*/
 		Matrix4 _transform;
 
+				/**
+		Nombre de la entidad.
+		*/
+		std::string _initialMaterial;
 		/*
 		Posición de la entidad.
 		*
@@ -575,6 +497,14 @@ namespace Logic
 		*/
 		bool _isPlayer;
 
+		/** pep: añado variable que me sirve para el gameStatus 
+		Indica la base de origen de la entidad.
+		El índice de la base en el array se corresponde
+		siempre con la posición del player en su array.
+		Conociendo el indice podemos acceder directamente a su
+		CPlayerInfo sin riesgo a equivocarnos.
+		*/
+		unsigned short _originBase;
 
 	}; // class CEntity
 

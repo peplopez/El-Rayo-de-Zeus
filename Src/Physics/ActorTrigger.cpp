@@ -20,30 +20,18 @@ namespace Physics
 		
 		if( isOnTrigger(actor) )
 			return false;
-
 		else {
-			_actorsOnTrigger.push_back(actor);
+			_actorsOnTrigger.insert(actor);
 			return true;
 		}
 	}
 
 	bool CActorTrigger::exits(CActor* actor){
 
-		std::vector<CActor*>::iterator actorOnTrigger = std::find(_actorsOnTrigger.begin(), _actorsOnTrigger.end(), actor);
-			if (actorOnTrigger == _actorsOnTrigger.end()) 
-				return false;	
-			else {
-				_actorsOnTrigger.erase(actorOnTrigger);
+			if (  isOnTrigger(actor) ) {
+				_actorsOnTrigger.erase(actor);
 				return true;
-			}
+			} else
+				return false;			
 	}
-
-
-	bool CActorTrigger::isOnTrigger(CActor* actor) {
-		return std::find(_actorsOnTrigger.begin(), _actorsOnTrigger.end(), actor)
-				!= _actorsOnTrigger.end();
-	}
-
-
-
 }
