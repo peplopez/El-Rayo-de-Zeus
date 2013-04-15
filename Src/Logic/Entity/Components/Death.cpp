@@ -14,6 +14,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/EntityFactory.h"
+//PT. La IA puede que no tenga que depender de Application
 #include "Application/BaseApplication.h"
 
 #include "Logic/Entity/Components/AvatarController.h"
@@ -98,10 +99,13 @@ namespace Logic
 			
 			CMessageString *rxMsg = static_cast<CMessageString*>(message);
 				if(rxMsg->getString() == "Death") { // Completada animación de muerte? -> END_GAME					
+					/*
 					if(_entity->isPlayer() ) // PLAYER MUERTO -> GameOver
 						Application::CBaseApplication::getSingletonPtr()->setState("gameOver"); // HACK Player muerto -> respawn es distinto de base muerta
+
 					else // Resto de entidades
 						CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
+				*/
 				}
 		 }break;
 		

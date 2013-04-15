@@ -28,6 +28,9 @@ Contiene la implementación del estado de menú.
 #include <CEGUIWindow.h>
 #include <elements/CEGUIPushButton.h>
 
+//PT se incluye el servidor de scripts de LUA
+#include "ScriptManager\Server.h"
+
 namespace Application {
 
 	CMenuState::~CMenuState() 
@@ -41,10 +44,17 @@ namespace Application {
 		CApplicationState::init();
 
 		// Cargamos la ventana que muestra el menú
+		/*
 		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Menu.layout");
 		_menuWindow = CEGUI::WindowManager::getSingleton().getWindow("Menu");
+		*/
+
+		// Cargamos la ventana que muestra el menú con LUA
+		ScriptManager::CServer::getSingletonPtr()->loadExeScript("Menu");
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("initMenu");
 		
 		// Asociamos los botones del menú con las funciones que se deben ejecutar.
+
 		CEGUI::WindowManager::getSingleton().getWindow("Menu/Single")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CMenuState::startReleased, this));
@@ -56,6 +66,9 @@ namespace Application {
 		CEGUI::WindowManager::getSingleton().getWindow("Menu/Exit")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CMenuState::exitReleased, this));
+
+		// Asociamos los botones del menú con las funciones que se deben ejecutar desde LUA
+		//ScriptManager::CServer::getSingletonPtr()->executeProcedure("asociarEventosMenu");
 
 		return true;
 
@@ -78,10 +91,15 @@ namespace Application {
 		CBaseApplication::getSingletonPtr()->getClock()->removeAllTimeObserver();
 
 		// Activamos la ventana que nos muestra el menú y activamos el ratón.
+		/*
 		CEGUI::System::getSingletonPtr()->setGUISheet(_menuWindow);
 		_menuWindow->setVisible(true);
 		_menuWindow->activate();
 		CEGUI::MouseCursor::getSingleton().show();
+		*/
+
+		// Activamos la ventana que nos muestra el menú y activamos el ratón desde LUA
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showMenu");
 
 	} // activate
 
@@ -90,10 +108,15 @@ namespace Application {
 	void CMenuState::deactivate() 
 	{		
 		// Desactivamos la ventana GUI con el menú y el ratón.
+		/*
 		CEGUI::MouseCursor::getSingleton().hide();
 		_menuWindow->deactivate();
 		_menuWindow->setVisible(false);
-		
+		*/
+
+		// Desactivamos la ventana GUI con el menú y el ratón desde LUA
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideMenu");
+
 		CApplicationState::deactivate();
 
 	} // deactivate

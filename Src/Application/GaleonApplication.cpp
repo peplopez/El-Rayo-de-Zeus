@@ -80,6 +80,8 @@ namespace Application {
 		// ESTADO INICIAL
 		/*if(!setState("menu"))
 			return false;*/
+
+
 		//PT se sustituye el estado inicial menu, por el estado inicial inicio.
 		if(!setState("inicio"))
 			return false;

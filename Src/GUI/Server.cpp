@@ -23,6 +23,8 @@ la gestión de la interfaz con el usuario (entrada de periféricos, CEGui...).
 #include <CEGUIWindow.h>
 #include <CEGUISchemeManager.h>
 #include <CEGUIFontManager.h>
+#include <ScriptingModules\LuaScriptModule\CEGUILua.h> //PT
+#include "ScriptManager\Server.h" //PT
 
 namespace GUI {
 
@@ -83,8 +85,19 @@ namespace GUI {
 	{
 		_playerController = new CPlayerController();
 		_cameraController = new CCameraController();
+
 		_GUISystem = BaseSubsystems::CServer::getSingletonPtr()->getGUISystem();
 
+
+		//PT
+		//Carga de las plantillas y archivos de fuentes con LUA en lugar de con CEGUI
+		//No hace falta pasarle toda la ruta del script porque se supone que todos los scripts de LUA
+		//van a estar en media/scripts . Tampoco hace falta pasarle la extension .lua.
+		//Todo ello se hace en la carga del script. ScriptManager::CServer::loadScript()
+		ScriptManager::CServer::getSingletonPtr()->loadExeScript("GUI");
+
+		/*
+		//Carga de las plantillas y archivos de fuentes directamente con CEGUI
 		// Cargamos las distintas plantillas o esquemas de fichero
 		// que usaremos en nuestro GUI.
 		// (automáticamente cargan los archivos looknfeel e imageset)
@@ -98,10 +111,10 @@ namespace GUI {
 		CEGUI::FontManager::getSingleton().create("Batang-26.font");
 		CEGUI::FontManager::getSingleton().create("handshop-30.font");
 
-		_GUISystem->setDefaultMouseCursor("OgreTrayImages","MouseArrow");
 
-		//CEGUI::Window* textComponent = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Menu");
-		//textComponent->setText("This is just some text that shows how nicely [colour='FFFF0000']CEGUI can format strings.[colour='FF00FF00'] and this is just colour [colour='FF0000FF'] formatting!");
+		//Establecemos cual sera el puntero del raton
+		_GUISystem->setDefaultMouseCursor("OgreTrayImages","MouseArrow");
+		*/
 
 #ifndef NON_EXCLUSIVE_MODE_IN_WINDOW_MODE 
 		// Establecemos cual será el puntero del ratón.

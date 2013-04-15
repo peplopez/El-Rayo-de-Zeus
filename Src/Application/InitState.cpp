@@ -5,13 +5,13 @@
 /**
 @file InitState.cpp
 
-Contiene la implementación del estado de menú.
+Contiene la implementación del estado de menú inicial.
 
 @see Application::CApplicationState
 @see Application::CInitState
 
-@author David Llansó
-@date Agosto, 2010
+@author Pablo Terrado
+@date Marzo, 2013
 */
 
 #include "InitState.h"
@@ -26,6 +26,9 @@ Contiene la implementación del estado de menú.
 #include <CEGUIWindowManager.h>
 #include <CEGUIWindow.h>
 
+//PT se incluye el servidor de scripts de LUA
+#include "ScriptManager\Server.h"
+
 namespace Application {
 
 	CInitState::~CInitState() 
@@ -38,9 +41,18 @@ namespace Application {
 	{
 		CApplicationState::init();
 
-		// Cargamos la ventana que muestra el inicio
+
+		// Cargamos la ventana que muestra el inicio con CEGUI
+		/*
 		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Inicio.layout");
 		_menuWindow = CEGUI::WindowManager::getSingleton().getWindow("Inicio");
+		*/
+
+		//TODOPT
+		// Cargamos el script del menu inicio.
+		// Ejecutamos el proc que muestra la ventana de Inicio con LUA (el script es Inicio.lua)
+		ScriptManager::CServer::getSingletonPtr()->loadExeScript("Inicio");
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("initMenuInicio");
 
 		return true;
 
@@ -61,10 +73,15 @@ namespace Application {
 		CApplicationState::activate();
 
 		// Activamos la ventana que nos muestra el menú y activamos el ratón.
+		/*
 		CEGUI::System::getSingletonPtr()->setGUISheet(_menuWindow);
 		_menuWindow->setVisible(true);
 		_menuWindow->activate();
 		CEGUI::MouseCursor::getSingleton().show();
+		*/
+
+		//Activamos la ventana que nos muestra el menú y activamos el ratón con LUA
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showMenuInicio");
 
 	} // activate
 
@@ -73,9 +90,14 @@ namespace Application {
 	void CInitState::deactivate() 
 	{		
 		// Desactivamos la ventana GUI con el menú y el ratón.
+		/*
 		CEGUI::MouseCursor::getSingleton().hide();
 		_menuWindow->deactivate();
 		_menuWindow->setVisible(false);
+		*/
+
+		// Desactivamos la ventana GUI con el menú y el ratón con LUA
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideMenuInicio");
 		
 		CApplicationState::deactivate();
 

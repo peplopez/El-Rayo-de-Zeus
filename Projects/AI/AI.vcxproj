@@ -89,7 +89,6 @@
     <ClCompile Include="..\..\src\AI\LatentActions\LA_Death.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_Jump.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_Run.cpp" />
-    <ClCompile Include="..\..\Src\AI\LatentActions\SimpleLatentActions.cpp" />
     <ClCompile Include="..\..\Src\AI\Perception\PerceptionEntity.cpp" />
     <ClCompile Include="..\..\Src\AI\Perception\PerceptionEntityFactory.cpp" />
     <ClCompile Include="..\..\Src\AI\Perception\PerceptionManager.cpp" />
@@ -109,7 +108,6 @@
     <ClInclude Include="..\..\src\AI\LatentActions\LA_Death.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LA_Jump.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LA_Run.h" />
-    <ClInclude Include="..\..\Src\AI\LatentActions\SimpleLatentActions.h" />
     <ClInclude Include="..\..\Src\AI\Perception\PerceptionEntity.h" />
     <ClInclude Include="..\..\Src\AI\Perception\PerceptionEntityFactory.h" />
     <ClInclude Include="..\..\Src\AI\Perception\PerceptionListener.h" />

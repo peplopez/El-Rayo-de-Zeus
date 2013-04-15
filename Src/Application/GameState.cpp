@@ -117,6 +117,9 @@ namespace Application {
 		_timeWindow->activate();*/
 
 	// Activamos la ventana que nos muestra el HUD del Jugador
+
+		
+		
 		CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
 		_hudWindow->setVisible(true);
 		_hudWindow->activate();
@@ -128,6 +131,9 @@ namespace Application {
 		_Rayo1Window = _hudWindow->getChild("Hud/RayoBase1");
 		_Rayo2Window = _hudWindow->getChild("Hud/RayoBase2");
 		_Rayo3Window = _hudWindow->getChild("Hud/RayoBase3");
+		
+		//TODOPT
+		//ActivarHUD();
 
 	} // activate
 
@@ -144,6 +150,9 @@ namespace Application {
 		// Desactivamos la ventana de HUD.
 		_hudWindow->deactivate();
 		_hudWindow->setVisible(false);
+
+		//TODOPT
+		//DesactivarHUD();
 
 		// Desactivamos la clase que procesa eventos de entrada para  controlar al jugador.
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
@@ -168,9 +177,8 @@ namespace Application {
 
 		_time += msecs;
 
-		std::stringstream text;
-		text << "Time: " << _time/1000;
-
+		//std::stringstream text;
+		//text << "Time: " << _time/1000;
 		//_timeWindow->setText(text.str());
 	/*	if (_gameStatus->getBase(3)->getAllAltarsActivated())
 		std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN BASE 3"<<std::endl;

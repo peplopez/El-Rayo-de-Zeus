@@ -59,9 +59,6 @@
     <ClCompile Include="..\..\Src\AI\LatentActions\LatentAction.cpp">
       <Filter>Decision\LatentActions\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\AI\LatentActions\SimpleLatentActions.cpp">
-      <Filter>Decision\LatentActions\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\AI\StateMachines\StateMachine.cpp">
       <Filter>Decision\StateMachines\Source Files</Filter>
     </ClCompile>
@@ -113,9 +110,6 @@
       <Filter>Decision\LatentActions\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\AI\LatentActions\LatentAction.h">
-      <Filter>Decision\LatentActions\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\AI\LatentActions\SimpleLatentActions.h">
       <Filter>Decision\LatentActions\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\AI\StateMachines\Condition.h">

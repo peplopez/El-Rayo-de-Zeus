@@ -9,7 +9,7 @@
             <Property Name="AlwaysOnTop" Value="False" />
             <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
             <Window Type="OgreTray/Title" Name="NetLobbyServer/BackGround/" >
-                <Property Name="Font" Value="Batang-26" />
+                <Property Name="Font" Value="DejaVuSans-10" />
                 <Property Name="Text" Value="Wating for Clients" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.2,0},{0.7,0},{0.3,0}}" />
