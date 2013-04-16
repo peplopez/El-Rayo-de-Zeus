@@ -12,7 +12,7 @@ material bomba
 
 			texture_unit
 			{
-				texture background_black_skull_bomb.png
+				texture poison.png
 				tex_address_mode clamp clamp
 				transform 1.9 0 0 0 0 1.6 0 0.02 0 0 1 0 0 0 0 1
 			}
