@@ -156,7 +156,7 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	bool CServer::loadWorld(const TMapNameList mapList)
+	bool CServer::loadWorld(TMapNameList &mapList)
 	{		
 		// Inicializamos el gestor de los mensajes de red durante el estado de juego
 		if (!Logic::CGameStatus::Init(mapList.size()))
@@ -170,7 +170,9 @@ namespace Logic {
 			{
 				_worldIsLoaded = loadMap(*it);
 				_mapNames.push_back(*it);
-			}	
+			}
+
+		mapList.clear();
 
 		return _worldIsLoaded;
 	}
@@ -347,8 +349,7 @@ namespace Logic {
 				default:					
 					return Logic::base.posBase[base]._center+Vector3(0,126,0);
 					//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
-					//pese a todo no pete.
-											
+					//pese a todo no pete.					
 			}
 
 	}

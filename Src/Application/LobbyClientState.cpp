@@ -51,7 +51,7 @@ namespace Application {
 
 	bool CLobbyClientState::init() 
 	{
-srand(time(0)); // HACK necesario subsistema random
+	srand(time(0)); // HACK necesario subsistema random
 
 		CApplicationState::init();
 

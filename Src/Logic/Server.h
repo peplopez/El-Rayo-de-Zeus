@@ -123,7 +123,7 @@ namespace Logic
 
 		/**
 		*/
-		bool loadWorld(const TMapNameList mapList);
+		bool loadWorld(TMapNameList &mapList);
 
 		/**
 		*/
