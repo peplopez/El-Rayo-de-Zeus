@@ -31,6 +31,11 @@ namespace CEGUI
 	class Window;
 }
 
+namespace ScriptManager
+{
+	class Server;
+}
+
 namespace Application 
 {
 	/**

@@ -34,6 +34,9 @@ Contiene la implementación del estado de juego.
 #include <CEGUIWindowManager.h>
 #include <CEGUIWindow.h>
 
+//PT se incluye el servidor de scripts de LUA
+#include "ScriptManager\Server.h"
+
 namespace Application {
 
 	// ƒ®§ Al inicializar la app
@@ -50,21 +53,22 @@ namespace Application {
 	// Hay que desacoplarlo utilizando un nuevo paquete donde se abstraiga
 	// el subsistema utilizado
 
-		
-
-	// Cargamos la ventana que muestra el tiempo de juego transcurrido.
-	//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Time.layout");
-	//_timeWindow = CEGUI::WindowManager::getSingleton().getWindow("Time");
-
 	// Cargamos la ventana del HUD del Jugador.
-	CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
-	_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
+	//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
+	//_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
+
+	// Cargamos la ventana del HUD del Jugador mediante LUA
+	ScriptManager::CServer::getSingletonPtr()->loadExeScript("Hud");
+	ScriptManager::CServer::getSingletonPtr()->executeProcedure("initHud");
 
 	//PT. Inicialización de variables del HUD
+	// Ahora se hace a través de LUA
+	/*
 	_numberEnemies = 0;
 	_puntosMerito = 100;
 	_numberAltaresActivated = 0;
 	_rayosBase = 3;
+	*/
 
 	//inicialización del GameStatus:
 	// se supone que hemos elegido ya en este punto cuantos jugadores somos
@@ -102,7 +106,7 @@ namespace Application {
 				_gameStatus=new Logic::CGameStatus(8);
 			}else			
 				_gameStatus=new Logic::CGameStatus(8);
-*/
+		*/
 		CApplicationState::activate();
 	
 		// Activamos el mapa que ha sido cargado para la partida (incluye la activacion de la escenas)
@@ -111,29 +115,8 @@ namespace Application {
 		// Queremos que el GUI maneje al jugador.
         GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
 
-	// Activamos la ventana que nos muestra el tiempo transcurrido.
-		/*CEGUI::System::getSingletonPtr()->setGUISheet(_timeWindow);
-		_timeWindow->setVisible(true);
-		_timeWindow->activate();*/
-
-	// Activamos la ventana que nos muestra el HUD del Jugador
-
-		
-		
-		CEGUI::System::getSingletonPtr()->setGUISheet(_hudWindow);
-		_hudWindow->setVisible(true);
-		_hudWindow->activate();
-
-		_NumberEnemyWindow = _hudWindow->getChild("Hud/NumEnemigos");
-		_PuntosMeritoWindow = _hudWindow->getChild("Hud/PuntosMerito");
-		_NumberAltaresActivatedWindow = _hudWindow->getChild("Hud/NumAltares");
-
-		_Rayo1Window = _hudWindow->getChild("Hud/RayoBase1");
-		_Rayo2Window = _hudWindow->getChild("Hud/RayoBase2");
-		_Rayo3Window = _hudWindow->getChild("Hud/RayoBase3");
-		
-		//TODOPT
-		//ActivarHUD();
+		// Activamos la ventana y sus subventanas que nos muestran el HUD del Jugador con LUA
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud");
 
 	} // activate
 
@@ -143,16 +126,8 @@ namespace Application {
 	void CGameState::deactivate() 
 	{
 
-		// Desactivamos la ventana de tiempo.
-		//_timeWindow->deactivate();
-		//_timeWindow->setVisible(false);
-
-		// Desactivamos la ventana de HUD.
-		_hudWindow->deactivate();
-		_hudWindow->setVisible(false);
-
-		//TODOPT
-		//DesactivarHUD();
+		// Desactivamos la ventana de HUD por LUA
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideHud");
 
 		// Desactivamos la clase que procesa eventos de entrada para  controlar al jugador.
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
@@ -177,11 +152,8 @@ namespace Application {
 
 		_time += msecs;
 
-		//std::stringstream text;
-		//text << "Time: " << _time/1000;
-		//_timeWindow->setText(text.str());
-	/*	if (_gameStatus->getBase(3)->getAllAltarsActivated())
-		std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN BASE 3"<<std::endl;
+		/*	if (_gameStatus->getBase(3)->getAllAltarsActivated())
+			std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN BASE 3"<<std::endl;
 		*/
 	} // tick
 
@@ -220,35 +192,47 @@ namespace Application {
 			break;
 		//PT. para ocultar y mostrar el HUD
 		case GUI::Key::V:
-			if(_hudWindow->isVisible() == true)
-				_hudWindow->setProperty("Visible", "false");
-			else
-				_hudWindow->setProperty("Visible", "true");
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("changeHudVisibility");
 			break;
+
 			//PT prueba para aumentar el numero de altares activados
 		case GUI::Key::B:
-				_numberAltaresActivated += 1;			
-				textAltaresActivated <<  _numberAltaresActivated << "/11";
-				_NumberAltaresActivatedWindow->setText(textAltaresActivated.str());
+			   ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementAltarsActivated");
+			   ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateAltarsActivated");
 			break;
+
+		case GUI::Key::G:
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementAltarsActivated");
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateAltarsActivated");
+			break;
+
 		case GUI::Key::N:
-				_numberEnemies += 1;
-				textNumberEnemies <<  _numberEnemies;
-				_NumberEnemyWindow->setText(textNumberEnemies.str());
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementEnemiesInBase");
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateEnemiesInBase");
+			break;
+
+		case GUI::Key::H:
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementEnemiesInBase");
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateEnemiesInBase");
 			break;
 		case GUI::Key::M:
-				_puntosMerito += 10;
-				textPuntosMerito <<  _puntosMerito;
-				_PuntosMeritoWindow->setText(textPuntosMerito.str());
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementPM");
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updatePM");
 			break;
+
+		case GUI::Key::J:
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementPM");
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updatePM");
+			break;
+
 		case GUI::Key::P:
-				_rayosBase--;
-				if(_rayosBase == 2)
-					_Rayo3Window->setProperty("Image","set:HudBackground image:RayoDesactivado");
-				else if(_rayosBase == 1)
-					_Rayo2Window->setProperty("Image","set:HudBackground image:RayoDesactivado");
-				else if(_rayosBase == 0)
-					_Rayo1Window->setProperty("Image","set:HudBackground image:RayoDesactivado");
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementBaseLife");
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateBaseLife");
+			break;
+
+		case GUI::Key::O:
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementBaseLife");
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateBaseLife");
 			break;
 		default:
 			return false;

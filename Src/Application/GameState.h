@@ -42,6 +42,12 @@ namespace Logic
 {
 	class CGameStatus;
 }
+
+namespace ScriptManager
+{
+	class Server;
+}
+
 namespace Application 
 {
 	/**
@@ -191,6 +197,8 @@ namespace Application
 		/**
 		Ventanas que muestran el HUD con informacion para el player.
 		*/
+		// PT. Las comento porque van a ser creadas desde LUA
+		/*
 		CEGUI::Window* _hudWindow;
 		CEGUI::Window* _NumberEnemyWindow;
 		CEGUI::Window* _PuntosMeritoWindow;
@@ -198,6 +206,7 @@ namespace Application
 		CEGUI::Window* _Rayo1Window;
 		CEGUI::Window* _Rayo2Window;
 		CEGUI::Window* _Rayo3Window;
+		*/
 
 		/**
 		Tiempo de juego en milisegundos.
