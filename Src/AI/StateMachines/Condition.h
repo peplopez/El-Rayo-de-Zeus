@@ -173,79 +173,7 @@ namespace AI
 
 
 
-	/**
-	Esta clase define una condición que devuelve true 
-	si se recibió un mensaje de un tipo concreto en el último tick
-	*/
-
-	template <class TNode>
-	class CConditionMessage : public ICondition<TNode>
-	{
-	public:
-		/**
-		En el constructor recibimos el tipo de mensaje que 
-		hará saltar la condición
-		@param messageType Tipo de mensaje que estamos escuchando
-		*/
-		//Message::TMessageType::
-		CConditionMessage(Logic::Message::TMessageType messageType, Logic::Message::TActionType actionType) : _received(false) {
-			_messageType = messageType;
-			_actionType = actionType;
-		}
-		/**
-		En el check sólo tenemos que comprobar el flag _received. Este flag
-		se habrá activado en process si durante este tick hemos recibido
-		un mensaje del tipo adecuado.
-		Una vez hecha la comprobación, reseteamos el flag a false.
-		@param currentNode Nodo al que pertenece la condición (no se usa)
-		@param entity Entidad que ejecuta el comportamiento (no se usa)
-		@return true o false según si se cumple la condición o no.
-
-		*/
-		bool check(TNode* currentNode, CEntity* entity) { 
-			// TODO PRÁCTICA IA
-			// Tenemos que comprobar el flag _received y luego actualizarlo
-			// de nuevo a false para el siguiente tick
-			bool receivedThisTick = _received;
-			_received = false;
-			return receivedThisTick;
-		}
-		/**
-		Devuelve true si el tipo del mensaje recibido coincide con el 
-		que estamos esperando
-		@param msg Mensaje que ha recibido la entidad.
-		@return true Si la acción está en principio interesada
-		por ese mensaje.
-		*/
-		virtual bool accept(const CMessage *message) {
-			// TODO PRÁCTICA IA
-			// La condición debe aceptar mensajes del tipo indicado en _messageType
-			return (message->getType() == _messageType && message->getAction()==_actionType);
-		};
-		/**
-		Procesa el mensaje recibido. Como sólo aceptamos mensajes del
-		tipo en el que estamos interesados aquí directamente ponemos 
-		el flag a true.
-
-		@param msg Mensaje recibido.
-		*/
-		virtual void process(CMessage *message) {
-			// TODO PRÁCTICA IA
-			// Actualizamos el flag _received si el mensaje es del tipo _messageType
-			//CMessageBoolString *maux = static_cast<CMessageBoolString*>(message);
-			_received = (message->getType() == _messageType && message->getAction()==_actionType) || _received;
-		};
-
-	private:
-		/** Flag que se activa cuando recibimos un mensaje del tipo en el que estamos interesados */
-		bool _received;
-		/** Tipo del mensaje que esperamos */
-		Logic::Message::TMessageType _messageType;
-	 	
-		/** Tipo del mensaje que esperamos */
-		Logic::Message::TActionType _actionType;
-	};
-
+	
 	/**
 	Esta clase define una condición que devuelve true 
 	si se recibió un mensaje de un tipo concreto en el último tick
@@ -267,6 +195,16 @@ namespace AI
 			_initialStatus=startActivated;
 			_enabled= _initialStatus;
 			_messageTypeToActivate=messageTypeToActivate;
+			//_actionTypeToActivate=actionTypeToActivate;
+		}
+
+		CConditionMessageAction(Logic::Message::TMessageType messageType, Logic::Message::TActionType actionType) : _received(false) {
+			_received=false;
+			_messageType = messageType;
+			_actionType = actionType;
+			_initialStatus=true;
+			_enabled= _initialStatus;
+			_messageTypeToActivate=Message::ALTAR_ACTIVATED; //por ejemplo, este no se usa
 			//_actionTypeToActivate=actionTypeToActivate;
 		}
 		/**
@@ -326,12 +264,12 @@ namespace AI
 			// Actualizamos el flag _received si el mensaje es del tipo _messageType
 			//CMessageBoolString *maux = static_cast<CMessageBoolString*>(message);
 			if (_enabled)
-			if (message->getType() == _messageType && message->getAction()==_actionType)
-			{	
-				_enabled=_initialStatus;
-				_received = (message->getType() == _messageType && message->getAction()==_actionType) || _received;
-				if (_received) reset();
-			}
+				if (message->getType() == _messageType && message->getAction()==_actionType)
+				{	
+					_enabled=_initialStatus;
+					_received = (message->getType() == _messageType && message->getAction()==_actionType) || _received;
+					if (_received) reset();
+				}
 		};
 
 	private:
