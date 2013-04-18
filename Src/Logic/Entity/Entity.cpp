@@ -231,6 +231,19 @@ namespace Logic
 		return resultado;
 	 }
 	 
+	  const Vector3 CEntity::fromLogicalToCartesian(const CLogicalPosition* pos)
+	 {		 
+		float offset=0;// se trata de un offset de radio, no de altura
+
+		if (this->getType().compare("Altar")==0)
+		{
+			offset=-9;
+		}
+
+		Vector3 resultado=Vector3::ZERO;
+		resultado=Math::fromCylindricalToCartesian(pos->getDegree(), CServer::getSingletonPtr()->getRingRadio(pos->getBase(),pos->getRing()),CServer::getSingletonPtr()->getRingPositions(0/*arreglo que se ha hecho, temporal*/,pos->getRing()).y+pos->getHeight()+126);
+		return resultado;
+	 }
 	//---------------------------------------------------------
 	const float CEntity::getY(const unsigned short base, const Logic::Ring ring)
 	{ 	

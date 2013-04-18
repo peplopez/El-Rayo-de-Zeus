@@ -374,6 +374,7 @@ namespace Logic
 		bool isActivated() {return _activated;}
 
 		const Vector3 fromLogicalToCartesian(const float grados,const float altura, const unsigned short base, const Logic::LogicalPosition::Ring ring);
+		const Vector3 fromLogicalToCartesian(const CLogicalPosition* pos);
 
 		/**
 		Add - ESC
