@@ -47,15 +47,14 @@ namespace Logic
 	CBaseInfo::~CBaseInfo()
 	{	
 		_rings.clear();
-		//delete &_rings;	//me teneis que enseñar a destruir bien...		
 	}
 
 	//---------------------------------------------------------
 	bool CBaseInfo::getAllAltarsActivated()
 	{
-		return _AllAltarsActivated;
-		
+		return _AllAltarsActivated;		
 	}
+
 	void CBaseInfo::updateAllAltarsActivated()
 	{
 		_AllAltarsActivated=false;
@@ -78,6 +77,16 @@ namespace Logic
 		if (counter==3)
 			_AllAltarsActivated=true;
 	}
+
+	unsigned short CBaseInfo::getNumActivatedAltars()
+	{
+		_numActivatedAltars=0;
+		_numActivatedAltars=getRing(0)->getNumActivatedAltars()
+										+getRing(1)->getNumActivatedAltars()
+										+getRing(2)->getNumActivatedAltars();
+		return _numActivatedAltars;
+	}
+
 
 	CRingInfo* CBaseInfo::getRing(unsigned short ring)
 		{
