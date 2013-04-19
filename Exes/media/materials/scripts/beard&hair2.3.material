@@ -1,0 +1,45 @@
+material SpartanFur
+{
+   technique
+    {
+        pass
+        {
+            illumination_stage ambient
+         
+            texture_unit diffuseMap
+            {
+                texture beard_DF.tga
+            }
+			
+			texture_unit aoMap
+            {
+                texture beard_DF.tga
+            } 
+
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+      
+            texture_unit diffuseMap
+            {
+                texture beard_DF.tga
+            }
+
+            texture_unit specMap
+            {
+                texture beard_SPC.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture beard_NM.tga
+            }
+        }
+    }
+
+}

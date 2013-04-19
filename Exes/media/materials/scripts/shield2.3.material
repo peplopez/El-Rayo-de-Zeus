@@ -1,0 +1,44 @@
+material SpartanShield2
+{
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+         
+            texture_unit diffuseMap
+            {
+                texture shield_DF.tga
+            }
+			
+			texture_unit aoMap
+            {
+                texture shield_DF.tga
+            } 
+
+        }
+
+        pass
+        {
+            illumination_stage per_light
+
+            scene_blend add
+            iteration once_per_light
+      
+            texture_unit diffuseMap
+            {
+                texture shield_DF.tga
+            }
+
+            texture_unit specMap
+            {
+                texture shield_SPC.tga
+            }
+
+            texture_unit normalMap
+            {
+                texture shield_NM.tga
+            }
+        }
+    }
+}
