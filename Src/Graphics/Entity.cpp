@@ -32,8 +32,8 @@ namespace Graphics
 			_entity = getSceneMgr()->createEntity(_name, _mesh);		
 		
 			_node = getSceneMgr()->getRootSceneNode()
-					->createChildSceneNode(_name + "_node");		
-				_node->attachObject(_entity);		
+					->createChildSceneNode(_name + "_node");
+				_node->attachObject(_entity);
 			
 			reattachAllMeshes();
 
