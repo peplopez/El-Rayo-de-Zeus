@@ -1,11 +1,11 @@
-material armadura1
+material SpartanArmor
 {
 	technique
 	{
 		pass
 		{
 			ambient 0.4 0.4 0.4 1
-			specular 0 0 0 1 81.1754
+			specular 0 0 0 1 60.8646
 
 			texture_unit
 			{
@@ -19,18 +19,18 @@ material armadura1
 
 
 
-material cuerpo
+material SpartanBody
 {
 	technique
 	{
 		pass
 		{
 			ambient 0.4 0.4 0.4 1
-			specular 0 0 0 1 96.7836
+			specular 0 0 0 1 75.7468
 
 			texture_unit
 			{
-				texture spartan_hostiones_DF.tga
+				texture spartan_limpio_DF.tga
 			}
 		}
 

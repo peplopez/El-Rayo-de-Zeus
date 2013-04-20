@@ -3,7 +3,7 @@ vertex_program diffuse_vs cg
     source Normal_AO_Specular_Mapping_Shader.cg
     profiles vs_1_1 arbvp1
     entry_point diffuse_vs
-
+ 
     default_params
     {
         param_named_auto wMat world_matrix
@@ -12,38 +12,38 @@ vertex_program diffuse_vs cg
         param_named_auto spotlightDir light_direction_object_space 0
     }
 }
-
+ 
 vertex_program ambient_vs cg
 {
     source Normal_AO_Specular_Mapping_Shader.cg
     profiles vs_1_1 arbvp1
     entry_point ambient_vs
-
+ 
     default_params
     {
         param_named_auto wvpMat worldviewproj_matrix
     }
 }
-
+ 
 fragment_program ambient_ps cg
 {
     source Normal_AO_Specular_Mapping_Shader.cg
     profiles ps_2_0 arbfp1
     entry_point ambient_ps
-
+ 
     default_params
     {
         param_named_auto ambient ambient_light_colour
         param_named_auto matDif surface_diffuse_colour
     }
 }
-
+ 
 fragment_program diffuse_ps cg
 {
     source Normal_AO_Specular_Mapping_Shader.cg
     profiles ps_2_x arbfp1
     entry_point diffuse_ps
-
+ 
     default_params
     {
         param_named_auto lightDif0 light_diffuse_colour 0
