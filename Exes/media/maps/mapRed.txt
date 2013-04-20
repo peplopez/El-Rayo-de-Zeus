@@ -24,6 +24,11 @@ Map ={
 		position = {0, 100, 0},
 	},
 	
+	pointLight2 = {
+		type = "PointLight",
+		position = {100, 20, 0},
+	},
+	
 		
 	puApple1 = {
 		type = "PUApple",
