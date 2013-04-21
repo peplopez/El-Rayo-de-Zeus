@@ -55,6 +55,7 @@ namespace Logic
 		_map = map;
 		_type = entityInfo->getType();
 		_logicInput=false;
+		_offsetHeight=0;
 		Vector3 position=Vector3::ZERO;	
 		_pos=new CLogicalPosition();
 		if(entityInfo->hasAttribute("name"))
@@ -77,6 +78,12 @@ namespace Logic
 		else
 			_initialMaterial = "marine";	
 		
+		
+		if(entityInfo->hasAttribute("offsetHeight"))					
+		{
+			_offsetHeight=entityInfo->getIntAttribute("offsetHeight");
+		}
+
 		if(entityInfo->hasAttribute("base"))					
 		{
 			_pos->setBase(entityInfo->getIntAttribute("base"));
@@ -225,9 +232,13 @@ namespace Logic
 		{
 			offset=-9;
 		}
+	 /*   if (this->getName().compare("Bigdaddy")==0) //hack para meter a sinbad
+		{
+			offsetY=70;
+		}*/
 
 		Vector3 resultado=Vector3::ZERO;
-		resultado=Math::fromCylindricalToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset,CServer::getSingletonPtr()->getRingPositions(0/*arreglo que se ha hecho, temporal*/,ring).y+altura+126);
+		resultado=Math::fromCylindricalToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset,CServer::getSingletonPtr()->getRingPositions(0/*arreglo que se ha hecho, temporal*/,ring).y+altura+126+_offsetHeight);
 		return resultado;
 	 }
 	 

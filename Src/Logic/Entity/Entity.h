@@ -507,6 +507,11 @@ namespace Logic
 		*/
 		unsigned short _originBase;
 
+		/**
+		Pep, Valor offset para la altura de un modelo, por ejemplo que no tenga su pivote bien.
+		*/
+		float _offsetHeight;
+
 	}; // class CEntity
 
 } // namespace Logic

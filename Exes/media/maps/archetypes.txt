@@ -96,8 +96,8 @@ Map = {
 	
 	Bigdaddy = {
 		type = "AnimatedEntity",
-		model = "bioshock.mesh",
-		scaleFactor = 0.5,
+		model = "sinbad.mesh",
+		scaleFactor = 2.0,
 		logicInput = true,
 		base=0,
 		ring=0,		
@@ -111,6 +111,7 @@ Map = {
 		lifeBarHeight = 2.0,
 		lifeModifier = -10,
 		audio="media\\audio\\QUEJIDO1.wav",
+		offsetHeight=10,
 	},
 	
 	Spider = {
