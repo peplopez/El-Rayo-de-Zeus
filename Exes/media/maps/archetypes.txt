@@ -59,6 +59,23 @@ Map = {
 		scaleFactor = 0.2,	
 	},
 	
+	Camera = {
+		type = "Camera",
+		distance = 150,
+		height = 13,
+		targetDistance =3,
+		targetHeight = 7,
+		angularSpeed = 1,
+		ring=1,
+		base=1,
+		degrees=0,
+		sense=0,
+		logicInput=true,
+		radio=120,
+		trembleOffset = 0.0013,
+		trembleSpeed = 0.001,
+	},
+	
 	BaseCamera1 = {
 		type = "BaseCamera",
 		radius = 250,
@@ -74,7 +91,7 @@ Map = {
 	World = {
 		type = "World",
 		model = "anillo.mesh",
-		static = true,
+		static = false,
 	},
 	
 	Bigdaddy = {

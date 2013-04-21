@@ -43,22 +43,25 @@ namespace Logic
 	//	delete &_altars;
 	}
 
-	unsigned short CRingInfo::getNumActivatedAltars()
+	void CRingInfo::updateAllAltarsInfo()
 	{
-		TAltars::const_iterator itr;
+		 TAltars::const_iterator itr;
 		 _numActivatedAltars=0;
 		 for(itr = _altars.begin(); itr != _altars.end(); ++itr){
-			 //std::cout << "Key: " << (*itr).first << " Value: " << (*itr).second->isActivated();
-			 if ((*itr).second->isActivated())_numActivatedAltars++;
+			 if ((*itr).second->isActivated())
+				 _numActivatedAltars++;	
 		 }
+		 _numActivatedAltars >= _numAltars ? true : false;
+	}
+
+	unsigned short CRingInfo::getNumActivatedAltars()
+	{
 		 return _numActivatedAltars;
 	}
 
 	bool CRingInfo::getAllAltarsActivated()
 	{
-		if (getNumActivatedAltars()>=_numAltars)
-			return true;
-		return false;
+		return _AllAltarsActivated;
 	}
 
 	Logic::CAltarInfo* CRingInfo::createAltar(Logic::CEntity* entity)

@@ -10,6 +10,12 @@
 #include "Logic/Entity/Messages/MessageFloat.h"
 #include "Logic/Entity/Messages/MessageString.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
+
+#include "Logic/Maps/Map.h"
+#include "Map/MapEntity.h"
+#include "Graphics/Server.h"
+
+#include "Graphics/Scene.h"
 namespace AI
 {
 ////////////////////////////////
@@ -43,7 +49,10 @@ namespace AI
 		m->setType(Message::SET_MATERIAL);
 		m->setString("transito");
 		_entity->emitMessage(m);
-			
+				
+		_scene=_entity->getMap()->getGraphicScene();
+		if (_entity->isPlayer())
+			_scene->activateCompositor("RadialBlur");
 		return RUNNING;
 	}
 
@@ -58,7 +67,9 @@ namespace AI
 	{
 		std::cout<<"AI::StateMachine::ChangeRing-OnStop"<<std::endl;	
 	//	_reloj->removeTimeObserver(0);		
-		//_reloj->removeTimeObserver(1);			
+		//_reloj->removeTimeObserver(1);	
+		if (_entity->isPlayer())
+			_scene->deactivateCompositor("RadialBlur");
 		awakeComponents();
 	}
 

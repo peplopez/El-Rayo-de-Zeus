@@ -65,6 +65,7 @@ namespace Logic
 		_graphicsCamera->setTargetCameraPosition(Vector3::ZERO);
 		_currentPos = Math::fromCylindricalToCartesian(0, _radius, _height);// Esto lo ponemos así de momento para que salga desde arriba la camara.
 		_graphicsCamera->setCameraPosition(_currentPos);
+		_distance=7;
 		return true;
 	} // activate
 	
@@ -88,7 +89,10 @@ namespace Logic
 	 void CBaseCamera::process(CMessage *message)
 	{
 		CMessageBoolFloat *maux = static_cast<CMessageBoolFloat*>(message);
-
+		if (maux->getBool())
+			_distance+=maux->getFloat();
+		else
+			_distance-=maux->getFloat();
 	}
 
 	//---------------------------------------------------------
@@ -101,7 +105,7 @@ namespace Logic
 		if (_degree > 360) 
 			_degree -= 360;
 
-		_currentPos  = Math::fromCylindricalToCartesian(_degree, _radius, _height);
+		_currentPos  = Math::fromCylindricalToCartesian(_degree, _radius+_distance, _height);
 
 		_graphicsCamera->setCameraPosition(_currentPos);
 		_graphicsCamera->setTargetCameraPosition(Vector3::ZERO);

@@ -56,7 +56,7 @@ namespace Logic
 		Constructor por defecto; en la clase base no hace nada.
 		*/
 		CCamera() : IComponent(GetAltTypeIdOf(CCamera)), _graphicsCamera(0), _distance(10), _height(7),
-			_targetDistance(7), _targetHeight(3), _target(0) {}
+			_targetDistance(7), _targetHeight(3), _target(0),_currentTremblePos(0) {}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -130,6 +130,9 @@ namespace Logic
 
 	protected:
 		
+		
+		float estimateOffset(float height, unsigned int msecs);
+
 		/**
 		Cámara gráfica.
 		*/
@@ -165,9 +168,13 @@ namespace Logic
 		*/
 		float _targetHeight;
 
+		float _currentTremblePos;
 
+		float _trembleSpeed;
 
+		float _trembleOffset;
 
+		bool _destroying;
 	}; // class CCamera
 
 	REG_FACTORY(CCamera);

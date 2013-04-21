@@ -40,7 +40,7 @@ namespace Logic
 		Constructor por defecto; en la clase base no hace nada.
 		*/
 		CBaseCamera() : IComponent(GetAltTypeIdOf(CBaseCamera)), _graphicsCamera(0), _currentPos(Vector3::ZERO), _degree(0), _radius(0), 
-			_height(0), _angularSpeed(0) {}
+			_height(0), _angularSpeed(0),_distance(0) {}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -127,6 +127,12 @@ namespace Logic
 		*/
 		float _angularSpeed;
 
+		/**
+		Distancia del punto al que mirará la cámara respecto a la entidad 
+		objetivo. Es distancia sobre el plano XZ, la altura tiene su propio 
+		atributo.
+		*/
+		float _distance;
 
 
 	}; // class CBaseCamera

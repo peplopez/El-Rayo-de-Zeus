@@ -19,6 +19,12 @@ namespace Logic
 {
 	class CMessage;
 }
+
+namespace Graphics
+{
+	class CScene;
+}
+
 //declaración de la clase
 namespace Logic 
 {
@@ -109,6 +115,8 @@ namespace Logic
 		float _changingRingTime;
 
 		bool _desencogiendo;
+
+
 	}; // class CRingTraveler
 
 	REG_FACTORY(CRingTraveler);

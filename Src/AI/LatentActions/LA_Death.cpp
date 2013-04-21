@@ -8,6 +8,12 @@
 #include "Logic/Entity/Messages/MessageAudio.h"
 #include "Logic/Entity/Messages/MessageString.h"
 
+#include "Logic/Maps/Map.h"
+#include "Map/MapEntity.h"
+
+#include "Graphics/Server.h"
+
+#include "Graphics/Scene.h"
 namespace AI
 {
 //////////////////////////////
@@ -45,6 +51,9 @@ namespace AI
 		maudio->setPosition(_entity->getPosition());
 		_entity->emitMessage(maudio);
 		
+		_scene=_entity->getMap()->getGraphicScene();
+		if (_entity->isPlayer())
+			_scene->activateCompositor("BW");
 		return RUNNING;
 	}
 
@@ -57,8 +66,10 @@ namespace AI
 	*/
 	void CLA_Death::OnStop()
 	{
-			awakeComponents();
-			if (_entity->isPlayer())
+		awakeComponents();
+		if (_entity->isPlayer())
+			_scene->deactivateCompositor("BW");
+		if (_entity->isPlayer())
 		Application::CBaseApplication::getSingletonPtr()->setState("gameOver"); 
 	}
 

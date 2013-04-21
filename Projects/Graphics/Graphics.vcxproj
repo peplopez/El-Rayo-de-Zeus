@@ -86,6 +86,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\Graphics\AnimatedEntity.cpp" />
+    <ClCompile Include="..\..\Src\Graphics\BWMaterialListener.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Camera.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Billboard.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Cegui.cpp" />
@@ -99,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Graphics\AnimatedEntity.h" />
+    <ClInclude Include="..\..\Src\Graphics\BWMaterialListener.h" />
     <ClInclude Include="..\..\Src\Graphics\Camera.h" />
     <ClInclude Include="..\..\Src\Graphics\Billboard.h" />
     <ClInclude Include="..\..\Src\Graphics\Cegui.h" />

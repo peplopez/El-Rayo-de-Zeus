@@ -27,6 +27,15 @@ de una escena.
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageBoolFloat.h"
 
+#include <math.h>
+
+
+/*para tener un acceso directo al gamestatus*/
+#include "Logic/GameStatus.h"
+#include "Logic/RingInfo.h"
+#include "Logic/BaseInfo.h"
+#include "Logic/PlayerInfo.h"
+
 namespace Logic 
 {
 	IMP_FACTORY(CCamera);
@@ -54,7 +63,16 @@ namespace Logic
 		if(entityInfo->hasAttribute("targetHeight"))
 			_targetHeight = entityInfo->getFloatAttribute("targetHeight");
 
-	
+		
+		if(entityInfo->hasAttribute("trembleSpeed")) {
+			_trembleSpeed = entityInfo->getFloatAttribute("trembleSpeed");
+		}
+
+		if(entityInfo->hasAttribute("trembleOffset")) {
+			_trembleOffset = entityInfo->getFloatAttribute("trembleOffset");
+		}
+		_trembleOffset+=1;
+		_trembleSpeed*=1.3;
 		return true;
 
 	} // spawn
@@ -119,7 +137,6 @@ namespace Logic
 		centro.y=_target->getPosition().y;
 		//Vector3 centro=Vector3(0,-125-250,0);
 			
-
 		Vector3 vectorCentroProtaCamara =  -(centro-_target->getPosition());
 		vectorCentroProtaCamara.normalise();
 		//Vector3 actualDirection=Math::getDirection(_target->getOrientation());
@@ -158,9 +175,22 @@ namespace Logic
 		direction = _targetDistance * direction;
 		direction.y = _targetHeight;
 		cameraTarget.y+=126;
-		_graphicsCamera->setTargetCameraPosition(cameraTarget);
+
+		//a partir de aquí es principalmente para el efecto de que tiemble la camara.
+		 short riesgo=0;
+		riesgo=CGameStatus::getSingletonPtr()->getBase(_entity->getLogicalPosition()->getBase())->getNumAltarsLeft();
+		riesgo=3-riesgo;
+		if (riesgo<0)riesgo=0;
+		//if (medida>=3) _entity->getMap()->getGraphicScene()->activateCompositor("BW"); AQUI ACTIVAMOS COMPOSITOR DE QUE TU BASE ESTÉ EN PELIGRO INMINENTE
+		Vector3 offset=Vector3(cameraTarget.x+riesgo*estimateOffset(cameraTarget.x,msecs),cameraTarget.y+riesgo*estimateOffset(cameraTarget.y,msecs),cameraTarget.z+riesgo*estimateOffset(cameraTarget.z,msecs));
+		_graphicsCamera->setTargetCameraPosition(offset);
 		
 	} // tick
 
+	float CCamera::estimateOffset(float height, unsigned int msecs) {
+		_currentTremblePos += _trembleSpeed * msecs;
+		if(_currentTremblePos > 6.283) _currentTremblePos = 0;
+		return (sin(_currentTremblePos) * _trembleOffset);
+	}
 } // namespace Logic
 

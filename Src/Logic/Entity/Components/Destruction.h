@@ -19,6 +19,7 @@ Contiene la declaración del componente que va a facilitar efectos de destrucción
 namespace Logic
 {
 	class CMessage;
+	class CGameStatus;
 }
 
 //declaración de la clase
@@ -29,7 +30,7 @@ namespace Logic
 		DEC_FACTORY(CDestruction);
 	public:
 
-		CDestruction() : IComponent(GetAltTypeIdOf(CDestruction)), _destroying(false), _destroyingSpeed(0.13f){}
+		CDestruction() : IComponent(GetAltTypeIdOf(CDestruction)), _destroying(false), _destroyingSpeed(0.13f),_step(0){}
 		
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
@@ -72,6 +73,9 @@ namespace Logic
 
 		Application::IClock* _reloj;
 
+		unsigned short _step;
+
+		CGameStatus* _gameStatus;
 	}; // class CDestruction
 
 	REG_FACTORY(CDestruction);

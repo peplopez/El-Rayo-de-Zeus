@@ -2,17 +2,7 @@ Map ={
 	
 	Camera = {
 		type = "Camera",
-		distance = 150,
-		height = 13,
-		targetDistance =3,
-		targetHeight = 7,
-		angularSpeed = 1,
-		ring=1,
 		base=3,
-		degrees=0,
-		sense=0,
-		logicInput=true,
-		radio=120,
 	},
 	
 	GemeloGreen = {

@@ -138,6 +138,8 @@ namespace AI
 		unsigned short _desencogiendo;
 
 		float _velocidad;
+
+		Graphics::CScene* _scene;
 	};
 
 } //namespace AI 
