@@ -52,8 +52,8 @@ Map ={
 		degrees=180,
 	},
 	
-	bioshockLOGICO74 = {
-		type = "Bigdaddy",
+	medusa2 = {
+		type = "Medusa",
 		base=2,
 		ring=1,
 		degrees=300,		
