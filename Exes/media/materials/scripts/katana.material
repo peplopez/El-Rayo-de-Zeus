@@ -1,46 +1,14 @@
-material armas
+material katanaRoja
 {
-    technique
-    {
-        pass
-        {
-            illumination_stage ambient
+	technique
+	{
+		pass
+		{
+			ambient 0.4 0.4 0.4 1
+			diffuse 0.54902 0.0861207 0.0861207 1
+			specular 0.3 0.3 0.3 1 89.6
+		}
 
-            texture_unit diffuseMap
-            {
-                texture armas.tga
-            }
-			
-			texture_unit aoMap
-            {
-                texture armas.tga
-            }
+	}
 
-        }
-
-        pass
-        {
-            illumination_stage per_light
-
-            scene_blend add
-            iteration once_per_light
-
-            texture_unit diffuseMap
-            {
-                texture armas.tga
-            }
-
-            texture_unit specMap
-            {
-                texture armas.tga
-            }
-
-            texture_unit normalMap
-            {
-                texture armas.Nbump.tga
-            }
-        }
-    }
 }
-
-
