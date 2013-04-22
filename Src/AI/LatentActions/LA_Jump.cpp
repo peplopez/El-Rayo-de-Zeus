@@ -1,6 +1,9 @@
 #include "LA_Jump.h"
 
 #include "Application/BaseApplication.h"
+
+#include "Graphics/AnimatedEntity.h"
+
 #include "../StateMachines/StateMachine.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
 
@@ -33,7 +36,7 @@ namespace AI
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
 		message->setAction(Message::JUMP);				
-		message->setString("jump");
+		message->setString( Graphics::AnimNames::JUMP );
 		message->setBool(true);
 		_entity->emitMessage(message);		
 

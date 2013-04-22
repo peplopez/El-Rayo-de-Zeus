@@ -1,12 +1,14 @@
+#include "LA_Cover.h"
 
-#include "../../Logic/Entity/Components/Attack.h"
+#include "Graphics/AnimatedEntity.h"
+
+#include "Logic/Entity/Components/Attack.h"
 #include "../../Logic/Entity/Components/AvatarController.h"
 #include "../../Logic/Entity/Components/Jump.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
 #include "Application/BaseApplication.h"
 
 #include "../StateMachines/StateMachine.h"
-#include "LA_Cover.h"
 #include "Logic/Entity/Messages/MessageChar.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
 
@@ -38,7 +40,7 @@ namespace AI
 
 			CMessageBoolString *message = new CMessageBoolString();
 			message->setType(Message::SET_ANIMATION);
-			message->setString("CrouchKatana");
+			message->setString( Graphics::AnimNames::COVER_WITH_SHIELD );
 			message->setAction(Message::UNDEF);
 			message->setBool(true);
 			_entity->emitMessage(message);

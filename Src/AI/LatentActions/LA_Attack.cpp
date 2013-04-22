@@ -1,4 +1,7 @@
 #include "LA_Attack.h"
+
+#include "Graphics/AnimatedEntity.h"
+
 #include "../../Logic/Entity/Components/Attack.h"
 #include "../../Logic/Entity/Components/AvatarController.h"
 #include "../../Logic/Entity/Components/Jump.h"
@@ -40,7 +43,7 @@ namespace AI
 			{
 				CMessageBoolString *message = new CMessageBoolString();
 				message->setType(Message::SET_ANIMATION);
-				message->setString("FireKatana");
+				message->setString(Graphics::AnimNames::ATTACK1);
 				message->setAction(_action);
 				message->setBool(false);
 				_entity->emitMessage(message);
@@ -50,7 +53,7 @@ namespace AI
 			{
 				CMessageBoolString *message = new CMessageBoolString();
 				message->setType(Message::SET_ANIMATION);
-				message->setString("GetObject");
+				message->setString(Graphics::AnimNames::ATTACK2);
 				message->setAction(_action);
 				message->setBool(false);
 				_entity->emitMessage(message);		
@@ -72,7 +75,7 @@ namespace AI
 				{
 				CMessageBoolString *message = new CMessageBoolString();
 				message->setType(Message::SET_ANIMATION);
-				message->setString("Damage");
+				message->setString(Graphics::AnimNames::DAMAGE);
 				message->setAction(_action);
 				message->setBool(false);
 				_entity->emitMessage(message);	
@@ -166,16 +169,16 @@ namespace AI
 		case Message::ANIMATION_FINISHED: //ConditionFail
 			{
 				CMessageString* maux = static_cast<CMessageString*>(message);
-				if (maux->getString().compare("FireKatana")==0 )
+				if (maux->getString().compare(Graphics::AnimNames::ATTACK1)==0 )
 				{	
 					finish(false);
 					//_lightAttack=_heavyAttack=false;//stopMovement();
 				}
-				else if (maux->getString().compare("GetObject")==0)
+				else if (maux->getString().compare(Graphics::AnimNames::ATTACK2)==0)
 				{
 					finish(false);				
 				}
-				else if (maux->getString().compare("Damage")==0)
+				else if (maux->getString().compare(Graphics::AnimNames::DAMAGE)==0)
 				{
 					finish(false);				
 				}_comboOportunity=false;

@@ -32,9 +32,10 @@ namespace Graphics
 	enum TAttachPoint {
 			ARM_L,
 			ARM_R,
+			FACE,
 			HAND_L,
 			HAND_R,
-			HEAD
+			HEAD			
 	};
 
 	/**
@@ -86,19 +87,8 @@ namespace Graphics
 		/************
 			ATTACH
 		**************/
-/*		void attachToHead(const std::string &mesh) { 
-			attach(TBoneName::HEAD, mesh); 
-		}
-		void attachToHand(const std::string &mesh){ 
-			attach(TBoneName::HAND, mesh); 
-		}	*/	
-		
-		/*void detachFromHead() {	detach( _name.append("_head") ); }
-		void detachFromHand() {	detach( _name.append("_hand") ); }*/
-
 		/**
 			Unir el model mesh al hueso toBone
-			FRS De momento, no permite "atachar" el mismo mesh más de una vez en un único cuerpo.
 		*/
 		void attach(TAttachPoint attachPoint, const std::string &mesh) {
 			attach( BONE_DICTIONARY[attachPoint], mesh);
@@ -177,12 +167,14 @@ namespace Graphics
 //*
 						dictionary[TAttachPoint::ARM_L] =	"LeftHelper";		// SPARTAN
 						dictionary[TAttachPoint::ARM_R] =	"RightHelper";
+						dictionary[TAttachPoint::FACE] =	"paracascos";
 						dictionary[TAttachPoint::HAND_L] =	"LeftHelperWeapon";
 						dictionary[TAttachPoint::HAND_R] =	"RightHelperWeapon";
 						dictionary[TAttachPoint::HEAD] =	"paracascos";
 /*/
 						dictionary[TAttachPoint::ARM_L] =	"Bip01 L Forearm";	// MARINE
 						dictionary[TAttachPoint::ARM_R] =	"Bip01 R Forearm";
+						dictionary[TAttachPoint::FACE] =	"Bip01 Head";
 						dictionary[TAttachPoint::HAND_L] =	"Bip01 L Hand";
 						dictionary[TAttachPoint::HAND_R] =	"Bip01 R Hand";
 						dictionary[TAttachPoint::HEAD] =	"Bip01 Head";
@@ -215,7 +207,7 @@ namespace Graphics
 		
 
 
-		void attach(const std::string &toBone, const std::string &mesh);
+		void attach(const std::string &toBone, const std::string &mesh, bool permanently = false);
 		void detach(const std::string &fromBone);	
 		void reattachAllMeshes();
 

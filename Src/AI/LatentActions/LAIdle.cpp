@@ -1,6 +1,9 @@
 #include "LAIdle.h"
 
 #include "Application/BaseApplication.h"
+
+#include "Graphics/AnimatedEntity.h"
+
 #include "../../Logic/Entity/Components/Attack.h"
 
 #include "../StateMachines/StateMachine.h"
@@ -36,7 +39,7 @@ namespace AI
 		std::cout<<"AI::StateMachine::idle"<<std::endl;
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
-		message->setString("idle");
+		message->setString( Graphics::AnimNames::IDLE );
 		message->setAction(Message::WALK_STOP);
 		message->setBool(true);
 		_entity->emitMessage(message);

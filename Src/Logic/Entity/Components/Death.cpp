@@ -12,9 +12,12 @@ Contiene la implementación del componente que controla la vida de una entidad.
 
 #include "Death.h"
 
+#include "Application/BaseApplication.h"
+
+#include "Graphics/AnimatedEntity.h"
+
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/EntityFactory.h"
-#include "Application/BaseApplication.h"
 
 #include "Logic/Entity/Components/AvatarController.h"
 #include "Logic/Entity/Messages/Message.h"
@@ -81,7 +84,7 @@ namespace Logic
 		case Message::DEAD: {
 			CMessageBoolString *txMsg = new CMessageBoolString(); // Poner la animación de muerte
 				txMsg->setType(TMessageType::SET_ANIMATION);
-				txMsg->setString("die");	
+				txMsg->setString( Graphics::AnimNames::DEATH );	
 				txMsg->setBool(false);
 				_entity->emitMessage(txMsg);
 				/* Aquí ponemos el sonido */
@@ -97,7 +100,7 @@ namespace Logic
 		case Message::ANIMATION_FINISHED: {
 			
 			CMessageString *rxMsg = static_cast<CMessageString*>(message);
-				if(rxMsg->getString() == "die") { // Completada animación de muerte? -> END_GAME					
+				if(rxMsg->getString() == Graphics::AnimNames::DEATH ) { // Completada animación de muerte? -> END_GAME					
 					if(_entity->isPlayer() ) // PLAYER MUERTO -> GameOver
 						Application::CBaseApplication::getSingletonPtr()->setState("gameOver"); // HACK Player muerto -> respawn es distinto de base muerta
 					else // Resto de entidades

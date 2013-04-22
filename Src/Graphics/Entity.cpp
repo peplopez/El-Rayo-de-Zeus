@@ -78,12 +78,15 @@ namespace Graphics
 	***************/
 
 
-	void CEntity::attach(const std::string &toBone, const std::string &mesh) 
+	void CEntity::attach(const std::string &toBone, const std::string &mesh, bool permanently) 
 	{
 		assert(_node && "La entidad no ha sido cargada en la escena");
 		if(!_node) return;
 
-		// AttachName = parentName.bone.attachedMesh
+		// PERMANENCIA: Algunos TAttachPoint son permanentes por definición; p.e FACE -> rasgos faciales estáticos
+		permanently |= toBone == BONE_DICTIONARY[TAttachPoint::FACE];
+
+		// AttachName = "parentName.bone.attachedMesh"
 		std::string objectName = _name + '.';		
 			objectName.append(		// FRS Si toBone tiene espacios (p.e "Bip01 LeftHand")
 				toBone,				// nos quedamos con la ultima parte
@@ -94,14 +97,16 @@ namespace Graphics
 			objectName.append( mesh, 0, mesh.find_last_of('.') ); // Suprimimos sufijo ".mesh"
 
 		if( !getSceneMgr()->hasEntity(objectName) ) // No existe un objeto con el mismo nombre en la escena
-		{		
-			TAttachedMeshes& boneObjects = _boneObjectsTable[toBone];
-				if( !boneObjects.empty() )					// Si ya había objetos "atachados" a ese hueso
-					boneObjects.top()->setVisible(false); // ocultamos el último attach que tenía el hueso	
-
+		{	
 			Ogre::Entity* newObject = getSceneMgr()->createEntity(objectName, mesh);			
-				_entity->attachObjectToBone(toBone, newObject);
-				boneObjects.push(newObject); 
+				_entity->attachObjectToBone(toBone, newObject);	
+
+			if(!permanently) { // FRS Apilamos solo attachables no permanentes, para poder gestionar después el detach
+				TAttachedMeshes& boneObjects = _boneObjectsTable[toBone];
+					if( !boneObjects.empty() )					// Si ya había objetos "atachados" a ese hueso
+						boneObjects.top()->setVisible(false); // ocultamos el último attach que tenía el hueso	
+					boneObjects.push(newObject); 
+			}
 		}
 
 		// FRS Solo atachamos si no existe una entidad con el mismo objectName ya

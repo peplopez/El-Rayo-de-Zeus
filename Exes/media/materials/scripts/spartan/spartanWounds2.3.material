@@ -1,0 +1,12 @@
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+material SpartanBody : base_material
+{
+	set_texture_alias diffuseMap 	spartanBodyG_wounds_DF.tga
+	set_texture_alias specMap 		spartanBody_wounds_SPC.tga
+    set_texture_alias normalMap 	spartanBody_NM.tga
+    
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.3 0.3 0.3"
+    set $shininess "10" 
+}

@@ -17,13 +17,14 @@ con animaciones.
 
 #include "AnimatedEntity.h"
 
+
 #include <assert.h>
 #include <OgreEntity.h>
 #include <OgreAnimationState.h>
 
 namespace Graphics 
 {
-	//--------------------------------------------------------
+	
 
 	bool CAnimatedEntity::load()
 	{
@@ -150,33 +151,33 @@ namespace Graphics
 				_observer->animationFinished(_currentAnimation->getAnimationName());
 
 			
-			if(_observer && _currentAnimation->getAnimationName().compare("FireKatana")==0)
+			if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::ATTACK1)==0)
 				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
-			if(_observer && _currentAnimation->getAnimationName().compare("GetObject")==0)
+			if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::ATTACK2)==0)
 				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
-			if(_observer && _currentAnimation->getAnimationName().compare("Damage")==0)
+			if(_observer && _currentAnimation->getAnimationName().compare( AnimNames::DAMAGE )==0)
 				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
 
-			if(_observer && _currentAnimation->getAnimationName().compare("FireKatana")==0)
+			if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::ATTACK1)==0)
 				if (_momentEnabled)
 				if (_currentAnimation->getTimePosition()>0.6 )
 				{
 					_momentEnabled=false;
-					_observer->animationMomentReached("FireKatana");
+					_observer->animationMomentReached(AnimNames::ATTACK1);
 				}
-			if(_observer && _currentAnimation->getAnimationName().compare("GetObject")==0)
+			if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::ATTACK2)==0)
 				if (_momentEnabled)
 				if (_currentAnimation->getTimePosition()>0.6)
 				{
 					_momentEnabled=false;				
-					_observer->animationMomentReached("GetObject");
+					_observer->animationMomentReached(AnimNames::ATTACK2);
 				}
-			if(_observer && _currentAnimation->getAnimationName().compare("Damage")==0)
+			if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::DAMAGE)==0)
 				if (_momentEnabled)
 				if (_currentAnimation->getTimePosition()>0.6)
 				{
 					_momentEnabled=false;				
-					_observer->animationMomentReached("Damage");
+					_observer->animationMomentReached(AnimNames::DAMAGE);
 				}
 		}
 

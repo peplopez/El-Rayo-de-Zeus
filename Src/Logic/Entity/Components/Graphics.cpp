@@ -107,18 +107,21 @@ namespace Logic
 
 		_graphicalEntity->setTransform(_entity->getTransform());
 		_graphicalEntity->setScale(scale);
+				
 
-		
-
-		// ATTACHs
+	// ATTACHs
 	// TODO  FRS Esto estaría guapo tron extraerlo directamente como lista de pares desde el map.txt
-		if(entityInfo->hasAttribute("modelShield"))
-			_graphicalEntity->attach( Graphics::TAttachPoint::ARM_L, 
-				entityInfo->getStringAttribute("modelShield") );
+		if(entityInfo->hasAttribute("modelFacial"))
+			_graphicalEntity->attach( Graphics::TAttachPoint::FACE, 
+				entityInfo->getStringAttribute("modelFacial") );
 
 		if(entityInfo->hasAttribute("modelWeapon"))
 			_graphicalEntity->attach( Graphics::TAttachPoint::HAND_R, 
 				entityInfo->getStringAttribute("modelWeapon") );
+
+		if(entityInfo->hasAttribute("modelShield"))
+			_graphicalEntity->attach( Graphics::TAttachPoint::ARM_L, 
+				entityInfo->getStringAttribute("modelShield") );		
 
 		if(entityInfo->hasAttribute("modelHelmet"))
 			_graphicalEntity->attach( Graphics::TAttachPoint::HEAD, 
