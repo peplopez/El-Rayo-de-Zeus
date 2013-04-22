@@ -78,6 +78,9 @@ namespace Logic
 		else
 			_initialMaterial = "marine";	
 		
+		_initialScale= 1.0f;	
+		if(entityInfo->hasAttribute("initialScale"))
+			_initialScale = entityInfo->getFloatAttribute("initialScale");	
 		
 		if(entityInfo->hasAttribute("offsetHeight"))					
 		{

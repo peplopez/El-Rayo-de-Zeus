@@ -35,6 +35,8 @@ namespace AI
 		@param time Tiempo de espera
 		*/
 		CLAIdle(CEntity* entity) : CLatentAction() {this->setEntity(entity);};
+
+		CLAIdle(CEntity* entity, std::string anim) : CLatentAction() {this->setEntity(entity); this->setStartingAnimation(anim);};
 		/**
 		Destructor
 		*/

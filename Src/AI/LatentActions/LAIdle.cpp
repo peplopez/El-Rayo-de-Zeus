@@ -31,19 +31,21 @@ namespace AI
 	CLatentAction::LAStatus CLAIdle::OnStart()
 	{
 		
-		//while(
-		
+		if (_anim=="")
+			_anim="IdleKatana";
 		std::cout<<"AI::StateMachine::idle"<<std::endl;
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
-		message->setString("IdleKatana");
+		//si es sinbad
+
+		message->setString(_anim);
 		message->setAction(Message::WALK_STOP);
 		message->setBool(true);
 		_entity->emitMessage(message);
 
 		CMessageFloat *m2 = new CMessageFloat();	
 		m2->setType(Message::SET_SCALE);
-		m2->setFloat(1.0f);
+		m2->setFloat(_entity->getInitialScale());
 		m2->setAction(Message::UNDEF);
 		_entity->emitMessage(m2);
 

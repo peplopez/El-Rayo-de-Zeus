@@ -77,17 +77,20 @@ namespace Logic
 			if(!_graphicalEntity)
 				return false;
 		
-		Vector3 scale = Vector3::UNIT_SCALE;
+		Vector3 initialScale = Vector3::UNIT_SCALE;
+
+		_model = entityInfo->getStringAttribute("model");
+
 
 	// HACK FRS Esto lo suyo es que el modelo ya lo traiga , no?
 	// o meter la escala como vector en el map
 		if(_entity->getType() == "World"
 			&& _entity->getLogicalPosition()->getRing() == LogicalPosition::CENTRAL_RING)
-			scale = Vector3(1.3f,1.0f,1.3f);
+			initialScale = Vector3(1.3f,1.0f,1.3f);
 	//
 
-		else if(entityInfo->hasAttribute("scaleFactor") )
-			scale *=  entityInfo->getFloatAttribute("scaleFactor");
+		else if(entityInfo->hasAttribute("initialScale") )
+			initialScale *=  entityInfo->getFloatAttribute("initialScale");
 			
 		if(entityInfo->hasAttribute("material"))
 		{
@@ -106,7 +109,7 @@ namespace Logic
 
 
 		_graphicalEntity->setTransform(_entity->getTransform());
-		_graphicalEntity->setScale(scale);
+		_graphicalEntity->setScale(initialScale);
 
 		
 

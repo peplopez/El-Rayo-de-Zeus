@@ -218,12 +218,17 @@ namespace Logic
 		*/
 		const std::string &getName() const { return _name; }
 
-
-		
 		/**
-		Devuelve el nombre de la entidad.
+		Devuelve la escala inicial de la entidad.
 
-		@return Nombre de la entidad.
+		@return Escala inicial de la entidad.
+		*/
+		const float &getInitialScale() const { return _initialScale; }		
+
+		/**
+		Devuelve el material de la entidad.
+
+		@return Material de la entidad.
 		*/
 		const std::string &getInitialMaterial() const { return _initialMaterial; }
 
@@ -478,10 +483,16 @@ namespace Logic
 		*/
 		Matrix4 _transform;
 
-				/**
-		Nombre de la entidad.
+		/**
+		Material inicial de la entidad.
 		*/
 		std::string _initialMaterial;
+		/**
+		Escala inicial de la entidad.
+		*/
+		float _initialScale;
+		
+
 		/*
 		Posición de la entidad.
 		*

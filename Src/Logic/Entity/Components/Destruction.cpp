@@ -147,12 +147,7 @@ namespace Logic
 
 			_destroyingSpeed-= 0.0002f * msecs;   //gravedad 0.0003f
 			float tickHeight = _destroyingSpeed * msecs;
-			
-			/*Logic::CMessageFloat *m = new Logic::CMessageFloat();
-			m->setType(Logic::Message::AVATAR_MOVE);
-			m->setAction(Logic::Message::JUMP);
-			m->setFloat(tickHeight);
-			_entity->emitMessage(m);*/
+
 			if (_entity->getType()!="World"){
 				Vector3 position=_entity->getPosition();
 				position.y+=tickHeight;				
@@ -162,7 +157,7 @@ namespace Logic
 					if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
 						_entity->getComponent<CPhysicalCharacter>()->sleep();
 
-					_entity->roll(msecs*0.002);			
+					_entity->roll(msecs*0.002);
 				}
 			}
 			else
