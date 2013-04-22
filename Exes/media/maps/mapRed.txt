@@ -15,6 +15,10 @@ Map ={
 		radio=120,
 	},
 	
+	SkySphere = {
+		type = "SkySphere",
+	},
+		
 	BaseCamera1 = {
 		type = "BaseCamera1",
 	},
