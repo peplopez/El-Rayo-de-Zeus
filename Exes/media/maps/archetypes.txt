@@ -265,5 +265,12 @@ Map = {
 		orbitalSpeed = 0.004,
 		orbitalRotationSpeed = 0.001,
 	},
+	SkySphere = {
+		type = "World",
+		position = {0, 0, 0},
+		orientation = 0,
+		model = "skySphere100x.mesh",
+		static = true,
+	},	
 	
 }

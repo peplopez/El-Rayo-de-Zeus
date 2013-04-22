@@ -52,7 +52,7 @@ namespace Graphics
 		//HACK: Valores cableados de las distancias para reenderizar. 
 		// Deberían poder configurarse.
 		_camera->setNearClipDistance(5);
-		_camera->setFarClipDistance(5000);
+		_camera->setFarClipDistance(10000);
 		// Finalmente adjuntamos la cámara a su nodo.
 		_cameraNode->attachObject (_camera);
 

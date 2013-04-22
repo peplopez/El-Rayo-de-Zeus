@@ -15,15 +15,19 @@ Map ={
 		radio=120,
 	},
 	
+	SkySphere = {
+		type = "SkySphere",
+	},
+	
+	BaseCamera1 = {
+		type = "BaseCamera1",
+	},
+	
 	Gemelo = {
 		type = "OtherPlayer",
 		base=2,
 		ring=0,
 		degrees=120,		
-	},
-	
-	BaseCamera1 = {
-		type = "BaseCamera1",
 	},
 	
 	pointLight1 = {
