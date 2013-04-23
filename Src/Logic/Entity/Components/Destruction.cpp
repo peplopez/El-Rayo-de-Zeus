@@ -55,7 +55,7 @@ namespace Logic
 		_destroyingSpeed=0.13f;
 		if (_entity->getLogicalPosition()->getBase()==1) // si es en la que estoy probando
 		{
-			if (_gameStatus->getBase(1)->getAllAltarsActivated())
+			if (_gameStatus->getBase(1)->areAllAltarsActivated())
 			{
 			_reloj->addTimeObserver(_entity->getEntityID(),this,5000);
 			_reloj->addTimeObserver(-_entity->getEntityID(),this,5500);
@@ -126,7 +126,7 @@ namespace Logic
 		IComponent::tick(msecs);
 		if (_entity->getLogicalPosition()->getBase()==1/* && _entity->getLogicalPosition()->getBase()->isDestroying()*/) // si es en la que estoy probando
 		{
-			if (_gameStatus->getBase(1)->getAllAltarsActivated() && !_destroying)
+			if (_gameStatus->getBase(1)->areAllAltarsActivated() && !_destroying)
 			{
 				destroy();
 				_reloj->addTimeObserver(_entity->getEntityID(),this,5000);
