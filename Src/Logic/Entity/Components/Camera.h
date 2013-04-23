@@ -15,6 +15,9 @@ de una escena.
 
 #include "Logic/Entity/Component.h"
 #include "Logic/Entity/LogicalPosition.h"
+#include "../Messages/Message.h"
+#include "../../../Application/Clock.h"
+
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Graphics 
 {
@@ -22,10 +25,10 @@ namespace Graphics
 	class CScene;
 }
 
-namespace Logic
+/*namespace Logic
 {
 	class CMessage;
-}
+}*/
 //declaración de la clase
 namespace Logic 
 {
@@ -47,7 +50,7 @@ namespace Logic
 	@author David Llansó García
 	@date Septiembre, 2010
 */
-	class CCamera : public IComponent
+	class CCamera : public IComponent, public Application::IClockListener
 	{
 		DEC_FACTORY(CCamera);
 	public:
@@ -56,7 +59,7 @@ namespace Logic
 		Constructor por defecto; en la clase base no hace nada.
 		*/
 		CCamera() : IComponent(GetAltTypeIdOf(CCamera)), _graphicsCamera(0), _distance(10), _height(7),
-			_targetDistance(7), _targetHeight(3), _target(0),_currentTremblePos(0) {}
+			_targetDistance(7), _targetHeight(3), _target(0),_currentTremblePos(0),_tremble(false),_calm(true) {}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -109,7 +112,7 @@ namespace Logic
 		@param base short para la base
 		@param ring LogicalPosition::Ring anillo
 		*/
-		void changeHeight(const unsigned short &base, const LogicalPosition::Ring &ring);
+		void changeHeight(Message::TActionType);
 
 				/**
 		Método virtual que elige que mensajes son aceptados. Son válidos
@@ -127,7 +130,16 @@ namespace Logic
 		*/
 		void process(CMessage *message);
 
+		////////////////////////////////////////
+		// Métodos de IClockListener //
+		////////////////////////////////////////
+		/**
+		Método que será invocado siempre que se termine una animación.
+		Las animaciones en cíclicas no invocarán nunca este método.
 
+		@param animation Nombre de la animación terminada.
+		*/
+		void timeArrived();
 	protected:
 		
 		
@@ -175,6 +187,15 @@ namespace Logic
 		float _trembleOffset;
 
 		bool _destroying;
+
+		bool _tremble;
+
+		bool _calm;
+		
+		/**
+		Como he querido usar temporizadores en esta clase añado un puntero al reloj para que sea más cómodo de usar.
+		*/
+		Application::IClock* _reloj;
 	}; // class CCamera
 
 	REG_FACTORY(CCamera);

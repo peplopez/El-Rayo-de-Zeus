@@ -90,10 +90,11 @@ namespace Graphics
 		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
 		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "BW", false);
 
+		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Bloom");
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Bloom", true);
+
 		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
 		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "RadialBlur", false);
-
-		//Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "RadialBlur", true);
 		//BWMaterialListener *bwml = new BWMaterialListener();
 		//Ogre::MaterialManager::getSingletonPtr()->addListener(bwml);
 

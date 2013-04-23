@@ -72,8 +72,8 @@ Map = {
 		sense=0,
 		logicInput=true,
 		radio=120,
-		trembleOffset = 0.0013,
-		trembleSpeed = 0.001,
+		trembleOffset = 0.8,
+		trembleSpeed = 0.005,
 	},
 	
 	BaseCamera1 = {
