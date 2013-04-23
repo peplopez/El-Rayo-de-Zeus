@@ -150,7 +150,7 @@ namespace Logic
 		/**
 		Para obtener un float con el radio de un anillo pasado por parámetro
 		*/		
-		virtual float getRingRadio(unsigned short base, LogicalPosition::Ring ring);
+		virtual float getRingRadio(LogicalPosition::Ring ring);
 
 		/**
 		Devuelve el mapa lógico del juego.

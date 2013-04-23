@@ -362,7 +362,7 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	float CServer::getRingRadio(unsigned short base,Logic::LogicalPosition::Ring ring)
+	float CServer::getRingRadio(Logic::LogicalPosition::Ring ring)
 	{
 			switch (ring)
 			{

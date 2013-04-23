@@ -10,7 +10,7 @@ Map = {
 		physicHeight = 7.5,
 		physicTrigger = true,
 	},
-	
+
 	Altar2 = {
 		type = "Altar",
 		model = "altar.mesh",
@@ -38,6 +38,15 @@ Map = {
 		radius = 250,
 		height = 50,
 		angularspeed = 20,
+	},
+	
+	PlayerCamera = {
+		type = "PlayerCamera",
+		distance = 150,
+		height = 13,
+		targetDistance =3,
+		targetHeight = 7,
+		cameraSpeed = 1.5,
 	},
 	
 	BarraVida = {

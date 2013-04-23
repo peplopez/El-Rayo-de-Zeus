@@ -223,7 +223,7 @@ namespace Logic
 		}
 
 		Vector3 resultado=Vector3::ZERO;
-		resultado=Math::fromCylindricalToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset,CServer::getSingletonPtr()->getRingPositions(0/*arreglo que se ha hecho, temporal*/,ring).y+altura+126);
+		resultado=Math::fromCylindricalToCartesian( grados, CServer::getSingletonPtr()->getRingRadio(ring) + offset, CServer::getSingletonPtr()->getRingPositions(0/*arreglo que se ha hecho, temporal*/,ring).y + altura + 126);
 		return resultado;
 	 }
 	 
