@@ -85,9 +85,15 @@ namespace Logic
 		bool areAllAltarsActivated();
 
 		//void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
-		void updateAllAltarsActivated();
+		void updateAllAltarsIfo();
 		CRingInfo* getRing(unsigned short ring);
 
+		short int getNumAltars(){return _numAltars;}
+
+		/**
+		Número de altares que quedan para que la base sea destruida.
+		*/
+		short int getNumAltarsLeft(){return _numAltars-_numActivatedAltars;}
 	protected:
 		
 		/**

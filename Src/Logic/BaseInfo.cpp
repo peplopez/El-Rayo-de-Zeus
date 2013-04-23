@@ -57,23 +57,34 @@ namespace Logic
 		return _AllAltarsActivated;	
 	}
 
-	void CBaseInfo::updateAllAltarsActivated()
+	void CBaseInfo::updateAllAltarsIfo() //Pep: este método es costoso, solo se llama cuando un altar cambia de estado en algun lugar.
 	{
+		this->getRing(Logic::LogicalPosition::LOWER_RING)->updateAllAltarsInfo();
+		this->getRing(Logic::LogicalPosition::CENTRAL_RING)->updateAllAltarsInfo();
+		this->getRing(Logic::LogicalPosition::UPPER_RING)->updateAllAltarsInfo();
+
+		_numActivatedAltars=getRing(0)->getNumActivatedAltars() //actualizo el número de altares activados
+										+getRing(1)->getNumActivatedAltars()
+										+getRing(2)->getNumActivatedAltars();
+		if (_numActivatedAltars==_numAltars) 
+		{
+			_AllAltarsActivated=true; return;
+		}
 		_AllAltarsActivated=false;
-		unsigned int counter=0;
+		unsigned int counter=0;  ////actualizo el flag de todos los altares activados
 		if(this->getRing(Logic::LogicalPosition::LOWER_RING)->areAllAltarsActivated())
 		{
-			std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN ANILLO 0"<<std::endl;
+			std::cout<<"LOGIC::GAMESTATUS::RAYAZO EN ANILLO 0"<<std::endl;
 			counter++;
 		}	
 		if(this->getRing(Logic::LogicalPosition::CENTRAL_RING)->areAllAltarsActivated())
 		{
-			std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN ANILLO 1"<<std::endl;
+			std::cout<<"LOGIC::GAMESTATUS:RAYAZO EN ANILLO 1"<<std::endl;
 			counter++;
 		}
 		if(this->getRing(Logic::LogicalPosition::UPPER_RING)->areAllAltarsActivated())
 		{
-			std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN ANILLO 2"<<std::endl;
+			std::cout<<"LOGIC::GAMESTATUS::RAYAZO EN ANILLO 2"<<std::endl;
 			counter++;
 		}
 		if (counter==3)
@@ -82,11 +93,7 @@ namespace Logic
 
 	unsigned short CBaseInfo::getNumActivatedAltars()
 	{
-		_numActivatedAltars=0;
-		_numActivatedAltars=getRing(0)->getNumActivatedAltars()
-							+getRing(1)->getNumActivatedAltars()
-							+getRing(2)->getNumActivatedAltars();
-		return _numActivatedAltars;
+		return _numActivatedAltars;//este dato no es valido si no se ha hecho antes updateAllAltarsInfo()
 	}
 
 

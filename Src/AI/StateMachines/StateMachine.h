@@ -107,6 +107,7 @@ namespace AI
 		Establece cuál es la entidad que ejecuta la máquina de estado.
 		*/
 		void setEntity(CEntity *entity) { _entity = entity; };
+
 		/**
 		Establece el nodo inicial.
 
@@ -135,6 +136,7 @@ namespace AI
 		por el identificador del nodo de origen.
 		*/
 		typedef std::map<int, PairVector*> EdgeList;
+
 		/**
 		Entidad que ejecuta la máquina de estado.
 		*/
@@ -255,6 +257,91 @@ namespace AI
 			this->setInitialNode(idle);
 		}
 	};
+
+	class CSSinbad : public CStateMachine<CLatentAction>
+	{
+	public:
+		//std::string animNames[] =
+		//{"IdleBase", "IdleTop", "RunBase", "RunTop", "HandsClosed", "HandsRelaxed", "DrawSwords",
+		//"SliceVertical", "SliceHorizontal", "Dance", "JumpStart", "JumpLoop", "JumpEnd"};
+
+
+		/**
+		Constructor. Añade los nodos y las aristas, establece el nodo de inicio
+		y deja la máquina de estado lista para ser ejecutada.
+		*/
+		CSSinbad(CEntity* entity) : CStateMachine(entity) {
+
+			int idle = this->addNode(new CLAIdle(entity,"Dance")); // Aunque hagamos new, la FSM los delete por dentro
+			int l_run=this->addNode(new CLA_Run(entity,Logic::LogicalPosition::LEFT));			
+			int r_run=this->addNode(new CLA_Run(entity,Logic::LogicalPosition::RIGHT));
+			int jumping=this->addNode(new CLA_Jump(entity));
+
+			
+			/*int l_attack0=this->addNode(new CLA_Attack(entity,0,Message::LIGHT_ATTACK));
+			int l_attack1=this->addNode(new CLA_Attack(entity,1,Message::LIGHT_ATTACK));
+			int h_attack2=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
+
+			int h_attack0=this->addNode(new CLA_Attack(entity,0,Message::HEAVY_ATTACK));
+			int h_attack1=this->addNode(new CLA_Attack(entity,1,Message::HEAVY_ATTACK));
+			int l_attack2=this->addNode(new CLA_Attack(entity,2,Message::LIGHT_ATTACK));
+			*/
+
+
+			//int covering=this->addNode(new CLA_Cover(entity));
+			//int changingBase=this->addNode(new CLA_ChangeBase(entity));			
+			//int changingRing=this->addNode(new CLA_ChangeRing(entity));
+			//int h_attack2Fatality=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
+
+			//int damaged=this->addNode(new CLA_Beaten(entity));
+			//int dead=this->addNode(new CLA_Death(entity));
+			//COMBO 1
+			//this->addEdge(idle, l_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK));
+			this->addEdge(idle, l_run, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_LEFT));
+			this->addEdge(idle, r_run, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_RIGHT));
+
+			this->addEdge(idle, l_run, new CConditionFlagWalkingActivated(Logic::LogicalPosition::LEFT));
+			this->addEdge(idle, r_run, new CConditionFlagWalkingActivated(Logic::LogicalPosition::RIGHT));
+
+			this->addEdge(idle, jumping, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::JUMP));
+			this->addEdge(l_run, jumping, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::JUMP));
+			this->addEdge(r_run, jumping, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::JUMP));
+			
+			this->addEdge(jumping, idle, new CConditionFlagJumpingActivated());
+			
+
+			this->addEdge(l_run, idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_STOP));
+			this->addEdge(r_run, idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_STOP));
+			
+			/*this->addEdge(l_run, l_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK));
+			this->addEdge(r_run, l_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK));
+			this->addEdge(l_run, h_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK));
+			this->addEdge(r_run, h_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK));
+			*/
+			/*this->addEdge(l_attack0, idle, new CConditionFail());
+			this->addEdge(l_attack0, l_attack1,new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,false,Message::ANIMATION_MOMENT));
+			this->addEdge(l_attack1, h_attack2, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::ANIMATION_MOMENT));
+			this->addEdge(l_attack1, idle, new CConditionFail());
+			this->addEdge(h_attack2, idle, new CConditionFail());*/
+
+			//COMBO 2
+			//this->addEdge(h_attack1, l_attack2, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,false,Message::ANIMATION_MOMENT));
+			//this->addEdge(l_attack2, idle, new CConditionFail());
+			
+			//COMBO 3
+			/*this->addEdge(idle, h_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK));
+			this->addEdge(h_attack0, idle, new CConditionFail());
+			this->addEdge(h_attack0, h_attack1, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::ANIMATION_MOMENT));
+			this->addEdge(h_attack1, h_attack2Fatality, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::ANIMATION_MOMENT));
+			this->addEdge(h_attack1, idle, new CConditionFail());
+			this->addEdge(h_attack2Fatality, idle, new CConditionFail());
+			*/
+			// Por último hay que decir cuál es el nodo inicial.
+			this->setInitialNode(idle);
+		}
+	};
+
+
 		/**
 	Factoría que devuelve máquinas de estado predefinidas.
 	Sólo reconoce el valor "wander" como entrada, 
@@ -267,6 +354,9 @@ namespace AI
 		{
 			if (smName == "Hercules") 
 				return new CSHercules(entity);
+			if (smName == "Sinbad") 
+				return new CSSinbad(entity);
+			
 			
 			return 0;
 		}

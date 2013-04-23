@@ -17,6 +17,10 @@ En este fichero se declara la acción latente de cambiar de base.
 #include "Logic/Entity/Entity.h"
 
 using namespace Logic;
+namespace Graphics
+{
+	class CScene;
+}
 
 namespace AI 
 {
@@ -138,6 +142,8 @@ namespace AI
 		unsigned short _desencogiendo;
 
 		float _velocidad;
+
+		Graphics::CScene* _scene;
 	};
 
 } //namespace AI 

@@ -136,7 +136,16 @@ namespace Graphics
 		void createParticleSystem(const std::string& templateName, const std::string& parentEntity); // pos relativa a otra entidad
 		void createParticleSystem(const std::string& templateName, const Vector3& position); // pos absoluta
 		
+		/**PeP
+		Activar compositor, pensado para el de blanco y negro. También RadialBlur
+		*/
+	
+		void activateCompositor(std::string name);
 
+		/**PeP
+		Desactivar compositor, pensado para el de blanco y negro sobre todo. También RadialBlur
+		*/
+		void deactivateCompositor(std::string name);
 	protected:
 
 		/**

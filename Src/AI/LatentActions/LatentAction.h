@@ -13,13 +13,16 @@ Clase que implementa las acciones latentes
 #ifndef __AI_LatentAction_H
 #define __AI_LatentAction_H
 #include "Logic/Entity/Messages/MessageBoolString.h"
+#include <iostream>
 //#include "Logic/Entity/Entity.h"
+
 namespace Logic
 {
 	class CEntity;
 }
 
 using namespace Logic;
+
 
 namespace AI
 {
@@ -101,11 +104,17 @@ namespace AI
 		/**
 		Constructor
 		*/
-		CLatentAction() : _status(READY), _finishing(false) {};
+		CLatentAction() : _status(READY), _finishing(false),_anim("") {};
 		/**
 		Establece la entidad que ejecuta la acción.
 		*/
 		void setEntity(CEntity* entity) { _entity = entity; };
+
+
+		/**
+		Establece la animación inicial si se le pasa como parámetro.
+		*/
+		void setStartingAnimation(std::string anim){_anim=anim;};
 
 		/**
 		Método llamado cíclicamente por el responsable de la ejecución
@@ -170,11 +179,16 @@ namespace AI
 		*/
 		LAStatus _status;
 
+
 	protected:
+		/**
+		animación inicial
+		*/
+		std::string _anim;
 		/**
 		Entidad que ejecuta la acción
 		*/
-		CEntity *_entity;
+		Logic::CEntity *_entity;
 		/**
 		Se pone a cierto cuando se solicita la finalización de la acción.
 		*/

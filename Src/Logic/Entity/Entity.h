@@ -218,12 +218,17 @@ namespace Logic
 		*/
 		const std::string &getName() const { return _name; }
 
-
-		
 		/**
-		Devuelve el nombre de la entidad.
+		Devuelve la escala inicial de la entidad.
 
-		@return Nombre de la entidad.
+		@return Escala inicial de la entidad.
+		*/
+		const float &getInitialScale() const { return _initialScale; }		
+
+		/**
+		Devuelve el material de la entidad.
+
+		@return Material de la entidad.
 		*/
 		const std::string &getInitialMaterial() const { return _initialMaterial; }
 
@@ -374,6 +379,7 @@ namespace Logic
 		bool isActivated() {return _activated;}
 
 		const Vector3 fromLogicalToCartesian(const float grados,const float altura, const unsigned short base, const Logic::LogicalPosition::Ring ring);
+		const Vector3 fromLogicalToCartesian(const CLogicalPosition* pos);
 
 		/**
 		Add - ESC
@@ -477,10 +483,16 @@ namespace Logic
 		*/
 		Matrix4 _transform;
 
-				/**
-		Nombre de la entidad.
+		/**
+		Material inicial de la entidad.
 		*/
 		std::string _initialMaterial;
+		/**
+		Escala inicial de la entidad.
+		*/
+		float _initialScale;
+		
+
 		/*
 		Posición de la entidad.
 		*
@@ -505,6 +517,11 @@ namespace Logic
 		CPlayerInfo sin riesgo a equivocarnos.
 		*/
 		unsigned short _originBase;
+
+		/**
+		Pep, Valor offset para la altura de un modelo, por ejemplo que no tenga su pivote bien.
+		*/
+		float _offsetHeight;
 
 	}; // class CEntity
 

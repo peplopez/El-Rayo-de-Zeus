@@ -18,7 +18,6 @@ gráfica de la entidad.
 #include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageChar.h"
 
-
 #define DEBUG 1
 #if DEBUG
 #	include <iostream>
@@ -49,7 +48,8 @@ namespace Logic
 			m0->setChar(_toUp);
 			_entity->emitMessage(m0,this);	
 			LOG("Change Ring: " << (int) m0->getChar() );
-							
+			
+						
 			_changingRing=false;
 			_desencogiendo=true;
 			_changingRingTime=0;
@@ -71,7 +71,10 @@ namespace Logic
 	
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;		
-
+		
+		//Graphics::CServer* server=Graphics::CServer::getSingletonPtr();
+		
+		//_scene=_entity->getMap()->getGraphicScene();
 		return true;
 
 	} // spawn
@@ -104,6 +107,7 @@ namespace Logic
 			return;
 		if (_changingRing || !isAwake() ) return;
 		_changingRing=true; //TODO Pablo. Sólo si no esta saltandose puede realizar la accion de cambio de anillo.
+
 		message->getAction() == Message::GO_UP ? _toUp = 1 : _toUp = -1;  // ƒ®§ GO_UP (+1) vs GO_DOWN (-1)  son las únicas dos opciones que pasan el filtro del accept
  	} // process
 

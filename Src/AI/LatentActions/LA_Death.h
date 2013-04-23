@@ -19,7 +19,10 @@ latentes básicas.
 #include "Logic/Entity/Entity.h"
 
 using namespace Logic;
-
+namespace Graphics
+{
+	class CScene;
+}
 namespace AI 
 {
 
@@ -117,6 +120,7 @@ namespace AI
 		virtual void awakeComponents();
 	protected:
 		
+		Graphics::CScene* _scene;
 	};
 
 } //namespace AI 

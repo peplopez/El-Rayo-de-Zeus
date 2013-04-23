@@ -1,11 +1,11 @@
-World CGraphics
+World CGraphics CDestruction
 Camera CCamera
 BaseCamera CBaseCamera
 SkyBox CGraphics
-Altar CGraphics CPhysics CAltar
+Altar CGraphics CPhysics CAltar CDestruction
 Entity CGraphics
-Player CAnimatedGraphics CAvatarController CJump2 CBaseTraveler CAttack CStateMachineExecutor CLife CPhysicalCharacter CAltarStateSwitcher CAudio CHud
-AnimatedEntity CAnimatedGraphics CAvatarController CAttack CPhysicalCharacter CLifeModifier CLife CAudio
-OtherPlayer CAnimatedGraphics CAvatarController CBaseTraveler CAttack CPhysicalCharacter CLifeModifier CStateMachineExecutor CLife CAltarStateSwitcher CBasicAI CAudio
-PowerUp CGraphics CPhysics CItem CFloatingMovement CLifeModifier
+Player CAnimatedGraphics CAvatarController CJump2 CBaseTraveler CAttack CStateMachineExecutor CLife CPhysicalCharacter CAltarStateSwitcher CAudio CHud CDestruction
+AnimatedEntity CAnimatedGraphics CAvatarController CAttack CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CDestruction
+OtherPlayer CAnimatedGraphics CAvatarController CBaseTraveler CAttack CPhysicalCharacter CLifeModifier CStateMachineExecutor CLife CAltarStateSwitcher CBasicAI CDestruction CAudio 
+PowerUp CGraphics CPhysics CItem CFloatingMovement CLifeModifier CDestruction
 Light CGraphics CLight

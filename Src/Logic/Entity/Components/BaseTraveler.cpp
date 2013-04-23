@@ -56,7 +56,7 @@ namespace Logic
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
-
+				//_scene=_entity->getMap()->getGraphicScene();
 		//lo hago aquí mismo, en algún componente hay que hacerlo y en principio solo los personajes
 		//player  (ya sea humano o bot) pueden viajar entre bases.
 		

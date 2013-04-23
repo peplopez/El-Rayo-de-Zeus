@@ -96,7 +96,8 @@ namespace Logic
 			Y_AXIS				= 0x33,
 			Z_AXIS				= 0x34,
 			HEAL				= 0x35,
-			DAMAGE				= 0x36
+			DAMAGE				= 0x36,
+			DESTROY				= 0x37
 		};
 	}
 

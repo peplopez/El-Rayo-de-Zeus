@@ -59,6 +59,7 @@ namespace Logic
 
 		void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
 	
+		void updateAllAltarsInfo();
 		/*CAltarInfo* getAltar(string altar)
 		{
 			return _altars[altar];

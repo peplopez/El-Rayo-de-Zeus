@@ -22,7 +22,7 @@ de una escena.
 #include "Graphics/Camera.h"
 #include "Graphics/Entity.h"
 #include "Graphics/GlowMaterialListener.h"
-#include "Graphics/Server.h"
+//#include "Graphics/Server.h"
 #include "Graphics/SceneElement.h"
 
 #include "Logic/Server.h"
@@ -86,6 +86,19 @@ namespace Graphics
 		GlowMaterialListener *gml = new GlowMaterialListener();
 		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
 
+		/* PRUEBAS PEP */
+		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "BW", false);
+
+		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Bloom");
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Bloom", true);
+
+		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "RadialBlur", false);
+		//BWMaterialListener *bwml = new BWMaterialListener();
+		//Ogre::MaterialManager::getSingletonPtr()->addListener(bwml);
+
+
 		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
 
 		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
@@ -95,6 +108,15 @@ namespace Graphics
 	} // activate
 
 	//--------------------------------------------------------
+
+	void CScene::activateCompositor(std::string name)
+	{	
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, true);
+	}
+	void CScene::deactivateCompositor(std::string name)
+	{	
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, false);
+	}
 	void CScene::activateBaseCam()
 	{
 		buildStaticGeometry();
