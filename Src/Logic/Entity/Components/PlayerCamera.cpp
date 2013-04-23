@@ -68,7 +68,7 @@ namespace Logic
 		_target = CServer::getSingletonPtr()->getPlayer(); 
 		
  
-		_currentPos = (1200, 300, 1200);// Esto lo ponemos así de momento para que salga desde arriba la camara
+		_currentPos = (2000, 600, 2000);// Esto lo ponemos así de momento para que salga desde arriba la camara
 
 		_graphicsCamera->setCameraPosition(_currentPos);
 
@@ -130,13 +130,9 @@ namespace Logic
 		Vector3 deltaMove = ( finalCameraPosition 
 			- _currentPos ) * _cameraSpeed * msecs * 0.001;
 
-		float angle1 = finalCameraPosition.angleBetween(_currentPos).valueRadians();
-		float angle2 = finalCameraPosition.angleBetween(_currentPos + deltaMove).valueRadians();
-		
-		if (abs(angle1) > abs(angle2) )
-			_currentPos += deltaMove;
-		else 
-			_currentPos = finalCameraPosition;
+
+		_currentPos += deltaMove;
+
 
 		_graphicsCamera->setCameraPosition(_currentPos);
 			
