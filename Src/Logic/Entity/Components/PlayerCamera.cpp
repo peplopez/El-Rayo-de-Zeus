@@ -68,7 +68,7 @@ namespace Logic
 		_target = CServer::getSingletonPtr()->getPlayer(); 
 		
  
-		_currentPos = (1200, 300, 1200);// Esto lo ponemos así de momento para que salga desde arriba la camara
+		_currentPos = (2000, 600, 2000);// Esto lo ponemos así de momento para que salga desde arriba la camara
 
 		_graphicsCamera->setCameraPosition(_currentPos);
 
