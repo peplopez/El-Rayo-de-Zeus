@@ -43,6 +43,7 @@ namespace Logic
 	class CGameStatus;
 }
 
+//PT
 namespace ScriptManager
 {
 	class Server;
@@ -77,8 +78,7 @@ namespace Application
 		/** 
 		Constructor de la clase 
 		*/
-		CGameState(CBaseApplication *app) : CApplicationState(app), 
-			_scene(0), _time(0) {}
+		CGameState(CBaseApplication *app) : CApplicationState(app), _scene(0) {}
 
 		/** 
 		Destructor 
@@ -189,58 +189,12 @@ namespace Application
 		Escena del estado.
 		*/
 		Graphics::CScene* _scene;
-
-
-
-		CEGUI::Window* _timeWindow;
-		//PT
-		/**
-		Ventanas que muestran el HUD con informacion para el player.
-		*/
-		// PT. Las comento porque van a ser creadas desde LUA
-		/*
-		CEGUI::Window* _hudWindow;
-		CEGUI::Window* _NumberEnemyWindow;
-		CEGUI::Window* _PuntosMeritoWindow;
-		CEGUI::Window* _NumberAltaresActivatedWindow;
-		CEGUI::Window* _Rayo1Window;
-		CEGUI::Window* _Rayo2Window;
-		CEGUI::Window* _Rayo3Window;
-		*/
-
-		/**
-		Tiempo de juego en milisegundos.
-		*/
-		unsigned int _time;
-
-		//PT
-		/**
-		Numero de enemigos en la base
-		*/
-		unsigned int _numberEnemies;
-
-		/**
-		Puntos de merito
-		*/
-
-		unsigned int _puntosMerito;
-
-		/**
-		Numero de altares activados
-		*/
-
-		unsigned int _numberAltaresActivated;
-
-		/**
-		Vida de la base (Rayos)
-		*/
-
-		unsigned int _rayosBase;
 	
 		/**
 		Puntero al gamestatus global
 		*/
 		//Logic::CGameStatus* _gameStatus;
+
 	}; // CGameState
 
 } // namespace Application

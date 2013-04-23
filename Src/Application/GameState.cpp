@@ -29,7 +29,6 @@ Contiene la implementación del estado de juego.
 #include "Logic/BaseInfo.h"
 #include "Logic/RingInfo.h"
 
-
 #include <CEGUISystem.h>
 #include <CEGUIWindowManager.h>
 #include <CEGUIWindow.h>
@@ -43,40 +42,39 @@ namespace Application {
 	bool CGameState::init() 
 	{
 		CApplicationState::init();
+
+		//Parameters for game in LUA
+		ScriptManager::CServer::getSingletonPtr()->loadExeScript("GameParameters");
+
+		//_gameStatus = Logic::CGameStatus::getSingletonPtr();
+
 		// FRS el Logic:: loadLevel se mueve a la parte final del lobby/menu state
 		//, ya que los mapas cargados varían dependiendo de si somos server, client o monojudador
 
-	// INICIALIZACIÓN DEL GUI
-	// ----------------------
+		// INICIALIZACIÓN DEL GUI
+		// ----------------------
 
-	// Ahora mismo la implementación está totalmente acoplada a CEGUI
-	// Hay que desacoplarlo utilizando un nuevo paquete donde se abstraiga
-	// el subsistema utilizado
+		// Ahora mismo la implementación está totalmente acoplada a CEGUI
+		// Hay que desacoplarlo utilizando un nuevo paquete donde se abstraiga
+		// el subsistema utilizado
 
-	// Cargamos la ventana del HUD del Jugador.
-	//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
-	//_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
+		// Cargamos la ventana del HUD del Jugador.
+		//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
+		//_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
 
-	// Cargamos la ventana del HUD del Jugador mediante LUA
-	ScriptManager::CServer::getSingletonPtr()->loadExeScript("Hud");
-	ScriptManager::CServer::getSingletonPtr()->executeProcedure("initHud");
+		// Cargamos la ventana del HUD del Jugador mediante LUA
 
-	//PT. Inicialización de variables del HUD
-	// Ahora se hace a través de LUA
-	/*
-	_numberEnemies = 0;
-	_puntosMerito = 100;
-	_numberAltaresActivated = 0;
-	_rayosBase = 3;
-	*/
+		//ScriptManager::CServer::getSingletonPtr()->loadExeScript("Hud");
+		//ScriptManager::CServer::getSingletonPtr()->executeProcedure("initHud");
 
-	//inicialización del GameStatus:
-	// se supone que hemos elegido ya en este punto cuantos jugadores somos
-	/*if (_gameStatus==0)
-		_gameStatus=new Logic::CGameStatus(8);
-	else
-		delete _gameStatus;
-		*/
+
+		//inicialización del GameStatus:
+		// se supone que hemos elegido ya en este punto cuantos jugadores somos
+		/*if (_gameStatus==0)
+			_gameStatus=new Logic::CGameStatus(8);
+		else
+			delete _gameStatus;
+			*/
 		return true;
 	
 	} // init
@@ -116,7 +114,7 @@ namespace Application {
         GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
 
 		// Activamos la ventana y sus subventanas que nos muestran el HUD del Jugador con LUA
-		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud");
+	/*	ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud");*/
 
 	} // activate
 
@@ -127,7 +125,7 @@ namespace Application {
 	{
 
 		// Desactivamos la ventana de HUD por LUA
-		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideHud");
+		/*ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideHud");*/
 
 		// Desactivamos la clase que procesa eventos de entrada para  controlar al jugador.
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
@@ -150,9 +148,9 @@ namespace Application {
 		Physics::CServer::getSingletonPtr()->tick(msecs);// Simulación física 		
 		Logic::CServer::getSingletonPtr()->tick(msecs);// Actualizamos la lógica de juego.
 
-		_time += msecs;
+		/*_time += msecs;*/
 
-		/*	if (_gameStatus->getBase(3)->getAllAltarsActivated())
+		/*	if (_gameStatus->getBase(3)->areAllAltarsActivated())
 			std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN BASE 3"<<std::endl;
 		*/
 	} // tick
@@ -190,50 +188,50 @@ namespace Application {
 		case GUI::Key::PAUSE:
 			_app->setState("pause"); // TODO FRS no existe todavía el estado pause
 			break;
-		//PT. para ocultar y mostrar el HUD
-		case GUI::Key::V:
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("changeHudVisibility");
-			break;
+		////PT. para ocultar y mostrar el HUD
+		//case GUI::Key::V:
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("changeHudVisibility");
+		//	break;
 
-			//PT prueba para aumentar el numero de altares activados
-		case GUI::Key::B:
-			   ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementAltarsActivated");
-			   ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateAltarsActivated");
-			break;
+		//	//PT prueba para aumentar el numero de altares activados
+		//case GUI::Key::B:
+		//	   ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementAltarsActivated");
+		//	   ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateAltarsActivated");
+		//	break;
 
-		case GUI::Key::G:
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementAltarsActivated");
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateAltarsActivated");
-			break;
+		//case GUI::Key::G:
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementAltarsActivated");
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateAltarsActivated");
+		//	break;
 
-		case GUI::Key::N:
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementEnemiesInBase");
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateEnemiesInBase");
-			break;
+		//case GUI::Key::N:
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementEnemiesInBase");
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateEnemiesInBase");
+		//	break;
 
-		case GUI::Key::H:
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementEnemiesInBase");
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateEnemiesInBase");
-			break;
-		case GUI::Key::M:
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementPM");
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updatePM");
-			break;
+		//case GUI::Key::H:
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementEnemiesInBase");
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateEnemiesInBase");
+		//	break;
+		//case GUI::Key::M:
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementPM");
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updatePM");
+		//	break;
 
-		case GUI::Key::J:
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementPM");
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updatePM");
-			break;
+		//case GUI::Key::J:
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementPM");
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updatePM");
+		//	break;
 
-		case GUI::Key::P:
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementBaseLife");
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateBaseLife");
-			break;
+		//case GUI::Key::P:
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementBaseLife");
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateBaseLife");
+		//	break;
 
-		case GUI::Key::O:
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementBaseLife");
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateBaseLife");
-			break;
+		//case GUI::Key::O:
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementBaseLife");
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateBaseLife");
+		//	break;
 		default:
 			return false;
 		}

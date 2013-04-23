@@ -55,7 +55,7 @@ namespace Logic
 	bool CBaseTraveler::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
-			return false;		
+			return false;
 
 		//lo hago aquí mismo, en algún componente hay que hacerlo y en principio solo los personajes
 		//player  (ya sea humano o bot) pueden viajar entre bases.
@@ -108,7 +108,7 @@ namespace Logic
 			{
 				CBaseTraveler::returnToPlayerBase();
 			}
-			if(message->getAction() == Message::CHANGE_BASE)// lo de _chageAllowed no funciona con los bots
+			if(message->getAction() == Message::CHANGE_BASE)// lo de _changeAllowed no funciona con los bots
 			{
 				if (_changeAllowed)
 				{
@@ -195,7 +195,8 @@ namespace Logic
 			_changingBase=true;
 			
 			Logic::CServer* srv = Logic::CServer::getSingletonPtr();
-			srv->deferredMoveEntity(_entity, _baseToGo);			
+			srv->deferredMoveEntity(_entity, _baseToGo);
+
 		}
 	}
 

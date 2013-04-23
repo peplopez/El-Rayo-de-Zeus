@@ -19,6 +19,9 @@ Datos en cuanto a IA, percepción y gestión del juego.
 #include "Logic\Entity\Components\Life.h"
 #include "Logic\Entity\Entity.h"
 
+//PT se incluye el servidor de scripts de LUA
+#include "ScriptManager\Server.h"
+
 
 namespace Logic
 {
@@ -59,4 +62,13 @@ namespace Logic
 			setInMyBase(false);
 		return _inMyBase;
 	}
+
+	void CPlayerInfo::increaseAltarsActivated()
+	{
+		_altarsActivated++;
+		//incPM es una variable global de LUA, para que el incremento de puntos de merito
+		//este scriptado y no sea una variable de C++ que haya que compilar de nuevo
+		_meritPoints+=ScriptManager::CServer::getSingletonPtr()->getGlobal("incPM",100);
+	}
+
 }

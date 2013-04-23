@@ -18,7 +18,9 @@ Contiene la implementación de la clase que maneja las posiciones lógicas
 
 namespace Logic
 {
-	CBaseInfo::CBaseInfo(const unsigned short numRings):_numRings(numRings),_AllAltarsActivated(false),_numActivatedAltars(0),_life(1),_numAltars(11)
+	CBaseInfo::CBaseInfo(const unsigned short numRings):
+      _numRings(numRings),_AllAltarsActivated(false),_numActivatedAltars(0),_life(1),
+	  _numAltars(11), _numAttakers(0)
 	{		
 		//_rings=new CRingnumPlayers;
 		//_numBases=numPlayers+1;
@@ -50,26 +52,26 @@ namespace Logic
 	}
 
 	//---------------------------------------------------------
-	bool CBaseInfo::getAllAltarsActivated()
+	bool CBaseInfo::areAllAltarsActivated()
 	{
-		return _AllAltarsActivated;		
+		return _AllAltarsActivated;	
 	}
 
 	void CBaseInfo::updateAllAltarsActivated()
 	{
 		_AllAltarsActivated=false;
 		unsigned int counter=0;
-		if(this->getRing(Logic::LogicalPosition::LOWER_RING)->getAllAltarsActivated())
+		if(this->getRing(Logic::LogicalPosition::LOWER_RING)->areAllAltarsActivated())
 		{
 			std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN ANILLO 0"<<std::endl;
 			counter++;
 		}	
-		if(this->getRing(Logic::LogicalPosition::CENTRAL_RING)->getAllAltarsActivated())
+		if(this->getRing(Logic::LogicalPosition::CENTRAL_RING)->areAllAltarsActivated())
 		{
 			std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN ANILLO 1"<<std::endl;
 			counter++;
 		}
-		if(this->getRing(Logic::LogicalPosition::UPPER_RING)->getAllAltarsActivated())
+		if(this->getRing(Logic::LogicalPosition::UPPER_RING)->areAllAltarsActivated())
 		{
 			std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN ANILLO 2"<<std::endl;
 			counter++;
@@ -82,8 +84,8 @@ namespace Logic
 	{
 		_numActivatedAltars=0;
 		_numActivatedAltars=getRing(0)->getNumActivatedAltars()
-										+getRing(1)->getNumActivatedAltars()
-										+getRing(2)->getNumActivatedAltars();
+							+getRing(1)->getNumActivatedAltars()
+							+getRing(2)->getNumActivatedAltars();
 		return _numActivatedAltars;
 	}
 

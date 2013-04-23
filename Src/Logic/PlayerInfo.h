@@ -20,9 +20,14 @@ using namespace std;
 namespace Logic
 {
 	class CBaseInfo;
-	class CPlayerInfo;
 	class CEntity;
 }
+
+namespace ScriptManager
+{
+	class CServer;
+}
+
 namespace Logic
 {
 	/**
@@ -77,15 +82,9 @@ namespace Logic
 		*/
 
 		//por el momento todos los getters, id añadiendo solo los setters que sean necesarios.
-		unsigned int getBasesActivated()
-		{
-			return _basesActivated;
-		}
+		unsigned int getBasesActivated() { return _basesActivated;	}
 		
-		void increaseAltarsActivated()
-		{
-			_altarsActivated++;
-		}
+		void increaseAltarsActivated();
 
 		unsigned int getAltarsActivated()
 		{
@@ -102,7 +101,7 @@ namespace Logic
 			return _creaturesKilled;
 		}
 
-		unsigned int getMeritPoints()
+		unsigned short getMeritPoints()
 		{
 			return _meritPoints;
 		}
@@ -177,7 +176,7 @@ namespace Logic
 		/**
 			Puntos de mérito acumulados
 		*/
-		unsigned long _meritPoints;
+		unsigned short _meritPoints;
 
 		/**
 			Número de fallecimientos
