@@ -132,7 +132,7 @@ namespace Logic
 		}
 		else //logicInput=false
 		{
-			position=CServer::getSingletonPtr()->getRingPositions(0/*_pos->getBase()*/,_pos->getRing());						
+			position = CServer::getSingletonPtr()->getRingPosition(_pos->getRing());						
 			_transform.setTrans(position);
 		}
 
@@ -263,7 +263,7 @@ namespace Logic
 	const float CEntity::getY(const unsigned short base, const Logic::Ring ring)
 	{ 	
 		Vector3 position=Vector3::ZERO;
-		position=CServer::getSingletonPtr()->getRingPositions(0/*base*/,ring);	
+		position=CServer::getSingletonPtr()->getRingPosition(ring);	
 		return position.y;
 	}
 

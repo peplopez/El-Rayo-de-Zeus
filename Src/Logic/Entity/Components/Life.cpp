@@ -117,7 +117,7 @@ namespace Logic
 
 	void CLife::modifyLife(int lifeModifier) {
 
-		Math::delimit( _life += lifeModifier, 0, _LIFE_MAX); // Disminuir/ aumentar la vida de la entidad
+		Math::Clamp( _life += lifeModifier, 0, _LIFE_MAX); // Disminuir/ aumentar la vida de la entidad
 			
 		// DIES
 		if(_life <= 0) {

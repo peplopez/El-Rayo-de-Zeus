@@ -28,6 +28,7 @@ Se ofrecen también una serie de funciones auxiliares.
 #include <OgreMatrix3.h>
 #include <OgreMatrix4.h>
 #include <OgreRay.h>
+#include <cmath>
 
 /**
 Definicion de matriz de 4x4. La definición del tipo de datos
@@ -188,11 +189,49 @@ namespace Math
 	@return Vector unitario en el plano XZ.
 	*/
 	inline Vector3 getDirection(const Matrix4& transform) {	return getDirection(getYaw(transform));	} // getDirection
-	inline void delimit(int& number, int min, int max) {number = std::min(std::max(number, min), max);	}
-	inline void delimit(float& number, float min, float max) {	number = std::min(std::max(number, min), max);	}
+	inline void Clamp(int& number, int min, int max) {	number = std::min(std::max(number, min), max);	}
+	inline void Clamp(float& number, float min, float max) {	number = std::min(std::max(number, min), max);	}
+
+	//--------------------------------------------------------------
+
+	inline Vector3 Lerp(Vector3 start, Vector3 end, float percent)
+	{
+		return (start + percent*(end - start));
+	}
+
+	//--------------------------------------------------------------
+
+	inline Vector3 Nlerp(Vector3 start, Vector3 end, float percent)
+	{
+		 return Lerp(start, end, percent).normalisedCopy();
+	}
+
+	//--------------------------------------------------------------
+
+	inline Vector3 Slerp(Vector3 start, Vector3 end, float percent)
+	{
+		 // Dot product - coseno del angulo entre dos vectores
+		 float dot = start.dotProduct(end);
+
+		 //Delimitarlo para que se encuentre 
+		 //en el rango de Acos(). Puede ser innecesario
+		 //pero a veces la precision del flotante da por culo
+		 Clamp(dot, -1.0f, 1.0f);
+
+		 //Acos(dot) devuelve el angulo entre start y end
+		 //y multiplicarlo por el porciento devuelve el angulo
+		 //entre start y el resultado final
+
+		 float theta = acos(dot) * percent;
+		 Vector3 relativeVec = end - start * dot;
+		 relativeVec.normalise();     // base Ortonormal 
+		 // resultado final
+		 return ((start*cos(theta)) + (relativeVec*sin(theta)));
+	}
+
+	//--------------------------------------------------------------
 
 
-	
 
 
 } // namespace Math

@@ -1,0 +1,43 @@
+import csm_template from "Cone_Step_Mapping.material"
+
+material ringBot
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.2 0.2 0.2
+			diffuse 0.785938 0.785938 0.785938
+			specular 0.585938 0.585938 0.585938 10.000000
+
+            texture_unit diffuse_map
+            {
+                texture rockwall_d.tga
+            }
+
+		}
+
+	}
+}
+
+
+material ringTop
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.2 0.2 0.2
+			diffuse 0.585938 0.585938 0.585938
+			specular 0.585938 0.585938 0.585938 10.000000
+
+            texture_unit diffuse_map
+            {
+                texture suelo.jpg
+            }
+
+		}
+
+	}
+
+}

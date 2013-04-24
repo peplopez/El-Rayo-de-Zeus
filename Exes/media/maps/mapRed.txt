@@ -1,7 +1,7 @@
 Map ={
 	
 	Camera = {
-		type = "Camera",
+		type = "PlayerCamera",
 	},
 	
 	SkySphere = {
