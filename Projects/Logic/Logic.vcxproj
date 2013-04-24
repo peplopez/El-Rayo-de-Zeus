@@ -133,7 +133,7 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Entity.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AnimatedGraphics.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AvatarController.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\PlayerCamera.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Camera.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Graphics.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Life.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\NetConnector.cpp" />
@@ -195,7 +195,7 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Entity.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedGraphics.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AvatarController.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\PlayerCamera.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Camera.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Graphics.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Life.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\NetConnector.h" />

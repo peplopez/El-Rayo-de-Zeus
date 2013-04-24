@@ -55,8 +55,8 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		CCamera() : IComponent(GetAltTypeIdOf(CCamera)), _graphicsCamera(0), _distance(10), _height(7),
-			_targetDistance(7), _targetHeight(3), _target(0) {}
+		CCamera() : IComponent(GetAltTypeIdOf(CCamera)), _graphicsCamera(0), _distance(0), _height(0), _target(0), _targetDistance(0), _targetHeight(0),
+				_currentPos(Vector3::ZERO), _cameraSpeed(0) {}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -142,6 +142,8 @@ namespace Logic
 
 		Vector3 _currentPos;
 
+		Vector3 _centerWorldPosition;
+
 		/**
 		Distancia de la cámara respecto a la entidad objetivo. Es distancia
 		sobre el plano XZ, la altura tiene su propio atributo.
@@ -164,6 +166,10 @@ namespace Logic
 		altura del punto al que mirará la cámara respecto del suelo o plano XZ.
 		*/
 		float _targetHeight;
+
+		/**
+		*/
+		float _cameraSpeed;
 
 
 

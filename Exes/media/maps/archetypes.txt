@@ -41,7 +41,7 @@ Map = {
 	},
 	
 	PlayerCamera = {
-		type = "PlayerCamera",
+		type = "Camera",
 		distance = 150,
 		height = 13,
 		targetDistance =3,

@@ -147,7 +147,7 @@ namespace Logic
 
 	bool CEntity::activate() 
 	{
-		if ( this->getType() == "PlayerCamera" )
+		if ( this->getType() == "Camera" )
 		{
 			//CServer::getSingletonPtr()->setPlayer(this);
 			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);

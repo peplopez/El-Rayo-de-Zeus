@@ -165,7 +165,7 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\PlayerCamera.cpp">
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Camera.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -348,7 +348,7 @@
       <Filter>GameStatus\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\HudCegui.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\PlayerCamera.h">
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Camera.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

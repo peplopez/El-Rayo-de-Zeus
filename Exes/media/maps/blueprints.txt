@@ -1,5 +1,5 @@
 World CGraphics
-PlayerCamera CPlayerCamera
+Camera CCamera
 BaseCamera CBaseCamera
 SkyBox CGraphics
 Altar CGraphics CPhysics CAltar
