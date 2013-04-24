@@ -47,7 +47,9 @@ namespace Logic
 			return false;
 
 		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
+
 		_graphicsCamera = _entity->getMap()->getGraphicScene()->getCamera();
+
 		if(!_graphicsCamera)
 			return false;
 
@@ -70,9 +72,9 @@ namespace Logic
 			_trembleSpeed = entityInfo->getFloatAttribute("trembleSpeed");
 		}
 
-		if(entityInfo->hasAttribute("trembleOffset")) {
+		if(entityInfo->hasAttribute("trembleOffset")) 
 			_trembleOffset = entityInfo->getFloatAttribute("trembleOffset");
-		}
+		
 		//_trembleOffset+=1;
 		//_trembleSpeed*=1.3;
 		return true;
@@ -101,12 +103,6 @@ namespace Logic
 		_target = 0;
 	} // deactivate
 	
-	//---------------------------------------------------------
-
-	void CCamera::changeHeight(Message::TActionType) //go_up activa y go_down desactiva.
-	{
-		
-	}
 
 	//---------------------------------------------------------
 
@@ -126,16 +122,16 @@ namespace Logic
 				{
 				CMessageBoolFloat *maux = static_cast<CMessageBoolFloat*>(message);
 				if (maux->getBool())
-					_targetDistance+=maux->getFloat();
+					_distance -= maux->getFloat();
 				else
-					_targetDistance-=maux->getFloat();
+					_distance += maux->getFloat();
 				break;
 				}
 				else
-					//changeHeight(message->getAction());
 					message->getAction()==Message::GO_DOWN?_tremble=false:_tremble=true;
 		}
 	 }
+
 	//---------------------------------------------------------
 
 	void CCamera::tick(unsigned int msecs)
@@ -167,14 +163,15 @@ namespace Logic
 		position = (_targetDistance +  _target->getLogicalPosition()->getRadio()) * _currentPos.normalisedCopy() ;
 		position.y = CServer::getSingletonPtr()->getRingPosition(_target->getLogicalPosition()->getRing()).y;
 		
-		_graphicsCamera->setTargetCameraPosition(position);
+		
 		//a partir de aquí es principalmente para el efecto de que tiemble la camara.
-		 short riesgo=0;
-		riesgo=CGameStatus::getSingletonPtr()->getBase(_entity->getLogicalPosition()->getBase())->getNumAltarsLeft();
-		riesgo=3-riesgo;
-		if (riesgo<0)riesgo=0;
+		short riesgo=0;
+		riesgo = CGameStatus::getSingletonPtr()->getBase(_target->getLogicalPosition()->getBase())->getNumAltarsLeft();
+		riesgo = 3 - riesgo;
+		if (riesgo < 0) 
+			riesgo=0;
 
-	//	if (riesgo>0) _contador++;
+		//	if (riesgo>0) _contador++;
 		//if (medida>=3) _entity->getMap()->getGraphicScene()->activateCompositor("BW"); AQUI ACTIVAMOS COMPOSITOR DE QUE TU BASE ESTÉ EN PELIGRO INMINENTE
 		if (riesgo>0 && _calm)
 		{
@@ -183,22 +180,30 @@ namespace Logic
 			timeArrived();
 			//_reloj->addTimeObserver(_entity->getEntityID(),this,3000);
 		}
-		if (riesgo==0) _calm=true;
-		short factor=riesgo*_tremble;
-		Vector3 offset=Vector3(cameraTarget.x+factor*estimateOffset(cameraTarget.x,msecs),cameraTarget.y+factor*estimateOffset(cameraTarget.y,msecs),cameraTarget.z+factor*estimateOffset(cameraTarget.z,msecs));
+		if (riesgo == 0) 
+			_calm=true;
+		short factor = riesgo*_tremble;
+		Vector3 offset= Vector3(position.x + factor * estimateOffset(position.x, msecs), 
+			position.y + factor * estimateOffset(position.y,msecs), position.z + factor * estimateOffset(position.z, msecs));
 		_graphicsCamera->setTargetCameraPosition(offset);
 		
 	} // tick
 
-	float CCamera::estimateOffset(float height, unsigned int msecs) {
+	//---------------------------------------------------------
+	
+	float CCamera::estimateOffset(float height, unsigned int msecs) 
+	{
 		_currentTremblePos += _trembleSpeed * msecs;
-		if(_currentTremblePos > 6.283) _currentTremblePos = 0;
+		if(_currentTremblePos > 6.283) 
+			_currentTremblePos = 0;
 		return (sin(_currentTremblePos) * _trembleOffset);
 	}
+
+	//---------------------------------------------------------
+
 	void CCamera::timeArrived()
 	{
 	    _tremble=!_tremble;
-		//if (_tremble)
 		_reloj->addTimeObserver(_entity->getEntityID()+_tremble,this,1000+!_tremble*1000);
 		std::cout<<_tremble<<std::endl;
 	}

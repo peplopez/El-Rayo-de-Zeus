@@ -54,10 +54,10 @@ namespace Logic
 		// Leemos las propiedades comunes
 		_map = map;
 		_type = entityInfo->getType();
-		_logicInput=false;
-		_offsetHeight=0;
-		Vector3 position=Vector3::ZERO;	
-		_pos=new CLogicalPosition();
+		_logicInput = false;
+		_offsetHeight  = 0;
+		Vector3 position = Vector3::ZERO;	
+		_pos = new CLogicalPosition();
 		if(entityInfo->hasAttribute("name"))
 			_name = entityInfo->getStringAttribute("name");	
 
@@ -166,7 +166,6 @@ namespace Logic
 		{
 			//CServer::getSingletonPtr()->setPlayer(this);
 			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);
-			int i=0;
 		}
 
 		if (isPlayer())
@@ -228,7 +227,8 @@ namespace Logic
 	} // setIsPlayer
 
 	//---------------------------------------------------------
-	 const Vector3 CEntity::fromLogicalToCartesian(const float grados,const float altura, const unsigned short base, const Logic::LogicalPosition::Ring ring)
+
+	 const Vector3 CEntity::fromLogicalToCartesian(const float grados, const float altura, const unsigned short base, const Logic::LogicalPosition::Ring ring)
 	 {		 
 		float offset=0;// se trata de un offset de radio, no de altura
 
@@ -236,39 +236,24 @@ namespace Logic
 		{
 			offset=-9;
 		}
-	 /*   if (this->getName().compare("Bigdaddy")==0) //hack para meter a sinbad
-		{
-			offsetY=70;
-		}*/
 
-		Vector3 resultado=Vector3::ZERO;
-		resultado=Math::fromCylindricalToCartesian(grados, CServer::getSingletonPtr()->getRingRadio(base,ring)+offset,CServer::getSingletonPtr()->getRingPositions(0/*arreglo que se ha hecho, temporal*/,ring).y+altura+126+_offsetHeight);
-		return resultado;
-	 }
+		return (Math::fromCylindricalToCartesian( grados, CServer::getSingletonPtr()->getRingRadio(ring) + offset, CServer::getSingletonPtr()->getRingPosition(ring).y + altura + _offsetHeight));
 	 
-	  const Vector3 CEntity::fromLogicalToCartesian(const CLogicalPosition* pos)
-	 {		 
-		float offset=0;// se trata de un offset de radio, no de altura
-
-		if (this->getType().compare("Altar")==0)
-		{
-			offset=-9;
-		}
-
-		Vector3 resultado=Vector3::ZERO;
-		resultado=Math::fromCylindricalToCartesian(pos->getDegree(), CServer::getSingletonPtr()->getRingRadio(pos->getBase(),pos->getRing()),CServer::getSingletonPtr()->getRingPositions(0/*arreglo que se ha hecho, temporal*/,pos->getRing()).y+pos->getHeight()+126);
-		return resultado;
 	 }
+
+	
 	//---------------------------------------------------------
-	const float CEntity::getY(const unsigned short base, const Logic::Ring ring)
+	
+	 const float CEntity::getY(const unsigned short base, const Logic::Ring ring)
 	{ 	
-		Vector3 position=Vector3::ZERO;
-		position=CServer::getSingletonPtr()->getRingPosition(ring);	
+		Vector3 position = Vector3::ZERO;
+		position = CServer::getSingletonPtr()->getRingPosition(ring);	
 		return position.y;
 	}
 
 	//---------------------------------------------------------
-	void CEntity::tick(unsigned int msecs) 
+	
+	 void CEntity::tick(unsigned int msecs) 
 	{
 		TComponentMap::const_iterator it;
 		//TODO TComponentList::const_iterator it;
@@ -283,7 +268,7 @@ namespace Logic
 
 	void CEntity::addComponent(IComponent* component)
 	{
-		_components[component->getComponentId()]=component;
+		_components[component->getComponentId()] = component;
 		component->setEntity(this);
 	} // addComponent
 
