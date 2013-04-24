@@ -76,7 +76,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\ScriptManager\Classes\LUA_EntityFunctions.cpp" />
-    <ClCompile Include="..\..\Src\ScriptManager\ScriptManager.cpp" />
     <ClCompile Include="..\..\Src\ScriptManager\Server.cpp" />
   </ItemGroup>
   <ItemGroup>

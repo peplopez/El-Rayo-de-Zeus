@@ -71,6 +71,8 @@ namespace Logic
 		unsigned short getNumBases(){return _numBases;}
 		
 		unsigned short getNumPlayers(){return _numPlayers;}
+		//PT
+		unsigned short CGameStatus::getEnemiesInBase(unsigned short base);
 		
 	protected:
 	

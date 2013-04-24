@@ -85,7 +85,7 @@ namespace Logic
 		bool areAllAltarsActivated();
 
 		//void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
-		void updateAllAltarsIfo();
+		void updateAllAltarsInfo();
 		CRingInfo* getRing(unsigned short ring);
 
 		short int getNumAltars(){return _numAltars;}

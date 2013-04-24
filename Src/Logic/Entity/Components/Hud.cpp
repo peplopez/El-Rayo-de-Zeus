@@ -148,7 +148,9 @@ namespace Logic
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showBaseLife",_gameStatus->getBase(numBase)->getBaseLife());
 
 			//Enemies number / players that are not me in my origin base
+
 			//ScriptManager::CServer::getSingletonPtr()->executeProcedure("showEnemiesInBase",_gameStatus->getBase(numBase)->getAttakers());
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showEnemiesInBase",_gameStatus->getEnemiesInBase(numBase));
 			//ScriptManager::CServer::getSingletonPtr()->executeProcedure("showEnemiesInBase",ScriptManager::CServer::getSingletonPtr()->getGlobal("numberEnemiesInBase",0));
 
 			//Merite Points

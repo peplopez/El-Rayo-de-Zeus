@@ -63,6 +63,15 @@ namespace Logic
 		return _inMyBase;
 	}
 
+	//PT
+	bool CPlayerInfo::inBase(unsigned short base)
+	{
+		if (_player->getLogicalPosition()->getBase()==base)
+			return true;
+		else
+			return false;
+	}
+
 	void CPlayerInfo::increaseAltarsActivated()
 	{
 		_altarsActivated++;

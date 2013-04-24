@@ -35,9 +35,6 @@
     <ClCompile Include="..\..\Src\ScriptManager\Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\ScriptManager\ScriptManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\ScriptManager\Classes\LUA_EntityFunctions.cpp">
       <Filter>Classes\Source Files</Filter>
     </ClCompile>
