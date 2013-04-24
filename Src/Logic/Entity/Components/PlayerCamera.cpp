@@ -104,9 +104,9 @@ namespace Logic
 		CMessageBoolFloat *maux = static_cast<CMessageBoolFloat*>(message);
 
 		if (maux->getBool())
-			_targetDistance+=maux->getFloat();
+			_distance -= maux->getFloat();
 		else
-			_targetDistance-=maux->getFloat();
+			_distance += maux->getFloat();
 	}
 
 	//---------------------------------------------------------
