@@ -59,7 +59,7 @@ namespace Logic
 		 return _numActivatedAltars;
 	}
 
-	bool CRingInfo::getAllAltarsActivated()
+	bool CRingInfo::areAllAltarsActivated()
 	{
 		return _AllAltarsActivated;
 	}

@@ -18,7 +18,9 @@ Contiene la implementación de la clase que maneja las posiciones lógicas
 
 namespace Logic
 {
-	CBaseInfo::CBaseInfo(const unsigned short numRings):_numRings(numRings),_AllAltarsActivated(false),_numActivatedAltars(0),_life(1),_numAltars(11)
+	CBaseInfo::CBaseInfo(const unsigned short numRings):
+      _numRings(numRings),_AllAltarsActivated(false),_numActivatedAltars(0),_life(1),
+	  _numAltars(11), _numAttakers(0)
 	{		
 		//_rings=new CRingnumPlayers;
 		//_numBases=numPlayers+1;
@@ -50,9 +52,9 @@ namespace Logic
 	}
 
 	//---------------------------------------------------------
-	bool CBaseInfo::getAllAltarsActivated()
+	bool CBaseInfo::areAllAltarsActivated()
 	{
-		return _AllAltarsActivated;//este dato no es valido si no se ha hecho antes updateAllAltarsInfo()
+		return _AllAltarsActivated;	
 	}
 
 	void CBaseInfo::updateAllAltarsIfo() //Pep: este método es costoso, solo se llama cuando un altar cambia de estado en algun lugar.
@@ -70,17 +72,17 @@ namespace Logic
 		}
 		_AllAltarsActivated=false;
 		unsigned int counter=0;  ////actualizo el flag de todos los altares activados
-		if(this->getRing(Logic::LogicalPosition::LOWER_RING)->getAllAltarsActivated())
+		if(this->getRing(Logic::LogicalPosition::LOWER_RING)->areAllAltarsActivated())
 		{
 			std::cout<<"LOGIC::GAMESTATUS::RAYAZO EN ANILLO 0"<<std::endl;
 			counter++;
 		}	
-		if(this->getRing(Logic::LogicalPosition::CENTRAL_RING)->getAllAltarsActivated())
+		if(this->getRing(Logic::LogicalPosition::CENTRAL_RING)->areAllAltarsActivated())
 		{
 			std::cout<<"LOGIC::GAMESTATUS:RAYAZO EN ANILLO 1"<<std::endl;
 			counter++;
 		}
-		if(this->getRing(Logic::LogicalPosition::UPPER_RING)->getAllAltarsActivated())
+		if(this->getRing(Logic::LogicalPosition::UPPER_RING)->areAllAltarsActivated())
 		{
 			std::cout<<"LOGIC::GAMESTATUS::RAYAZO EN ANILLO 2"<<std::endl;
 			counter++;

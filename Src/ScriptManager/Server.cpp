@@ -18,6 +18,7 @@ la gestión de los scripts del juego.
 
 //PT
 #include "ScriptManager\Classes\LUA_EntityFunctions.h"
+#include "Logic\GameStatus.h"
 
 //Como LUA esta compilado en C puro y duro. (se necesita incluirla con extern "C")
 extern "C" {
@@ -518,6 +519,35 @@ namespace ScriptManager {
 
 	} //executeProcedure (1 param)
 
+
+	//---------------------------------------------------------
+
+	template <class T>
+	bool CServer::executeProcedure(const char *name, const T& param1, const T& param2){
+		
+		assert(_lua && "No se ha hecho la inicialización de lua");
+
+		// Obtengo el procedimiento definido en lua
+		luabind::object obj = luabind::globals(_lua)[name];
+
+		//comprobacion de que el tipo es FUNCTION (que es el que queremos recoger)
+		if(!obj.is_valid() || (luabind::type(obj) != LUA_TFUNCTION))
+		{
+			showErrorMessage("ERROR DE LUA! - El procedimiento \"" + std::string(name) + "\" que se está intentando ejecutar no existe o es un procedimiento.");
+			return false;
+		}
+		// Lo ejecuto y hago comprobación de errores.
+		try {
+			obj(param1,param2);
+		} catch (luabind::error &ex) {
+			showErrorMessage("ERROR DE LUA! - Error al ejecutar el procedimiento \"" + std::string(name) + "\". Tipo de error: " + std::string(ex.what()));
+			return false;
+		}
+
+		return true;
+
+	} //executeProcedure (2 params)
+
 	//---------------------------------------------------------
 
 	template <class T>
@@ -700,6 +730,9 @@ namespace ScriptManager {
 	//------------------------------------------------------//
 
 	template bool CServer::executeProcedure<int>(const char *subroutineName, const int& param1);
+	template bool CServer::executeProcedure<int>(const char *subroutineName, const int& param1, const int& param2);
+	template bool CServer::executeProcedure<unsigned short>(const char *subroutineName, const unsigned short& param1);
+	template bool CServer::executeProcedure<unsigned short>(const char *subroutineName, const unsigned short& param1, const unsigned short& param2);
 	template bool CServer::executeFunction<int>(const char *subroutineName, const int& param1, int &result);
 	template void CServer::registerFunction<int(*)(lua_State *)>(const char *name, int(*f)(lua_State*));
 	//template void CServer::registerFunction<void(*)()>(const char *name, void (*f)());

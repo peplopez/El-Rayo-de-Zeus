@@ -279,6 +279,30 @@ namespace ScriptManager
 		bool executeProcedure(const char *name, const T& param1);
 
 		/**
+		Método templatizado que ejecuta un procedimiento de 
+		lua con 2 parámetros de entrada y sin valor de vuelta
+
+		@param subroutineName Nombre del procedimiento.
+		@param param1 parámetro1 del procedimiento.
+		@param param2 parámetro2 del procedimiento.
+
+		@return true si la ejecución del procedimiento fue bien
+		y false en caso contrario.
+
+		@note Esta es una plantilla definida en el fichero .cpp
+		de la clase, por tanto la definición de la misma no puede
+		quedarse como genérica ya que el compilador no lo acepta.
+		Para instanciar la plantilla y que pueda compilar pero que
+		al mismo tiempo la definición del método quede lo suficientemente
+		genérica, se han definido instancias concretas al final del
+		fichero .cpp. Para cualquier instancia nueva que se necesite
+		de la plantilla basta con definir una nueva línea con el
+		tipo deseado en la sección concreta del fichero .cpp.
+		*/
+		template <class T>
+		bool executeProcedure(const char *name, const T& param1, const T& param2);
+
+		/**
 		Método templatizado que ejecuta una función de lua 
 		con un parámetro de entrada y con un valor de vuelta 
 		de tipo entero.

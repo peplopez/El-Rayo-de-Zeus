@@ -100,7 +100,7 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BaseTraveler.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BasicAI.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Death.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\HudCegui.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Hud.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeModifier.cpp" />
@@ -159,7 +159,7 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Attack.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BaseCamera.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BasicAI.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\HudCegui.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Hud.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\HudOverlay.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Jump.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BaseTraveler.h" />

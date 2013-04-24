@@ -58,7 +58,12 @@ namespace Logic
 		/**
 			Para obtener el número de atacantes en la base. Así saber que la base está calentita.
 		*/
-		unsigned int getAttakers();
+		unsigned short getAttakers() {return _numAttakers;};
+
+		/**
+			Para obtener el número de vidas de la base.
+		*/
+		unsigned short getBaseLife() {return _life;};
 				
 		/**
 			Número de altares
@@ -77,7 +82,7 @@ namespace Logic
 
 		void setNumActivatedAltars(const unsigned short numActivatedAltars){_numActivatedAltars=numActivatedAltars;}
 	
-		bool getAllAltarsActivated();
+		bool areAllAltarsActivated();
 
 		//void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
 		void updateAllAltarsIfo();
@@ -120,6 +125,11 @@ namespace Logic
 		Lista de los anillos
 		*/
 		TRings _rings;
+
+		/**
+		Numero de players que estan en mi base
+		*/
+		unsigned short _numAttakers;
 	};
 }
 

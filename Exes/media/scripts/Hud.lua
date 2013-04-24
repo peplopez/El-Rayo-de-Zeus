@@ -1,14 +1,10 @@
 -- Fichero Hud.lua
 
 -- Vars initialization showed in HUD
-numberAltarsMax = 11
-numberEnemiesInBaseMax = 8
-lifeBaseMax = 3
 
 numberAltarsActivated = 0
 numberEnemiesInBase = 0
 PM = 100
-incPM = 50
 lifeBase = lifeBaseMax
 
 --Funcion de inicializacion/carga de un layout y sus ventanas y subventanas
@@ -77,6 +73,10 @@ function updateAltarsActivated()
    NumberAltaresActivatedWindow:setText(numberAltarsActivated..'/'..numberAltarsMax)
 end
 
+function showAltarsActivated(altarsactivated, altarsmax)
+   NumberAltaresActivatedWindow:setText(altarsactivated..'/'..altarsmax)
+end
+
 --NumberEnemies HUD functions
 function incrementEnemiesInBase()
   numberEnemiesInBase = numberEnemiesInBase+1
@@ -98,6 +98,10 @@ function updateEnemiesInBase()
    NumberEnemyWindow:setText(numberEnemiesInBase)
 end
 
+function showEnemiesInBase(enemies)
+   NumberEnemyWindow:setText(enemies)
+end
+
 -- pM HUD functions
 function incrementPM()
   PM = PM+incPM
@@ -109,6 +113,10 @@ end
 
 function updatePM()
    PuntosMeritoWindow:setText(PM)
+end
+
+function showPM(pm)
+   PuntosMeritoWindow:setText(pm)
 end
 
 -- lifeBase HUD functions
@@ -130,6 +138,26 @@ end
 
 
 function updateBaseLife()
+	if lifeBase == 3 then
+	  Rayo1Window:setProperty("Image","set:HudBackground image:RayoActivado")
+	  Rayo2Window:setProperty("Image","set:HudBackground image:RayoActivado")
+	  Rayo3Window:setProperty("Image","set:HudBackground image:RayoActivado")
+    elseif lifeBase == 2 then
+	  Rayo1Window:setProperty("Image","set:HudBackground image:RayoActivado")
+	  Rayo2Window:setProperty("Image","set:HudBackground image:RayoActivado")
+	  Rayo3Window:setProperty("Image","set:HudBackground image:RayoDesactivado")
+    elseif lifeBase == 1 then
+	  Rayo1Window:setProperty("Image","set:HudBackground image:RayoActivado")
+	  Rayo2Window:setProperty("Image","set:HudBackground image:RayoDesactivado")
+	  Rayo3Window:setProperty("Image","set:HudBackground image:RayoDesactivado")
+    elseif lifeBase == 0 then
+      Rayo1Window:setProperty("Image","set:HudBackground image:RayoDesactivado")
+	  Rayo2Window:setProperty("Image","set:HudBackground image:RayoDesactivado")
+	  Rayo3Window:setProperty("Image","set:HudBackground image:RayoDesactivado")
+    end
+end
+
+function showBaseLife()
 	if lifeBase == 3 then
 	  Rayo1Window:setProperty("Image","set:HudBackground image:RayoActivado")
 	  Rayo2Window:setProperty("Image","set:HudBackground image:RayoActivado")

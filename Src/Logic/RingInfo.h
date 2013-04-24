@@ -55,7 +55,7 @@ namespace Logic
 
 		void setNumActivatedAltars(const unsigned short numActivatedAltars){_numActivatedAltars=numActivatedAltars;}
 	
-		bool getAllAltarsActivated();
+		bool areAllAltarsActivated();
 
 		void setAllAltarsActivated(const bool allAltarsActivated){_AllAltarsActivated=allAltarsActivated;}
 	
