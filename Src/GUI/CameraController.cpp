@@ -68,7 +68,7 @@ namespace GUI {
 			switch(key.keyId)
 			{			
 			case GUI::Key::UPARROW:
-				m->setBool(false);		
+				m->setBool(true);		
 				break;
 			case GUI::Key::DOWNARROW:
 				m->setBool(true);
@@ -118,25 +118,6 @@ namespace GUI {
 	{
 		if(!_controlledCamera)
 			return false;
-		else
-		{
-			Logic::CMessageBoolFloat *m = new Logic::CMessageBoolFloat();
-			m->setType(Logic::Message::CAMERA);
-			m->setFloat(1.0f);
-			switch(mouseState.button)
-			{			
-			case GUI::Button::LEFT:
-				m->setBool(false);		
-				break;
-			case GUI::Button::RIGHT:
-				m->setBool(true);
-				break;			
-			default:
-				return false;
-			}
-			_controlledCamera->emitMessage(m);
-			return true;
-		}
 	} // mousePressed
 
 	//--------------------------------------------------------

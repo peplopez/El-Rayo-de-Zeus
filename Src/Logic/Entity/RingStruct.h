@@ -24,28 +24,24 @@ namespace Logic
 {	
 	//si queremos, estas tres constantes pueden ser parametros de entrada
 	// pero al ser algo que no se va a cambiar frecuentemente no hace falta
-	const Vector3 separationBetweenRings=Vector3(0,50,0);
-	const Vector3 separationBetweenBases=Vector3(0,230,0);	
-	const unsigned int NUM_BASES=8;
-	const Vector3 startingBasesPosition=Vector3(0,-176,0);
-	const unsigned short RADIO_MAYOR=73;
-	const unsigned short RADIO_MENOR=58;
-	const unsigned int CONST_Y_ADJUST=126;
-	
-	struct Position
-		{
-			/**
-				Y, si están apiladas comparten "x" y "z" 
-			*/
-			Vector3 _up;
-			Vector3 _center;
-			Vector3 _down;
-		};
+	const Vector3 separationBetweenRings = Vector3(0,50,0);
+	const Vector3 startingRingPosition = Vector3(0,-50,0);
 
-	struct Base
-	{	
-		struct Position posBase [NUM_BASES];//base 0
-	}base;
+	const unsigned short RADIO_MAYOR = 73;
+	const unsigned short RADIO_MENOR = 58;
+
+	
+	struct TRingPositions
+	{
+		/**
+		Y, si están apiladas comparten "x" y "z" 
+		*/
+		static Vector3 _up;
+		static Vector3 _center;
+		static Vector3 _down;
+	};
+
+
 	
 }
 // namespace Logic

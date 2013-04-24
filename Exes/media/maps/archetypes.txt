@@ -56,7 +56,7 @@ Map = {
 	
 	World = {
 		type = "World",
-		model = "anillo.mesh",
+		model = "ring.mesh",
 		static = true,
 	},
 	

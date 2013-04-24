@@ -1,6 +1,6 @@
 import base_material from "Normal_AO_Specular_Mapping_Shader.material"
 
-material SpartanBody : base_material
+material SpartanBodyWounds : base_material
 {
 	set_texture_alias diffuseMap 	spartanBodyG_wounds_DF.tga
 	set_texture_alias specMap 		spartanBody_wounds_SPC.tga

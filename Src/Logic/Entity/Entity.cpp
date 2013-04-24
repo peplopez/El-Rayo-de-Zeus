@@ -117,7 +117,7 @@ namespace Logic
 		}
 		else //logicInput=false
 		{
-			position=CServer::getSingletonPtr()->getRingPositions(0/*_pos->getBase()*/,_pos->getRing());						
+			position = CServer::getSingletonPtr()->getRingPosition(_pos->getRing());						
 			_transform.setTrans(position);
 		}
 
@@ -147,7 +147,7 @@ namespace Logic
 
 	bool CEntity::activate() 
 	{
-		if ( this->getType() == "Camera" )
+		if ( this->getType() == "PlayerCamera" )
 		{
 			//CServer::getSingletonPtr()->setPlayer(this);
 			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);
@@ -223,7 +223,7 @@ namespace Logic
 		}
 
 		Vector3 resultado=Vector3::ZERO;
-		resultado=Math::fromCylindricalToCartesian( grados, CServer::getSingletonPtr()->getRingRadio(ring) + offset, CServer::getSingletonPtr()->getRingPositions(0/*arreglo que se ha hecho, temporal*/,ring).y + altura + 126);
+		resultado=Math::fromCylindricalToCartesian( grados, CServer::getSingletonPtr()->getRingRadio(ring) + offset, CServer::getSingletonPtr()->getRingPosition(ring).y + altura);
 		return resultado;
 	 }
 	 
@@ -231,7 +231,7 @@ namespace Logic
 	const float CEntity::getY(const unsigned short base, const Logic::Ring ring)
 	{ 	
 		Vector3 position=Vector3::ZERO;
-		position=CServer::getSingletonPtr()->getRingPositions(0/*base*/,ring);	
+		position=CServer::getSingletonPtr()->getRingPosition(ring);	
 		return position.y;
 	}
 

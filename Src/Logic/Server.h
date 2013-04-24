@@ -145,7 +145,7 @@ namespace Logic
 		/**
 		Para obtener un Vector3 con la posición del anillo
 		*/
-		virtual Vector3 getRingPositions(unsigned short base, LogicalPosition::Ring ring);
+		virtual Vector3 getRingPosition(LogicalPosition::Ring ring);
 
 		/**
 		Para obtener un float con el radio de un anillo pasado por parámetro

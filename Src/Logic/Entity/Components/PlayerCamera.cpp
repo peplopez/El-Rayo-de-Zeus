@@ -135,10 +135,10 @@ namespace Logic
 
 
 		_graphicsCamera->setCameraPosition(_currentPos);
-			
-
+		
+		
 		position = (_targetDistance +  _target->getLogicalPosition()->getRadio()) * _currentPos.normalisedCopy() ;
-		position.y =  _target->getPosition().y + _targetHeight;
+		position.y = CServer::getSingletonPtr()->getRingPosition(_target->getLogicalPosition()->getRing()).y;
 		
 		_graphicsCamera->setTargetCameraPosition(position);
 		
