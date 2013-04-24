@@ -1,0 +1,56 @@
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+material SpartanArmor : base_material
+{
+	set_texture_alias diffuseMap spartanArmor_DF.tga
+    set_texture_alias normalMap spartanArmor_NM.tga
+    set_texture_alias specMap spartanArmor_SPC.tga
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.816 0.722 0.537"
+    set $shininess "100" 
+}
+
+material SpartanBody : base_material
+{
+	set_texture_alias diffuseMap 	spartanBodyR_DF.tga
+	set_texture_alias specMap 		spartanBody_SPC.tga
+    set_texture_alias normalMap 	spartanBody_NM.tga  
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.3 0.3 0.3"
+    set $shininess "10" 
+}
+
+material SpartanBodyWounds : base_material
+{
+	set_texture_alias diffuseMap 	spartanBodyG_wounds_DF.tga
+	set_texture_alias specMap 		spartanBody_wounds_SPC.tga
+    set_texture_alias normalMap 	spartanBody_NM.tga
+    
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.3 0.3 0.3"
+    set $shininess "10" 
+}
+
+material SpartanBodyTatoo : base_material
+{
+	set_texture_alias diffuseMap 	spartanBodyDB_tatooWounds_DF.tga
+	set_texture_alias specMap 		spartanBody_tatoo_SPC.tga
+    set_texture_alias normalMap 	spartanBody_NM.tga    
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.3 0.3 0.3"
+    set $shininess "10" 
+}
+
+material SpartanBodyTatooWounds : base_material
+{
+	set_texture_alias diffuseMap spartanBodyP_tatooWounds_DF.tga
+	set_texture_alias specMap spartanBody_tatooWounds_SPC.tga
+    set_texture_alias normalMap spartanBody_NM.tga    
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.3 0.3 0.3"
+    set $shininess "10" 
+}

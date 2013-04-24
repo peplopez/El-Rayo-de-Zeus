@@ -102,7 +102,7 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Death.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Hud.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\HudOverlay.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump2.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeModifier.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Light.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\PhysicalCharacter.cpp" />
@@ -126,7 +126,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageUInt.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageV3.cpp" />
     <ClCompile Include="..\..\Src\Logic\GameNetMsgManager.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\ComponentFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\EntityFactory.cpp" />
     <ClCompile Include="..\..\Src\Logic\Maps\EntityID.cpp" />
@@ -165,7 +164,6 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Jump.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BaseTraveler.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Death.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\Jump2.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeModifier.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Light.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicalCharacter.h" />

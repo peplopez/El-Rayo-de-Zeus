@@ -32,16 +32,14 @@ namespace Graphics
 			_entity = getSceneMgr()->createEntity(_name, _mesh);		
 		
 			_node = getSceneMgr()->getRootSceneNode()
-					->createChildSceneNode(_name + "_node");		
-				_node->attachObject(_entity);		
+					->createChildSceneNode(_name + "_node");
+				_node->attachObject(_entity);
 			
 			reattachAllMeshes();
 
 			_node->setScale(_scale);
 
 			_loaded = true;
-
-
 
 		} catch(std::exception e){
 			_loaded = false;
@@ -57,19 +55,14 @@ namespace Graphics
 		CSceneElement::unload();
 		
 		if(_entity){
-
-		// UNDONE FRS Necesario?
-			//_entity->detachAllObjectsFromBone(); // TODO Necesario hacer detach y destroy en arbol?
-			//getSceneMgr()->destroyEntity( "weapon" ); FRS este destroy se ejecuta cuando cualquier entidad muere...
-		//
 			
 			//ESC - cuando se hace unload queremos destruir tambien todos los objetos atachados a los huesos de la entidad.
 			Ogre::Entity::ChildObjectListIterator it =_entity->getAttachedObjectIterator();
-			while (it.hasMoreElements())
-			{
-				Ogre::Entity* entity = static_cast<Ogre::Entity*>(it.getNext());
-				getSceneMgr()->destroyEntity(entity);
-			}
+				while (it.hasMoreElements())				
+					getSceneMgr()->destroyEntity(
+						static_cast<Ogre::Entity*>( it.getNext() )
+					);
+				
 			_loaded = false;
 			getSceneMgr()->destroyEntity(_entity);
 			_entity = 0;
@@ -83,36 +76,42 @@ namespace Graphics
 	/***************
 		ATTACH
 	***************/
-	
-	void CEntity::attach(const std::string &toBone, const std::string &mesh) 
-	{
-		reattach(toBone, mesh);
-		_boneObjectsNameTable[toBone].push_back(mesh); 
 
 
-	} // attach
-
-	//--------------------------------------------------------	
-
-	void CEntity::reattach(const std::string &toBone, const std::string &mesh) 
+	void CEntity::attach(const std::string &toBone, const std::string &mesh, bool permanently) 
 	{
 		assert(_node && "La entidad no ha sido cargada en la escena");
 		if(!_node) return;
 
-		std::string objectName = _name + '.';
-			objectName.append( mesh, 0, mesh.find_last_of('.') ); // Sufijo = meshName sin la extension (.mesh)
+		// PERMANENCIA: Algunos TAttachPoint son permanentes por definición; p.e FACE -> rasgos faciales estáticos
+		permanently |= toBone == BONE_DICTIONARY[TAttachPoint::FACE];
 
-		// FRS De momento, no permite "atachar" el mismo mesh más de una vez en un único cuerpo.
-		assert( !getSceneMgr()->hasEntity(objectName) && "Ya existe un objeto con el mismo nombre en la escena");
-		
-		TAttachedMeshes& boneObjects = _boneObjectsTable[toBone];
-			if( !boneObjects.empty() )
-				// Si ya había objetos "atachados" a ese hueso
-				boneObjects.top()->setVisible(false); // ocultamos el último attach que tenía el hueso	
+		// AttachName = "parentName.bone.attachedMesh"
+		std::string objectName = _name + '.';		
+			objectName.append(		// FRS Si toBone tiene espacios (p.e "Bip01 LeftHand")
+				toBone,				// nos quedamos con la ultima parte
+				toBone.find_last_of(' ') == -1 ? 0 : toBone.find_last_of(' '), 
+				toBone.length() - 1
+			); 
+			objectName.append(".");
+			objectName.append( mesh, 0, mesh.find_last_of('.') ); // Suprimimos sufijo ".mesh"
 
-		Ogre::Entity* newObject = getSceneMgr()->createEntity(objectName, mesh);			
-			_entity->attachObjectToBone(toBone, newObject);
-			boneObjects.push(newObject); 
+		if( !getSceneMgr()->hasEntity(objectName) ) // No existe un objeto con el mismo nombre en la escena
+		{	
+			Ogre::Entity* newObject = getSceneMgr()->createEntity(objectName, mesh);			
+				_entity->attachObjectToBone(toBone, newObject);	
+
+			if(!permanently) { // FRS Apilamos solo attachables no permanentes, para poder gestionar después el detach
+				TAttachedMeshes& boneObjects = _boneObjectsTable[toBone];
+					if( !boneObjects.empty() )					// Si ya había objetos "atachados" a ese hueso
+						boneObjects.top()->setVisible(false); // ocultamos el último attach que tenía el hueso	
+					boneObjects.push(newObject); 
+			}
+		}
+
+		// FRS Solo atachamos si no existe una entidad con el mismo objectName ya
+		// Un objectName en uso indica que ya ha sido atachado ese objeto al mismo hueso;
+		// ya está en la pila de AttachedMeshes de ese hueso y, por tanto, no se debería atachar de nuevo.
 
 	} // reattach
 
@@ -123,18 +122,13 @@ namespace Graphics
 		//se recorre el mapa de bicolas para volver a attachar todos los meshes
 		TBoneObjectNamesTable::const_iterator boneDeque = _boneObjectsNameTable.begin();
 		TBoneObjectNamesTable::const_iterator lastBoneDeque = _boneObjectsNameTable.end();
-		for (; boneDeque != lastBoneDeque; ++boneDeque)
-		{
-			TAttachedMeshNames::const_iterator attachedMeshName = boneDeque->second.begin();
-			TAttachedMeshNames::const_iterator lastAttachedMeshName = boneDeque->second.end();
-
-			for (; attachedMeshName != lastAttachedMeshName; ++attachedMeshName)
+			for (; boneDeque != lastBoneDeque; ++boneDeque)
 			{
-				reattach(boneDeque->first, *attachedMeshName);
-			}
-
-
-		}	
+				TAttachedMeshNames::const_iterator attachedMeshName = boneDeque->second.begin();
+				TAttachedMeshNames::const_iterator lastAttachedMeshName = boneDeque->second.end();
+					for (; attachedMeshName != lastAttachedMeshName; ++attachedMeshName)			
+						attach(boneDeque->first, *attachedMeshName);			
+			}	
 	} //reattachAllMeshes()
 
 	//--------------------------------------------------------
@@ -147,9 +141,8 @@ namespace Graphics
 			if( boneObjects.empty() ) 
 				return;				// Ningún objeto "atachado" a ese hueso
 
-		getSceneMgr()->destroyEntity(  boneObjects.top() ); // Eliminamos último attach
+		getSceneMgr()->destroyEntity(  boneObjects.top() ); // Eliminamos último attach		
 		
-		_boneObjectsNameTable[fromBone].pop_back();
 		boneObjects.pop();						// lo desapilamos
 		boneObjects.top()->setVisible(true);	//  y activamos el siguiente apilado
 	} // detach

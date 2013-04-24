@@ -180,6 +180,10 @@ namespace Graphics
 		*/
 		bool _loaded;
 
+		
+
+		Ogre::SceneManager* CSceneElement::getSceneMgr();
+
 
 		/**
 		Añade el elemento al SceneManager pasado por parámetro. 
@@ -221,7 +225,7 @@ namespace Graphics
 		*/
 		virtual void tick(float msecs) {}
 
-		Ogre::SceneManager* CSceneElement::getSceneMgr();
+		
 
 	}; // class CSceneElement
 

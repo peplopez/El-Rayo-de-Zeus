@@ -1,7 +1,7 @@
 
 #include "../../Logic/Entity/Components/Attack.h"
 #include "../../Logic/Entity/Components/AvatarController.h"
-#include "../../Logic/Entity/Components/Jump2.h"
+#include "../../Logic/Entity/Components/Jump.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
 #include "Application/BaseApplication.h"
 

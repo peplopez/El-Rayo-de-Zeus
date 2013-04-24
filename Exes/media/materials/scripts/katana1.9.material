@@ -1,0 +1,12 @@
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+material armas : base_material
+{
+	set_texture_alias diffuseMap 	armas.tga
+   set_texture_alias specMap 		armas.tga
+    set_texture_alias normalMap 	armas.Nbump.tga
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "200" 
+}

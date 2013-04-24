@@ -77,10 +77,10 @@ namespace Logic
 
 	bool CAvatarController::accept(const CMessage *message)
 	{
-		return (message->getType() == Message::CONTROL && 
-					(message->getAction() == Message::WALK_LEFT ||
-						message->getAction() == Message::WALK_RIGHT ||
-							message->getAction() == Message::WALK_STOP));
+		return (message->getType() == Message::CONTROL	&& 
+			(message->getAction() == Message::WALK_LEFT ||
+			message->getAction() == Message::WALK_RIGHT ||
+			message->getAction() == Message::WALK_STOP));
 	} // accept
 	
 	//---------------------------------------------------------
@@ -114,7 +114,7 @@ namespace Logic
 		message->setType(Message::SET_ANIMATION);
 		message->setAction(Message::WALK_RIGHT);		
 		//message->setString("run");
-		message->setString("RunKatana");
+		message->setString("run");
 		message->setBool(true);
 		_entity->emitMessage(message,this);
 	}*/
@@ -137,7 +137,7 @@ namespace Logic
 		message->setType(Message::SET_ANIMATION);		
 		message->setAction(Message::WALK_LEFT);
 				//message->setString("run");
-		message->setString("RunKatana");
+		message->setString("run");
 		message->setBool(true);
 		_entity->emitMessage(message,this);
 		

@@ -5,16 +5,20 @@ Map ={
 		base = 2,
 	},
 	
+	SkySphere = {
+		type = "SkySphere",
+	},
+	
+	BaseCamera1 = {
+		type = "BaseCamera1",
+	},
+	
 	GemeloBlue = {
 		type = "OtherPlayer",
 		base=2,
 		ring=0,
 		degrees=120,
-		initialMaterial="marineBlue",
-	},
-	
-	BaseCamera1 = {
-		type = "BaseCamera1",
+		initialMaterial="SpartanBody",
 	},
 	
 	pointLight1 = {
@@ -43,8 +47,8 @@ Map ={
 		degrees=180,
 	},
 	
-	bioshockLOGICO74 = {
-		type = "Bigdaddy",
+	medusa2 = {
+		type = "Medusa",
 		base=2,
 		ring=1,
 		degrees=300,		

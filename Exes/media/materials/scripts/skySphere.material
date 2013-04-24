@@ -1,0 +1,15 @@
+material sky
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture nature-panorama_022.jpg
+			}
+		}
+
+	}
+
+}

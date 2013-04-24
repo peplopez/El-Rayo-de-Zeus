@@ -120,9 +120,6 @@
     <ClInclude Include="..\..\Src\AI\StateMachines\StateMachine.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\BaseSubsystems\BaseSubsystems.vcxproj">
       <Project>{9c5c21d7-f23c-409d-a332-7be5a325fd7a}</Project>
       <Private>true</Private>
