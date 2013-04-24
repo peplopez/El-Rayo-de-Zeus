@@ -79,7 +79,7 @@ namespace Logic
 	bool CAltar::activate()
 	{
 			//poner el submaterial de los altares desactivados de inicio
-			_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsIfo();
+			_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
 		
 if (_on)
 				{
@@ -119,7 +119,7 @@ if (_on)
 						_player->emitMessage(m2,this);
 					}
 				}
-				_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsIfo();
+				_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
 		_acumTime = _switchingTime;
 
 		return true;
@@ -236,7 +236,7 @@ if (_on)
 						_player->emitMessage(m2,this);
 					}
 				}
-				_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsIfo();
+				_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
 				_acumTime = _switchingTime;
 			}
 		}

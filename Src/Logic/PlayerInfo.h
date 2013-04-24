@@ -136,12 +136,21 @@ namespace Logic
 			return _heroName;
 		}
 
+		//SI el jugador se encuentra en su base origen
 		bool inMyBase();
+
+		//SI el jugador se encuentra en la base "base"
+		bool inBase(unsigned short base);
 		
 		void setInMyBase(bool inMyBase)
 		{
 			_inMyBase=inMyBase;
 		}
+
+		//PT
+		Logic::CEntity* getPlayer()	{return _player;}
+
+		
 
 	protected:
 		/**

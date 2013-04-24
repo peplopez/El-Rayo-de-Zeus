@@ -57,7 +57,7 @@ namespace Logic
 		return _AllAltarsActivated;	
 	}
 
-	void CBaseInfo::updateAllAltarsIfo() //Pep: este método es costoso, solo se llama cuando un altar cambia de estado en algun lugar.
+	void CBaseInfo::updateAllAltarsInfo() //Pep: este método es costoso, solo se llama cuando un altar cambia de estado en algun lugar.
 	{
 		this->getRing(Logic::LogicalPosition::LOWER_RING)->updateAllAltarsInfo();
 		this->getRing(Logic::LogicalPosition::CENTRAL_RING)->updateAllAltarsInfo();
