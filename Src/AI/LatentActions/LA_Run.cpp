@@ -1,6 +1,9 @@
 #include "LA_Run.h"
 
 #include "Application/BaseApplication.h"
+
+#include "Graphics/AnimatedEntity.h"
+
 #include "../../Logic/Entity/Components/Attack.h"
 #include "../StateMachines/StateMachine.h"
 
@@ -33,7 +36,7 @@ namespace AI
 			message->setAction(Message::WALK_RIGHT);		
 		else
 			message->setAction(Message::WALK_LEFT);				
-		message->setString("RunKatana");
+		message->setString( Graphics::AnimNames::RUN );
 		message->setBool(true);
 		_entity->emitMessage(message);		
 

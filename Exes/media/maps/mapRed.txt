@@ -4,6 +4,10 @@ Map ={
 		type = "Camera",
 	},
 	
+	SkySphere = {
+		type = "SkySphere",
+	},
+		
 	BaseCamera1 = {
 		type = "BaseCamera1",
 	},
@@ -11,6 +15,11 @@ Map ={
 	pointLight1 = {
 		type = "PointLight",
 		position = {0, 100, 0},
+	},
+	
+	pointLight2 = {
+		type = "PointLight",
+		position = {100, 20, 0},
 	},
 	
 		
@@ -41,8 +50,8 @@ Map ={
 		degrees=180,
 	},
 		
-	bioshockLOGICO74 = {
-		type = "Bigdaddy",
+	medusa1 = {
+		type = "Medusa",
 		base=1,
 		ring=1,
 		degrees=300,		

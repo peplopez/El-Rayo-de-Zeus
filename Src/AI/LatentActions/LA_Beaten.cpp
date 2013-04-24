@@ -1,6 +1,9 @@
 #include "LA_Beaten.h"
 
 #include "Application/BaseApplication.h"
+
+#include "Graphics/AnimatedEntity.h"
+
 #include "../../Logic/Entity/Components/Attack.h"
 
 #include "../StateMachines/StateMachine.h"
@@ -30,7 +33,7 @@ namespace AI
 		std::cout<<"AI::StateMachine::WTF-I am beated!!"<<std::endl;
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
-		message->setString("Damage");
+		message->setString(Graphics::AnimNames::DAMAGE);
 		message->setAction(Message::WALK_STOP);
 		message->setBool(false);
 		_entity->emitMessage(message);
@@ -128,7 +131,7 @@ namespace AI
 		case Message::ANIMATION_FINISHED: //ConditionFail
 			{
 				CMessageString* maux = static_cast<CMessageString*>(message);
-				if (maux->getString().compare("Damage")==0 )
+				if (maux->getString().compare(Graphics::AnimNames::DAMAGE)==0 )
 				{
 					finish(true);
 				}

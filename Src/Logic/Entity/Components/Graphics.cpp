@@ -79,9 +79,6 @@ namespace Logic
 		
 		Vector3 initialScale = Vector3::UNIT_SCALE;
 
-		_model = entityInfo->getStringAttribute("model");
-
-
 	// HACK FRS Esto lo suyo es que el modelo ya lo traiga , no?
 	// o meter la escala como vector en el map
 		if(_entity->getType() == "World"
@@ -110,18 +107,21 @@ namespace Logic
 
 		_graphicalEntity->setTransform(_entity->getTransform());
 		_graphicalEntity->setScale(initialScale);
+				
 
-		
-
-		// ATTACHs
+	// ATTACHs
 	// TODO  FRS Esto estaría guapo tron extraerlo directamente como lista de pares desde el map.txt
-		if(entityInfo->hasAttribute("modelShield"))
-			_graphicalEntity->attach( Graphics::TAttachPoint::ARM_L, 
-				entityInfo->getStringAttribute("modelShield") );
+		if(entityInfo->hasAttribute("modelFacial"))
+			_graphicalEntity->attach( Graphics::TAttachPoint::FACE, 
+				entityInfo->getStringAttribute("modelFacial") );
 
 		if(entityInfo->hasAttribute("modelWeapon"))
 			_graphicalEntity->attach( Graphics::TAttachPoint::HAND_R, 
 				entityInfo->getStringAttribute("modelWeapon") );
+
+		if(entityInfo->hasAttribute("modelShield"))
+			_graphicalEntity->attach( Graphics::TAttachPoint::ARM_L, 
+				entityInfo->getStringAttribute("modelShield") );		
 
 		if(entityInfo->hasAttribute("modelHelmet"))
 			_graphicalEntity->attach( Graphics::TAttachPoint::HEAD, 
@@ -216,8 +216,12 @@ namespace Logic
 		bool isStatic = false;
 			if(entityInfo->hasAttribute("static"))
 				isStatic = entityInfo->getBoolAttribute("static");
-	
-		Graphics::CEntity* graphicalEntity = new Graphics::CEntity(_entity->getName(),_model, isStatic);
+
+		std::stringstream ssAux; // FRS Importante añadir ID para evitar entidades gráficas con = nombre
+			ssAux << _entity->getName() << _entity->getEntityID();
+			std::string	name = ssAux.str();
+
+		Graphics::CEntity* graphicalEntity = new Graphics::CEntity(name, _model, isStatic);
 			if( _scene->add(graphicalEntity) )		
 				return graphicalEntity;
 			else

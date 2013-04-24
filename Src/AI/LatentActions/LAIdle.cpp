@@ -1,6 +1,9 @@
 #include "LAIdle.h"
 
 #include "Application/BaseApplication.h"
+
+#include "Graphics/AnimatedEntity.h"
+
 #include "../../Logic/Entity/Components/Attack.h"
 
 #include "../StateMachines/StateMachine.h"
@@ -32,12 +35,12 @@ namespace AI
 	{
 		
 		if (_anim=="")
-			_anim="IdleKatana";
+			_anim = Graphics::AnimNames::IDLE;
 		std::cout<<"AI::StateMachine::idle"<<std::endl;
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
-		//si es sinbad
 
+		//si es sinbad
 		message->setString(_anim);
 		message->setAction(Message::WALK_STOP);
 		message->setBool(true);

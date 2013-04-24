@@ -158,6 +158,9 @@ namespace Logic {
 
 	bool CServer::loadWorld(TMapNameList &mapList)
 	{		
+		if(_worldIsLoaded)
+			unLoadWorld();
+
 		// Inicializamos el gestor de los mensajes de red durante el estado de juego
 		if (!Logic::CGameStatus::Init(mapList.size()))
 			return false;
@@ -165,15 +168,14 @@ namespace Logic {
 		TMapNameList::const_iterator it = mapList.begin();
 		TMapNameList::const_iterator end = mapList.end();
 		
-		bool loaded = false;
-			for (; it != end; ++it)
-			{
-				_worldIsLoaded = loadMap(*it);
-				_mapNames.push_back(*it);
-			}
+	
+		for (; it != end; ++it)
+		{
+			_worldIsLoaded = loadMap(*it);
+			_mapNames.push_back(*it);
+		}	
 
-		mapList.clear();
-
+  		mapList.clear();
 		return _worldIsLoaded;
 	}
 
@@ -264,7 +266,7 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	void CServer::deferredMoveEntity(CEntity *entity, const int targetMap)
+	void CServer::deferredMoveEntity(CEntity *entity, int targetMap)
 	{
 		assert(entity);
 		_entitiesToMove[targetMap].push_back(entity);
@@ -301,7 +303,7 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	void CServer::activateBaseCam(const int targetMap)
+	void CServer::activateBaseCam(int targetMap)
 	{
 		_maps[ _mapNames[targetMap - 1] ]->activateBaseCam();
 	}

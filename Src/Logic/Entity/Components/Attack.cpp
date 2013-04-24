@@ -13,6 +13,8 @@ angular de entidades.
 
 #include "Attack.h"
 
+#include "Graphics/AnimatedEntity.h"
+
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
 #include "Logic/Maps/Map.h"
@@ -50,10 +52,12 @@ namespace Logic
 		_lightAttack=_heavyAttack=false;
 				if (_entity->getType()=="OtherPlayer")
 		{
+			/*
 			CMessageString *m = new CMessageString();	
 			m->setType(Message::SET_MATERIAL);
 			m->setString("marineRojo");
-			_entity->emitMessage(m);	
+			_entity->emitMessage(m);
+			*/
 		}
 		return true;
 	}		
@@ -88,7 +92,7 @@ namespace Logic
 		case Message::ANIMATION_FINISHED:
 			{
 				CMessageString* maux = static_cast<CMessageString*>(message);
-				if (maux->getString().compare("FireKatana")==0)
+				if (maux->getString().compare( Graphics::AnimNames::ATTACK1 )==0)
 				{					
 					_lightAttack=_heavyAttack=false;
 				}
@@ -110,7 +114,7 @@ namespace Logic
 					{
 						CMessageBoolString *message = new CMessageBoolString();
 						message->setType(Message::REWIND_ANIMATION);
-						message->setString("FireKatana");
+						message->setString( Graphics::AnimNames::ATTACK1 ); // FRS de momento pongo la equivalente -> hay que corregir / calibrar
 						message->setAction(Message::UNDEF);
 						message->setBool(false);
 						_entity->emitMessage(message,this);
@@ -126,7 +130,7 @@ namespace Logic
 			{//porque por ahora el loco no ejecuta maquina de estados
 				CMessageBoolString *message = new CMessageBoolString();
 				message->setType(Message::SET_ANIMATION);
-				message->setString("CrouchKatana");
+				message->setString("shieldcover");
 				message->setAction(Message::UNDEF);
 				message->setBool(true);
 				_entity->emitMessage(message,this);

@@ -112,7 +112,11 @@ namespace Logic
 		assert(_scene && "LOGIC::ANIMATED_GRAPHICS>> No existe escena gráfica!");
 		assert( _model.length() > 0  &&  "LOGIC::ANIMATED_GRAPHICS>> No existe modelo!");	
 
-		_graphicalEntity = new Graphics::CAnimatedEntity(_entity->getName(),_model);
+		std::stringstream ssAux; // FRS Importante añadir ID para evitar entidades gráficas con = nombre
+			ssAux << _entity->getName() << _entity->getEntityID();
+			std::string	name = ssAux.str();
+
+		_graphicalEntity = new Graphics::CAnimatedEntity(name,_model);
 			if(!_scene->add(_graphicalEntity) )
 				return 0;
 
@@ -131,7 +135,7 @@ namespace Logic
 	
 	void CAnimatedGraphics::animationFinished(const std::string &animation)
 	{
-		if (animation!="Death")
+		if (animation != Graphics::AnimNames::DEATH)
 		{
 			// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
 			CMessageString *txMsg = new CMessageString();

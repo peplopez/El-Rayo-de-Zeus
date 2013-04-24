@@ -69,9 +69,6 @@ DocumentacionDoxygen/
 #EXES #
 #######
 /Exes/*.*
-!/Exes/resources.cfg
-!/Exes/fmodex.dll
-!/Exes/media/audio/*.*
 
 
 #PROJECTS #
@@ -166,8 +163,10 @@ DocumentacionDoxygen/
 
 #EXCEPTIONS #
 #############
-!/Projects/Application/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir.
-!/Projects/Configure/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir.
+
+!/Exes/resources.cfg
+
+!/dependencies/bin/*/fmodex.dll
 !/dependencies/CEGUI/projects/premake/ScriptingModules/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++bin/premake.lua
@@ -176,3 +175,9 @@ DocumentacionDoxygen/
 !/dependencies/lib/*/enet.lib
 !/dependencies/lib/*/fmodex_vc.lib
 !/dependencies/luabind/bjam.exe
+
+!/Projects/Application/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir.
+!/Projects/Configure/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir.
+
+
+

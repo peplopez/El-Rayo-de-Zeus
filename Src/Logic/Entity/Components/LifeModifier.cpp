@@ -12,9 +12,9 @@ Contiene la implementación del componente que controla la vida de una entidad.
 
 #include "LifeModifier.h"
 
+#include "BaseSubsystems/Math.h"
 
 #include "Logic/Entity/Entity.h"
-#include "Logic/Entity/Messages/MessageInt.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
 #include "Logic/Maps/Map.h"
 #include "Logic/Server.h"
@@ -52,17 +52,17 @@ namespace Logic
 	void CLifeModifier::process(CMessage *message){
 
 		CMessageUInt* rxMsg = static_cast<CMessageUInt*>(message);
-		CEntity* entity = _entity->getMap()
-			->getEntityByID( rxMsg->getUInt() );
+		CEntity* entity = _entity->getMap()->getEntityByID( rxMsg->getUInt() );
 
-		CMessageInt *txMsg = new CMessageInt();
-			txMsg->setInt(_LIFE_MODIFIER);
-			if (_LIFE_MODIFIER<0)
+		CMessageUInt *txMsg = new CMessageUInt();
+			txMsg->setType(Message::LIFE_MODIFIER);
+			txMsg->setUInt( abs(_LIFE_MODIFIER) );
+			if (_LIFE_MODIFIER < 0)
 				txMsg->setAction(Message::DAMAGE);
 			else
 				txMsg->setAction(Message::HEAL);			
-			txMsg->setType(Logic::Message::LIFE_MODIFIER);
-				entity->emitMessage(txMsg, this);
+			
+			entity->emitMessage(txMsg, this);
 	} // process
 
 } // namespace Logic

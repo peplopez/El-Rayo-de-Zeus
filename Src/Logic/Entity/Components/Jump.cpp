@@ -1,129 +1,135 @@
 /**
 @file Jump.cpp
 
-Contiene la declaración del componente que controla el movimiento 
-angular de entidades.
-
+Contiene la implementación del componente que controla el movimiento 
+de la entidad.
+ 
 @see Logic::CJump
 @see Logic::IComponent
 
-@author José Luis López
-@date Febrero, 2013
+@author 
+@date
 */
 
 #include "Jump.h"
 
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
-#include "Application/BaseApplication.h"
 #include "AvatarController.h"
 
+
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageFloat.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
 
 
-//declaración de la clase
+
 namespace Logic 
 {
 	IMP_FACTORY(CJump);
+	
+	//---------------------------------------------------------
 
-	bool CJump::spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo){
-
+	bool CJump::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
+	{
 		if(!IComponent::spawn(entity,map,entityInfo))
-			return false;
-
-		// Pablo. Inicializo la gravedad
-		if(entityInfo->hasAttribute("gravity"))
-			_initialGravity = entityInfo->getFloatAttribute("gravity");
-		// Pablo. Inicializo la gravedad
-		if(entityInfo->hasAttribute("jumpPower"))
-			_jumpPower = entityInfo->getFloatAttribute("jumpPower");
+			return false;				
+	
 
 		return true;
-		}
+
+	} // spawn
+	
+	//---------------------------------------------------------
 
 	bool CJump::activate()
 	{
-		_jumping=false;
 		return true;
-	}
-		
+	} // activate
+	
+	//---------------------------------------------------------
 
 	void CJump::deactivate()
 	{
-	}
-
+	} // deactivate
 	
-	bool CJump::accept(const CMessage *message)
-	{//aviso de que tanto accept como process son un poco hack, pero es es solo hasta tener un componente NPCCONTROLLER
-		//return false; //de momento no recibo mensajes,luego lo kito
-		return message->getType() == Message::CONTROL &&
-					message->getAction() == Message::JUMP;
-	}
+	//---------------------------------------------------------
 
-		
-	 void CJump::process(CMessage *message)
-		 {
+	bool CJump::accept(const CMessage *message)
+	{
+		return (isAwake() && message->getType() == Message::CONTROL && 
+					message->getAction() == Message::JUMP);
+	}
+	
+	//---------------------------------------------------------
+
+	void CJump::process(CMessage *message)
+	{
 		switch(message->getType())
 		{
 		case Message::CONTROL:
-			{			
-			if(message->getAction() == Message::JUMP) // Pablo. Mensaje que viene de GUI::PlayerController::keyPressed
+			if(message->getAction() == Message::JUMP)
 					jump();
-			}
 		}
-	 }
+	} // process
+	
+	//---------------------------------------------------------
 
-	void CJump::jump()
+	void CJump::jump() 
 	{
-		if (_jumping)return;
-		_jumping = true;
-		_justJumped = true;
-		//_initialJumpPower=0.075;
-		//_initialGravity=0.1;
-		//_jumpPower=_initialJumpPower;
-		_gravity=_initialGravity;
-		//_gravity=0.1;
-	}
+		if (!_jumping)
+		{
+			_jumping = true;
+			_justJumped = true;
+		}
+
+		// Cambiamos la animación si no seguimos desplazándonos
+		// lateralmente
+		/*CMessageBoolString *message = new CMessageBoolString();
+		message->setType(Message::SET_ANIMATION);
+		message->setString("idle");
+		message->setBool(true);
+		_entity->emitMessage(message,this);
+		*/
+	} // stopWalk
+	
+	//---------------------------------------------------------
 
 	void CJump::tick(unsigned int msecs)
 	{
-			IComponent::tick(msecs);
-			//aqui la lógica de salto
-			if (_jumping)
+		IComponent::tick(msecs);
+
+		if (_jumping)
+		{
+			_jumpSpeed -= 0.0004f * msecs;  //gravedad 0.0003f
+			float tickHeight = _jumpSpeed * msecs;
+
+			//si estamos en trayectoria descendente activamos salida del salto
+			if (_jumpSpeed < 0)
+				_justJumped = false;
+			
+			if (_entity->getLogicalPosition()->getHeight() == 0 && !_justJumped) 
 			{
-				//_entity->setHeight(_entity->getHeight()+(_jumpPower+_gravity)*msecs);	
+				_jumping=false;
+				_jumpSpeed = 0.13f;
+				//assert(_entity->getComponent<CAvatarController>()==NULL);
+				if (_entity->getComponent<CAvatarController>()->isWalkingRight())
+					_entity->getComponent<CAvatarController>()->walkRight();
+				else if (_entity->getComponent<CAvatarController>()->isWalkingLeft())
+					_entity->getComponent<CAvatarController>()->walkLeft();
+				
+			}
+			else
+			{
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
 				m->setAction(Logic::Message::JUMP);
-				m->setFloat(_jumpPower+_gravity*msecs);
+				m->setFloat(tickHeight);
 				_entity->emitMessage(m);
-
-				_gravity-=0.01f;
-				if ((_jumpPower+_gravity)<0 && (_jumpPower+_gravity)>-0.015) //si esta suma es menor que cero es que está bajando. 
-					_justJumped = false;
-				if (_entity->getLogicalPosition()->getHeight() == 0 && !_justJumped)
-				{
-					_jumping = false;
-					//_gravidty
-					Logic::CMessageFloat *m = new Logic::CMessageFloat();
-					m->setType(Logic::Message::AVATAR_MOVE);
-					m->setAction(Logic::Message::JUMP);
-					m->setFloat(-_entity->getLogicalPosition()->getHeight());
-					_entity->emitMessage(m);
-
-				}
-				
-
-			//	Vector3 newPosition=_entity->fromLogicalToCartesian(_entity->getDegree(),_entity->getHeight(),_entity->getBase(),_entity->getRing());
-			
-			//	_entity->setPosition(newPosition);
-			
-
 			}
 
-	} //fin de CJump:tick
 
+		}		
+	} // tick
 
 } // namespace Logic

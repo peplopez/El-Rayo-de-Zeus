@@ -64,31 +64,6 @@ namespace Graphics
 
 		void setMaterial(const std::string &name);
 
-		
-
-	protected:
-
-		// CScene es la única que puede añadir o eliminar billboards de sí misma.	
-		// Por otro lado cada billboard debe pertenecer a una escena. 
-		friend class CScene;
-
-		/**
-		Añade el billboard al CScene pasado por parámetro. 
-		Si el billboard no está cargada se fuerza su carga.
-
-		@param sceneMgr Gestor de la escena de Ogre a la que se quiere añadir
-		la entidad.
-		@return true si la entidad se pudo cargar y añadir a la escena.
-		*/
-		bool attachToScene(CScene *scene);
-
-		/**
-		Descarga una entidad de la escena en la que se encuentra cargada.
-
-		@return true si la entidad se descargo y eliminó de la escena
-		correctamente. Si la entidad no estaba cargada se devuelve false.
-		*/
-		bool deattachFromScene();
 
 
 	private:

@@ -60,12 +60,13 @@ namespace Logic
 		// FRS Sólo cogen items los players
 		if(otherEntity->getType() == "Player" || otherEntity->getType() == "OtherPlayer") {	
 			
-			// GET OBJECT ANIM
-			CMessageBoolString *txMsg2 = new CMessageBoolString();
-				txMsg2->setType(TMessageType::SET_ANIMATION); 
-				txMsg2->setBool(false);
-				txMsg2->setString("GetObject");
-				otherEntity->emitMessage(txMsg2); // TODO FRS falta desactivar INPUT => migrar esto a FSM de animaciones
+			// UNDONE FRS No queremos una animacion al coger PU's
+			//GET OBJECT ANIM
+			//CMessageBoolString *txMsg2 = new CMessageBoolString();
+			//	txMsg2->setType(TMessageType::SET_ANIMATION); 
+			//	txMsg2->setBool(false);
+			//	txMsg2->setString("GetObject");
+			//	otherEntity->emitMessage(txMsg2); // TODO FRS falta desactivar INPUT => migrar esto a FSM de animaciones
 
 			// ATTACH TO HAND
 			if( _modelOnHand.length() > 0 ) {

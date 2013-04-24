@@ -1,0 +1,29 @@
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+material skull_bomb_poison_bomb : base_material
+{
+	set_texture_alias diffuseMap 	skull_bomb.tga
+    set_texture_alias specMap 		skull_bomb.tga
+//   set_texture_alias normalMap 	skull_bomb.tga
+
+    set $diffuseCol 	"0 0 0"
+    set $specularCol 	"1 1 1"	
+    set $shininess 		"20" 	
+}
+
+material wick_poison_bomb
+{
+	technique color_wick_poison_bomb
+	{
+		pass diffuse_wick_poison_bomb
+		{
+			ambient 0 1 0 1
+			diffuse 0 1 0 1
+			specular 0.709804 1 0.729412 1 20
+		}
+
+	}
+
+}
+
+

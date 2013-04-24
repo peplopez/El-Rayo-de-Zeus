@@ -12,10 +12,13 @@ Contiene la implementación del componente que controla la vida de una entidad.
 
 #include "Death.h"
 
+#include "Application/BaseApplication.h"
+
+#include "Graphics/AnimatedEntity.h"
+
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/EntityFactory.h"
-//PT. La IA puede que no tenga que depender de Application
-#include "Application/BaseApplication.h"
+// FRS Prohibido depender de Application en Logic (siempre que se pueda); además el gameover lo gestiona ya la FSM 
 
 #include "Logic/Entity/Components/AvatarController.h"
 #include "Logic/Entity/Messages/Message.h"
@@ -55,9 +58,12 @@ namespace Logic
 	{
 		// HACK FRS habrá que tener en cuenta todos los que tengan muerte animada...
 		// (por parámetro en map.txt? animatedDeath = true o CDeathAnimated?)
+
+/* UNDONE Muerte gestionada por FSM
 		if(_entity->getType() == "Player" || _entity->getType() == "OtherPlayer")
 			deathAnimated(message);
 		else
+*/
 			death(message);
 	
 	} // process
@@ -82,7 +88,7 @@ namespace Logic
 		case Message::DEAD: {
 			CMessageBoolString *txMsg = new CMessageBoolString(); // Poner la animación de muerte
 				txMsg->setType(TMessageType::SET_ANIMATION);
-				txMsg->setString("Death");	
+				txMsg->setString( Graphics::AnimNames::DEATH );	
 				txMsg->setBool(false);
 				_entity->emitMessage(txMsg);
 				/* Aquí ponemos el sonido */
@@ -98,14 +104,14 @@ namespace Logic
 		case Message::ANIMATION_FINISHED: {
 			
 			CMessageString *rxMsg = static_cast<CMessageString*>(message);
-				if(rxMsg->getString() == "Death") { // Completada animación de muerte? -> END_GAME					
-					/*
+				if(rxMsg->getString() == Graphics::AnimNames::DEATH ) { // Completada animación de muerte? -> END_GAME					
+				/* UNDONE FRS Esto ahora lo gestiona la FSM
 					if(_entity->isPlayer() ) // PLAYER MUERTO -> GameOver
 						Application::CBaseApplication::getSingletonPtr()->setState("gameOver"); // HACK Player muerto -> respawn es distinto de base muerta
-
+				
 					else // Resto de entidades
-						CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
-				*/
+				*/		CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
+				
 				}
 		 }break;
 		

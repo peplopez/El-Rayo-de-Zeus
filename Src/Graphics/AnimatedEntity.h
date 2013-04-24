@@ -29,6 +29,41 @@ namespace Ogre
 
 namespace Graphics 
 {
+
+	namespace AnimNames {
+//		
+		const std::string IDLE				= "idle"; // ESPARTANO
+		const std::string RUN				= "run";
+		const std::string DEATH				= "die";		
+		const std::string JUMP				= "jump";
+		const std::string DAMAGE			= "damage";
+		const std::string ACTIVATE_ALTAR	= "activate";	
+		const std::string COVER_WITH_WEAPON = "cover";
+		const std::string COVER_WITH_SHIELD = "shieldcover";	
+		const std::string ATTACK1			= "attack1";
+		const std::string ATTACK2			= "attack2";
+		const std::string COMBO1			= "combo1";
+		const std::string COMBO2			= "combo2";
+		const std::string COMBO3			= "combo3";
+		
+/*/
+		const std::string IDLE				= "IdleKatana";	// MARINE
+		const std::string RUN				= "RunKatana";
+		const std::string DEATH				= "Death";		
+		const std::string JUMP				= "Crouch";
+		const std::string DAMAGE			= "Damage";
+		const std::string ACTIVATE_ALTAR	= "activate";	
+		const std::string COVER_WITH_WEAPON = "CrouchKatana";
+		const std::string COVER_WITH_SHIELD = "CrouchKatana";	
+		const std::string ATTACK1			= "FireKatana";
+		const std::string ATTACK2			= "GetObject";
+		const std::string COMBO1			= "combo1";
+		const std::string COMBO2			= "combo2";
+		const std::string COMBO3			= "combo3";
+/**/
+	};
+
+
 	/**
 	Esta clase debe ser implementada por las clases que quieren
 	registrarse en una entidad animada para enterarse de cuando
@@ -126,10 +161,7 @@ namespace Graphics
 
 		bool pauseAnimation(const std::string &anim,float moment);
 
-	protected:
-
-		virtual bool load();
-
+	
 
 	private:
 
@@ -159,6 +191,9 @@ namespace Graphics
 		*/
 		bool _momentEnabled;
 		
+
+		bool load();
+
 		/**
 		Actualiza el estado de la entidad cada ciclo.
 		

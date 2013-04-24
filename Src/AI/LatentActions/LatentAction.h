@@ -82,6 +82,7 @@ namespace AI
 	class CLatentAction
 	{
 	public:
+
 		enum LAStatus {
 			/// Indica que la acción latente aún no se ha empezado
 			/// a ejecutar

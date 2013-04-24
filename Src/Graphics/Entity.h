@@ -32,9 +32,10 @@ namespace Graphics
 	enum TAttachPoint {
 			ARM_L,
 			ARM_R,
+			FACE,
 			HAND_L,
 			HAND_R,
-			HEAD
+			HEAD			
 	};
 
 	/**
@@ -86,32 +87,19 @@ namespace Graphics
 		/************
 			ATTACH
 		**************/
-/*		void attachToHead(const std::string &mesh) { 
-			attach(TBoneName::HEAD, mesh); 
-		}
-		void attachToHand(const std::string &mesh){ 
-			attach(TBoneName::HAND, mesh); 
-		}	*/	
-		
-		/*void detachFromHead() {	detach( _name.append("_head") ); }
-		void detachFromHand() {	detach( _name.append("_hand") ); }*/
-
 		/**
 			Unir el model mesh al hueso toBone
-			FRS De momento, no permite "atachar" el mismo mesh más de una vez en un único cuerpo.
 		*/
 		void attach(TAttachPoint attachPoint, const std::string &mesh) {
 			attach( BONE_DICTIONARY[attachPoint], mesh);
+			_boneObjectsNameTable[ BONE_DICTIONARY[attachPoint] ].push_back(mesh); 
 		}		
 		void detach(TAttachPoint detachPoint) {
 			detach( BONE_DICTIONARY[detachPoint] );
+			_boneObjectsNameTable[ BONE_DICTIONARY[detachPoint] ].pop_back();
 		}
-		void attach(const std::string &toBone, const std::string &mesh);
-		void detach(const std::string &fromBone);	
+			
 
-		void reattach(const std::string &toBone, const std::string &mesh);
-
-		void reattachAllMeshes();
 		
 
 		/******************
@@ -142,16 +130,10 @@ namespace Graphics
 
 
 	protected:
-
-		// CScene es la única que puede añadir o eliminar entidades de una 
-		// escena y por tanto cargar o descargar entidades.
-		// Por otro lado cada entidad debe pertenecer a una escena. Solo 
-		// permitimos a la escena actualizar el estado.
-		friend class CScene;
 	
 		/**
 		Entidad de Ogre.
-		*/
+		*/ 
 		Ogre::Entity *_entity;
 
 		
@@ -182,15 +164,17 @@ namespace Graphics
 
 				static TBoneDictionary initBoneDictionary() {
 					TBoneDictionary dictionary;
-/*
-						dictionary[TAttachPoint::ARM_L] =	"joint20";		// SPARTAN
-						dictionary[TAttachPoint::ARM_R] =	"joint49";
-						dictionary[TAttachPoint::HAND_L] =	"LeftHand";
-						dictionary[TAttachPoint::HAND_R] =	"RightHand";
+//*
+						dictionary[TAttachPoint::ARM_L] =	"LeftHelper";		// SPARTAN
+						dictionary[TAttachPoint::ARM_R] =	"RightHelper";
+						dictionary[TAttachPoint::FACE] =	"paracascos";
+						dictionary[TAttachPoint::HAND_L] =	"LeftHelperWeapon";
+						dictionary[TAttachPoint::HAND_R] =	"RightHelperWeapon";
 						dictionary[TAttachPoint::HEAD] =	"paracascos";
 /*/
 						dictionary[TAttachPoint::ARM_L] =	"Bip01 L Forearm";	// MARINE
 						dictionary[TAttachPoint::ARM_R] =	"Bip01 R Forearm";
+						dictionary[TAttachPoint::FACE] =	"Bip01 Head";
 						dictionary[TAttachPoint::HAND_L] =	"Bip01 L Hand";
 						dictionary[TAttachPoint::HAND_R] =	"Bip01 R Hand";
 						dictionary[TAttachPoint::HEAD] =	"Bip01 Head";
@@ -221,6 +205,11 @@ namespace Graphics
 		bool _isStatic;
 
 		
+
+
+		void attach(const std::string &toBone, const std::string &mesh, bool permanently = false);
+		void detach(const std::string &fromBone);	
+		void reattachAllMeshes();
 
 
 	}; // class CEntity
