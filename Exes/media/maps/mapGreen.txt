@@ -1,8 +1,7 @@
 Map ={
 	
 	Camera = {
-		type = "Camera",
-		base=3,
+		type = "PlayerCamera",
 	},
 	
 	GemeloGreen = {

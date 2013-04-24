@@ -134,7 +134,7 @@ namespace Logic
 		*/
 		const float CLogicalPosition::getRadio()
 		{
-			return CServer::getSingletonPtr()->getRingRadio(_base,_ring);
+			return CServer::getSingletonPtr()->getRingRadio(_ring);
 		}
 		
 		/**

@@ -163,7 +163,7 @@ namespace Logic
 		const Logic::Sense getSense() const ;
 
 	private:
-		LogicalPosition::Ring _ring; // Anillo
+		Ring _ring; // Anillo
 		Sense _sense; // Sentido
 		unsigned short _base; // Número de base: 1-8			
 		float _degrees; // Grados	

@@ -22,6 +22,8 @@ la gestión de la lógica del juego.
 #include "Logic/GameNetMsgManager.h"
 #include "Logic/GameStatus.h"
 
+#include "Logic\Entity\RingStruct.h"
+
 #include <cassert>
 
 namespace Logic {
@@ -308,6 +310,8 @@ namespace Logic {
 		_maps[ _mapNames[targetMap - 1] ]->activateBaseCam();
 	}
 
+	//---------------------------------------------------------
+
 	void CServer::activatePlayerCam()
 	{
 		_player->getMap()->setVisible();
@@ -315,41 +319,40 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
+	Vector3 TRingPositions::_up;
+	Vector3 TRingPositions::_center;
+	Vector3 TRingPositions::_down;
+
 	bool CServer::setRingPositions()
 	{
 		//inicializamos la estructura de posiciones de los anillos
 		//el primer anillo de la primera base, empezando por abajo, será la base de la pila de anillos
 		
-		for (int i=0;i<=Logic::NUM_BASES;++i)
-		{
-			Logic::base.posBase[i]._down=Logic::startingBasesPosition+(float)i*Logic::separationBetweenBases;
-			Logic::base.posBase[i]._center=base.posBase[i]._down+Logic::separationBetweenRings;
-			Logic::base.posBase[i]._up=base.posBase[i]._down+2*Logic::separationBetweenRings;
-		}
+		TRingPositions::_down = Logic::startingRingPosition;
+		TRingPositions::_center  = TRingPositions::_down + Logic::separationBetweenRings;
+		TRingPositions::_up  = TRingPositions::_center + Logic::separationBetweenRings;
+
 		return true;
 	}
 
 	//---------------------------------------------------------
-	Vector3 CServer::getRingPositions(unsigned short base,LogicalPosition::Ring ring)
+	Vector3 CServer::getRingPosition(LogicalPosition::Ring ring)
 
 	{
 		Vector3 retorno= Vector3::ZERO;
 			switch (ring)
 			{
 				case Logic::LogicalPosition::LOWER_RING:				
-					//return Logic::base.posBase[base]._down+Vector3(0,126,0);
-					return Logic::base.posBase[base]._down;
+					return TRingPositions::_down;
 				
 				case Logic::LogicalPosition::CENTRAL_RING:				
-					//return Logic::base.posBase[base]._center+Vector3(0,126,0);
-					return Logic::base.posBase[base]._center;
+					return TRingPositions::_center;
 				
 				case Logic::LogicalPosition::UPPER_RING:				
-					//return Logic::base.posBase[base]._up+Vector3(0,126,0);
-					return Logic::base.posBase[base]._up;
+					return TRingPositions::_up;
 				
 				default:					
-					return Logic::base.posBase[base]._center+Vector3(0,126,0);
+					return TRingPositions::_center;
 					//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
 					//pese a todo no pete.					
 			}
@@ -358,7 +361,7 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	float CServer::getRingRadio(unsigned short base,Logic::LogicalPosition::Ring ring)
+	float CServer::getRingRadio(Logic::LogicalPosition::Ring ring)
 	{
 			switch (ring)
 			{

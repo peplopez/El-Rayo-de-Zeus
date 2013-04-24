@@ -1,0 +1,24 @@
+vertex_program csm_vs cg
+{
+    source csm.cg
+    profiles vs_1_1 arbvp1
+    entry_point csm_vs
+    default_params
+    {
+        param_named_auto wvpMat worldviewproj_matrix
+        param_named_auto wvMat worldview_matrix
+        param_named tile float 1
+    }
+}
+
+fragment_program csm_ps cg
+{
+    source csm.cg
+    profiles ps_3_0 arbfp1
+    entry_point csm_ps
+    default_params
+    {
+        //param_named_auto texSize texture_size 0
+        param_named depth float 0.15
+    }
+}

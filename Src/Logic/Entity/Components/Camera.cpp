@@ -26,7 +26,7 @@ de una escena.
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageBoolFloat.h"
 
-#include <math.h>
+
 #include "Application/BaseApplication.h"
 
 /*para tener un acceso directo al gamestatus*/
@@ -47,7 +47,9 @@ namespace Logic
 			return false;
 
 		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
+
 		_graphicsCamera = _entity->getMap()->getGraphicScene()->getCamera();
+
 		if(!_graphicsCamera)
 			return false;
 
@@ -63,14 +65,16 @@ namespace Logic
 		if(entityInfo->hasAttribute("targetHeight"))
 			_targetHeight = entityInfo->getFloatAttribute("targetHeight");
 
+		if(entityInfo->hasAttribute("cameraSpeed"))
+			_cameraSpeed = entityInfo->getFloatAttribute("cameraSpeed");
 		
 		if(entityInfo->hasAttribute("trembleSpeed")) {
 			_trembleSpeed = entityInfo->getFloatAttribute("trembleSpeed");
 		}
 
-		if(entityInfo->hasAttribute("trembleOffset")) {
+		if(entityInfo->hasAttribute("trembleOffset")) 
 			_trembleOffset = entityInfo->getFloatAttribute("trembleOffset");
-		}
+		
 		//_trembleOffset+=1;
 		//_trembleSpeed*=1.3;
 		return true;
@@ -82,11 +86,13 @@ namespace Logic
 	bool CCamera::activate()
 	{		
 		_target = CServer::getSingletonPtr()->getPlayer(); 
-		//_target->setPosition(Math::fromPolarToCartesian(0,60)); //esto no está bien aquí, pero si no está no calcula bien el vector dirección.
-		//_target->fromLogicalToCartesian(0,60,_target->getBase(),_target->getRing()); //esto no está bien aquí, pero si no está no calcula bien el vector dirección.
-		//anula lo que haya en el maps.txt sobre la posición del prota
-		_currentPos = Vector3(150,150, 150);// Esto lo ponemos así de momento para que salga desde arriba la camara.
-		 _graphicsCamera->setCameraPosition(_currentPos);
+		
+ 
+		_currentPos = (2000, 600, 2000);// Esto lo ponemos así de momento para que salga desde arriba la camara
+
+		_graphicsCamera->setCameraPosition(_currentPos);
+
+		
 		return true;
 	} // activate
 	
@@ -97,12 +103,6 @@ namespace Logic
 		_target = 0;
 	} // deactivate
 	
-	//---------------------------------------------------------
-
-	void CCamera::changeHeight(Message::TActionType) //go_up activa y go_down desactiva.
-	{
-		
-	}
 
 	//---------------------------------------------------------
 
@@ -122,77 +122,56 @@ namespace Logic
 				{
 				CMessageBoolFloat *maux = static_cast<CMessageBoolFloat*>(message);
 				if (maux->getBool())
-					_targetDistance+=maux->getFloat();
+					_distance -= maux->getFloat();
 				else
-					_targetDistance-=maux->getFloat();
+					_distance += maux->getFloat();
 				break;
 				}
 				else
-					//changeHeight(message->getAction());
 					message->getAction()==Message::GO_DOWN?_tremble=false:_tremble=true;
 		}
 	 }
+
 	//---------------------------------------------------------
 
 	void CCamera::tick(unsigned int msecs)
 	{
 		IComponent::tick(msecs);
 	
-		if(!_target)
+		if(!_target || (msecs > 1000))
 			return;
-
-		// Actualizamos la posición de la cámara.
-		//este parrafo es para conseguir que el modelo mire en dirección perpendicular al vector centro camara
-		Vector3 centro=Vector3::NEGATIVE_UNIT_Y; // TODO [ƒ®§] por que negative y no ZERO?
-		centro.y=_target->getPosition().y;
-		//Vector3 centro=Vector3(0,-125-250,0);
-			
-		Vector3 vectorCentroProtaCamara =  -(centro-_target->getPosition());
-		vectorCentroProtaCamara.normalise();
-		//Vector3 actualDirection=Math::getDirection(_target->getOrientation());
-		//Vector3 directionPerp= Vector3::UNIT_Y.crossProduct(vectorCentroProtaCamara); // [ƒ®§] Si no son necesarios, mejor limpiar (ya se buscarán en git)
-		//Quaternion rotacionDestino=actualDirection.getRotationTo(directionPerp);
-			
-		Matrix4 orientacion = _target->getOrientation();
-		//std::cout<<vectorCentroProtaCamara<<std::endl; // TODO Para estas cosillas es mejor usar la macro LOG (ver AnimatedGraphics)
-		//std::cout<<Math::getDirection(orientacion)<<std::endl;
-			
-		//Math::yaw(Math::fromDegreesToRadians(-90),orientacion);
-		Vector3 direction = vectorCentroProtaCamara; //-_distance * (Math::getDirection(orientacion))  ;
 		
-		direction.normalise();
-		direction.y = _targetHeight;
-			
-		vectorCentroProtaCamara.normalise();
-		vectorCentroProtaCamara.y=direction.y;
-		//std::cout<<"vectorcentroprotacamara: "<<vectorCentroProtaCamara<<std::endl;
+
+	
+		Vector3 position = _target->getPosition();
+		Vector3 direction = _distance * position.normalisedCopy(); ;
+		direction.y = _height;
+
+		Vector3 finalCameraPosition = position + direction;
 		
 		//inercia de la camara
-		Vector3 cameraTarget=CServer::getSingletonPtr()->getRingPositions(0/*_target->getLogicalPosition()->getBase()*/,_target->getLogicalPosition()->getRing());
-		_currentPos =_currentPos+ (
-			(Vector3(_target->getPosition().x*_targetDistance,cameraTarget.y+126,_target->getPosition().z*_targetDistance) +
-			Vector3(0,_targetHeight*2,0)) -
-			_currentPos) * 0.035f*0.05f*msecs;//0.05*
+		Vector3 deltaMove = ( finalCameraPosition 
+			- _currentPos ) * _cameraSpeed * msecs * 0.001;
+
+
+		_currentPos += deltaMove;
+
+
+		_graphicsCamera->setCameraPosition(_currentPos);
 		
-			_graphicsCamera->setCameraPosition(_currentPos);
-
-			
-		//_graphicsCamera->setCameraPosition( +4*position);
-		//anillo x=0 y=-125 z=0
-		// Y la posición hacia donde mira la cámara.
-		//direction = _targetDistance * Math::getDirection(orientacion);
-
-		direction = _targetDistance * direction;
-		direction.y = _targetHeight;
-		cameraTarget.y+=126;
-
+		
+		position = (_targetDistance +  _target->getLogicalPosition()->getRadio()) * _currentPos.normalisedCopy() ;
+		position.y = CServer::getSingletonPtr()->getRingPosition(_target->getLogicalPosition()->getRing()).y;
+		
+		
 		//a partir de aquí es principalmente para el efecto de que tiemble la camara.
-		 short riesgo=0;
-		riesgo=CGameStatus::getSingletonPtr()->getBase(_entity->getLogicalPosition()->getBase())->getNumAltarsLeft();
-		riesgo=3-riesgo;
-		if (riesgo<0)riesgo=0;
+		short riesgo=0;
+		riesgo = CGameStatus::getSingletonPtr()->getBase(_target->getLogicalPosition()->getBase())->getNumAltarsLeft();
+		riesgo = 3 - riesgo;
+		if (riesgo < 0) 
+			riesgo=0;
 
-	//	if (riesgo>0) _contador++;
+		//	if (riesgo>0) _contador++;
 		//if (medida>=3) _entity->getMap()->getGraphicScene()->activateCompositor("BW"); AQUI ACTIVAMOS COMPOSITOR DE QUE TU BASE ESTÉ EN PELIGRO INMINENTE
 		if (riesgo>0 && _calm)
 		{
@@ -201,22 +180,30 @@ namespace Logic
 			timeArrived();
 			//_reloj->addTimeObserver(_entity->getEntityID(),this,3000);
 		}
-		if (riesgo==0) _calm=true;
-		short factor=riesgo*_tremble;
-		Vector3 offset=Vector3(cameraTarget.x+factor*estimateOffset(cameraTarget.x,msecs),cameraTarget.y+factor*estimateOffset(cameraTarget.y,msecs),cameraTarget.z+factor*estimateOffset(cameraTarget.z,msecs));
+		if (riesgo == 0) 
+			_calm=true;
+		short factor = riesgo*_tremble;
+		Vector3 offset= Vector3(position.x + factor * estimateOffset(position.x, msecs), 
+			position.y + factor * estimateOffset(position.y,msecs), position.z + factor * estimateOffset(position.z, msecs));
 		_graphicsCamera->setTargetCameraPosition(offset);
 		
 	} // tick
 
-	float CCamera::estimateOffset(float height, unsigned int msecs) {
+	//---------------------------------------------------------
+	
+	float CCamera::estimateOffset(float height, unsigned int msecs) 
+	{
 		_currentTremblePos += _trembleSpeed * msecs;
-		if(_currentTremblePos > 6.283) _currentTremblePos = 0;
+		if(_currentTremblePos > 6.283) 
+			_currentTremblePos = 0;
 		return (sin(_currentTremblePos) * _trembleOffset);
 	}
+
+	//---------------------------------------------------------
+
 	void CCamera::timeArrived()
 	{
 	    _tremble=!_tremble;
-		//if (_tremble)
 		_reloj->addTimeObserver(_entity->getEntityID()+_tremble,this,1000+!_tremble*1000);
 		std::cout<<_tremble<<std::endl;
 	}

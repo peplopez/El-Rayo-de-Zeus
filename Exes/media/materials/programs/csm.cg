@@ -1,0 +1,157 @@
+struct VIn
+{
+    float4 p     : POSITION;
+    float3 t     : TANGENT;
+    float3 n     : NORMAL;
+    float2 uv    : TEXCOORD0;
+};
+
+struct VOut
+{
+    float4 p     : POSITION;
+    float2 uv    : TEXCOORD0;
+    float3 tsPos : TEXCOORD1; // texture-space [view-space vertex] position
+};
+
+struct PIn
+{
+    float2 uv    : TEXCOORD0;
+    float3 tsPos : TEXCOORD1; // texture-space [view-space vertex] position
+};
+
+struct POut
+{
+    float4 colour: COLOR0;
+};
+
+VOut csm_vs(VIn IN,
+    uniform float4x4 wvMat,
+    uniform float4x4 wvpMat,
+    uniform float tile)
+{
+    VOut OUT;
+    OUT.p = mul(wvpMat, IN.p);
+    OUT.uv = IN.uv * tile;
+
+    // cross binormal in OBJECT-SPACE!
+    // (otherwise you'll get oddities)
+    float3 binormal = cross(IN.t, IN.n);
+
+    // transform normal to view space
+    float3 normal = mul(wvMat, float4(IN.n, 0)).xyz;
+    normal = normalize(normal);
+
+    // transform tangent to view space
+    float3 tangent = mul(wvMat, float4(IN.t, 0)).xyz;
+    tangent = normalize(tangent);
+
+    // transform binormal to view space
+    binormal = mul(wvMat, float4(binormal, 0)).xyz;
+    binormal = normalize(binormal);
+
+    // get the TBN matrix for multiplication
+    float3x3 tbn = float3x3(tangent, binormal, normal);
+
+    // get the view-space position of the vertex
+    float3 vsPos = mul(wvMat, IN.p).xyz;
+    // transform it by the TBN matrix
+    OUT.tsPos = mul(tbn, vsPos);
+
+    return OUT;
+}
+
+//! COURTESY OF THE CONE-STEP-MAPPING DEMO FOUND AT GAMEDEV.NET
+//! http://www.gamedev.net/community/forums/topic.asp?topic_id=372739
+void intersect_square_cone_exp(sampler2D csmMap, inout float3 dp, float3 ds, float dist_factor)
+{
+    // the "not Z" component of the direction vector (for a square cone)
+    float iz = max(abs(ds.x), abs(ds.y));
+    // my starting location (is at z=0)
+    // texture lookup
+    float4 t;
+    // and how high above the surface am I?
+    float ht, old_ht;
+    float CR = 0.0;
+
+    //   find the starting location and height
+    t = tex2D(csmMap,dp.xy);
+    while (t.r > dp.z)
+    {
+        CR = t.g * t.g;
+
+        // right, I need to take one step.
+        // I use the current height above the texture,
+        // and the information about the cone-ratio
+        // to size a single step.  So it is fast and
+        // precise!  (like a coneified version of
+        // "space leaping", but adapted from voxels)
+
+        // experimental!!!
+        // and take the step
+        dp += ds * (dist_factor + (t.r - dp.z) * CR) / (iz + CR);
+
+        //   find the new location and height
+
+        // use tex2Dlod and the first mipmap to avoid
+        // using slow gradient-based tex2D fetches with ddx/ddy
+        t = tex2Dlod(csmMap, float4(dp.xy, 0, 0));
+    }
+
+    // back out to where the cone was (remove the w component)
+    //*
+    ht = (t.r - dp.z);
+    dist_factor /= (iz + CR);
+    dp -= ds * dist_factor;
+    //*/
+    // and sample it
+    //*
+    t = tex2D(csmMap,dp.xy);
+    old_ht = t.r - dp.z;
+    // linear interpolation
+    dp += ds * dist_factor * (1.0 - clamp (ht / (ht - old_ht), 0.0, 1.0));
+    //*/
+
+
+    // and a nice cone step
+    //*
+    t = tex2D(csmMap, dp.xy);
+    dp += ds * (t.r - dp.z) / (iz/(t.g*t.g) + 1.0);
+    //*/
+
+    // all done
+    return;
+}
+
+POut csm_ps(PIn IN,
+    uniform float4 texSize,
+    uniform float depth, // depth scale of the surface
+    uniform sampler2D diffuseMap : TEXUNIT0,
+    uniform sampler2D csmMap : TEXUNIT1)
+{
+    POut OUT;
+
+    float a = -depth / IN.tsPos.z;
+    float3 s = float3((IN.tsPos * a).xy, 1);
+    // texture-delta-based LOD
+    float df = 0.05 * sqrt(length(fwidth(IN.uv)));
+
+    float3 uv = float3(IN.uv, 0);
+    intersect_square_cone_exp(csmMap, uv, s, df);
+
+    // expand normal from normal map in local polygon space
+    // blue = df/dx
+    // alpha = df/dy
+
+    // not used in this little port
+    // (you'd use this for NdotL with the tangent-space light direction)
+
+//    float4 normal = tex2D(csmMap, uv.xy);
+//    normal = float4((normal.ba - 0.5) * (-depth * texSize.xy), 1.0, 0.0);
+//    normal.xyz = normalize(normal.xyz);
+
+    float4 diffuse = tex2D(diffuseMap, uv.xy);
+
+    OUT.colour = diffuse;
+
+    return OUT;
+}

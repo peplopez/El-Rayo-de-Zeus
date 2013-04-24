@@ -136,7 +136,6 @@ namespace Graphics
 			{_currentAnimation->addTime(-secs);
 				if (_currentAnimation->getTimePosition()<=0)
 				{
-					
 					_observer->animationFinished(_currentAnimation->getAnimationName());
 					_rewinding=false;
 				}

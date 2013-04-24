@@ -62,7 +62,7 @@ namespace GUI
 		ratón.
 		*/
 		void setControlledCamera(Logic::CEntity *controlledCamera) 
-										{_controlledCamera = controlledCamera;} 
+										{_controlledCameras.push_back(controlledCamera);} 
 
 		/**
 		Activa la la clase, se registra en el CInputManager y así empieza a 
@@ -134,10 +134,12 @@ namespace GUI
 	protected:
 
 		/**
-		Entidad jugador al que enviaremos acciones de movimiento en
+		Lista de entidadades camara a las que enviaremos acciones de movimiento en
 		función de las teclas pulsadas y el movimiento del ratón.
 		*/
-		Logic::CEntity *_controlledCamera;
+
+		typedef std::list<Logic::CEntity*>  TEntities;
+		TEntities _controlledCameras;
 
 	}; // class CCameraController
 
