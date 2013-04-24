@@ -91,7 +91,7 @@ namespace Graphics
 		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "BW", false);
 
 		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Bloom");
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Bloom", true);
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Bloom", false);
 
 		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
 		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "RadialBlur", false);
