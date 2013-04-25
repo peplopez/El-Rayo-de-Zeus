@@ -88,6 +88,7 @@
     <ClCompile Include="..\..\Src\Logic\BaseInfo.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Audio.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Destruction.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\DotSceneLoader.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\FloatingMovement.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Script.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageAudio.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="..\..\Src\Logic\BaseInfo.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Audio.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Destruction.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\DotSceneLoader.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\FloatingMovement.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Script.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageAudio.h" />

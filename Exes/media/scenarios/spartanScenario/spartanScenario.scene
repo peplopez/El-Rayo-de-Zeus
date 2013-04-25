@@ -1,0 +1,123 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="100" unitType="centimeters" minOgreVersion="1.7" ogreMaxVersion="2.4.4" author="OgreMax Scene Exporter (www.ogremax.com)" application="Maya">
+    <environment>
+        <colourAmbient r="0.329412" g="0.329412" b="0.329412" />
+        <colourBackground r="0" g="0" b="0" />
+        <clipping near="0" far="100000" />
+    </environment>
+    <nodes>
+        <node name="padrescenario">
+            <position x="0" y="0" z="-4.75494" />
+            <scale x="7.32729" y="7.32729" z="7.32729" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <node name="cuerpospartan1">
+                <position x="0.0128693" y="0.0440088" z="-0.0540478" />
+                <scale x="0.136476" y="0.136476" z="0.136476" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="cuerpospartan1" castShadows="true" receiveShadows="true" meshFile="cuerpospartan1.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="rockspartan" renderQueuePriority="718383984" />
+                    </subentities>
+                </entity>
+            </node>
+            <node name="armadura1">
+                <position x="0.0131136" y="0.0474157" z="-0.0555643" />
+                <scale x="0.136476" y="0.136476" z="0.136476" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="armadura1" castShadows="true" receiveShadows="true" meshFile="armadura1.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="piedroloarmor" renderQueuePriority="324407472" />
+                    </subentities>
+                </entity>
+            </node>
+            <node name="piedrolos1">
+                <position x="0" y="0" z="0" />
+                <scale x="0.136476" y="0.136476" z="0.136476" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="piedrolos1" castShadows="true" receiveShadows="true" meshFile="piedrolos1.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="piedrolos" renderQueuePriority="1143092496" />
+                    </subentities>
+                </entity>
+            </node>
+            <node name="arbolitos">
+                <position x="0" y="0" z="0" />
+                <scale x="0.136476" y="0.136476" z="0.136476" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="arbolitos" castShadows="true" receiveShadows="true" meshFile="arbolitos.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="tree3" renderQueuePriority="718399904" />
+                        <subentity index="1" materialName="tree1" renderQueuePriority="718399904" />
+                        <subentity index="2" materialName="tree2" renderQueuePriority="718399904" />
+                    </subentities>
+                </entity>
+            </node>
+            <node name="arbolesverde">
+                <position x="0" y="0" z="0" />
+                <scale x="0.136476" y="0.136476" z="0.136476" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="arbolesverde" castShadows="true" receiveShadows="true" meshFile="arbolesverde.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="tree1" renderQueuePriority="1143139056" />
+                    </subentities>
+                </entity>
+            </node>
+            <node name="arbolesama">
+                <position x="0" y="0" z="0" />
+                <scale x="0.136476" y="0.136476" z="0.136476" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="arbolesama" castShadows="true" receiveShadows="true" meshFile="arbolesama.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="tree2" renderQueuePriority="721619904" />
+                    </subentities>
+                </entity>
+            </node>
+            <node name="waterfall">
+                <position x="0" y="0" z="0" />
+                <scale x="0.136476" y="0.136476" z="0.136476" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="waterfall" castShadows="true" receiveShadows="true" meshFile="waterfall.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="cascadaPart2" renderQueuePriority="721915552" />
+                        <subentity index="1" materialName="cascadaPart1" renderQueuePriority="721915552" />
+                    </subentities>
+                </entity>
+            </node>
+            <node name="terreno">
+                <position x="0" y="0" z="0" />
+                <scale x="0.136476" y="0.136476" z="0.136476" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="terreno" castShadows="true" receiveShadows="true" meshFile="terreno.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="hierbadesfiladero" renderQueuePriority="1147025424" />
+                        <subentity index="1" materialName="desfiladero_roca" renderQueuePriority="1147025424" />
+                    </subentities>
+                </entity>
+            </node>
+        </node>
+        <node name="padreoceano">
+            <position x="0" y="0" z="0" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <node name="espumaoceano1">
+                <position x="0.729843" y="0.0300809" z="-0.682445" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="espumaoceano1" castShadows="true" receiveShadows="true" meshFile="espumaoceano1.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="espumaoceano" renderQueuePriority="1147811392" />
+                    </subentities>
+                </entity>
+            </node>
+            <node name="oceano1">
+                <position x="-1.61309e-006" y="-0.0352449" z="-0.682445" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="oceano1" castShadows="true" receiveShadows="true" meshFile="oceano1.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="mar" renderQueuePriority="1147820576" />
+                    </subentities>
+                </entity>
+            </node>
+        </node>
+    </nodes>
+</scene>

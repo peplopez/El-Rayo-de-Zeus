@@ -1,4 +1,9 @@
 Map ={
+
+	Scenario = {
+		type = "Scenario",
+		scenarioFile = "spartanScenario.scene",
+	},
 	
 	Camera = {
 		type = "PlayerCamera",

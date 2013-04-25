@@ -19,7 +19,6 @@ desde un fichero de mapa.
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Graphics 
 {
-	class DotSceneLoader;
 	class CScene;
 }
 
@@ -38,24 +37,16 @@ namespace Logic
 	public:
 
 		CDotSceneLoader() : 
-			IComponent(GetAltTypeIdOf(CDotSceneLoader)), _loader(0), _scene(0), _sceneFile("") {}
+			IComponent(GetAltTypeIdOf(CDotSceneLoader)), _scene(0), _scenarioFile("") {}
 
 
 		virtual ~CDotSceneLoader();
 		
 		virtual bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
-		virtual bool accept(const CMessage *message);
-
-		virtual void process(CMessage *message);
-
 
 	protected:
 
-		
-		/**
-		*/
-		Graphics::DotSceneLoader *_loader;
 
 		/**
 		*/
@@ -63,7 +54,7 @@ namespace Logic
 
 		/**.
 		*/
-		std::string _sceneFile;
+		std::string _scenarioFile;
 
 
 		
