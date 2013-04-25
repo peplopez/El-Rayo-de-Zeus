@@ -37,7 +37,7 @@ namespace Logic
 
 
 		CAltar() : IComponent(GetAltTypeIdOf(CAltar)), _switchingState(false), 
-			_revertingState(), _on(false), _switchingTime(3000), _acumTime(0), _player(NULL) {}
+			_revertingState(), _on(false), _switchingTime(2500), _acumTime(0), _player(NULL) {}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
