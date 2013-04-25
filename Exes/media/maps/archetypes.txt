@@ -170,7 +170,7 @@ Map = {
 	
 	Player = {
 		type = "Player",
-		model = "spartan2.3.mesh",
+		model = "spartan2.4.mesh",
 		modelFacial = "goatee2.4.mesh",
 		modelWeapon = "club2.0.mesh",
 		modelShield = "shield2.4.mesh",		
@@ -199,7 +199,7 @@ Map = {
 	
 	Espartano = {
 		type = "OtherPlayer",
-		model = "spartan2.3.mesh",
+		model = "spartan2.4.mesh",
         modelWeapon = "katana1.9.mesh",
 		modelFacial = "beard2.4.mesh",
 		logicInput=true,
@@ -224,7 +224,7 @@ Map = {
 	
 	OtherPlayer = {
 		type = "OtherPlayer",
-		model = "spartan2.3.mesh",
+		model = "spartan2.4.mesh",
 		modelHelmet = "helmet2.3.mesh",
 		logicInput=true,
 		sense=2,
