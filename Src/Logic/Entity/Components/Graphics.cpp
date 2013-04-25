@@ -27,6 +27,7 @@ gráfica de la entidad.
 #include "Logic/Entity/Messages/MessageFloat.h"
 #include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageUIntString.h"
+#include "Logic/Entity/Messages/MessageUInt.h"
 
 
 
@@ -104,6 +105,10 @@ namespace Logic
 			_graphicalEntity->setSubEntityMaterial(entityInfo->getStringAttribute("submaterial1"), 1);
 		}
 
+		if(entityInfo->hasAttribute("initialMaterial"))
+			_initialMaterial = entityInfo->getStringAttribute("initialMaterial");
+	
+
 
 		_graphicalEntity->setTransform(_entity->getTransform());
 		_graphicalEntity->setScale(initialScale);
@@ -139,7 +144,9 @@ namespace Logic
 				 message->getType() == Message::SET_MATERIAL ||
 				 message->getType() == Message::SET_SUBENTITY_MATERIAL ||
 				 message->getType() == Message::ATTACH ||
-				 message->getType() == Message::SET_SCALE;
+				 message->getType() == Message::SET_SCALE ||
+				 message->getType() == Message::SET_INITIAL_MATERIAL;
+
 	} // accept
 	
 	//---------------------------------------------------------
@@ -161,6 +168,11 @@ namespace Logic
 		case Message::SET_SUBENTITY_MATERIAL:{
 			CMessageUIntString *rxMsg = static_cast<CMessageUIntString*>(message);
 			_graphicalEntity->setSubEntityMaterial(rxMsg->getString(), rxMsg->getUInt());
+		}	break;
+
+		case Message::SET_INITIAL_MATERIAL:{
+			CMessageUInt *rxMsg = static_cast<CMessageUInt*>(message);
+			_graphicalEntity->setSubEntityMaterial(_initialMaterial, rxMsg->getUInt());
 		}	break;
 
 		case Message::ATTACH: {

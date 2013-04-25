@@ -59,7 +59,8 @@ namespace Logic
 			ATTACH					= 0x24,
 			DETACH					= 0x25,
 			AUDIO			 		= 0x26,
-			SET_SCALE		 		= 0x27
+			SET_SCALE		 		= 0x27,
+			SET_INITIAL_MATERIAL	= 0x28
 		};
 
 		enum TActionType : unsigned char

@@ -40,5 +40,8 @@
     <ClInclude Include="..\..\Src\BaseSubsystems\Rtti.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\BaseSubsystems\rapidxml.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

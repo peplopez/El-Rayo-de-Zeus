@@ -94,6 +94,7 @@
     <ClInclude Include="..\..\Src\BaseSubsystems\Documentation.h" />
     <ClInclude Include="..\..\Src\BaseSubsystems\Factory.h" />
     <ClInclude Include="..\..\Src\BaseSubsystems\Math.h" />
+    <ClInclude Include="..\..\Src\BaseSubsystems\rapidxml.hpp" />
     <ClInclude Include="..\..\Src\BaseSubsystems\Rtti.h" />
     <ClInclude Include="..\..\Src\BaseSubsystems\Server.h" />
   </ItemGroup>
