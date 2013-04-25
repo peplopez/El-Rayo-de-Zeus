@@ -1,74 +1,23 @@
-material cascadaPart1
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+material  mar: base_material
 {
-	technique
-	{
-		pass
-		{
-			ambient 0.4 0.4 0.4 1
-			specular 0 0 0 1 55.168
-
-			texture_unit
-			{
-				texture Waterfall_2_D.tga
-			}
-		}
-
-	}
-
+	set_texture_alias diffuseMap 	ocean_D.tga
+	set_texture_alias specMap 		ocean_D.tga
+    set_texture_alias normalMap 	ocean_N.tga
+    
+    set $diffuseCol "1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "89.4998" 
 }
-
-
-
-material cascadaPart2
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.4 0.4 0.4 1
-			specular 0 0 0 1 55.1618
-
-			texture_unit
-			{
-				texture Waterfall_2_D.tga
-			}
-		}
-
-	}
-
-}
-
-
-
-material desfiladero_roca
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.4 0.4 0.4 1
-			specular 0.455283 0.455283 0.455283 1 54.144
-
-			texture_unit
-			{
-				texture desfiladero_D.tga
-			}
-		}
-
-	}
-
-}
-
-
 
 material espumaoceano
 {
 	technique
 	{
 		pass
-		{
-			ambient 0 0 0 1
-			specular 0 0 0 1 128
+		{			
+			specular 1 1 1 128
 			scene_blend alpha_blend
 
 			texture_unit
@@ -81,120 +30,89 @@ material espumaoceano
 
 }
 
-
-
-material hierbadesfiladero
+material cascadaPart1 : base_material
 {
-	technique
-	{
-		pass
-		{
-			ambient 0.4 0.4 0.4 1
-			specular 0.455283 0.455283 0.455283 1 54.1212
+	set_texture_alias diffuseMap 	Waterfall_2_D.tga
+    set_texture_alias normalMap	 	Waterfall_N.tga
+    set_texture_alias specMap 		Waterfall_2_D.tga
 
-			texture_unit
-			{
-				texture Grass_D.tga
-			}
-		}
-
-	}
-
+    set $diffuseCol "1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "55.168" 
 }
 
-
-
-material mar
+material cascadaPart2 : base_material
 {
-	technique
-	{
-		pass
-		{
-			ambient 0 0 0 1
-			specular 0 0 0 1 89.4998
-
-			texture_unit
-			{
-				texture ocean_D.tga
-			}
-		}
-
-	}
-
+	set_texture_alias diffuseMap 	Waterfall_2_D.tga
+	set_texture_alias specMap 		Waterfall_2_D.tga
+    set_texture_alias normalMap 	Waterfall_N.tga  
+	
+    set $diffuseCol "1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "55.168" 
 }
 
-
-
-material piedroloarmor
+material desfiladero_roca : base_material
 {
-	technique
-	{
-		pass
-		{
-			ambient 0.4 0.4 0.4 1
-			specular 0.5 0.5 0.5 1 89.6
-
-			texture_unit
-			{
-				texture Rock2_D.tga
-			}
-		}
-
-	}
-
+	set_texture_alias diffuseMap 	desfiladero_D.tga
+	set_texture_alias specMap 		desfiladero_D.tga
+    set_texture_alias normalMap 	desfiladero_N.tga
+	
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.455283 0.455283 0.455283"
+    set $shininess "54.144" 
 }
 
-
-
-material piedrolos
+material hierbadesfiladero : base_material
 {
-	technique
-	{
-		pass
-		{
-			ambient 0.4 0.4 0.4 1
-			specular 0.47155 0.47155 0.47155 1 82.216
-
-			texture_unit
-			{
-				texture Rock2_D.tga
-			}
-		}
-
-	}
-
+	set_texture_alias diffuseMap 	Grass_D.tga
+	set_texture_alias specMap 		Grass_D.tga
+    set_texture_alias normalMap 	Grass_N.tga
+	
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.455283 0.455283 0.455283"
+    set $shininess "54.1212" 
 }
 
-
-
-material rockspartan
+material  piedrolos : base_material
 {
-	technique
-	{
-		pass
-		{
-			ambient 0.4 0.4 0.4 1
-			specular 0.47155 0.47155 0.47155 1 82.176
-
-			texture_unit
-			{
-				texture Rock2_D.tga
-			}
-		}
-
-	}
-
+	set_texture_alias diffuseMap 	Rock2_D.tga
+	set_texture_alias specMap 		Rock2_D.tga
+	set_texture_alias normalMap 	Rock_N.tga
+    
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.47155 0.47155 0.47155"
+    set $shininess "82.216" 
 }
 
+material rockspartan : base_material
+{
+	set_texture_alias diffuseMap 	Rock2_D.tga
+	set_texture_alias specMap 		Rock2_D.tga
+	set_texture_alias normalMap 	spartan_NM.tga
+    
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.47155 0.47155 0.47155"
+    set $shininess "82.176" 
+}
 
+material  piedroloarmor : base_material
+{
+	set_texture_alias diffuseMap 	Rock2_D.tga
+	set_texture_alias specMap 		Rock2_D.tga
+	set_texture_alias normalMap 	armor_NM.tga
+    
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.5 0.5 0.5"
+    set $shininess "89.6" 
+}
 
 material tree1
 {
 	technique
 	{
 		pass
-		{
-			ambient 0.260166 0.260166 0.260166 1
+		{			
 			specular 0 0 0 1 43.7157
 			scene_blend alpha_blend
 
@@ -208,15 +126,12 @@ material tree1
 
 }
 
-
-
 material tree2
 {
 	technique
 	{
 		pass
-		{
-			ambient 0.178866 0.178866 0.178866 1
+		{			
 			specular 0 0 0 1 85.3376
 			scene_blend alpha_blend
 
@@ -230,15 +145,12 @@ material tree2
 
 }
 
-
-
 material tree3
 {
 	technique
 	{
 		pass
-		{
-			ambient 0.260166 0.260166 0.260166 1
+		{	
 			specular 0.0487831 0.0487831 0.0487831 1 92.6214
 			scene_blend alpha_blend
 
