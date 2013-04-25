@@ -1,8 +1,7 @@
 #include "DotSceneLoader.h"
 #include <Ogre.h>
-#include <OgreTerrain.h>
-#include <OgreTerrainGroup.h>
-#include <OgreTerrainMaterialGeneratorA.h>
+
+
  
 #pragma warning(disable:4390)
 #pragma warning(disable:4305)
@@ -10,20 +9,14 @@
 
 namespace Graphics
 {
-	DotSceneLoader::DotSceneLoader() : mSceneMgr(0), mTerrainGroup(0) 
+	DotSceneLoader::DotSceneLoader() : mSceneMgr(0) 
 	{
-		mTerrainGlobalOptions = OGRE_NEW Ogre::TerrainGlobalOptions();
 	}
  
  
 	DotSceneLoader::~DotSceneLoader()
 	{
-		if(mTerrainGroup)
-		{
-			OGRE_DELETE mTerrainGroup;
-		}
- 
-		OGRE_DELETE mTerrainGlobalOptions;
+
 	}
  
 	void DotSceneLoader::parseDotScene(const Ogre::String &SceneName, const Ogre::String &groupName, Ogre::SceneManager *yourSceneMgr, Ogre::SceneNode *pAttachNode, const Ogre::String &sPrependNode)
@@ -119,10 +112,6 @@ namespace Graphics
 		if(pElement)
 			processCamera(pElement);
  
-		// Process terrain (?)
-		pElement = XMLRoot->first_node("terrain");
-		if(pElement)
-			processTerrain(pElement);
 	}
  
 	void DotSceneLoader::processNodes(rapidxml::xml_node<>* XMLNode)
@@ -218,66 +207,6 @@ namespace Graphics
 			processUserDataReference(pElement);
 	}
  
-	void DotSceneLoader::processTerrain(rapidxml::xml_node<>* XMLNode)
-	{
-		Ogre::Real worldSize = getAttribReal(XMLNode, "worldSize");
-		int mapSize = Ogre::StringConverter::parseInt(XMLNode->first_attribute("mapSize")->value());
-		bool colourmapEnabled = getAttribBool(XMLNode, "colourmapEnabled");
-		int colourMapTextureSize = Ogre::StringConverter::parseInt(XMLNode->first_attribute("colourMapTextureSize")->value());
-		int compositeMapDistance = Ogre::StringConverter::parseInt(XMLNode->first_attribute("tuningCompositeMapDistance")->value());
-		int maxPixelError = Ogre::StringConverter::parseInt(XMLNode->first_attribute("tuningMaxPixelError")->value());
- 
-		Ogre::Vector3 lightdir(0, -0.3, 0.75);
-		lightdir.normalise();
-		Ogre::Light* l = mSceneMgr->createLight("tstLight");
-		l->setType(Ogre::Light::LT_DIRECTIONAL);
-		l->setDirection(lightdir);
-		l->setDiffuseColour(Ogre::ColourValue(1.0, 1.0, 1.0));
-		l->setSpecularColour(Ogre::ColourValue(0.4, 0.4, 0.4));
-		mSceneMgr->setAmbientLight(Ogre::ColourValue(0.6, 0.6, 0.6));
- 
-		mTerrainGlobalOptions->setMaxPixelError((Ogre::Real)maxPixelError);
-		mTerrainGlobalOptions->setCompositeMapDistance((Ogre::Real)compositeMapDistance);
-		mTerrainGlobalOptions->setLightMapDirection(lightdir);
-		mTerrainGlobalOptions->setCompositeMapAmbient(mSceneMgr->getAmbientLight());
-		mTerrainGlobalOptions->setCompositeMapDiffuse(l->getDiffuseColour());
- 
-		mTerrainGroup = OGRE_NEW Ogre::TerrainGroup(mSceneMgr, Ogre::Terrain::ALIGN_X_Z, mapSize, worldSize);
-		mTerrainGroup->setOrigin(Ogre::Vector3::ZERO);
- 
-		mTerrainGroup->setResourceGroup("General");
- 
-		rapidxml::xml_node<>* pElement;
-		rapidxml::xml_node<>* pPageElement;
- 
-		// Process terrain pages (*)
-		pElement = XMLNode->first_node("terrainPages");
-		if(pElement)
-		{
-			pPageElement = pElement->first_node("terrainPage");
-			while(pPageElement)
-			{
-				processTerrainPage(pPageElement);
-				pPageElement = pPageElement->next_sibling("terrainPage");
-			}
-		}
-		mTerrainGroup->loadAllTerrains(true);
- 
-		mTerrainGroup->freeTemporaryResources();
-		//mTerrain->setPosition(mTerrainPosition);
-	}
- 
-	void DotSceneLoader::processTerrainPage(rapidxml::xml_node<>* XMLNode)
-	{
-		Ogre::String name = getAttrib(XMLNode, "name");
-		int pageX = Ogre::StringConverter::parseInt(XMLNode->first_attribute("pageX")->value());
-		int pageY = Ogre::StringConverter::parseInt(XMLNode->first_attribute("pageY")->value());
- 
-		if (Ogre::ResourceGroupManager::getSingleton().resourceExists(mTerrainGroup->getResourceGroup(), name))
-		{
-			mTerrainGroup->defineTerrain(pageX, pageY, name);
-		}
-	}
  
 	void DotSceneLoader::processUserDataReference(rapidxml::xml_node<>* XMLNode, Ogre::SceneNode *pParent)
 	{

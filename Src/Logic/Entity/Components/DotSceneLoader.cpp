@@ -51,7 +51,7 @@ namespace Logic
 		
 		Graphics::DotSceneLoader loader;
 
-		loader.parseDotScene(_scenarioFile, "scenario", _scene->getSceneMgr());
+		loader.parseDotScene(_scenarioFile, "General", _scene->getSceneMgr());
 
 		return true;
 

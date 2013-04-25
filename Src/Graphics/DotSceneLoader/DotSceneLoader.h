@@ -15,8 +15,6 @@ namespace Ogre
 {
     class SceneManager;
     class SceneNode;
-    class TerrainGroup;
-    class TerrainGlobalOptions;
 };
  
 namespace Graphics 
@@ -37,7 +35,6 @@ namespace Graphics
     class DotSceneLoader
     {
     public:
-        Ogre::TerrainGlobalOptions *mTerrainGlobalOptions;
  
         DotSceneLoader();
         virtual ~DotSceneLoader();
@@ -45,7 +42,6 @@ namespace Graphics
         void parseDotScene(const Ogre::String &SceneName, const Ogre::String &groupName, Ogre::SceneManager *yourSceneMgr, Ogre::SceneNode *pAttachNode = NULL, const Ogre::String &sPrependNode = "");
         Ogre::String getProperty(const Ogre::String &ndNm, const Ogre::String &prop);
  
-        Ogre::TerrainGroup* getTerrainGroup() { return mTerrainGroup; }
  
         std::vector<nodeProperty> nodeProperties;
         std::vector<Ogre::String> staticObjects;
@@ -57,8 +53,6 @@ namespace Graphics
         void processNodes(rapidxml::xml_node<>* XMLNode);
         void processExternals(rapidxml::xml_node<>* XMLNode);
         void processEnvironment(rapidxml::xml_node<>* XMLNode);
-        void processTerrain(rapidxml::xml_node<>* XMLNode);
-        void processTerrainPage(rapidxml::xml_node<>* XMLNode);
         void processBlendmaps(rapidxml::xml_node<>* XMLNode);
         void processUserDataReference(rapidxml::xml_node<>* XMLNode, Ogre::SceneNode *pParent = 0);
         void processUserDataReference(rapidxml::xml_node<>* XMLNode, Ogre::Entity *pEntity);
@@ -96,8 +90,6 @@ namespace Graphics
         Ogre::SceneNode *mAttachNode;
         Ogre::String m_sGroupName;
         Ogre::String m_sPrependNode;
-        Ogre::TerrainGroup* mTerrainGroup;
-        Ogre::Vector3 mTerrainPosition;
         Ogre::Vector3 mLightDirection;
     };
 
