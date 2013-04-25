@@ -21,6 +21,11 @@ namespace Logic
 	class CEntity;
 }
 
+namespace ScriptManager
+{
+	class CServer;
+}
+
 // Declaración de la clase
 namespace GUI
 {

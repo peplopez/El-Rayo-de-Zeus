@@ -16,6 +16,8 @@ function initHud()
 		NumberEnemyWindow = hud:getChild("Hud/NumEnemigos")
 		PuntosMeritoWindow = hud:getChild("Hud/PuntosMerito")
 		NumberAltaresActivatedWindow = hud:getChild("Hud/NumAltares")
+		
+		PersonajeWindow = hud:getChild("Hud/Personaje")
 
 		Rayo1Window = hud:getChild("Hud/RayoBase1")
 		Rayo2Window = hud:getChild("Hud/RayoBase2")
@@ -175,5 +177,9 @@ function showBaseLife()
 	  Rayo2Window:setProperty("Image","set:HudBackground image:RayoDesactivado")
 	  Rayo3Window:setProperty("Image","set:HudBackground image:RayoDesactivado")
     end
+end
+
+function reloadHud()
+	PersonajeWindow:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0.3,0},{0.3,0}}")
 end
 

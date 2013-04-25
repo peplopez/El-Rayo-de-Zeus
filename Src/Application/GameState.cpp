@@ -22,6 +22,7 @@ Contiene la implementación del estado de juego.
 
 #include "GUI/Server.h"
 #include "GUI/PlayerController.h"
+#include "GUI/CameraController.h" //PT
 
 #include "Physics/Server.h"
 
@@ -113,8 +114,9 @@ namespace Application {
 		// Queremos que el GUI maneje al jugador.
         GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
 
-		// Activamos la ventana y sus subventanas que nos muestran el HUD del Jugador con LUA
-	/*	ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud");*/
+		// PT. Queremos que el GUI maneje a la camara.
+        GUI::CServer::getSingletonPtr()->getCameraController()->activate();
+
 
 	} // activate
 

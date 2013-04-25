@@ -136,22 +136,20 @@ namespace Logic
 		if(_time >= 500)
 		{
 			_time = 0;
+			//Activated Altars
 			//parametros: 
 			//primero: la cadena con el procedimiento de LUA a ejecutar : showAltarsActivated
-			//segundo: el numero de altares activados
-			//tercero: el numero maximo de altares
+			//segundo: el numero de altares activados		//tercero: el numero maximo de altares
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showAltarsActivated",_gameStatus->getBase(numBase)->getNumActivatedAltars(),numMaxAltares);
 
+			//Life of the base
 			//parametros: 
-			//primero: la cadena con el procedimiento de LUA a ejecutar : showAltarsActivated
+			//primero: la cadena con el procedimiento de LUA a ejecutar : showBaseLife
 			//segundo: las vidas de la base
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showBaseLife",_gameStatus->getBase(numBase)->getBaseLife());
 
 			//Enemies number / players that are not me in my origin base
-
-			//ScriptManager::CServer::getSingletonPtr()->executeProcedure("showEnemiesInBase",_gameStatus->getBase(numBase)->getAttakers());
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showEnemiesInBase",_gameStatus->getEnemiesInBase(numBase));
-			//ScriptManager::CServer::getSingletonPtr()->executeProcedure("showEnemiesInBase",ScriptManager::CServer::getSingletonPtr()->getGlobal("numberEnemiesInBase",0));
 
 			//Merite Points
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showPM",_gameStatus->getPlayer(player)->getMeritPoints());

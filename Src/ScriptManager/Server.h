@@ -105,6 +105,11 @@ namespace ScriptManager
 		*/
 		void reloadScripts();
 
+		/**
+		Recarga un script concreto.
+		*/
+		void reloadScript(const char *script);
+
 
 		/**
 		Obtiene el valor de una variable global en Lua

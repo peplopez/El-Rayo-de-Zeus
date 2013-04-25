@@ -11,9 +11,7 @@ la gestión de la interfaz con el usuario (entrada de periféricos, CEGui...).
 */
 
 #include "Server.h"
-
 #include "PlayerController.h"
-
 #include "CameraController.h"
 #include "BaseSubsystems/Server.h"
 
@@ -32,7 +30,9 @@ namespace GUI {
 
 	//--------------------------------------------------------
 
-	CServer::CServer() : _playerController(0)
+	//PT. Antes. CServer::CServer() : _playerController(0)
+
+	CServer::CServer() : _playerController(0), _cameraController(0)
 	{
 		_instance = this;
 

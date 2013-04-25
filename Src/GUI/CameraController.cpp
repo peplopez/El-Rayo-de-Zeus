@@ -18,6 +18,8 @@ mover al jugador.
 #include "Logic/Entity/Messages/MessageBoolFloat.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
 
+#include "ScriptManager\Server.h"
+
 #include <cassert>
 
 #define TURN_FACTOR 0.001f
@@ -26,8 +28,13 @@ namespace GUI {
 
 	CCameraController::CCameraController() : _controlledCamera(0)
 	{
-		activate();
+		//activate();
 		/*PeP: ¿Alquien es capaz de explicarme por qué me he visto forzado a hacer esta ñapa para que se ejecute el Activate()?*/
+		//PT. 
+		//Desde GameState.cpp en el activate (CGameState::activate) al igual que se llama a 
+		//GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
+		//llamamos a
+		//GUI::CServer::getSingletonPtr()->getCameraController()->activate();
 	} // CCameraController
 
 	//--------------------------------------------------------
@@ -72,7 +79,12 @@ namespace GUI {
 				break;
 			case GUI::Key::DOWNARROW:
 				m->setBool(true);
-				break;			
+				break;
+				//PT. Caso en el que se recargan todos los scripts
+			case GUI::Key::R:
+				ScriptManager::CServer::getSingletonPtr()->reloadScript("Hud");
+				ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadHud");
+				break;
 			default:
 				return false;
 			}

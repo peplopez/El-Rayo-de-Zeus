@@ -223,12 +223,14 @@ namespace ScriptManager {
 			exists = exists || (script == it._Ptr->_Myval);
 
 		// Si ya lo he cargado muestro un mensaje de error, salgo y devuelvo false.
+
 		if (exists)
 		{
-			showErrorMessage("ERROR DE LUA! - Error al cargar el fichero de script \"" + std::string(script) + "\". Este fichero ya se ha cargado anteriormente.");
-
+			//showErrorMessage("ERROR DE LUA! - Error al cargar el fichero de script \"" + std::string(script) + "\". Este fichero ya se ha cargado anteriormente.");
+			showMessage("El fichero de script \"" + std::string(script) + "\". ya se ha cargado anteriormente.");
 			return false;
 		}
+
 
 		_scriptList.push_back(script);
 
@@ -355,11 +357,22 @@ namespace ScriptManager {
 
 		for (TScriptList::iterator it = _scriptList.begin(); it != _scriptList.end(); it++)
 		{
-			if (loadScript(it._Ptr->_Myval, false) && executeLastLoadScript(it._Ptr->_Myval))
-				showMessage("Fichero \"" + std::string(it._Ptr->_Myval) + "\" cargado y ejecutado correctamente");
+				if (loadScript(it._Ptr->_Myval, false) && executeLastLoadScript(it._Ptr->_Myval))
+					showMessage("Fichero \"" + std::string(it._Ptr->_Myval) + "\" cargado y ejecutado correctamente");
 		}
 	
 	} // reloadScripts
+
+	//---------------------------------------------------------
+
+	void CServer::reloadScript(const char *script)
+	{
+		assert(_lua && "No se ha hecho la inicialización de lua");
+
+				if (loadScript(script, false) && executeLastLoadScript(script))
+					showMessage("Fichero \"" + std::string(script) + "\" cargado y ejecutado correctamente");
+	
+	} // reloadScript
 
 	//---------------------------------------------------------
 
@@ -737,5 +750,6 @@ namespace ScriptManager {
 	template void CServer::registerFunction<int(*)(lua_State *)>(const char *name, int(*f)(lua_State*));
 	//template void CServer::registerFunction<void(*)()>(const char *name, void (*f)());
 	template void CServer::setGlobal<int>(const char *name, const int& value);
+	//template void CServer::setGlobal<const char>(const char *name, const char& value);
 
 } //end namespace ScriptManager
