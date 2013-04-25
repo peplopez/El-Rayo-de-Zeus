@@ -59,7 +59,7 @@ material desfiladero_roca : base_material
     set_texture_alias normalMap 	desfiladero_N.tga
 	
     set $diffuseCol "1 1 1"
-    set $specularCol "1 1 1"
+    set $specularCol "0.455283 0.455283 0.455283"
     set $shininess "54.144" 
 }
 
@@ -70,7 +70,7 @@ material hierbadesfiladero : base_material
     set_texture_alias normalMap 	Grass_N.tga
 	
     set $diffuseCol "1 1 1"
-    set $specularCol "1 1 1"
+    set $specularCol "0.455283 0.455283 0.455283"
     set $shininess "54.1212" 
 }
 
@@ -81,7 +81,7 @@ material  piedrolos : base_material
 	set_texture_alias normalMap 	Rock_N.tga
     
     set $diffuseCol "1 1 1"
-    set $specularCol "1 1 1"
+    set $specularCol "0.47155 0.47155 0.47155"
     set $shininess "82.216" 
 }
 
@@ -92,7 +92,7 @@ material rockspartan : base_material
 	set_texture_alias normalMap 	spartan_NM.tga
     
     set $diffuseCol "1 1 1"
-    set $specularCol "1 1 1"
+    set $specularCol "0.47155 0.47155 0.47155"
     set $shininess "82.176" 
 }
 
@@ -103,7 +103,7 @@ material  piedroloarmor : base_material
 	set_texture_alias normalMap 	armor_NM.tga
     
     set $diffuseCol "1 1 1"
-    set $specularCol "1 1 1"
+    set $specularCol "0.5 0.5 0.5"
     set $shininess "89.6" 
 }
 
@@ -113,7 +113,7 @@ material tree1
 	{
 		pass
 		{			
-			specular 1 1 1 43.7157
+			specular 0 0 0 1 43.7157
 			scene_blend alpha_blend
 
 			texture_unit
@@ -132,7 +132,7 @@ material tree2
 	{
 		pass
 		{			
-			specular 1 1 1 85.3376
+			specular 0 0 0 1 85.3376
 			scene_blend alpha_blend
 
 			texture_unit
@@ -151,7 +151,7 @@ material tree3
 	{
 		pass
 		{	
-			specular 1 1 1 92.6214
+			specular 0.0487831 0.0487831 0.0487831 1 92.6214
 			scene_blend alpha_blend
 
 			texture_unit
