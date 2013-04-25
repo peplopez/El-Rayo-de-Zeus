@@ -234,7 +234,7 @@ namespace Logic
 
 		if (this->getType().compare("Altar")==0)
 		{
-			offset=-9;
+			offset=-12;
 		}
 
 		return (Math::fromCylindricalToCartesian( grados, CServer::getSingletonPtr()->getRingRadio(ring) + offset, CServer::getSingletonPtr()->getRingPosition(ring).y + altura + _offsetHeight));

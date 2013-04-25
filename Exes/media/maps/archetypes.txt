@@ -200,7 +200,7 @@ Map = {
 	Espartano = {
 		type = "OtherPlayer",
 		model = "spartan2.3.mesh",
-        	modelWeapon = "katana1.9.mesh",
+        modelWeapon = "katana1.9.mesh",
 		modelFacial = "beard2.4.mesh",
 		logicInput=true,
 		sense=2,
@@ -219,7 +219,7 @@ Map = {
 		hero="Hercules",
 		audio="media\\audio\\QUEJIDO1.wav",
 		audioCubriendose="media\\audio\\Sword_scrape2.wav",
-        	initialMaterial="SpartanBodyTatooWounds",
+        initialMaterial="SpartanBodyTatooWounds",
 	},
 	
 	OtherPlayer = {

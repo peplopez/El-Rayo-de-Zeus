@@ -123,6 +123,11 @@ namespace Logic
 			case Message::ALTAR_ACTIVATED:
 			{
 				_gameStatus->getPlayer(_entity->getOriginBase())->increaseAltarsActivated();
+				CMessageBoolString *message = new CMessageBoolString();
+				message->setType(Message::SET_ANIMATION);		
+				message->setString("idle");
+				message->setBool(true);
+				_entity->emitMessage(message,this);
 			}
 		}
 	} // process
@@ -148,7 +153,7 @@ namespace Logic
 				
 			CMessageBoolString *message = new CMessageBoolString();
 			message->setType(Message::SET_ANIMATION);		
-			message->setString("idle");
+			message->setString("activate");
 			message->setBool(true);
 			_entity->emitMessage(message,this);
 		}
