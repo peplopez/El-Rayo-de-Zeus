@@ -18,6 +18,15 @@
     <Filter Include="SceneElements\Header Files">
       <UniqueIdentifier>{2e7a6536-0f5d-4411-b977-6bdc7bc3bc75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DotSceneLoader">
+      <UniqueIdentifier>{4b3b6735-f072-4bae-a00e-2d0311421119}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DotSceneLoader\Header Files">
+      <UniqueIdentifier>{63453fa1-e1ff-4123-ac3d-300bf8196f73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DotSceneLoader\Source Files">
+      <UniqueIdentifier>{a95714a5-9c69-4eba-8814-be97ff22d674}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\Graphics\Camera.cpp">
@@ -52,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Src\Graphics\Light.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Graphics\DotSceneLoader\DotSceneLoader.cpp">
+      <Filter>DotSceneLoader\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +102,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Graphics\Light.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Graphics\DotSceneLoader\DotSceneLoader.h">
+      <Filter>DotSceneLoader\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

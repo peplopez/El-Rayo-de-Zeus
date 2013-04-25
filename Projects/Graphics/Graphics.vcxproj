@@ -89,6 +89,7 @@
     <ClCompile Include="..\..\Src\Graphics\Camera.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Billboard.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Cegui.cpp" />
+    <ClCompile Include="..\..\Src\Graphics\DotSceneLoader\DotSceneLoader.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Entity.cpp" />
     <ClCompile Include="..\..\Src\Graphics\GlowMaterialListener.cpp" />
     <ClCompile Include="..\..\Src\Graphics\Light.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="..\..\Src\Graphics\Billboard.h" />
     <ClInclude Include="..\..\Src\Graphics\Cegui.h" />
     <ClInclude Include="..\..\Src\Graphics\Documentation.h" />
+    <ClInclude Include="..\..\Src\Graphics\DotSceneLoader\DotSceneLoader.h" />
     <ClInclude Include="..\..\Src\Graphics\Entity.h" />
     <ClInclude Include="..\..\Src\Graphics\GlowMaterialListener.h" />
     <ClInclude Include="..\..\Src\Graphics\Light.h" />

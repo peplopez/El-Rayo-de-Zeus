@@ -8,17 +8,20 @@
 #include <OgreResourceGroupManager.h>
 #include <vector>
  
-#include "rapidxml.hpp"
+#include "../../BaseSubsystems/rapidxml.hpp"
  
     // Forward declarations
-    namespace Ogre
-    {
-        class SceneManager;
-        class SceneNode;
-        class TerrainGroup;
-        class TerrainGlobalOptions;
-    }
+namespace Ogre
+{
+    class SceneManager;
+    class SceneNode;
+    class TerrainGroup;
+    class TerrainGlobalOptions;
+};
  
+namespace Graphics 
+{
+
     class nodeProperty
     {
     public:
@@ -97,5 +100,7 @@
         Ogre::Vector3 mTerrainPosition;
         Ogre::Vector3 mLightDirection;
     };
+
+}
  
 #endif // DOT_SCENELOADER_H
