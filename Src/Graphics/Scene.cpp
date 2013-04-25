@@ -89,9 +89,10 @@ namespace Graphics
 		/* PRUEBAS PEP */
 		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
 		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "BW", false);
-
-		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Bloom");
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Bloom", true);
+		
+		/** Bloom CACA */
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Bloom", false);
+		//Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Bloom", true);
 
 		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
 		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "RadialBlur", false);

@@ -15,7 +15,7 @@ de una escena.
 
 #include "Logic/Entity/Component.h"
 #include "Logic/Entity/LogicalPosition.h"
-#include "../Messages/Message.h"
+
 #include "../../../Application/Clock.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
@@ -25,10 +25,11 @@ namespace Graphics
 	class CScene;
 }
 
-/*namespace Logic
+namespace Logic
 {
 	class CMessage;
-}*/
+}
+
 //declaración de la clase
 namespace Logic 
 {
@@ -58,8 +59,8 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		CCamera() : IComponent(GetAltTypeIdOf(CCamera)), _graphicsCamera(0), _distance(10), _height(7),
-			_targetDistance(7), _targetHeight(3), _target(0),_currentTremblePos(0),_tremble(false),_calm(true) {}
+		CCamera() : IComponent(GetAltTypeIdOf(CCamera)), _graphicsCamera(0), _distance(0), _height(0), _target(0),
+			 _targetDistance(0), _targetHeight(0), _currentTremblePos(0), _tremble(false), _calm(true) {}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -103,18 +104,8 @@ namespace Logic
 		*/
 		void tick(unsigned int msecs);
 		
+
 		/**
-		Método que lleva la camara a una altura determinada. Se usará en saltos en la propia base, teletransporte a otra base y podría usarse tambien para visualizar otra base.
-
-		<p>
-		Se encarga de mover la cámara siguiendo al jugador.
-
-		@param base short para la base
-		@param ring LogicalPosition::Ring anillo
-		*/
-		void changeHeight(Message::TActionType);
-
-				/**
 		Método virtual que elige que mensajes son aceptados. Son válidos
 		CONTROL.
 
@@ -180,6 +171,10 @@ namespace Logic
 		*/
 		float _targetHeight;
 
+		/**
+		*/
+		float _cameraSpeed;
+
 		float _currentTremblePos;
 
 		float _trembleSpeed;
@@ -196,6 +191,7 @@ namespace Logic
 		Como he querido usar temporizadores en esta clase añado un puntero al reloj para que sea más cómodo de usar.
 		*/
 		Application::IClock* _reloj;
+
 	}; // class CCamera
 
 	REG_FACTORY(CCamera);

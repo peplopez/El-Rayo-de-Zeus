@@ -10,7 +10,7 @@ Map = {
 		physicHeight = 7.5,
 		physicTrigger = true,
 	},
-	
+
 	AltarBlue = {
 		type = "Altar",
 		model = "altar.mesh",
@@ -57,30 +57,25 @@ Map = {
 		specularColour = {0.9, 0.9, 0.9},
 		model = "puApple.mesh",
 		initialScale = 0.2,	
-	},
-	
-	Camera = {
-		type = "Camera",
-		distance = 150,
-		height = 13,
-		targetDistance =3,
-		targetHeight = 7,
-		angularSpeed = 1,
-		ring=1,
-		base=1,
-		degrees=0,
-		sense=0,
-		logicInput=true,
-		radio=120,
-		trembleOffset = 0.8,
-		trembleSpeed = 0.005,
-	},
+	},	
 	
 	BaseCamera1 = {
 		type = "BaseCamera",
 		radius = 250,
 		height = 50,
 		angularspeed = 20,
+	},
+	
+	PlayerCamera = {
+		type = "Camera",
+		distance = 150,
+		height = 13,
+		targetDistance =3,
+		targetHeight = 7,
+		cameraSpeed = 1.5,
+		radio=120,
+		trembleOffset = 0.8,
+		trembleSpeed = 0.005,
 	},
 	
 	BarraVida = {
@@ -90,7 +85,7 @@ Map = {
 	
 	World = {
 		type = "World",
-		model = "anillo.mesh",
+		model = "ring.mesh",
 		static = false,
 	},
 	
@@ -185,8 +180,8 @@ Map = {
 		ring=1,
 		degrees=0,
 		sense=2,
-		physicWidth = 3.5,
-		physicHeight = 3.5,
+		physicWidth = 7,
+		physicHeight = 5,
 		lifeMax = 100.0,
 		lifeBarPosition = 23.0,
 		lifeBarWidth = 15.0,
@@ -205,12 +200,12 @@ Map = {
 	Espartano = {
 		type = "OtherPlayer",
 		model = "spartan2.3.mesh",
-        modelWeapon = "katana1.9.mesh",
+        	modelWeapon = "katana1.9.mesh",
 		modelFacial = "beard2.4.mesh",
 		logicInput=true,
 		sense=2,
-		physicWidth = 3.5,
-		physicHeight = 3.5,
+		physicWidth = 7,
+		physicHeight =5,
 		lifeMax = 100.0,
 		lifeBarPosition = 23.0,
 		lifeBarWidth = 15.0,
@@ -224,7 +219,7 @@ Map = {
 		hero="Hercules",
 		audio="media\\audio\\QUEJIDO1.wav",
 		audioCubriendose="media\\audio\\Sword_scrape2.wav",
-        initialMaterial="SpartanBodyTatooWounds",
+        	initialMaterial="SpartanBodyTatooWounds",
 	},
 	
 	OtherPlayer = {

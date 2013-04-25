@@ -1,8 +1,7 @@
 Map ={
 	
 	Camera = {
-		type = "Camera",
-		base=4,
+		type = "PlayerCamera",
 	},
 	
 	BaseCamera1 = {

@@ -26,7 +26,7 @@ mover al jugador.
 
 namespace GUI {
 
-	CCameraController::CCameraController() : _controlledCamera(0)
+	CCameraController::CCameraController() : _controlledCameras(0)
 	{
 		//activate();
 		/*PeP: ¿Alquien es capaz de explicarme por qué me he visto forzado a hacer esta ñapa para que se ejecute el Activate()?*/
@@ -67,29 +67,36 @@ namespace GUI {
 
 	bool CCameraController::keyPressed(TKey key)
 	{
-		if(_controlledCamera)
+		if(!_controlledCameras.empty())
 		{
-			Logic::CMessageBoolFloat *m = new Logic::CMessageBoolFloat();
-			m->setType(Logic::Message::CAMERA);
-			m->setFloat(0.6f);
-			switch(key.keyId)
-			{			
-			case GUI::Key::UPARROW:
-				m->setBool(false);		
-				break;
-			case GUI::Key::DOWNARROW:
-				m->setBool(true);
+			bool keySent = false;
+			TEntities::const_iterator it = _controlledCameras.begin();
+			TEntities::const_iterator end = _controlledCameras.end();
+			for (; it != end; ++it)
+			{
+				Logic::CMessageBoolFloat *m = new Logic::CMessageBoolFloat();
+				m->setType(Logic::Message::CAMERA);
+				m->setFloat(20.0f);
+				switch(key.keyId)
+				{			
+				case GUI::Key::UPARROW:
+					m->setBool(true);		
+					break;
+				case GUI::Key::DOWNARROW:
+					m->setBool(false);
 				break;
 				//PT. Caso en el que se recargan todos los scripts
 			case GUI::Key::R:
 				ScriptManager::CServer::getSingletonPtr()->reloadScript("Hud");
 				ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadHud");
 				break;
-			default:
-				return false;
+				default:
+					return false;
+				}
+				(*it)->emitMessage(m);
+				keySent = true;
 			}
-			_controlledCamera->emitMessage(m);
-			return true;
+			return keySent;
 		}
 		return false;
 
@@ -99,7 +106,7 @@ namespace GUI {
 
 	bool CCameraController::keyReleased(TKey key)
 	{
-		if(_controlledCamera)
+		if(!_controlledCameras.empty())
 		{
 			switch(key.keyId)
 			{
@@ -128,27 +135,9 @@ namespace GUI {
 		
 	bool CCameraController::mousePressed(const CMouseState &mouseState)
 	{
-		if(!_controlledCamera)
-			return false;
-		else
-		{
-			Logic::CMessageBoolFloat *m = new Logic::CMessageBoolFloat();
-			m->setType(Logic::Message::CAMERA);
-			m->setFloat(1.0f);
-			switch(mouseState.button)
-			{			
-			case GUI::Button::LEFT:
-				m->setBool(false);		
-				break;
-			case GUI::Button::RIGHT:
-				m->setBool(true);
-				break;			
-			default:
-				return false;
-			}
-			_controlledCamera->emitMessage(m);
-			return true;
-		}
+		
+		return false;
+
 	} // mousePressed
 
 	//--------------------------------------------------------

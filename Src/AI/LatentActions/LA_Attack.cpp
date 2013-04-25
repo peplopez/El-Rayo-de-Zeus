@@ -36,14 +36,17 @@ namespace AI
 		//Desactivación de componentes
 		sleepComponents();
 		std::cout<<"AI::INITIALCOMBATSTATE: "+_initialCombatState<<std::endl;		
-		std::cout<<"AI::INITIA_ACTION: "+(int)_action<<std::endl;
+		std::cout<<"AI::INITIAL_ACTION: "+(int)_action<<std::endl;
 		switch(_initialCombatState)
 		{
 			case 0:
 			{
 				CMessageBoolString *message = new CMessageBoolString();
 				message->setType(Message::SET_ANIMATION);
-				message->setString(Graphics::AnimNames::ATTACK1);
+				if (_action==Message::LIGHT_ATTACK)
+					message->setString(Graphics::AnimNames::ATTACK1);
+				else
+					message->setString(Graphics::AnimNames::ATTACK2);				
 				message->setAction(_action);
 				message->setBool(false);
 				_entity->emitMessage(message);

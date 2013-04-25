@@ -136,14 +136,18 @@ namespace Graphics
 			{_currentAnimation->addTime(-secs);
 				if (_currentAnimation->getTimePosition()<=0)
 				{
-					
 					_observer->animationFinished(_currentAnimation->getAnimationName());
 					_rewinding=false;
 				}
 			}	
-		//	if (_currentAnimation->getTimePosition()<0.1)
-	//			_rewinding=false;
+
 			else
+				if (_currentAnimation->getAnimationName().compare(AnimNames::ATTACK1)||
+					_currentAnimation->getAnimationName().compare(AnimNames::ATTACK2))
+				{
+					_currentAnimation->addTime(secs/2);
+				}
+				else
 				_currentAnimation->addTime(secs);
 			// Comprobamos si la animaci?n ha terminado para avisar
 		
@@ -160,21 +164,21 @@ namespace Graphics
 
 			if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::ATTACK1)==0)
 				if (_momentEnabled)
-				if (_currentAnimation->getTimePosition()>0.6 )
+				if (_currentAnimation->getTimePosition()>0.35 )
 				{
 					_momentEnabled=false;
 					_observer->animationMomentReached(AnimNames::ATTACK1);
 				}
 			if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::ATTACK2)==0)
 				if (_momentEnabled)
-				if (_currentAnimation->getTimePosition()>0.6)
+				if (_currentAnimation->getTimePosition()>0.3)
 				{
 					_momentEnabled=false;				
 					_observer->animationMomentReached(AnimNames::ATTACK2);
 				}
 			if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::DAMAGE)==0)
 				if (_momentEnabled)
-				if (_currentAnimation->getTimePosition()>0.6)
+				if (_currentAnimation->getTimePosition()>0.35)
 				{
 					_momentEnabled=false;				
 					_observer->animationMomentReached(AnimNames::DAMAGE);
