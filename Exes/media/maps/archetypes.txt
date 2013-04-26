@@ -55,7 +55,6 @@ Map = {
 		lightType = "point",
 		diffuseColour = {0.9, 0.9, 0.9},
 		specularColour = {0.9, 0.9, 0.9},
-		model = "puApple.mesh",
 		initialScale = 0.2,	
 	},	
 	
@@ -248,8 +247,8 @@ Map = {
 	
 	PUApple = {
 		type = "PowerUp",
-		model = "puApple.mesh",
-		modelOnHand = "itemApple.mesh",	
+		model = "puApple2.0.mesh",
+		modelOnHand = "puAppleOnHand2.0.mesh",	
 		logicInput=true,
 		lifeModifier=10,	
 		physicWidth = 2.5,
@@ -261,7 +260,7 @@ Map = {
 	},
 	PUThrone = {
 		type = "PowerUp",
-		model = "puThrone.mesh",	
+		model = "puThrone2.0.mesh",	
 		logicInput=true,
 		lifeModifier=-10,	
 		physicWidth = 2.5,
@@ -273,7 +272,7 @@ Map = {
 	},
 	PUPandora = {
 		type = "PowerUp",
-		model = "puPandora.mesh",
+		model = "puPandora2.0.mesh",
 		sense = 1,
 		logicInput=true,
 		lifeModifier=-200,	
@@ -286,8 +285,8 @@ Map = {
 	},
 	PUPoison = {
 		type = "PowerUp",
-		model = "puPoison.mesh",
-		modelOnHand = "itemPoison2.0.mesh",
+		model = "puPoison2.0.mesh",
+		modelOnHand = "puPoisonOnHand2.0.mesh",
 		logicInput=true,
 		lifeModifier=10,	
 		physicWidth = 2.5,
@@ -299,7 +298,7 @@ Map = {
 	},
 	PUHourglass = {
 		type = "PowerUp",
-		model = "puHourglass.mesh",
+		model = "puHourglass2.0.mesh",
 		logicInput=true,
 		lifeModifier=10,	
 		physicWidth = 2.5,

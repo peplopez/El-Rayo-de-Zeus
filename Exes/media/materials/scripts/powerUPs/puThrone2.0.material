@@ -1,0 +1,18 @@
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+material hades_throne : base_material
+{
+	set_texture_alias diffuseMap 	hades_throne.tga
+	set_texture_alias specMap 		hades_throne_SL.tga
+    
+    set $diffuseCol "0.698039 0.698039 0.698039"
+    set $specularCol "0.898039 0.898039 0.898039"
+    set $shininess "20" 
+}
+
+
+
+
+
+
+
