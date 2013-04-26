@@ -1,0 +1,170 @@
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+material  mar: base_material
+{
+	set_texture_alias diffuseMap 	ocean_D.tga
+	set_texture_alias specMap 		ocean_D.tga
+    set_texture_alias normalMap 	ocean_N.tga
+    
+    set $diffuseCol "1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "89.4998" 
+}
+
+material espumaoceano
+{
+	technique
+	{
+		pass
+		{			
+			specular 1 1 1 128
+			scene_blend alpha_blend
+			depth_write off
+			
+
+			texture_unit
+			{
+				texture espumaocean_D.tif
+			}
+		}
+
+	}
+
+}
+
+material cascadaPart1 : base_material
+{
+	set_texture_alias diffuseMap 	Waterfall_2_D.tga
+    set_texture_alias normalMap	 	Waterfall_N.tga
+    set_texture_alias specMap 		Waterfall_2_D.tga
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "55.168" 
+}
+
+material cascadaPart2 : base_material
+{
+	set_texture_alias diffuseMap 	Waterfall_2_D.tga
+	set_texture_alias specMap 		Waterfall_2_D.tga
+    set_texture_alias normalMap 	Waterfall_N.tga  
+	
+    set $diffuseCol "1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "55.168" 
+}
+
+material desfiladero_roca : base_material
+{
+	set_texture_alias diffuseMap 	desfiladero_D.tga
+	set_texture_alias specMap 		desfiladero_D.tga
+    set_texture_alias normalMap 	desfiladero_N.tga
+	
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.455283 0.455283 0.455283"
+    set $shininess "54.144" 
+}
+
+material hierbadesfiladero : base_material
+{
+	set_texture_alias diffuseMap 	Grass_D.tga
+	set_texture_alias specMap 		Grass_D.tga
+    set_texture_alias normalMap 	Grass_N.tga
+	
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.455283 0.455283 0.455283"
+    set $shininess "54.1212" 
+}
+
+material  piedrolos : base_material
+{
+	set_texture_alias diffuseMap 	Rock2_D.tga
+	set_texture_alias specMap 		Rock2_D.tga
+	set_texture_alias normalMap 	Rock_N.tga
+    
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.47155 0.47155 0.47155"
+    set $shininess "82.216" 
+}
+
+material rockspartan : base_material
+{
+	set_texture_alias diffuseMap 	Rock2_D.tga
+	set_texture_alias specMap 		Rock2_D.tga
+	set_texture_alias normalMap 	spartan_NM.tga
+    
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.47155 0.47155 0.47155"
+    set $shininess "82.176" 
+}
+
+material  piedroloarmor : base_material
+{
+	set_texture_alias diffuseMap 	Rock2_D.tga
+	set_texture_alias specMap 		Rock2_D.tga
+	set_texture_alias normalMap 	armor_NM.tga
+    
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.5 0.5 0.5"
+    set $shininess "89.6" 
+}
+
+material tree1
+{
+	technique
+	{
+		pass
+		{			
+			specular 0 0 0 1 43.7157
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture Tree1_D.tif
+			}
+		}
+
+	}
+
+}
+
+material tree2
+{
+	technique
+	{
+		pass
+		{			
+			specular 0 0 0 1 85.3376
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture Tree2_D.tif
+			}
+		}
+
+	}
+
+}
+
+material tree3
+{
+	technique
+	{
+		pass
+		{	
+			specular 0.0487831 0.0487831 0.0487831 1 92.6214
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture Tree3_D.tif
+			}
+		}
+
+	}
+
+}

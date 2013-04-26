@@ -9,6 +9,8 @@
 #include "Logic/Entity/Messages/MessageChar.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
 #include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageUIntString.h"
+#include "Logic/Entity/Messages/MessageUInt.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
 
 #include "Logic/Maps/Map.h"
@@ -45,9 +47,10 @@ namespace AI
 		std::cout<<"AI::StateMachine::ChangeRing"<<std::endl;
 		
 		_velocidad=2*0.0005f;
-		CMessageString *m = new CMessageString();	
-		m->setType(Message::SET_MATERIAL);
+		CMessageUIntString *m = new CMessageUIntString();	
+		m->setType(Message::SET_SUBENTITY_MATERIAL);
 		m->setString("transito");
+		m->setUInt(0);
 		_entity->emitMessage(m);
 				
 		_scene=_entity->getMap()->getGraphicScene();
@@ -69,8 +72,26 @@ namespace AI
 	//	_reloj->removeTimeObserver(0);		
 		//_reloj->removeTimeObserver(1);	
 		if (_entity->isPlayer())
+		{	
 			_scene->deactivateCompositor("RadialBlur");
+			CMessageUInt *m = new CMessageUInt();	
+			m->setType(Message::SET_INITIAL_MATERIAL);
+			m->setUInt(0);
+			_entity->emitMessage(m);
+		}
+		
+		//ESC - Mega Hack temporal (¿qué mas da uno más?)
+		else if (_entity->getType() == "OtherPlayer")
+		{
+			CMessageUIntString *m = new CMessageUIntString();	
+			m->setType(Message::SET_SUBENTITY_MATERIAL);
+			m->setString("SpartanBody");
+			m->setUInt(0);
+			_entity->emitMessage(m);
+		}
+
 		awakeComponents();
+
 	}
 
 	/**
@@ -141,9 +162,9 @@ namespace AI
 		{
 			case Message::CONTROL: 
 			{	
-				CMessageString *m2 = new CMessageString();	
-				m2->setType(Message::SET_MATERIAL);
-				m2->setString(_entity->getInitialMaterial());
+				CMessageUInt *m2 = new CMessageUInt();	
+				m2->setType(Message::SET_INITIAL_MATERIAL);
+				m2->setUInt(1);
 				_entity->emitMessage(m2);	
 			//	finish(false);
 			}

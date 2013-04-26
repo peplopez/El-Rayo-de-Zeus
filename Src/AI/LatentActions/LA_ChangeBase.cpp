@@ -10,6 +10,9 @@
 #include "Logic/Entity/Messages/MessageChar.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
 #include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageUIntString.h"
+#include "Logic/Entity/Messages/MessageUInt.h"
+
 
 #include "Logic/Maps/Map.h"
 #include "Map/MapEntity.h"
@@ -139,10 +142,10 @@ namespace AI
 		{			
 			case Message::CONTROL:
 			{								
-				CMessageString *m2 = new CMessageString();	
-				m2->setType(Message::SET_MATERIAL);
-				m2->setString(_entity->getInitialMaterial());
-				_entity->emitMessage(m2);	
+				CMessageUInt *m = new CMessageUInt();	
+				m->setType(Message::SET_INITIAL_MATERIAL);
+				m->setUInt(1);
+				_entity->emitMessage(m);	
 				//finish(false);
 			}
 		}

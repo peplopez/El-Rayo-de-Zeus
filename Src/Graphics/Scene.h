@@ -42,6 +42,11 @@ namespace Graphics
 	class CLight;
 };
 
+namespace Logic
+{
+	class CDotSceneLoader;
+};
+
 namespace Graphics 
 {
 	/**
@@ -146,6 +151,7 @@ namespace Graphics
 		Desactivar compositor, pensado para el de blanco y negro sobre todo. También RadialBlur
 		*/
 		void deactivateCompositor(std::string name);
+
 	protected:
 
 		/**
@@ -157,6 +163,7 @@ namespace Graphics
 		friend class CCamera;
 		friend class CSceneElement;
 		friend class CLight;
+		friend class Logic::CDotSceneLoader;
 
 		/**
 		Nombre de la escena.

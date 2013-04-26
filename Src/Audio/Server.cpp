@@ -92,7 +92,7 @@ namespace Audio
 		_system->set3DSettings(_doppler,1.0,_rolloff);
 
 		//Cargamos la banda sonora del juego
-	//	playLoopSound("media/audio/plane.wma", "theme");
+		playLoopSound("media/audio/playa_1.mp3", "theme");
 
 		return true;
 

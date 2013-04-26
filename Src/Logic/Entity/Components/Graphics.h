@@ -55,7 +55,7 @@ namespace Logic
 		defecto.
 		*/
 		CGraphics() : 
-			IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0), _scene(0), _model("") {}
+			IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0), _scene(0), _model(""), _initialMaterial("") {}
 
 		CGraphics(altTypeId id) : 
 			IComponent(id), _graphicalEntity(0), _scene(0), _model("") {}
@@ -114,6 +114,10 @@ namespace Logic
 		Atributo con el nombre del modelo gráfico de la entidad.
 		*/
 		std::string _model;
+
+		/**
+		*/
+		std::string _initialMaterial;
 		
 
 	    /**

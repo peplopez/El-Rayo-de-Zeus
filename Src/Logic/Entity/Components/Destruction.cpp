@@ -53,21 +53,15 @@ namespace Logic
 	bool CDestruction::activate()
 	{
 		_destroyingSpeed=0.13f;
-		if (_entity->getLogicalPosition()->getBase()==1) // si es en la que estoy probando
-		{
-			if (_gameStatus->getBase(1)->areAllAltarsActivated())
-			{
-			_reloj->addTimeObserver(_entity->getEntityID(),this,5000);
-			_reloj->addTimeObserver(-_entity->getEntityID(),this,5500);
-			if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
-					_entity->getComponent<CPhysicalCharacter>()->sleep();
-				/*if (_entity->getComponent<CAvatarController>()!=NULL)
-					_entity->getComponent<CAvatarController>()->sleep();*/
-			}
 		
-		}
+			if (_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->areAllAltarsActivated())
+			{
+				_reloj->addTimeObserver(_entity->getEntityID(),this,5000);
+				_reloj->addTimeObserver(-_entity->getEntityID(),this,5500);
+				if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+					_entity->getComponent<CPhysicalCharacter>()->sleep();
+			}
 		_step=0;
-		//_position=
 		return true;
 	} // activate
 	

@@ -21,6 +21,8 @@ gráfica de la entidad.
 #include "Logic/Entity/Messages/MessageChar.h"
 #include "Logic/Entity/Messages/MessageUShort.h"
 #include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageUIntString.h"
+#include "Logic/Entity/Messages/MessageUInt.h"
 
 #include "Map/MapEntity.h"
 #include "Logic/Maps/Map.h"
@@ -146,9 +148,9 @@ namespace Logic
 
 
 			
-			CMessageString *m2 = new CMessageString();	
-			m2->setType(Message::SET_MATERIAL);
-			m2->setString(_entity->getInitialMaterial());
+			CMessageUInt *m2 = new CMessageUInt();	
+			m2->setType(Message::SET_INITIAL_MATERIAL);
+			m2->setUInt(1);
 			_entity->emitMessage(m2,this);
 		}
 		_changingBase=false;

@@ -55,7 +55,6 @@ Map = {
 		lightType = "point",
 		diffuseColour = {0.9, 0.9, 0.9},
 		specularColour = {0.9, 0.9, 0.9},
-		model = "puApple.mesh",
 		initialScale = 0.2,	
 	},	
 	
@@ -170,7 +169,7 @@ Map = {
 	
 	Player = {
 		type = "Player",
-		model = "spartan2.3.mesh",
+		model = "spartan2.4.mesh",
 		modelFacial = "goatee2.4.mesh",
 		modelWeapon = "club2.0.mesh",
 		modelShield = "shield2.4.mesh",		
@@ -199,8 +198,8 @@ Map = {
 	
 	Espartano = {
 		type = "OtherPlayer",
-		model = "spartan2.3.mesh",
-        	modelWeapon = "katana1.9.mesh",
+		model = "spartan2.4.mesh",
+        modelWeapon = "katana1.9.mesh",
 		modelFacial = "beard2.4.mesh",
 		logicInput=true,
 		sense=2,
@@ -219,13 +218,14 @@ Map = {
 		hero="Hercules",
 		audio="media\\audio\\QUEJIDO1.wav",
 		audioCubriendose="media\\audio\\Sword_scrape2.wav",
-        	initialMaterial="SpartanBodyTatooWounds",
+        initialMaterial="SpartanBodyTatooWounds",
 	},
 	
 	OtherPlayer = {
 		type = "OtherPlayer",
-		model = "spartan2.3.mesh",
+		model = "spartan2.4.mesh",
 		modelHelmet = "helmet2.3.mesh",
+		modelWeapon = "katana1.9.mesh",
 		logicInput=true,
 		sense=2,
 		physicWidth = 3.5,
@@ -248,8 +248,7 @@ Map = {
 	
 	PUApple = {
 		type = "PowerUp",
-		model = "puApple.mesh",
-		modelOnHand = "itemApple.mesh",	
+		model = "puApple2.0.mesh",	
 		logicInput=true,
 		lifeModifier=10,	
 		physicWidth = 2.5,
@@ -261,8 +260,7 @@ Map = {
 	},
 	PUThrone = {
 		type = "PowerUp",
-		model = "puThrone.mesh",
-		modelOnHand = "itemThrone.mesh",
+		model = "puThrone2.0.mesh",	
 		logicInput=true,
 		lifeModifier=-10,	
 		physicWidth = 2.5,
@@ -274,8 +272,7 @@ Map = {
 	},
 	PUPandora = {
 		type = "PowerUp",
-		model = "puPandora.mesh",
-		modelOnHand = "itemPandora.mesh",
+		model = "puPandora2.0.mesh",
 		sense = 1,
 		logicInput=true,
 		lifeModifier=-200,	
@@ -288,8 +285,8 @@ Map = {
 	},
 	PUPoison = {
 		type = "PowerUp",
-		model = "puPoison.mesh",
-		modelOnHand = "itemPoison2.0.mesh",
+		model = "puPoison2.0.mesh",
+		modelOnHand = "puPoisonOnHand2.0.mesh",
 		logicInput=true,
 		lifeModifier=10,	
 		physicWidth = 2.5,
@@ -301,8 +298,7 @@ Map = {
 	},
 	PUHourglass = {
 		type = "PowerUp",
-		model = "puHourglass.mesh",
-		modelOnHand = "itemHourglass.mesh",
+		model = "puHourglass2.0.mesh",
 		logicInput=true,
 		lifeModifier=10,	
 		physicWidth = 2.5,

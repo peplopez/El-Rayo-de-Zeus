@@ -142,12 +142,12 @@ namespace Graphics
 			}	
 
 			else
-				if (_currentAnimation->getAnimationName().compare(AnimNames::ATTACK1)||
+				/*if (_currentAnimation->getAnimationName().compare(AnimNames::ATTACK1)||
 					_currentAnimation->getAnimationName().compare(AnimNames::ATTACK2))
 				{
 					_currentAnimation->addTime(secs/2);
 				}
-				else
+				else*/
 				_currentAnimation->addTime(secs);
 			// Comprobamos si la animaci?n ha terminado para avisar
 		
@@ -182,6 +182,13 @@ namespace Graphics
 				{
 					_momentEnabled=false;				
 					_observer->animationMomentReached(AnimNames::DAMAGE);
+				}
+				if(_observer && _currentAnimation->getAnimationName().compare(Graphics::AnimNames::COVER_WITH_SHIELD)==0) 
+				{
+					if (_currentAnimation->getTimePosition()>0.5)
+					{
+						_currentAnimation->addTime(-secs);
+					}
 				}
 		}
 
