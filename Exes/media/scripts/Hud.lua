@@ -192,7 +192,7 @@ function showBaseLife()
 end
 
 function reloadHud()
-		hud:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0.5,0},{0.2,0}}")
+		hud:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0.3,0},{0.12,0}}")
 		PersonajeWindow:setProperty("UnifiedAreaRect","{{0.05,0},{0.065,0},{0.375,0},{0.9,0}}")
 		RayoWindow:setProperty("Image","set:HudBaseLife image:BaseLifeMedium")
 		RayoWindow:setProperty("UnifiedAreaRect","{{0.82,0},{0.28,0},{0.92,0},{0.94,0}}")

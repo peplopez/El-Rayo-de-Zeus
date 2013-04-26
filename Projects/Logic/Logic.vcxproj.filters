@@ -367,8 +367,10 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Destruction.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\Hud.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\DotSceneLoader.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Hud.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

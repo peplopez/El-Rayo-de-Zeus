@@ -17,7 +17,7 @@ Map ={
 		base=2,
 		ring=0,
 		degrees=120,
-		initialMaterial="SpartanBody",
+		initialMaterial="marineBlue",
 	},
 	
 	pointLight1 = {
