@@ -24,7 +24,7 @@ function initHud()
 		
 		PersonajeWindow = hud:getChild("Hud/Personaje")
 		
-		NicknameWindow = hud:getChild("Hud/Nickname")
+		PlayernameWindow = hud:getChild("Hud/PlayerName")
 		
 
 
@@ -203,7 +203,7 @@ function reloadHud()
 		PersonajeWindow:setProperty("UnifiedAreaRect","{{0.05,0},{0.065,0},{0.375,0},{0.9,0}}")
 		RayoWindow:setProperty("Image","set:HudBaseLife image:BaseLifeMedium")
 		RayoWindow:setProperty("UnifiedAreaRect","{{0.82,0},{0.28,0},{0.92,0},{0.94,0}}")
-		NicknameWindow:setProperty("UnifiedAreaRect","{{0.4,0},{0.15,0},{0.7,0},{0.25,0}}")
+		PlayernameWindow:setProperty("UnifiedAreaRect","{{0.4,0},{0.15,0},{0.7,0},{0.25,0}}")
 		
 		ImagenAltarWindow:setProperty("UnifiedAreaRect","{{0.4,0},{0.7,0},{0.5,0},{1,0}}")
 		NumberAltaresActivatedWindow:setProperty("UnifiedAreaRect","{{0.51,0},{0.7,0},{0.61,0},{1,0}}")
