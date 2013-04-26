@@ -9,4 +9,4 @@ Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CAttack CStateMac
 AnimatedEntity CAnimatedGraphics CAvatarController CAttack CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CDestruction
 OtherPlayer CAnimatedGraphics CAvatarController CBaseTraveler CAttack CPhysicalCharacter CLifeModifier CStateMachineExecutor CLife CAltarStateSwitcher CBasicAI CDestruction CAudio 
 PowerUp CGraphics CPhysics CItem CFloatingMovement CLifeModifier CDestruction
-Light CGraphics CLight
+Light CLight
