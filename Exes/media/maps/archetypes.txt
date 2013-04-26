@@ -248,8 +248,7 @@ Map = {
 	
 	PUApple = {
 		type = "PowerUp",
-		model = "puApple2.0.mesh",
-		modelOnHand = "puAppleOnHand2.0.mesh",	
+		model = "puApple2.0.mesh",	
 		logicInput=true,
 		lifeModifier=10,	
 		physicWidth = 2.5,
