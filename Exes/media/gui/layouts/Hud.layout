@@ -7,7 +7,7 @@
         <Property Name="AlwaysOnTop" Value="False" />
         <!--<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.23,0},{0.30,0}}" />
 		<Property Name="Image" Value="set:HudBackground image:HudBackgroundImage" />-->
-		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.5,0},{0.2,0}}" />
+		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.34,0},{0.17,0}}" />
 		<Property Name="Image" Value="set:HudBackgroundNuevo image:HudBackgroundNuevoImage" />
 		
 		<Window Type="OgreTray/StaticImage" Name="Hud/Personaje" >
@@ -20,9 +20,9 @@
 
 		<Window Type="OgreTray/TitleEnemigos" Name="Hud/Nickname" >
 			<Property Name="Font" Value="DejaVuSans-10" />
-			<Property Name="Text" Value="Nickname" />
+			<Property Name="Text" Value="Hercules" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0.45,0},{0.45,0},{0.85,0},{0.64,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.4,0},{0.15,0},{0.7,0},{0.25,0}}" />
 		</Window>		
 		
 		<!--<Window Type="OgreTray/StaticImage" Name="Hud/RayoBase1" >
@@ -57,32 +57,32 @@
             <Property Name="UnifiedAreaRect" Value="{{0.82,0},{0.28,0},{0.92,0},{0.94,0}}" />		
 		</Window>
 		
-		<!--<Window Type="OgreTray/TitleEnemigos" Name="Hud/TitleEnemigos" >
+		<Window Type="OgreTray/TitleEnemigos" Name="Hud/TitleEnemigos" >
 			<Property Name="Font" Value="DejaVuSans-10" />
 			<Property Name="Text" Value="Enemigos:" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0.45,0},{0.45,0},{0.85,0},{0.64,0}}" />
-		</Window>-->
+			<Property Name="UnifiedAreaRect" Value="{{0.4,0},{0.28,0},{0.7,0},{0.48,0}}" />
+		</Window>
 
 		<Window Type="OgreTray/NumEnemigos" Name="Hud/NumEnemigos" >
 			<Property Name="Font" Value="DejaVuSans-10" />
 			<Property Name="Text" Value="0" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0.86,0},{0.45,0},{0.95,0},{0.64,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.705,0},{0.28,0},{0.74,0},{0.48,0}}" />
 		</Window>
 
 		<Window Type="OgreTray/TitlePuntosMerito" Name="Hud/TitlePuntosMerito" >
 			<Property Name="Font" Value="DejaVuSans-10" />
 			<Property Name="Text" Value="P.M" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0.45,0},{0.65,0},{0.64,0},{0.75,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.4,0},{0.5,0},{0.55,0},{0.7,0}}" />
 		</Window>
 
 		<Window Type="OgreTray/PuntosMerito" Name="Hud/PuntosMerito" >
 			<Property Name="Font" Value="DejaVuSans-10" />
 			<Property Name="Text" Value="355" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0.45,0},{0.75,0},{0.64,0},{0.85,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.56,0},{0.5,0},{0.68,0},{0.7,0}}" />
 		</Window>		
 		
 		<Window Type="OgreTray/StaticImage" Name="Hud/Altares" >
@@ -90,14 +90,14 @@
 			<Property Name="BackgroundEnabled" Value="False" />			
 			<Property Name="AlwaysOnTop" Value="False" />
 			<Property Name="Image" Value="set:HudBackground image:Altares" />
-            <Property Name="UnifiedAreaRect" Value="{{0.65,0},{0.65,0},{0.75,0},{0.85,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.4,0},{0.7,0},{0.5,0},{1,0}}" />
         </Window>
 		
 		<Window Type="OgreTray/NumAltares" Name="Hud/NumAltares" >
 			<Property Name="Font" Value="DejaVuSans-10" />
 			<Property Name="Text" Value="5/11" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0.755,0},{0.65,0},{0.95,0},{0.85,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.51,0},{0.7,0},{0.61,0},{1,0}}" />
 		</Window>		
 		
     </Window>

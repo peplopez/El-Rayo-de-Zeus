@@ -79,19 +79,19 @@ namespace GUI {
 				m->setFloat(20.0f);
 				switch(key.keyId)
 				{			
-				case GUI::Key::UPARROW:
-					m->setBool(true);		
-					break;
-				case GUI::Key::DOWNARROW:
-					m->setBool(false);
-				break;
-				//PT. Caso en el que se recargan todos los scripts
-			case GUI::Key::R:
-				ScriptManager::CServer::getSingletonPtr()->reloadScript("Hud");
-				ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadHud");
-				break;
-				default:
-					return false;
+					case GUI::Key::UPARROW:
+						m->setBool(true);		
+						break;
+					case GUI::Key::DOWNARROW:
+						m->setBool(false);
+					break;	
+					//PT. Caso en el que se recargan todos los scripts
+					case GUI::Key::R:
+						ScriptManager::CServer::getSingletonPtr()->reloadScript("Hud");
+						ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadHud");
+						break;
+					default:
+						return false;
 				}
 				(*it)->emitMessage(m);
 				keySent = true;

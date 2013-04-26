@@ -13,19 +13,26 @@ function initHud()
 		GUI.Windows:loadWindowLayout("Hud.layout")
 		hud = GUI.Windows:getWindow("Hud")
 		
-		NumberEnemyWindow = hud:getChild("Hud/NumEnemigos")
+		TitleEnemigosWindow = hud:getChild("Hud/TitleEnemigos")
+		NumEnemigosWindow = hud:getChild("Hud/NumEnemigos")
+		
+		TitlePuntosMeritoWindow = hud:getChild("Hud/TitlePuntosMerito")
 		PuntosMeritoWindow = hud:getChild("Hud/PuntosMerito")
+		
+		ImagenAltarWindow = hud:getChild("Hud/Altares")		
 		NumberAltaresActivatedWindow = hud:getChild("Hud/NumAltares")
 		
 		PersonajeWindow = hud:getChild("Hud/Personaje")
 		
 		NicknameWindow = hud:getChild("Hud/Nickname")
+		
+
 
 		--Rayo1Window = hud:getChild("Hud/RayoBase1")
 		--Rayo2Window = hud:getChild("Hud/RayoBase2")
 		--Rayo3Window = hud:getChild("Hud/RayoBase3")
 
-		  RayoWindow = hud:getChild("Hud/RayoBase")
+		RayoWindow = hud:getChild("Hud/RayoBase")
 	end
 end
 
@@ -101,11 +108,11 @@ function decrementEnemiesInBase()
 end
 
 function updateEnemiesInBase()
-   NumberEnemyWindow:setText(numberEnemiesInBase)
+   NumEnemigosWindow:setText(numberEnemiesInBase)
 end
 
 function showEnemiesInBase(enemies)
-   NumberEnemyWindow:setText(enemies)
+   NumEnemigosWindow:setText(enemies)
 end
 
 -- pM HUD functions
@@ -192,11 +199,21 @@ function showBaseLife()
 end
 
 function reloadHud()
-		hud:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0.5,0},{0.2,0}}")
+		hud:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0.34,0},{0.17,0}}")
 		PersonajeWindow:setProperty("UnifiedAreaRect","{{0.05,0},{0.065,0},{0.375,0},{0.9,0}}")
 		RayoWindow:setProperty("Image","set:HudBaseLife image:BaseLifeMedium")
 		RayoWindow:setProperty("UnifiedAreaRect","{{0.82,0},{0.28,0},{0.92,0},{0.94,0}}")
-		NicknameWindow:setProperty("UnifiedAreaRect","{{0.25,0},{0.05,0},{0.85,0},{0.35,0}}")
+		NicknameWindow:setProperty("UnifiedAreaRect","{{0.4,0},{0.15,0},{0.7,0},{0.25,0}}")
+		
+		ImagenAltarWindow:setProperty("UnifiedAreaRect","{{0.4,0},{0.7,0},{0.5,0},{1,0}}")
+		NumberAltaresActivatedWindow:setProperty("UnifiedAreaRect","{{0.51,0},{0.7,0},{0.61,0},{1,0}}")
+		
+		TitleEnemigosWindow:setProperty("UnifiedAreaRect","{{0.4,0},{0.28,0},{0.7,0},{0.48,0}}")
+		NumEnemigosWindow:setProperty("UnifiedAreaRect","{{0.705,0},{0.28,0},{0.74,0},{0.48,0}}")
+		
+		TitlePuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0.4,0},{0.5,0},{0.55,0},{0.7,0}}")
+		PuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0.56,0},{0.5,0},{0.68,0},{0.7,0}}")
+		
 		--[[NumberEnemyWindow
 		PuntosMeritoWindow
 		NumberAltaresActivatedWindow
