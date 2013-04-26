@@ -72,12 +72,26 @@ namespace AI
 	//	_reloj->removeTimeObserver(0);		
 		//_reloj->removeTimeObserver(1);	
 		if (_entity->isPlayer())
+		{	
 			_scene->deactivateCompositor("RadialBlur");
-		CMessageUInt *m = new CMessageUInt();	
-		m->setType(Message::SET_INITIAL_MATERIAL);
-		m->setUInt(0);
-		_entity->emitMessage(m);
+			CMessageUInt *m = new CMessageUInt();	
+			m->setType(Message::SET_INITIAL_MATERIAL);
+			m->setUInt(0);
+			_entity->emitMessage(m);
+		}
+		
+		//ESC - Mega Hack temporal (¿qué mas da uno más?)
+		else if (_entity->getType() == "OtherPlayer")
+		{
+			CMessageUIntString *m = new CMessageUIntString();	
+			m->setType(Message::SET_SUBENTITY_MATERIAL);
+			m->setString("SpartanBody");
+			m->setUInt(0);
+			_entity->emitMessage(m);
+		}
+
 		awakeComponents();
+
 	}
 
 	/**
@@ -148,9 +162,9 @@ namespace AI
 		{
 			case Message::CONTROL: 
 			{	
-				CMessageString *m2 = new CMessageString();	
-				m2->setType(Message::SET_MATERIAL);
-				m2->setString(_entity->getInitialMaterial());
+				CMessageUInt *m2 = new CMessageUInt();	
+				m2->setType(Message::SET_INITIAL_MATERIAL);
+				m2->setUInt(1);
 				_entity->emitMessage(m2);	
 			//	finish(false);
 			}

@@ -225,6 +225,7 @@ Map = {
 		type = "OtherPlayer",
 		model = "spartan2.4.mesh",
 		modelHelmet = "helmet2.3.mesh",
+		modelWeapon = "katana1.9.mesh",
 		logicInput=true,
 		sense=2,
 		physicWidth = 3.5,
