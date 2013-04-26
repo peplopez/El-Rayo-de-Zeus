@@ -106,10 +106,21 @@ namespace Logic
 
 	void CLife::process(CMessage *message)
 	{
-		modifyLife( 
-			static_cast<CMessageUInt*>(message)->getUInt() *
-			(message->getAction() == TActionType::DAMAGE ? -1 : 1)
-		);
+		//modifyLife(static_cast<CMessageUInt*>(message)->getUInt() *(message->getAction() == TActionType::DAMAGE ? -10 : 10)  	);
+		switch(message->getType())
+		{
+			case Message::LIFE_MODIFIER:
+			{
+				CMessageUInt *Msg = static_cast<CMessageUInt*>(message);
+				if (message->getAction()==TActionType::DAMAGE)
+					modifyLife(-10);
+				else
+					modifyLife(10);
+				
+				break;
+			}
+		}
+	
 	} // process
 
 
