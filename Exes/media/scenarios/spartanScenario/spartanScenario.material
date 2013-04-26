@@ -19,6 +19,8 @@ material espumaoceano
 		{			
 			specular 1 1 1 128
 			scene_blend alpha_blend
+			depth_write off
+			
 
 			texture_unit
 			{
