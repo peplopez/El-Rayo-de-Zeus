@@ -1,8 +1,8 @@
 Map ={
 
-	Scenario = {
-		type = "Scenario",
-		scenarioFile = "spartanScenario.scene",
+	spartanScene = {
+		type = "Scene",
+		sceneFile = "spartanScenario.scene",
 	},
 	
 	Camera = {
