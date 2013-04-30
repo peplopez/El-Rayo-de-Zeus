@@ -199,20 +199,30 @@ function showBaseLife()
 end
 
 function reloadHud()
-		hud:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0.34,0},{0.17,0}}")
+		-- hud:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0,504},{0,193}}")
+		hud:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0,257},{0,96}}")
 		PersonajeWindow:setProperty("UnifiedAreaRect","{{0.05,0},{0.065,0},{0.375,0},{0.9,0}}")
 		RayoWindow:setProperty("Image","set:HudBaseLife image:BaseLifeMedium")
 		RayoWindow:setProperty("UnifiedAreaRect","{{0.82,0},{0.28,0},{0.92,0},{0.94,0}}")
-		PlayernameWindow:setProperty("UnifiedAreaRect","{{0.35,0},{0.15,0},{0.7,0},{0.25,0}}")
 		
-		ImagenAltarWindow:setProperty("UnifiedAreaRect","{{0.4,0},{0.7,0},{0.5,0},{1,0}}")
-		NumberAltaresActivatedWindow:setProperty("UnifiedAreaRect","{{0.51,0},{0.7,0},{0.61,0},{1,0}}")
+		-- PlayernameWindow:setProperty("UnifiedAreaRect","{{0.5,0},{0.15,0},{0.9,0},{0.25,0}}")
+		PlayernameWindow:setProperty("UnifiedAreaRect","{{0,100},{0.10,0},{0,250},{0.3,0}}")
+		PlayernameWindow:setProperty("Font","Diogenes-14")
 		
-		TitleEnemigosWindow:setProperty("UnifiedAreaRect","{{0.4,0},{0.28,0},{0.7,0},{0.48,0}}")
-		NumEnemigosWindow:setProperty("UnifiedAreaRect","{{0.705,0},{0.28,0},{0.74,0},{0.48,0}}")
+		--TitleEnemigosWindow:setProperty("UnifiedAreaRect","{{0.5,0},{0.28,0},{0.9,0},{0.48,0}}")
+		TitleEnemigosWindow:setProperty("UnifiedAreaRect","{{0,110},{0.31,0},{0,180},{0.48,0}}")
+		TitleEnemigosWindow:setProperty("Font","Diogenes-10")
+		--NumEnemigosWindow:setProperty("UnifiedAreaRect","{{0.705,0},{0.28,0},{0.74,0},{0.48,0}}")
+		NumEnemigosWindow:setProperty("UnifiedAreaRect","{{0,155},{0.31,0},{0,210},{0.48,0}}")
 		
-		TitlePuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0.4,0},{0.5,0},{0.55,0},{0.7,0}}")
-		PuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0.56,0},{0.5,0},{0.68,0},{0.7,0}}")
+		--TitlePuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0.4,0},{0.5,0},{0.55,0},{0.7,0}}")
+		TitlePuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0,110},{0.5,0},{0,150},{0.7,0}}")
+		--PuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0.56,0},{0.5,0},{0.68,0},{0.7,0}}")
+		PuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0,150},{0.5,0},{0,210},{0.7,0}}")
+		
+		ImagenAltarWindow:setProperty("UnifiedAreaRect","{{0,130},{0,68},{0,155},{0,96}}")
+		NumberAltaresActivatedWindow:setProperty("UnifiedAreaRect","{{0,160},{0.7,0},{0,210},{1,0}}")
+		NumberAltaresActivatedWindow:setProperty("Font","Diogenes-14")		
 		
 		--[[NumberEnemyWindow
 		PuntosMeritoWindow

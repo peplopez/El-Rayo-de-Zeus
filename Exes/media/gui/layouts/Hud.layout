@@ -7,7 +7,9 @@
         <Property Name="AlwaysOnTop" Value="False" />
         <!--<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.23,0},{0.30,0}}" />
 		<Property Name="Image" Value="set:HudBackground image:HudBackgroundImage" />-->
-		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.34,0},{0.17,0}}" />
+		<!-- En lugar de con medidas relativas, voy a usar medidas absolutas -->
+		<!--<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.34,0},{0.17,0}}" />-->
+		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,257},{0,96}}" /> <!-- 257 px de ancho, y 96 px de alto, la mitad que hud-fondo4.png-->
 		<Property Name="Image" Value="set:HudBackgroundNuevo image:HudBackgroundNuevoImage" />
 		
 		<Window Type="OgreTray/StaticImage" Name="Hud/Personaje" >
@@ -18,11 +20,12 @@
             <Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.065,0},{0.375,0},{0.9,0}}" />
         </Window>	
 
-		<Window Type="OgreTray/TitleEnemigos" Name="Hud/PlayerName" >
-			<Property Name="Font" Value="DejaVuSans-8" />
+		<Window Type="OgreTray/TitleNickname" Name="Hud/PlayerName" >
+			<!--<Property Name="Font" Value="DejaVuSans-8" />-->
+			<Property Name="Font" Value="Diogenes-14" />
 			<Property Name="Text" Value="Spartan" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0.35,0},{0.15,0},{0.7,0},{0.25,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,100},{0.10,0},{0,250},{0.3,0}}" />
 		</Window>		
 		
 		<!--<Window Type="OgreTray/StaticImage" Name="Hud/RayoBase1" >
@@ -58,31 +61,31 @@
 		</Window>
 		
 		<Window Type="OgreTray/TitleEnemigos" Name="Hud/TitleEnemigos" >
-			<Property Name="Font" Value="DejaVuSans-8" />
-			<Property Name="Text" Value="Enemigos:" />
+			<Property Name="Font" Value="Diogenes-10" />
+			<Property Name="Text" Value="Enemies" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0.4,0},{0.28,0},{0.7,0},{0.48,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.31,0},{0,180},{0.48,0}}" />
 		</Window>
 
 		<Window Type="OgreTray/NumEnemigos" Name="Hud/NumEnemigos" >
-			<Property Name="Font" Value="DejaVuSans-8" />
+			<Property Name="Font" Value="Diogenes-10" />
 			<Property Name="Text" Value="0" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0.705,0},{0.28,0},{0.74,0},{0.48,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,155},{0.31,0},{0,210},{0.48,0}}" />
 		</Window>
 
 		<Window Type="OgreTray/TitlePuntosMerito" Name="Hud/TitlePuntosMerito" >
-			<Property Name="Font" Value="DejaVuSans-8" />
+			<Property Name="Font" Value="Diogenes-10" />
 			<Property Name="Text" Value="P.M" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0.4,0},{0.5,0},{0.55,0},{0.7,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.5,0},{0,150},{0.7,0}}" />
 		</Window>
 
 		<Window Type="OgreTray/PuntosMerito" Name="Hud/PuntosMerito" >
-			<Property Name="Font" Value="DejaVuSans-8" />
+			<Property Name="Font" Value="Diogenes-10" />
 			<Property Name="Text" Value="355" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0.56,0},{0.5,0},{0.68,0},{0.7,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,155},{0.5,0},{0,210},{0.7,0}}" />
 		</Window>		
 		
 		<Window Type="OgreTray/StaticImage" Name="Hud/Altares" >
@@ -90,14 +93,14 @@
 			<Property Name="BackgroundEnabled" Value="False" />			
 			<Property Name="AlwaysOnTop" Value="False" />
 			<Property Name="Image" Value="set:HudBackground image:Altares" />
-            <Property Name="UnifiedAreaRect" Value="{{0.4,0},{0.7,0},{0.5,0},{1,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0,130},{0,68},{0,155},{0,96}}" />
         </Window>
 		
 		<Window Type="OgreTray/NumAltares" Name="Hud/NumAltares" >
-			<Property Name="Font" Value="DejaVuSans-8" />
+			<Property Name="Font" Value="Diogenes-14" />
 			<Property Name="Text" Value="5/11" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0.51,0},{0.7,0},{0.61,0},{1,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,160},{0.7,0},{0,210},{1,0}}" />
 		</Window>		
 		
     </Window>
