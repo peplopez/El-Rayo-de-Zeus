@@ -60,7 +60,8 @@ namespace Logic
 			DETACH					= 0x25,
 			AUDIO			 		= 0x26,
 			SET_SCALE		 		= 0x27,
-			SET_INITIAL_MATERIAL	= 0x28
+			SET_INITIAL_MATERIAL	= 0x28,
+			SET_ANIMATION_WITH_TIME = 0X29
 		};
 
 		enum TActionType : unsigned char

@@ -27,7 +27,6 @@ namespace Logic
 
 	void CMessageBoolFloat::deserialize(Net::CBuffer &data)
 	{
-
 		CMessage::deserialize(data);
 		data.read(&_bool,	sizeof(_bool));
 		data.read(&_float,  sizeof(_float));

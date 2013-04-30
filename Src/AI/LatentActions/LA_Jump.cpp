@@ -6,6 +6,7 @@
 
 #include "../StateMachines/StateMachine.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
+#include "Logic/Entity/Messages/MessageBoolFloatString.h"
 
 namespace AI
 {
@@ -33,11 +34,12 @@ namespace AI
 		sleepComponents();
 		std::cout<<"AI::StateMachine::Jumping"<<std::endl;
 		
-		CMessageBoolString *message = new CMessageBoolString();
-		message->setType(Message::SET_ANIMATION);
+		CMessageBoolFloatString *message = new CMessageBoolFloatString();
+		message->setType(Message::SET_ANIMATION_WITH_TIME);
 		message->setAction(Message::JUMP);				
 		message->setString(Graphics::AnimNames::JUMP);
-		message->setBool(true);
+		message->setFloat(0.6);
+		message->setBool(false);
 		_entity->emitMessage(message);		
 
 		return RUNNING;
