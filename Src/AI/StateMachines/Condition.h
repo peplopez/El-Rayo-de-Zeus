@@ -132,8 +132,8 @@ namespace AI
 
 
 
-	/**
-	Esta clase define una condición que siempre se evalúa a true.
+	/** PeP
+	Esta clase define una condición personalizada
 	*/
 
 	class CConditionFlagWalkingActivated : public ICondition<CLatentAction>
@@ -171,7 +171,7 @@ namespace AI
 		}
 };
 
-
+  
 
 	
 	/**

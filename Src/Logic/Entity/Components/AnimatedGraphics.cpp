@@ -22,6 +22,7 @@ gráfica de una entidad estática.
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
 #include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageBoolFloatString.h"
 
 #define DEBUG 0
 #if DEBUG
@@ -58,7 +59,9 @@ namespace Logic
 		return CGraphics::accept(message) ||
 			   message->getType() == Message::SET_ANIMATION ||
 			   message->getType() == Message::STOP_ANIMATION ||
-			   message->getType() == Message::REWIND_ANIMATION;
+			   message->getType() == Message::REWIND_ANIMATION ||
+			   message->getType() == Message::SET_ANIMATION_WITH_TIME
+			   ;
 
 	} // accept
 	
@@ -78,15 +81,7 @@ namespace Logic
 				// Un control más sofisticado debería permitir interpolación
 				// de animaciones. Galeon no lo plantea.
 				_graphicalEntity->stopAllAnimations();
-				/*if (maux->getString().compare("FireAK47")==0)
-					_graphicalEntity->setAnimation(maux->getString(),0,maux->getBool());
-				else	*/	
-				/*if (message->getAction()==Message::UNDEF)
-					_graphicalEntity->setAnimation(maux->getString(),0.8,maux->getBool());
-				else*/
-
 				_graphicalEntity->setAnimation(rxMsg ->getString(), 0, rxMsg ->getBool());
-
 				LOG("SET_ANIMATION: " << rxMsg->getString());
 			}	break;
 
@@ -101,6 +96,15 @@ namespace Logic
 				_graphicalEntity->rewind(rxMsg ->getString(), rxMsg->getBool() );
 				LOG("REWIND_ANIMATION: " << rxMsg->getString());
 			}	break;
+
+			case Message::SET_ANIMATION_WITH_TIME:
+			{
+				CMessageBoolFloatString *rxMsg = static_cast<CMessageBoolFloatString*>(message);
+				// de animaciones. Galeon no lo plantea.
+				_graphicalEntity->stopAllAnimations();
+				_graphicalEntity->setAnimation(rxMsg ->getString(), rxMsg ->getFloat(), rxMsg ->getBool());
+				LOG("SET_ANIMATION_WITH_TIME: " << rxMsg->getString());
+			} break;
 		}
 
 	} // process

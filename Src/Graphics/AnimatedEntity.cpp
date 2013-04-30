@@ -176,13 +176,13 @@ namespace Graphics
 					_momentEnabled=false;				
 					_observer->animationMomentReached(AnimNames::ATTACK2);
 				}
-			if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::DAMAGE)==0)
+			/*if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::DAMAGE)==0)
 				if (_momentEnabled)
 				if (_currentAnimation->getTimePosition()>0.35)
 				{
 					_momentEnabled=false;				
 					_observer->animationMomentReached(AnimNames::DAMAGE);
-				}
+				}*/   //esto es de cuando usabamos la animación de daño del marine como una de ataque, esto se quita.
 				if(_observer && _currentAnimation->getAnimationName().compare(Graphics::AnimNames::COVER_WITH_SHIELD)==0) 
 				{
 					if (_currentAnimation->getTimePosition()>0.5)
