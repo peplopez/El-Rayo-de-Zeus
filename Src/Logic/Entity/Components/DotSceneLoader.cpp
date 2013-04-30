@@ -46,12 +46,12 @@ namespace Logic
 		_scene = map->getGraphicScene();
 			assert(_scene && "Escena gráfica es NULL");
 
-		assert(entityInfo->hasAttribute("scenarioFile"));
-			_scenarioFile = entityInfo->getStringAttribute("scenarioFile");
+		assert(entityInfo->hasAttribute("sceneFile"));
+			_sceneFile = entityInfo->getStringAttribute("sceneFile");
 		
 		Graphics::DotSceneLoader loader;
 
-		loader.parseDotScene(_scenarioFile, "General", _scene->getSceneMgr());
+		loader.parseDotScene(_sceneFile, "General", _scene->getSceneMgr());
 
 		return true;
 

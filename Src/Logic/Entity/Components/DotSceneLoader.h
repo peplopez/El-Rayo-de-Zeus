@@ -37,7 +37,7 @@ namespace Logic
 	public:
 
 		CDotSceneLoader() : 
-			IComponent(GetAltTypeIdOf(CDotSceneLoader)), _scene(0), _scenarioFile("") {}
+			IComponent(GetAltTypeIdOf(CDotSceneLoader)), _scene(0), _sceneFile("") {}
 
 
 		virtual ~CDotSceneLoader();
@@ -54,7 +54,7 @@ namespace Logic
 
 		/**.
 		*/
-		std::string _scenarioFile;
+		std::string _sceneFile;
 
 
 		
