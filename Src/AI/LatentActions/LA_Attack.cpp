@@ -37,56 +37,25 @@ namespace AI
 		sleepComponents();
 		std::cout<<"AI::INITIALCOMBATSTATE: "+_initialCombatState<<std::endl;		
 		std::cout<<"AI::INITIAL_ACTION: "+(int)_action<<std::endl;
+		_animationSetedByMe=false;
+		_initialYaw=_entity->getYaw();
+		_yawAmount=0;
+
 		switch(_initialCombatState)
 		{
-			case 0:
-			{
-				CMessageBoolString *message = new CMessageBoolString();
-				message->setType(Message::SET_ANIMATION);
-				if (_action==Message::LIGHT_ATTACK)
-					message->setString(Graphics::AnimNames::ATTACK1);
-				else
-					message->setString(Graphics::AnimNames::ATTACK2);				
-				message->setAction(_action);
-				message->setBool(false);
-				_entity->emitMessage(message);
-				break;
-			}
-			case 1:
-			{
-				CMessageBoolString *message = new CMessageBoolString();
-				message->setType(Message::SET_ANIMATION);
-				message->setString(Graphics::AnimNames::ATTACK2);
-				message->setAction(_action);
-				message->setBool(false);
-				_entity->emitMessage(message);		
-				break;
-			}	
-			case 2:
-			{
-				if (_action==Message::HEAVY_ATTACK)
-				{CMessageBoolString *message = new CMessageBoolString();
-				message->setType(Message::SET_ANIMATION);
-				message->setString("INDEFINIDO");
-				message->setAction(_action);
-				message->setBool(false);
-				_entity->emitMessage(message);	
-				_initialYaw=_entity->getYaw();
-				_yawAmount=0;
-				}
-				else
-				{
-				CMessageBoolString *message = new CMessageBoolString();
-				message->setType(Message::SET_ANIMATION);
-				message->setString(Graphics::AnimNames::DAMAGE);
-				message->setAction(_action);
-				message->setBool(false);
-				_entity->emitMessage(message);	
-				//_initialYaw=_entity->getYaw();
-				//_yawAmount=0;				
-				}
-				break;
-			}
+		case 0:
+		{
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::SET_ANIMATION);
+			if (_action==Message::LIGHT_ATTACK)
+				message->setString(Graphics::AnimNames::ATTACK1);
+			else
+				message->setString(Graphics::AnimNames::ATTACK2);				
+			message->setAction(_action);
+			message->setBool(false);
+			_entity->emitMessage(message);
+			break;
+		}
 		}
 		return RUNNING;
 	}
@@ -156,8 +125,8 @@ namespace AI
 			(message->getAction() == Message::LIGHT_ATTACK||
 			message->getAction() == Message::HEAVY_ATTACK)))
 			||*/
-			/*(message->getType()==Message::ANIMATION_MOMENT) &&  _initialCombatState!=2)*/
-			((message->getType()==Message::ANIMATION_FINISHED) || (message->getType()==Message::SET_ANIMATION));
+			/*(message->getType()==Message::ANIMATION_MOMENT &&  _initialCombatState!=2) ||*/
+			(message->getType()==Message::ANIMATION_FINISHED);
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
@@ -170,67 +139,67 @@ namespace AI
 		switch(message->getType())
 		{
 		case Message::ANIMATION_FINISHED: //ConditionFail
+		{
+			if (_initialCombatState==0  || _animationSetedByMe  )
 			{
 				CMessageString* maux = static_cast<CMessageString*>(message);
-				if (maux->getString().compare(Graphics::AnimNames::ATTACK1)==0 )
+				if (maux->getString().compare(Graphics::AnimNames::ATTACK1)==0 )  //ACORDARSE DE PONER ATTACK3 O EL QUE SEA PARA QUE LO TENGA EN CUENTA
 				{	
 					finish(false);
-					//_lightAttack=_heavyAttack=false;//stopMovement();
 				}
 				else if (maux->getString().compare(Graphics::AnimNames::ATTACK2)==0)
 				{
 					finish(false);				
 				}
-				else if (maux->getString().compare(Graphics::AnimNames::DAMAGE)==0)
-				{
-					finish(false);				
-				}_comboOportunity=false;
-				break;
-			}
-		case Message::SET_ANIMATION: //con esto quiero ver si se ha cancelado una animación
+			}else
 			{
-				if (message->getAction()==Message::WALK_LEFT || message->getAction()==Message::WALK_RIGHT)
-				{
-					finish(false);					
-				}
-				break;
-			}	
-		case Message::ANIMATION_MOMENT:
-			{				
-				_comboOportunity=true;
-				break;
-				//querré saber cual animación es, de momento se que solo puedo recibir un tipo de animación
-				/*float punto;
-				if (_entity->getSense()==Logic::LogicalPosition::RIGHT)
-					punto=_entity->getDegree()-10;
-				else
-					punto=_entity->getDegree()+10;
-					//con este metodo vemos si con la espada le estamos dando
-					attackPlace(punto,_entity->getRing(),_entity->getBase(),false);*/
-			}
-		/*	case Message::CONTROL: //si estamos aquí es que el jugador quiere aprovechar la oportunidad que tenia de realizar un combo. Dependiendo de 
+			switch(_initialCombatState)
 			{
-
-				if (_comboOportunity)
+				case 1:
 				{
-					if (_initialCombatState<1)
-						if (message->getAction()==Message::LIGHT_ATTACK)
-						{
-							_comboOportunity=false;
-							finish(true);
-						}					
-					if (_initialCombatState==1)//en el tercer ataque del combo
-						if (message->getAction()==Message::HEAVY_ATTACK)
-						{
-							_comboOportunity=false;
-							finish(true);
-						}
-					}
+					CMessageBoolString *message = new CMessageBoolString();
+					message->setType(Message::SET_ANIMATION);
+					message->setString(Graphics::AnimNames::ATTACK2);
+					message->setAction(_action);
+					message->setBool(false);
+					_entity->emitMessage(message);		
+					_animationSetedByMe=true;
 					break;
-			}*/
+				}	
+				case 2:
+				{
+					if (_action==Message::HEAVY_ATTACK)
+					{
+						CMessageBoolString *message = new CMessageBoolString();
+						message->setType(Message::SET_ANIMATION);
+						message->setString("INDEFINIDO");
+						message->setAction(_action);
+						message->setBool(false);
+						_entity->emitMessage(message);	
+						_initialYaw=_entity->getYaw();
+						_yawAmount=0;
+					}
+					else
+					{
+						CMessageBoolString *message = new CMessageBoolString();
+						message->setType(Message::SET_ANIMATION);
+						message->setString(Graphics::AnimNames::ATTACK2);
+						message->setAction(_action);
+						message->setBool(false);
+						_entity->emitMessage(message);	
+						_animationSetedByMe=true;
+						//_initialYaw=_entity->getYaw();
+						//_yawAmount=0;				
+					}
+					break;	
+				}
 		}
-			// TODO PRÁCTICA IA
-		// La acción no procesa mensajes
+					
+		}//else
+		
+		break;
+		}
+	}
 	}
 
 	void CLA_Attack::tick(unsigned int msecs) 

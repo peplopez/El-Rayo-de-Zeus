@@ -36,7 +36,7 @@ namespace AI
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
 		message->setAction(Message::JUMP);				
-		message->setString( Graphics::AnimNames::JUMP );
+		message->setString(Graphics::AnimNames::JUMP);
 		message->setBool(true);
 		_entity->emitMessage(message);		
 
