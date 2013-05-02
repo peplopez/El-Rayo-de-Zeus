@@ -151,6 +151,10 @@ namespace AI
 				{
 					finish(false);				
 				}
+				else if (maux->getString().compare(Graphics::AnimNames::ATTACK3)==0)
+				{
+					finish(false);				
+				}
 			}else
 			{
 			switch(_initialCombatState)
@@ -170,24 +174,32 @@ namespace AI
 				{
 					if (_action==Message::HEAVY_ATTACK)
 					{
-						CMessageBoolString *message = new CMessageBoolString();
+						/*CMessageBoolString *message = new CMessageBoolString();
 						message->setType(Message::SET_ANIMATION);
 						message->setString("INDEFINIDO");
 						message->setAction(_action);
 						message->setBool(false);
 						_entity->emitMessage(message);	
 						_initialYaw=_entity->getYaw();
-						_yawAmount=0;
+						_yawAmount=0;*/
+												CMessageBoolString *message = new CMessageBoolString();
+						message->setType(Message::SET_ANIMATION);
+						message->setString(Graphics::AnimNames::ATTACK3);
+						message->setAction(_action);
+						message->setBool(false);
+						_entity->emitMessage(message);	
+						_animationSetedByMe=true;
 					}
 					else
 					{
 						CMessageBoolString *message = new CMessageBoolString();
 						message->setType(Message::SET_ANIMATION);
-						message->setString(Graphics::AnimNames::ATTACK2);
+						message->setString(Graphics::AnimNames::ATTACK3);
 						message->setAction(_action);
 						message->setBool(false);
 						_entity->emitMessage(message);	
 						_animationSetedByMe=true;
+						//finish(false);	
 						//_initialYaw=_entity->getYaw();
 						//_yawAmount=0;				
 					}
@@ -204,22 +216,18 @@ namespace AI
 
 	void CLA_Attack::tick(unsigned int msecs) 
 	{
-		if (_initialCombatState==2 && _yawAmount>=0 && _action==Message::HEAVY_ATTACK)
+		/*if (_initialCombatState==2 && _yawAmount>=0 && _action==Message::HEAVY_ATTACK)
 		{
 			_yawAmount++;
 			_entity->yaw(_entity->getYaw()+0.001f*msecs);
-			if (_yawAmount>50) 
+			if (_yawAmount>40) 
 				{
 					_yawAmount=-10;
 					_entity->setYaw(_initialYaw);
-				/*	CMessageString *msg = new CMessageString();
-					msg->setType(Message::ANIMATION_FINISHED);
-					msg->setAction(_action);
-					msg->setString("die");
-					_entity->emitMessage(msg);*/
+				
 					finish(false);
 				}				
-		}
+		}*/
 		CLatentAction::tick();
 	}
 

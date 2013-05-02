@@ -143,9 +143,10 @@ namespace Graphics
 
 			else
 				/*if (_currentAnimation->getAnimationName().compare(AnimNames::ATTACK1)||
-					_currentAnimation->getAnimationName().compare(AnimNames::ATTACK2))
+					_currentAnimation->getAnimationName().compare(AnimNames::ATTACK2) ||
+					_currentAnimation->getAnimationName().compare(AnimNames::ATTACK3))
 				{
-					_currentAnimation->addTime(secs/2);
+					_currentAnimation->addTime(secs/3);
 				}
 				else*/
 				_currentAnimation->addTime(secs);
@@ -159,7 +160,7 @@ namespace Graphics
 				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
 			if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::ATTACK2)==0)
 				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
-			if(_observer && _currentAnimation->getAnimationName().compare( AnimNames::DAMAGE )==0)
+			if(_observer && _currentAnimation->getAnimationName().compare( AnimNames::ATTACK3 )==0)
 				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
 
 			if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::ATTACK1)==0)
@@ -175,6 +176,13 @@ namespace Graphics
 				{
 					_momentEnabled=false;				
 					_observer->animationMomentReached(AnimNames::ATTACK2);
+				}
+			if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::ATTACK3)==0)
+				if (_momentEnabled)
+				if (_currentAnimation->getTimePosition()>0.3)
+				{
+					_momentEnabled=false;				
+					_observer->animationMomentReached(AnimNames::ATTACK3);
 				}
 			/*if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::DAMAGE)==0)
 				if (_momentEnabled)

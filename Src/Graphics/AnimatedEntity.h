@@ -41,7 +41,8 @@ namespace Graphics
 		const std::string COVER_WITH_WEAPON = "cover";
 		const std::string COVER_WITH_SHIELD = "shieldcover";	
 		const std::string ATTACK1			= "attack1";
-		const std::string ATTACK2			= "attack3";
+		const std::string ATTACK2			= "attack2";
+		const std::string ATTACK3			= "attack3";
 		const std::string COMBO1			= "combo1";
 		const std::string COMBO2			= "combo2";
 		const std::string COMBO3			= "combo3";
