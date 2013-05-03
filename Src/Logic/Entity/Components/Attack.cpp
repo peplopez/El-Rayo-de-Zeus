@@ -92,9 +92,13 @@ namespace Logic
 		case Message::ANIMATION_FINISHED:
 			{
 				CMessageString* maux = static_cast<CMessageString*>(message);
-				if (maux->getString().compare( Graphics::AnimNames::ATTACK1 )==0)
+				if (maux->getString().compare( Graphics::AnimNames::ATTACK1 )==0 || maux->getString().compare( Graphics::AnimNames::ATTACK2 )==0 || maux->getString().compare( Graphics::AnimNames::ATTACK3 )==0)
 				{					
 					_lightAttack=_heavyAttack=false;
+					Logic::CMessage *m = new Logic::CMessage();
+					m->setType(Logic::Message::CONTROL);
+					m->setAction(Logic::Message::WALK_STOP);
+					_entity->emitMessage(m);
 				}
 				break;
 			}
@@ -104,10 +108,23 @@ namespace Logic
 				//querré saber cual animación es, de momento se que solo puedo recibir un tipo de animación
 				float punto;
 				if (_entity->getLogicalPosition()->getSense()==Logic::LogicalPosition::RIGHT)
-					punto=_entity->getLogicalPosition()->getDegree()-10;
+					{
+						punto=_entity->getLogicalPosition()->getDegree()-10;
+						Logic::CMessageFloat *m = new Logic::CMessageFloat();
+						m->setType(Logic::Message::AVATAR_MOVE);
+						m->setAction(Logic::Message::WALK_RIGHT);
+						m->setFloat(-2);
+						_entity->emitMessage(m);
+				}
 				else
+				{
+					Logic::CMessageFloat *m = new Logic::CMessageFloat();
+					m->setType(Logic::Message::AVATAR_MOVE);
+					m->setAction(Logic::Message::WALK_LEFT);
+					m->setFloat(2);
+					_entity->emitMessage(m);
 					punto=_entity->getLogicalPosition()->getDegree()+10;
-					//con este metodo vemos si con la espada le estamos dando
+				}	//con este metodo vemos si con la espada le estamos dando
 				
 					unsigned short resultadoAtaque=attackPlace(punto,_entity->getLogicalPosition()->getRing(),_entity->getLogicalPosition()->getBase(),false);
 					if (resultadoAtaque==2)
