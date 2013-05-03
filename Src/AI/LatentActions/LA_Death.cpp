@@ -57,7 +57,7 @@ namespace AI
 		_scene=_entity->getMap()->getGraphicScene();
 		if (_entity->isPlayer())
 			_scene->activateCompositor("BW");
-		return RUNNING;
+		return SUSPENDED;
 	}
 
 	/**

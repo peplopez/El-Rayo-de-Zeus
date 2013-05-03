@@ -139,17 +139,28 @@ namespace Logic
 	
 	void CAnimatedGraphics::animationFinished(const std::string &animation)
 	{
-		if (animation != Graphics::AnimNames::DEATH)
+		if (animation != Graphics::AnimNames::DEATH )
 		{
 			// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
 			CMessageString *txMsg = new CMessageString();
-				txMsg->setType(Message::ANIMATION_FINISHED);
-				txMsg->setString(animation);
-				_entity->emitMessage(txMsg);
-
-			// Si acaba una animación y tenemos una por defecto la ponemos
-			_graphicalEntity->stopAllAnimations();
-			_graphicalEntity->setAnimation(_defaultAnimation,0,true);
+			txMsg->setType(Message::ANIMATION_FINISHED);
+			txMsg->setString(animation);
+			_entity->emitMessage(txMsg);
+			
+		// Si acaba una animación y tenemos una por defecto la ponemos
+			if (animation != Graphics::AnimNames::ATTACK1 && animation != Graphics::AnimNames::ATTACK2)			
+			{
+				_graphicalEntity->stopAnimation(animation);
+				_graphicalEntity->setAnimation(_defaultAnimation,0,true);
+			}
+			else
+			{
+				if (animation == Graphics::AnimNames::ATTACK1)						
+					_graphicalEntity->pauseAnimation(animation,0.5833);
+			    if (animation == Graphics::AnimNames::ATTACK2)			
+					_graphicalEntity->pauseAnimation(animation,0.41);
+			}   
+			
 		}
 
 	}

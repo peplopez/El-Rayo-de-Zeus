@@ -57,7 +57,7 @@ namespace AI
 			break;
 		}
 		}
-		return RUNNING;
+		return SUSPENDED;
 	}
 
 	/**

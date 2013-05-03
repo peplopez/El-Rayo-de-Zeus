@@ -42,7 +42,7 @@ namespace AI
 		message->setBool(false);
 		_entity->emitMessage(message);		
 
-		return RUNNING;
+		return SUSPENDED;
 	}
 
 	/**
