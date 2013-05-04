@@ -37,7 +37,7 @@ namespace Logic
 	{
 	} // ~CGRingTraveler
 	
-	void CRingTraveler::timeArrived()
+	void CRingTraveler::doChange()
 	{
 		//return;
 		if (_changingRing /*&& !_desencogiendo*/)
@@ -97,9 +97,9 @@ namespace Logic
 			return false;//si estamos arriba no dejamos subir mas.
 
 		if (_desencogiendo) return false;
-		return (!_changingRing && isAwake() && message->getType() == Message::CONTROL && (
+		return (!_changingRing && isAwake() && message->getType() == Message::CONTROL /*&& (
 						message->getAction() == Message::GO_DOWN || 
-						message->getAction() == Message::GO_UP));
+						message->getAction() == Message::GO_UP)*/); //ANULADO, NO OLVIDARLO
 	} // accept
 	
 	//---------------------------------------------------------

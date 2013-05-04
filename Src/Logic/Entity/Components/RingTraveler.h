@@ -104,7 +104,7 @@ namespace Logic
 		Método que será invocado siempre que se termine una el reloj 
 		llegue al evento solicitado desde la máquina de estados.		
 		*/
-		void timeArrived();
+		void doChange();
 
 	protected:
 

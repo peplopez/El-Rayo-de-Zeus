@@ -82,15 +82,6 @@ namespace Logic
 			_jumping = true;
 			_justJumped = true;
 		}
-
-		// Cambiamos la animación si no seguimos desplazándonos
-		// lateralmente
-		/*CMessageBoolString *message = new CMessageBoolString();
-		message->setType(Message::SET_ANIMATION);
-		message->setString("idle");
-		message->setBool(true);
-		_entity->emitMessage(message,this);
-		*/
 	} // stopWalk
 	
 	//---------------------------------------------------------

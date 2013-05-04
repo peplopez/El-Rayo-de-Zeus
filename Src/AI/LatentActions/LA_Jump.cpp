@@ -54,13 +54,11 @@ namespace AI
 	*/
 	void CLA_Jump::OnStop()
 	{
-				//Reactivación de componentes
-	
+		//Reactivación de componentes	
 		awakeComponents();
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)
 		{
 			_entity->getComponent<CBaseTraveler>()->resetChangingBase();		
-			_entity->getComponent<CBaseTraveler>()->resetChangingRing();
 		}
 	}
 
