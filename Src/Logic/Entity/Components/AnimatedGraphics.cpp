@@ -145,6 +145,9 @@ namespace Logic
 			CMessageString *txMsg = new CMessageString();
 			txMsg->setType(Message::ANIMATION_FINISHED);
 			txMsg->setString(animation);
+			//PEP HACK:
+			if (animation==Graphics::AnimNames::JUMP)
+				txMsg->setAction(Message::JUMP);
 			_entity->emitMessage(txMsg);
 			
 		// Si acaba una animación y tenemos una por defecto la ponemos

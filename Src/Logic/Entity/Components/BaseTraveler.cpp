@@ -131,9 +131,8 @@ namespace Logic
 	//---------------------------------------------------------
 
 	void CBaseTraveler::changeBase()
-	{
-	
-		if (_changingBase && !isChangingRing())
+	{	
+		if (_changingBase)
 		{	
 			jumpToBase();
 			LOG("EXITO");
@@ -145,8 +144,6 @@ namespace Logic
 			_entity->emitMessage(m,this);
 			
 			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _baseToGo );
-
-
 			
 			CMessageUInt *m2 = new CMessageUInt();	
 			m2->setType(Message::SET_INITIAL_MATERIAL);
@@ -160,7 +157,7 @@ namespace Logic
 	
 	void CBaseTraveler::changeRing()
 	{
-		CRingTraveler::timeArrived();
+		CRingTraveler::doChange(); //REVISAR
 		_changingRingTime=0;
 	}
 

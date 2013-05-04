@@ -13,7 +13,6 @@ En este fichero se declara la acción latente de cambiar de base.
 #define __AI_CHANGERINGLatentActions_H
 
 #include "LatentAction.h"
-#include "../../Application/Clock.h"
 #include "Logic/Entity/Entity.h"
 
 using namespace Logic;
@@ -24,7 +23,7 @@ namespace AI
 	/**
 	Esta acción espera durante un periodo de tiempo indicado en el constructor.
 	*/
-	class CLA_ChangeRing : public CLatentAction, public Application::IClockListener
+	class CLA_ChangeRing : public CLatentAction
 	{
 	public:
 		/**
@@ -32,7 +31,7 @@ namespace AI
 		
 		@param time Tiempo de espera
 		*/
-		CLA_ChangeRing(CEntity* entity) : CLatentAction(),_maxChangingRingTime(1500) {this->setEntity(entity);};
+		CLA_ChangeRing(CEntity* entity, Message::TActionType action) : CLatentAction(),_jumping(false), _justJumped(false),_justOneTime(false), _targetSense(Logic::LogicalPosition::UNDEFINED), _acumRotation(0),_turning(false) {_action=action; this->setEntity(entity);};
 		/**
 		Destructor
 		*/
@@ -114,32 +113,36 @@ namespace AI
 		virtual void sleepComponents();
 
 		virtual void awakeComponents();
-				////////////////////////////////////////
-		// Métodos de IClockListener //
-		////////////////////////////////////////
-		/**
-		Método que será invocado siempre que se termine una animación.
-		Las animaciones en cíclicas no invocarán nunca este método.
+		
+		void jump();
 
-		@param animation Nombre de la animación terminada.
-		*/
-		void timeArrived();
-
+		void turn();
 	protected:
 		
-		float _maxChangingRingTime;
+		bool _jumping;
+
+		float _jumpSpeed;
+
+		bool _justJumped;
+
+		Logic::Sense _targetSense;
+
+		float _acumRotation;
 		
-		Application::IClock* _reloj;
+		bool _turning;
 
-		float _contador;
-		
-		Message::TActionType _actionScale;
+		bool _changeDone;
 
-		unsigned short _desencogiendo;
+		bool _justOneTime;
 
-		float _velocidad;
+		Logic::Sense _mySense;
 
-		Graphics::CScene* _scene;
+		Message::TActionType _action;
+
+		float _initialJumpSpeed;
+
+		Logic::Ring _initialRing;
+
 	};
 
 } //namespace AI 

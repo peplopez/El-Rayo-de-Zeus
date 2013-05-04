@@ -21,7 +21,7 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
-
+#include "Graphics/AnimatedEntity.h"
 
 /*para tener un acceso directo al gamestatus*/
 #include "Logic/GameStatus.h"
@@ -125,7 +125,7 @@ namespace Logic
 				_gameStatus->getPlayer(_entity->getOriginBase())->increaseAltarsActivated();
 				CMessageBoolString *message = new CMessageBoolString();
 				message->setType(Message::SET_ANIMATION);		
-				message->setString("idle");
+				message->setString(Graphics::AnimNames::IDLE);
 				message->setBool(true);
 				_entity->emitMessage(message,this);
 			}
@@ -153,7 +153,7 @@ namespace Logic
 				
 			CMessageBoolString *message = new CMessageBoolString();
 			message->setType(Message::SET_ANIMATION);		
-			message->setString("activate");
+			message->setString(Graphics::AnimNames::ACTIVATE_ALTAR);
 			message->setBool(true);
 			_entity->emitMessage(message,this);
 		}

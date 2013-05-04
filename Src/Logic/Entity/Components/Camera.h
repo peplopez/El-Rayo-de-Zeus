@@ -146,6 +146,7 @@ namespace Logic
 		*/
 		CEntity *_target;
 
+		//Vector3 _targetInmovil;
 		Vector3 _currentPos;
 
 		/**

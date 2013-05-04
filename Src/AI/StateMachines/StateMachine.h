@@ -185,7 +185,9 @@ namespace AI
 
 			int covering=this->addNode(new CLA_Cover(entity));
 			int changingBase=this->addNode(new CLA_ChangeBase(entity));			
-			int changingRing=this->addNode(new CLA_ChangeRing(entity));
+			int changingRingUp=this->addNode(new CLA_ChangeRing(entity,Message::GO_UP));			
+			int changingRingDown=this->addNode(new CLA_ChangeRing(entity,Message::GO_DOWN));
+
 			int h_attack2Fatality=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
 
 			int damaged=this->addNode(new CLA_Beaten(entity));
@@ -233,10 +235,12 @@ namespace AI
 			
 			//solo hago posible viajar desde idle
 			this->addEdge(idle, changingBase, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::CHANGE_BASE));
-			this->addEdge(idle, changingRing, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_DOWN));
-			this->addEdge(idle, changingRing, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_UP));
+			this->addEdge(idle, changingRingDown, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_DOWN));
+			this->addEdge(idle, changingRingUp, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_UP));
 			this->addEdge(changingBase, idle, new CConditionFinished());
-			this->addEdge(changingRing, idle, new CConditionFinished());
+			//this->addEdge(changingRing, idle, new CConditionFinished());
+			this->addEdge(changingRingUp, idle, new CConditionSuccess);
+			this->addEdge(changingRingDown, idle, new CConditionSuccess);
 
 			this->addEdge(idle, covering, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::COVER));
 			this->addEdge(l_run, covering, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::COVER));			
