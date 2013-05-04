@@ -35,7 +35,7 @@ namespace Logic
 	@author Jose Luis López Sánchez
 	@date Febrero, 2013
 */
-	class CBaseTraveler :  public CRingTraveler
+	class CBaseTraveler: public IComponent
 	{
 		DEC_FACTORY(CBaseTraveler);
 	public:
@@ -44,7 +44,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CBaseTraveler() : CRingTraveler(GetAltTypeIdOf(CBaseTraveler)),_changingBase(false),_changingBaseTime(0),
+		CBaseTraveler() : IComponent(GetAltTypeIdOf(CBaseTraveler)),_changingBase(false),_changingBaseTime(0),
 			_maxChangingBaseTime(5000), _changeAllowed(false), _baseToGo(0) {}
 		
 		
@@ -87,11 +87,6 @@ namespace Logic
 
 		bool isChangingBase(){return _changingBase;}
 
-
-		/**
-		Métodos que serán invocados desde la máquina de estados LA_ChangeBase y LA_ChangeRing*/
-		void changeRing();
-
 		void changeBase();
 
 	protected:
@@ -103,10 +98,11 @@ namespace Logic
 		float _maxChangingBaseTime;
 
 		unsigned short _destiny;
-
 		
 		Logic::CGameStatus* _gameStatus;
+
 		bool _changeAllowed;
+
 		unsigned short _baseToGo;
 
 		/**

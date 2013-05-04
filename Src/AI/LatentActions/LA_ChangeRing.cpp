@@ -51,7 +51,7 @@ namespace AI
 		message->setBool(false);
 		_entity->emitMessage(message);		
 		turn();
-		return RUNNING;
+		return SUSPENDED;
 	}
 
 	/**
@@ -63,19 +63,8 @@ namespace AI
 	*/
 	void CLA_ChangeRing::OnStop()
 	{
-
 		std::cout<<"AI::StateMachine::ChangeRing-OnStop"<<std::endl;
 		awakeComponents();
-		/*if (_entity->getComponent<CRingTraveler>()!=NULL)
-		{
-			_entity->getComponent<CRingTraveler>()->doChange();
-		}
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
-			_entity->getComponent<CBaseTraveler>()->doChange();
-		*/
-			
-		//	LOG("Change Ring: " << (int) m0->getChar() );
-			
 	}
 
 	/**
@@ -110,14 +99,14 @@ namespace AI
 	{
 		// Cuando se aborta se queda en estado terminado con fallo		
 		//REVISAR
-		if (_entity->getComponent<CRingTraveler>()!=NULL)
+	/*	if (_entity->getComponent<CRingTraveler>()!=NULL)
 		{
 			_entity->getComponent<CRingTraveler>()->resetChangingRing();
 			return FAIL;
 		}
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)
 			_entity->getComponent<CBaseTraveler>()->resetChangingRing();
-		
+		*/
 		return FAIL;
 	}
 	/**
