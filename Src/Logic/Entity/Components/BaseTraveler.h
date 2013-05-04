@@ -14,7 +14,6 @@ de los elementos del juego
 #define __Logic_BaseTraveler_H
 
 #include "Logic/Entity/Component.h"
-#include "RingTraveler.h"
 #include "../../../Application/Clock.h"
 
 
@@ -27,8 +26,7 @@ namespace Logic
 namespace Logic 
 {
 /**
-	Componente que se encarga de los cambios de anillo. Hereda de RingTraveler, lo amplia, hace que no solo
-	pueda cambiar de anillo sino también a un anillo de otra base.
+	Componente que se encarga de los cambios de anillo.
 	
     @ingroup logicGroup
 
