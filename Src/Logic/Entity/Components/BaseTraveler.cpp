@@ -82,7 +82,7 @@ namespace Logic
 	
 	bool CBaseTraveler::accept(const CMessage *message)
 	{
-		return (isAwake() && !_changingBase && (CRingTraveler::accept(message) || 
+		return (isAwake() && !_changingBase && (
 					(message->getType() == Message::CONTROL && message->getAction() == Message::SHOW_BASE) || 
 					  (message->getType() == Message::CONTROL && message->getAction() == Message::GOBACK_TO_BASE)  || 
 					   (message->getType() == Message::CONTROL && message->getAction() == Message::CHANGE_BASE)));
@@ -91,10 +91,7 @@ namespace Logic
 	//---------------------------------------------------------
 
 	void CBaseTraveler::process(CMessage *message)
-	{
-		CRingTraveler::process(message);
-		 // TODO FRS esto podría ser char...
-		
+	{	
 		switch(message->getType())
 		{
 		case Message::CONTROL:
@@ -117,7 +114,7 @@ namespace Logic
 					_changingBase=true;
 					_entity->getMap()->setVisible(); 
 				}
-				if (_entity->getName()=="GemeloGreen" || _entity->getName()=="GemeloYellow" /*|| _entity->getName()=="GemeloBlue"*/)
+				if (_entity->getName()=="GemeloGreen" || _entity->getName()=="GemeloYellow" /*|| _entity->getName()=="GemeloBlue"*/) 
 				{
 					_changingBase=true;
 					CMessageUShort *maux = static_cast<CMessageUShort*>(message);
@@ -131,9 +128,8 @@ namespace Logic
 	//---------------------------------------------------------
 
 	void CBaseTraveler::changeBase()
-	{
-	
-		if (_changingBase && !isChangingRing())
+	{	
+		if (_changingBase)
 		{	
 			jumpToBase();
 			LOG("EXITO");
@@ -145,8 +141,6 @@ namespace Logic
 			_entity->emitMessage(m,this);
 			
 			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _baseToGo );
-
-
 			
 			CMessageUInt *m2 = new CMessageUInt();	
 			m2->setType(Message::SET_INITIAL_MATERIAL);
@@ -155,13 +149,6 @@ namespace Logic
 		}
 		_changingBase=false;
 		_changingBaseTime=0;
-	}
-
-	
-	void CBaseTraveler::changeRing()
-	{
-		CRingTraveler::timeArrived();
-		_changingRingTime=0;
 	}
 
 	//---------------------------------------------------------
@@ -204,9 +191,8 @@ namespace Logic
 
 	//---------------------------------------------------------
 			
-	void CBaseTraveler::tick(unsigned int msecs)
+	void CBaseTraveler::tick(unsigned int msecs)	
 	{
-			CRingTraveler::tick(msecs);
 			IComponent::tick(msecs);			
 	}
 

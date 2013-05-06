@@ -68,7 +68,7 @@ namespace AI
 		// para sacar el timer de la aplicación y usar su método 
 		// getMilliseconds.
 
-		return RUNNING;
+		return SUSPENDED;
 	}
 
 	/**

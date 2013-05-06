@@ -229,12 +229,18 @@ namespace AI
 	{
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 			_entity->getComponent<CAvatarController>()->sleep();
+		if (_entity->getComponent<CJump>()!=NULL)
+			_entity->getComponent<CJump>()->sleep();
 	}
+
 
 	void CLA_ChangeBase::awakeComponents()
 	{
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 			_entity->getComponent<CAvatarController>()->awake();
+		if (_entity->getComponent<CJump>()!=NULL)
+			_entity->getComponent<CJump>()->awake();
+
 	}
 	void CLA_ChangeBase::timeArrived()
 	{//El primer if es para ignorar eventos externos si no estoy en el estado

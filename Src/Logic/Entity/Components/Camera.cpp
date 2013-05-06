@@ -161,7 +161,7 @@ namespace Logic
 		
 		
 		position = (_targetDistance +  _target->getLogicalPosition()->getRadio()) * _currentPos.normalisedCopy() ;
-		position.y = CServer::getSingletonPtr()->getRingPosition(_target->getLogicalPosition()->getRing()).y;
+		//position.y = CServer::getSingletonPtr()->getRingPosition(_target->getLogicalPosition()->getRing()).y;
 		
 		
 		//a partir de aquí es principalmente para el efecto de que tiemble la camara.

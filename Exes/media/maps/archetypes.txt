@@ -67,9 +67,9 @@ Map = {
 	
 	PlayerCamera = {
 		type = "Camera",
-		distance = 150,
+		distance = 200,
 		height = 13,
-		targetDistance =3,
+		targetDistance =6,
 		targetHeight = 7,
 		cameraSpeed = 1.5,
 		radio=120,

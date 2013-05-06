@@ -41,7 +41,8 @@ namespace Graphics
 		const std::string COVER_WITH_WEAPON = "cover";
 		const std::string COVER_WITH_SHIELD = "shieldcover";	
 		const std::string ATTACK1			= "attack1";
-		const std::string ATTACK2			= "attack3";
+		const std::string ATTACK2			= "attack2";
+		const std::string ATTACK3			= "attack3";
 		const std::string COMBO1			= "combo1";
 		const std::string COMBO2			= "combo2";
 		const std::string COMBO3			= "combo3";
@@ -118,7 +119,7 @@ namespace Graphics
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
 		CAnimatedEntity(const std::string &name, const std::string &mesh):
-					CEntity(name,mesh), _currentAnimation(0), _currentAnimationName(""), _rewinding(false),_momentEnabled(true) {}
+					CEntity(name,mesh), _currentAnimation(0), _currentAnimationName(""), _rewinding(false),_momentEnabled(true),_paused(false),_ticksPaused(0) {}
 
 
 		/**
@@ -202,7 +203,9 @@ namespace Graphics
 		*/
 		void tick(float secs);
 
+		bool _paused;
 		
+		unsigned int _ticksPaused;
 	}; // class CAnimatedEntity
 
 } // namespace Graphics
