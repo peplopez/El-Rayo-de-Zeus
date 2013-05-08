@@ -112,7 +112,7 @@ namespace Logic {
 
 		// Intentamos mover el actor según los AVATAR_MOVE acumulados. 
 		// UNDONE FRS _server->moveActor(_physicActor, _diffDegrees, _diffHeight, _diffRing, _diffBase);
-		_diffHeight -= 60 * msecs * 0.001;	
+		_diffHeight -= _negativeYVelocity * msecs * 0.001;	//gravedad (no acelerada) simulada
 		_physicalActor->move(_diffDegrees, _diffHeight, _diffRing, _diffBase);
 
 		// TODO Actualizamos el flag que indica si estamos cayendo
