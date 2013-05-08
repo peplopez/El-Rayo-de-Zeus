@@ -33,8 +33,17 @@ namespace Logic
 	bool CJump::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
-			return false;				
+			return false;	
+
+		if(entityInfo->hasAttribute("jumpSpeed"))
+		{
+			_jumpSpeed = entityInfo->getFloatAttribute("jumpSpeed");
+			_initialJumpSpeed = entityInfo->getFloatAttribute("jumpSpeed");
+		}
 	
+		if(entityInfo->hasAttribute("jumpDecay"))
+			_jumpDecay = entityInfo->getFloatAttribute("jumpDecay");
+
 
 		return true;
 
@@ -68,19 +77,19 @@ namespace Logic
 		switch(message->getType())
 		{
 		case Message::CONTROL:
-			if(message->getAction() == Message::JUMP)
+ 			if(message->getAction() == Message::JUMP)
 					jump();
 		}
 	} // process
 	
 	//---------------------------------------------------------
-
+	
 	void CJump::jump() 
 	{
 		if (!_jumping)
 		{
 			_jumping = true;
-			_justJumped = true;
+			_maxHeightReached = false;
 		}
 	} // stopWalk
 	
@@ -92,34 +101,25 @@ namespace Logic
 
 		if (_jumping)
 		{
-			_jumpSpeed -= 0.0004f * msecs;  //gravedad 0.0003f
-			float tickHeight = _jumpSpeed * msecs;
-
 			//si estamos en trayectoria descendente activamos salida del salto
 			if (_jumpSpeed < 0)
-				_justJumped = false;
+				_maxHeightReached = true;
 			
-			if (_entity->getLogicalPosition()->getHeight() == 0 && !_justJumped) 
+			if (_maxHeightReached && _entity->getLogicalPosition()->getHeight() == 0) 
 			{
 				_jumping=false;
-				_jumpSpeed = 0.13f;
-				//assert(_entity->getComponent<CAvatarController>()==NULL);
-				if (_entity->getComponent<CAvatarController>()->isWalkingRight())
-					_entity->getComponent<CAvatarController>()->walkRight();
-				else if (_entity->getComponent<CAvatarController>()->isWalkingLeft())
-					_entity->getComponent<CAvatarController>()->walkLeft();
-				
+				_jumpSpeed = _initialJumpSpeed;
 			}
 			else
 			{
+				float tickHeight = _jumpSpeed * msecs * 0.001;
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
 				m->setAction(Logic::Message::JUMP);
 				m->setFloat(tickHeight);
 				_entity->emitMessage(m);
+				_jumpSpeed -= _jumpDecay * msecs * 0.001;
 			}
-
-
 		}		
 	} // tick
 

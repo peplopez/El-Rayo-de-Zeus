@@ -186,14 +186,15 @@ Map = {
 		lifeBarWidth = 15.0,
 		lifeBarHeight = 1.5,	
 		lifeBase = 3,		
-		angularSpeed = 0.0425,
+		angularSpeed = 42.5,
 		defaultAnimation = "idle",
 		logicInput=true,
-		jumpPower = 0.08,
 		behavior="Hercules",
 		hero="Hercules",
 		initialMaterial="SpartanBodyTatoo",
 		audio="media\\audio\\QUEJIDO1.wav",
+		jumpSpeed=220,
+		jumpDecay=700,
 	},
 	
 	Espartano = {
@@ -210,7 +211,7 @@ Map = {
 		lifeBarWidth = 15.0,
 		lifeBarHeight = 1.5,	
 		lifeBase = 3,		
-		angularSpeed = 0.0425,
+		angularSpeed = 42.5,
 		defaultAnimation = "idle",
 		logicInput=true,
 		jumpPower = 0.08,
@@ -219,6 +220,8 @@ Map = {
 		audio="media\\audio\\QUEJIDO1.wav",
 		audioCubriendose="media\\audio\\Sword_scrape2.wav",
         initialMaterial="SpartanBodyTatooWounds",
+		jumpSpeed=220,
+		jumpDecay=700,
 	},
 	
 	OtherPlayer = {
@@ -235,7 +238,7 @@ Map = {
 		lifeBarWidth = 15.0,
 		lifeBarHeight = 1.5,	
 		lifeBase = 3,		
-		angularSpeed = 0.0425,
+		angularSpeed = 42.5,
 		defaultAnimation = "idle",
 		logicInput=true,
 		jumpPower = 0.08,
@@ -244,6 +247,8 @@ Map = {
 		initialMaterial="SpartanBodyWounds",
 		audio="media\\audio\\QUEJIDO1.wav",
 		audioCubriendose="media\\audio\\Sword_scrape2.wav",
+		jumpSpeed=220,
+		jumpDecay=700,
 	},
 	
 	PUApple = {

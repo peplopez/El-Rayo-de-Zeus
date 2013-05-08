@@ -128,37 +128,6 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	// Crear el actor físico
-	Physics::CActor* CPhysics::reCreateActor()
-	{
-		assert(_scene && "LOGIC::PHYSICS>> No existe escena física!");		
-
-		delete _physicalActor;
-		// Obtenemos la posición de la entidad. 
-		CLogicalPosition* logicPos = new CLogicalPosition(*(_entity->getLogicalPosition()));
-
-		_entity->getLogicalPosition();
-				
-		// TRIGGER
-		if(_isTrigger)  {
-			_physicalActor = new Physics::CActorTrigger(logicPos, _physicWidth, _physicHeight, this);
-				if( _scene->addActor(_physicalActor ) ) // Añadir el actor a la escena
-					return _physicalActor ;
-				else
-					return 0;
-		// COLLIDER
-		} else {
-			_physicalActor = new Physics::CActor(logicPos, _physicWidth, _physicHeight, this);
-				if(_scene->addActor(_physicalActor) ) // Añadir el actor a la escena
-					return _physicalActor;
-				else
-					return 0;
-		}
-
-	} // reCreateActor 
-
-	//---------------------------------------------------------
-
 	void  CPhysics::onTrigger (Physics::IObserver* other, bool enter) 
 	{
 		// Construimos un mensaje de tipo TOUCHED o UNTOUCHED 

@@ -23,25 +23,15 @@ namespace AI
 //	Implementación de CLA_ChangeRing
 ////////////////////////////////
 
-	/**
-	Método invocado al principio de la ejecución de la acción,
-	para que se realicen las tareas que son únicamente necesarias
-	al principio (y no durante toda la vida de la acción).
-	<p>
-	Al comenzar se obtiene el tiempo actual y se calcula el 
-	tiempo en el que terminará la acción mediante el atributo _time
-
-	@return Estado de la función; si se indica que la
-	acción a terminado (LatentAction::Completed), se invocará
-	al OnStop().
-	*/
 	CLatentAction::LAStatus CLA_ChangeRing::OnStart()
 	{				
-		_justOneTime=false;
-		_changeDone=false;
-		_initialJumpSpeed=(_action==Message::GO_DOWN?0.07f:0.18f); //velocidad de salto inicial en caso de dejarse caer o saltar arriba
-		_initialRing=_entity->getLogicalPosition()->getRing();
-		_jumpSpeed=_initialJumpSpeed;
+		_justOneTime = false;
+		_changeDone = false;
+		_initialJumpSpeed = (_action == Message::GO_DOWN ? 100 : 300); //elocidad de salto inicial en caso de dejarse caer o saltar arriba
+		_initialRing = _entity->getLogicalPosition()->getRing();
+		_jumpSpeed = _initialJumpSpeed;
+		_jumpDecay =(_action == Message::GO_DOWN ? 400 : 570);
+		_turnSpeed= 0.005f/7; 
 		sleepComponents();		//Desactivación de componentes
 		std::cout<<"AI::StateMachine::ChangeRing"<<std::endl;
 		CMessageBoolString *message = new CMessageBoolString();
@@ -54,29 +44,14 @@ namespace AI
 		return SUSPENDED;
 	}
 
-	/**
-	Método invocado al final de la ejecución de la acción,
-	para que se realicen las tareas que son únicamente necesarias
-	al final (y no durante toda la vida de la acción).
 
-	En la mayoría de los casos este método no hace nada.
-	*/
 	void CLA_ChangeRing::OnStop()
 	{
 		std::cout<<"AI::StateMachine::ChangeRing-OnStop"<<std::endl;
 		awakeComponents();
 	}
 
-	/**
-	Método invocado cíclicamente para que se continúe con la
-	ejecución de la acción.
-	<p>
-	En cada paso de ejecución se obtiene el tiempo actual 
-	y se comprueba si se debe acabar la acción.
 
-	@return Estado de la acción tras la ejecución del método;
-	permite indicar si la acción ha terminado o se ha suspendido.
-	*/
 	CLatentAction::LAStatus CLA_ChangeRing::OnRun() 
 	{
 		if (this->getStatus()!=SUCCESS && this->getStatus()!=FAIL)
@@ -85,16 +60,7 @@ namespace AI
 			return this->getStatus();
 	}
 
-	/**
-	Método invocado cuando la acción ha sido cancelada (el comportamiento
-	al que pertenece se ha abortado por cualquier razón).
 
-	La tarea puede en este momento realizar las acciones quead
-	considere oportunas para "salir de forma ordenada".
-
-	@note <b>Importante:</b> el Abort <em>no</em> provoca la ejecución
-	de OnStop().
-	*/
 	CLatentAction::LAStatus CLA_ChangeRing::OnAbort() 
 	{
 		// Cuando se aborta se queda en estado terminado con fallo		
@@ -109,23 +75,9 @@ namespace AI
 		*/
 		return FAIL;
 	}
-	/**
-	Devuelve true si a la acción le interesa el tipo de mensaje
-	enviado como parámetro.
-	<p>
-	Esta acción no acepta mensajes de ningún tipo.
 
-	@param msg Mensaje que ha recibido la entidad.
-	@return true Si la acción está en principio interesada
-	por ese mensaje.
-	*/
 	bool CLA_ChangeRing::accept(const CMessage *message){return false;}
-	/**
-	Procesa el mensaje recibido. El método es invocado durante la
-	ejecución de la acción cuando se recibe el mensaje.
 
-	@param msg Mensaje recibido.
-	*/
 	void CLA_ChangeRing::process(CMessage *message)	{}
 		
 	void CLA_ChangeRing::jump() 
@@ -133,7 +85,7 @@ namespace AI
 		if (!_jumping)
 		{
 			_jumping = true;
-			_justJumped = true;
+			_maxHeightReached = false;
 		}
 	} // jump
 	
@@ -145,18 +97,19 @@ namespace AI
 
 	//PeP
 	void CLA_ChangeRing::tick(unsigned int msecs) 
-	{		
-		float _turningSpeed= 0.005f/7; 
+	{	
+		CLatentAction::tick();//no olvideis llamar al tick de CLatentAction
+		
 		if (_turning)
 		{	
 			if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::RIGHT || _entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
 				_targetSense = Logic::LogicalPosition::LOOKING_CENTER;
 		
-			if (_initialRing==Logic::LogicalPosition::CENTRAL_RING)
+			if (_initialRing == Logic::LogicalPosition::CENTRAL_RING)
 			{
 				if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::RIGHT)
 				{
-					float tickRotation = Math::PI * _turningSpeed * msecs;
+					float tickRotation = Math::PI * _turnSpeed * msecs;
 					_entity->yaw(tickRotation);
 					_acumRotation += tickRotation;
 					_mySense=Logic::LogicalPosition::RIGHT;
@@ -171,7 +124,7 @@ namespace AI
 				}
 				else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
 				{
-					float tickRotation = Math::PI * _turningSpeed * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+					float tickRotation = Math::PI * _turnSpeed * msecs;
 					_entity->yaw(-tickRotation);
 					_acumRotation += tickRotation;
 					_mySense=Logic::LogicalPosition::LEFT;
@@ -189,7 +142,7 @@ namespace AI
 				if (_targetSense == Logic::LogicalPosition::RIGHT)
 				{   
 					
-					float tickRotation = Math::PI * _turningSpeed* msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+					float tickRotation = Math::PI * _turnSpeed* msecs; 
 					_entity->yaw(-tickRotation);
 					_acumRotation += tickRotation;
 					if (_acumRotation >= Math::PI/2)
@@ -204,7 +157,7 @@ namespace AI
 				}
 				else if (_targetSense == Logic::LogicalPosition::LEFT)
 				{
-					float tickRotation = Math::PI *_turningSpeed* msecs;
+					float tickRotation = Math::PI *_turnSpeed* msecs;
 					_entity->yaw(tickRotation);
 					_acumRotation += tickRotation;
 					if (_acumRotation >= Math::PI/2)
@@ -228,7 +181,7 @@ namespace AI
 		{
 				if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::RIGHT)
 				{
-					float tickRotation = Math::PI * _turningSpeed * msecs;
+					float tickRotation = Math::PI * _turnSpeed * msecs;
 					_entity->yaw(-tickRotation);
 					_acumRotation += tickRotation;
 					_mySense=Logic::LogicalPosition::RIGHT;
@@ -243,7 +196,7 @@ namespace AI
 				}
 				else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
 				{
-					float tickRotation = Math::PI * _turningSpeed * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+					float tickRotation = Math::PI * _turnSpeed * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
 					_entity->yaw(+tickRotation);
 					_acumRotation += tickRotation;
 					_mySense=Logic::LogicalPosition::LEFT;
@@ -260,7 +213,7 @@ namespace AI
 			{
 				if (_targetSense == Logic::LogicalPosition::RIGHT)
 				{   					
-					float tickRotation = Math::PI * _turningSpeed* msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+					float tickRotation = Math::PI * _turnSpeed* msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
 					_entity->yaw(+tickRotation);
 					_acumRotation += tickRotation;
 					if (_acumRotation >= Math::PI/2)
@@ -275,7 +228,7 @@ namespace AI
 				}
 				else if (_targetSense == Logic::LogicalPosition::LEFT)
 				{
-					float tickRotation = Math::PI *_turningSpeed* msecs;
+					float tickRotation = Math::PI *_turnSpeed* msecs;
 					_entity->yaw(-tickRotation);
 					_acumRotation += tickRotation;
 					if (_acumRotation >= Math::PI/2)
@@ -303,55 +256,52 @@ namespace AI
 			float myGlobalHeight=_entity->getLogicalPosition()->getHeight()+CServer::getSingletonPtr()->getRingPosition(_entity->getLogicalPosition()->getRing()).y;
 
 			if (!_changeDone && 
-				((_action==Message::GO_UP && myGlobalHeight > CServer::getSingletonPtr()->getRingPosition(_entity->getLogicalPosition()->getRing()).y+50) ||
-				(_action==Message::GO_DOWN && myGlobalHeight > CServer::getSingletonPtr()->getRingPosition(_entity->getLogicalPosition()->getRing()).y+1)) )
+				((_action==Message::GO_UP && myGlobalHeight > CServer::getSingletonPtr()->getRingPosition(_entity->getLogicalPosition()->getRing()).y + 50) ||
+				(_action==Message::GO_DOWN && myGlobalHeight > CServer::getSingletonPtr()->getRingPosition(_entity->getLogicalPosition()->getRing()).y + 1)) )
 			{
 				_changeDone=true;
 				_justOneTime=true;
-				CMessageChar *m0 = new CMessageChar();	
-				m0->setType(Message::AVATAR_MOVE);
-				m0->setAction(Message::CHANGE_RING);		
-				m0->setChar(_action==Message::GO_DOWN?-1:1);
-				_entity->emitMessage(m0);
+				CMessageChar *m = new CMessageChar();	
+				m->setType(Message::AVATAR_MOVE);
+				m->setAction(Message::CHANGE_RING);		
+				m->setChar(_action==Message::GO_DOWN?-1:1);
+				_entity->emitMessage(m);
 			}
-			float _gravedad=0.00025f;
-			_jumpSpeed -= _gravedad * msecs;  //gravedad 0.0003f
-			float tickHeight = _jumpSpeed * msecs;
+
+			 
 
 			//si estamos en trayectoria descendente activamos salida del salto
 			if (_jumpSpeed < 0)
-				_justJumped = false;
+				_maxHeightReached = true;
 			
-			if (_entity->getLogicalPosition()->getHeight() == 0 && !_justJumped) 
+			if (_entity->getLogicalPosition()->getHeight() == 0 && _maxHeightReached) 
 			{
 				_jumping=false;
 				_targetSense=_mySense;
 				turn();
 				_jumpSpeed=_initialJumpSpeed;
-				if (_entity->getComponent<CAvatarController>()->isWalkingRight())
-					_entity->getComponent<CAvatarController>()->walkRight();
-				else if (_entity->getComponent<CAvatarController>()->isWalkingLeft())
-					_entity->getComponent<CAvatarController>()->walkLeft();
+
 			}
 			else
 	     	{
+				float tickHeight = _jumpSpeed * msecs * 0.001;
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
 				m->setAction(Logic::Message::JUMP);
 					
-				//float tickResult=tickHeight-50*(_action==Message::GO_DOWN?1:0)-50*(_action==Message::GO_DOWN?-1:1)*_justOneTime;
 				float tickResult;
 				if (_action==Message::GO_UP)
-					tickResult=tickHeight-50*_justOneTime;
+					tickResult=tickHeight-50 * _justOneTime;
 				if (_action==Message::GO_DOWN)
 					tickResult=tickHeight+50*_justOneTime;
 				m->setFloat(tickResult);
 				if (_justOneTime) 
 					_justOneTime=false;
-				_entity->emitMessage(m);			
+				_entity->emitMessage(m);
+				_jumpSpeed -= _jumpDecay * msecs * 0.001; 
 			}
 		}
-		CLatentAction::tick();//no olvideis llamar al tick de CLatentAction
+		
 	}
 
 	void CLA_ChangeRing::sleepComponents()

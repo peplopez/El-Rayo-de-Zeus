@@ -92,7 +92,6 @@ namespace Logic
 		void resetScene() {_scene = NULL;}
 		void setScene(Physics::CScene* scene) {_scene = scene;}
 
-		virtual Physics::CActor* reCreateActor();
 
 	protected:
 

@@ -35,18 +35,11 @@ namespace Physics
 		{		
 			// HACK aquí habría que recurrir a los setter securizados de logicPosition
 			
-			_logicPosition->setDegree(_logicPosition->getDegree()+degrees);
-			_logicPosition->setHeight(_logicPosition->getHeight()+height);
+			_logicPosition->setDegree(_logicPosition->getDegree() + degrees);
+			_logicPosition->setHeight(_logicPosition->getHeight() + height);
 			_logicPosition->setRing(static_cast<Logic::LogicalPosition::Ring>(_logicPosition->getRing() + ring));		
-			_logicPosition->setBase(_logicPosition->getBase()+ base); 
+			_logicPosition->setBase(_logicPosition->getBase() + base); 
 
-			if (_logicPosition->getHeight() < 0)
-				_logicPosition->setHeight(0);
-			
-			if (_logicPosition->getDegree() < 0)
-				_logicPosition->setDegree(360 + _logicPosition->getDegree());
-			else if (_logicPosition->getDegree() >= 360)
-				_logicPosition->setDegree(_logicPosition->getDegree() - 360);
 		
 		} // move
 

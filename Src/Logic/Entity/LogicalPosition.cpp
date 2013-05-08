@@ -80,7 +80,10 @@ namespace Logic
 		*/
 		void CLogicalPosition::setHeight(const float height)
 		{
-			_height=height;
+			if (height < 0)
+				_height = 0;
+			else
+				_height = height;
 		}
 
 		/**

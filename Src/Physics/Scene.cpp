@@ -169,9 +169,9 @@ namespace Physics
 			if (x < 0)
 			{
 				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
-				pos->setDegree(pos->getDegree()-x);
+				pos->setDegree(pos->getDegree() - x);
 				if (pos->getDegree()> 360)
-					pos->setDegree(pos->getDegree()-360);
+					pos->setDegree(pos->getDegree() - 360);
 				actor2->setLogicPosition(pos);
 			}
 			else if (x > 0)

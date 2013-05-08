@@ -166,7 +166,7 @@ namespace AI
 		bool check(CLatentAction* currentNode, CEntity* entity)
 		{
 			if  (entity->getComponent<CJump>()!=NULL)			
-				return !entity->getComponent<CJump>()->getJumping();
+				return !entity->getComponent<CJump>()->isJumping();
 			return false;
 		}
 };
