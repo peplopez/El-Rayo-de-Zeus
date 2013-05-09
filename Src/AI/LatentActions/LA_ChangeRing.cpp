@@ -298,7 +298,7 @@ namespace AI
 				if (_justOneTime) 
 					_justOneTime=false;
 				_entity->emitMessage(m);
-				_jumpSpeed -= _jumpDecay * msecs * 0.001; 
+				_jumpSpeed -= _jumpDecay * msecs * 0.001f; 
 			}
 		}
 		

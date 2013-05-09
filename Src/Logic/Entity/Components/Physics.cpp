@@ -106,10 +106,16 @@ namespace Logic {
 		_isTrigger = false;
 		if (entityInfo->hasAttribute("physicTrigger"))
 			_isTrigger = entityInfo->getBoolAttribute("physicTrigger");
+
+		if (entityInfo->hasAttribute("widthOffset"))
+			_widthOffset = entityInfo->getFloatAttribute("widthOffset");
+
+		if (entityInfo->hasAttribute("heightOffset"))
+			_heightOffset = entityInfo->getFloatAttribute("heightOffset");
 		
 		// TRIGGER
 		if(_isTrigger)  {
-			Physics::CActorTrigger* trigger = new Physics::CActorTrigger(logicPos, _physicWidth, _physicHeight, this);
+			Physics::CActorTrigger* trigger = new Physics::CActorTrigger(logicPos, _physicWidth, _physicHeight,  _widthOffset, _heightOffset, this);
 				if( _scene->addActor(trigger ) ) // Añadir el actor a la escena
 					return trigger ;
 				else
@@ -117,7 +123,7 @@ namespace Logic {
 
 		// COLLIDER
 		} else {
-			Physics::CActor* collider = new Physics::CActor(logicPos, _physicWidth, _physicHeight, this);
+			Physics::CActor* collider = new Physics::CActor(logicPos, _physicWidth, _physicHeight, _widthOffset, _heightOffset, this);
 				if(_scene->addActor(collider) ) // Añadir el actor a la escena
 					return collider;
 				else

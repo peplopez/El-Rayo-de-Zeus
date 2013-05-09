@@ -69,7 +69,7 @@ namespace Logic
 		en grados
 		@return Posición de la entidad en el entorno.
 		*/
-		const float CLogicalPosition::getDegree() const { 
+		float CLogicalPosition::getDegree() const { 
 			return _degrees;
 		}
 
@@ -80,9 +80,9 @@ namespace Logic
 		*/
 		void CLogicalPosition::setHeight(const float height)
 		{
-			if (height < 0)
-				_height = 0;
-			else
+			//if (height < 0)
+			//	_height = 0;
+			//else
 				_height = height;
 		}
 
@@ -91,7 +91,7 @@ namespace Logic
 		
 		@return Height de la entidad con respecto al anillo actual.
 		*/
-		const float CLogicalPosition::getHeight() const { 
+		float CLogicalPosition::getHeight() const { 
 		    return	_height;
 		}
 
@@ -135,7 +135,7 @@ namespace Logic
 		NO USAREMOS SET_RADIO, con los cambios de anillo usamos setRing()
 		@return Radio de la entidad en el entorno.
 		*/
-		const float CLogicalPosition::getRadio()
+		float CLogicalPosition::getRadio()
 		{
 			return CServer::getSingletonPtr()->getRingRadio(_ring);
 		}
@@ -151,7 +151,7 @@ namespace Logic
 		
 		@return AngularBox de la entidad en el entorno.
 		*/
-		const Logic::Sense CLogicalPosition::getSense() const { return _sense; }
+		Logic::Sense CLogicalPosition::getSense() const { return _sense; }
 		
 		
 }

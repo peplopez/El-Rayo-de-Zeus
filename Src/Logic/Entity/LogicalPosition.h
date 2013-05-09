@@ -90,7 +90,7 @@ namespace Logic
 		en grados
 		@return Posición de la entidad en el entorno.
 		*/
-		const float getDegree() const ;
+		float getDegree() const ;
 		
 
 		/**
@@ -105,7 +105,7 @@ namespace Logic
 		
 		@return Height de la entidad con respecto al anillo actual.
 		*/
-		const float getHeight() const ;
+		float getHeight() const ;
 
 		/**
 		Establece la base de la entidad. 
@@ -144,10 +144,7 @@ namespace Logic
 		NO USAREMOS SET_RADIO, con los cambios de anillo usamos setRing()
 		@return Radio de la entidad en el entorno.
 		*/
-		const float getRadio();
-		/*{
-			return CServer::getSingletonPtr()->getRingRadio(_base,_ring);
-		}*/
+		float getRadio();
 		
 		/**
 		Establece la anchura de la entidad gráfica
@@ -160,7 +157,7 @@ namespace Logic
 		
 		@return AngularBox de la entidad en el entorno.
 		*/
-		const Logic::Sense getSense() const ;
+		Logic::Sense getSense() const ;
 
 	private:
 		Ring _ring; // Anillo

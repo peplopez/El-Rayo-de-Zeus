@@ -35,7 +35,7 @@ namespace Physics
 	public:
 
 		CActor();
-		CActor(Logic::CLogicalPosition* position, const float angularWidth, const float height, IObserver *component);
+		CActor(Logic::CLogicalPosition* position, const float angularWidth, const float height, float widthOffset, float heightOffset, IObserver *component);
 		
 		virtual ~CActor() {}
 
@@ -66,6 +66,9 @@ namespace Physics
 		void setIObserver(IObserver* component) {_component=component;}
 		IObserver *getIObserver() {return _component;}
 
+		float getWidthOffset() { return _widthOffset;}
+		float getHeightOffset() { return _heightOffset;}
+
 	protected:
 
 		// CScene es la única que puede añadir o eliminar actores.
@@ -78,6 +81,9 @@ namespace Physics
 
 		float _boxWidth;
 		float _boxHeight;
+
+		float _widthOffset;
+		float _heightOffset;
 
 		IObserver* _component;
 

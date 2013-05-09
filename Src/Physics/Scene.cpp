@@ -123,14 +123,14 @@ namespace Physics
 	void CScene::checkCollisions() {
 
 		//WTF!!
-		float x = 0;
-		float y = 0;
+		float overlapX = 0;
+		float overlapY = 0;
 		for (size_t i = 0; i < _colliders.size() - 1; ++i)	
 			for (size_t j = i + 1; j < _colliders.size(); ++j)
-				if ( _colliders[i]->intersects(_colliders[j], x, y) )
+				if ( _colliders[i]->intersects(_colliders[j], overlapX, overlapY) )
 				{		
 					LOG("Collision")
-					updateLogicPosition(_colliders[i], _colliders[j], x, y);
+					updateLogicPosition(_colliders[i], _colliders[j], overlapX, overlapY);
 					_colliders[i]->getIObserver()->onCollision(_colliders[j]->getIObserver());
 					_colliders[j]->getIObserver()->onCollision(_colliders[i]->getIObserver());	
 				}
@@ -162,39 +162,26 @@ namespace Physics
 
 	//--------------------------------------------------------
 
-	void CScene::updateLogicPosition(Physics::CActor *actor1, Physics::CActor *actor2, float x, float y)
+	void CScene::updateLogicPosition(Physics::CActor *actor1, Physics::CActor *actor2, float overlapX, float overlapY)
 	{
-		if (abs(x) < abs(y) || y == 0)
+		if (abs(overlapX) < abs(overlapY) || overlapY == 0)
 		{
-			if (x < 0)
-			{
-				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
-				pos->setDegree(pos->getDegree() - x);
-				if (pos->getDegree()> 360)
-					pos->setDegree(pos->getDegree() - 360);
-				actor2->setLogicPosition(pos);
-			}
-			else if (x > 0)
-			{
-				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
-				pos->setDegree(pos->getDegree()-x);
-				if (pos->getDegree() < 0)
-					pos->setDegree(pos->getDegree()+360);
-				actor2->setLogicPosition(pos);
-			}
+			Logic::CLogicalPosition* pos = actor2->getLogicPosition();
+			pos->setDegree(pos->getDegree() - overlapX);
+			actor2->setLogicPosition(pos);
 		}
 		else
 		{
-			if (y < 0)
+			if (overlapY < 0)
 			{
 				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
-				pos->setHeight(pos->getHeight()-y);
+				pos->setHeight(pos->getHeight() - overlapY);
 				actor2->setLogicPosition(pos);
 			}
-			else if (y > 0)
+			else if (overlapY > 0)
 			{
 				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
-				pos->setHeight(pos->getHeight()+y);
+				pos->setHeight(pos->getHeight() + overlapY);
 				actor2->setLogicPosition(pos);
 			}
 		}

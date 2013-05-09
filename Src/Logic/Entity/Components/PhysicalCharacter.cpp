@@ -90,33 +90,22 @@ namespace Logic {
 		// usando la información proporcionada por el motor de física	
 		// Este a genera  SET_TRANSFORM por debajo que informa al CGraphics
 
-		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()->getDegree() - _physicalActor->getLogicPosition()->getDegree()));
+		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()->getDegree() - _physicalActor->getLogicPosition()->getDegree() + _physicalActor->getWidthOffset()));
 
-		//assert((_entity->getLogicalPosition()->getDegree() - _physicalActor->getLogicPosition()->getDegree())==0);
-		// HACK ESC - PEACHO HaCK para que no se sobreescriba el sense con el del actor físico
-		//Logic::CLogicalPosition* pos =_physicalActor->getLogicPosition();
-		// PeP: este hack, no es muy hardcore? estamos haciendo un new en cada tick por cada actor físico que haya en escena. Hay que mirarlo
+
 		
 		_auxPos->setBase(_physicalActor->getLogicPosition()->getBase());
 		_auxPos->setRing(_physicalActor->getLogicPosition()->getRing());
-		_auxPos->setHeight(_physicalActor->getLogicPosition()->getHeight());
-		_auxPos->setDegree(_physicalActor->getLogicPosition()->getDegree());
+		_auxPos->setHeight(_physicalActor->getLogicPosition()->getHeight() - _physicHeight - _heightOffset); // el centro de los actores físicos está en el centro de su AABB, por lo que hay que corregirlo
+		_auxPos->setDegree(_physicalActor->getLogicPosition()->getDegree() - _widthOffset); //idem
 		_auxPos->setSense(_entity->getLogicalPosition()->getSense());
 		
 		_entity->setLogicalPosition(_auxPos); 
 		
-		// TODO Efecto de la gravedad quizá sea necesario..?
-		//if (_falling) { // PeP: _entity->getHeight() también nos proporciona la misma info, si es 0 está en el suelo.
-		//	_movement += Vector3(0,-1,0);
-		//}
 
-		// Intentamos mover el actor según los AVATAR_MOVE acumulados. 
-		// UNDONE FRS _server->moveActor(_physicActor, _diffDegrees, _diffHeight, _diffRing, _diffBase);
-		_diffHeight -= _negativeYVelocity * msecs * 0.001;	//gravedad (no acelerada) simulada
+		_diffHeight -= _negativeYVelocity * msecs * 0.001f;	//gravedad (no acelerada) simulada
 		_physicalActor->move(_diffDegrees, _diffHeight, _diffRing, _diffBase);
 
-		// TODO Actualizamos el flag que indica si estamos cayendo
-		//_falling =  !(flags & PxControllerFlag::eCOLLISION_DOWN);
 		
 		//Ponemos el movimiento a cero		
 		_diffDegrees = 0;

@@ -118,7 +118,7 @@ namespace Logic
 				m->setAction(Logic::Message::JUMP);
 				m->setFloat(tickHeight);
 				_entity->emitMessage(m);
-				_jumpSpeed -= _jumpDecay * msecs * 0.001;
+				_jumpSpeed -= _jumpDecay * msecs * 0.001f;
 			}
 		}		
 	} // tick

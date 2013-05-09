@@ -63,9 +63,9 @@ namespace Logic
 		Constructor por defecto.
 		*/
 		CPhysics::CPhysics() : 
-		  IComponent(GetAltTypeIdOf(CPhysics)), _physicalActor(0), _isTrigger(false), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0){}
+		  IComponent(GetAltTypeIdOf(CPhysics)), _physicalActor(0), _isTrigger(false), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0), _widthOffset(0), _heightOffset(0) {}
 		CPhysics::CPhysics(altTypeId id) : 
-		  IComponent(id),  _physicalActor(0), _isTrigger(false), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0){	}
+		  IComponent(id),  _physicalActor(0), _isTrigger(false), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0), _widthOffset(0), _heightOffset(0) {}
 
 		/**
 		Destructor. Elimina el objeto físico de la escena y lo destruye. 
@@ -101,6 +101,11 @@ namespace Logic
 
 		float _physicWidth;
 		float _physicHeight;
+
+		/*Valores de offset x, y para las AABB de los actores físicos
+		*/
+		float _widthOffset;
+		float _heightOffset;
 
 		bool _isTrigger;
 

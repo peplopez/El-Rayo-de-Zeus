@@ -31,8 +31,8 @@ namespace Physics
 		typedef std::set<CActor*> TActors;
 
 		CActorTrigger(Logic::CLogicalPosition *position, 
-					const float angularWidth, const float height, IObserver *component) 
-					: CActor(position, angularWidth, height, component) {};
+					const float angularWidth, const float height, const float widthOffset, const float heightOffset,  IObserver *component) 
+					: CActor(position, angularWidth, height, widthOffset, heightOffset, component) {};
 		
 		// TODO FRS necesario reimpl para que el delete se ejecute sobre este this y no del padre?
 		// void release();
