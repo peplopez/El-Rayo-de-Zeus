@@ -97,7 +97,7 @@ namespace Physics
 		/**
 		Corrige la posición de 2 actores que colisionan.
 		*/
-		void updateLogicPosition(Physics::CActor *actor1, Physics::CActor *actor2, float x, float y);		
+		void resolveCollision(Physics::CActor *actor1, Physics::CActor *actor2, float overlapX, float overlapY);		
 
 		
 

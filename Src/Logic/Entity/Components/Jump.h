@@ -32,7 +32,7 @@ namespace Logic
 		DEC_FACTORY(CJump);
 	public:
 
-		CJump() : IComponent(GetAltTypeIdOf(CJump)), _jumping(false), _jumpSpeed(0), _jumpDecay(0), _initialJumpSpeed(0), _maxHeightReached(false){}
+		CJump() : IComponent(GetAltTypeIdOf(CJump)), _jumping(false), _jumpSpeed(0), _jumpDecay(0), _initialJumpSpeed(0), _lastTickHeight(0), _maxHeightReached(false){}
 		
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
@@ -60,9 +60,14 @@ namespace Logic
 		*/
 		float _jumpSpeed;
 
+
 		/**
 		*/
 		float _jumpDecay;
+		
+		/**
+		*/
+		float _lastTickHeight;
 
 		/**
 		*/

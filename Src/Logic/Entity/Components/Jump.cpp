@@ -102,10 +102,11 @@ namespace Logic
 		if (_jumping)
 		{
 			//si estamos en trayectoria descendente activamos salida del salto
+
 			if (_jumpSpeed < 0)
 				_maxHeightReached = true;
 			
-			if (_maxHeightReached && _entity->getLogicalPosition()->getHeight() == 0) 
+			if (_maxHeightReached && _entity->getLogicalPosition()->getHeight() == _lastTickHeight) 
 			{
 				_jumping=false;
 				_jumpSpeed = _initialJumpSpeed;
@@ -119,6 +120,7 @@ namespace Logic
 				m->setFloat(tickHeight);
 				_entity->emitMessage(m);
 				_jumpSpeed -= _jumpDecay * msecs * 0.001f;
+				_lastTickHeight = _entity->getLogicalPosition()->getHeight();
 			}
 		}		
 	} // tick

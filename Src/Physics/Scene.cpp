@@ -129,8 +129,8 @@ namespace Physics
 			for (size_t j = i + 1; j < _colliders.size(); ++j)
 				if ( _colliders[i]->intersects(_colliders[j], overlapX, overlapY) )
 				{		
-					LOG("Collision")
-					updateLogicPosition(_colliders[i], _colliders[j], overlapX, overlapY);
+					LOG("Collision ")
+					resolveCollision(_colliders[i], _colliders[j], overlapX, overlapY);
 					_colliders[i]->getIObserver()->onCollision(_colliders[j]->getIObserver());
 					_colliders[j]->getIObserver()->onCollision(_colliders[i]->getIObserver());	
 				}
@@ -162,8 +162,9 @@ namespace Physics
 
 	//--------------------------------------------------------
 
-	void CScene::updateLogicPosition(Physics::CActor *actor1, Physics::CActor *actor2, float overlapX, float overlapY)
+	void CScene::resolveCollision(Physics::CActor *actor1, Physics::CActor *actor2, float overlapX, float overlapY)
 	{
+
 		if (abs(overlapX) < abs(overlapY) || overlapY == 0)
 		{
 			Logic::CLogicalPosition* pos = actor2->getLogicPosition();
@@ -174,18 +175,20 @@ namespace Physics
 		{
 			if (overlapY < 0)
 			{
-				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
-				pos->setHeight(pos->getHeight() - overlapY);
-				actor2->setLogicPosition(pos);
+				if ((actor1->getLogicPosition()->getHeight() - actor1->getBoxHeight() + overlapY * 0.5f ) >  0)
+					actor1->getLogicPosition()->setHeight(actor1->getLogicPosition()->getHeight() + overlapY * 0.5f);
+				if ((actor2->getLogicPosition()->getHeight() - actor2->getBoxHeight() - overlapY * 0.5f ) >  0)
+					actor2->getLogicPosition()->setHeight(actor2->getLogicPosition()->getHeight() - overlapY * 0.5f);
 			}
 			else if (overlapY > 0)
 			{
-				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
-				pos->setHeight(pos->getHeight() + overlapY);
-				actor2->setLogicPosition(pos);
+				if ((actor1->getLogicPosition()->getHeight() - actor1->getBoxHeight() - overlapY * 0.5f ) >  0)
+					actor1->getLogicPosition()->setHeight(actor1->getLogicPosition()->getHeight() - overlapY * 0.5f);
+				if ((actor2->getLogicPosition()->getHeight() - actor2->getBoxHeight() + overlapY * 0.5f) >  0)
+					actor2->getLogicPosition()->setHeight(actor2->getLogicPosition()->getHeight() + overlapY * 0.5f);
 			}
 		}
-	}
+	}	
 
 
 } // namespace Physics

@@ -55,7 +55,7 @@ namespace Physics
 			overlapX = 0;
 			overlapY = 0;
 			float xCenterDistance = _logicPosition->getDegree() - otherActor->getLogicPosition()->getDegree();
-			float yCenterDistance = 0;
+			float yCenterDistance = _logicPosition->getHeight() - otherActor->getLogicPosition()->getHeight();
 			if (xCenterDistance > 180) //
 				xCenterDistance -= 360;	
 			else if (xCenterDistance < -180)
@@ -63,7 +63,7 @@ namespace Physics
 			
 			if (abs(xCenterDistance) >= (_boxWidth + otherActor->getBoxWidth()))
 				return false;
-			else if (abs( yCenterDistance = (_logicPosition->getHeight() - otherActor->getLogicPosition()->getHeight()) ) >= (_boxHeight + otherActor->getBoxHeight()))
+			else if (abs(yCenterDistance) >= (_boxHeight + otherActor->getBoxHeight()))
 				return false;
 
 			// INTERSECCIÓN: devuelvo la información de la misma overlapX y overlapY
@@ -78,9 +78,9 @@ namespace Physics
 			
 				if (abs(yCenterDistance) < (_boxHeight + otherActor->getBoxHeight()))
 					if (yCenterDistance < 0)
-						overlapY = -(_boxHeight + otherActor->getBoxHeight() - abs(yCenterDistance));
-					else if (yCenterDistance > 0)
 						overlapY = _boxHeight + otherActor->getBoxHeight() - abs(yCenterDistance);
+					else if (yCenterDistance > 0)
+						overlapY = -(_boxHeight + otherActor->getBoxHeight() - abs(yCenterDistance));
 		
 				return true;
 			}
