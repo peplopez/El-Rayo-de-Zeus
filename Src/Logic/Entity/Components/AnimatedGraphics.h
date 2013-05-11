@@ -20,6 +20,7 @@ gráfica de una entidad estática.
 namespace Graphics 
 {
 	class CAnimatedEntity;
+	class CAnimSet;
 }
 namespace Logic
 {
@@ -52,7 +53,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAnimatedGraphics() : CGraphics(GetAltTypeIdOf(CAnimatedGraphics)), _graphicalEntity(0),
+		CAnimatedGraphics() : CGraphics(GetAltTypeIdOf(CAnimatedGraphics)), _graphicalEntity(0), _animSet(0),
 				_defaultAnimation("") {}
 
 		/**
@@ -94,6 +95,8 @@ namespace Logic
 		*/
 		Graphics::CAnimatedEntity *_graphicalEntity;
 
+		/**	puntero a la clase de animaciones. */
+		Graphics::CAnimSet *_animSet;
 				
 		/**
 		Animación por defecto de una entidad gráfica animada.
@@ -109,6 +112,15 @@ namespace Logic
 		@return Entidad gráfica creada, NULL si hubo algún problema.
 		*/
 		Graphics::CEntity* createGraphicalEntity(const Map::CEntity *entityInfo);
+
+		/**
+		Método que construye el animSet de la entidad. 
+		
+		@param entityInfo Información de construcción del objeto leído del
+			fichero de disco.
+		@return puntero al conjuto de animaciones de la entidad, NULL si hubo problemas.
+		*/
+		bool initializeAnimSet(const Map::CEntity *entityInfo);
 
 
 

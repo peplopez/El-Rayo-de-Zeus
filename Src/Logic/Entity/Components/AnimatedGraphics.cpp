@@ -18,6 +18,7 @@ gráfica de una entidad estática.
 #include "Map/MapEntity.h"
 
 #include "Graphics/Scene.h"
+#include "Graphics/AnimSet.h"
 
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
@@ -123,6 +124,10 @@ namespace Logic
 		_graphicalEntity = new Graphics::CAnimatedEntity(name,_model);
 			if(!_scene->add(_graphicalEntity) )
 				return 0;
+		
+		// Cargando AnimSet de map
+		_animSet = new Graphics::CAnimSet();	
+		initializeAnimSet(entityInfo);
 
 		// DEFAULT ANIMATION
 		if(entityInfo->hasAttribute("defaultAnimation")) { 
@@ -134,6 +139,42 @@ namespace Logic
 		return _graphicalEntity;
 	} // createGraphicsEntity
 
+	bool CAnimatedGraphics::initializeAnimSet(const Map::CEntity *entityInfo)
+	{
+		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
+		// leemos directamente del map de la entidad. cogemos las animaciones. Si queremos animaciones nuevas aquí hay que ponerlas para que sean tenidas en cuenta.
+		if (entityInfo->hasAttribute("animIdle"))
+			_animSet->addAnimation(Graphics::IDLE,entityInfo->getStringAttribute("animIdle"));
+		if (entityInfo->hasAttribute("animRun"))
+			_animSet->addAnimation(Graphics::RUN,entityInfo->getStringAttribute("animRun"));
+		if (entityInfo->hasAttribute("animDeath"))
+			_animSet->addAnimation(Graphics::DEATH,entityInfo->getStringAttribute("animDeath"));
+		if (entityInfo->hasAttribute("animJump"))
+			_animSet->addAnimation(Graphics::JUMP,entityInfo->getStringAttribute("animJump"));
+		if (entityInfo->hasAttribute("animDamage"))
+			_animSet->addAnimation(Graphics::DAMAGE,entityInfo->getStringAttribute("animDamage"));
+		if (entityInfo->hasAttribute("animActivateAltar"))
+			_animSet->addAnimation(Graphics::ACTIVATE_ALTAR,entityInfo->getStringAttribute("animActivateAltar"));
+		if (entityInfo->hasAttribute("animCoverWithWeapon"))
+			_animSet->addAnimation(Graphics::COVER_WITH_WEAPON,entityInfo->getStringAttribute("animCoverWithWeapon"));
+		if (entityInfo->hasAttribute("animCoverWithShield"))
+			_animSet->addAnimation(Graphics::COVER_WITH_SHIELD,entityInfo->getStringAttribute("animCoverWithShield"));
+		if (entityInfo->hasAttribute("animAttack1"))
+			_animSet->addAnimation(Graphics::ATTACK1,entityInfo->getStringAttribute("animAttack1"));
+		if (entityInfo->hasAttribute("animAttack2"))
+			_animSet->addAnimation(Graphics::ATTACK2,entityInfo->getStringAttribute("animAttack2"));
+		if (entityInfo->hasAttribute("animAttack3"))
+			_animSet->addAnimation(Graphics::ATTACK3,entityInfo->getStringAttribute("animAttack3"));
+		if (entityInfo->hasAttribute("animCombo1"))
+			_animSet->addAnimation(Graphics::COMBO1,entityInfo->getStringAttribute("animCombo1"));
+		if (entityInfo->hasAttribute("animCombo2"))
+			_animSet->addAnimation(Graphics::COMBO2,entityInfo->getStringAttribute("animCombo2"));
+		if (entityInfo->hasAttribute("animCombo3"))
+			_animSet->addAnimation(Graphics::COMBO3,entityInfo->getStringAttribute("animCombo3"));
+
+		return true;
+	
+	}
 	
 	//---------------------------------------------------------
 	
