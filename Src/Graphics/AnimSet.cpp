@@ -42,14 +42,14 @@ namespace Graphics
 
 	//--------------------------------------------------------
 		
-	bool CAnimSet::addAnimation(const Graphics::AnimationName animEnum, const std::string realName)
+	bool CAnimSet::addAnimation(const Logic::AnimationName animEnum, const std::string realName)
 	{
 		_animationSet[animEnum]=realName;
 
 		return true; // TODO, hacer que devuelva false ante un error.
 	} // addAnimation
 	
-	std::string CAnimSet::getAnimation(const Graphics::AnimationName animEnum)
+	std::string CAnimSet::getAnimation(const Logic::AnimationName animEnum)
 	{
 		std::string animation;
 		animation=_animationSet[animEnum];

@@ -20,6 +20,7 @@ con animaciones.
 
 #include "Graphics\Entity.h"
 
+
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 
 {
@@ -177,7 +178,6 @@ namespace Graphics
 		Animación que tiene la entidad activada.
 		*/
 		Ogre::AnimationState *_currentAnimation;
-
 
 		/**
 		Nombre de la animación actual

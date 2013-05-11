@@ -44,6 +44,25 @@ namespace Logic
 	@author David Llansó García
 	@date Agosto, 2010
 */
+	enum AnimationName : unsigned short //Esto pertenece a la lógica, son nombre lógicos que tendrán su traducción a strings de animación
+	{	
+		NONE,
+		IDLE,				
+		RUN,
+		DEATH,	
+		JUMP,
+		DAMAGE,
+		ACTIVATE_ALTAR,	
+		COVER_WITH_WEAPON,
+		COVER_WITH_SHIELD,
+		ATTACK1,
+		ATTACK2,
+		ATTACK3,
+		COMBO1,
+		COMBO2,
+		COMBO3
+	};
+
 	class CAnimatedGraphics : public CGraphics, public Graphics::CAnimatedEntityListener
 	{
 		DEC_FACTORY(CAnimatedGraphics);
@@ -99,9 +118,15 @@ namespace Logic
 		Graphics::CAnimSet *_animSet;
 				
 		/**
+		Animación lógica que tiene la entidad activada.
+		*/
+		Logic::AnimationName _currentLogicAnimation;
+
+
+		/**
 		Animación por defecto de una entidad gráfica animada.
 		*/
-		std::string _defaultAnimation;
+		std::string _defaultAnimation;  //cambiar por animación lógica
 
 		/**
 		Método virtual que construye la entidad gráfica animada de la entidad. 

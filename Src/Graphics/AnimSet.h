@@ -18,27 +18,11 @@ Contiene la declaración de la clase que reprenta una correspondencia entre nombr
 
 #include <map>
 #include <string>
+#include "Logic\Entity\Components\AnimatedGraphics.h"
 
 namespace Graphics 
 {
-	enum AnimationName : unsigned int 
-	{	
-		IDLE,				
-		RUN,
-		DEATH,	
-		JUMP,
-		DAMAGE,
-		ACTIVATE_ALTAR,	
-		COVER_WITH_WEAPON,
-		COVER_WITH_SHIELD,
-		ATTACK1,
-		ATTACK2,
-		ATTACK3,
-		COMBO1,
-		COMBO2,
-		COMBO3
-	};
-
+	
 	/**
 	Clase que representa una entidad gráfica con animaciones. Especializa la clase
 	Graphics::CEntity por lo que contiene una referencia a una entidad de 
@@ -81,7 +65,7 @@ namespace Graphics
 		@param realName nombre físico leido del map
 		@return true si el metodo termina de forma satisfactoria
 		*/
-		bool addAnimation(const Graphics::AnimationName animEnum, const std::string realName);
+		bool addAnimation(const Logic::AnimationName animEnum, const std::string realName);
 		
 		/**
 		Obtiene el nombre físico de la animación a partir de su nombre lógico.
@@ -89,11 +73,11 @@ namespace Graphics
 		@param anim Nombre de la animación a activar.
 		@return true si la animación solicitada fue correctamente desactivada.
 		*/
-		std::string getAnimation(const Graphics::AnimationName animEnum);
+		std::string getAnimation(const Logic::AnimationName animEnum);
 	
 	private:
 
-		std::map<Graphics::AnimationName,std::string> _animationSet; 
+		std::map<Logic::AnimationName,std::string> _animationSet; 
 
 	}; // class CAnimSet
 
