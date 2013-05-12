@@ -35,7 +35,7 @@ namespace Graphics
 			/**
 			HACK - ESC Para que al cambiar de escena mantengamos la animacion
 			*/
-			setAnimation(_currentAnimationName, 0, true);
+			setAnimation(_currentAnimationName, 0, true, NULL);
 
 
 		} catch(std::exception e){
@@ -47,12 +47,13 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
-	bool CAnimatedEntity::setAnimation(const std::string &anim, float moment, bool loop)
+	bool CAnimatedEntity::setAnimation(const std::string &anim, float moment, bool loop, std::list<float>* eventChain)
 	{
 		assert(_entity && "La entidad no ha sido cargada en la escena");
 		_paused=false;
-			_ticksPaused=0;
-				
+		_ticksPaused=0;
+		_activeEventChain=eventChain;	
+
 		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
 			return false;
 		
@@ -106,10 +107,15 @@ namespace Graphics
 		Ogre::AnimationState *animation = _entity->getAnimationState(anim);
 		//animation->setEnabled(false);
 		if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
-		animation->setTimePosition(moment);  // De lo contrario, no dejan de lanzar el evento finished a los observers
-		
-
+		animation->setTimePosition(moment);  // De lo contrario, no dejan de lanzar el evento finished a los observer
 	} // pauseAnimation
+
+	bool CAnimatedEntity::pauseAnimationXTicks(const std::string &anim,float moment, unsigned int ticks)
+	{
+		_maxTicks=ticks;
+		pauseAnimation(anim, moment);
+		return true;
+	}
 
 	//--------------------------------------------------------
 		
@@ -142,80 +148,43 @@ namespace Graphics
 	
 	void CAnimatedEntity::tick(float secs)
 	{
+		//PeP, este tick se ha quedado en los huesos, si hay aun ciertas cosas es por la funcionalidad de poder pausar una animación, cosa que se maneja en parte en el tick.
 		if(_currentAnimation)
 		{
 			if (_rewinding)
-			{_currentAnimation->addTime(-secs);
+			{
+				_currentAnimation->addTime(-secs);
 				if (_currentAnimation->getTimePosition()<=0)
 				{
 					_observer->animationFinished(_currentAnimation->getAnimationName());
 					_rewinding=false;
 				}
 			}	
-
 			else
-				if (_currentAnimation->getAnimationName().compare(AnimNames::ATTACK1)||
-					_currentAnimation->getAnimationName().compare(AnimNames::ATTACK2) ||
-					_currentAnimation->getAnimationName().compare(AnimNames::ATTACK3))
-				{
-					if (!_paused)
-						_currentAnimation->addTime(secs);
-					else
-						_ticksPaused++;
-				}
-				else
 				if (!_paused)
 					_currentAnimation->addTime(secs);
 				else
 					_ticksPaused++;
 			
-			if (_paused && _ticksPaused>10)
+			if (_paused && _maxTicks>0 && _ticksPaused>_maxTicks)
+			{
+				_ticksPaused=0;
+				_maxTicks=0;
 				_paused=false;
+			}
+			if(_observer)
+				if (_currentAnimation->getTimePosition()<0.2 ) 
+					_momentEnabled=true;
 			
-			if(_observer && _currentAnimation->getAnimationName()==AnimNames::ATTACK1)
-				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
-			if(_observer && _currentAnimation->getAnimationName()==AnimNames::ATTACK2)
-				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
-			if(_observer && _currentAnimation->getAnimationName()==AnimNames::ATTACK3)
-				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
-
-			if(_observer && _currentAnimation->getAnimationName()==AnimNames::ATTACK1)
-				if (_momentEnabled)
-				if (_currentAnimation->getTimePosition()>0.35 )
-				{
-					_momentEnabled=false;
-					_observer->animationMomentReached(AnimNames::ATTACK1);
-				}
-			if(_observer && _currentAnimation->getAnimationName()==AnimNames::ATTACK2)
-				if (_momentEnabled)
-				if (_currentAnimation->getTimePosition()>0.3)
-				{
-					_momentEnabled=false;				
-					_observer->animationMomentReached(AnimNames::ATTACK2);
-				}
-			if(_observer && _currentAnimation->getAnimationName()==AnimNames::ATTACK3)
-				if (_momentEnabled)
-				if (_currentAnimation->getTimePosition()>0.3)
-				{
-					_momentEnabled=false;				
-					_observer->animationMomentReached(AnimNames::ATTACK3);
-				}
-			/*if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::DAMAGE)==0)
-				if (_momentEnabled)
-				if (_currentAnimation->getTimePosition()>0.35)
-				{
-					_momentEnabled=false;				
-					_observer->animationMomentReached(AnimNames::DAMAGE);
-				}*/   //esto es de cuando usabamos la animación de daño del marine como una de ataque, esto se quita.
-				if(_observer && _currentAnimation->getAnimationName()==Graphics::AnimNames::COVER_WITH_SHIELD)
-				{
-					if (_currentAnimation->getTimePosition()>0.5)
-					{
-						_currentAnimation->addTime(-secs);
-					}
-				}
+			if (_activeEventChain!=NULL)
+				if(_observer && !_activeEventChain->empty() && _activeEventChain->front()<_currentAnimation->getTimePosition())
+					if (_momentEnabled)
+						{
+							_momentEnabled=false;
+							//_activeEventChain->pop_front();
+							_observer->animationMomentReached(_currentAnimation->getAnimationName());
+						}			
 				// Comprobamos si la animaci?n ha terminado para avisar
-		
 			if(_observer && _currentAnimation->hasEnded())
 				_observer->animationFinished(_currentAnimation->getAnimationName());
 		}

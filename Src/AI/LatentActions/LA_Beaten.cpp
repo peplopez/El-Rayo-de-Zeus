@@ -1,13 +1,10 @@
 #include "LA_Beaten.h"
-
-#include "Application/BaseApplication.h"
-
-#include "Graphics/AnimatedEntity.h"
+#include "../../Logic/Entity/Components/AnimatedGraphics.h"
 
 #include "../../Logic/Entity/Components/Attack.h"
-
 #include "../StateMachines/StateMachine.h"
-#include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageBoolUShort.h"
+#include "Logic/Entity/Messages/MessageUShort.h"
 
 
 namespace AI
@@ -31,9 +28,9 @@ namespace AI
 	CLatentAction::LAStatus CLA_Beaten::OnStart()
 	{
 		std::cout<<"AI::StateMachine::WTF-I am beated!!"<<std::endl;
-		CMessageBoolString *message = new CMessageBoolString();
+		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
-		message->setString(Graphics::AnimNames::DAMAGE);
+		message->setUShort(Logic::DAMAGE);
 		message->setAction(Message::WALK_STOP);
 		message->setBool(false);
 		_entity->emitMessage(message);
@@ -130,8 +127,8 @@ namespace AI
 		{
 		case Message::ANIMATION_FINISHED: //ConditionFail
 			{
-				CMessageString* maux = static_cast<CMessageString*>(message);
-				if (maux->getString().compare(Graphics::AnimNames::DAMAGE)==0 )
+				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
+				if (maux->getUShort()==Logic::DAMAGE)
 				{
 					finish(true);
 				}

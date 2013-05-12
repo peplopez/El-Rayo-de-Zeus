@@ -117,7 +117,7 @@ namespace Logic
 		
 	void CDestruction::tick(unsigned int msecs)
 	{
-		IComponent::tick(msecs);
+		IComponent::tick(msecs);//esto está HACKEADO para que se destruya por el momento solo la base 1
 		if (_entity->getLogicalPosition()->getBase()==1/* && _entity->getLogicalPosition()->getBase()->isDestroying()*/) // si es en la que estoy probando
 		{
 			if (_gameStatus->getBase(1)->areAllAltarsActivated() && !_destroying)

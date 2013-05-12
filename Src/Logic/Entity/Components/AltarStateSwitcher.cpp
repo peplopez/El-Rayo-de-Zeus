@@ -20,8 +20,8 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/Entity/Components/AvatarController.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
-#include "Logic/Entity/Messages/MessageBoolString.h"
-#include "Graphics/AnimatedEntity.h"
+#include "Logic/Entity/Messages/MessageBoolUShort.h"
+#include "Logic/Entity/Components/AnimatedGraphics.h"
 
 /*para tener un acceso directo al gamestatus*/
 #include "Logic/GameStatus.h"
@@ -123,9 +123,9 @@ namespace Logic
 			case Message::ALTAR_ACTIVATED:
 			{
 				_gameStatus->getPlayer(_entity->getOriginBase())->increaseAltarsActivated();
-				CMessageBoolString *message = new CMessageBoolString();
+				CMessageBoolUShort *message = new CMessageBoolUShort();
 				message->setType(Message::SET_ANIMATION);		
-				message->setString(Graphics::AnimNames::IDLE);
+				message->setUShort(Logic::IDLE);
 				message->setBool(true);
 				_entity->emitMessage(message,this);
 			}
@@ -151,9 +151,9 @@ namespace Logic
 			m->setUInt(_entity->getEntityID());
 			_target->emitMessage(m);
 				
-			CMessageBoolString *message = new CMessageBoolString();
+			CMessageBoolUShort *message = new CMessageBoolUShort();
 			message->setType(Message::SET_ANIMATION);		
-			message->setString(Graphics::AnimNames::ACTIVATE_ALTAR);
+			message->setUShort(Logic::ACTIVATE_ALTAR);
 			message->setBool(true);
 			_entity->emitMessage(message,this);
 		}
@@ -165,7 +165,6 @@ namespace Logic
 		
 		if (_switchingState && _targetSense == Logic::LogicalPosition::UNDEFINED &&  _switchingAllowed)
 		{
-		
 			_targetSense = targetSense;
 			
 			CMessage *m = new CMessage();
