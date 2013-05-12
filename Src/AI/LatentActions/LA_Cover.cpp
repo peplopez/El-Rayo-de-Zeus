@@ -1,16 +1,9 @@
 #include "LA_Cover.h"
-
-#include "Graphics/AnimatedEntity.h"
-
 #include "Logic/Entity/Components/Attack.h"
 #include "../../Logic/Entity/Components/AvatarController.h"
-#include "../../Logic/Entity/Components/Jump.h"
-#include "../../Logic/Entity/Components/BaseTraveler.h"
-#include "Application/BaseApplication.h"
-
+#include "../../Logic/Entity/Components/AnimatedGraphics.h"
 #include "../StateMachines/StateMachine.h"
-#include "Logic/Entity/Messages/MessageChar.h"
-#include "Logic/Entity/Messages/MessageFloat.h"
+#include "Logic/Entity/Messages/MessageBoolUShort.h"
 
 namespace AI
 {
@@ -38,14 +31,13 @@ namespace AI
 		sleepComponents();		
 		std::cout<<"AI::StateMachine::Cover"<<std::endl;
 
-			CMessageBoolString *message = new CMessageBoolString();
-			message->setType(Message::SET_ANIMATION);
-			message->setString( Graphics::AnimNames::COVER_WITH_SHIELD );
-			message->setAction(Message::UNDEF);
-			message->setBool(true);
-			_entity->emitMessage(message);
-			
-			return SUSPENDED;
+		CMessageBoolUShort *message = new CMessageBoolUShort();
+		message->setType(Message::SET_ANIMATION);
+		message->setUShort(Logic::COVER_WITH_SHIELD );
+		message->setAction(Message::UNDEF);
+		message->setBool(true);
+		_entity->emitMessage(message);			
+		return SUSPENDED;
 	}
 
 	/**

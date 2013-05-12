@@ -33,6 +33,7 @@ namespace Graphics
 
 	namespace AnimNames {
 //		
+		/*
 		const std::string IDLE				= "idle"; // ESPARTANO
 		const std::string RUN				= "run";
 		const std::string DEATH				= "die";		
@@ -46,7 +47,7 @@ namespace Graphics
 		const std::string ATTACK3			= "attack3";
 		const std::string COMBO1			= "combo1";
 		const std::string COMBO2			= "combo2";
-		const std::string COMBO3			= "combo3";
+		const std::string COMBO3			= "combo3";*/
 		
 /*/
 		const std::string IDLE				= "IdleKatana";	// MARINE

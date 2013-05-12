@@ -1,8 +1,5 @@
 #include "LA_Death.h"
 
-#include "Application/BaseApplication.h"
-
-#include "Graphics/AnimatedEntity.h"
 #include "Graphics/Server.h"
 #include "Graphics/Scene.h"
 
@@ -11,11 +8,12 @@
 
 #include "../StateMachines/StateMachine.h"
 #include "Logic/Entity/Messages/MessageAudio.h"
-#include "Logic/Entity/Messages/MessageString.h"
-
+#include "Logic/Entity/Messages/MessageBoolUShort.h"
+#include "Logic/Entity/Messages/MessageUShort.h"
+#include "../../Logic/Entity/Components/AnimatedGraphics.h"
 #include "Logic/Maps/Map.h"
 #include "Map/MapEntity.h"
-
+#include "Application/BaseApplication.h"
 
 namespace AI
 {
@@ -39,9 +37,9 @@ namespace AI
 	{
 		sleepComponents();
 		std::cout<<"AI::StateMachine::WTF-I am Death!!"<<std::endl;
-		CMessageBoolString *message = new CMessageBoolString();
+		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
-		message->setString( Graphics::AnimNames::DEATH );
+		message->setUShort(Logic::DEATH);
 		message->setAction(Message::WALK_STOP);
 		message->setBool(false);
 		_entity->emitMessage(message);
@@ -73,7 +71,7 @@ namespace AI
 		if (_entity->isPlayer())
 			_scene->deactivateCompositor("BW");
 		if (_entity->isPlayer())
-		Application::CBaseApplication::getSingletonPtr()->setState("gameOver"); 
+			Application::CBaseApplication::getSingletonPtr()->setState("gameOver"); 
 	}
 
 	/**
@@ -142,8 +140,8 @@ namespace AI
 		{
 		case Message::ANIMATION_FINISHED: //ConditionFail
 			{
-				CMessageString* maux = static_cast<CMessageString*>(message);
-				if (maux->getString().compare( Graphics::AnimNames::DEATH )==0 )
+				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
+				if (maux->getUShort()==Logic::DEATH)
 				{
 				//		finish(true);
 					//el finish es para cambiar a otro estado, pero de momento este el estado en el que quiero que permanezca. Otro posible estado sería desapareciendo quiza...

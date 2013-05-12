@@ -154,7 +154,7 @@ namespace Graphics
 			}	
 
 			else
-				if (_currentAnimation->getAnimationName().compare(AnimNames::ATTACK1)||
+				/*if (_currentAnimation->getAnimationName().compare(AnimNames::ATTACK1)||
 					_currentAnimation->getAnimationName().compare(AnimNames::ATTACK2) ||
 					_currentAnimation->getAnimationName().compare(AnimNames::ATTACK3))
 				{
@@ -163,7 +163,7 @@ namespace Graphics
 					else
 						_ticksPaused++;
 				}
-				else
+				else*/
 				if (!_paused)
 					_currentAnimation->addTime(secs);
 				else
@@ -172,7 +172,7 @@ namespace Graphics
 			if (_paused && _ticksPaused>10)
 				_paused=false;
 			
-			if(_observer && _currentAnimation->getAnimationName()==AnimNames::ATTACK1)
+			/*if(_observer && _currentAnimation->getAnimationName()==AnimNames::ATTACK1)
 				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
 			if(_observer && _currentAnimation->getAnimationName()==AnimNames::ATTACK2)
 				if (_currentAnimation->getTimePosition()<0.2 ) _momentEnabled=true;
@@ -200,20 +200,14 @@ namespace Graphics
 					_momentEnabled=false;				
 					_observer->animationMomentReached(AnimNames::ATTACK3);
 				}
-			/*if(_observer && _currentAnimation->getAnimationName().compare(AnimNames::DAMAGE)==0)
-				if (_momentEnabled)
-				if (_currentAnimation->getTimePosition()>0.35)
-				{
-					_momentEnabled=false;				
-					_observer->animationMomentReached(AnimNames::DAMAGE);
-				}*/   //esto es de cuando usabamos la animación de daño del marine como una de ataque, esto se quita.
+		
 				if(_observer && _currentAnimation->getAnimationName()==Graphics::AnimNames::COVER_WITH_SHIELD)
 				{
 					if (_currentAnimation->getTimePosition()>0.5)
 					{
 						_currentAnimation->addTime(-secs);
 					}
-				}
+				}*/
 				// Comprobamos si la animaci?n ha terminado para avisar
 		
 			if(_observer && _currentAnimation->hasEnded())

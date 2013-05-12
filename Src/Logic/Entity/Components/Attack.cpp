@@ -13,7 +13,7 @@ angular de entidades.
 
 #include "Attack.h"
 
-#include "Graphics/AnimatedEntity.h"
+#include "Logic/Entity/Components/AnimatedGraphics.h"
 
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
@@ -22,8 +22,8 @@ angular de entidades.
 
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
-#include "Logic/Entity/Messages/MessageBoolString.h"
-#include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageBoolUShort.h"
+#include "Logic/Entity/Messages/MessageUShort.h"
 #include "Logic/Entity/Messages/MessageInt.h"
 #include "Logic/Entity/Messages/MessageAudio.h"
 
@@ -91,8 +91,8 @@ namespace Logic
 			}
 		case Message::ANIMATION_FINISHED:
 			{
-				CMessageString* maux = static_cast<CMessageString*>(message);
-				if (maux->getString().compare( Graphics::AnimNames::ATTACK1 )==0 || maux->getString().compare( Graphics::AnimNames::ATTACK2 )==0 || maux->getString().compare( Graphics::AnimNames::ATTACK3 )==0)
+				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
+				if (maux->getUShort()==Logic::ATTACK1 || maux->getUShort()==Logic::ATTACK2 | maux->getUShort()==Logic::ATTACK3)
 				{					
 					_lightAttack=_heavyAttack=false;
 				}
@@ -125,9 +125,9 @@ namespace Logic
 					unsigned short resultadoAtaque=attackPlace(punto,_entity->getLogicalPosition()->getRing(),_entity->getLogicalPosition()->getBase(),false);
 					if (resultadoAtaque==2)
 					{
-						CMessageBoolString *message = new CMessageBoolString();
+						CMessageBoolUShort *message = new CMessageBoolUShort();
 						message->setType(Message::REWIND_ANIMATION);
-						message->setString( Graphics::AnimNames::ATTACK1 ); // FRS de momento pongo la equivalente -> hay que corregir / calibrar
+						message->setUShort(Logic::ATTACK1); // FRS de momento pongo la equivalente -> hay que corregir / calibrar
 						message->setAction(Message::UNDEF);
 						message->setBool(false);
 						_entity->emitMessage(message,this);
@@ -141,9 +141,9 @@ namespace Logic
 		_covering=true;
 			if (_entity->getType()!="Player")
 			{//porque por ahora el loco no ejecuta maquina de estados
-				CMessageBoolString *message = new CMessageBoolString();
+				CMessageBoolUShort *message = new CMessageBoolUShort();
 				message->setType(Message::SET_ANIMATION);
-				message->setString("shieldcover");
+				message->setUShort(Logic::COVER_WITH_SHIELD);
 				message->setAction(Message::UNDEF);
 				message->setBool(true);
 				_entity->emitMessage(message,this);

@@ -106,7 +106,7 @@ namespace Logic
 				CMessageBoolUShort *rxMsg = static_cast<CMessageBoolUShort*>(message);
 				Logic::AnimationName name=static_cast<Logic::AnimationName>(rxMsg->getUShort());
 				std::string animString = _animSet->getAnimation(name);
-				_graphicalEntity->rewind(animString, rxMsg->getBool() );
+				_graphicalEntity->rewind(animString, rxMsg->getBool());
 				LOG("REWIND_ANIMATION: " << rxMsg->getString());
 			}	break;
 
@@ -114,7 +114,7 @@ namespace Logic
 				CMessageBoolFloatString *rxMsg = static_cast<CMessageBoolFloatString*>(message);
 				// de animaciones. Galeon no lo plantea.
 				_graphicalEntity->stopAllAnimations();
-				_graphicalEntity->setAnimation(rxMsg ->getString(), rxMsg ->getFloat(), rxMsg ->getBool())			
+				_graphicalEntity->setAnimation(rxMsg ->getString(), rxMsg ->getFloat(), rxMsg ->getBool());
 				
 				LOG("SET_ANIMATION_WITH_TIME: " << rxMsg->getString());
 			} break;
@@ -196,42 +196,42 @@ namespace Logic
 		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
 		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
 
-		if (animation != Graphics::AnimNames::DEATH)
+		if (_currentLogicAnimation!=Logic::DEATH)
 		{
 			// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
-			CMessageString *txMsg = new CMessageString();
+			CMessageUShort *txMsg = new CMessageUShort();
 			txMsg->setType(Message::ANIMATION_FINISHED);
-			txMsg->setString(animation);
+			txMsg->setUShort(_currentLogicAnimation); //PeP: envio que se ha finalizado la animación que se está reproduciendo.
 			//PEP HACK:
-			if (animation==Graphics::AnimNames::JUMP)
+			/*if (animation==Graphics::AnimNames::JUMP)  //habrá que comprobar que quitando esto no pasa nada raro
 				txMsg->setAction(Message::JUMP);
 			_entity->emitMessage(txMsg);
-			
+			*/
 		// Si acaba una animación y tenemos una por defecto la ponemos
-			if (animation != Graphics::AnimNames::ATTACK1 && animation != Graphics::AnimNames::ATTACK2)			
+			if (_currentLogicAnimation != Logic::ATTACK1 && _currentLogicAnimation != Logic::ATTACK2)			
 			{
 				_graphicalEntity->stopAnimation(animation);
-				_graphicalEntity->setAnimation(_defaultAnimation,0,true);
+				_graphicalEntity->setAnimation(_defaultAnimation,0,true); //tenemos que cambiar defaultanimation por un enum Logico
 			}
 			else
 			{
-				if (animation == Graphics::AnimNames::ATTACK1)						
+				if (_currentLogicAnimation == Logic::ATTACK1)						
 					_graphicalEntity->pauseAnimation(animation,0.5833);
-			    if (animation == Graphics::AnimNames::ATTACK2)			
+			    if (_currentLogicAnimation == Logic::ATTACK2)			
 					_graphicalEntity->pauseAnimation(animation,0.41);
-			}   
-			
+			}
 		}
-
 	}
-
 		
 	void CAnimatedGraphics::animationMomentReached(const std::string &animation)
 	{
+		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
+		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
+
 		// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
-		CMessageString *msg = new CMessageString();
+		CMessageUShort *msg = new CMessageUShort();
 		msg->setType(Message::ANIMATION_MOMENT);
-		msg->setString(animation);
+		msg->setUShort(_currentLogicAnimation);
 		_entity->emitMessage(msg);
 	}
 
