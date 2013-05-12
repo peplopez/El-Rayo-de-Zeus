@@ -16,8 +16,10 @@ Contiene la declaración de la clase que representa una entidad física.
 #ifndef __Physics_Actor_H
 #define __Physics_Actor_H
 
+#include "IShape.h"
+#include "RigidBody.h"
 
-#include "Logic/Entity/LogicalPosition.h"
+#include "Logic\Entity\LogicalPosition.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 
@@ -28,62 +30,38 @@ namespace Physics
 
 namespace Physics
 {
-	
 
+	
 	class CActor
 	{
 	public:
 
 		CActor();
-		CActor(Logic::CLogicalPosition* position, const float angularWidth, const float height, float widthOffset, float heightOffset, IObserver *component);
+
+		CActor(Vector2 position, float radius, float density, float restitution, IObserver *component); // CircleActor Constructor
+		CActor(Vector2 min, Vector2 max, float density, float restitution, IObserver *component); // AABBActor Constructor
 		
 		virtual ~CActor() {}
-
-		// UNDONE RS si la clase CLogicalPos no va admitir valores negativos, nunca podremos implementar el move asin
-		//void move(const Logic::TLogicalPosition &pos);  
 		
-		void move(const float degrees, const float height, const char ring, const char base);
-
-		bool intersects(CActor *otherActor, float &degrees, float &height);
-		bool intersects(CActor *otherActor);
-
-		// UNDONE FRS Ya tenemos el getLogicPos que hace exactamente lo mismo 
-		//Logic::TLogicalPosition& getGlobalPose() {return _logicPosition;}
+		void move(const float degrees, const float height);
 
 		
 		/************************
 			GETTER's & SETTER's
 		************************/
-		void setLogicPosition(Logic::CLogicalPosition* &position) {_logicPosition=position;}
-		Logic::CLogicalPosition* &getLogicPosition() {return _logicPosition;}
 
-		void setBoxWidth(const float angularWidth) {_boxWidth=angularWidth;}
-		float getBoxWidth() {return _boxWidth;}
-
-		void setBoxHeight(const float height) {_boxHeight=height;}
-		float getBoxHeight() {return _boxHeight;}
+		CRigidBody* getRigid() { return _body; }
 
 		void setIObserver(IObserver* component) {_component=component;}
 		IObserver *getIObserver() {return _component;}
 
-		float getWidthOffset() { return _widthOffset;}
-		float getHeightOffset() { return _heightOffset;}
+		float getDegree();
+		float getHeight();
 
 	protected:
 
-		// CScene es la única que puede añadir o eliminar actores.
 
-		//friend class CScene;
-
-		//CScene *_scene;
-
-		Logic::CLogicalPosition* _logicPosition;
-
-		float _boxWidth;
-		float _boxHeight;
-
-		float _widthOffset;
-		float _heightOffset;
+		CRigidBody* _body;
 
 		IObserver* _component;
 

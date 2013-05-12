@@ -1,9 +1,9 @@
 World CGraphics CDestruction
-Scene CDotSceneLoader
+Scene
 Camera CCamera
 BaseCamera CBaseCamera
 SkyBox CGraphics
-Altar CGraphics CPhysics CAltar CDestruction
+Altar CGraphics CAltar CDestruction
 Entity CGraphics
 Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CAttack CStateMachineExecutor CLife CPhysicalCharacter CAltarStateSwitcher CAudio CHud CDestruction
 AnimatedEntity CAnimatedGraphics CAvatarController CAttack CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CDestruction

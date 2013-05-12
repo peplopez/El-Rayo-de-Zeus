@@ -13,35 +13,51 @@ de una escena.
 #ifndef __Physics_Scene_H
 #define __Physics_Scene_H
 
-//HACK TOCHO ?
 
 #include <vector>
+#include "BaseSubsystems\Math.h"
 
-#include "Physics/Actor.h"
-#include "Physics/ActorTrigger.h"
-
+namespace Physics
+{
+	class CActor;
+	class CActorTrigger;
+	class CRigidBody;
+}
 
 namespace Physics 
 {
+	struct Manifold 
+	{
+	  CRigidBody* A;
+	  CRigidBody* B;
+	  float penetration;
+	  Vector2 normal;
 
+	  Manifold() : A(0), B(0), penetration(0), normal(Vector2::ZERO) {}
+	};
+	
 	class CScene 
 	{
 
 	public:
 
-		typedef std::vector<CActor*>		TColliders;
-		typedef std::vector<CActorTrigger*> TTriggers;
+		typedef std::vector<CActor*>		TCircleColliders, TAABBColliders;
+		typedef std::vector<CActorTrigger*> TCircleTriggers, TAABBTriggers;
 
 		/************
 			ACTORS
 		*************/
-		bool addActor(CActor *actor);
-		bool addActor(CActorTrigger* actor);
-		//bool addStaticActor(Physics::CStaticActor *actor);
+		bool addCircleActor(CActor *actor);
+		bool addCircleActor(CActorTrigger* actor);
 
-		void removeActor(CActor* actor);
-		void removeActor(CActorTrigger* actor);
-		//void removeStaticActor(CStaticActor* actor);
+		bool addAABBActor(CActor *actor);
+		bool addAABBActor(CActorTrigger* actor);
+
+		void removeCircleActor(CActor* actor);
+		void removeCircleActor(CActorTrigger* actor);
+
+		void removeAABBActor(CActor* actor);
+		void removeAABBActor(CActorTrigger* actor);
 
 	protected:
 
@@ -52,7 +68,7 @@ namespace Physics
 		friend class CServer;
 
 		/**	Constructor de la clase.	*/
-		CScene(const std::string& name) : _name(name) {};
+		CScene(const std::string& name) : _name(name), _gravityForce(Vector2(0, 0)) {};
 
 		/**
 		Destructor de la aplicación.
@@ -64,7 +80,7 @@ namespace Physics
 
 		/**	Duerme la escena*/
 		bool deactivate();
-		void tick(unsigned int);
+		void tick(unsigned int msecs);
 
 
 		/******************
@@ -81,8 +97,13 @@ namespace Physics
 
 		/**	Nombre de la escena.*/
 		std::string _name;
-		TColliders	_colliders;
-		TTriggers	_triggers;
+
+		TCircleColliders _circleColliders;
+		TAABBColliders _AABBColliders;
+		TCircleTriggers	_circleTriggers;
+		TAABBTriggers _AABBTriggers;
+
+		Vector2 _gravityForce;
 
 		// Componentes de la simulacion
 		void checkCollisions();
@@ -92,13 +113,21 @@ namespace Physics
 		/**
 		Actualiza el estado de la escena cada ciclo.
 		*/
-		void simulate();
+		void simulate(unsigned int timeDiff);
 
 		/**
-		Corrige la posición de 2 actores que colisionan.
 		*/
-		void resolveCollision(Physics::CActor *actor1, Physics::CActor *actor2, float overlapX, float overlapY);		
+		void updateCirclePos(CActor* circleCollider, unsigned int timeDiff);
 
+		/**
+		*/
+		bool CheckCircleCircleCollision(Manifold &m);
+
+		/**
+		*/
+		void ResolveCollision(Manifold &m);
+
+		void PositionalCorrection( Manifold &m );
 		
 
 	}; // class CScene

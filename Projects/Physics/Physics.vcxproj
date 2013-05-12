@@ -75,15 +75,22 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Src\Physics\AABB.h" />
     <ClInclude Include="..\..\Src\Physics\Actor.h" />
     <ClInclude Include="..\..\Src\Physics\ActorTrigger.h" />
+    <ClInclude Include="..\..\Src\Physics\Circle.h" />
     <ClInclude Include="..\..\Src\Physics\IObserver.h" />
+    <ClInclude Include="..\..\Src\Physics\RigidBody.h" />
     <ClInclude Include="..\..\Src\Physics\Scene.h" />
     <ClInclude Include="..\..\Src\Physics\Server.h" />
+    <ClInclude Include="..\..\Src\Physics\IShape.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\Physics\AABB.cpp" />
     <ClCompile Include="..\..\Src\Physics\Actor.cpp" />
     <ClCompile Include="..\..\Src\Physics\ActorTrigger.cpp" />
+    <ClCompile Include="..\..\Src\Physics\Circle.cpp" />
+    <ClCompile Include="..\..\Src\Physics\RigidBody.cpp" />
     <ClCompile Include="..\..\Src\Physics\Scene.cpp" />
     <ClCompile Include="..\..\Src\Physics\Server.cpp" />
   </ItemGroup>

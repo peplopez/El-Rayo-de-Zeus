@@ -8,11 +8,7 @@ Map ={
 	Camera = {
 		type = "PlayerCamera",
 	},
-	
-	SkySphere = {
-		type = "SkySphere",
-	},
-		
+			
 	BaseCamera1 = {
 		type = "BaseCamera1",
 	},
@@ -25,55 +21,13 @@ Map ={
 	pointLight2 = {
 		type = "PointLight",
 		position = {100, 20, 0},
-	},
-	
-		
-	puApple1 = {
-		type = "PUApple",
-		base=1,
-		ring=0,
-		degrees=0,
-	},
-	
-	puThrone1 = {
-		type = "PUThrone",
-		base=1,
-		ring=0,
-		degrees=120,
-	},
-	
-	puPandora1 = {
-		type = "PUPandora",
-		base=1,
-		ring=2,
-		degrees=0,
-	},
-	puPoison1 = {
-		type = "PUPoison",
-		base=1,
-		ring=1,
-		degrees=180,
-	},
+	},	
 		
 	medusa1 = {
 		type = "Medusa",
 		base=1,
 		ring=1,
 		degrees=300,		
-	},	
-	
-	peludo = {
-		type = "Spider",
-		base=1,
-		ring=1,
-		degrees=80,		
-	},
-
-	peluda = {
-		type = "Spider",
-		base=1,
-		ring=2,
-		degrees=70,		
 	},	
 	
 	LowerRing = {

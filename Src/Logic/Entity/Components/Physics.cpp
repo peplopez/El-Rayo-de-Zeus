@@ -42,9 +42,9 @@ namespace Logic {
 	CPhysics::~CPhysics() 
 	{
 		if ( _physicalActor ) { // TODO FRS Quizá este tipo de comprobación sucia debería hacerla la propia scene en su remove
-			_isTrigger ? 
-				_scene->removeActor(  static_cast<Physics::CActorTrigger*>(_physicalActor) ):
-				_scene->removeActor(  _physicalActor ); // Eliminar el actor de la escena	
+			//_isTrigger ? 
+			//	_scene->removeCircleActor(  static_cast<Physics::CActorTrigger*>(_physicalActor) ):
+				_scene->removeCircleActor(  _physicalActor ); // Eliminar el actor de la escena	
 
 			delete _physicalActor;
 		}
@@ -54,7 +54,7 @@ namespace Logic {
 	
 	void CPhysics::detachFromMap()
 	{
-		_scene->removeActor(_physicalActor);
+		_scene->removeCircleActor(_physicalActor);
 		_scene = NULL;
 	}
 
@@ -63,7 +63,7 @@ namespace Logic {
 	void CPhysics::attachToMap(CMap* map)
 	{
 		_scene = map->getPhysicScene();
-		_scene->addActor(_physicalActor);
+		_scene->addCircleActor(_physicalActor);
 	}
 
 	//---------------------------------------------------------
@@ -94,41 +94,45 @@ namespace Logic {
 		// Obtenemos la posición de la entidad. 
 		CLogicalPosition* logicPos = _entity->getLogicalPosition();
 	
-		// Leer el ancho del angular box
-		assert(entityInfo->hasAttribute("physicWidth")); 
-		_physicWidth = entityInfo->getFloatAttribute("physicWidth");
+		//// Leer el ancho del angular box
+		//assert(entityInfo->hasAttribute("physicWidth")); 
+		//_physicWidth = entityInfo->getFloatAttribute("physicWidth");
 
-		// Leer la altura del angular box
-		assert(entityInfo->hasAttribute("physicHeight"));
-		_physicHeight = entityInfo->getFloatAttribute("physicHeight");
+		//// Leer la altura del angular box
+		//assert(entityInfo->hasAttribute("physicHeight"));
+		//_physicHeight = entityInfo->getFloatAttribute("physicHeight");
 
 		// TRIGGER: Leer si es un trigger (por defecto no)	
 		_isTrigger = false;
 		if (entityInfo->hasAttribute("physicTrigger"))
 			_isTrigger = entityInfo->getBoolAttribute("physicTrigger");
 
-		if (entityInfo->hasAttribute("widthOffset"))
-			_widthOffset = entityInfo->getFloatAttribute("widthOffset");
+		if (entityInfo->hasAttribute("radius"))
+			_radius = entityInfo->getFloatAttribute("radius");
 
-		if (entityInfo->hasAttribute("heightOffset"))
-			_heightOffset = entityInfo->getFloatAttribute("heightOffset");
+		if (entityInfo->hasAttribute("density"))
+			_density = entityInfo->getFloatAttribute("density");
+
+		if (entityInfo->hasAttribute("restitution"))
+			_restitution = entityInfo->getFloatAttribute("restitution");
+
 		
 		// TRIGGER
-		if(_isTrigger)  {
-			Physics::CActorTrigger* trigger = new Physics::CActorTrigger(logicPos, _physicWidth, _physicHeight,  _widthOffset, _heightOffset, this);
-				if( _scene->addActor(trigger ) ) // Añadir el actor a la escena
-					return trigger ;
-				else
-					return 0;
+		//if(_isTrigger)  {
+		//	Physics::CActorTrigger* trigger = new Physics::CActorTrigger(logicPos, _physicWidth, _physicHeight,  _widthOffset, _heightOffset, this);
+		//		if( _scene->addCircleActor(trigger ) ) // Añadir el actor a la escena
+		//			return trigger ;
+		//		else
+		//			return 0;
 
 		// COLLIDER
-		} else {
-			Physics::CActor* collider = new Physics::CActor(logicPos, _physicWidth, _physicHeight, _widthOffset, _heightOffset, this);
-				if(_scene->addActor(collider) ) // Añadir el actor a la escena
+
+			Physics::CActor* collider = new Physics::CActor(Vector2(logicPos->getDegree(), logicPos->getHeight() + _radius), _radius, _density, _restitution, this);
+				if(_scene->addCircleActor(collider) ) // Añadir el actor a la escena
 					return collider;
 				else
 					return 0;
-		}
+		//}
 
 	} // createActor 
 

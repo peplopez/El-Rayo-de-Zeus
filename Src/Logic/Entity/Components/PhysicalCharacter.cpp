@@ -58,12 +58,12 @@ namespace Logic {
 		case Message::JUMP:
 			_diffHeight = static_cast<CMessageFloat*>(message)->getFloat();
 			break;
-		case Message::CHANGE_RING:		// TODO ƒ®§ por seguridad quizá habría que probar que _ring < MAX del enum --> asserts!
-			_diffRing = static_cast<CMessageChar*>(message)->getChar();
-			break;
-		case Message::CHANGE_BASE:
-			_diffBase = static_cast<CMessageChar*>(message)->getChar();	
-			break;
+		//case Message::CHANGE_RING:		// TODO ƒ®§ por seguridad quizá habría que probar que _ring < MAX del enum --> asserts!
+		//	_diffRing = static_cast<CMessageChar*>(message)->getChar();
+		//	break;
+		//case Message::CHANGE_BASE:
+		//	_diffBase = static_cast<CMessageChar*>(message)->getChar();	
+		//	break;
 
 		} // switch message action
 
@@ -90,28 +90,25 @@ namespace Logic {
 		// usando la información proporcionada por el motor de física	
 		// Este a genera  SET_TRANSFORM por debajo que informa al CGraphics
 
-		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()->getDegree() - _physicalActor->getLogicPosition()->getDegree() + _physicalActor->getWidthOffset()));
-
+		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()->getDegree() - _physicalActor->getDegree()));
 
 		
-		_auxPos->setBase(_physicalActor->getLogicPosition()->getBase());
-		_auxPos->setRing(_physicalActor->getLogicPosition()->getRing());
-		_auxPos->setHeight(_physicalActor->getLogicPosition()->getHeight() - _physicHeight - _heightOffset); // el centro de los actores físicos está en el centro de su AABB, por lo que hay que corregirlo
-		_auxPos->setDegree(_physicalActor->getLogicPosition()->getDegree() - _widthOffset); //idem
+		_auxPos->setDegree(_physicalActor->getDegree()); 
+		_auxPos->setHeight(_physicalActor->getHeight()); 
+		_auxPos->setRing(_entity->getLogicalPosition()->getRing());
+		_auxPos->setBase(_entity->getLogicalPosition()->getBase());	
 		_auxPos->setSense(_entity->getLogicalPosition()->getSense());
-		
+				
 		_entity->setLogicalPosition(_auxPos); 
 		
 
-		_diffHeight -= _negativeYVelocity * msecs * 0.001f;	//gravedad (no acelerada) simulada
-		_physicalActor->move(_diffDegrees, _diffHeight, _diffRing, _diffBase);
+		//_diffHeight -= _negativeYVelocity * msecs * 0.001f;	//gravedad (no acelerada) simulada
+		_physicalActor->move(_diffDegrees, _diffHeight);
 
 		
 		//Ponemos el movimiento a cero		
 		_diffDegrees = 0;
 		_diffHeight = 0; 
-		_diffRing = 0;
-		_diffBase = 0;
 	}
 
 

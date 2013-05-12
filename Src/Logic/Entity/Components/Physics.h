@@ -63,9 +63,9 @@ namespace Logic
 		Constructor por defecto.
 		*/
 		CPhysics::CPhysics() : 
-		  IComponent(GetAltTypeIdOf(CPhysics)), _physicalActor(0), _isTrigger(false), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0), _widthOffset(0), _heightOffset(0) {}
+		  IComponent(GetAltTypeIdOf(CPhysics)), _physicalActor(0), _isTrigger(false), _diffDegrees(0), _diffHeight(0), _radius(0), _mass(0), _density(0), _restitution(0) {}
 		CPhysics::CPhysics(altTypeId id) : 
-		  IComponent(id),  _physicalActor(0), _isTrigger(false), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0), _widthOffset(0), _heightOffset(0) {}
+		  IComponent(id),  _physicalActor(0), _isTrigger(false), _diffDegrees(0), _diffHeight(0), _radius(0), _mass(0), _density(0), _restitution(0) {}
 
 		/**
 		Destructor. Elimina el objeto físico de la escena y lo destruye. 
@@ -104,15 +104,16 @@ namespace Logic
 
 		/*Valores de offset x, y para las AABB de los actores físicos
 		*/
-		float _widthOffset;
-		float _heightOffset;
+		float _radius;
+		float _mass;
+		float _density;
+		float _restitution;
 
 		bool _isTrigger;
 
 		// Desplazamiento recibido en los últimos mensajes de tipo MOVE.
 		// Sirve para mover entidades físicas cinemáticas y de character.
-		char _diffBase;
-		char _diffRing;
+
 		float _diffDegrees;
 		float _diffHeight;
 

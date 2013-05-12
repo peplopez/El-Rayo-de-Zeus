@@ -1,6 +1,3 @@
-//----------------------------------------------12
-
-
 //-----------------------------
 // Scene.cpp
 //---------------------------------------------------------------------------
@@ -15,9 +12,11 @@
 @date Febrero 2013
 */
 
-#include "Logic/Entity/LogicalPosition.h"
 #include "Physics/IObserver.h"
 #include "Physics/Scene.h"
+#include "Physics/Actor.h"
+#include "Physics/ActorTrigger.h"
+#include "Physics/Circle.h"
 
 #include <assert.h>
 #include <iostream>
@@ -38,9 +37,6 @@ namespace Physics
 	CScene::~CScene() 
 	{
 		deactivate();	
-		/* UNDONE FRS Sacado de Graphics::Scene
-		_sceneMgr->destroyStaticGeometry(_staticGeometry);		
-		_root->destroySceneManager(_sceneMgr);*/ 
 
 	} // ~CScene
 	
@@ -60,9 +56,9 @@ namespace Physics
 	
 	//--------------------------------------------------------
 	
-	void CScene::tick(unsigned int secs)
+	void CScene::tick(unsigned int msecs)
 	{	
-		this->simulate(); // Empezar la simulación física.
+		this->simulate(msecs); // Empezar la simulación física.
 	} // tick
 
 	
@@ -73,15 +69,29 @@ namespace Physics
 	************/
 
 	// TODO FRS hacerlas inline? 
-	bool CScene::addActor(CActor* collider)
+	bool CScene::addCircleActor(CActor* collider)
 	{
-		_colliders.push_back(collider);
+
+		_circleColliders.push_back(collider);
 		return true;
 	} // addActor
 
-	bool CScene::addActor(CActorTrigger* trigger)
+	bool CScene::addCircleActor(CActorTrigger* trigger)
 	{
-		_triggers.push_back(trigger);
+		_circleTriggers.push_back(trigger);
+		return true;
+	} // addActor
+
+	bool CScene::addAABBActor(CActor* collider)
+	{
+
+		_AABBColliders.push_back(collider);
+		return true;
+	} // addActor
+
+	bool CScene::addAABBActor(CActorTrigger* trigger)
+	{
+		_AABBTriggers.push_back(trigger);
 		return true;
 	} // addActor
 
@@ -91,18 +101,32 @@ namespace Physics
 	//--------------------------------------------------------
 
 
-	void CScene::removeActor(CActor* collider)
+	void CScene::removeCircleActor(CActor* collider)
 	{
-		TColliders::iterator colliderIndex = std::find(_colliders.begin(), _colliders.end(), collider);
-		if (colliderIndex != _colliders.end())
-			_colliders.erase(colliderIndex); // FRS El delete es responsabilidad del creador (Logic::CPhysics)		
+		TCircleColliders::iterator colliderIndex = std::find(_circleColliders.begin(), _circleColliders.end(), collider);
+		if (colliderIndex != _circleColliders.end())
+			_circleColliders.erase(colliderIndex); // FRS El delete es responsabilidad del creador (Logic::CPhysics)		
 	} // removeActor
 
-	void CScene::removeActor(CActorTrigger* trigger)
+	void CScene::removeCircleActor(CActorTrigger* trigger)
 	{
-		TTriggers::iterator triggerIndex = std::find(_triggers.begin(), _triggers.end(), trigger);
-		if (triggerIndex != _triggers.end())			
-			_triggers.erase(triggerIndex);// FRS El delete es responsabilidad del creador (Logic::CPhysics)		
+		TCircleTriggers::iterator triggerIndex = std::find(_circleTriggers.begin(), _circleTriggers.end(), trigger);
+		if (triggerIndex != _circleTriggers.end())			
+			_circleTriggers.erase(triggerIndex);// FRS El delete es responsabilidad del creador (Logic::CPhysics)		
+	} // removeActor
+
+	void CScene::removeAABBActor(CActor* collider)
+	{
+		TCircleColliders::iterator colliderIndex = std::find(_AABBColliders.begin(), _AABBColliders.end(), collider);
+		if (colliderIndex != _AABBColliders.end())
+			_AABBColliders.erase(colliderIndex); // FRS El delete es responsabilidad del creador (Logic::CPhysics)		
+	} // removeActor
+
+	void CScene::removeAABBActor(CActorTrigger* trigger)
+	{
+		TCircleTriggers::iterator triggerIndex = std::find(_AABBTriggers.begin(), _AABBTriggers.end(), trigger);
+		if (triggerIndex != _AABBTriggers.end())			
+			_AABBTriggers.erase(triggerIndex);// FRS El delete es responsabilidad del creador (Logic::CPhysics)		
 	} // removeActor
 
 	
@@ -111,84 +135,162 @@ namespace Physics
 		SIMULATION
 	*****************/
 	
-	void CScene::simulate()
+	void CScene::simulate(unsigned int timeDiff)
 	{	
-		checkCollisions();
-		checkTriggers();
+		for (size_t i = 0; i < _circleColliders.size(); ++i)
+			updateCirclePos(_circleColliders[i], timeDiff );
+
+		//for (size_t i = 0; i < _AABBColliders.size() - 1; ++i)
+		//	updateAABBPos(_AABBColliders[i], timeDiff );
+		//
+		//for (size_t i = 0; i < _circleTriggers.size() - 1; ++i)
+		//	checkCircleTrigger(_circleTriggers[i], timeDiff );
+
+		//for (size_t i = 0; i < _AABBTriggers.size() - 1; ++i)
+		//	checkAABBTrigger(_AABBTriggers[i], timeDiff );
 
 	} // simulate	
 
 	//--------------------------------------------------------
 
-	void CScene::checkCollisions() {
-
-		//WTF!!
-		float overlapX = 0;
-		float overlapY = 0;
-		for (size_t i = 0; i < _colliders.size() - 1; ++i)	
-			for (size_t j = i + 1; j < _colliders.size(); ++j)
-				if ( _colliders[i]->intersects(_colliders[j], overlapX, overlapY) )
-				{		
-					LOG("Collision ")
-					resolveCollision(_colliders[i], _colliders[j], overlapX, overlapY);
-					_colliders[i]->getIObserver()->onCollision(_colliders[j]->getIObserver());
-					_colliders[j]->getIObserver()->onCollision(_colliders[i]->getIObserver());	
-				}
-
-	} // checkCollisions
-
-	//--------------------------------------------------------
-
-	void CScene::checkTriggers() {
-
-		for (size_t i = 0; i < _triggers.size(); ++i)	
-			for (size_t j = 0; j < _colliders.size(); ++j)
-				
-				if ( _colliders[j]->intersects( _triggers[i] ) ) {
-					if( _triggers[i]->enters( _colliders[j] ) ) {						
-						LOG("Trigger Enter")
-						_triggers[i]->getIObserver()->onTrigger( _colliders[j]->getIObserver(), true);
-						_colliders[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), true);	
-					}
-					
-				} else if( _triggers[i]->exits( _colliders[j] ) ) {						
-						LOG("Trigger Exit")
-						_triggers[i]->getIObserver()->onTrigger( _colliders[j]->getIObserver(), false);
-						_colliders[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), false);
-				}
-
-	} // checkTriggers
-
-
-	//--------------------------------------------------------
-
-	void CScene::resolveCollision(Physics::CActor *actor1, Physics::CActor *actor2, float overlapX, float overlapY)
+	void CScene::updateCirclePos(CActor* circleCollider, unsigned int timeDiff) 
 	{
+		
+		circleCollider->getRigid()->_velocity += _gravityForce * timeDiff;
 
-		if (abs(overlapX) < abs(overlapY) || overlapY == 0)
+		Manifold manifold;
+		manifold.A = circleCollider->getRigid();
+
+		for (size_t i=0; i < _circleColliders.size(); ++i)
 		{
-			Logic::CLogicalPosition* pos = actor2->getLogicPosition();
-			pos->setDegree(pos->getDegree() - overlapX);
-			actor2->setLogicPosition(pos);
+			if( circleCollider != _circleColliders[i])
+			{
+				manifold.B = _circleColliders[i]->getRigid();
+				if( CheckCircleCircleCollision(manifold) ) 
+				{
+					circleCollider->getIObserver()->onCollision(_circleColliders[i]->getIObserver());
+					ResolveCollision(manifold);
+					PositionalCorrection(manifold);
+				}
+			}
 		}
+
+		circleCollider->getRigid()->
+			_shape->move(circleCollider->getRigid()->_diffPos);
+
+		
+		
+	}
+
+	//--------------------------------------------------------
+
+	void CScene::PositionalCorrection( Manifold &m )
+	{
+	  const float percent = 0.2; // usually 20% to 80%
+	  const float k_slop = 0.01; // usually 0.01 to 0.1
+	  Vector2 correction = std::max( m.penetration - k_slop, 0.0f ) * (m.A->_massData.mass + m.B->_massData.mass) * percent * m.normal;
+	  m.A->_shape->move(-m.A->_massData.inv_mass * correction);
+	  m.B->_shape->move(m.B->_massData.inv_mass * correction);
+	}
+
+	//--------------------------------------------------------
+
+	bool CScene::CheckCircleCircleCollision(Physics::Manifold &m)
+	{
+		// Seteo un puntero a cada Shape del manifold
+		CCircle *A = static_cast<CCircle*>(m.A->_shape);
+		CCircle *B = static_cast<CCircle*>(m.B->_shape);
+ 
+		// Vector from A to B
+		Vector2 n = B->_position - (A->_position + m.A->_diffPos) ;
+ 
+		float r = A->_radius + B->_radius;
+		float r2 = r * r;
+ 
+		if(n.squaredLength() > r2)
+			return false;
+ 
+		// Circles have collided, now compute manifold
+		float d = n.length(); // perform actual sqrt
+ 
+		// If distance between circles is not zero
+		if(r != 0)
+		{
+			// Distance is difference between radius and distance
+			m.penetration = r - d;
+ 
+			// Utilize our d since we performed sqrt on it already within Length( )
+			// Points from A to B, and is a unit vector
+			m.normal = n / d;
+			return true;
+		}
+ 
+		// Circles are on same position
 		else
 		{
-			if (overlapY < 0)
-			{
-				if ((actor1->getLogicPosition()->getHeight() - actor1->getBoxHeight() + overlapY * 0.5f ) >  0)
-					actor1->getLogicPosition()->setHeight(actor1->getLogicPosition()->getHeight() + overlapY * 0.5f);
-				if ((actor2->getLogicPosition()->getHeight() - actor2->getBoxHeight() - overlapY * 0.5f ) >  0)
-					actor2->getLogicPosition()->setHeight(actor2->getLogicPosition()->getHeight() - overlapY * 0.5f);
-			}
-			else if (overlapY > 0)
-			{
-				if ((actor1->getLogicPosition()->getHeight() - actor1->getBoxHeight() - overlapY * 0.5f ) >  0)
-					actor1->getLogicPosition()->setHeight(actor1->getLogicPosition()->getHeight() - overlapY * 0.5f);
-				if ((actor2->getLogicPosition()->getHeight() - actor2->getBoxHeight() + overlapY * 0.5f) >  0)
-					actor2->getLogicPosition()->setHeight(actor2->getLogicPosition()->getHeight() + overlapY * 0.5f);
-			}
+			// Choose random (but consistent) values
+			m.penetration = A->_radius;
+			m.normal = Vector2( 1, 0 );
+			return true;
 		}
-	}	
+	}
+
+	//--------------------------------------------------------
+
+	void CScene::ResolveCollision(Manifold &m)
+	{
+		  // Calculate relative velocity
+		  Vector2 rv = m.B->_diffPos - m.A->_diffPos;
+ 
+		  // Calculate relative velocity in terms of the normal direction
+		  float velAlongNormal = rv.dotProduct(m.normal);
+ 
+		  // Do not resolve if velocities are separating
+		  if(velAlongNormal > 0)
+			return;
+ 
+		  // Calculate restitution
+		  float e = std::min( m.A->_material.restitution, m.B->_material.restitution);
+ 
+		  // Calculate impulse scalar
+		  float j = -(1 + e) * velAlongNormal;
+		  j /= m.A->_massData.inv_mass + m.B->_massData.inv_mass;
+ 
+		  // Apply impulse
+		  Vector2 impulse = j * m.normal;
+		  m.A->_velocity -= m.A->_massData.inv_mass * impulse;
+		  m.B->_velocity += m.B->_massData.inv_mass * impulse;
+
+	}
+
+
+
+	//--------------------------------------------------------
+
+	//void CScene::checkTriggers() {
+
+	//	for (size_t i = 0; i < _triggers.size(); ++i)	
+	//		for (size_t j = 0; j < _colliders.size(); ++j)
+	//			
+	//			if ( _colliders[j]->intersects( _triggers[i] ) ) {
+	//				if( _triggers[i]->enters( _colliders[j] ) ) {						
+	//					LOG("Trigger Enter")
+	//					_triggers[i]->getIObserver()->onTrigger( _colliders[j]->getIObserver(), true);
+	//					_colliders[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), true);	
+	//				}
+	//				
+	//			} else if( _triggers[i]->exits( _colliders[j] ) ) {						
+	//					LOG("Trigger Exit")
+	//					_triggers[i]->getIObserver()->onTrigger( _colliders[j]->getIObserver(), false);
+	//					_colliders[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), false);
+	//			}
+
+	//} // checkTriggers
+
+
+	//--------------------------------------------------------
+
+
 
 
 } // namespace Physics
