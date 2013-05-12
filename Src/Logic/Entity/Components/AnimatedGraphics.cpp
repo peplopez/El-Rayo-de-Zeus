@@ -85,9 +85,9 @@ namespace Logic
 				_graphicalEntity->stopAllAnimations();
 				Logic::AnimationName name=static_cast<Logic::AnimationName>(rxMsg->getUShort());
 				std::string animString = _animSet->getAnimation(name);
-				if (_graphicalEntity->setAnimation(animString, 0, rxMsg ->getBool()))
+				if (_graphicalEntity->setAnimation(animString, 0, rxMsg ->getBool(),_animSet->getEventChain(name)))
 					_currentLogicAnimation=name; //Tengo actualizada mi animación lógica actual
-				else				
+				else
 					_currentLogicAnimation=Logic::AnimationName::NONE; //Tengo actualizada mi animación lógica actual
 				
 				LOG("SET_ANIMATION: " << rxMsg->getString());
@@ -114,7 +114,7 @@ namespace Logic
 				CMessageBoolFloatString *rxMsg = static_cast<CMessageBoolFloatString*>(message);
 				// de animaciones. Galeon no lo plantea.
 				_graphicalEntity->stopAllAnimations();
-				_graphicalEntity->setAnimation(rxMsg ->getString(), rxMsg ->getFloat(), rxMsg ->getBool());
+				_graphicalEntity->setAnimation(rxMsg ->getString(), rxMsg ->getFloat(), rxMsg ->getBool(), NULL);//REVISAR ESTE NULL
 				
 				LOG("SET_ANIMATION_WITH_TIME: " << rxMsg->getString());
 			} break;
@@ -145,7 +145,7 @@ namespace Logic
 		// DEFAULT ANIMATION
 		if(entityInfo->hasAttribute("defaultAnimation")) { 
 			_defaultAnimation = entityInfo->getStringAttribute("defaultAnimation");
-			_graphicalEntity->setAnimation(_defaultAnimation,0,true);
+			_graphicalEntity->setAnimation(_defaultAnimation,0,true,NULL);
 			_graphicalEntity->setObserver(this);
 		}
 
@@ -185,6 +185,18 @@ namespace Logic
 		if (entityInfo->hasAttribute("animCombo3"))
 			_animSet->addAnimation(Logic::COMBO3,entityInfo->getStringAttribute("animCombo3"));
 
+		if (entityInfo->hasAttribute("eventAttack1"))
+			_animSet->addEventTime(Logic::ATTACK1,entityInfo->getFloatAttribute("eventAttack1"));
+		if (entityInfo->hasAttribute("eventAttack2"))
+			_animSet->addEventTime(Logic::ATTACK2,entityInfo->getFloatAttribute("eventAttack2"));
+		if (entityInfo->hasAttribute("eventAttack3"))
+			_animSet->addEventTime(Logic::ATTACK3,entityInfo->getFloatAttribute("eventAttack3"));
+		if (entityInfo->hasAttribute("eventCover"))
+			_animSet->addEventTime(Logic::COVER_WITH_SHIELD,entityInfo->getFloatAttribute("eventCover"));
+		if (entityInfo->hasAttribute("eventCover"))
+			_animSet->addEventTime(Logic::COVER_WITH_WEAPON,entityInfo->getFloatAttribute("eventCover"));
+
+
 		return true;
 	
 	} // initializeAnimSet
@@ -203,22 +215,22 @@ namespace Logic
 			txMsg->setType(Message::ANIMATION_FINISHED);
 			txMsg->setUShort(_currentLogicAnimation); //PeP: envio que se ha finalizado la animación que se está reproduciendo.
 			//PEP HACK:
-			/*if (animation==Graphics::AnimNames::JUMP)  //habrá que comprobar que quitando esto no pasa nada raro
+			/*if (animation==Graphics::AnimNames::JUMP)  //habrá que comprobar que quitando esto no pasa nada raro, de momento así es
 				txMsg->setAction(Message::JUMP);
-			_entity->emitMessage(txMsg);
-			*/
+			
+			*/_entity->emitMessage(txMsg);
 		// Si acaba una animación y tenemos una por defecto la ponemos
 			if (_currentLogicAnimation != Logic::ATTACK1 && _currentLogicAnimation != Logic::ATTACK2)			
 			{
 				_graphicalEntity->stopAnimation(animation);
-				_graphicalEntity->setAnimation(_defaultAnimation,0,true); //tenemos que cambiar defaultanimation por un enum Logico
+				_graphicalEntity->setAnimation(_defaultAnimation,0,true,NULL); //tenemos que cambiar defaultanimation por un enum Logico
 			}
 			else
 			{
 				if (_currentLogicAnimation == Logic::ATTACK1)						
-					_graphicalEntity->pauseAnimation(animation,0.5833);
+					_graphicalEntity->pauseAnimationXTicks(animation,0.5833,10);
 			    if (_currentLogicAnimation == Logic::ATTACK2)			
-					_graphicalEntity->pauseAnimation(animation,0.41);
+					_graphicalEntity->pauseAnimationXTicks(animation,0.41,10);
 			}
 		}
 	}
@@ -228,11 +240,17 @@ namespace Logic
 		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
 		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
 
-		// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
-		CMessageUShort *msg = new CMessageUShort();
-		msg->setType(Message::ANIMATION_MOMENT);
-		msg->setUShort(_currentLogicAnimation);
-		_entity->emitMessage(msg);
+		if (_currentLogicAnimation==Logic::COVER_WITH_SHIELD || _currentLogicAnimation==Logic::COVER_WITH_WEAPON)
+		{
+			_graphicalEntity->pauseAnimation(animation,_animSet->getEventChain(_currentLogicAnimation)->front() );
+		}
+		else
+		{
+			CMessageUShort *msg = new CMessageUShort();
+			msg->setType(Message::ANIMATION_MOMENT);
+			msg->setUShort(_currentLogicAnimation);
+			_entity->emitMessage(msg);
+		}
 	}
 
 } // namespace Logic

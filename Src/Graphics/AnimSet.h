@@ -17,6 +17,7 @@ Contiene la declaración de la clase que reprenta una correspondencia entre nombr
 #define __Graphics_AnimSet_H
 
 #include <map>
+#include <list>
 #include <string>
 #include "Logic\Entity\Components\AnimatedGraphics.h"
 
@@ -71,13 +72,38 @@ namespace Graphics
 		Obtiene el nombre físico de la animación a partir de su nombre lógico.
 
 		@param anim Nombre de la animación a activar.
-		@return true si la animación solicitada fue correctamente desactivada.
+		@return std::string devuelve el nombre físico de la animación
 		*/
 		std::string getAnimation(const Logic::AnimationName animEnum);
+
+		/**
+		Añade un evento de tiempo  leido desde el Map.
+
+		@param animEnum enumerado que estamos seteando
+		@param eventTime tiempo que queremos almacenar
+		@return true si el metodo termina de forma satisfactoria
+		*/
+		bool addEventTime(const Logic::AnimationName animEnum,const float eventTime);
+
+		/**
+		Obtiene la cadena de eventos
+
+		@param anim Nombre de la animación a la que acceder.
+		@return std::list<float> devuelve la lista de eventos asociada a la animación.
+		*/
+		std::list<float>* getEventChain(const Logic::AnimationName animEnum);
 	
 	private:
 
+		/**
+		Map de nombres de animaciones correspondientes a los enum Lógicos
+		*/
 		std::map<Logic::AnimationName,std::string> _animationSet; 
+		
+		/**
+		Map que guarda una lista de eventos para una animación Lógica.
+		*/
+		std::map<Logic::AnimationName,std::list<float>> _eventChain;
 
 	}; // class CAnimSet
 

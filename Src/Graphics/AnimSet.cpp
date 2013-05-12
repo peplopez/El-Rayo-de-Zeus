@@ -56,7 +56,19 @@ namespace Graphics
 		return animation;
 	} // getAnimation
 
-	//--------------------------------------------------------
-	
+	bool CAnimSet::addEventTime(const Logic::AnimationName animEnum,const float eventTime)
+	{
+		std::list<float> lista= _eventChain[animEnum];
+		lista.push_back(eventTime);
+		_eventChain[animEnum]=lista;
+		return true;
+	}
+
+	std::list<float>* CAnimSet::getEventChain(const Logic::AnimationName animEnum)
+	{
+		return &_eventChain[animEnum];
+	}
+
+	//--------------------------------------------------------	
 
 } // namespace Graphics
