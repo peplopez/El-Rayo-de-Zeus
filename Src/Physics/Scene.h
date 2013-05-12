@@ -68,7 +68,7 @@ namespace Physics
 		friend class CServer;
 
 		/**	Constructor de la clase.	*/
-		CScene(const std::string& name) : _name(name), _gravityForce(Vector2(0, 0)) {};
+		CScene(const std::string& name) : _name(name), _gravityForce(Vector2(0, -20)) {};
 
 		/**
 		Destructor de la aplicación.

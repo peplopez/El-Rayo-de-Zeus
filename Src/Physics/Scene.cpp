@@ -156,6 +156,7 @@ namespace Physics
 	void CScene::updateCirclePos(CActor* circleCollider, unsigned int timeDiff) 
 	{
 		
+		circleCollider->getRigid()->_shape->move(_gravityForce * timeDiff * 0.001f);
 
 		Manifold manifold;
 		manifold.A = circleCollider->getRigid();
@@ -169,13 +170,13 @@ namespace Physics
 				{
 					circleCollider->getIObserver()->onCollision(_circleColliders[i]->getIObserver());
 					_circleColliders[i]->getIObserver()->onCollision(circleCollider->getIObserver());
-					ResolveCollision(manifold);
+					//ResolveCollision(manifold); //para dinámicos
 					PositionalCorrection(manifold);
 				}
 			}
 		}
 
-		//circleCollider->getRigid()->_shape->move(circleCollider->getRigid()->_velocity * timeDiff);
+
 
 		
 		
@@ -202,7 +203,7 @@ namespace Physics
  
 
 		// Vector from A to B
-		Vector2 n = B->_position - A->_position ;
+		Vector2 n = B->_position - A->_position;
 
 		if (n.x < -180)
 			n.x += 360;
@@ -264,8 +265,8 @@ namespace Physics
  
 		  // Apply impulse
 		  Vector2 impulse = j * m.normal;
-		  m.A->_velocity = -(m.A->_massData.inv_mass * impulse);
-		  m.B->_velocity = m.B->_massData.inv_mass * impulse;
+		  m.A->_velocity -= m.A->_massData.inv_mass * impulse;
+		  m.B->_velocity += m.B->_massData.inv_mass * impulse;
 
 	}
 

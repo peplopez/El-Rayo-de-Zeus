@@ -28,6 +28,14 @@ Map ={
 		base=1,
 		ring=1,
 		degrees=300,		
+	},
+
+	bot1 = {
+		type = "OtherPlayer",
+		base=1,
+		ring=1,
+		degrees=330,
+		height=200,
 	},	
 	
 	LowerRing = {

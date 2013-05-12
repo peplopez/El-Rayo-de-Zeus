@@ -42,8 +42,6 @@ namespace Physics
 	{		
 		
 		_body->_shape->move(Vector2(degrees, height));
-		if (abs(degrees) > 0.001f || abs(height) > 0.001f)
-			_body->setSpeed(degrees, height);
 
 	} // move
 

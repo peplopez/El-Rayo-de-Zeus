@@ -66,6 +66,10 @@ namespace Logic
 
 		if(entityInfo->hasAttribute("degrees"))
 			_pos->setDegree(entityInfo->getFloatAttribute("degrees"));
+
+		if(entityInfo->hasAttribute("height"))
+			_pos->setHeight(entityInfo->getFloatAttribute("height"));
+			
 			
 		if(entityInfo->hasAttribute("sense"))
 			_pos->setSense(static_cast<Logic::Sense>(entityInfo->getIntAttribute("sense")));
