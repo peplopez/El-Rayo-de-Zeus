@@ -107,9 +107,7 @@ namespace Graphics
 		Ogre::AnimationState *animation = _entity->getAnimationState(anim);
 		//animation->setEnabled(false);
 		if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
-		animation->setTimePosition(moment);  // De lo contrario, no dejan de lanzar el evento finished a los observers
-		
-
+		animation->setTimePosition(moment);  // De lo contrario, no dejan de lanzar el evento finished a los observer
 	} // pauseAnimation
 
 	bool CAnimatedEntity::pauseAnimationXTicks(const std::string &anim,float moment, unsigned int ticks)
@@ -150,6 +148,7 @@ namespace Graphics
 	
 	void CAnimatedEntity::tick(float secs)
 	{
+		//PeP, este tick se ha quedado en los huesos, si hay aun ciertas cosas es por la funcionalidad de poder pausar una animación, cosa que se maneja en parte en el tick.
 		if(_currentAnimation)
 		{
 			if (_rewinding)
@@ -161,18 +160,7 @@ namespace Graphics
 					_rewinding=false;
 				}
 			}	
-
 			else
-				/*if (_currentAnimation->getAnimationName().compare(AnimNames::ATTACK1)||
-					_currentAnimation->getAnimationName().compare(AnimNames::ATTACK2) ||
-					_currentAnimation->getAnimationName().compare(AnimNames::ATTACK3))
-				{
-					if (!_paused)
-						_currentAnimation->addTime(secs);
-					else
-						_ticksPaused++;
-				}
-				else*/
 				if (!_paused)
 					_currentAnimation->addTime(secs);
 				else
@@ -191,37 +179,12 @@ namespace Graphics
 			if (_activeEventChain!=NULL)
 				if(_observer && !_activeEventChain->empty() && _activeEventChain->front()<_currentAnimation->getTimePosition())
 					if (_momentEnabled)
-						//if (_currentAnimation->getTimePosition()>0.35 )
 						{
 							_momentEnabled=false;
 							//_activeEventChain->pop_front();
 							_observer->animationMomentReached(_currentAnimation->getAnimationName());
-						}
-			/*if(_observer && _currentAnimation->getAnimationName()==AnimNames::ATTACK2)
-				if (_momentEnabled)
-				if (_currentAnimation->getTimePosition()>0.3)
-				{
-					_momentEnabled=false;				
-					_observer->animationMomentReached(AnimNames::ATTACK2);
-				}
-			if(_observer && _currentAnimation->getAnimationName()==AnimNames::ATTACK3)
-				if (_momentEnabled)
-				if (_currentAnimation->getTimePosition()>0.3)
-				{
-					_momentEnabled=false;				
-					_observer->animationMomentReached(AnimNames::ATTACK3);
-				}
-		
-				*/
+						}			
 				// Comprobamos si la animaci?n ha terminado para avisar
-		
-			/*if(_observer && _currentAnimation->getAnimationName()==Graphics::AnimNames::COVER_WITH_SHIELD)
-			{
-				if (_currentAnimation->getTimePosition()>0.5)
-				{
-					_currentAnimation->addTime(-secs);
-				}
-			}*/
 			if(_observer && _currentAnimation->hasEnded())
 				_observer->animationFinished(_currentAnimation->getAnimationName());
 		}

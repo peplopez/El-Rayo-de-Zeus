@@ -31,9 +31,9 @@ namespace Ogre
 namespace Graphics 
 {
 
-	namespace AnimNames {
+/*	namespace AnimNames {  //Lo dejo por ahora pero esto es para borrarlo, esta info estaría dirigida por datos en Arquetipes.txt
 //		
-		/*
+		
 		const std::string IDLE				= "idle"; // ESPARTANO
 		const std::string RUN				= "run";
 		const std::string DEATH				= "die";		
@@ -63,8 +63,8 @@ namespace Graphics
 		const std::string COMBO1			= "combo1";
 		const std::string COMBO2			= "combo2";
 		const std::string COMBO3			= "combo3";
-/**/
-	};
+
+	};/**/
 
 
 	/**

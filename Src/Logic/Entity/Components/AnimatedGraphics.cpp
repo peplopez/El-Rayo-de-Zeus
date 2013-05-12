@@ -140,12 +140,11 @@ namespace Logic
 		// Cargando AnimSet de map
 		_animSet = new Graphics::CAnimSet();	
 		initializeAnimSet(entityInfo);
-		if (_entity->getName()=="Espartano")
-			int i=0;
+
 		// DEFAULT ANIMATION
 		if(entityInfo->hasAttribute("defaultAnimation")) { 
 			_defaultAnimation = entityInfo->getStringAttribute("defaultAnimation");
-			_graphicalEntity->setAnimation(_defaultAnimation,0,true,NULL);
+			_graphicalEntity->setAnimation(_defaultAnimation,0,true,NULL); //Pep, cuando veais esto con NULL sabed que es temporal y que soy consciente.
 			_graphicalEntity->setObserver(this);
 		}
 
@@ -214,12 +213,8 @@ namespace Logic
 			CMessageUShort *txMsg = new CMessageUShort();
 			txMsg->setType(Message::ANIMATION_FINISHED);
 			txMsg->setUShort(_currentLogicAnimation); //PeP: envio que se ha finalizado la animación que se está reproduciendo.
-			//PEP HACK:
-			/*if (animation==Graphics::AnimNames::JUMP)  //habrá que comprobar que quitando esto no pasa nada raro, de momento así es
-				txMsg->setAction(Message::JUMP);
-			
-			*/_entity->emitMessage(txMsg);
-		// Si acaba una animación y tenemos una por defecto la ponemos
+			_entity->emitMessage(txMsg);
+		// Si acaba una animación y tenemos una por defecto la ponemos, pero la animación por defecto debe ser lógica, hay que cambiarlo, pronto estará
 			if (_currentLogicAnimation != Logic::ATTACK1 && _currentLogicAnimation != Logic::ATTACK2)			
 			{
 				_graphicalEntity->stopAnimation(animation);
@@ -228,7 +223,7 @@ namespace Logic
 			else
 			{
 				if (_currentLogicAnimation == Logic::ATTACK1)						
-					_graphicalEntity->pauseAnimationXTicks(animation,0.5833,10);
+					_graphicalEntity->pauseAnimationXTicks(animation,0.5833,10);//Pep, queda esto por ser dirigido por datos..., pronto lo haré
 			    if (_currentLogicAnimation == Logic::ATTACK2)			
 					_graphicalEntity->pauseAnimationXTicks(animation,0.41,10);
 			}
