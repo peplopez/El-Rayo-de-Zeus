@@ -47,6 +47,16 @@ namespace Physics
 
 	//--------------------------------------------------------
 
+	void CActor::moveKinematic(const float degrees, const float height)
+	{		
+		
+		move(degrees, height);
+		_body->_diffPosition = Vector2(degrees, height);
+
+	} // move
+
+	//--------------------------------------------------------
+
 	float CActor::getDegree()
 	{
 		return _body->_shape->getDegree();

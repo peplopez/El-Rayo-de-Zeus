@@ -186,11 +186,28 @@ namespace Physics
 
 	void CScene::PositionalCorrection( Manifold &m )
 	{
-	  const float percent = 0.2; // usually 20% to 80%
-	  const float k_slop = 0.01; // usually 0.01 to 0.1
-	  Vector2 correction = std::max( m.penetration + k_slop, 0.0f ) * (m.A->_massData.mass + m.B->_massData.mass) * percent * m.normal;
-	  m.A->_shape->move(-m.A->_massData.inv_mass * correction);
-	  m.B->_shape->move(m.B->_massData.inv_mass * correction);
+		const float percent = 0.2; // usually 20% to 80%
+		const float k_slop = 0.01; // usually 0.01 to 0.1
+
+		if (m.A->_massData.mass == 0 && m.B->_massData.mass == 0)
+		{
+			Vector2 correction = std::max( m.penetration + k_slop, 0.0f ) * percent * m.normal;
+			if (m.A->_diffPosition != Vector2::ZERO && m.B->_diffPosition == Vector2::ZERO)
+				m.A->_shape->move(-correction);
+			else if (m.B->_diffPosition != Vector2::ZERO && m.A->_diffPosition == Vector2::ZERO)
+				m.B->_shape->move(correction);
+			else
+			{
+				m.A->_shape->move(-correction * 0.5f);
+				m.B->_shape->move(correction * 0.5f);
+			}
+		}
+		else		
+		{
+			Vector2 correction = std::max( m.penetration + k_slop, 0.0f ) * (m.A->_massData.mass + m.B->_massData.mass) * percent * m.normal;
+			m.A->_shape->move(-m.A->_massData.inv_mass * correction);
+			m.B->_shape->move(m.B->_massData.inv_mass * correction);
+		}
 	}
 
 	//--------------------------------------------------------

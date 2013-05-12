@@ -103,7 +103,7 @@ namespace Logic {
 		
 
 		//_diffHeight -= _negativeYVelocity * msecs * 0.001f;	//gravedad (no acelerada) simulada
-		_physicalActor->move(_diffDegrees, _diffHeight);
+		_physicalActor->moveKinematic(_diffDegrees, _diffHeight);
 
 		
 		//Ponemos el movimiento a cero		

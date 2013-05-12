@@ -44,6 +44,7 @@ namespace Physics
 		virtual ~CActor() {}
 		
 		void move(const float degrees, const float height);
+		void moveKinematic(const float degrees, const float height);
 
 		
 		/************************

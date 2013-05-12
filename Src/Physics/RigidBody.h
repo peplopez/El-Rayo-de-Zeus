@@ -66,6 +66,7 @@ namespace Physics
 		IShape* _shape;
 		Material _material;
 		MassData _massData;
+		Vector2 _diffPosition;
 		Vector2 _velocity;
 		Vector2 _force;
 
