@@ -52,7 +52,7 @@ namespace Physics
 		/************************
 			GETTER's & SETTER's
 		************************/
-		void setDiffPosition(float x, float y) {_diffPos.x = x; _diffPos.y = y;}
+	
 		void setSpeed(float x, float y) {_velocity.x = x; _velocity.y = y;}
 		
 		
@@ -66,7 +66,6 @@ namespace Physics
 		IShape* _shape;
 		Material _material;
 		MassData _massData;
-		Vector2 _diffPos;
 		Vector2 _velocity;
 		Vector2 _force;
 

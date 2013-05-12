@@ -8,6 +8,8 @@
 /*----------------------------------------------------------------------------------------------------------------------*/
 namespace Physics
 {
+
+
 	float CCircle::computeArea()
 	{
 		return PI * _radius * _radius;
@@ -19,9 +21,9 @@ namespace Physics
 	{
 		_position += diffPos;
 
-		if (_position.x > 360)
+		if (_position.x > 180)
 			_position.x -= 360;
-		else if (_position.x < 0)
+		else if (_position.x < -180)
 			_position.x += 360;
 
 		if (_position.y - _radius < 0)

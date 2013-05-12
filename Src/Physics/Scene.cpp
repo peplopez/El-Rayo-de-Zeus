@@ -156,7 +156,6 @@ namespace Physics
 	void CScene::updateCirclePos(CActor* circleCollider, unsigned int timeDiff) 
 	{
 		
-		circleCollider->getRigid()->_velocity += _gravityForce * timeDiff;
 
 		Manifold manifold;
 		manifold.A = circleCollider->getRigid();
@@ -169,14 +168,14 @@ namespace Physics
 				if( CheckCircleCircleCollision(manifold) ) 
 				{
 					circleCollider->getIObserver()->onCollision(_circleColliders[i]->getIObserver());
+					_circleColliders[i]->getIObserver()->onCollision(circleCollider->getIObserver());
 					ResolveCollision(manifold);
 					PositionalCorrection(manifold);
 				}
 			}
 		}
 
-		circleCollider->getRigid()->
-			_shape->move(circleCollider->getRigid()->_diffPos);
+		//circleCollider->getRigid()->_shape->move(circleCollider->getRigid()->_velocity * timeDiff);
 
 		
 		
@@ -188,7 +187,7 @@ namespace Physics
 	{
 	  const float percent = 0.2; // usually 20% to 80%
 	  const float k_slop = 0.01; // usually 0.01 to 0.1
-	  Vector2 correction = std::max( m.penetration - k_slop, 0.0f ) * (m.A->_massData.mass + m.B->_massData.mass) * percent * m.normal;
+	  Vector2 correction = std::max( m.penetration + k_slop, 0.0f ) * (m.A->_massData.mass + m.B->_massData.mass) * percent * m.normal;
 	  m.A->_shape->move(-m.A->_massData.inv_mass * correction);
 	  m.B->_shape->move(m.B->_massData.inv_mass * correction);
 	}
@@ -201,9 +200,16 @@ namespace Physics
 		CCircle *A = static_cast<CCircle*>(m.A->_shape);
 		CCircle *B = static_cast<CCircle*>(m.B->_shape);
  
+
 		// Vector from A to B
-		Vector2 n = B->_position - (A->_position + m.A->_diffPos) ;
- 
+		Vector2 n = B->_position - A->_position ;
+
+		if (n.x < -180)
+			n.x += 360;
+		else if (n.x > 180)
+			n.x -= 360;
+
+
 		float r = A->_radius + B->_radius;
 		float r2 = r * r;
  
@@ -240,7 +246,7 @@ namespace Physics
 	void CScene::ResolveCollision(Manifold &m)
 	{
 		  // Calculate relative velocity
-		  Vector2 rv = m.B->_diffPos - m.A->_diffPos;
+		  Vector2 rv = m.B->_velocity - m.A->_velocity;
  
 		  // Calculate relative velocity in terms of the normal direction
 		  float velAlongNormal = rv.dotProduct(m.normal);
@@ -258,8 +264,8 @@ namespace Physics
  
 		  // Apply impulse
 		  Vector2 impulse = j * m.normal;
-		  m.A->_velocity -= m.A->_massData.inv_mass * impulse;
-		  m.B->_velocity += m.B->_massData.inv_mass * impulse;
+		  m.A->_velocity = -(m.A->_massData.inv_mass * impulse);
+		  m.B->_velocity = m.B->_massData.inv_mass * impulse;
 
 	}
 

@@ -21,7 +21,7 @@
 namespace Physics
 {
 	CRigidBody::CRigidBody(Vector2 position, float radius, float density, float restitution)
-		: _velocity(Vector2(0,0)), _diffPos(Vector2(0,0)), _force(Vector2(0,0))
+		: _velocity(Vector2(0,0)), _force(Vector2(0,0))
 	{
 		_shape = new CCircle(position, radius);
 		_material.density = density;
@@ -38,7 +38,7 @@ namespace Physics
 	//--------------------------------------------------------
 
 	CRigidBody::CRigidBody(Vector2 min, Vector2 max, float density, float restitution)
-		: _velocity(Vector2(0,0)), _diffPos(Vector2(0,0)), _force(Vector2(0,0))
+		: _velocity(Vector2(0,0)), _force(Vector2(0,0))
 	{
 		_shape = new CAABB(min, max);
 		_material.density = density;

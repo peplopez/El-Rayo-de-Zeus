@@ -127,7 +127,7 @@ namespace Logic {
 
 		// COLLIDER
 
-			Physics::CActor* collider = new Physics::CActor(Vector2(logicPos->getDegree(), logicPos->getHeight() + _radius), _radius, _density, _restitution, this);
+			Physics::CActor* collider = new Physics::CActor(Vector2(logicPos->getDegree(), logicPos->getHeight()), _radius, _density, _restitution, this);
 				if(_scene->addCircleActor(collider) ) // Añadir el actor a la escena
 					return collider;
 				else

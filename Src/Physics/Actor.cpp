@@ -20,7 +20,12 @@ namespace Physics
 	CActor::CActor(Vector2 position, float radius, float density, float restitution, IObserver *component) : 
 		 _component(component)
 	{
-		_body = new CRigidBody(position, radius, density, restitution);
+		Vector2 circlePos(position.x, position.y);
+		
+		if (circlePos.x > 180)
+			circlePos.x -= 360;
+
+		_body = new CRigidBody(circlePos, radius, density, restitution);
 	}
 
 	//--------------------------------------------------------
@@ -36,7 +41,9 @@ namespace Physics
 	void CActor::move(const float degrees, const float height)
 	{		
 		
-		_body->setDiffPosition(degrees, height);
+		_body->_shape->move(Vector2(degrees, height));
+		if (abs(degrees) > 0.001f || abs(height) > 0.001f)
+			_body->setSpeed(degrees, height);
 
 	} // move
 
