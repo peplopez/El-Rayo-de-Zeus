@@ -20,6 +20,7 @@ con animaciones.
 
 #include "Graphics\Entity.h"
 
+
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 
 {
@@ -30,8 +31,9 @@ namespace Ogre
 namespace Graphics 
 {
 
-	namespace AnimNames {
+/*	namespace AnimNames {  //Lo dejo por ahora pero esto es para borrarlo, esta info estaría dirigida por datos en Arquetipes.txt
 //		
+		
 		const std::string IDLE				= "idle"; // ESPARTANO
 		const std::string RUN				= "run";
 		const std::string DEATH				= "die";		
@@ -45,7 +47,7 @@ namespace Graphics
 		const std::string ATTACK3			= "attack3";
 		const std::string COMBO1			= "combo1";
 		const std::string COMBO2			= "combo2";
-		const std::string COMBO3			= "combo3";
+		const std::string COMBO3			= "combo3";*/
 		
 /*/
 		const std::string IDLE				= "IdleKatana";	// MARINE
@@ -61,8 +63,8 @@ namespace Graphics
 		const std::string COMBO1			= "combo1";
 		const std::string COMBO2			= "combo2";
 		const std::string COMBO3			= "combo3";
-/**/
-	};
+
+	};/**/
 
 
 	/**
@@ -119,7 +121,7 @@ namespace Graphics
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
 		CAnimatedEntity(const std::string &name, const std::string &mesh):
-					CEntity(name,mesh), _currentAnimation(0), _currentAnimationName(""), _rewinding(false),_momentEnabled(true),_paused(false),_ticksPaused(0) {}
+					CEntity(name,mesh), _currentAnimation(0), _currentAnimationName(""), _rewinding(false),_momentEnabled(true),_paused(false),_ticksPaused(0),_maxTicks(0) {}
 
 
 		/**
@@ -129,7 +131,7 @@ namespace Graphics
 		@param loop true si la animación debe reproducirse cíclicamente.
 		@return true si la animación solicitada fue correctamente activada.
 		*/
-		bool setAnimation(const std::string &anim, float moment, bool loop);
+		bool setAnimation(const std::string &anim, float moment, bool loop, std::list<float>* eventChain);
 		
 		/**
 		Desactiva una animación a partir de su nombre.
@@ -162,7 +164,7 @@ namespace Graphics
 
 		bool pauseAnimation(const std::string &anim,float moment);
 
-	
+		bool pauseAnimationXTicks(const std::string &anim,float moment, unsigned int ticks);	
 
 	private:
 
@@ -177,7 +179,6 @@ namespace Graphics
 		Animación que tiene la entidad activada.
 		*/
 		Ogre::AnimationState *_currentAnimation;
-
 
 		/**
 		Nombre de la animación actual
@@ -206,6 +207,11 @@ namespace Graphics
 		bool _paused;
 		
 		unsigned int _ticksPaused;
+
+		unsigned int _maxTicks;
+
+
+		std::list<float>* _activeEventChain;
 	}; // class CAnimatedEntity
 
 } // namespace Graphics

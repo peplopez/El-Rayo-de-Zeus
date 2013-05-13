@@ -1,14 +1,12 @@
 #include "LAIdle.h"
-
+#include "../../Logic/Entity/Components/AnimatedGraphics.h"
 #include "Application/BaseApplication.h"
-
-#include "Graphics/AnimatedEntity.h"
 
 #include "../../Logic/Entity/Components/Attack.h"
 
 #include "../StateMachines/StateMachine.h"
 
-#include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Entity/Messages/MessageBoolUShort.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
 #include "Logic/Entity/Messages/MessageString.h"
 namespace AI
@@ -34,14 +32,14 @@ namespace AI
 	CLatentAction::LAStatus CLAIdle::OnStart()
 	{
 		
-		if (_anim=="")
+		/*if (_anim=="")
 			_anim = Graphics::AnimNames::IDLE;
-		std::cout<<"AI::StateMachine::idle"<<std::endl;
-		CMessageBoolString *message = new CMessageBoolString();
+		*/std::cout<<"AI::StateMachine::idle"<<std::endl;
+		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
 
 		//si es sinbad
-		message->setString(_anim);
+		message->setUShort(Logic::IDLE);
 		message->setAction(Message::WALK_STOP);
 		message->setBool(true);
 		_entity->emitMessage(message);
@@ -55,18 +53,6 @@ namespace AI
 		//
 		if (_entity->getComponent<CAttack>()!=NULL)
 				_entity->getComponent<CAttack>()->setCovering(false);		
-		// TODO PRÁCTICA IA
-		// Al iniciar el wait, calculamos el instante de tiempo en 
-		// el que se tiene que finalizar la acción. 
-		// El tiempo de espera se guarda en _time.
-		// Para obtener el instante actual podemos usar 
-		// Application::CBaseApplication::getSingletonPtr()->getAppTime()
-		//
-		//_endingTime = Application::CBaseApplication::getSingletonPtr()->getAppTime() + _time; 
-		// Otra opción es usar
-		// BaseSubsystems::CServer::getSingletonPtr()->getAppTimer()
-		// para sacar el timer de la aplicación y usar su método 
-		// getMilliseconds.
 
 		return SUSPENDED;
 	}
@@ -136,7 +122,6 @@ namespace AI
 	{		
 		// La acción no acepta mensajes
 		return false;
-		return (message->getType() == Message::CONTROL && (message->getAction()==Message::LIGHT_ATTACK || message->getAction()==Message::HEAVY_ATTACK));
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
@@ -144,16 +129,7 @@ namespace AI
 
 	@param msg Mensaje recibido.
 	*/
-	void CLAIdle::process(CMessage *message)
-	{
-		// TODO PRÁCTICA IA
-		// La acción no procesa mensajes
-		/*if(message->getType() == Message::CONTROL)
-			 if ( message->getAction()==Message::LIGHT_ATTACK)
-				finish(true); // bool = exito o fallo
-			 else
-				finish(false);*/
-	}
+	void CLAIdle::process(CMessage *message){}
 	
 	void CLAIdle::tick(unsigned int msecs) 
 	{

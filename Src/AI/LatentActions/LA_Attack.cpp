@@ -1,6 +1,6 @@
 #include "LA_Attack.h"
 
-#include "Graphics/AnimatedEntity.h"
+#include "../../Logic/Entity/Components/AnimatedGraphics.h"
 
 #include "../../Logic/Entity/Components/Attack.h"
 #include "../../Logic/Entity/Components/AvatarController.h"
@@ -9,7 +9,9 @@
 #include "Application/BaseApplication.h"
 
 #include "../StateMachines/StateMachine.h"
-#include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageUShort.h"
+#include "Logic/Entity/Messages/MessageBoolUShort.h"
+
 namespace AI
 {
 
@@ -45,12 +47,12 @@ namespace AI
 		{
 		case 0:
 		{
-			CMessageBoolString *message = new CMessageBoolString();
+			CMessageBoolUShort *message = new CMessageBoolUShort();
 			message->setType(Message::SET_ANIMATION);
 			if (_action==Message::LIGHT_ATTACK)
-				message->setString(Graphics::AnimNames::ATTACK1);
+				message->setUShort(Logic::ATTACK1);
 			else
-				message->setString(Graphics::AnimNames::ATTACK2);				
+				message->setUShort(Logic::ATTACK2);				
 			message->setAction(_action);
 			message->setBool(false);
 			_entity->emitMessage(message);
@@ -121,12 +123,7 @@ namespace AI
 	bool CLA_Attack::accept(const CMessage *message)
 	{		
 		// la accion latente de ataque solo acepta mensajes de ataque en el momento que la oportunidad de combo está activada.
-		return/* (_comboOportunity && (message->getType() == Message::CONTROL && 
-			(message->getAction() == Message::LIGHT_ATTACK||
-			message->getAction() == Message::HEAVY_ATTACK)))
-			||*/
-			/*(message->getType()==Message::ANIMATION_MOMENT &&  _initialCombatState!=2) ||*/
-			(message->getType()==Message::ANIMATION_FINISHED);
+		return 	(message->getType()==Message::ANIMATION_FINISHED);
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
@@ -142,16 +139,16 @@ namespace AI
 		{
 			if (_initialCombatState==0  || _animationSetedByMe  )
 			{
-				CMessageString* maux = static_cast<CMessageString*>(message);
-				if (maux->getString().compare(Graphics::AnimNames::ATTACK1)==0 )  //ACORDARSE DE PONER ATTACK3 O EL QUE SEA PARA QUE LO TENGA EN CUENTA
+				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
+				if (maux->getUShort()==Logic::ATTACK1)  //ACORDARSE DE PONER ATTACK3 O EL QUE SEA PARA QUE LO TENGA EN CUENTA
 				{	
 					finish(false);
 				}
-				else if (maux->getString().compare(Graphics::AnimNames::ATTACK2)==0)
+				else if (maux->getUShort()==Logic::ATTACK2)
 				{
 					finish(false);				
 				}
-				else if (maux->getString().compare(Graphics::AnimNames::ATTACK3)==0)
+				else if (maux->getUShort()==Logic::ATTACK3)
 				{
 					finish(false);				
 				}
@@ -161,9 +158,9 @@ namespace AI
 			{
 				case 1:
 				{
-					CMessageBoolString *message = new CMessageBoolString();
+					CMessageBoolUShort *message = new CMessageBoolUShort();
 					message->setType(Message::SET_ANIMATION);
-					message->setString(Graphics::AnimNames::ATTACK2);
+					message->setUShort(Logic::ATTACK2);
 					message->setAction(_action);
 					message->setBool(false);
 					_entity->emitMessage(message);		
@@ -182,19 +179,19 @@ namespace AI
 						_entity->emitMessage(message);	
 						_initialYaw=_entity->getYaw();
 						_yawAmount=0;*/
-												CMessageBoolString *message = new CMessageBoolString();
+						CMessageBoolUShort *message = new CMessageBoolUShort();
 						message->setType(Message::SET_ANIMATION);
-						message->setString(Graphics::AnimNames::ATTACK3);
+						message->setUShort(Logic::ATTACK3);
 						message->setAction(_action);
 						message->setBool(false);
-						_entity->emitMessage(message);	
+						_entity->emitMessage(message);
 						_animationSetedByMe=true;
 					}
 					else
 					{
-						CMessageBoolString *message = new CMessageBoolString();
+						CMessageBoolUShort *message = new CMessageBoolUShort();
 						message->setType(Message::SET_ANIMATION);
-						message->setString(Graphics::AnimNames::ATTACK3);
+						message->setUShort(Logic::ATTACK3);
 						message->setAction(_action);
 						message->setBool(false);
 						_entity->emitMessage(message);	

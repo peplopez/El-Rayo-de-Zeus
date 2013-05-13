@@ -12,13 +12,13 @@ Clase que implementa las acciones latentes
 
 #ifndef __AI_LatentAction_H
 #define __AI_LatentAction_H
-#include "Logic/Entity/Messages/MessageBoolString.h"
+
 #include <iostream>
-//#include "Logic/Entity/Entity.h"
 
 namespace Logic
 {
 	class CEntity;
+	class CMessage;
 }
 
 using namespace Logic;

@@ -2,7 +2,7 @@
 
 #include "Application/BaseApplication.h"
 
-#include "Graphics/AnimatedEntity.h"
+#include "Logic/Entity/Components/AnimatedGraphics.h"
 
 #include "../StateMachines/StateMachine.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
@@ -37,7 +37,7 @@ namespace AI
 		CMessageBoolFloatString *message = new CMessageBoolFloatString();
 		message->setType(Message::SET_ANIMATION_WITH_TIME);
 		message->setAction(Message::JUMP);				
-		message->setString(Graphics::AnimNames::JUMP);
+		message->setString("jump"); //HACK TEMPORAL
 		message->setFloat(0.6);
 		message->setBool(false);
 		_entity->emitMessage(message);		

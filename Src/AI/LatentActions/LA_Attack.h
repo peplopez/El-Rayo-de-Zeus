@@ -14,6 +14,7 @@ latentes básicas.
 #define __AI_ATTACKLatentActions_H
 
 #include "LatentAction.h"
+#include "Logic/Entity/Messages/Message.h"
 
 #include "Logic/Entity/Entity.h"
 

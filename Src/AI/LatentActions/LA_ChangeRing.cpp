@@ -7,13 +7,13 @@
 #include "../StateMachines/StateMachine.h"
 #include "LA_ChangeRing.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
-#include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Entity/Messages/MessageBoolUShort.h"
 #include "Logic/Entity/Messages/MessageString.h"
 #include "Logic/Entity/Messages/MessageUIntString.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
-#include "../../Logic/Entity/Components/BaseTraveler.h"
+#include "../../Logic/Entity/Components/AnimatedGraphics.h"
 #include "Logic/Entity/Messages/MessageChar.h"
-#include "Graphics/AnimatedEntity.h"
+
 
 #include "../../Logic/Server.h"
 
@@ -44,10 +44,10 @@ namespace AI
 		_jumpSpeed=_initialJumpSpeed;
 		sleepComponents();		//Desactivación de componentes
 		std::cout<<"AI::StateMachine::ChangeRing"<<std::endl;
-		CMessageBoolString *message = new CMessageBoolString();
+		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
 		message->setAction(Message::JUMP);				
-		message->setString(Graphics::AnimNames::JUMP);
+		message->setUShort(Logic::JUMP);
 		message->setBool(false);
 		_entity->emitMessage(message);		
 		turn();

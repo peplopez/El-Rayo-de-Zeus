@@ -1,9 +1,9 @@
 #include "LA_Run.h"
 
-#include "Application/BaseApplication.h"
+//#include "Application/BaseApplication.h"
 
-#include "Graphics/AnimatedEntity.h"
-
+#include "../../Logic/Entity/Components/AnimatedGraphics.h"
+#include "Logic/Entity/Messages/MessageBoolUShort.h"
 #include "../../Logic/Entity/Components/Attack.h"
 #include "../StateMachines/StateMachine.h"
 
@@ -30,13 +30,13 @@ namespace AI
 	CLatentAction::LAStatus CLA_Run::OnStart()
 	{
 
-		CMessageBoolString *message = new CMessageBoolString();
+		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
 		if (_sense==Logic::LogicalPosition::RIGHT)
-			message->setAction(Message::WALK_RIGHT);		
+			message->setAction(Message::WALK_RIGHT);
 		else
 			message->setAction(Message::WALK_LEFT);				
-		message->setString( Graphics::AnimNames::RUN );
+		message->setUShort( Logic::RUN );
 		message->setBool(true);
 		_entity->emitMessage(message);		
 
@@ -106,10 +106,9 @@ namespace AI
 	*/
 	bool CLA_Run::accept(const CMessage *message)
 	{		
-		// La acción no acepta mensajes
+		
 		return false;
-		return (message->getType() == Message::CONTROL && (message->getAction()==Message::LIGHT_ATTACK || message->getAction()==Message::HEAVY_ATTACK));
-	}
+		}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
 	ejecución de la acción cuando se recibe el mensaje.
@@ -118,13 +117,6 @@ namespace AI
 	*/
 	void CLA_Run::process(CMessage *message)
 	{
-		// TODO PRÁCTICA IA
-		// La acción no procesa mensajes
-		/*if(message->getType() == Message::CONTROL)
-			 if ( message->getAction()==Message::LIGHT_ATTACK)
-				finish(true); // bool = exito o fallo
-			 else
-				finish(false);*/
 	}
 	
 	void CLA_Run::tick(unsigned int msecs) 

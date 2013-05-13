@@ -18,11 +18,14 @@ gráfica de una entidad estática.
 #include "Map/MapEntity.h"
 
 #include "Graphics/Scene.h"
+#include "Graphics/AnimSet.h"
 
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageBoolString.h"
-#include "Logic/Entity/Messages/MessageString.h"
+#include "Logic/Entity/Messages/MessageBoolUShort.h"
+#include "Logic/Entity/Messages/MessageUShort.h"
 #include "Logic/Entity/Messages/MessageBoolFloatString.h"
+#include "Logic/Entity/Messages/MessageString.h"
+
 
 #define DEBUG 0
 #if DEBUG
@@ -75,34 +78,44 @@ namespace Logic
 		switch(message->getType())
 		{
 			case Message::SET_ANIMATION: {
-
-				CMessageBoolString *rxMsg = static_cast<CMessageBoolString*>(message);
+				CMessageBoolUShort *rxMsg = static_cast<CMessageBoolUShort*>(message);
 				// Paramos todas las animaciones antes de poner una nueva.
 				// Un control más sofisticado debería permitir interpolación
 				// de animaciones. Galeon no lo plantea.
 				_graphicalEntity->stopAllAnimations();
-				_graphicalEntity->setAnimation(rxMsg ->getString(), 0, rxMsg ->getBool());
+				Logic::AnimationName name=static_cast<Logic::AnimationName>(rxMsg->getUShort());
+				std::string animString = _animSet->getAnimation(name);
+				if (_graphicalEntity->setAnimation(animString, 0, rxMsg ->getBool(),_animSet->getEventChain(name)))
+					_currentLogicAnimation=name; //Tengo actualizada mi animación lógica actual
+				else
+					_currentLogicAnimation=Logic::AnimationName::NONE; //Tengo actualizada mi animación lógica actual
+				
 				LOG("SET_ANIMATION: " << rxMsg->getString());
 			}	break;
 
 			case Message::STOP_ANIMATION:	{
-				CMessageString *rxMsg = static_cast<CMessageString*>(message);
-				_graphicalEntity->stopAnimation(rxMsg ->getString());
+				CMessageUShort *rxMsg = static_cast<CMessageUShort*>(message);
+				Logic::AnimationName name=static_cast<Logic::AnimationName>(rxMsg->getUShort());
+				std::string animString = _animSet->getAnimation(name);
+				_graphicalEntity->stopAnimation(animString);
+				_currentLogicAnimation=Logic::AnimationName::NONE;
 				LOG("STOP_ANIMATION: " << rxMsg->getString());
 			}	break;
 
 			case Message::REWIND_ANIMATION:	{
-				CMessageBoolString *rxMsg = static_cast<CMessageBoolString*>(message);
-				_graphicalEntity->rewind(rxMsg ->getString(), rxMsg->getBool() );
+				CMessageBoolUShort *rxMsg = static_cast<CMessageBoolUShort*>(message);
+				Logic::AnimationName name=static_cast<Logic::AnimationName>(rxMsg->getUShort());
+				std::string animString = _animSet->getAnimation(name);
+				_graphicalEntity->rewind(animString, rxMsg->getBool());
 				LOG("REWIND_ANIMATION: " << rxMsg->getString());
 			}	break;
 
-			case Message::SET_ANIMATION_WITH_TIME:
-			{
+			case Message::SET_ANIMATION_WITH_TIME:	{  //Pep, de momento esto solo lo usa el salto, pero es un buen recurso.
 				CMessageBoolFloatString *rxMsg = static_cast<CMessageBoolFloatString*>(message);
 				// de animaciones. Galeon no lo plantea.
 				_graphicalEntity->stopAllAnimations();
-				_graphicalEntity->setAnimation(rxMsg ->getString(), rxMsg ->getFloat(), rxMsg ->getBool());
+				_graphicalEntity->setAnimation(rxMsg ->getString(), rxMsg ->getFloat(), rxMsg ->getBool(), NULL);//REVISAR ESTE NULL
+				
 				LOG("SET_ANIMATION_WITH_TIME: " << rxMsg->getString());
 			} break;
 		}
@@ -123,59 +136,116 @@ namespace Logic
 		_graphicalEntity = new Graphics::CAnimatedEntity(name,_model);
 			if(!_scene->add(_graphicalEntity) )
 				return 0;
+		
+		// Cargando AnimSet de map
+		_animSet = new Graphics::CAnimSet();	
+		initializeAnimSet(entityInfo);
 
 		// DEFAULT ANIMATION
 		if(entityInfo->hasAttribute("defaultAnimation")) { 
 			_defaultAnimation = entityInfo->getStringAttribute("defaultAnimation");
-			_graphicalEntity->setAnimation(_defaultAnimation,0,true);
+			_graphicalEntity->setAnimation(_defaultAnimation,0,true,NULL); //Pep, cuando veais esto con NULL sabed que es temporal y que soy consciente.
 			_graphicalEntity->setObserver(this);
 		}
 
 		return _graphicalEntity;
 	} // createGraphicsEntity
 
+	bool CAnimatedGraphics::initializeAnimSet(const Map::CEntity *entityInfo)
+	{
+		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
+		// leemos directamente del map de la entidad. cogemos las animaciones. Si queremos animaciones nuevas aquí hay que ponerlas para que sean tenidas en cuenta.
+		if (entityInfo->hasAttribute("animIdle"))
+			_animSet->addAnimation(Logic::IDLE,entityInfo->getStringAttribute("animIdle"));
+		if (entityInfo->hasAttribute("animRun"))
+			_animSet->addAnimation(Logic::RUN,entityInfo->getStringAttribute("animRun"));
+		if (entityInfo->hasAttribute("animDeath"))
+			_animSet->addAnimation(Logic::DEATH,entityInfo->getStringAttribute("animDeath"));
+		if (entityInfo->hasAttribute("animJump"))
+			_animSet->addAnimation(Logic::JUMP,entityInfo->getStringAttribute("animJump"));
+		if (entityInfo->hasAttribute("animDamage"))
+			_animSet->addAnimation(Logic::DAMAGE,entityInfo->getStringAttribute("animDamage"));
+		if (entityInfo->hasAttribute("animActivateAltar"))
+			_animSet->addAnimation(Logic::ACTIVATE_ALTAR,entityInfo->getStringAttribute("animActivateAltar"));
+		if (entityInfo->hasAttribute("animCoverWithWeapon"))
+			_animSet->addAnimation(Logic::COVER_WITH_WEAPON,entityInfo->getStringAttribute("animCoverWithWeapon"));
+		if (entityInfo->hasAttribute("animCoverWithShield"))
+			_animSet->addAnimation(Logic::COVER_WITH_SHIELD,entityInfo->getStringAttribute("animCoverWithShield"));
+		if (entityInfo->hasAttribute("animAttack1"))
+			_animSet->addAnimation(Logic::ATTACK1,entityInfo->getStringAttribute("animAttack1"));
+		if (entityInfo->hasAttribute("animAttack2"))
+			_animSet->addAnimation(Logic::ATTACK2,entityInfo->getStringAttribute("animAttack2"));
+		if (entityInfo->hasAttribute("animAttack3"))
+			_animSet->addAnimation(Logic::ATTACK3,entityInfo->getStringAttribute("animAttack3"));
+		if (entityInfo->hasAttribute("animCombo1"))
+			_animSet->addAnimation(Logic::COMBO1,entityInfo->getStringAttribute("animCombo1"));
+		if (entityInfo->hasAttribute("animCombo2"))
+			_animSet->addAnimation(Logic::COMBO2,entityInfo->getStringAttribute("animCombo2"));
+		if (entityInfo->hasAttribute("animCombo3"))
+			_animSet->addAnimation(Logic::COMBO3,entityInfo->getStringAttribute("animCombo3"));
+
+		if (entityInfo->hasAttribute("eventAttack1"))
+			_animSet->addEventTime(Logic::ATTACK1,entityInfo->getFloatAttribute("eventAttack1"));
+		if (entityInfo->hasAttribute("eventAttack2"))
+			_animSet->addEventTime(Logic::ATTACK2,entityInfo->getFloatAttribute("eventAttack2"));
+		if (entityInfo->hasAttribute("eventAttack3"))
+			_animSet->addEventTime(Logic::ATTACK3,entityInfo->getFloatAttribute("eventAttack3"));
+		if (entityInfo->hasAttribute("eventCover"))
+			_animSet->addEventTime(Logic::COVER_WITH_SHIELD,entityInfo->getFloatAttribute("eventCover"));
+		if (entityInfo->hasAttribute("eventCover"))
+			_animSet->addEventTime(Logic::COVER_WITH_WEAPON,entityInfo->getFloatAttribute("eventCover"));
+
+
+		return true;
+	
+	} // initializeAnimSet
 	
 	//---------------------------------------------------------
 	
 	void CAnimatedGraphics::animationFinished(const std::string &animation)
 	{
-		if (animation != Graphics::AnimNames::DEATH )
+		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
+		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
+
+		if (_currentLogicAnimation!=Logic::DEATH)
 		{
 			// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
-			CMessageString *txMsg = new CMessageString();
+			CMessageUShort *txMsg = new CMessageUShort();
 			txMsg->setType(Message::ANIMATION_FINISHED);
-			txMsg->setString(animation);
-			//PEP HACK:
-			if (animation==Graphics::AnimNames::JUMP)
-				txMsg->setAction(Message::JUMP);
+			txMsg->setUShort(_currentLogicAnimation); //PeP: envio que se ha finalizado la animación que se está reproduciendo.
 			_entity->emitMessage(txMsg);
-			
-		// Si acaba una animación y tenemos una por defecto la ponemos
-			if (animation != Graphics::AnimNames::ATTACK1 && animation != Graphics::AnimNames::ATTACK2)			
+		// Si acaba una animación y tenemos una por defecto la ponemos, pero la animación por defecto debe ser lógica, hay que cambiarlo, pronto estará
+			if (_currentLogicAnimation != Logic::ATTACK1 && _currentLogicAnimation != Logic::ATTACK2)			
 			{
 				_graphicalEntity->stopAnimation(animation);
-				_graphicalEntity->setAnimation(_defaultAnimation,0,true);
+				_graphicalEntity->setAnimation(_defaultAnimation,0,true,NULL); //tenemos que cambiar defaultanimation por un enum Logico
 			}
 			else
 			{
-				if (animation == Graphics::AnimNames::ATTACK1)						
-					_graphicalEntity->pauseAnimation(animation,0.5833);
-			    if (animation == Graphics::AnimNames::ATTACK2)			
-					_graphicalEntity->pauseAnimation(animation,0.41);
-			}   
-			
+				if (_currentLogicAnimation == Logic::ATTACK1)						
+					_graphicalEntity->pauseAnimationXTicks(animation,0.5833,10);//Pep, queda esto por ser dirigido por datos..., pronto lo haré
+			    if (_currentLogicAnimation == Logic::ATTACK2)			
+					_graphicalEntity->pauseAnimationXTicks(animation,0.41,10);
+			}
 		}
-
 	}
-
 		
 	void CAnimatedGraphics::animationMomentReached(const std::string &animation)
 	{
-		// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
-		CMessageString *msg = new CMessageString();
-		msg->setType(Message::ANIMATION_MOMENT);
-		msg->setString(animation);
-		_entity->emitMessage(msg);
+		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
+		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
+
+		if (_currentLogicAnimation==Logic::COVER_WITH_SHIELD || _currentLogicAnimation==Logic::COVER_WITH_WEAPON)
+		{
+			_graphicalEntity->pauseAnimation(animation,_animSet->getEventChain(_currentLogicAnimation)->front() );
+		}
+		else
+		{
+			CMessageUShort *msg = new CMessageUShort();
+			msg->setType(Message::ANIMATION_MOMENT);
+			msg->setUShort(_currentLogicAnimation);
+			_entity->emitMessage(msg);
+		}
 	}
 
 } // namespace Logic
