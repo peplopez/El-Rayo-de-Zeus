@@ -48,6 +48,6 @@ Map = {
 		initialJumpSpeed = 28,
 		gravity = 0.98,
 		Hmax = 40,
-	},
+	},	
 	
 }

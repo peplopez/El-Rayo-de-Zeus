@@ -117,6 +117,9 @@ namespace Application {
 		// PT. Queremos que el GUI maneje a la camara.
         GUI::CServer::getSingletonPtr()->getCameraController()->activate();
 
+		//PT. ponemos el nombre del player en el GameStatus
+
+
 
 	} // activate
 

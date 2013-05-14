@@ -47,7 +47,7 @@ namespace Logic
 	class CBaseInfo
 	{
 	public:
-		CBaseInfo(const unsigned short numRings);	//CONSTRUIR TAMBIÉN CON EL COLOR.
+		CBaseInfo(const unsigned short numRings, const unsigned short lifeBase, const unsigned short colorBase);	//CONSTRUIR TAMBIÉN CON EL COLOR.
 
 		~CBaseInfo();
 		/**

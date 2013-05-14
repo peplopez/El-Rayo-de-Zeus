@@ -206,7 +206,7 @@ function reloadHud()
 		RayoWindow:setProperty("UnifiedAreaRect","{{0.82,0},{0.28,0},{0.92,0},{0.94,0}}")
 		
 		-- PlayernameWindow:setProperty("UnifiedAreaRect","{{0.5,0},{0.15,0},{0.9,0},{0.25,0}}")
-		PlayernameWindow:setProperty("UnifiedAreaRect","{{0,100},{0.10,0},{0,250},{0.3,0}}")
+		PlayernameWindow:setProperty("UnifiedAreaRect","{{0,110},{0.07,0},{0,230},{0.3,0}}")
 		PlayernameWindow:setProperty("Font","Diogenes-14")
 		
 		--TitleEnemigosWindow:setProperty("UnifiedAreaRect","{{0.5,0},{0.28,0},{0.9,0},{0.48,0}}")
@@ -230,5 +230,9 @@ function reloadHud()
 		Rayo1Window
 		Rayo2Window
 		Rayo3Window	]]
+end
+
+function initNickName(nickname)
+	PlayernameWindow:setText(nickname)
 end
 

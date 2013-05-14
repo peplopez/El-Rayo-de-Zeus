@@ -56,6 +56,7 @@ public:
 	 * @param timeout Tiempo m?ximo de espera para conectar con la m?quina remota.
 	 * @return La conexi?n creada. Devuelve NULL si la conexi?n no ha podido ser establecida o si no se llam? a init() anteriormente.
 	 */
+	
 	CConnection* connect(char* address, int port, int channels, unsigned int timeout = 5000);
 
 	/**

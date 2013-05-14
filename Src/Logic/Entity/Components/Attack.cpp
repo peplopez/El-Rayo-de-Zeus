@@ -55,7 +55,7 @@ namespace Logic
 			/*
 			CMessageString *m = new CMessageString();	
 			m->setType(Message::SET_MATERIAL);
-			m->setString("marineRojo");
+			m->setString("marineRed");
 			_entity->emitMessage(m);
 			*/
 		}

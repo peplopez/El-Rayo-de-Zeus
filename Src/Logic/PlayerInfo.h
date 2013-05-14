@@ -136,6 +136,18 @@ namespace Logic
 			return _heroName;
 		}
 
+		//PT
+		void setNickName(string nickName)
+		{
+			_nickName = nickName;
+		}
+
+		string getNickName()
+		{
+			return _nickName;
+		}
+		// FIN PT
+
 		//SI el jugador se encuentra en su base origen
 		bool inMyBase();
 
@@ -196,6 +208,11 @@ namespace Logic
 		Nombre del heroe: Hercules, Aquiles...
 		*/
 		string _heroName;
+
+		/**
+		Nickname del Jugador
+		*/
+		string _nickName;
 
 		/**
 		El tercer combo se compraba, puede no tenerlo de inicio, aunque de momento no le impediremos que lo tenga

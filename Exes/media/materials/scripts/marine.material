@@ -257,7 +257,7 @@ material transito
 }
 
 
- material marineRojo
+ material marineRed
  {
      set $ambientCol "0 0 0 1"
      set $diffuseCol "1 1 1 1"

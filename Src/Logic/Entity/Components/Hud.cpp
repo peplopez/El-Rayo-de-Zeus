@@ -60,9 +60,18 @@ namespace Logic
 		// in tick method
 		numMaxAltares = _gameStatus->getBase(numBase)->_numAltars;
 
+		//Inicializo su nickname en el gamestatus con el nombre de la entidad del player.
+		_gameStatus->getPlayer(player)->setNickName(entity->getName());
+		//_gameStatus->getPlayer(player)->setNickName(entity->getName().c_str());
+
+		//strdup(entity->getName().c_str());
+
 		//init HUD Layout and functions
 		ScriptManager::CServer::getSingletonPtr()->loadExeScript("Hud");
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("initHud");
+
+		//Inicializamos el nombre del jugador en el HUD, con el nickname que contenga ese jugador en su info del player de game status
+		ScriptManager::CServer::getSingletonPtr()->executeProcedureString("initNickName",_gameStatus->getPlayer(player)->getNickName());
 
 		return true;
 

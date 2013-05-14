@@ -33,6 +33,14 @@ Contiene la implementación del estado de lobby del cliente.
 #include <elements/CEGUIPushButton.h>
 #include <time.h>
 
+//PT se incluye el servidor de scripts de LUA
+#include "ScriptManager\Server.h"
+
+//PT nuevos
+#include <CEGUIDataContainer.h>
+#include <CEGUIWindowRenderer.h>
+
+
 #define DEBUG 0
 #if DEBUG
 #	include <iostream>
@@ -56,8 +64,12 @@ namespace Application {
 		CApplicationState::init();
 
 		// Cargamos la ventana que muestra el menú
-		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("NetLobbyClient.layout");
-		_menuWindow = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient");
+		//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("NetLobbyClient.layout");
+		//_menuWindow = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient");
+
+		// Cargamos la ventana que muestra el menú con LUA
+		ScriptManager::CServer::getSingletonPtr()->loadExeScript("NetLobbyClient");
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("initNetLobbyClient");
 		
 		// Asociamos los botones del menú con las funciones que se deben ejecutar.
 		CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Connect")->
@@ -67,6 +79,29 @@ namespace Application {
 		CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Back")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CLobbyClientState::backReleased, this));
+
+			//Modelo .mesh o personaje
+		   _cbModel = static_cast<CEGUI::Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/ModelBox"));
+
+			// add items to the combobox list
+			_cbModel->addItem(new CEGUI::ListboxTextItem("Espartano",0));
+			_cbModel->addItem(new CEGUI::ListboxTextItem("Loco",1));
+			_cbModel->addItem(new CEGUI::ListboxTextItem("Marine",2));
+			_cbModel->addItem(new CEGUI::ListboxTextItem("Bioshock",3));
+			_cbModel->addItem(new CEGUI::ListboxTextItem("Medusa",4));
+
+
+			_cbModel->setReadOnly(true);
+
+			//Color
+			_cbColor = static_cast<CEGUI::Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/ColorBox"));
+			_cbColor->addItem(new CEGUI::ListboxTextItem("Rojo",10));
+			_cbColor->addItem(new CEGUI::ListboxTextItem("Verde",11));
+			_cbColor->addItem(new CEGUI::ListboxTextItem("Amarillo",12));
+			_cbColor->addItem(new CEGUI::ListboxTextItem("Azul",13));
+
+			_cbColor->setReadOnly(true);
+
 	
 		return true;
 
@@ -87,10 +122,14 @@ namespace Application {
 		CApplicationState::activate();
 
 		// Activamos la ventana que nos muestra el menú y activamos el ratón.
-		CEGUI::System::getSingletonPtr()->setGUISheet(_menuWindow);
+		/*CEGUI::System::getSingletonPtr()->setGUISheet(_menuWindow);
 		_menuWindow->setVisible(true);
 		_menuWindow->activate();
 		CEGUI::MouseCursor::getSingleton().show();
+		*/
+
+		// Activamos la ventana que nos muestra el menú y activamos el ratón desde LUA
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showNetLobbyClient");
 
 		// NET
 		Net::CManager::getSingletonPtr()->addObserver(this); // Se registra como IObserver
@@ -105,9 +144,13 @@ namespace Application {
 		Net::CManager::getSingletonPtr()->removeObserver(this);
 
 		// Desactivamos la ventana GUI con el menú y el ratón.
-		CEGUI::MouseCursor::getSingleton().hide();
+		/*CEGUI::MouseCursor::getSingleton().hide();
 		_menuWindow->deactivate();
 		_menuWindow->setVisible(false);
+		*/
+
+		// Desactivamos la ventana que nos muestra el menú y desactivamos el ratón desde LUA
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideNetLobbyClient");
 
 		CApplicationState::deactivate();
 
@@ -143,6 +186,10 @@ namespace Application {
 			break;
 		case GUI::Key::RETURN:
 			doStart();
+			break;
+		case GUI::Key::R:
+			ScriptManager::CServer::getSingletonPtr()->reloadScript("NetLobbyClient");
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadNetLobbyClient");
 			break;
 		default:
 			return false;
@@ -208,8 +255,10 @@ namespace Application {
 
 		// Obtenemos la ip desde el Editbox
 		CEGUI::String ip = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/IPBox")->getText();
+
 		
 		// NET: Conectamos
+
 		Net::CManager::getSingletonPtr()->connectTo((char*)ip.c_str(),1234,1);
 
 		// Actualizamos el status
@@ -241,6 +290,9 @@ namespace Application {
 
 			LOG("RX LOAD_MAP");
 
+			//PT Carga de mapRed en la lista de mapas
+			_mapsToLoad.push_back("mapRed");
+
 			//[ƒ®§] CARGA de Blueprints, Arquetypes y Map adelantada
 
 			// Cargamos el archivo con las definiciones de las entidades del nivel.
@@ -262,7 +314,10 @@ namespace Application {
 				_app->exitRequest();
 		
 				// Cargamos el nivel a partir del nombre del mapa. 
-			} else if (!Logic::CServer::getSingletonPtr()->loadMap("map.txt")){
+			}
+			//PT
+			//else if (!Logic::CServer::getSingletonPtr()->loadMap("mapRed")){
+			else if(!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad)){
 				CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar el nivel");
 				Net::CManager::getSingletonPtr()->deactivateNetwork();
 				_app->exitRequest();
@@ -273,21 +328,50 @@ namespace Application {
 
 				// OBTENER PLAYER INFO
 				std::string playerNick = std::string( CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/NickBox")->getText().c_str() );
-
 				//// TODO obtener modelo mediante ddList -> tabla mesh			
 				//"loco.mesh", "marine.mesh", "AttaObrera.mesh", "bioshock.mesh","AttaSoldada.mesh", "aranna.mesh"
-				std::string playerModel = std::string( CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/ModelBox")->getText().c_str() );
+				//std::string playerModel = std::string( CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/ModelBox")->getText().c_str() );
+				std::string playerModel = "";
+				//COLOR
+				std::string playerColor = std::string(CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/ColorBox")->getText().c_str());
+
+				//int playerModelID = (int)CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/ModelBox")->getID();
+				int playerModelID = _cbModel->getSelectedItem()->getID();
+
+				//PT. se rellena el string de playerModel con su correspondiente asociacion a su ID
+				switch(playerModelID)
+				{
+					case 0: //espartano
+						playerModel = "spartan2.4.mesh";
+						break;
+					case 1: //loco
+						playerModel = "loco.mesh";
+						break;
+					case 2: //marine
+						playerModel = "marine.mesh";
+						break;
+					case 3: //biosock
+						playerModel = "bioshock.mesh";
+						break;
+					case 4: //medusa
+						playerModel = "medusa.mesh";
+					default: //espartano
+						playerModel = "spartan2.4.mesh";
+						break;
+				}
 
 				// HACK Lo suyo sería que cada uno ejecutara su propio createPlayer y que se propagara el LOAD_PLAYER como si fuera de server
 				// TX MAP LOADED
 				Net::CBuffer txSerialMsg;
-					Net::NetMessageType msgType = Net::MAP_LOADED; // Informamos de carga finalizada
-						txSerialMsg.write(&msgType, sizeof(msgType));
-					Net::Serializable::serialize(txSerialMsg, playerNick);
-					Net::Serializable::serialize(txSerialMsg, playerModel);				
+				
+				Net::NetMessageType msgType = Net::MAP_LOADED; // Informamos de carga finalizada
+				txSerialMsg.write(&msgType, sizeof(msgType));
+				Net::Serializable::serialize(txSerialMsg, playerNick);
+				Net::Serializable::serialize(txSerialMsg, playerModel);
+				Net::Serializable::serialize(txSerialMsg, playerColor);
 				Net::CManager::getSingletonPtr()->send(txSerialMsg.getbuffer(),	txSerialMsg.getSize() );
 				
-				LOG("TX MAP_LOADED with Nick=" << playerNick << " and Model=" << playerModel );
+				LOG("TX MAP_LOADED with Nick=" << playerNick << " and Model=" << playerModel << " and color = " << playerColor );
 			}
 
 			break;
@@ -301,8 +385,9 @@ namespace Application {
 			// PLAYER INFO
 			std::string playerNick(		Net::Serializable::deserializeString(rxSerialMsg) );
 			std::string playerModel(	Net::Serializable::deserializeString(rxSerialMsg) );
+			std::string playerColor(	Net::Serializable::deserializeString(rxSerialMsg) );
 
-			LOG( "RX LOAD_PLAYER " << id << " with Nick=" << playerNick << " and Model=" << playerModel );
+			LOG( "RX LOAD_PLAYER " << id << " with Nick=" << playerNick << " and Model=" << playerModel << " and color = " << playerColor );
 
 			// [FRS] Llamar al método de creación del jugador. Deberemos decidir
 			// si el jugador es el jugador local (si el ID del packet coincide 

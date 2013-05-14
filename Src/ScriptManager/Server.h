@@ -283,6 +283,9 @@ namespace ScriptManager
 		template <class T>
 		bool executeProcedure(const char *name, const T& param1);
 
+		//PT
+		bool executeProcedureString(const char *name, std::string param1);
+
 		/**
 		Método templatizado que ejecuta un procedimiento de 
 		lua con 2 parámetros de entrada y sin valor de vuelta

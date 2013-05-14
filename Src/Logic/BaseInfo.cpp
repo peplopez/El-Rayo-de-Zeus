@@ -18,12 +18,17 @@ Contiene la implementación de la clase que maneja las posiciones lógicas
 
 namespace Logic
 {
-	CBaseInfo::CBaseInfo(const unsigned short numRings):
-      _numRings(numRings),_AllAltarsActivated(false),_numActivatedAltars(0),_life(1),
+	CBaseInfo::CBaseInfo(const unsigned short numRings, const unsigned short lifeBase, const unsigned short colorBase):
+	//PT
+      //_numRings(numRings),_AllAltarsActivated(false),_numActivatedAltars(0),_life(1),
+	  _numRings(numRings),_AllAltarsActivated(false),_numActivatedAltars(0),	
 	  _numAltars(11), _numAttakers(0)
 	{		
 		//_rings=new CRingnumPlayers;
 		//_numBases=numPlayers+1;
+
+		//PT
+		_life = lifeBase;
 
 		for(unsigned short i=0; i<_numRings; i++)//creamos las bases con 3 anillos cada una
 		{

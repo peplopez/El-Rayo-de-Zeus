@@ -1410,7 +1410,7 @@
 	<!--AMARILLO -->
         <PropertyDefinition name="TextColour" initialValue="FFFFFF00" redrawOnWrite="true" /> <!-- color blanco(FFFFFFFF) del titulo del videojuego. El negro es FF000000 --> 
         <PropertyDefinition name="VertFormatting" initialValue="CentreAligned" />
-        <PropertyDefinition name="HorzFormatting" initialValue="LeftAligned" />
+        <PropertyDefinition name="HorzFormatting" initialValue="RightAligned" />
         <ImagerySection name="frame">
             <FrameComponent>
                 <Area>

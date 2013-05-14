@@ -54,7 +54,6 @@ namespace Application {
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("initMenu");
 		
 		// Asociamos los botones del menú con las funciones que se deben ejecutar.
-
 		CEGUI::WindowManager::getSingleton().getWindow("Menu/Single")->
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CMenuState::startReleased, this));
@@ -228,6 +227,9 @@ namespace Application {
 // TODO Toda la carga y creación del jugador deberia encapsularse en un startGame() reusable
 	bool CMenuState::startReleased(const CEGUI::EventArgs& e)
 	{
+		_app->setState("menusingle");
+
+		/*
 		_app->setState("game");
 			
 		//[ƒ®§] CARGA de Blueprints, Arquetypes y Map adelantada
@@ -255,11 +257,14 @@ namespace Application {
 		
 		// Llamamos al método de creación del jugador. Deberemos decidir
 		// si el jugador es el jugador local. Al ser el monojugador lo es.
+
+		//CMap::createPlayer(entityName, isLocalPlayer, model)
 		Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true);
+		//PT. si se le intenta pasar otro modelo da un error en getBones porque no encuentra el hueso "paracasco"
 
-		// TODO Deberíamos poder propocionar características  (nombre, modelo, etc.)... ==> Ampliar MenuState...
+		// TODO Deberíamos poder proporcionar características  (nombre, modelo, etc.)... ==> Ampliar MenuState...
 
-
+		*/
 		return true;
 
 	} // startReleased

@@ -17,6 +17,7 @@ GUI.Fonts:create("DejaVuSans-10.font")
 GUI.Fonts:create("FairChar-30.font")
 GUI.Fonts:create("Diogenes-10.font")
 GUI.Fonts:create("Diogenes-14.font")
+GUI.Fonts:create("Diogenes-24.font")
 
 --[[
 GUI.Fonts:create("Batang-26.font")

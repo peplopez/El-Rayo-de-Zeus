@@ -118,9 +118,10 @@ namespace Logic
 	void CDestruction::tick(unsigned int msecs)
 	{
 		IComponent::tick(msecs);
-		if (_entity->getLogicalPosition()->getBase()==1/* && _entity->getLogicalPosition()->getBase()->isDestroying()*/) // si es en la que estoy probando
-		{
-			if (_gameStatus->getBase(1)->areAllAltarsActivated() && !_destroying)
+		//if (_entity->getLogicalPosition()->getBase()==1/* && _entity->getLogicalPosition()->getBase()->isDestroying()*/) // si es en la que estoy probando
+		//{
+			//if (_gameStatus->getBase(1)->areAllAltarsActivated() && !_destroying)
+		if (_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->areAllAltarsActivated() && !_destroying)
 			{
 				destroy();
 				_reloj->addTimeObserver(_entity->getEntityID(),this,5000);
@@ -129,7 +130,7 @@ namespace Logic
 					/*if (_entity->getComponent<CAvatarController>()!=NULL)
 						_entity->getComponent<CAvatarController>()->sleep();*/
 			}
-		}
+		//}
 
 	
 		if (_destroying)
