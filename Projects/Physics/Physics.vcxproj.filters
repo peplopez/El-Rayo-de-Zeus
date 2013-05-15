@@ -164,6 +164,9 @@
     <ClInclude Include="..\..\Src\Physics\Box2D\Dynamics\Joints\b2Joint.h">
       <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\Box2D\Dynamics\Joints\b2MotorJoint.h">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Src\Physics\Box2D\Dynamics\Joints\b2MouseJoint.h">
       <Filter>Box2D\Dynamics\Joints</Filter>
     </ClInclude>
@@ -311,6 +314,9 @@
       <Filter>Box2D\Dynamics\Joints</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Physics\Box2D\Dynamics\Joints\b2Joint.cpp">
+      <Filter>Box2D\Dynamics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\Box2D\Dynamics\Joints\b2MotorJoint.cpp">
       <Filter>Box2D\Dynamics\Joints</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Physics\Box2D\Dynamics\Joints\b2MouseJoint.cpp">
