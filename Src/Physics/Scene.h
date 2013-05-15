@@ -15,49 +15,35 @@ de una escena.
 
 
 #include <vector>
-#include "BaseSubsystems\Math.h"
+
 
 namespace Physics
 {
 	class CActor;
 	class CActorTrigger;
-	class CRigidBody;
+	
 }
+
+class b2World;
 
 namespace Physics 
 {
-	struct Manifold 
-	{
-	  CRigidBody* A;
-	  CRigidBody* B;
-	  float penetration;
-	  Vector2 normal;
 
-	  Manifold() : A(0), B(0), penetration(0), normal(Vector2::ZERO) {}
-	};
 	
 	class CScene 
 	{
 
 	public:
 
-		typedef std::vector<CActor*>		TCircleColliders, TAABBColliders;
-		typedef std::vector<CActorTrigger*> TCircleTriggers, TAABBTriggers;
+		typedef std::vector<CActor*>		TActors;
 
 		/************
 			ACTORS
 		*************/
-		bool addCircleActor(CActor *actor);
-		bool addCircleActor(CActorTrigger* actor);
+		bool add(CActor *actor);
+		void remove(CActor* actor);
 
-		bool addAABBActor(CActor *actor);
-		bool addAABBActor(CActorTrigger* actor);
-
-		void removeCircleActor(CActor* actor);
-		void removeCircleActor(CActorTrigger* actor);
-
-		void removeAABBActor(CActor* actor);
-		void removeAABBActor(CActorTrigger* actor);
+		b2World* getPhysicWorld() {return _world;}
 
 	protected:
 
@@ -68,7 +54,7 @@ namespace Physics
 		friend class CServer;
 
 		/**	Constructor de la clase.	*/
-		CScene(const std::string& name) : _name(name), _gravityForce(Vector2(0, -20)) {};
+		CScene(const std::string& name);
 
 		/**
 		Destructor de la aplicación.
@@ -98,37 +84,15 @@ namespace Physics
 		/**	Nombre de la escena.*/
 		std::string _name;
 
-		TCircleColliders _circleColliders;
-		TAABBColliders _AABBColliders;
-		TCircleTriggers	_circleTriggers;
-		TAABBTriggers _AABBTriggers;
+		TActors _actors;
 
-		Vector2 _gravityForce;
-
-		// Componentes de la simulacion
-		void checkCollisions();
-		void checkTriggers();
-
+		b2World* _world;
 
 		/**
 		Actualiza el estado de la escena cada ciclo.
 		*/
 		void simulate(unsigned int timeDiff);
-
-		/**
-		*/
-		void updateCirclePos(CActor* circleCollider, unsigned int timeDiff);
-
-		/**
-		*/
-		bool CheckCircleCircleCollision(Manifold &m);
-
-		/**
-		*/
-		void ResolveCollision(Manifold &m);
-
-		void PositionalCorrection( Manifold &m );
-		
+	
 
 	}; // class CScene
 

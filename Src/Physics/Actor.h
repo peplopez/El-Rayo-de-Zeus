@@ -16,53 +16,73 @@ Contiene la declaración de la clase que representa una entidad física.
 #ifndef __Physics_Actor_H
 #define __Physics_Actor_H
 
-#include "IShape.h"
-#include "RigidBody.h"
 
-#include "Logic\Entity\LogicalPosition.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 
 namespace Physics 
 {
 	class IObserver;
+	class CScene;
 }
+
+class b2Body;
+class b2World;
+struct b2BodyDef;
 
 namespace Physics
 {
 
-	
 	class CActor
 	{
 	public:
 
-		CActor();
 
-		CActor(Vector2 position, float radius, float density, float restitution, IObserver *component); // CircleActor Constructor
-		CActor(Vector2 min, Vector2 max, float density, float restitution, IObserver *component); // AABBActor Constructor
+		CActor(float degrees, float height, std::string type, IObserver *component); 
 		
 		virtual ~CActor() {}
-		
-		void move(const float degrees, const float height);
-		void moveKinematic(const float degrees, const float height);
 
+		bool attachToScene(CScene *scene);
+		bool detachFromScene();
+
+		void createFixture(float radius, bool isTrigger); //Circle Shape
+		void createFixture(float halfWidth, float halfHeigth, bool isTrigger); //BoxShape
+
+		void move(float x, float y);
+		
 		
 		/************************
 			GETTER's & SETTER's
 		************************/
 
-		CRigidBody* getRigid() { return _body; }
+		float getDegree();
+		float getHeight();
 
 		void setIObserver(IObserver* component) {_component=component;}
 		IObserver *getIObserver() {return _component;}
 
-		float getDegree();
-		float getHeight();
-
 	protected:
 
+		bool load();
+		void unload();
 
-		CRigidBody* _body;
+		b2World* getPhysicWorld(); 
+
+
+	private:
+
+		
+		b2Body* _body;
+
+		b2BodyDef* _bodyDef;
+
+		CScene* _scene;
+		
+		bool _isTrigger;
+
+		bool _loaded;
+
+		float _heightCorrection;
 
 		IObserver* _component;
 

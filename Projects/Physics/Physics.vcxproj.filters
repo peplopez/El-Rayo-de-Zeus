@@ -9,15 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Shapes">
-      <UniqueIdentifier>{7f892089-279d-40dd-a8d9-bfd43864a96d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shapes\Header Files">
-      <UniqueIdentifier>{07e06c46-872c-45a0-b51d-346fe2ec6b39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shapes\Source Files">
-      <UniqueIdentifier>{fd8ce935-d68f-466a-8bf0-b05e988346ac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Box2D">
       <UniqueIdentifier>{8a3899dd-8946-4078-980a-d6404fbcb863}</UniqueIdentifier>
     </Filter>
@@ -58,18 +49,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Physics\ActorTrigger.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Physics\RigidBody.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Physics\Circle.h">
-      <Filter>Shapes\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Physics\IShape.h">
-      <Filter>Shapes\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Physics\AABB.h">
-      <Filter>Shapes\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Physics\Box2D\Box2D.h">
       <Filter>Box2D</Filter>
@@ -222,15 +201,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Src\Physics\ActorTrigger.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Physics\RigidBody.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Physics\Circle.cpp">
-      <Filter>Shapes\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Src\Physics\AABB.cpp">
-      <Filter>Shapes\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Physics\Box2D\Collision\b2BroadPhase.cpp">
       <Filter>Box2D\Collision</Filter>

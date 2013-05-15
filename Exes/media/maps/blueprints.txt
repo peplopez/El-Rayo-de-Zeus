@@ -1,4 +1,4 @@
-World CGraphics CDestruction
+World CGraphics CPhysics CDestruction
 Scene
 Camera CCamera
 BaseCamera CBaseCamera

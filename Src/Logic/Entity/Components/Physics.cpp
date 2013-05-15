@@ -23,7 +23,7 @@ para representar character controllers.
 
 #include "Physics/Scene.h"
 #include "Physics/Actor.h"
-#include "Physics/ActorTrigger.h"
+
 
 #define DEBUG 1
 #if DEBUG
@@ -41,11 +41,9 @@ namespace Logic {
 
 	CPhysics::~CPhysics() 
 	{
-		if ( _physicalActor ) { // TODO FRS Quizá este tipo de comprobación sucia debería hacerla la propia scene en su remove
-			//_isTrigger ? 
-			//	_scene->removeCircleActor(  static_cast<Physics::CActorTrigger*>(_physicalActor) ):
-				_scene->removeCircleActor(  _physicalActor ); // Eliminar el actor de la escena	
-
+		if ( _physicalActor ) 
+		{ 
+			_scene->remove( _physicalActor ); // Eliminar el actor de la escena	
 			delete _physicalActor;
 		}
 		
@@ -54,7 +52,7 @@ namespace Logic {
 	
 	void CPhysics::detachFromMap()
 	{
-		_scene->removeCircleActor(_physicalActor);
+		_scene->remove(_physicalActor);
 		_scene = NULL;
 	}
 
@@ -63,7 +61,7 @@ namespace Logic {
 	void CPhysics::attachToMap(CMap* map)
 	{
 		_scene = map->getPhysicScene();
-		_scene->addCircleActor(_physicalActor);
+		_scene->add(_physicalActor);
 	}
 
 	//---------------------------------------------------------
@@ -77,9 +75,16 @@ namespace Logic {
 		_scene = map->getPhysicScene();
 			assert(_scene && "Escena física es NULL");
 
+		assert(entityInfo->hasAttribute("shape") && "falta definir atributo shape en el mapa");
+			_shape = entityInfo->getStringAttribute("shape");
+
+		if (entityInfo->hasAttribute("physicTrigger"))
+			_isTrigger = entityInfo->getBoolAttribute("physicTrigger");
+
 		_physicalActor = createActor(entityInfo); // Crear el actor asociado al componente
 			if(!_physicalActor)
 				return false;
+	
 
 		return true;
 	} // spawn
@@ -93,46 +98,39 @@ namespace Logic {
 
 		// Obtenemos la posición de la entidad. 
 		CLogicalPosition* logicPos = _entity->getLogicalPosition();
-	
-		//// Leer el ancho del angular box
-		//assert(entityInfo->hasAttribute("physicWidth")); 
-		//_physicWidth = entityInfo->getFloatAttribute("physicWidth");
 
-		//// Leer la altura del angular box
-		//assert(entityInfo->hasAttribute("physicHeight"));
-		//_physicHeight = entityInfo->getFloatAttribute("physicHeight");
-
-		// TRIGGER: Leer si es un trigger (por defecto no)	
-		_isTrigger = false;
-		if (entityInfo->hasAttribute("physicTrigger"))
-			_isTrigger = entityInfo->getBoolAttribute("physicTrigger");
-
-		if (entityInfo->hasAttribute("radius"))
-			_radius = entityInfo->getFloatAttribute("radius");
-
-		if (entityInfo->hasAttribute("density"))
-			_density = entityInfo->getFloatAttribute("density");
-
-		if (entityInfo->hasAttribute("restitution"))
-			_restitution = entityInfo->getFloatAttribute("restitution");
-
+		assert(entityInfo->hasAttribute("physicType") && "falta definir atributo tipo estatico /dinamico /kinematico para el actor en el mapa");
+		std::string physicType = entityInfo->getStringAttribute("physicType");
 		
-		// TRIGGER
-		//if(_isTrigger)  {
-		//	Physics::CActorTrigger* trigger = new Physics::CActorTrigger(logicPos, _physicWidth, _physicHeight,  _widthOffset, _heightOffset, this);
-		//		if( _scene->addCircleActor(trigger ) ) // Añadir el actor a la escena
-		//			return trigger ;
-		//		else
-		//			return 0;
+		//assert(physicType == "static" || physicType == "kinematic" && "WTF --> physicType inválido para un componente CPhysics" );
+		
+		float physicBodyOffset = 0;
+		if (entityInfo->hasAttribute("physicBodyOffset"))
+			physicBodyOffset = entityInfo->getFloatAttribute("physicBodyOffset");
 
-		// COLLIDER
+		Physics::CActor* actor = new Physics::CActor(logicPos->getDegree(), logicPos->getHeight() + physicBodyOffset, physicType, this);
 
-			Physics::CActor* collider = new Physics::CActor(Vector2(logicPos->getDegree(), logicPos->getHeight()), _radius, _density, _restitution, this);
-				if(_scene->addCircleActor(collider) ) // Añadir el actor a la escena
-					return collider;
-				else
-					return 0;
-		//}
+		if (_scene->add(actor));
+		{
+			if (_shape == "circle")
+			{
+				assert(entityInfo->hasAttribute("radius") && "falta definir atributo radius en el mapa");
+					float radius = entityInfo->getFloatAttribute("radius");
+				actor->createFixture(radius, _isTrigger); 
+			}
+			else if (_shape == "box")
+			{
+				assert(entityInfo->hasAttribute("physicWidth") && "falta definir atributo physicWidth en el mapa");
+					float halfWidth = entityInfo->getFloatAttribute("physicWidth");
+				assert(entityInfo->hasAttribute("physicHeight") && "falta definir atributo physicWidth en el mapa");
+					float halfHeight = entityInfo->getFloatAttribute("physicHeight");
+				actor->createFixture(halfWidth, halfHeight, _isTrigger); 
+			}
+
+			return actor;
+		}
+		
+		return 0;
 
 	} // createActor 
 

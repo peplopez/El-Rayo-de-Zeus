@@ -4,7 +4,7 @@
 Contiene la implementación del componente que se utiliza para representar jugadores y enemigos en
 el mundo físico usando character controllers.
 
-@see Logic::CPhysicaalCharacter
+@see Logic::CPhysicalCharacter
 @see Logic::CPhysics
 @see Physics::IObserver
 
@@ -14,12 +14,16 @@ el mundo físico usando character controllers.
 
 #include "PhysicalCharacter.h"
 
+
 #include "Logic/Entity/Entity.h"
+#include "Map/MapEntity.h"
+
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageChar.h" // TODO PeP: sería óptimo enviar un unsigned short???
 #include "Logic/Entity/Messages/MessageFloat.h"
 
 #include "Physics/Actor.h"
+#include "Physics/Scene.h"
 
 
 
@@ -103,7 +107,7 @@ namespace Logic {
 		
 
 		//_diffHeight -= _negativeYVelocity * msecs * 0.001f;	//gravedad (no acelerada) simulada
-		_physicalActor->moveKinematic(_diffDegrees, _diffHeight);
+		_physicalActor->move(_diffDegrees, _diffHeight);
 
 		
 		//Ponemos el movimiento a cero		

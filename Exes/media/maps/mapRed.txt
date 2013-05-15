@@ -27,7 +27,7 @@ Map ={
 		type = "Medusa",
 		base=1,
 		ring=1,
-		degrees=300,		
+		degrees=30,		
 	},
 
 	bot1 = {
@@ -42,18 +42,32 @@ Map ={
 		type = "World",
 		base=1,
 		ring=0,
+		physicType = "static",
+		shape="box",
+		physicWidth = 360,
+		physicHeight = 0,
+		physicBodyOffset = -50,
 	},
 	
 	CenterRing = {
 		type = "World",
 		base=1,
 		ring=1,
+		physicType = "static",
+		shape="box",
+		physicWidth = 360,
+		physicHeight = 0,
 	},
 	
 	UpperRing = {
 		type = "World",
 		base=1,
 		ring=2,
+		physicType = "static",
+		shape="box",
+		physicWidth = 360,
+		physicHeight = 0,
+		physicBodyOffset = 50,
 	},
 	
 	Altar1 = {
