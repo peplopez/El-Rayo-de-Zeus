@@ -21,6 +21,7 @@
 #include <Box2D\Dynamics\b2World.h>
 #include <Box2D\Common\b2Math.h>
 #include <Box2D\Common\b2Settings.h>
+#include "Physics\DebugDraw\Render.h"
 
 #include <assert.h>
 #include <iostream>
@@ -41,6 +42,11 @@ namespace Physics
 	{
 		b2Vec2 gravity(0, -10);
 		_world = new b2World(gravity);
+		DebugDraw debugDraw;
+		_world->SetDebugDraw(&debugDraw);
+		debugDraw.SetFlags(b2Draw::e_shapeBit);
+
+		
 	};
 
 	CScene::~CScene() 

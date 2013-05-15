@@ -46,7 +46,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../Src;../../dependencies/include/OGRE;../../Src/Physics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Src;../../dependencies/include/OGRE;../../Src/Physics;../../Src/Freeglut;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -124,6 +124,7 @@
     <ClInclude Include="..\..\Src\Physics\Box2D\Dynamics\Joints\b2WeldJoint.h" />
     <ClInclude Include="..\..\Src\Physics\Box2D\Dynamics\Joints\b2WheelJoint.h" />
     <ClInclude Include="..\..\Src\Physics\Box2D\Rope\b2Rope.h" />
+    <ClInclude Include="..\..\Src\Physics\DebugDraw\Render.h" />
     <ClInclude Include="..\..\Src\Physics\IObserver.h" />
     <ClInclude Include="..\..\Src\Physics\Scene.h" />
     <ClInclude Include="..\..\Src\Physics\Server.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="..\..\Src\Physics\Box2D\Dynamics\Joints\b2WeldJoint.cpp" />
     <ClCompile Include="..\..\Src\Physics\Box2D\Dynamics\Joints\b2WheelJoint.cpp" />
     <ClCompile Include="..\..\Src\Physics\Box2D\Rope\b2Rope.cpp" />
+    <ClCompile Include="..\..\Src\Physics\DebugDraw\Render.cpp" />
     <ClCompile Include="..\..\Src\Physics\Scene.cpp" />
     <ClCompile Include="..\..\Src\Physics\Server.cpp" />
   </ItemGroup>

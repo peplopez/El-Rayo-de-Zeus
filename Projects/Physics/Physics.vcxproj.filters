@@ -33,6 +33,9 @@
     <Filter Include="Box2D\Dynamics\Joints">
       <UniqueIdentifier>{b6669812-426f-42ed-a830-8a25c3c852f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DebugDraw">
+      <UniqueIdentifier>{cbdeab94-0772-4afc-93d0-de69e466fff6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Physics\Server.h">
@@ -191,6 +194,9 @@
     <ClInclude Include="..\..\Src\Physics\Box2D\Rope\b2Rope.h">
       <Filter>Box2D\Rope</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\DebugDraw\Render.h">
+      <Filter>DebugDraw</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\Physics\Server.cpp">
@@ -342,6 +348,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Src\Physics\Box2D\Rope\b2Rope.cpp">
       <Filter>Box2D\Rope</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\DebugDraw\Render.cpp">
+      <Filter>DebugDraw</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
