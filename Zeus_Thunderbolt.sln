@@ -25,8 +25,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScriptManager", "Projects\S
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audio", "Projects\Audio\Audio.vcxproj", "{2A27AFA1-174A-4AC6-A8EA-1AEB3CC0FEAB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Box2D", "Projects\Box2D\Box2D.vcxproj", "{98400D17-43A5-1A40-95BE-C53AC78E7694}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -107,14 +105,6 @@ Global
 		{2A27AFA1-174A-4AC6-A8EA-1AEB3CC0FEAB}.Release|Win32.ActiveCfg = Release|Win32
 		{2A27AFA1-174A-4AC6-A8EA-1AEB3CC0FEAB}.Release|Win32.Build.0 = Release|Win32		
 		{2A27AFA1-174A-4AC6-A8EA-1AEB3CC0FEAB}.Release|x64.ActiveCfg = Release|Win32		
-		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Debug|Win32.ActiveCfg = Debug|Win32
-		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Debug|Win32.Build.0 = Debug|Win32
-		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Debug|x64.ActiveCfg = Debug|x64
-		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Debug|x64.Build.0 = Debug|x64
-		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Release|Win32.ActiveCfg = Release|Win32
-		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Release|Win32.Build.0 = Release|Win32
-		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Release|x64.ActiveCfg = Release|x64
-		{98400D17-43A5-1A40-95BE-C53AC78E7694}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
