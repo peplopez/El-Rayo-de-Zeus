@@ -197,6 +197,9 @@
     <ClInclude Include="..\..\Src\Physics\DebugDraw\Render.h">
       <Filter>DebugDraw</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\Physics\DebugDraw\OgreB2DebugDraw.h">
+      <Filter>DebugDraw</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\Physics\Server.cpp">
@@ -350,6 +353,9 @@
       <Filter>Box2D\Rope</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Physics\DebugDraw\Render.cpp">
+      <Filter>DebugDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Physics\DebugDraw\OgreB2DebugDraw.cpp">
       <Filter>DebugDraw</Filter>
     </ClCompile>
   </ItemGroup>

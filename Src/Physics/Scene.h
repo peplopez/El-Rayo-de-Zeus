@@ -25,6 +25,7 @@ namespace Physics
 }
 
 class b2World;
+class DebugDraw;
 
 namespace Physics 
 {
@@ -85,6 +86,8 @@ namespace Physics
 		std::string _name;
 
 		TActors _actors;
+
+		DebugDraw* _debugDraw;
 
 		b2World* _world;
 

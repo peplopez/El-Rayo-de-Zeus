@@ -11,6 +11,7 @@
 @author Emilio Santalla
 @date Febrero 2013
 */
+#include <string>
 
 #include "Physics/IObserver.h"
 #include "Physics/Scene.h"
@@ -22,6 +23,9 @@
 #include <Box2D\Common\b2Math.h>
 #include <Box2D\Common\b2Settings.h>
 #include "Physics\DebugDraw\Render.h"
+
+#include <../Freeglut/freeglut_std.h>
+#include <../Freeglut/freeglut_ext.h>
 
 #include <assert.h>
 #include <iostream>
@@ -39,14 +43,41 @@
 namespace Physics
 {
 	CScene::CScene(const std::string& name) : _name(name), _world(0) 
-	{
+	{	
 		b2Vec2 gravity(0, -10);
 		_world = new b2World(gravity);
-		DebugDraw debugDraw;
-		_world->SetDebugDraw(&debugDraw);
-		debugDraw.SetFlags(b2Draw::e_shapeBit);
 
-		
+		if (_name != "dummy_scene")
+		{
+			int width = 500;
+			int height = 500;
+			unsigned int displayMode = GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH | GLUT_STENCIL;
+
+			char *myargv [1];
+			int myargc=1;
+			myargv [0]=strdup (_name.c_str());
+
+			glutInit(&myargc, myargv);
+			glEnable(GL_DEPTH_TEST);
+			glutInitDisplayMode (displayMode);
+			glutInitContextVersion (3, 3);
+			glutInitContextProfile(GLUT_CORE_PROFILE);
+			#ifdef DEBUG
+			glutInitContextFlags(GLUT_DEBUG);
+			#endif
+			glutInitWindowSize (width, height); 
+			glutInitWindowPosition (300, 200);
+
+
+			int window = glutCreateWindow (myargv [0]);
+
+			glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
+
+			
+			_debugDraw = new DebugDraw() ;
+			_world->SetDebugDraw(_debugDraw);
+			_debugDraw->SetFlags(b2Draw::e_shapeBit);
+		}
 	};
 
 	CScene::~CScene() 
@@ -60,6 +91,7 @@ namespace Physics
 
 	bool CScene::activate()
 	{
+
 		return true;
 	} // activate
 
@@ -121,7 +153,9 @@ namespace Physics
 		int32 velocityIterations = 6;
 		int32 positionIterations = 2;
 
+
 		_world->Step(timeStep, velocityIterations, positionIterations);
+
 
 
 	} // simulate	
