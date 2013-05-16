@@ -214,6 +214,8 @@ namespace Logic
 									cubiertoAudio->setPath("media\\audio\\Sword_scrape2.wav");//ñapa
 									cubiertoAudio->setId("impactoCubriendose");
 									cubiertoAudio->setPosition(_entity->getPosition());
+									cubiertoAudio->setNotIfPlay(false);
+									cubiertoAudio->setIsPlayer(false);
 									(*it)->emitMessage(cubiertoAudio);
 										
 									return 2; //Impacto en el que el objetivo está cubriendose

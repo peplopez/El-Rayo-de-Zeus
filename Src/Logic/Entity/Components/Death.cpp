@@ -96,6 +96,8 @@ namespace Logic
 			maudio->setPath(_audio);
 			maudio->setId("muerte");
 			maudio->setPosition(_entity->getPosition());
+			maudio->setNotIfPlay(false);
+			maudio->setIsPlayer(false);
 			_entity->emitMessage(maudio);
 		} break;	
 		

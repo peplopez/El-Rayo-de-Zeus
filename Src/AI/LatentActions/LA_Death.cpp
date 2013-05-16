@@ -50,6 +50,8 @@ namespace AI
 		maudio->setPath(_audio);
 		maudio->setId("muerte");
 		maudio->setPosition(_entity->getPosition());
+		maudio->setNotIfPlay(false);
+		maudio->setIsPlayer(false);
 		_entity->emitMessage(maudio);
 		
 		_scene=_entity->getMap()->getGraphicScene();
