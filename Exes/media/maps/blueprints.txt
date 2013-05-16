@@ -6,7 +6,7 @@ SkyBox CGraphics
 Altar CGraphics CAltar CDestruction
 Entity CGraphics
 Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CAttack CStateMachineExecutor CLife CPhysicalCharacter CAltarStateSwitcher CAudio CHud CDestruction
-AnimatedEntity CAnimatedGraphics CAvatarController CAttack CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CDestruction
+AnimatedEntity CAnimatedGraphics CAvatarController CAttack CStateMachineExecutor CPhysics CLifeModifier CLife CAudio CDestruction
 OtherPlayer CAnimatedGraphics CAvatarController CBaseTraveler CAttack CPhysicalCharacter CLifeModifier CStateMachineExecutor CLife CAltarStateSwitcher CBasicAI CDestruction CAudio 
 PowerUp CGraphics CPhysics CItem CFloatingMovement CLifeModifier CDestruction
 Light CLight

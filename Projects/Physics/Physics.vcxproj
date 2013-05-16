@@ -125,7 +125,6 @@
     <ClInclude Include="..\..\Src\Physics\Box2D\Dynamics\Joints\b2WheelJoint.h" />
     <ClInclude Include="..\..\Src\Physics\Box2D\Rope\b2Rope.h" />
     <ClInclude Include="..\..\Src\Physics\DebugDraw\OgreB2DebugDraw.h" />
-    <ClInclude Include="..\..\Src\Physics\DebugDraw\Render.h" />
     <ClInclude Include="..\..\Src\Physics\IObserver.h" />
     <ClInclude Include="..\..\Src\Physics\Scene.h" />
     <ClInclude Include="..\..\Src\Physics\Server.h" />
@@ -180,7 +179,6 @@
     <ClCompile Include="..\..\Src\Physics\Box2D\Dynamics\Joints\b2WheelJoint.cpp" />
     <ClCompile Include="..\..\Src\Physics\Box2D\Rope\b2Rope.cpp" />
     <ClCompile Include="..\..\Src\Physics\DebugDraw\OgreB2DebugDraw.cpp" />
-    <ClCompile Include="..\..\Src\Physics\DebugDraw\Render.cpp" />
     <ClCompile Include="..\..\Src\Physics\Scene.cpp" />
     <ClCompile Include="..\..\Src\Physics\Server.cpp" />
   </ItemGroup>

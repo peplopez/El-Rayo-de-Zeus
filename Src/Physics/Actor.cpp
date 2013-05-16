@@ -121,6 +121,7 @@ namespace Physics
 		b2Vec2 pos = _body->GetPosition();
 		pos.y += _heightCorrection;
 		_body->SetTransform(pos, _body->GetAngle());
+		_body->SetFixedRotation(true);
 
 
 		b2CircleShape circleShape;
@@ -144,6 +145,7 @@ namespace Physics
 		b2Vec2 pos = _body->GetPosition();
 		pos.y += _heightCorrection;
 		_body->SetTransform(pos, _body->GetAngle());
+		_body->SetFixedRotation(true);
 
 
 		b2PolygonShape polygonShape;
@@ -163,6 +165,7 @@ namespace Physics
 		b2Vec2 pos = _body->GetPosition();
 		pos.x += x;
 		pos.y += y;
+		_body->SetAwake(true);
 		_body->SetTransform(pos, _body->GetAngle());
 	}
 

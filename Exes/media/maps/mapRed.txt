@@ -30,44 +30,37 @@ Map ={
 		degrees=30,		
 	},
 
-	bot1 = {
-		type = "OtherPlayer",
-		base=1,
-		ring=1,
-		degrees=330,
-		height=200,
-	},	
-	
 	LowerRing = {
 		type = "World",
 		base=1,
 		ring=0,
-		physicType = "static",
+		physicType = "kinematic",
 		shape="box",
-		physicWidth = 360,
-		physicHeight = 0,
-		physicBodyOffset = -50,
+		physicWidth = 180,
+		physicHeight = 5,
+		physicBodyOffset = -60,
 	},
 	
 	CenterRing = {
 		type = "World",
 		base=1,
 		ring=1,
-		physicType = "static",
+		physicType = "kinematic",
 		shape="box",
-		physicWidth = 360,
-		physicHeight = 0,
+		physicWidth = 180,
+		physicHeight = 5,
+		physicBodyOffset = -10,
 	},
 	
 	UpperRing = {
 		type = "World",
 		base=1,
 		ring=2,
-		physicType = "static",
+		physicType = "kinematic",
 		shape="box",
-		physicWidth = 360,
-		physicHeight = 0,
-		physicBodyOffset = 50,
+		physicWidth = 180,
+		physicHeight = 5,
+		physicBodyOffset = 40,
 	},
 	
 	Altar1 = {

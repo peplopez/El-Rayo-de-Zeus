@@ -161,14 +161,6 @@
       <Project>{9c5c21d7-f23c-409d-a332-7be5a325fd7a}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\FreeGlut\FreeGLUT.vcxproj">
-      <Project>{bca4569b-a486-e443-9ee2-07d4cb3cfba8}</Project>
-      <Private>true</Private>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
-    </ProjectReference>
     <ProjectReference Include="..\Graphics\Graphics.vcxproj">
       <Project>{34de02d6-3b05-423d-a1fa-5bf4f6b5fb19}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

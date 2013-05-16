@@ -116,7 +116,6 @@ Map = {
 		ring=0,		
 		sense=1,
 		physicType = "static",
-		physicBodyOffset = 4,
 		shape="circle",
 		radius = 8,
 		density = 0,

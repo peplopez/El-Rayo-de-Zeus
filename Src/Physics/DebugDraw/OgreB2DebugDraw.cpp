@@ -21,6 +21,7 @@
 >=====================================================*/
 
 #include "OgreB2DebugDraw.h"
+#include <OgreVector3.h>
 
 OgreB2DebugDraw::OgreB2DebugDraw(Ogre::SceneManager* scene, const char* material, float fillAlpha, Ogre::uint8 renderQueueGroup) :
     b2Draw(),
@@ -31,18 +32,32 @@ OgreB2DebugDraw::OgreB2DebugDraw(Ogre::SceneManager* scene, const char* material
 {
     // Create the manual object.
     m_shapes = m_scene->createManualObject("OgreB2DebugDrawShapes");
-    m_scene->getRootSceneNode()->createChildSceneNode("OgreB2DebugDrawNode")->attachObject(m_shapes);
 
+
+    _debugNode = m_scene->getRootSceneNode()->createChildSceneNode("OgreB2DebugDrawNode");
+	_debugNode->attachObject(m_shapes);
+	_debugNode->yaw(Ogre::Degree(90.0f));
+
+	
     // Make it dynamic since we will be rewriting the data many times each frame.
     m_shapes->setDynamic(true);
+	
 
     // Add it to the given render queue group to control render order.
     m_shapes->setRenderQueueGroup(renderQueueGroup);
 }
+
+
 OgreB2DebugDraw::~OgreB2DebugDraw()
 {
     m_scene->destroyManualObject("OgreB2DebugDrawShapes");
     m_scene->destroySceneNode("OgreB2DebugDrawNode");
+}
+
+void OgreB2DebugDraw::setAutoTracking(Ogre::SceneNode* target)
+{
+	_debugNode->setFixedYawAxis(true);
+	_debugNode->setAutoTracking(true, target, Ogre::Vector3::NEGATIVE_UNIT_Z);
 }
 
 void OgreB2DebugDraw::clear()

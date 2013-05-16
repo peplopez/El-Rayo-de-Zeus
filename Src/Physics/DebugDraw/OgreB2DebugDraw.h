@@ -35,6 +35,8 @@ public:
     /// Method to be called each frame to clear out all of last frame's shapes.
     void clear();
 
+	void setAutoTracking(Ogre::SceneNode* target);
+
     // Methods for accessing rendering options.
     inline const char* getMaterialName() {
         return m_material.c_str();
@@ -84,6 +86,8 @@ private:
     Ogre::ManualObject  *m_shapes;
     /// Pointer to the scene to which the shapes are added
     Ogre::SceneManager  *m_scene;
+
+	Ogre::SceneNode *_debugNode;
 
     /// Material to use for rendering the shapes
     Ogre::String m_material;
