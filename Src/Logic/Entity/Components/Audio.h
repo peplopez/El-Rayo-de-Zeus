@@ -52,11 +52,6 @@ namespace Logic
 		virtual bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
 		/**
-		Metodo que se llama al activar el componente.
-		*/
-		virtual bool activate();
-
-		/**
 		Este componente sólo acepta mensajes de tipo AUDIO.
 		*/
 		virtual bool accept(const CMessage *message);

@@ -76,7 +76,7 @@ namespace Audio
 		/**
 		Se encarga de cargar un sonido (no 3D) y reproducirlo en modo normal.
 		*/
-		void playSound(char* rutaSonido, const std::string& id);
+		void playSound(char* rutaSonido, const std::string& id, bool notIfPlay);
 
 		/**
 		Se encarga de cargar un sonido (no 3D) y reproducirlo en modo loop.
@@ -86,7 +86,7 @@ namespace Audio
 		/**
 		Se encarga de cargar un sonido 3D y reproducirlo en modo normal.
 		*/
-		void playSound3D(char* rutaSonido, const std::string& id, Vector3 position);
+		void playSound3D(char* rutaSonido, const std::string& id, Vector3 position, bool notIfPlay);
 
 		/**
 		Se encarga de cargar un sonido 3D y reproducirlo en modo loop.
@@ -114,6 +114,11 @@ namespace Audio
 		Se encarga de cargar un sonido (no 3D) y reproducirlo en modo loop.
 		*/
 		void playStreamingLoopSound(char* rutaSonido, const std::string& id);
+
+		/**
+		Se encarga de mutear el sonido que se reproduce por los canales.
+		*/
+		void mute();
 
 		/**
 		Establece el componente del jugador con el que preguntaremos la posición para actualizar la posición de escucha.
@@ -173,6 +178,22 @@ namespace Audio
 		*/
 		System* _system; // reminiscencias de C
 
+				
+		/**
+		Variable que controla el volumen de los sonidos por defecto.
+		*/
+		float _volume;
+
+		/**
+		Variable que define el tiempo mínimo para que se ejecute el tick del servidor.
+		*/
+		unsigned int _minimumExecuteTime;
+
+		/**
+		Variable que lleva el tiempo para ejecutar el tick del servidor.
+		*/
+		unsigned int _timeToExecute;
+
 		/**
 		Factores doppler y rolloff del sistema
 		*/
@@ -185,6 +206,10 @@ namespace Audio
 		Logic::CEntity* _soundAvatar;
 		short _playerHeight;
 
+		/**
+		Booleano que controla si el server esta muteado.
+		*/
+		bool _isMute;
 	}; // class CServer
 
 } // namespace Audio

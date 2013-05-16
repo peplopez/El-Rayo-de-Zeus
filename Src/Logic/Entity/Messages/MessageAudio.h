@@ -28,9 +28,14 @@ namespace Logic
 		std::string getId() const { return _id; }
 		void setId(const std::string& value) {_id=value; }
 
-		Vector3 CMessageAudio::getPosition(){return _position;}
-		
+		Vector3 CMessageAudio::getPosition(){return _position;}		
 		void CMessageAudio::setPosition(Vector3 position){_position=position;}
+
+		bool getNotIfPlay() const { return _notIfPlay;}
+		void setNotIfPlay(const bool notIfPlay){_notIfPlay=notIfPlay;}
+
+		bool getIsPlayer() const {return _isPlayer;}
+		void setIsPlayer(const bool isPlayer){_isPlayer=isPlayer;}
 
 		void serialize(Net::CBuffer &data);
 		void deserialize(Net::CBuffer &data);	
@@ -39,7 +44,8 @@ namespace Logic
 		std::string _path;
 		std::string _id;
 		Vector3 _position;
-
+		bool _notIfPlay;
+		bool _isPlayer;
 
 	}; //class CmessageBool
 

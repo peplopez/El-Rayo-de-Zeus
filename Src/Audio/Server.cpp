@@ -27,12 +27,15 @@ namespace Audio
 	CServer::CServer()
 	{
 		assert(!_instance && "Segunda inicialización de Graphics::CServer no permitida!");
-		_doppler=0.00000001f;
-		_rolloff=0.00000001f;
+		_volume=0.5f;
+		_doppler=1.0f;
+		_rolloff=1.0f;
 		_soundAvatar=NULL;
 		_playerHeight=8;
+		_isMute=false;
 		_instance = this;
-
+		_minimumExecuteTime=100;
+		_timeToExecute=0;
 	} // CServer
 
 	//--------------------------------------------------------
@@ -85,11 +88,11 @@ namespace Audio
 		ERRCHECK(result);
 			
 		//Iniciamos
-		result = _system->init(100, FMOD_INIT_NORMAL, 0);
+		result = _system->init(32, FMOD_INIT_NORMAL, 0);
 		ERRCHECK(result);
 		
 		//Configuración 3D, el parámetro central es el factor de distancia (FMOD trabaja en metros/segundos)
-		_system->set3DSettings(_doppler,1.0,_rolloff);
+		_system->set3DSettings(_doppler,1.0f,_rolloff);
 
 		//Cargamos la banda sonora del juego
 		playLoopSound("media/audio/playa_1.mp3", "theme");
@@ -102,47 +105,68 @@ namespace Audio
 
 	void CServer::close() 
 	{
+		stopAllSounds();
+		_soundAvatar=NULL;
 		_system->release();
 
 	} // close
 
 	//--------------------------------------------------------
 
-	void CServer::tick(unsigned int secs) 
+	void CServer::tick(unsigned int msecs) 
 	{
+		_timeToExecute+=msecs;
+		//Si ha pasado el tiempo mínimo para actualizarnos lo hacemos
+
 		//El tick se ejecuta ahora mismo cada 0.001secs (controlado en el nivel superior)
 		//Si hay un player con el que actualizarnos, seteamos la nueva posición
-		if(_soundAvatar){
-			Vector3 positionAvatar=_soundAvatar->getPosition();
-			Vector3 directionAvatar=Math::getDirection(_soundAvatar->getOrientation());
+		if(_timeToExecute>=_minimumExecuteTime)
+		{
+				//Reseteamos el tiempo
+				_timeToExecute=0;
 
-			FMOD_VECTOR
-				listenerPos = {positionAvatar.x,positionAvatar.y+_playerHeight,positionAvatar.z}, // posición del listener
-				listenerVel = {0,0,0}, // velocidad
-				up = {0,1,0},          // vector up: hacia la “coronilla”
-				at = {directionAvatar.x,directionAvatar.y,directionAvatar.z};          // vector at: hacia donde se mira
+			if(_soundAvatar){
+				Vector3 positionAvatar=_soundAvatar->getPosition();
+				Vector3 directionAvatar=Math::getDirection(_soundAvatar->getOrientation());
+				directionAvatar.normalise();
 
-			// se coloca el listener
-			_system->set3DListenerAttributes(0,&listenerPos, &listenerVel,
-                                     &up, &at);
-		}
+				FMOD_VECTOR
+					listenerPos = {positionAvatar.x,positionAvatar.y+_playerHeight,positionAvatar.z}, // posición del listener
+					listenerVel = {0.0f,0.0f,0.0f}, // velocidad
+					up = {0.0f,1.0f,0.0f},          // vector up: hacia la “coronilla”
+					at = {directionAvatar.x,directionAvatar.y,directionAvatar.z};          // vector at: hacia donde se mira
 
+				// se coloca el listener
+				_system->set3DListenerAttributes(0,&listenerPos, &listenerVel,
+										 &at, &up);
+			}
 
 		//Actualizamos el sistema
 		_system->update();
+		}
 	} // tick
 	//--------------------------------------------------------
 
 	// función para dar salida de error y terminar aplicación
-	void CServer::ERRCHECK(FMOD_RESULT result){
+	void CServer::ERRCHECK(FMOD_RESULT result)
+	{
 		if (result != FMOD_OK){
-		std::cout << "FMOD error! " << result << std::endl <<FMOD_ErrorString(result);
-		exit(-1);
+			std::cout << "FMOD error! " << result << std::endl <<FMOD_ErrorString(result);
+			exit(-1);
 		}
 	}//ERRCHECK
 	//--------------------------------------------------------
 
-	void CServer::playSound(char* rutaSonido, const std::string& id){
+	void CServer::playSound(char* rutaSonido, const std::string& id, bool notIfPlay){
+		//Si queremos que suene solamente si no esta sonando ya
+		if(notIfPlay){
+			bool isPlaying;
+			_soundChannel[id]->isPlaying(&isPlaying);
+			if(isPlaying){
+				return;
+			}
+		}
+		
 		//Carga del sonido
 		Sound *sound;
 		FMOD_RESULT result = _system->createSound(
@@ -161,8 +185,7 @@ namespace Audio
 		& canal); // devuelve el canal que asigna
 		ERRCHECK(result);
 		// el sonido ya está reproduciendo!!
-		float volume=0.7f; // valor entre 0 y 1
-		result = canal->setVolume(volume);
+		result = canal->setVolume(_volume);
 		ERRCHECK(result);
 
 		int can;
@@ -198,8 +221,8 @@ namespace Audio
 		& canal); // devuelve el canal que asigna
 		ERRCHECK(result);
 		// el sonido ya está reproduciendo!!
-		float volume=0.7f; // valor entre 0 y 1
-		result = canal->setVolume(volume);
+		
+		result = canal->setVolume(_volume);
 		ERRCHECK(result);
 
 		int can;
@@ -216,7 +239,17 @@ namespace Audio
 	}//playLoopSound
 	//--------------------------------------------------------
 
-	void CServer::playSound3D(char* rutaSonido, const std::string& id,Vector3 position){
+	void CServer::playSound3D(char* rutaSonido, const std::string& id,Vector3 position, bool notIfPlay){
+		
+		//Si queremos que suena solamente si no esta sonando ya
+		if(notIfPlay){
+			bool isPlaying;
+			_soundChannel[id]->isPlaying(&isPlaying);
+			if(isPlaying){
+				return;
+			}
+		}
+		
 		//Carga del sonido
 		Sound *sound;
 		FMOD_RESULT result = _system->createSound(
@@ -235,8 +268,8 @@ namespace Audio
 		& canal); // devuelve el canal que asigna
 		ERRCHECK(result);
 		// el sonido ya está reproduciendo!!
-		float volume=0.7f; // valor entre 0 y 1
-		result = canal->setVolume(volume);
+		
+		result = canal->setVolume(_volume);
 		ERRCHECK(result);
 
 		FMOD_VECTOR
@@ -245,12 +278,12 @@ namespace Audio
 			canal->set3DAttributes(& pos, & vel);
 			ERRCHECK(result);
 
-		int can;
+		/*int can;
 		canal->getIndex(&can);
 		std::cout << "el numero de canal ocupado es " << can << std::endl;
 		int numcanales;
 		_system->getChannelsPlaying(&numcanales);
-		std::cout << "El numero de canales usados al cargar el sonido es " << numcanales << std::endl;
+		std::cout << "El numero de canales usados al cargar el sonido es " << numcanales << std::endl;*/
 
 		//Guardamos la asociacion nombreSonido/Canal
 		_soundChannel[id]=canal;
@@ -277,8 +310,8 @@ namespace Audio
 		& canal); // devuelve el canal que asigna
 		ERRCHECK(result);
 		// el sonido ya está reproduciendo!!
-		float volume=0.7f; // valor entre 0 y 1
-		result = canal->setVolume(volume);
+		
+		result = canal->setVolume(_volume);
 		ERRCHECK(result);
 
 		FMOD_VECTOR
@@ -287,12 +320,16 @@ namespace Audio
 			canal->set3DAttributes(& pos, & vel);
 			ERRCHECK(result);
 
+		//Distancia a la que empieza a atenuarse y a la cual ya no se atenua mas respectivamente
+		result = canal->set3DMinMaxDistance(50.0f,10000.0f);
+		ERRCHECK(result);
+
 		int can;
 		canal->getIndex(&can);
-		std::cout << "el numero de canal ocupado es " << can << std::endl;
+		//std::cout << "el numero de canal ocupado es " << can << std::endl;
 		int numcanales;
 		_system->getChannelsPlaying(&numcanales);
-		std::cout << "El numero de canales usados al cargar el sonido es " << numcanales << std::endl;
+		//std::cout << "El numero de canales usados al cargar el sonido es " << numcanales << std::endl;
 
 
 		//Guardamos la asociacion nombreSonido/Canal
@@ -301,28 +338,26 @@ namespace Audio
 	//--------------------------------------------------------
 
 	void CServer::stopSound(const std::string& id){
-		SoundChannelMap::const_iterator itMap = _soundChannel.begin();
-		SoundChannelMap::const_iterator itErase;
-		bool mapErase = false;
-		for(; itMap != _soundChannel.end() && !mapErase; ++itMap) {
-			if(itMap->first.compare(id)==0) {
-				itMap->second->stop();
-				itErase=itMap;
-				mapErase=true;
-			}
+		SoundChannelMap::const_iterator itMap = _soundChannel.find(id);
+
+		if (itMap != _soundChannel.end()){
+			itMap->second->stop();
+			_soundChannel.erase(id);
 		}
-		_soundChannel.erase(itErase);
+
 			
 	}//stopSound
 	//--------------------------------------------------------
 
 
 	void CServer::stopAllSounds(){
-		SoundChannelMap::const_iterator itMap = _soundChannel.begin();
-		bool mapErase = false;
-		for(; itMap != _soundChannel.end(); ++itMap) {
-				itMap->second->stop();
-		}
+		Channel *canal;
+		//Recorremos los 32 canales y paramos su reproduccion
+		for(int i=0;i<32;i++){
+				_system->getChannel(i,&canal);
+				canal->stop();
+			}
+		//Limpiamos el mapa idSonido-canal
 		_soundChannel.clear();
 	}//stopAllSounds
 	//--------------------------------------------------------
@@ -346,16 +381,16 @@ namespace Audio
 		& canal); // devuelve el canal que asigna
 		ERRCHECK(result);
 		// el sonido ya está reproduciendo!!
-		float volume=0.7f; // valor entre 0 y 1
-		result = canal->setVolume(volume);
+		
+		result = canal->setVolume(_volume);
 		ERRCHECK(result);
 
 		int can;
 		canal->getIndex(&can);
-		std::cout << "el numero de canal ocupado es " << can << std::endl;
+		//std::cout << "el numero de canal ocupado es " << can << std::endl;
 		int numcanales;
 		_system->getChannelsPlaying(&numcanales);
-		std::cout << "El numero de canales usados al cargar el sonido es " << numcanales << std::endl;
+		//std::cout << "El numero de canales usados al cargar el sonido es " << numcanales << std::endl;
 
 		//Guardamos la asociacion nombreSonido/Canal
 		_soundChannel[id]=canal;
@@ -383,16 +418,15 @@ namespace Audio
 		& canal); // devuelve el canal que asigna
 		ERRCHECK(result);
 		// el sonido ya está reproduciendo!!
-		float volume=0.7f; // valor entre 0 y 1
-		result = canal->setVolume(volume);
+		result = canal->setVolume(_volume);
 		ERRCHECK(result);
 
 		int can;
 		canal->getIndex(&can);
-		std::cout << "el numero de canal ocupado es " << can << std::endl;
+		//std::cout << "el numero de canal ocupado es " << can << std::endl;
 		int numcanales;
 		_system->getChannelsPlaying(&numcanales);
-		std::cout << "El numero de canales usados al cargar el sonido es " << numcanales << std::endl;
+		//std::cout << "El numero de canales usados al cargar el sonido es " << numcanales << std::endl;
 
 
 		//Guardamos la asociacion nombreSonido/Canal

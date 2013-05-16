@@ -21,6 +21,9 @@ namespace Logic {
 		data.write((void*)(&_position.x), sizeof(_position.x));
 		data.write((void*)(&_position.y), sizeof(_position.y));
 		data.write((void*)(&_position.z), sizeof(_position.z));
+
+		data.write((void*) (&_notIfPlay),	sizeof(_notIfPlay));
+		data.write((void*) (&_isPlayer),	sizeof(_isPlayer));
 	
 	}
 
@@ -43,5 +46,9 @@ namespace Logic {
 		data.read(&_position.x, sizeof(_position.x));
 		data.read(&_position.y, sizeof(_position.y));
 		data.read(&_position.z, sizeof(_position.z));
+
+		data.read(&_notIfPlay,	sizeof(_notIfPlay));
+		data.read(&_isPlayer,	sizeof(_isPlayer));
+
 	}
 };
