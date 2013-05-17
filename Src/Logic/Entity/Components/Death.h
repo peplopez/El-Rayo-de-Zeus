@@ -1,7 +1,7 @@
 /**
 @file Death.h
 
-Contiene la declaración del componente que controla la muerte de una entidad.
+Contiene la declaración del componente que controla el respawn de la muerte de una entidad.
 
 @see Logic::CDeath
 @see Logic::IComponent
@@ -14,9 +14,27 @@ Contiene la declaración del componente que controla la muerte de una entidad.
 
 #include "Logic/Entity/Component.h"
 
+
+//PT
+namespace Application 
+{
+	class CBaseApplication;
+}
+
 namespace Logic
 {
 	class CMessage;
+}
+
+//PT
+namespace CEGUI
+{
+	class Window;
+}
+
+namespace ScriptManager
+{
+	class Server;
 }
 
 
@@ -47,7 +65,7 @@ namespace Logic
 		bool accept(const CMessage *message);
 
 		/**
-		Al recibir un mensaje de tipo DEAD se elimina la entidad.
+		Al recibir un mensaje de tipo DEAD se visuliza el layout de Respawn.
 		*/
 		void process(CMessage *message);
 

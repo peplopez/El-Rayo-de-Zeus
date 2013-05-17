@@ -14,19 +14,10 @@ Contiene la implementación del componente que controla el HUD mediante CEGUI.
 
 //Inclusion de los mensajes
 #include "Logic/Entity/Entity.h"
-#include "Logic/Maps/Map.h"
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageFloat.h"
-#include "Logic/Entity/Messages/MessageString.h"
-#include "Logic/Entity/Messages/MessageBoolFloat.h"
-#include "Logic/Entity/Messages/MessageBool.h"
-#include "Logic/Entity/Messages/MessageInt.h"
-
-#include "Map/MapEntity.h"
 
 #include "Logic/GameStatus.h"
 #include "Logic/BaseInfo.h"
-#include "Logic/RingInfo.h"
 #include "Logic/PlayerInfo.h"
 
 //PT se incluye el servidor de scripts de LUA
@@ -62,9 +53,6 @@ namespace Logic
 
 		//Inicializo su nickname en el gamestatus con el nombre de la entidad del player.
 		_gameStatus->getPlayer(player)->setNickName(entity->getName());
-		//_gameStatus->getPlayer(player)->setNickName(entity->getName().c_str());
-
-		//strdup(entity->getName().c_str());
 
 		//init HUD Layout and functions
 		ScriptManager::CServer::getSingletonPtr()->loadExeScript("Hud");
@@ -97,8 +85,7 @@ namespace Logic
 
 	bool CHud::accept(const CMessage *message)
 	{
-		return message->getType() == Message::HUD || message->getType() == Message::CONTROL || message->getType() == Message::AVATAR_MOVE;
-		//return true;
+		return message->getType() == Message::HUD;
 	} // accept
 	
 	//---------------------------------------------------------
@@ -108,30 +95,10 @@ namespace Logic
 
 			switch(message->getType())
 			{
-				/*case Message::CONTACT:
-						hudLife(message._float);*/
 				case Message::HUD:
-					//CMessageFloat *maux = static_cast<CMessageFloat*>(message);
 					if(message->getAction() == Message::DISPLAY_HUD)
 						displayHud();
-					/*if(!message._string.compare("addPlayerToBase"))
-						hudPlayers(1);
-					if(!message._string.compare("minusPlayerToBase"))
-						hudPlayers(-1);
-						*/
 					break;
-				/*case Message::AVATAR_MOVE:
-					if(message->getAction() == Message::CHANGE_BASE)
-						if(static_cast<CMessageChar*>(message)->getChar()==numBase)
-						{
-							ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementEnemiesInBase");
-						}
-						else
-						{
-							ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementEnemiesInBase");
-						}
-					break;
-					*/
 			}
 
 	} // process

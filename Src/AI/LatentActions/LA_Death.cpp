@@ -16,6 +16,9 @@
 #include "Logic/Maps/Map.h"
 #include "Map/MapEntity.h"
 
+//PT se incluye el servidor de scripts de LUA
+#include "ScriptManager\Server.h"
+
 
 namespace AI
 {
@@ -37,6 +40,15 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Death::OnStart()
 	{
+		//PT
+		unsigned int currentTime = Application::CBaseApplication::getSingletonPtr()->getAppTime();
+		_endingTime = currentTime + _time;
+
+		//init Respawn Layout and functions
+		ScriptManager::CServer::getSingletonPtr()->loadExeScript("RespawnPlayer");
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("initRespawn");
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showRespawn");
+
 		sleepComponents();
 		std::cout<<"AI::StateMachine::WTF-I am Death!!"<<std::endl;
 		CMessageBoolString *message = new CMessageBoolString();
@@ -57,7 +69,10 @@ namespace AI
 		_scene=_entity->getMap()->getGraphicScene();
 		if (_entity->isPlayer())
 			_scene->activateCompositor("BW");
-		return SUSPENDED;
+
+		//PT
+		//return SUSPENDED;
+		return RUNNING;
 	}
 
 	/**
@@ -70,10 +85,15 @@ namespace AI
 	void CLA_Death::OnStop()
 	{
 		awakeComponents();
+
+		//PT
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideRespawn");
+
 		if (_entity->isPlayer())
 			_scene->deactivateCompositor("BW");
+
 		if (_entity->isPlayer())
-		Application::CBaseApplication::getSingletonPtr()->setState("gameOver"); 
+			Application::CBaseApplication::getSingletonPtr()->setState("gameOver"); 
 	}
 
 	/**
@@ -98,7 +118,21 @@ namespace AI
 		else 
 			return SUCCESS;*/
 
-		return RUNNING;
+		//PT
+		if(Application::CBaseApplication::getSingletonPtr()->getAppTime() > _endingTime)
+		{
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateTime",0);
+			return SUCCESS;
+		}
+		else
+		{
+			int timeToRevive = (int) ((_endingTime-Application::CBaseApplication::getSingletonPtr()->getAppTime())/1000);
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateTime",timeToRevive);
+			return RUNNING;
+		}
+
+
+		//return RUNNING;
 	}
 
 	/**

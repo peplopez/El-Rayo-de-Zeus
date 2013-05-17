@@ -256,6 +256,7 @@ namespace Application {
 				//NICKNAME
 				std::string playerNick = std::string( CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/NickBox")->getText().c_str() );
 
+				//Se eliminan los espacios (trim)
 				playerNick.erase(playerNick.find_last_not_of(" \n\r\t")+1);
 
 				if(playerNick.length() == 0)

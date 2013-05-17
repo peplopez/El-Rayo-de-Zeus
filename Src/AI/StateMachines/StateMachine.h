@@ -191,7 +191,9 @@ namespace AI
 			int h_attack2Fatality=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
 
 			int damaged=this->addNode(new CLA_Beaten(entity));
-			int dead=this->addNode(new CLA_Death(entity));
+			//PT
+			//int dead=this->addNode(new CLA_Death(entity));
+			int dead=this->addNode(new CLA_Death(entity,10000));
 			//COMBO 1
 			this->addEdge(idle, l_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK));
 			this->addEdge(idle, l_run, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_LEFT));

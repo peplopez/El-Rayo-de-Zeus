@@ -24,6 +24,7 @@ namespace GUI
 {
 	class CPlayerController;
 	class CCameraController;
+	class CHudController; //PT
 }
 
 namespace CEGUI
@@ -89,6 +90,14 @@ namespace GUI
 		@return Instancia de la clase GUI que controla al jugador.
 		*/
 		CCameraController *getCameraController() {return _cameraController;}
+
+		/** PT
+		Devuelve la instancia de la clase GUI que se encarga de procesar los
+		eventos de entrada para recargar el HUD
+
+		@return Instancia de la clase GUI que recarga el HUD.
+		*/
+		CHudController *getHudController() {return _hudController;}
 
 
 		/***************************************************************
@@ -190,6 +199,12 @@ namespace GUI
 		Clase GUI que se encarga de controlar la cámara.
 		*/
 		CCameraController *_cameraController;
+
+		//PT
+		/**
+		Clase GUI que se encarga de controlar el HUD.
+		*/
+		CHudController *_hudController;
 
 
 		/**

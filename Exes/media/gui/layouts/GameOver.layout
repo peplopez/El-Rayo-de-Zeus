@@ -4,11 +4,13 @@
     <Window Type="DefaultWindow" Name="GameOver" >
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
         <Window Type="OgreTray/StaticImage" Name="GameOver/BackGround" >
-            <Property Name="Font" Value="FairChar-30" />
-            <Property Name="Text" Value="GALEON" />
+			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="BackgroundEnabled" Value="False" />		
+			<Property Name="Image" Value="set:BackgroundInit image:BackgroundInit" />
+			<Property Name="AlwaysOnTop" Value="False" />
             <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
             <Window Type="OgreTray/Title" Name="GameOver/BackGround/" >
-                <Property Name="Font" Value="FairChar-30" />
+                <Property Name="Font" Value="Diogenes-24" />
                 <Property Name="Text" Value="GAME OVER" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.2,0},{0.8,0},{0.4,0}}" />

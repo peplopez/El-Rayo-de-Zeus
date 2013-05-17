@@ -23,6 +23,7 @@ Contiene la implementación del estado de juego.
 #include "GUI/Server.h"
 #include "GUI/PlayerController.h"
 #include "GUI/CameraController.h" //PT
+#include "GUI/HudController.h" //PT
 
 #include "Physics/Server.h"
 
@@ -117,8 +118,8 @@ namespace Application {
 		// PT. Queremos que el GUI maneje a la camara.
         GUI::CServer::getSingletonPtr()->getCameraController()->activate();
 
-		//PT. ponemos el nombre del player en el GameStatus
-
+		// PT. Para recargar el HUD en DEBUG.
+        GUI::CServer::getSingletonPtr()->getHudController()->activate();
 
 
 	} // activate
@@ -128,10 +129,6 @@ namespace Application {
 	//  ƒ®§ Al salir de gameState (cambio de currentState)
 	void CGameState::deactivate() 
 	{
-
-		// Desactivamos la ventana de HUD por LUA
-		/*ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideHud");*/
-
 		// Desactivamos la clase que procesa eventos de entrada para  controlar al jugador.
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
 		
@@ -193,50 +190,6 @@ namespace Application {
 		case GUI::Key::PAUSE:
 			_app->setState("pause"); // TODO FRS no existe todavía el estado pause
 			break;
-		////PT. para ocultar y mostrar el HUD
-		//case GUI::Key::V:
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("changeHudVisibility");
-		//	break;
-
-		//	//PT prueba para aumentar el numero de altares activados
-		//case GUI::Key::B:
-		//	   ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementAltarsActivated");
-		//	   ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateAltarsActivated");
-		//	break;
-
-		//case GUI::Key::G:
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementAltarsActivated");
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateAltarsActivated");
-		//	break;
-
-		//case GUI::Key::N:
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementEnemiesInBase");
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateEnemiesInBase");
-		//	break;
-
-		//case GUI::Key::H:
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementEnemiesInBase");
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateEnemiesInBase");
-		//	break;
-		//case GUI::Key::M:
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementPM");
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updatePM");
-		//	break;
-
-		//case GUI::Key::J:
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementPM");
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updatePM");
-		//	break;
-
-		//case GUI::Key::P:
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementBaseLife");
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateBaseLife");
-		//	break;
-
-		//case GUI::Key::O:
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("incrementBaseLife");
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateBaseLife");
-		//	break;
 		default:
 			return false;
 		}

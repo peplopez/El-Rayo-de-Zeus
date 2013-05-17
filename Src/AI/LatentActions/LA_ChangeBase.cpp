@@ -48,7 +48,7 @@ namespace AI
 		_desencogiendo=0;
 		std::cout<<"AI::StateMachine::ChangeBase"<<std::endl;		
 		//_velocidad=0.01f;
-		_velocidad=2*0.0001f;				
+		_velocidad=20*0.0001f;	//PT, cambio de base mas rapido			
 		CMessageString *m = new CMessageString();	
 		m->setType(Message::SET_MATERIAL);
 		m->setString("transito");
