@@ -37,8 +37,8 @@ Map ={
 		physicType = "kinematic",
 		shape="box",
 		physicWidth = 180,
-		physicHeight = 5,
-		physicBodyOffset = -60,
+		physicHeight = 1,
+		physicBodyOffset = -52,
 	},
 	
 	CenterRing = {
@@ -48,8 +48,8 @@ Map ={
 		physicType = "kinematic",
 		shape="box",
 		physicWidth = 180,
-		physicHeight = 5,
-		physicBodyOffset = -10,
+		physicHeight = 1,
+		physicBodyOffset = -2,
 	},
 	
 	UpperRing = {
@@ -59,8 +59,8 @@ Map ={
 		physicType = "kinematic",
 		shape="box",
 		physicWidth = 180,
-		physicHeight = 5,
-		physicBodyOffset = 40,
+		physicHeight = 2.5,
+		physicBodyOffset = 48,
 	},
 	
 	Altar1 = {

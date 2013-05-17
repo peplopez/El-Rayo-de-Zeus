@@ -44,18 +44,21 @@
 
 namespace Physics
 {
-	CScene::CScene(const std::string& name) : _name(name), _world(0) 
+	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0)
 	{	
 		b2Vec2 gravity(0, -10);
 		_world = new b2World(gravity);
 
 		if (_name != "dummy_scene")
 		{
-			
+#ifdef _DEBUG
 			_debugDraw = new OgreB2DebugDraw(Graphics::CServer::getSingletonPtr()->getScene(name)->getSceneMgr(), "debugDraw") ;
 			_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(name)->getCamera()->getCameraNode());
+			_debugDraw->SetFlags(b2Draw::e_shapeBit);		
+#endif
+
 			_world->SetDebugDraw(_debugDraw);
-			_debugDraw->SetFlags(b2Draw::e_shapeBit);
+			
 		}
 	};
 
@@ -85,11 +88,17 @@ namespace Physics
 	
 	void CScene::tick(unsigned int msecs)
 	{	
-		this->simulate(msecs); // Empezar la simulación física.
+		float32 timeStep = msecs * 0.001f;
+		int32 velocityIterations = 6;
+		int32 positionIterations = 2;
+#ifdef _DEBUG
+		_debugDraw->clear();
+#endif
+		_world->Step(timeStep, velocityIterations, positionIterations); //simulación física
+#ifdef _DEBUG
+		_world->DrawDebugData();
+#endif
 	} // tick
-
-	
-
 
 	/************
 		ACTORS
@@ -108,8 +117,6 @@ namespace Physics
 
 
 	//--------------------------------------------------------
-
-
 	void CScene::remove(CActor* actor)
 	{
 		actor->detachFromScene();		
@@ -119,27 +126,6 @@ namespace Physics
 			_actors.erase(actorIndex); // FRS El delete es responsabilidad del creador (Logic::CPhysics)		
 	} // removeActor
 
-
-
-	
-	/******************
-		SIMULATION
-	*****************/
-	
-	void CScene::simulate(unsigned int timeDiff)
-	{	
-		float32 timeStep = timeDiff * 0.001f;
-		int32 velocityIterations = 6;
-		int32 positionIterations = 2;
-
-		_debugDraw->clear();
-		_world->Step(timeStep, velocityIterations, positionIterations);
-		_world->DrawDebugData();
-		
-
-
-
-	} // simulate	
 
 	//--------------------------------------------------------
 

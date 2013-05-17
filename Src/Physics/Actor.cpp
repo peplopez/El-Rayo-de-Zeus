@@ -163,8 +163,15 @@ namespace Physics
 	void CActor::move(float x, float y)
 	{
 		b2Vec2 pos = _body->GetPosition();
+
 		pos.x += x;
 		pos.y += y;
+
+		if (pos.x > 180)
+			pos.x -= 360;
+		else if (pos.x < -180)
+			pos.x += 360;
+
 		_body->SetAwake(true);
 		_body->SetTransform(pos, _body->GetAngle());
 	}
