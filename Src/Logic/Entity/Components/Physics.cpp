@@ -126,6 +126,16 @@ namespace Logic {
 					float halfHeight = entityInfo->getFloatAttribute("physicHeight");
 				actor->createFixture(halfWidth, halfHeight, _isTrigger); 
 			}
+			else if (_shape == "chupachups")
+			{
+				assert(entityInfo->hasAttribute("radius") && "falta definir atributo radius en el mapa");
+					float radius = entityInfo->getFloatAttribute("radius");
+				assert(entityInfo->hasAttribute("physicWidth") && "falta definir atributo physicWidth en el mapa");
+					float halfWidth = entityInfo->getFloatAttribute("physicWidth");
+				assert(entityInfo->hasAttribute("physicHeight") && "falta definir atributo physicWidth en el mapa");
+					float halfHeight = entityInfo->getFloatAttribute("physicHeight");
+				actor->createFixture(halfWidth, halfHeight, radius, _isTrigger);
+			}
 
 			return actor;
 		}

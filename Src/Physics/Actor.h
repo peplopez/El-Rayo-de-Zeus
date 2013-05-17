@@ -47,6 +47,7 @@ namespace Physics
 
 		void createFixture(float radius, bool isTrigger); //Circle Shape
 		void createFixture(float halfWidth, float halfHeigth, bool isTrigger); //BoxShape
+		void createFixture(float haldWidth, float halfHeight, float radius, bool isTrigger);
 
 		void move(float x, float y);
 		

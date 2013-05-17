@@ -157,7 +157,34 @@ namespace Physics
 		_body->CreateFixture(&fixtureDef); //add a fixture to the body
 
 	}
+	//--------------------------------------------------------
 
+	void CActor::createFixture(float halfWidth, float halfHeight, float radius, bool isTrigger)
+	{
+		_heightCorrection = halfHeight;
+		b2Vec2 pos = _body->GetPosition();
+		pos.y += _heightCorrection;
+		_body->SetTransform(pos, _body->GetAngle());
+		_body->SetFixedRotation(true);
+
+		b2CircleShape circleShape;
+		circleShape.m_p.Set(0, halfHeight + radius); //position, relative to body position
+		circleShape.m_radius = radius; //radius
+
+		b2FixtureDef fixtureDef;
+		fixtureDef.isSensor = isTrigger;
+		fixtureDef.shape = &circleShape; //this is a pointer to the shape above
+		_body->CreateFixture(&fixtureDef); //add a fixture to the body
+
+		b2PolygonShape polygonShape;
+		polygonShape.SetAsBox(halfWidth, halfHeight);
+
+		b2FixtureDef fixtureDef2;
+		fixtureDef2.isSensor = isTrigger;
+		fixtureDef2.shape = &polygonShape; //this is a pointer to the shape above
+		_body->CreateFixture(&fixtureDef2); //add a fixture to the body
+
+	}
 	//--------------------------------------------------------
 
 	void CActor::move(float x, float y)
