@@ -59,7 +59,7 @@ Map ={
 		physicType = "kinematic",
 		shape="box",
 		physicWidth = 180,
-		physicHeight = 2.5,
+		physicHeight = 1,
 		physicBodyOffset = 48,
 	},
 	
