@@ -1,25 +1,3 @@
-/*=====================================================<
-** -- OgreB2DebugDraw.h v1.0
-*> Box2D debug drawing implementation using Ogre graphics.
-*> Copyright (c) 2009, Stephan Aelmore
-**
-*> This code is provided 'as-is', without any express or implied warranty.
-*> In no event will the author be held liable for any damages arising from the
-*> use of this code.
-**
-*> Permission is granted to anyone to use this code for any purpose,
-*> including commercial applications, and to alter it and redistribute it
-*> freely, subject to the following restrictions:
-**
-*> 1. If you use this code or a derivation thereof, you must cite the origin
-*> of the code, giving credit to the author for the original work.
-**
-*> 2. If you alter the source in any way (the most likely circumstance, given
-*> the nature of the code), then you must mark it as such, and not misrepresent
-*> the altered work as the original code.
-**
->=====================================================*/
-
 #ifndef _OGRE_B2_DEBUGDRAW_H
 #define _OGRE_B2_DEBUGDRAW_H
 
