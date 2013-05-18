@@ -21,7 +21,7 @@ struct Vertex
 class OgreB2DebugDraw : public b2Draw
 {
 public:
-    OgreB2DebugDraw(Ogre::SceneManager* scene, const char* material, float fillAlpha = 0.2f, Ogre::uint8 renderQueueGroup = Ogre::RENDER_QUEUE_OVERLAY);
+    OgreB2DebugDraw(Ogre::SceneManager* scene, const char* material, float fillAlpha = 0.5f, Ogre::uint8 renderQueueGroup = Ogre::RENDER_QUEUE_OVERLAY);
     ~OgreB2DebugDraw();
 
     /// Method to be called each frame to clear out all of last frame's shapes.

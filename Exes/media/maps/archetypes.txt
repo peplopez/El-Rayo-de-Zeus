@@ -5,7 +5,12 @@ Map = {
 		activatedMaterial = "redActivated",
 		unactivatedMaterial = "Material.001",
 		initialScale = 3,
-		logicInput=true,
+		logicInput = true,
+		physicType = "static",
+		physicTrigger = true,
+		shape = "box",
+		physicWidth = 4,
+		physicHeight = 4,	
 	},
 
 	AltarBlue = {
@@ -115,7 +120,7 @@ Map = {
 		base=0,
 		ring=0,		
 		sense=1,
-		physicType = "static",
+		physicType = "dynamic",
 		shape="chupachups",
 		radius = 3,
 		physicWidth = 0.5,

@@ -29,23 +29,31 @@ Map ={
 		ring=1,
 		degrees=30,		
 	},
+	
+	medusa2 = {
+		type = "Medusa",
+		base=1,
+		ring=1,
+		degrees=30,	
+		height=180,
+	},
 
 	LowerRing = {
 		type = "World",
 		base=1,
 		ring=0,
-		physicType = "kinematic",
+		physicType = "static",
 		shape="box",
 		physicWidth = 180,
 		physicHeight = 1,
-		physicBodyOffset = -52,
+		physicBodyOffset = -2,
 	},
 	
 	CenterRing = {
 		type = "World",
 		base=1,
 		ring=1,
-		physicType = "kinematic",
+		physicType = "static",
 		shape="box",
 		physicWidth = 180,
 		physicHeight = 1,
@@ -56,11 +64,12 @@ Map ={
 		type = "World",
 		base=1,
 		ring=2,
-		physicType = "kinematic",
+		physicType = "static",
+		height = 200,
 		shape="box",
 		physicWidth = 180,
 		physicHeight = 1,
-		physicBodyOffset = 48,
+		physicBodyOffset = -2,
 	},
 	
 	Altar1 = {

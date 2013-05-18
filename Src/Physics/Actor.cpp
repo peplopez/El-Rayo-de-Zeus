@@ -32,7 +32,7 @@ namespace Physics
 		_bodyDef = new b2BodyDef();
 		_bodyDef->position.Set(degree, height); //set the starting position
 		_bodyDef->angle = 0; //set the starting angle
-		//_bodyDef->userData = component;
+		_bodyDef->userData = (void*) component;
 		if (type == "static")
 			_bodyDef->type = b2_staticBody; //actor estático
 		else if (type == "dynamic")
@@ -125,13 +125,13 @@ namespace Physics
 
 
 		b2CircleShape circleShape;
-		circleShape.m_p.Set(0, 0); //position, relative to body position
-		circleShape.m_radius = radius; //radius
+		circleShape.m_p.Set(0, 0); 
+		circleShape.m_radius = radius;
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.isSensor = isTrigger;
-		fixtureDef.shape = &circleShape; //this is a pointer to the shape above
-		_body->CreateFixture(&fixtureDef); //add a fixture to the body
+		fixtureDef.shape = &circleShape; 
+		_body->CreateFixture(&fixtureDef); 
 
 	}
 
@@ -153,8 +153,8 @@ namespace Physics
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.isSensor = isTrigger;
-		fixtureDef.shape = &polygonShape; //this is a pointer to the shape above
-		_body->CreateFixture(&fixtureDef); //add a fixture to the body
+		fixtureDef.shape = &polygonShape; 
+		_body->CreateFixture(&fixtureDef); 
 
 	}
 	//--------------------------------------------------------

@@ -108,7 +108,7 @@ namespace Logic {
 		if (entityInfo->hasAttribute("physicBodyOffset"))
 			physicBodyOffset = entityInfo->getFloatAttribute("physicBodyOffset");
 
-		Physics::CActor* actor = new Physics::CActor(logicPos->getDegree(), logicPos->getHeight() + physicBodyOffset, physicType, this);
+		Physics::CActor* actor = new Physics::CActor(logicPos->getDegree(), logicPos->getHeight() + physicBodyOffset, logicPos->getRing(), physicType, this);
 
 		if (_scene->add(actor));
 		{
@@ -169,6 +169,8 @@ namespace Logic {
 		// se encuentre con un puntero a una entidad borrada (muerta)
 
 	} // onTrigger
+
+	//---------------------------------------------------------
 
 	void  CPhysics::onCollision (Physics::IObserver* other) //PeP
 	{

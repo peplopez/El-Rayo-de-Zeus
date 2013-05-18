@@ -21,7 +21,7 @@ namespace Physics
 {
 	class CActor;
 	class CActorTrigger;
-	
+	class CContactListener;	
 }
 
 
@@ -91,6 +91,7 @@ namespace Physics
 		OgreB2DebugDraw* _debugDraw;
 
 		b2World* _world;
+		CContactListener* _worldListener;
 
 		/**
 		Actualiza el estado de la escena cada ciclo.

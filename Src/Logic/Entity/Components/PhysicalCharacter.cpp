@@ -130,6 +130,8 @@ namespace Logic {
 		//_entity->emitMessage(m,this);
 	}
 
+	//---------------------------------------------------------
+
 	void  CPhysicalCharacter::onTrigger (Physics::IObserver* other, bool enter) 
 	{
 		CPhysics::onTrigger(other, enter);

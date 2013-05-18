@@ -17,6 +17,7 @@
 #include "Physics/Scene.h"
 #include "Physics/Actor.h"
 #include "Physics/ActorTrigger.h"
+#include "Physics/ContactListener.h"
 
 
 #include <Box2D\Dynamics\b2World.h>
@@ -44,7 +45,7 @@
 
 namespace Physics
 {
-	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0)
+	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0), _worldListener(0)
 	{	
 		b2Vec2 gravity(0, -60);
 		_world = new b2World(gravity);
@@ -54,11 +55,11 @@ namespace Physics
 #ifdef _DEBUG
 			_debugDraw = new OgreB2DebugDraw(Graphics::CServer::getSingletonPtr()->getScene(name)->getSceneMgr(), "debugDraw") ;
 			_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(name)->getCamera()->getCameraNode());
-			_debugDraw->SetFlags(b2Draw::e_shapeBit);		
-#endif
-
+			_debugDraw->SetFlags(b2Draw::e_shapeBit);
 			_world->SetDebugDraw(_debugDraw);
-			
+#endif		
+			_worldListener = new CContactListener();
+			_world->SetContactListener(_worldListener);
 		}
 	};
 
