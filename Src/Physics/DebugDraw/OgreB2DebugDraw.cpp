@@ -36,7 +36,7 @@ OgreB2DebugDraw::~OgreB2DebugDraw()
 void OgreB2DebugDraw::setAutoTracking(Ogre::SceneNode* target)
 {
 	_debugNode->setFixedYawAxis(true);
-	_debugNode->setAutoTracking(true, target, Ogre::Vector3::NEGATIVE_UNIT_Z);
+	_debugNode->setAutoTracking(true, target, Ogre::Vector3::UNIT_Z);
 }
 
 void OgreB2DebugDraw::clear()
