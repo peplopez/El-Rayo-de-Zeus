@@ -28,6 +28,8 @@ public:
     void clear();
 
 	void Render();
+	void RenderLines();
+	void RenderTriangles();
 
 	void setAutoTracking(Ogre::SceneNode* target);
 
@@ -88,9 +90,9 @@ private:
 
 	typedef std::vector<Vertex> TDebugRenderable;
 
-	TDebugRenderable _lineStrip;
-	TDebugRenderable _triangleFan;
+
 	TDebugRenderable _lineList;
+	TDebugRenderable _triangleList;
 
 
     /// Alpha value to use for filling in shapes;
@@ -102,9 +104,15 @@ private:
     void BuildPolygon(const b2Vec2* vertices, int32 vertexCount, 
 					  const b2Color& color, TDebugRenderable &vertexSection, float alpha = 1.0f);
 
+	void BuildSolidPolygon(const b2Vec2* vertices, int32 vertexCount, 
+					  const b2Color& color, TDebugRenderable &v, float alpha = 1.0f);
+
     /// Helper method for writing circle vertex data to a manual object.
     /// @warning Must be called between ManualObject::begin and ManualObject::end
     void BuildCircle(const b2Vec2& center, float32 radius, 
+				     const b2Color& color, TDebugRenderable &v, float alpha = 1.0f);
+
+	void BuildSolidCircle(const b2Vec2& center, float32 radius, 
 				     const b2Color& color, TDebugRenderable &v, float alpha = 1.0f);
 
     /// Helper method for writing line segment vertex data to a manual object.

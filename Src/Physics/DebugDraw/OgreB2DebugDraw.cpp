@@ -42,9 +42,17 @@ void OgreB2DebugDraw::setAutoTracking(Ogre::SceneNode* target)
 void OgreB2DebugDraw::clear()
 {
 	m_shapes->clear();
+	_lineList.clear();
+	_triangleList.clear();
 }
 
 void OgreB2DebugDraw::Render()
+{
+	RenderLines();
+	RenderTriangles();	
+}
+
+void OgreB2DebugDraw::RenderLines()
 {
 	m_shapes->begin(m_material, Ogre::RenderOperation::OT_LINE_LIST);
 
@@ -55,11 +63,26 @@ void OgreB2DebugDraw::Render()
 		m_shapes->position(_lineList[i].x, _lineList[i].y, _lineList[i].z);
 		m_shapes->colour(_lineList[i].r, _lineList[i].g, _lineList[i].b, _lineList[i].a);
 	}
-	_lineList.clear();
-	m_shapes->end();
-
 	
+	m_shapes->end();
 }
+
+void OgreB2DebugDraw::RenderTriangles()
+{
+	m_shapes->begin(m_material, Ogre::RenderOperation::OT_TRIANGLE_LIST);
+
+	m_shapes->estimateVertexCount(_triangleList.size());
+
+	for (int i = 0; i < _triangleList.size(); ++i)
+	{
+		m_shapes->position(_triangleList[i].x, _triangleList[i].y, _triangleList[i].z);
+		m_shapes->colour(_triangleList[i].r, _triangleList[i].g, _triangleList[i].b, _triangleList[i].a);
+	}
+	
+	m_shapes->end();
+}
+
+
 
 void OgreB2DebugDraw::BuildPolygon(const b2Vec2* vertices,
                                              int32 vertexCount, const b2Color& color, TDebugRenderable& vertexSection, float alpha)
@@ -88,6 +111,27 @@ void OgreB2DebugDraw::BuildPolygon(const b2Vec2* vertices,
 	vertexSection.push_back(vertex);
 }
 
+void OgreB2DebugDraw::BuildSolidPolygon(const b2Vec2* vertices,
+                                             int32 vertexCount, const b2Color& color, TDebugRenderable& vertexSection, float alpha)
+{
+
+	Vertex vertex;
+	vertex.r = color.r; vertex.g = color.g; vertex.b = color.b; vertex.a = alpha;
+	vertex.z = 0;
+	// Place the vertices.
+	for (int32 i = 1; i < vertexCount - 1 ; ++i)
+	{
+		vertex.x = vertices[0].x; vertex.y = vertices[0].y;
+		vertexSection.push_back(vertex);
+
+		vertex.x = vertices[i].x; vertex.y = vertices[i].y; 
+		vertexSection.push_back(vertex);
+
+		vertex.x = vertices[i+1].x; vertex.y = vertices[i+1].y; 
+		vertexSection.push_back(vertex);
+	}
+}
+
 void OgreB2DebugDraw::BuildCircle(const b2Vec2& center, float32 radius,
 									const b2Color& color, TDebugRenderable& vertexSection, float alpha)
 {
@@ -107,6 +151,40 @@ void OgreB2DebugDraw::BuildCircle(const b2Vec2& center, float32 radius,
 	vertex.z = 0;
 	for (int32 i = 0; i < k_segments; ++i)
 	{
+		v1 = center + radius * b2Vec2(cosf(theta), sinf(theta));
+		vertex.x = v1.x; vertex.y = v1.y;
+		vertexSection.push_back(vertex);
+		theta += k_increment;
+		v2 = center + radius * b2Vec2(cosf(theta), sinf(theta));
+		vertex.x = v2.x; vertex.y = v2.y;
+		vertexSection.push_back(vertex);
+	}
+
+}
+
+void OgreB2DebugDraw::BuildSolidCircle(const b2Vec2& center, float32 radius,
+									const b2Color& color, TDebugRenderable& vertexSection, float alpha)
+{
+	// circle variables
+	const float k_segments = 32.0f;
+	const float k_increment = 2.0f * b2_pi / k_segments;
+	float theta = 0.0f;
+
+	// We estimate the vertex count beforehand to optimize allocation.
+	// Note that we add one since Box2D does not count overlap vertex.
+	//man->estimateVertexCount(k_segments+1);
+
+	// Update object data.
+	b2Vec2 v0, v1, v2;
+	v0 = center + b2Vec2(radius, 0.0f);
+
+	Vertex vertex;
+	vertex.r = color.r; vertex.g = color.g; vertex.b = color.b; vertex.a = alpha;
+	vertex.z = 0;
+	for (int32 i = 0; i < k_segments; ++i)
+	{
+		vertex.x = v0.x; vertex.y = v0.y;
+		vertexSection.push_back(vertex);
 		v1 = center + radius * b2Vec2(cosf(theta), sinf(theta));
 		vertex.x = v1.x; vertex.y = v1.y;
 		vertexSection.push_back(vertex);
@@ -152,7 +230,7 @@ void OgreB2DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount
 	if (m_fillAlpha > 0.01f)
 	{
 		// Call helper method to generate vertex data.
-		//BuildPolygon(vertices, vertexCount, color, _triangleFan, m_fillAlpha);
+		BuildSolidPolygon(vertices, vertexCount, color, _triangleList, m_fillAlpha);
 
 	}
 }
@@ -175,7 +253,7 @@ void OgreB2DebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, cons
 	if (m_fillAlpha > 0.01f)
 	{
 		// Call helper method to generate vertex data.
-		//BuildCircle(center, radius, color, _triangleFan, m_fillAlpha);
+		BuildSolidCircle(center, radius, color, _triangleList, m_fillAlpha);
 
 	}
 }
