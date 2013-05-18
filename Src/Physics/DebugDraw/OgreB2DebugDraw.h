@@ -4,6 +4,20 @@
 #include <Ogre.h>
 #include <Box2D/Box2D.h>
 
+
+struct Vertex
+{
+	float32	x;
+	float32	y;
+	float32	z;
+	
+	float32	r;
+	float32	g;
+	float32	b;
+	float32	a;
+};
+
+
 class OgreB2DebugDraw : public b2Draw
 {
 public:
@@ -12,6 +26,8 @@ public:
 
     /// Method to be called each frame to clear out all of last frame's shapes.
     void clear();
+
+	void Render();
 
 	void setAutoTracking(Ogre::SceneNode* target);
 
@@ -70,24 +86,31 @@ private:
     /// Material to use for rendering the shapes
     Ogre::String m_material;
 
+	typedef std::vector<Vertex> TDebugRenderable;
+
+	TDebugRenderable _lineStrip;
+	TDebugRenderable _triangleFan;
+	TDebugRenderable _lineList;
+
+
     /// Alpha value to use for filling in shapes;
     /// if m_fillAlpha <= 0, they will not be filled, saving system resources.
     float m_fillAlpha;
 
     /// Helper method for writing polygon vertex data to a manual object.
     /// @warning Must be called between ManualObject::begin and ManualObject::end
-    Ogre::ManualObject* BuildPolygon(Ogre::ManualObject* man, const b2Vec2* vertices,
-                                     int32 vertexCount, const b2Color& color, float alpha = 1.0f);
+    void BuildPolygon(const b2Vec2* vertices, int32 vertexCount, 
+					  const b2Color& color, TDebugRenderable &vertexSection, float alpha = 1.0f);
 
     /// Helper method for writing circle vertex data to a manual object.
     /// @warning Must be called between ManualObject::begin and ManualObject::end
-    Ogre::ManualObject* BuildCircle(Ogre::ManualObject* man, const b2Vec2& center,
-                                    float32 radius, const b2Color& color, float alpha = 1.0f);
+    void BuildCircle(const b2Vec2& center, float32 radius, 
+				     const b2Color& color, TDebugRenderable &v, float alpha = 1.0f);
 
     /// Helper method for writing line segment vertex data to a manual object.
     /// @warning Must be called between ManualObject::begin and ManualObject::end
-    Ogre::ManualObject* BuildSegment(Ogre::ManualObject* man, const b2Vec2& p1,
-                                     const b2Vec2& p2, const b2Color& color, float alpha = 1.0f);
+    void BuildSegment(const b2Vec2& p1, const b2Vec2& p2, 
+					  const b2Color& color, TDebugRenderable &v, float alpha = 1.0f);
 };
 
 #endif //_OGRE_B2_DEBUGDRAW_H

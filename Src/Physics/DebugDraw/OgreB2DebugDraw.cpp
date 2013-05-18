@@ -23,6 +23,23 @@ OgreB2DebugDraw::OgreB2DebugDraw(Ogre::SceneManager* scene, const char* material
 
     // Add it to the given render queue group to control render order.
     m_shapes->setRenderQueueGroup(renderQueueGroup);
+
+	//m_shapes->begin(m_material, Ogre::RenderOperation::OT_LINE_STRIP);
+	//m_shapes->position(0, 0, 0);
+ //   m_shapes->colour(0, 0, 0, 0);
+	//m_shapes->end();
+	//m_shapes->begin(m_material, Ogre::RenderOperation::OT_TRIANGLE_FAN);
+	//m_shapes->position(0, 0, 0);
+ //   m_shapes->colour(0, 0, 0, 0);
+	//m_shapes->end();
+	//m_shapes->begin(m_material, Ogre::RenderOperation::OT_LINE_LIST);
+	//m_shapes->position(0, 0, 0);
+ //   m_shapes->colour(0, 0, 0, 0);
+	//m_shapes->end();
+	//
+	//m_shapes->beginUpdate(0);
+	//m_shapes->end();
+
 }
 
 
@@ -40,32 +57,54 @@ void OgreB2DebugDraw::setAutoTracking(Ogre::SceneNode* target)
 
 void OgreB2DebugDraw::clear()
 {
-    m_shapes->clear();
+	m_shapes->clear();
 }
 
-Ogre::ManualObject* OgreB2DebugDraw::BuildPolygon(Ogre::ManualObject* man, const b2Vec2* vertices,
-                                             int32 vertexCount, const b2Color& color, float alpha)
+void OgreB2DebugDraw::Render()
 {
-	// We estimate the vertex count beforehand to optimize allocation.
-	// Note that we add one since Box2D does not count overlap vertex.
-	man->estimateVertexCount(vertexCount+1);
+	m_shapes->begin(m_material, Ogre::RenderOperation::OT_LINE_STRIP);
 
-	// Place the vertices.
-	for (int32 i = 0; i < vertexCount; ++i)
+	m_shapes->estimateVertexCount(_lineStrip.size());
+
+	for (int i = 0; i < _lineStrip.size(); ++i)
 	{
-		man->position(vertices[i].x, vertices[i].y, 0);
-		man->colour(color.r, color.g, color.b, alpha);
+		m_shapes->position(_lineStrip[i].x, _lineStrip[i].y, _lineStrip[i].z);
+		m_shapes->colour(_lineStrip[i].r, _lineStrip[i].g, _lineStrip[i].b, _lineStrip[i].a);
 	}
-	// Place the overlap vertex at position 0.
-	man->position(vertices[0].x, vertices[0].y, 0);
-	man->colour(color.r, color.g, color.b, alpha);
+	_lineStrip.clear();
+	m_shapes->end();
 
-	return man;
 	
 }
 
-Ogre::ManualObject* OgreB2DebugDraw::BuildCircle(Ogre::ManualObject* man, const b2Vec2& center,
-                                            float32 radius, const b2Color& color, float alpha)
+void OgreB2DebugDraw::BuildPolygon(const b2Vec2* vertices,
+                                             int32 vertexCount, const b2Color& color, TDebugRenderable& vertexSection, float alpha)
+{
+	// We estimate the vertex count beforehand to optimize allocation.
+	// Note that we add one since Box2D does not count overlap vertex.
+	//man->estimateVertexCount(vertexCount+1);
+
+	Vertex vertex;
+	vertex.r = color.r; vertex.g = color.g; vertex.b = color.b; vertex.a = alpha;
+	vertex.z = 0;
+	// Place the vertices.
+	for (int32 i = 0; i < vertexCount; ++i)
+	{
+		//man->position(vertices[i].x, vertices[i].y, 0);
+		//man->colour(color.r, color.g, color.b, alpha);
+		vertex.x = vertices[i].x; vertex.y = vertices[i].y; 
+		vertexSection.push_back(vertex);
+	}
+	// Place the overlap vertex at position 0.
+	vertex.x = vertices[0].x; vertex.y = vertices[0].y;
+	vertexSection.push_back(vertex);
+
+	//man->position(vertices[0].x, vertices[0].y, 0);
+	//man->colour(color.r, color.g, color.b, alpha);
+}
+
+void OgreB2DebugDraw::BuildCircle(const b2Vec2& center, float32 radius,
+									const b2Color& color, TDebugRenderable& vertexSection, float alpha)
 {
 	// circle variables
 	const float k_segments = 32.0f;
@@ -74,127 +113,96 @@ Ogre::ManualObject* OgreB2DebugDraw::BuildCircle(Ogre::ManualObject* man, const 
 
 	// We estimate the vertex count beforehand to optimize allocation.
 	// Note that we add one since Box2D does not count overlap vertex.
-	man->estimateVertexCount(k_segments+1);
+	//man->estimateVertexCount(k_segments+1);
 
 	// Update object data.
 	b2Vec2 v;
+	Vertex vertex;
+	vertex.r = color.r; vertex.g = color.g; vertex.b = color.b; vertex.a = alpha;
+	vertex.z = 0;
 	for (int32 i = 0; i < k_segments; ++i)
 	{
 		v = center + radius * b2Vec2(cosf(theta), sinf(theta));
-		man->position(v.x, v.y, 0);
-		man->colour(color.r, color.g, color.b, alpha);
+		vertex.x = v.x; vertex.y = v.y;
+		vertexSection.push_back(vertex);
 		theta += k_increment;
 	}
 	// Place the overlap vertex at the start position.
 	v = center + b2Vec2(radius, 0.0f);
-	man->position(v.x, v.y, 0);
-	man->colour(color.r, color.g, color.b, alpha);
+	vertex.x = v.x; vertex.y = v.y;
+	vertexSection.push_back(vertex);
 
-	return man;
 }
 
-Ogre::ManualObject* OgreB2DebugDraw::BuildSegment(Ogre::ManualObject* man, const b2Vec2& p1,
-                                             const b2Vec2& p2, const b2Color& color, float alpha)
+void OgreB2DebugDraw::BuildSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color, TDebugRenderable& vertexSection, float alpha)
 {
     // We estimate the vertex count beforehand to optimize allocation.
-    man->estimateVertexCount(2);
+    //man->estimateVertexCount(2);
 
     // Place the first vertex.
-    man->position(p1.x, p1.y, 0);
-    man->colour(color.r, color.g, color.b, alpha);
+	Vertex vertex;
+	vertex.r = color.r; vertex.g = color.g; vertex.b = color.b; vertex.a = alpha;
+	vertex.z = 0;
+
+	vertex.x = p1.x; vertex.y = p1.y;
+    vertexSection.push_back(vertex);
 
     // Place the second vertex.
-   man->position(p2.x, p2.y, 0);
-   man->colour(color.r, color.g, color.b, alpha);
-
-   return man;
+    vertex.x = p2.x; vertex.y = p2.y;
+    vertexSection.push_back(vertex);
 }
 
 void OgreB2DebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
 {
-    // Begin new edge section.
-    m_shapes->begin(m_material, Ogre::RenderOperation::OT_LINE_STRIP);
-
     // Call helper method to generate vertex data.
-    BuildPolygon(m_shapes, vertices, vertexCount, color);
-
-    // Finalize the section.
-    m_shapes->end();
+    BuildPolygon(vertices, vertexCount, color, _lineStrip);
 }
 
 void OgreB2DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
 {
-	// Begin new edge section.
-	m_shapes->begin(m_material, Ogre::RenderOperation::OT_LINE_STRIP);
 
 	// Call helper method to generate vertex data.
-	BuildPolygon(m_shapes, vertices, vertexCount, color);
-
-	// Finalize the section.
-	m_shapes->end();
+	BuildPolygon(vertices, vertexCount, color, _lineStrip);
 
 	// Only fill if it will be visible.
 	if (m_fillAlpha > 0.01f)
 	{
-		// Begin new fill section.
-		m_shapes->begin(m_material, Ogre::RenderOperation::OT_TRIANGLE_FAN);
-
 		// Call helper method to generate vertex data.
-		BuildPolygon(m_shapes, vertices, vertexCount, color, m_fillAlpha);
+		BuildPolygon(vertices, vertexCount, color, _triangleFan, m_fillAlpha);
 
-		// Finalize the section.
-		m_shapes->end();
 	}
 }
 
 void OgreB2DebugDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color)
 {
-	// Begin new edge section.
-	m_shapes->begin(m_material, Ogre::RenderOperation::OT_LINE_STRIP);
 
 	// Call helper method to generate vertex data.
-	BuildCircle(m_shapes, center, radius, color);
+	BuildCircle(center, radius, color, _lineStrip);
 
-	// Finalize the section.
-	m_shapes->end();
 }
 
 void OgreB2DebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color)
 {
-	// Begin new edge section.
-	m_shapes->begin(m_material, Ogre::RenderOperation::OT_LINE_STRIP);
 
 	// Call helper method to generate vertex data.
-	BuildCircle(m_shapes, center, radius, color);
-
-	// Finalize the section.
-	m_shapes->end();
+	BuildCircle(center, radius, color, _lineStrip);
 
 	// Only fill if it will be visible.
 	if (m_fillAlpha > 0.01f)
 	{
-		// Begin new fill section.
-		m_shapes->begin(m_material, Ogre::RenderOperation::OT_TRIANGLE_FAN);
-
 		// Call helper method to generate vertex data.
-		BuildCircle(m_shapes, center, radius, color, m_fillAlpha);
+		BuildCircle(center, radius, color, _triangleFan, m_fillAlpha);
 
-		// Finalize the section.
-		m_shapes->end();
 	}
 }
 
 void OgreB2DebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color)
 {
-	// Begin new edge section.
-	m_shapes->begin(m_material, Ogre::RenderOperation::OT_LINE_LIST);
 
 	// Call helper method to generate vertex data.
-	BuildSegment(m_shapes, p1, p2, color);
+	BuildSegment(p1, p2, color, _lineList);
 
-	// Finalize the section.
-	m_shapes->end();
-	}
+}
 
 void OgreB2DebugDraw::DrawTransform(const b2Transform& xf)
 {
@@ -202,17 +210,12 @@ void OgreB2DebugDraw::DrawTransform(const b2Transform& xf)
 	b2Vec2 p1 = xf.p, p2;
 	const float32 k_axisScale = 1.0f;
 
-	// Begin new edge section.
-	m_shapes->begin(m_material, Ogre::RenderOperation::OT_LINE_LIST);
-
 	// Add a red segment.
 	p2 = p1 + k_axisScale * xf.q.GetXAxis();
-	BuildSegment(m_shapes, p1, p2, b2Color(1,0,0));
+	BuildSegment(p1, p2, b2Color(1,0,0), _lineList);
 
 	// Add a green segment.
 	p2 = p1 + k_axisScale * xf.q.GetYAxis();
-	BuildSegment(m_shapes, p1, p2, b2Color(0,1,0));
+	BuildSegment(p1, p2, b2Color(0,1,0), _lineList);
 
-	// Finalize the section.
-	m_shapes->end();
 }

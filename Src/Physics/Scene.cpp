@@ -97,6 +97,7 @@ namespace Physics
 		_world->Step(timeStep, velocityIterations, positionIterations); //simulación física
 //#ifdef _DEBUG
 		_world->DrawDebugData();
+		_debugDraw->Render();
 //#endif
 	} // tick
 
