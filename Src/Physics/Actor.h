@@ -16,7 +16,7 @@ Contiene la declaración de la clase que representa una entidad física.
 #ifndef __Physics_Actor_H
 #define __Physics_Actor_H
 
-
+#include "Logic\Entity\LogicalPosition.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 
@@ -38,7 +38,7 @@ namespace Physics
 	public:
 
 
-		CActor(float degrees, float height, std::string type, IObserver *component); 
+		CActor(float degrees, float height, Logic::Ring ring,  std::string type, IObserver *component); 
 		
 		virtual ~CActor() {}
 

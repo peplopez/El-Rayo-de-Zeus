@@ -26,11 +26,27 @@
 
 namespace Physics
 {
-	CActor::CActor(float degree, float height, std::string type, IObserver *component) : 
+	CActor::CActor(float degree, float height, Logic::Ring ring, std::string type, IObserver *component) : 
 		 _body(0), _bodyDef(0), _scene(0), _isTrigger(false), _heightCorrection(0),_loaded(false), _component(component)
 	{
 		_bodyDef = new b2BodyDef();
-		_bodyDef->position.Set(degree, height); //set the starting position
+
+		if (degree > 180)
+			degree -= 360;
+
+		switch (ring)
+		{
+		case Logic::Ring::CENTRAL_RING:
+			_bodyDef->position.Set(degree, height);
+			break;
+		case Logic::Ring::LOWER_RING:
+			_bodyDef->position.Set(degree, height - 50);
+			break;
+		case Logic::Ring::UPPER_RING:
+			_bodyDef->position.Set(degree, height + 50);
+			break;
+		}
+
 		_bodyDef->angle = 0; //set the starting angle
 		_bodyDef->userData = (void*) component;
 		if (type == "static")
