@@ -60,6 +60,8 @@ namespace Physics
 #endif		
 			_worldListener = new CContactListener();
 			_world->SetContactListener(_worldListener);
+
+			CreateWorldEdges();
 		}
 	};
 
@@ -91,7 +93,7 @@ namespace Physics
 	{	
 		float32 timeStep = msecs * 0.001f;
 		int32 velocityIterations = 6;
-		int32 positionIterations = 2;
+		int32 positionIterations = 3;
 #ifdef _DEBUG
 		_debugDraw->clear();
 #endif
@@ -131,4 +133,27 @@ namespace Physics
 
 	//--------------------------------------------------------
 
+	void CScene::CreateWorldEdges()
+	{
+		b2BodyDef bodyDef;
+		bodyDef.angle = 0;
+		bodyDef.type = b2_staticBody;
+
+		bodyDef.position.Set(-180, 0);
+		b2Body* leftEdge = _world->CreateBody(&bodyDef);
+		bodyDef.position.Set(180, 0);
+		b2Body* rightEdge = _world->CreateBody(&bodyDef);
+
+		b2PolygonShape polygonShape;
+		polygonShape.SetAsBox(5, 100);
+
+		b2FixtureDef fixtureDef;
+		fixtureDef.isSensor = true;
+		fixtureDef.shape = &polygonShape; 
+
+		leftEdge->CreateFixture(&fixtureDef); 
+		rightEdge->CreateFixture(&fixtureDef); 
+
+
+	}
 } // namespace Physics

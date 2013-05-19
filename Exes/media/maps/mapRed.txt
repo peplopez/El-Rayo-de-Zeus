@@ -44,7 +44,7 @@ Map ={
 		ring=0,
 		physicType = "static",
 		shape="box",
-		physicWidth = 180,
+		physicWidth = 190,
 		physicHeight = 1,
 		physicBodyOffset = -2,
 	},
@@ -55,7 +55,7 @@ Map ={
 		ring=1,
 		physicType = "static",
 		shape="box",
-		physicWidth = 180,
+		physicWidth = 190,
 		physicHeight = 1,
 		physicBodyOffset = -2,
 	},
@@ -65,86 +65,85 @@ Map ={
 		base=1,
 		ring=2,
 		physicType = "static",
-		height = 200,
 		shape="box",
-		physicWidth = 180,
+		physicWidth = 190,
 		physicHeight = 1,
 		physicBodyOffset = -2,
 	},
 	
 	Altar1 = {
 		type = "AltarRed",
-		degrees=60,
+		degrees=30,
 		ring=0,
 		base=1,	
 	},
 	
 	Altar2 = {
 		type = "AltarRed",
-		degrees=180,
+		degrees=150,
 		ring=0,
 		base=1,		
 	},
 	
 	Altar3 = {
 		type = "AltarRed",
-		degrees=300,
+		degrees=270,
 		ring=0,
 		base=1,		
 	},
 	
 	Altar4 = {
 		type = "AltarRed",
-		degrees=36,
+		degrees=6,
 		ring=1,
 		base=1,		
 	},
 	
 	Altar5 = {
 		type = "AltarRed",
-		degrees=108,
+		degrees=78,
 		ring=1,
 		base=1,		
 	},
 	
 	Altar6 = {
 		type = "AltarRed",
-		degrees=180,
+		degrees=150,
 		ring=1,
 		base=1,		
 	},
 	
 	Altar7 = {
 		type = "AltarRed",
-		degrees=252,
+		degrees=222,
 		ring=1,
 		base=1,		
 	},
 	
 	Altar8 = {
 		type = "AltarRed",
-		degrees=324,
+		degrees=294,
 		ring=1,
 		base=1,		
 	},
 	
 	Altar9 = {
 		type = "AltarRed",
-		degrees=60,
+		degrees=30,
 		ring=2,
 		base=1,		
 	},
 	
 	Altar10 = {
 		type = "AltarRed",
-		degrees=180,
+		degrees=150,
 		ring=2,
 		base=1,		
 	},
 	
 	Altar11 = {
 		type = "AltarRed",
-		degrees=300,
+		degrees=270,
 		ring=2,
 		base=1,		
 	},				

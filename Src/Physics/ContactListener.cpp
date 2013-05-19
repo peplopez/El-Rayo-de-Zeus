@@ -11,15 +11,18 @@ namespace Physics {
 		_l1 = static_cast<IObserver*>(contact->GetFixtureA()->GetBody()->GetUserData());
 		_l2 = static_cast<IObserver*>(contact->GetFixtureB()->GetBody()->GetUserData());
 
-		if (contact->GetFixtureA()->IsSensor() || contact->GetFixtureA()->IsSensor())
+		if (_l1 && _l2)
 		{
-			_l1->onTrigger(_l2, true);
-			_l2->onTrigger(_l1, true);
-		}
-		else
-		{
-			_l1->onCollision(_l2);
-			_l2->onCollision(_l1);
+			if (contact->GetFixtureA()->IsSensor() || contact->GetFixtureA()->IsSensor())
+			{
+				_l1->onTrigger(_l2, true);
+				_l2->onTrigger(_l1, true);
+			}
+			else
+			{
+				_l1->onCollision(_l2);
+				_l2->onCollision(_l1);
+			}
 		}
 			
 	}
@@ -29,10 +32,13 @@ namespace Physics {
 		_l1 = static_cast<IObserver*>(contact->GetFixtureA()->GetBody()->GetUserData());
 		_l2 = static_cast<IObserver*>(contact->GetFixtureB()->GetBody()->GetUserData());
 
-		if (contact->GetFixtureA()->IsSensor() || contact->GetFixtureA()->IsSensor())
+		if (_l1 && _l2)
 		{
-			_l1->onTrigger(_l2, false);
-			_l2->onTrigger(_l1, false);
+			if (contact->GetFixtureA()->IsSensor() || contact->GetFixtureA()->IsSensor())
+			{
+				_l1->onTrigger(_l2, false);
+				_l2->onTrigger(_l1, false);
+			}
 		}
 
 	}

@@ -97,6 +97,10 @@ namespace Physics
 		Actualiza el estado de la escena cada ciclo.
 		*/
 		void simulate(unsigned int timeDiff);
+
+		void CreateWorldEdges();
+
+
 	
 
 	}; // class CScene
