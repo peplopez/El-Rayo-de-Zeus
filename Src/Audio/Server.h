@@ -21,7 +21,7 @@ la gestión del audio en el juego.
 
 #include "BaseSubsystems\Math.h"
 
-using namespace FMOD;
+using namespace FMOD; 
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Logic 
