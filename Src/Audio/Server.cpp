@@ -13,12 +13,15 @@ Contiene la implementación de la clase principal de audio, llevará el control de
 @date Marzo, 2013
 */
 
-#include "Server.h"
 
-#include "Logic\Entity\Entity.h"
+#include "Server.h"
 
 #include <cassert>
 #include <iostream>
+
+
+#include "Logic\Entity\Entity.h"
+
 
 namespace Audio
 {
@@ -216,7 +219,7 @@ namespace Audio
 	}//playLoopSound
 	//--------------------------------------------------------
 
-	void CServer::playSound3D(char* rutaSonido, const std::string& id,Vector3 position){
+	void CServer::playSound3D(char* rutaSonido, const std::string& id, Vector3 position){
 		//Carga del sonido
 		Sound *sound;
 		FMOD_RESULT result = _system->createSound(
