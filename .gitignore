@@ -167,6 +167,7 @@ DocumentacionDoxygen/
 !/Exes/resources.cfg
 
 !/dependencies/bin/*/fmodex.dll
+!/dependencies/bin/*/Plugin_HellHeavenFX_v1-7-4*.dll
 !/dependencies/CEGUI/projects/premake/ScriptingModules/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++bin/premake.lua

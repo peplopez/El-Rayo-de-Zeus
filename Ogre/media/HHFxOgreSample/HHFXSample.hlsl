@@ -1,0 +1,1 @@
+sampler	g_texture0	: register(s0);void mainGridPS(in		float2	iUV		: TEXCOORD0,				out		float4	oColor	: COLOR,				uniform	float	uGridDarkness){	oColor = tex2D(g_texture0, iUV);	oColor += float4(uGridDarkness, uGridDarkness, uGridDarkness, 1.0f);	oColor = saturate(oColor);}

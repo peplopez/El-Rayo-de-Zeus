@@ -105,106 +105,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Src\Application\3DApplication.cpp" />
     <ClCompile Include="..\..\Src\Application\BaseApplication.cpp" />
-    <ClCompile Include="..\..\Src\Application\Clock.cpp" />
-    <ClCompile Include="..\..\Src\Application\Galeon.cpp" />
-    <ClCompile Include="..\..\Src\Application\GaleonApplication.cpp" />
-    <ClCompile Include="..\..\Src\Application\GameOverState.cpp" />
-    <ClCompile Include="..\..\Src\Application\GameState.cpp" />
-    <ClCompile Include="..\..\Src\Application\InitState.cpp" />
-    <ClCompile Include="..\..\Src\Application\LobbyClientState.cpp" />
-    <ClCompile Include="..\..\Src\Application\LobbyServerState.cpp" />
-    <ClCompile Include="..\..\Src\Application\MenuState.cpp" />
-    <ClCompile Include="..\..\Src\Application\NetMenuState.cpp" />
-    <ClCompile Include="..\..\Src\Application\OgreClock.cpp" />
+    <ClCompile Include="..\..\Src\Application\HHFXSampleOgre.cpp" />
+    <ClCompile Include="..\..\Src\Application\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Src\Application\3DApplication.h" />
-    <ClInclude Include="..\..\Src\Application\ApplicationState.h" />
     <ClInclude Include="..\..\Src\Application\BaseApplication.h" />
-    <ClInclude Include="..\..\Src\Application\Clock.h" />
-    <ClInclude Include="..\..\Src\Application\Documentation.h" />
-    <ClInclude Include="..\..\Src\Application\ExitState.h" />
-    <ClInclude Include="..\..\Src\Application\GaleonApplication.h" />
-    <ClInclude Include="..\..\Src\Application\GameOverState.h" />
-    <ClInclude Include="..\..\Src\Application\GameState.h" />
-    <ClInclude Include="..\..\Src\Application\InitState.h" />
-    <ClInclude Include="..\..\Src\Application\LobbyClientState.h" />
-    <ClInclude Include="..\..\Src\Application\LobbyServerState.h" />
-    <ClInclude Include="..\..\Src\Application\MenuState.h" />
-    <ClInclude Include="..\..\Src\Application\NetMenuState.h" />
-    <ClInclude Include="..\..\Src\Application\OgreClock.h" />
+    <ClInclude Include="..\..\Src\Application\HHFXSampleOgre.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Galeon.ico" />
     <None Include="small.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AI\AI.vcxproj">
-      <Project>{7bbe92ad-192a-42db-9b43-829ee3b07e81}</Project>
-      <Private>true</Private>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
-    </ProjectReference>
-    <ProjectReference Include="..\Audio\Audio.vcxproj">
-      <Project>{2a27afa1-174a-4ac6-a8ea-1aeb3cc0feab}</Project>
-      <Private>true</Private>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
-    </ProjectReference>
-    <ProjectReference Include="..\BaseSubsystems\BaseSubsystems.vcxproj">
-      <Project>{9c5c21d7-f23c-409d-a332-7be5a325fd7a}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <Private>true</Private>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
-    </ProjectReference>
-    <ProjectReference Include="..\Graphics\Graphics.vcxproj">
-      <Project>{34de02d6-3b05-423d-a1fa-5bf4f6b5fb19}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <Private>true</Private>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
-    </ProjectReference>
-    <ProjectReference Include="..\GUI\GUI.vcxproj">
-      <Project>{215aa6ad-aae6-4e45-9adc-f075f9ee9966}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <Private>true</Private>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
-    </ProjectReference>
-    <ProjectReference Include="..\Logic\Logic.vcxproj">
-      <Project>{288b50d7-60bc-4542-a263-74de0acfe822}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\Net\Net.vcxproj">
-      <Project>{6517a543-d72a-4ed1-83be-104fe82dc59a}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\Physics\Physics.vcxproj">
-      <Project>{27023168-536f-49aa-b8b8-770414f045d4}</Project>
-      <Private>true</Private>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
-    </ProjectReference>
-    <ProjectReference Include="..\ScriptManager\ScriptManager.vcxproj">
-      <Project>{12c7c6a6-14f1-4dfb-a1dc-3cb096bdda50}</Project>
-      <Private>true</Private>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

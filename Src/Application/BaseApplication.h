@@ -1,315 +1,96 @@
-//---------------------------------------------------------------------------
-// BaseApplication.h
-//---------------------------------------------------------------------------
+/*
+-----------------------------------------------------------------------------
+Filename:    BaseApplication.h
+-----------------------------------------------------------------------------
 
-/**
-@file BaseApplication.h
-
-Contiene la declaración de la clase aplicacion, que maneja la ejecución
-de todo el juego.
-
-@see Application::CBaseApplication
-@see Application::CApplicationState
-
-@author Marco Antonio Gómez Martín & David Llansó
-@date Julio, 2010
+This source file is part of the
+   ___                 __    __ _ _    _ 
+  /___\__ _ _ __ ___  / / /\ \ (_) | _(_)
+ //  // _` | '__/ _ \ \ \/  \/ / | |/ / |
+/ \_// (_| | | |  __/  \  /\  /| |   <| |
+\___/ \__, |_|  \___|   \/  \/ |_|_|\_\_|
+      |___/                              
+      Tutorial Framework
+      http://www.ogre3d.org/tikiwiki/
+-----------------------------------------------------------------------------
 */
+#ifndef __BaseApplication_h_
+#define __BaseApplication_h_
 
-#ifndef __Application_BaseApplication_H
-#define __Application_BaseApplication_H
+#include <OgreCamera.h>
+#include <OgreEntity.h>
+#include <OgreLogManager.h>
+#include <OgreRoot.h>
+#include <OgreViewport.h>
+#include <OgreSceneManager.h>
+#include <OgreRenderWindow.h>
+#include <OgreConfigFile.h>
 
-#include "GUI/InputManager.h"
+#include <OISEvents.h>
+#include <OISInputManager.h>
+#include <OISKeyboard.h>
+#include <OISMouse.h>
 
-#include <map>
-#include <string>
-#include <cassert>
+//#include <SdkTrays.h>
+//#include <SdkCameraMan.h>
 
-// Predeclaración de clases para ahorrar tiempo de compilación
-namespace Application 
+//class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener
+class BaseApplication : public Ogre::FrameListener, public OIS::KeyListener, public OIS::MouseListener
 {
-  class CApplicationState;
-  class IClock;
-    class CGameState;
-}
+public:
+    BaseApplication(void);
+    virtual ~BaseApplication(void);
 
-/**
-Namespace con todo lo relacionado con la aplicación: clase abstracta, 
-estados, etc. Es el corazón del juego, el encargado de inicializar
-el resto de sistemas necesarios para la ejecución del juego.
-(para más información ver @ref applicationGroup).
+    virtual void go(void);
 
-@author Marco Antonio Gómez Martín & David Llansó
-@date Julio, 2010
-*/
-namespace Application 
-{
-	/**
-	Clase CBaseApplication, que contiene el control de la aplicación
-	del juego, implementando una máquina de estados de aplicación.
+protected:
+    virtual bool setup();
+    virtual bool configure(void);
+    virtual void chooseSceneManager(void);
+    virtual void createCamera(void);
+    virtual void createFrameListener(void);
+    virtual void createScene(void) = 0; // Override me!
+    virtual void destroyScene(void);
+    virtual void createViewports(void);
+    virtual void setupResources(void);
+    virtual void createResourceListener(void);
+    virtual void loadResources(void);
 
-	Las clases que heredan de esta se preocuparán de inicializar
-	los subsistemas necesarios para esa aplicación concreta
-	(subsistema gráfico, etc.), así como de la creación de los estados
-	que componen la aplicación.
+    // Ogre::FrameListener
+    virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
-	@remarks Las clases que implementen está clase <em>deben</em> inicializar el
-	reloj (_clock).
-	
-	@ingroup applicationGroup
+    // OIS::KeyListener
+    virtual bool keyPressed( const OIS::KeyEvent &arg );
+    virtual bool keyReleased( const OIS::KeyEvent &arg );
+    // OIS::MouseListener
+    virtual bool mouseMoved( const OIS::MouseEvent &arg );
+    virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+    virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
-	@author Marco Antonio Gómez Martín & David Llansó
-	@date Julio, 2010
-	*/
-	class CBaseApplication : public GUI::CKeyboardListener,
-							 public GUI::CMouseListener
-	{
-	public:
-		/**
-		quiero poder llamar a tick desde clock.cpp
-		*/
-		friend class IClock;
-		/**
-		Constructor de la clase
-		*/
-		CBaseApplication();
+    // Ogre::WindowEventListener
+    //Adjust mouse clipping area
+    virtual void windowResized(Ogre::RenderWindow* rw);
+    //Unattach OIS before window shutdown (very important under Linux)
+    virtual void windowClosed(Ogre::RenderWindow* rw);
 
-		/**
-		Destructor de la aplicación
-		*/
-		virtual ~CBaseApplication();
+    Ogre::Root *mRoot;
+    Ogre::Camera* mCamera;
+    Ogre::SceneManager* mSceneMgr;
+    Ogre::RenderWindow* mWindow;
+    Ogre::String mResourcesCfg;
+    Ogre::String mPluginsCfg;
 
-		/**
-		Devuelve la aplicación instanciada. La clase
-		implementa el patrón singleton, pero a través del
-		constructor, es decir, se deberá hacer un <code>new</code>
-		explícitamente (o declarar una variable global o local; en definitiva
-		que se llame al constructor de la clase). Ese objeto creado
-		será el que devuelva este método.
+    // OgreBites
+    //OgreBites::SdkTrayManager* mTrayMgr;
+    //OgreBites::SdkCameraMan* mCameraMan;       // basic camera controller
+    //OgreBites::ParamsPanel* mDetailsPanel;     // sample details panel
+    bool mCursorWasVisible;                    // was cursor visible before dialog appeared
+    bool mShutDown;
 
-		@return Puntero a la aplicación instanciada.
-		*/
-		static CBaseApplication *getSingletonPtr() {return _instance;}
+    //OIS Input devices
+    OIS::InputManager* mInputManager;
+    OIS::Mouse*    mMouse;
+    OIS::Keyboard* mKeyboard;
+};
 
-		/**
-		Inicializa la aplicación. En depuración se comprueba que la aplicación
-		se inicialice solo una vez.
-
-		@return false si la inicialización ha fallado.
-		*/
-		virtual bool init();
-
-		/**
-		Finaliza la aplicación, liberando todos los recursos utilizados. 
-		También libera y elimina todos los estados de la aplicación.
-		En depuración se comprueba que la aplicación esté inicializada.
-		*/
-		virtual void release();
-
-		/**
-		Libera y elimina todos los estados de la aplicación.
-		*/
-		virtual void releaseAllStates();
-
-		/**
-		Función de ejecución de la aplicación. Aquí se encuentra la ejecución 
-		del bucle principal, que se repite hasta que alguien solicite su 
-		terminación. En el bucle simplemente se comprueba si hay que realizar
-		una transición de estado, si es así se hace efectivo el cambio. Tras 
-		estó se hace el tick() para la actualización de la vuelta.
-		*/
-		virtual void run();
-
-		/**
-		Esta función es llamada cuando alguien externo a la
-		aplicación (normalmente un estado), desea que la aplicación
-		termine. Esta función está pensada para ser llamada mientras
-		el método run() está en ejecución. Al terminar la vuelta actual
-		se finalizará la aplicación.
-		*/
-		void exitRequest() {_exit = true;}
-
-		/**
-		Función para averiguar si alguien ha solicitado a la aplicación
-		su terminación.
-
-		@return Devuelve si la aplicación debe terminar con la vuelta
-		del bucle actual.
-		*/
-		bool exitRequested() {return _exit;}
-
-		// FUNCIONES ASOCIADAS CON LOS ESTADOS
-
-		/**
-		Añade un estado a la aplicación. La aplicación acepta la
-		responsabilidad de borrar el estado al finalizar la aplicación.
-
-		@param name Nombre del estado
-		@param newState Estado a añadir. La aplicación se encargará
-		de eliminarlo al finalizar.
-		@return true si todo fue bien.
-		*/
-		bool addState(const std::string &name,
-						CApplicationState *newState);
-
-		/**
-		Establece el estado de la aplicación, a partir de su nombre. La 
-		acción <em>no</em> es inmediata, sino que se realizará en la siguiente
-		vuelta del bucle principal de la aplicación.
-
-		@param name Nombre del estado.
-		@return Devuelve cierto si el estado solicitado existe. Si el
-		estado no existe, <em>no</em> hay un cambio efectivo del estado.
-		*/
-		bool setState(const std::string &name);
-
-		/**
-		Devuelve el estado actual de la aplicación.
-
-		@return Estado actual de la aplicación.
-		*/
-		CApplicationState *getState() {return _currentState;}
-
-		/**
-		Devuelve el tiempo de la aplicación.
-
-		@return Tiempo que la aplicación lleva activa.
-		*/
-		unsigned int getAppTime();
-
-		// Métodos de CKeyboardListener
-		
-		/**
-		Método que será invocado siempre que se pulse una tecla. La
-		aplicación avisa de este evento al estado actual.
-
-		@param key Código de la tecla pulsada.
-		@return true si el evento ha sido procesado. En este caso 
-		el gestor no llamará a otros listeners.
-		*/
-		virtual bool keyPressed(GUI::TKey key);
-		
-		/**
-		Método que será invocado siempre que se termine la pulsación
-		de una tecla. La aplicación avisa de este evento al estado 
-		actual.
-
-		@param key Código de la tecla pulsada.
-		@return true si el evento ha sido procesado. En este caso 
-		el gestor no llamará a otros listeners.
-		*/
-		virtual bool keyReleased(GUI::TKey key);
-
-		// Métodos de CMouseListener
-		
-		/**
-		Método que será invocado siempre que se mueva el ratón. La
-		aplicación avisa de este evento al estado actual.
-
-		@param mouseState Estado del ratón cuando se lanza el evento.
-		@return true si el evento ha sido procesado. En este caso 
-		el gestor no llamará a otros listeners.
-		*/
-		virtual bool mouseMoved(const GUI::CMouseState &mouseState);
-		
-		/**
-		Método que será invocado siempre que se pulse un botón. La
-		aplicación avisa de este evento al estado actual.
-
-		@param mouseState Estado del ratón cuando se lanza el evento.
-		@return true si el evento ha sido procesado. En este caso 
-		el gestor no llamará a otros listeners.
-		*/
-		virtual bool mousePressed(const GUI::CMouseState &mouseState);
-
-		/**
-		Método que será invocado siempre que se termine la pulsación
-		de un botón. La aplicación avisa de este evento al estado 
-		actual.
-
-		@param mouseState Estado del ratón cuando se lanza el evento.
-		@return true si el evento ha sido procesado. En este caso 
-		el gestor no llamará a otros listeners. 
-		*/
-		virtual bool mouseReleased(const GUI::CMouseState &mouseState);
-
-		/** PeP
-		Quiero acceder al clock para intentar ponerle un timeObserver
-		@return Devuelve  un puntero al reloj
-		*/
-		IClock* getClock(){return _clock;}
-	
-		Application::CGameState* getGameState(){return _gameStateInstance;}
-	protected:
-	
-		/** PeP
-		Puntero al GameState
-		@return Devuelve  un puntero estado GameState
-		*/
-		Application::CGameState* _gameStateInstance;
-	
-		/**
-		Realiza un cambio de estado, avisando al estado saliente
-		y al estado entrante del hecho.
-		*/
-		void changeState();
-
-		/**
-		Función que ejecuta una vuelta del bucle principal
-		de la aplicación.
-
-		@param msecs Número de milisegundos transcurridos desde
-		la última llamada (o desde la áctivación de la aplicación, 
-		en caso de ser la primera vez...).
-		*/
-		virtual void tick(unsigned int msecs);
-
-		/**
-		Instancia única de la aplicación.
-		*/
-		static CBaseApplication *_instance;
-
-		/**
-		Indica si la aplicación ha sido inicializada
-		*/
-		bool _initialized;
-
-		/**
-		Tipo de datos tabla de estados. Es una tabla hash
-		de las STL.
-		*/
-		typedef std::map<std::string, CApplicationState*> TStateTable;
-
-		/**
-		Tabla hash con todos los estados de la aplicación
-		*/
-		TStateTable _states;
-
-		/**
-		Puntero al estado actual
-		*/
-		CApplicationState *_currentState;
-
-		/**
-		Puntero al estado objetivo. Alguien externo a la apliación
-		ha solicitado un cambio de estado que aún no se ha hecho
-		efectivo.
-		*/
-		CApplicationState *_nextState;
-
-		/**
-		Indica si la aplicación terminará al final de la vuelta
-		del bucel actual.
-		*/
-		bool _exit;
-
-		/**
-		Temporizador que lleva la cuenta del tiempo desde que se 
-		inició la aplicación.
-		*/
-		IClock *_clock;
-
-	}; // class BaseApplication
-
-} // namespace Application
-
-#endif // __Application_BaseApplication_H
+#endif // #ifndef __BaseApplication_h_
