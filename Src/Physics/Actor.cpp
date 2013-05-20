@@ -37,13 +37,13 @@ namespace Physics
 		switch (ring)
 		{
 		case Logic::Ring::CENTRAL_RING:
-			_bodyDef->position.Set(degree, height);
+			_bodyDef->position.Set(degree * PHYS_SCALE, height * PHYS_SCALE);
 			break;
 		case Logic::Ring::LOWER_RING:
-			_bodyDef->position.Set(degree, height - 50);
+			_bodyDef->position.Set(degree * PHYS_SCALE, height * PHYS_SCALE - 50 * PHYS_SCALE);
 			break;
 		case Logic::Ring::UPPER_RING:
-			_bodyDef->position.Set(degree, height + 50);
+			_bodyDef->position.Set(degree * PHYS_SCALE, height * PHYS_SCALE + 50 * PHYS_SCALE);
 			break;
 		}
 
@@ -131,11 +131,11 @@ namespace Physics
 
 	void CActor::createFixture(float radius, bool isTrigger)
 	{
-
+		radius = radius * PHYS_SCALE;
 		//correción en la posición del body ya que el pivote en lógica se encuentra en los pies
 		_heightCorrection = radius;
 		b2Vec2 pos = _body->GetPosition();
-		pos.y += _heightCorrection;
+		pos.y += _heightCorrection ;
 		_body->SetTransform(pos, _body->GetAngle());
 		_body->SetFixedRotation(true);
 
@@ -155,7 +155,8 @@ namespace Physics
 
 	void CActor::createFixture(float halfWidth, float halfHeight, bool isTrigger)
 	{
-
+		halfWidth = halfWidth * PHYS_SCALE;
+		halfHeight = halfHeight * PHYS_SCALE;
 		//correción en la posición del body ya que el pivote en lógica se encuentra en los pies
 		_heightCorrection = halfHeight;
 		b2Vec2 pos = _body->GetPosition();
@@ -177,6 +178,11 @@ namespace Physics
 
 	void CActor::createFixture(float halfWidth, float halfHeight, float radius, bool isTrigger)
 	{
+
+		halfWidth = halfWidth * PHYS_SCALE;
+		halfHeight = halfHeight * PHYS_SCALE;
+		radius = radius * PHYS_SCALE;
+
 		_heightCorrection = radius + halfHeight;
 		b2Vec2 pos = _body->GetPosition();
 		pos.y += _heightCorrection;
@@ -223,15 +229,18 @@ namespace Physics
 
 	void CActor::move(float x, float y)
 	{
+		x = x * PHYS_SCALE;
+		y = y * PHYS_SCALE;
+
 		b2Vec2 pos = _body->GetPosition();
 
 		pos.x += x;
 		pos.y += y;
 
-		if (pos.x > 180)
-			pos.x -= 360;
-		else if (pos.x < -180)
-			pos.x += 360;
+		if (pos.x > 18)
+			pos.x -= 36;
+		else if (pos.x < -18)
+			pos.x += 36;
 
 		_body->SetAwake(true);
 		_body->SetTransform(pos, _body->GetAngle());
@@ -240,21 +249,22 @@ namespace Physics
 	//--------------------------------------------------------
 	void CActor::setLinearVelocity(float x, float y)
 	{
-		_body->SetLinearVelocity(b2Vec2(x, y));
+	
+		_body->SetLinearVelocity(b2Vec2(x * PHYS_SCALE, y * PHYS_SCALE));
 	}
 
 	//--------------------------------------------------------
 
 	float CActor::getDegree()
 	{
-		return _body->GetPosition().x;
+		return _body->GetPosition().x * 10;
 	}
 
 	//--------------------------------------------------------
 
 	float CActor::getHeight()
 	{
-		return _body->GetPosition().y - _heightCorrection;
+		return _body->GetPosition().y * 10 - _heightCorrection * 10;
 	}
 
 		

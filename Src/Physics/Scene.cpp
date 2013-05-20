@@ -47,7 +47,7 @@ namespace Physics
 {
 	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0), _worldListener(0)
 	{	
-		b2Vec2 gravity(0, -2000);
+		b2Vec2 gravity(0, -20);
 		_world = new b2World(gravity);
 
 		if (_name != "dummy_scene")
@@ -60,7 +60,6 @@ namespace Physics
 #endif		
 			_worldListener = new CContactListener();
 			_world->SetContactListener(_worldListener);
-			
 
 			CreateWorldEdges();
 		}
@@ -140,13 +139,13 @@ namespace Physics
 		bodyDef.angle = 0;
 		bodyDef.type = b2_staticBody;
 
-		bodyDef.position.Set(-180, 0);
+		bodyDef.position.Set(-18, 0);
 		b2Body* leftEdge = _world->CreateBody(&bodyDef);
-		bodyDef.position.Set(180, 0);
+		bodyDef.position.Set(18, 0);
 		b2Body* rightEdge = _world->CreateBody(&bodyDef);
 
 		b2PolygonShape polygonShape;
-		polygonShape.SetAsBox(5, 100);
+		polygonShape.SetAsBox(5 * 0.1, 10);
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.isSensor = true;

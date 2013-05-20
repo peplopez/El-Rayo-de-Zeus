@@ -30,6 +30,8 @@ class b2Body;
 class b2World;
 struct b2BodyDef;
 
+#define PHYS_SCALE 0.1
+
 namespace Physics
 {
 
