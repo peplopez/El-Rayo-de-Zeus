@@ -164,8 +164,6 @@ DocumentacionDoxygen/
 #EXCEPTIONS #
 #############
 
-!/Exes/resources.cfg
-
 !/dependencies/bin/*/fmodex.dll
 !/dependencies/bin/*/Plugin_HellHeavenFX_v1-7-4*.dll
 !/dependencies/CEGUI/projects/premake/ScriptingModules/premake.lua
@@ -173,9 +171,13 @@ DocumentacionDoxygen/
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++bin/premake.lua
 !/dependencies/include/enet/
 !/dependencies/include/fmod/
+!/dependencies/include/IHHFXPublic.h
 !/dependencies/lib/*/enet.lib
 !/dependencies/lib/*/fmodex_vc.lib
 !/dependencies/luabind/bjam.exe
+
+!/Exes/resources.cfg
+!/Exes/plugins*.cfg
 
 !/Projects/Application/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir.
 !/Projects/Configure/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir.
