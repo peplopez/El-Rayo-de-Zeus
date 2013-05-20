@@ -49,7 +49,7 @@ namespace Physics
 {
 	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0), _worldListener(0)
 	{	
-		b2Vec2 gravity(0, -30);
+		b2Vec2 gravity(0, -15);
 		_world = new b2World(gravity);
 
 		if (_name != "dummy_scene")

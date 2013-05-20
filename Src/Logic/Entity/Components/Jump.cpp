@@ -106,7 +106,7 @@ namespace Logic
 			if (_jumpSpeed < 0)
 				_maxHeightReached = true;
 			
-			if (_maxHeightReached && (_entity->getLogicalPosition()->getHeight() == _lastTickHeight || (_entity->getLogicalPosition()->getHeight() + _jumpSpeed * msecs * 0.001) <= 0)) 
+			if (_maxHeightReached &&  _entity->getLogicalPosition()->getHeight() + _jumpSpeed * msecs * 0.001 <= 0) 
 			{
 				_jumping=false;
 				_jumpSpeed = _initialJumpSpeed;
