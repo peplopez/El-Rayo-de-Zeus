@@ -47,7 +47,7 @@ namespace Physics
 {
 	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0), _worldListener(0)
 	{	
-		b2Vec2 gravity(0, -60);
+		b2Vec2 gravity(0, -2000);
 		_world = new b2World(gravity);
 
 		if (_name != "dummy_scene")
@@ -60,6 +60,7 @@ namespace Physics
 #endif		
 			_worldListener = new CContactListener();
 			_world->SetContactListener(_worldListener);
+			
 
 			CreateWorldEdges();
 		}

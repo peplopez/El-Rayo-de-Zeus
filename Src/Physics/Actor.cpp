@@ -177,28 +177,46 @@ namespace Physics
 
 	void CActor::createFixture(float halfWidth, float halfHeight, float radius, bool isTrigger)
 	{
-		_heightCorrection = halfHeight;
+		_heightCorrection = radius + halfHeight;
 		b2Vec2 pos = _body->GetPosition();
 		pos.y += _heightCorrection;
 		_body->SetTransform(pos, _body->GetAngle());
 		_body->SetFixedRotation(true);
 
-		b2CircleShape circleShape;
-		circleShape.m_p.Set(0, halfHeight + radius); //position, relative to body position
-		circleShape.m_radius = radius; //radius
+		b2CircleShape circleShape1;
+		circleShape1.m_p.Set(0, -halfHeight); //position, relative to body position
+		circleShape1.m_radius = radius; //radius
 
-		b2FixtureDef fixtureDef;
-		fixtureDef.isSensor = isTrigger;
-		fixtureDef.shape = &circleShape; //this is a pointer to the shape above
-		_body->CreateFixture(&fixtureDef); //add a fixture to the body
+		b2FixtureDef fixtureDef1;
+		fixtureDef1.isSensor = isTrigger;
+		fixtureDef1.density=1.0f;
+		fixtureDef1.friction=0;
+		fixtureDef1.restitution=0;
+		fixtureDef1.shape = &circleShape1; //this is a pointer to the shape above
+		_body->CreateFixture(&fixtureDef1); //add a fixture to the body
+
+		b2CircleShape circleShape2;
+		circleShape2.m_p.Set(0, halfHeight); //position, relative to body position
+		circleShape2.m_radius = radius; //radius
+
+		b2FixtureDef fixtureDef2;
+		fixtureDef2.isSensor = isTrigger;
+		fixtureDef2.density=1.0f;
+		fixtureDef2.friction=0;
+		fixtureDef2.restitution=0;
+		fixtureDef2.shape = &circleShape2; //this is a pointer to the shape above
+		_body->CreateFixture(&fixtureDef2); //add a fixture to the body
 
 		b2PolygonShape polygonShape;
 		polygonShape.SetAsBox(halfWidth, halfHeight);
 
-		b2FixtureDef fixtureDef2;
-		fixtureDef2.isSensor = isTrigger;
-		fixtureDef2.shape = &polygonShape; //this is a pointer to the shape above
-		_body->CreateFixture(&fixtureDef2); //add a fixture to the body
+		b2FixtureDef fixtureDef3;
+		fixtureDef3.isSensor = isTrigger;
+		fixtureDef3.density=1.0f;
+		fixtureDef3.friction=0;
+		fixtureDef3.restitution=0;
+		fixtureDef3.shape = &polygonShape; //this is a pointer to the shape above
+		_body->CreateFixture(&fixtureDef3); //add a fixture to the body
 
 	}
 	//--------------------------------------------------------
@@ -217,6 +235,12 @@ namespace Physics
 
 		_body->SetAwake(true);
 		_body->SetTransform(pos, _body->GetAngle());
+	}
+
+	//--------------------------------------------------------
+	void CActor::setLinearVelocity(float x, float y)
+	{
+		_body->SetLinearVelocity(b2Vec2(x, y));
 	}
 
 	//--------------------------------------------------------

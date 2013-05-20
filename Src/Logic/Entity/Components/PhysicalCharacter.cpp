@@ -57,10 +57,12 @@ namespace Logic {
 			
 		case Message::WALK_LEFT:
 		case Message::WALK_RIGHT:
-			_diffDegrees = static_cast<CMessageFloat*>(message)->getFloat();	
+			_diffDegrees += static_cast<CMessageFloat*>(message)->getFloat();	
 			break;
+		case Message::WALK_STOP:
+			_physicalActor->setLinearVelocity(0,_diffHeight);
 		case Message::JUMP:
-			_diffHeight = static_cast<CMessageFloat*>(message)->getFloat();
+			_diffHeight  += static_cast<CMessageFloat*>(message)->getFloat();
 			break;
 		//case Message::CHANGE_RING:		// TODO ƒ®§ por seguridad quizá habría que probar que _ring < MAX del enum --> asserts!
 		//	_diffRing = static_cast<CMessageChar*>(message)->getChar();
@@ -106,9 +108,7 @@ namespace Logic {
 		_entity->setLogicalPosition(_auxPos); 
 		
 
-		//_diffHeight -= _negativeYVelocity * msecs * 0.001f;	//gravedad (no acelerada) simulada
-		if (_diffDegrees != 0 || _diffHeight != 0)
-			_physicalActor->move(_diffDegrees, _diffHeight);
+		_physicalActor->setLinearVelocity(_diffDegrees, _diffHeight);
 
 		
 		//Ponemos el movimiento a cero		

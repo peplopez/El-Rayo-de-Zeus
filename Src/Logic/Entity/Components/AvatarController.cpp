@@ -149,6 +149,9 @@ namespace Logic
 	void CAvatarController::stopMovement() 
 	{
 		_walkingLeft = _walkingRight = false;
+		Logic::CMessageFloat *m = new Logic::CMessageFloat();
+		m->setType(Logic::Message::AVATAR_MOVE);
+		m->setAction(Logic::Message::WALK_STOP);
 
 	}
 	//---------------------------------------------------------
@@ -165,7 +168,7 @@ namespace Logic
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
 				m->setAction(Logic::Message::WALK_RIGHT);
-				m->setFloat(-_angularSpeed * msecs * 0.001);
+				m->setFloat(-_angularSpeed);
 				_entity->emitMessage(m);
 			}
 			//rotar hacia derecha
@@ -182,7 +185,7 @@ namespace Logic
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
 				m->setAction(Logic::Message::WALK_LEFT);
-				m->setFloat(_angularSpeed * msecs * 0.001);
+				m->setFloat(_angularSpeed);
 				_entity->emitMessage(m);
 			}
 			//rotar hacia izquierda

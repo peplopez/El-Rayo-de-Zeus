@@ -113,7 +113,7 @@ namespace Logic
 			}
 			else
 			{
-				float tickHeight = _jumpSpeed * msecs * 0.001;
+				float tickHeight = _jumpSpeed;
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
 				m->setAction(Logic::Message::JUMP);

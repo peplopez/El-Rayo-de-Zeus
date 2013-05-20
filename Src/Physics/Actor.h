@@ -50,6 +50,7 @@ namespace Physics
 		void createFixture(float haldWidth, float halfHeight, float radius, bool isTrigger);
 
 		void move(float x, float y);
+		void setLinearVelocity(float x, float y);
 		
 		
 		/************************
