@@ -22,6 +22,8 @@
 
 #include <Box2D\Dynamics\b2Fixture.h>
 
+#include "Physics\Scales.h"
+
 #include <string>
 
 namespace Physics
@@ -37,13 +39,13 @@ namespace Physics
 		switch (ring)
 		{
 		case Logic::Ring::CENTRAL_RING:
-			_bodyDef->position.Set(degree * PHYS_SCALE, height * PHYS_SCALE);
+			_bodyDef->position.Set(degree * PHYSIC_DOWNSCALE, height * PHYSIC_DOWNSCALE);
 			break;
 		case Logic::Ring::LOWER_RING:
-			_bodyDef->position.Set(degree * PHYS_SCALE, height * PHYS_SCALE - 50 * PHYS_SCALE);
+			_bodyDef->position.Set(degree * PHYSIC_DOWNSCALE, height * PHYSIC_DOWNSCALE - 50 * PHYSIC_DOWNSCALE);
 			break;
 		case Logic::Ring::UPPER_RING:
-			_bodyDef->position.Set(degree * PHYS_SCALE, height * PHYS_SCALE + 50 * PHYS_SCALE);
+			_bodyDef->position.Set(degree * PHYSIC_DOWNSCALE, height * PHYSIC_DOWNSCALE + 50 * PHYSIC_DOWNSCALE);
 			break;
 		}
 
@@ -131,7 +133,7 @@ namespace Physics
 
 	void CActor::createFixture(float radius, bool isTrigger)
 	{
-		radius = radius * PHYS_SCALE;
+		radius = radius * PHYSIC_DOWNSCALE;
 		//correción en la posición del body ya que el pivote en lógica se encuentra en los pies
 		_heightCorrection = radius;
 		b2Vec2 pos = _body->GetPosition();
@@ -155,8 +157,8 @@ namespace Physics
 
 	void CActor::createFixture(float halfWidth, float halfHeight, bool isTrigger)
 	{
-		halfWidth = halfWidth * PHYS_SCALE;
-		halfHeight = halfHeight * PHYS_SCALE;
+		halfWidth = halfWidth * PHYSIC_DOWNSCALE;
+		halfHeight = halfHeight * PHYSIC_DOWNSCALE;
 		//correción en la posición del body ya que el pivote en lógica se encuentra en los pies
 		_heightCorrection = halfHeight;
 		b2Vec2 pos = _body->GetPosition();
@@ -179,9 +181,9 @@ namespace Physics
 	void CActor::createFixture(float halfWidth, float halfHeight, float radius, bool isTrigger)
 	{
 
-		halfWidth = halfWidth * PHYS_SCALE;
-		halfHeight = halfHeight * PHYS_SCALE;
-		radius = radius * PHYS_SCALE;
+		halfWidth = halfWidth * PHYSIC_DOWNSCALE;
+		halfHeight = halfHeight * PHYSIC_DOWNSCALE;
+		radius = radius * PHYSIC_DOWNSCALE;
 
 		_heightCorrection = radius + halfHeight;
 		b2Vec2 pos = _body->GetPosition();
@@ -229,18 +231,18 @@ namespace Physics
 
 	void CActor::move(float x, float y)
 	{
-		x = x * PHYS_SCALE;
-		y = y * PHYS_SCALE;
+		x = x * PHYSIC_DOWNSCALE;
+		y = y * PHYSIC_DOWNSCALE;
 
 		b2Vec2 pos = _body->GetPosition();
 
 		pos.x += x;
 		pos.y += y;
 
-		if (pos.x > 18)
-			pos.x -= 36;
-		else if (pos.x < -18)
-			pos.x += 36;
+		if (pos.x > 180 * PHYSIC_DOWNSCALE)
+			pos.x -= 360 * PHYSIC_DOWNSCALE;
+		else if (pos.x < -180 * PHYSIC_DOWNSCALE)
+			pos.x += 360 * PHYSIC_DOWNSCALE;
 
 		_body->SetAwake(true);
 		_body->SetTransform(pos, _body->GetAngle());
@@ -250,21 +252,21 @@ namespace Physics
 	void CActor::setLinearVelocity(float x, float y)
 	{
 	
-		_body->SetLinearVelocity(b2Vec2(x * PHYS_SCALE, y * PHYS_SCALE));
+		_body->SetLinearVelocity(b2Vec2(x * PHYSIC_DOWNSCALE, y * PHYSIC_DOWNSCALE));
 	}
 
 	//--------------------------------------------------------
 
 	float CActor::getDegree()
 	{
-		return _body->GetPosition().x * 10;
+		return _body->GetPosition().x * PHYSIC_UPSCALE;
 	}
 
 	//--------------------------------------------------------
 
 	float CActor::getHeight()
 	{
-		return _body->GetPosition().y * 10 - _heightCorrection * 10;
+		return _body->GetPosition().y * PHYSIC_UPSCALE - _heightCorrection * PHYSIC_UPSCALE;
 	}
 
 		

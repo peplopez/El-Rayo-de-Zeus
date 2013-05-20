@@ -127,21 +127,7 @@ namespace Logic
 	{
 		_walkingRight = false;	
 		_walkingLeft = true;
-	//		_entity->getComponent<CAttack>()->resetAttackFlags();
-	
 
-		// Cambiamos la animación	
-		/*if (_entity->getType()!="Player")
-	{
-		CMessageBoolString *message = new CMessageBoolString();
-		message->setType(Message::SET_ANIMATION);		
-		message->setAction(Message::WALK_LEFT);
-				//message->setString("run");
-		message->setString("run");
-		message->setBool(true);
-		_entity->emitMessage(message,this);
-		
-	}*/
 	}
 
 	//---------------------------------------------------------

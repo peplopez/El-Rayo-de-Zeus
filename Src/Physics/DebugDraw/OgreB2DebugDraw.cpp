@@ -1,5 +1,6 @@
 #include "OgreB2DebugDraw.h"
 #include <OgreVector3.h>
+#include "Physics/Scales.h"
 
 OgreB2DebugDraw::OgreB2DebugDraw(Ogre::SceneManager* scene, const char* material, float fillAlpha, Ogre::uint8 renderQueueGroup) :
     b2Draw(),
@@ -60,7 +61,7 @@ void OgreB2DebugDraw::RenderLines()
 
 	for (int i = 0; i < _lineList.size(); ++i)
 	{
-		m_shapes->position(_lineList[i].x * PHYS_SCALE, _lineList[i].y * PHYS_SCALE, _lineList[i].z * PHYS_SCALE);
+		m_shapes->position(_lineList[i].x * PHYSIC_UPSCALE, _lineList[i].y * PHYSIC_UPSCALE, _lineList[i].z * PHYSIC_UPSCALE);
 		m_shapes->colour(_lineList[i].r, _lineList[i].g, _lineList[i].b, _lineList[i].a);
 	}
 	
@@ -75,7 +76,7 @@ void OgreB2DebugDraw::RenderTriangles()
 
 	for (int i = 0; i < _triangleList.size(); ++i)
 	{
-		m_shapes->position(_triangleList[i].x * PHYS_SCALE, _triangleList[i].y * PHYS_SCALE, _triangleList[i].z * PHYS_SCALE);
+		m_shapes->position(_triangleList[i].x * PHYSIC_UPSCALE, _triangleList[i].y * PHYSIC_UPSCALE, _triangleList[i].z * PHYSIC_UPSCALE);
 		m_shapes->colour(_triangleList[i].r, _triangleList[i].g, _triangleList[i].b, _triangleList[i].a);
 	}
 	

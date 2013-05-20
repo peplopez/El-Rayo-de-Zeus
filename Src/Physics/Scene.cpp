@@ -19,6 +19,8 @@
 #include "Physics/ActorTrigger.h"
 #include "Physics/ContactListener.h"
 
+#include "Physics/Scales.h"
+
 
 #include <Box2D\Dynamics\b2World.h>
 #include <Box2D\Common\b2Math.h>
@@ -47,7 +49,7 @@ namespace Physics
 {
 	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0), _worldListener(0)
 	{	
-		b2Vec2 gravity(0, -20);
+		b2Vec2 gravity(0, -30);
 		_world = new b2World(gravity);
 
 		if (_name != "dummy_scene")
@@ -93,7 +95,7 @@ namespace Physics
 	{	
 		float32 timeStep = msecs * 0.001f;
 		int32 velocityIterations = 6;
-		int32 positionIterations = 3;
+		int32 positionIterations = 2;
 #ifdef _DEBUG
 		_debugDraw->clear();
 #endif
@@ -139,13 +141,13 @@ namespace Physics
 		bodyDef.angle = 0;
 		bodyDef.type = b2_staticBody;
 
-		bodyDef.position.Set(-18, 0);
+		bodyDef.position.Set(-180 * PHYSIC_DOWNSCALE, 0);
 		b2Body* leftEdge = _world->CreateBody(&bodyDef);
-		bodyDef.position.Set(18, 0);
+		bodyDef.position.Set(180 * PHYSIC_DOWNSCALE, 0);
 		b2Body* rightEdge = _world->CreateBody(&bodyDef);
 
 		b2PolygonShape polygonShape;
-		polygonShape.SetAsBox(5 * 0.1, 10);
+		polygonShape.SetAsBox(5 * PHYSIC_DOWNSCALE, 100 * PHYSIC_DOWNSCALE);
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.isSensor = true;

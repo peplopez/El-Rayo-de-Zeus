@@ -17,7 +17,6 @@ struct Vertex
 	float32	a;
 };
 
-#define PHYS_SCALE 10
 
 class OgreB2DebugDraw : public b2Draw
 {

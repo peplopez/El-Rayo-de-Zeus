@@ -179,6 +179,7 @@
     <ClCompile Include="..\..\Src\Physics\Box2D\Rope\b2Rope.cpp" />
     <ClCompile Include="..\..\Src\Physics\DebugDraw\OgreB2DebugDraw.cpp" />
     <ClCompile Include="..\..\Src\Physics\ContactListener.cpp" />
+    <ClCompile Include="..\..\Src\Physics\Scales.h" />
     <ClCompile Include="..\..\Src\Physics\Scene.cpp" />
     <ClCompile Include="..\..\Src\Physics\Server.cpp" />
   </ItemGroup>
