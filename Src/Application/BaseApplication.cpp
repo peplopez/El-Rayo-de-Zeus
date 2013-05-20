@@ -18,8 +18,17 @@ de todo el juego.
 #include "BaseApplication.h"
 #include "ApplicationState.h"
 #include "Clock.h"
+#include "Graphics/Server.h"
 
 #include <assert.h>
+
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "BASEAPPLICATION>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 namespace Application {
 
@@ -144,6 +153,8 @@ namespace Application {
 		// empezar, para que el primer frame tenga un tiempo
 		// de frame razonable.
 		_clock->updateTime();
+		unsigned long accumulator = 0;
+
 
 		// Ejecución del bucle principal. Simplemente miramos si
 		// tenemos que hacer una transición de estado, y si no hay que
@@ -155,8 +166,16 @@ namespace Application {
 				changeState();
 
 			_clock->updateTime();
+			accumulator += _clock->getLastFrameDuration();
 
-			tick(_clock->getLastFrameDuration());
+			LOG(accumulator);
+			while (accumulator >= 33)
+			{	
+				tick(33);
+				accumulator -= 33;
+			}
+
+			Graphics::CServer::getSingletonPtr()->tick(_clock->getLastFrameDuration()/1000.0f);
 		}
 
 	} // run
