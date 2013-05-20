@@ -178,7 +178,7 @@ namespace Application {
 			}
 
 			GUI::CInputManager::getSingletonPtr()->tick();
-			Graphics::CServer::getSingletonPtr()->tick(_clock->getLastFrameDuration()/1000.0f);
+			Graphics::CServer::getSingletonPtr()->tick(_clock->getLastFrameDuration()*0.001f);
 		}
 
 	} // run
