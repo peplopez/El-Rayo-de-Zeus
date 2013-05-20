@@ -10,7 +10,7 @@ Map = {
 		physicTrigger = true,
 		shape = "box",
 		physicWidth = 4,
-		physicHeight = 4,	
+		physicHeight = 0.5,	
 	},
 
 	AltarBlue = {

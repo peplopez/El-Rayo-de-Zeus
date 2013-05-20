@@ -49,7 +49,7 @@ namespace Physics
 {
 	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0), _worldListener(0)
 	{	
-		b2Vec2 gravity(0, -15);
+		b2Vec2 gravity(0, -20);
 		_world = new b2World(gravity);
 
 		if (_name != "dummy_scene")
@@ -95,7 +95,7 @@ namespace Physics
 	{	
 		float32 timeStep = msecs * 0.001f;
 		int32 velocityIterations = 6;
-		int32 positionIterations = 2;
+		int32 positionIterations = 3;
 #ifdef _DEBUG
 		_debugDraw->clear();
 #endif

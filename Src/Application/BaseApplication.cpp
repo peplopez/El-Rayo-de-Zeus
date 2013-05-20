@@ -167,14 +167,17 @@ namespace Application {
 
 			_clock->updateTime();
 			accumulator += _clock->getLastFrameDuration();
-
-			LOG(accumulator);
+			
+			
+			//FIXED UPDATE
+			//LOG(accumulator);
 			while (accumulator >= 33)
 			{	
 				tick(33);
 				accumulator -= 33;
 			}
 
+			GUI::CInputManager::getSingletonPtr()->tick();
 			Graphics::CServer::getSingletonPtr()->tick(_clock->getLastFrameDuration()/1000.0f);
 		}
 
