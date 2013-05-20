@@ -241,10 +241,10 @@ void CHHFXSampleOgre::createScene()
 	// create the visible spawn entity
 	{
 		SceneNode* spawn = mSceneMgr->getRootSceneNode()->createChildSceneNode("nSpawn");
-		Entity* ent = mSceneMgr->createEntity("eSpawn", "puApple2.0.mesh");
+		Entity* ent = mSceneMgr->createEntity("eSpawn", "sphere.mesh");
 
-		//ent->setMaterialName("HHFXSample/Spawn");
-	//	spawn->setScale(Vector3::UNIT_SCALE * 0.002f);
+		ent->setMaterialName("HHFXSample/Spawn");
+		spawn->setScale(Vector3::UNIT_SCALE * 0.002f);
 		spawn->attachObject(ent);
 	}
 
