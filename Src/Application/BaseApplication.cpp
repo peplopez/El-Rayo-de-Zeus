@@ -16,6 +16,7 @@ This source file is part of the
 */
 #include "BaseApplication.h"
 
+
 //-------------------------------------------------------------------------------------
 BaseApplication::BaseApplication(void)
     : mRoot(0),

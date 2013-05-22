@@ -104,7 +104,7 @@ private:
 	//OgreBites::CheckBox*		m_checkBoxShowGrid;
 	//OgreBites::CheckBox*		m_checkBoxAnimate;
 
-	//Ogre::Plane					m_floor;
+	Ogre::Plane					m_floor;
 
 	// controls
 	bool						m_simulationPaused;

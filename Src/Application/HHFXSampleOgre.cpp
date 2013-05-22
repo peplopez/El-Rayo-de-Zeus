@@ -10,6 +10,11 @@
 
 #include "HHFXSampleOgre.h"
 
+#include <OgreCompositorManager.h>
+#include <OgreMeshManager.h>
+#include <OgreCompositorInstance.h>
+
+
 using namespace Ogre;
 //using namespace OgreBites;
 
@@ -226,17 +231,17 @@ void CHHFXSampleOgre::createScene()
 	/////////////////////////////////////////////////////////////////////////////////////////
 
 	// create a plane
-	//{
-	//	Entity* ent;
+	{
+		Entity* ent;
 
-	//	m_floor.normal = Vector3::UNIT_Y;
-	//	m_floor.d = 0;
-	//	MeshManager::getSingleton().createPlane("FloorPlane", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, m_floor, 200, 200, 100, 100, true, 1, 20, 20, Vector3::UNIT_Z);
-	//	ent = mSceneMgr->createEntity("floor", "FloorPlane");
-	//	ent->setMaterialName("HHFXSample/Grid");
+		m_floor.normal = Vector3::UNIT_Y;
+		m_floor.d = 0;
+		MeshManager::getSingleton().createPlane("FloorPlane", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, m_floor, 200, 200, 100, 100, true, 1, 20, 20, Vector3::UNIT_Z);
+		ent = mSceneMgr->createEntity("floor", "FloorPlane");
+		ent->setMaterialName("HHFXSample/Grid");
 
-	//	mSceneMgr->getRootSceneNode()->createChildSceneNode("nGrid")->attachObject(ent);
-	//}
+		mSceneMgr->getRootSceneNode()->createChildSceneNode("nGrid")->attachObject(ent);
+	}
 
 	// create the visible spawn entity
 	{
@@ -253,12 +258,12 @@ void CHHFXSampleOgre::createScene()
 	/////////////////////////////////////////////////////////////////////////////////////////
 
 	// adding compositor for post fx
-	//CompositorInstance*	comp = CompositorManager::getSingleton().addCompositor(mCamera->getViewport(), "HellHeavenOgre/Compositor/Distortion");
+	CompositorInstance*	comp = CompositorManager::getSingleton().addCompositor(mCamera->getViewport(), "HellHeavenOgre/Compositor/Distortion");
 
-	//if (!comp)
+	if (!comp)
 		LogManager::getSingleton().logMessage(LML_CRITICAL, "[HHFX ERROR] Cannot load compositor Distortion !");
-	//else
-	//	comp->setEnabled(true);
+	else
+		comp->setEnabled(true);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// hellheaven
