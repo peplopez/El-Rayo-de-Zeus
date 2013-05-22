@@ -14,8 +14,7 @@ Contiene la implementación de la clase principal de audio, llevará el control de
 */
 
 #include "Server.h"
-
-#include "Logic\Entity\Entity.h"
+#include "Logic/Entity/Entity.h"
 
 #include <cassert>
 #include <iostream>
@@ -88,7 +87,7 @@ namespace Audio
 		ERRCHECK(result);
 			
 		//Iniciamos
-		result = _system->init(32, FMOD_INIT_NORMAL, 0);
+		result = _system->init(32, FMOD_INIT_3D_RIGHTHANDED, 0);
 		ERRCHECK(result);
 		
 		//Configuración 3D, el parámetro central es el factor de distancia (FMOD trabaja en metros/segundos)
