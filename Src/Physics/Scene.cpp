@@ -90,7 +90,7 @@ namespace Physics
 	} // deactivate
 	
 	//--------------------------------------------------------
-	
+	 
 	void CScene::tick(unsigned int msecs)
 	{	
 		float32 timeStep = msecs * 0.001f;
