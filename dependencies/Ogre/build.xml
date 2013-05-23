@@ -118,7 +118,7 @@ Parametros:
 
 <target name="createSln">
 
-   <mkdir dir="${basedir}/build"/>
+   <!--mkdir dir="${basedir}/build"/>
    <exec executable="${basedir}/../CMake/bin/cmake.exe"
 	 dir="${basedir}/build/">
       <arg value="-DOGRE_DEPENDENCIES_DIR=..\.."/>
@@ -131,7 +131,7 @@ Parametros:
       <arg value="-DOGRE_BUILD_PLUGIN_BSP=FALSE"/>
       <arg value="-DOGRE_INSTALL_TOOLS=FALSE"/>
       <arg value=".."/>
-   </exec>
+   </exec-->
 
    <!-- Y publicamos los .h que se van a utilizar para -->
    <!-- la generacion -->

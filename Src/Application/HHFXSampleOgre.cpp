@@ -438,7 +438,7 @@ bool CHHFXSampleOgre::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonI
 
 			// effect's params
 			NameValuePairList params;
-			m_selectedFx = 2;
+			m_selectedFx = 1;
 
 			params["pack"] = m_selectedPack.c_str();
 			params["fx"] = m_hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetEffects()[m_selectedFx];
