@@ -47,13 +47,13 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
-	bool CAnimatedEntity::setAnimation(const std::string &anim, float moment, bool loop, std::list<float>* eventChain)
+	bool CAnimatedEntity::setAnimation(const std::string &anim, float moment, bool loop, std::vector<std::pair<unsigned short,float>>* eventChain)
 	{
 		assert(_entity && "La entidad no ha sido cargada en la escena");
 		_paused=false;
 		_ticksPaused=0;
 		_activeEventChain=eventChain;	
-
+		_index=0;
 		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
 			return false;
 		
@@ -69,14 +69,14 @@ namespace Graphics
 
 	//--------------------------------------------------------
 		
-	bool CAnimatedEntity::stopAnimation(const std::string &anim)
+	bool CAnimatedEntity::stopAnimation()
 	{
 		assert(_entity  && "La entidad no ha sido cargada en la escena");
 
-		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
+		if(!_entity->getAllAnimationStates()->hasAnimationState(_currentAnimationName))
 			return false;
 
-		Ogre::AnimationState *animation = _entity->getAnimationState(anim);
+		Ogre::AnimationState *animation = _entity->getAnimationState(_currentAnimationName);
 			animation->setEnabled(false);
 			if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
 				animation->setTimePosition(0);  // De lo contrario, no dejan de lanzar el evento finished a los observers
@@ -90,7 +90,7 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
-	bool CAnimatedEntity::pauseAnimation(const std::string &anim,float moment)
+	bool CAnimatedEntity::pauseAnimation(float moment)
 	{
 		assert(_entity  && "La entidad no ha sido cargada en la escena");
 		_ticksPaused=0;
@@ -102,18 +102,18 @@ namespace Graphics
 			_paused=false;
 			return false;
 		}
-		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
+		if(!_entity->getAllAnimationStates()->hasAnimationState(_currentAnimationName))
 			return false;
-		Ogre::AnimationState *animation = _entity->getAnimationState(anim);
+		Ogre::AnimationState *animation = _entity->getAnimationState(_currentAnimationName);
 		//animation->setEnabled(false);
 		if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
 		animation->setTimePosition(moment);  // De lo contrario, no dejan de lanzar el evento finished a los observer
 	} // pauseAnimation
 
-	bool CAnimatedEntity::pauseAnimationXTicks(const std::string &anim,float moment, unsigned int ticks)
+	bool CAnimatedEntity::pauseAnimationXTicks(float moment, unsigned int ticks)
 	{
 		_maxTicks=ticks;
-		pauseAnimation(anim, moment);
+		pauseAnimation(moment);
 		return true;
 	}
 
@@ -156,7 +156,7 @@ namespace Graphics
 				_currentAnimation->addTime(-secs);
 				if (_currentAnimation->getTimePosition()<=0)
 				{
-					_observer->animationFinished(_currentAnimation->getAnimationName());
+					_observer->animationFinished(std::pair<unsigned short,float>(0,0)); //correspondiente a ANIMATION_END
 					_rewinding=false;
 				}
 			}	
@@ -177,16 +177,21 @@ namespace Graphics
 					_momentEnabled=true;
 			
 			if (_activeEventChain!=NULL)
-				if(_observer && !_activeEventChain->empty() && _activeEventChain->front()<_currentAnimation->getTimePosition())
-					if (_momentEnabled)
-						{
-							_momentEnabled=false;
-							//_activeEventChain->pop_front();
-							_observer->animationMomentReached(_currentAnimation->getAnimationName());
-						}			
+			{
+				if(_observer && !_activeEventChain->empty() && _index<_activeEventChain->size() && _activeEventChain->at(_index).second<_currentAnimation->getTimePosition())
+				//if (_momentEnabled)
+				{
+					_momentEnabled=false;
+					_observer->animationMomentReached(_activeEventChain->at(_index));
+					_index++;
+				}			
 				// Comprobamos si la animaci?n ha terminado para avisar
+			}
 			if(_observer && _currentAnimation->hasEnded())
-				_observer->animationFinished(_currentAnimation->getAnimationName());
+			{
+				_observer->animationFinished(std::pair<unsigned short,float>(1,0)); //correspondiente a ANIMATION_END
+				_index=0;
+			}
 		}
 
 	} // tick

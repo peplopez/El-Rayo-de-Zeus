@@ -17,7 +17,7 @@ Contiene la declaración de la clase que reprenta una correspondencia entre nombr
 #define __Graphics_AnimSet_H
 
 #include <map>
-#include <list>
+#include <vector>
 #include <string>
 #include "Logic\Entity\Components\AnimatedGraphics.h"
 
@@ -52,6 +52,8 @@ namespace Graphics
 		*/
 		CAnimSet();
 
+
+
 		/**
 		Destructor de la clase.
 
@@ -83,7 +85,7 @@ namespace Graphics
 		@param eventTime tiempo que queremos almacenar
 		@return true si el metodo termina de forma satisfactoria
 		*/
-		bool addEventTime(const Logic::AnimationName animEnum,const float eventTime);
+		bool addEventTime(const Logic::AnimationName animEnum, const Logic::Tracks, const float eventTime);
 
 		/**
 		Obtiene la cadena de eventos
@@ -91,7 +93,7 @@ namespace Graphics
 		@param anim Nombre de la animación a la que acceder.
 		@return std::list<float> devuelve la lista de eventos asociada a la animación.
 		*/
-		std::list<float>* getEventChain(const Logic::AnimationName animEnum);
+		std::vector<std::pair<unsigned short,float>>* getEventChain(const Logic::AnimationName animEnum);
 	
 	private:
 
@@ -100,10 +102,12 @@ namespace Graphics
 		*/
 		std::map<Logic::AnimationName,std::string> _animationSet; 
 		
+
+
 		/**
 		Map que guarda una lista de eventos para una animación Lógica.
 		*/
-		std::map<Logic::AnimationName,std::list<float>> _eventChain;
+		std::map<Logic::AnimationName,std::vector<std::pair<unsigned short,float>>> _eventChain;
 
 	}; // class CAnimSet
 

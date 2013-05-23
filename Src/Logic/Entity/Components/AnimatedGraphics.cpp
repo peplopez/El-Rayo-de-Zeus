@@ -97,7 +97,7 @@ namespace Logic
 				CMessageUShort *rxMsg = static_cast<CMessageUShort*>(message);
 				Logic::AnimationName name=static_cast<Logic::AnimationName>(rxMsg->getUShort());
 				std::string animString = _animSet->getAnimation(name);
-				_graphicalEntity->stopAnimation(animString);
+				_graphicalEntity->stopAnimation();
 				_currentLogicAnimation=Logic::AnimationName::NONE;
 				LOG("STOP_ANIMATION: " << rxMsg->getString());
 			}	break;
@@ -184,25 +184,30 @@ namespace Logic
 		if (entityInfo->hasAttribute("animCombo3"))
 			_animSet->addAnimation(Logic::COMBO3,entityInfo->getStringAttribute("animCombo3"));
 
-		if (entityInfo->hasAttribute("eventAttack1"))
-			_animSet->addEventTime(Logic::ATTACK1,entityInfo->getFloatAttribute("eventAttack1"));
-		if (entityInfo->hasAttribute("eventAttack2"))
-			_animSet->addEventTime(Logic::ATTACK2,entityInfo->getFloatAttribute("eventAttack2"));
-		if (entityInfo->hasAttribute("eventAttack3"))
-			_animSet->addEventTime(Logic::ATTACK3,entityInfo->getFloatAttribute("eventAttack3"));
-		if (entityInfo->hasAttribute("eventCover"))
-			_animSet->addEventTime(Logic::COVER_WITH_SHIELD,entityInfo->getFloatAttribute("eventCover"));
-		if (entityInfo->hasAttribute("eventCover"))
-			_animSet->addEventTime(Logic::COVER_WITH_WEAPON,entityInfo->getFloatAttribute("eventCover"));
+		if (entityInfo->hasAttribute("event_DT_Attack1"))
+			_animSet->addEventTime(Logic::ATTACK1, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack1"));
+		if (entityInfo->hasAttribute("event_DT_Attack2"))
+			_animSet->addEventTime(Logic::ATTACK2, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack2"));
+		if (entityInfo->hasAttribute("event_DT_Attack3"))
+			_animSet->addEventTime(Logic::ATTACK3, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack3"));
+		if (entityInfo->hasAttribute("event_DT_Cover"))
+			_animSet->addEventTime(Logic::COVER_WITH_SHIELD, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Cover"));
+		if (entityInfo->hasAttribute("event_DT_Cover"))
+			_animSet->addEventTime(Logic::COVER_WITH_WEAPON, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Cover"));
 
+		if (entityInfo->hasAttribute("event_CT_Attack1"))
+			_animSet->addEventTime(Logic::ATTACK1, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack1"));
+		if (entityInfo->hasAttribute("event_CT_Attack2"))
+			_animSet->addEventTime(Logic::ATTACK2, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack2"));
+		if (entityInfo->hasAttribute("event_CT_Attack3"))
+			_animSet->addEventTime(Logic::ATTACK3, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack3"));
 
 		return true;
-	
 	} // initializeAnimSet
 	
 	//---------------------------------------------------------
 	
-	void CAnimatedGraphics::animationFinished(const std::string &animation)
+	void CAnimatedGraphics::animationFinished(const std::pair<unsigned short,float> track)
 	{
 		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
 		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
@@ -217,33 +222,41 @@ namespace Logic
 		// Si acaba una animación y tenemos una por defecto la ponemos, pero la animación por defecto debe ser lógica, hay que cambiarlo, pronto estará
 			if (_currentLogicAnimation != Logic::ATTACK1 && _currentLogicAnimation != Logic::ATTACK2)			
 			{
-				_graphicalEntity->stopAnimation(animation);
+				_graphicalEntity->stopAnimation();
 				_graphicalEntity->setAnimation(_defaultAnimation,0,true,NULL); //tenemos que cambiar defaultanimation por un enum Logico
 			}
 			else
 			{
 				if (_currentLogicAnimation == Logic::ATTACK1)						
-					_graphicalEntity->pauseAnimationXTicks(animation,0.5833,10);//Pep, queda esto por ser dirigido por datos..., pronto lo haré
+					_graphicalEntity->pauseAnimationXTicks(0.5833,10);//Pep, queda esto por ser dirigido por datos..., pronto lo haré
 			    if (_currentLogicAnimation == Logic::ATTACK2)			
-					_graphicalEntity->pauseAnimationXTicks(animation,0.41,10);
+					_graphicalEntity->pauseAnimationXTicks(0.41,10);
 			}
 		}
 	}
 		
-	void CAnimatedGraphics::animationMomentReached(const std::string &animation)
+	void CAnimatedGraphics::animationMomentReached(const std::pair<unsigned short,float> track)  //cambiar nombre de track por par u otra cosa
 	{
 		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
 		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
 
 		if (_currentLogicAnimation==Logic::COVER_WITH_SHIELD || _currentLogicAnimation==Logic::COVER_WITH_WEAPON)
 		{
-			_graphicalEntity->pauseAnimation(animation,_animSet->getEventChain(_currentLogicAnimation)->front() );
+			_graphicalEntity->pauseAnimation(track.second);
 		}
 		else
 		{
 			CMessageUShort *msg = new CMessageUShort();
-			msg->setType(Message::ANIMATION_MOMENT);
 			msg->setUShort(_currentLogicAnimation);
+			switch (track.first)
+			{
+			case Logic::DAMAGE_TRACK:				
+				msg->setType(Message::DAMAGE_MOMENT);	
+			break;
+			case Logic::COMBO_TRACK:			
+				msg->setType(Message::COMBO_MOMENT);
+			break;
+			}
 			_entity->emitMessage(msg);
 		}
 	}

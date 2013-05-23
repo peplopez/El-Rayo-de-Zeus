@@ -44,15 +44,16 @@ namespace Logic
 	@author David Llansó García
 	@date Agosto, 2010
 */
+	
 	enum AnimationName : unsigned short //Esto pertenece a la lógica, son nombre lógicos que tendrán su traducción a strings de animación
-	{	
+	{
 		NONE,
-		IDLE,				
+		IDLE,
 		RUN,
-		DEATH,	
+		DEATH,
 		JUMP,
 		DAMAGE,
-		ACTIVATE_ALTAR,	
+		ACTIVATE_ALTAR,
 		COVER_WITH_WEAPON,
 		COVER_WITH_SHIELD,
 		ATTACK1,
@@ -63,10 +64,26 @@ namespace Logic
 		COMBO3
 	};
 
+	enum Tracks : unsigned short //Posibles tracks de animaciones.
+	{
+		ANIMATION_BEGIN=0u,
+		ANIMATION_END=1u,
+		COMBO_TRACK=2u,
+		DAMAGE_TRACK=3u
+	};
+	
+	//typedef  std::pair<Logic::Tracks,float> TTrackEvent;
+
+
+
 	class CAnimatedGraphics : public CGraphics, public Graphics::CAnimatedEntityListener
 	{
 		DEC_FACTORY(CAnimatedGraphics);
 	public:
+				/**
+		Tipo de elemento que contiene el vector de tiempos, formado por un identificador de track y un tiempo float
+		*/
+		//std::map<Logic::AnimationName,std::vector<float>> _eventChain;
 
 		/**
 		Constructor por defecto; inicializa los atributos a su valor por 
@@ -91,7 +108,6 @@ namespace Logic
 		*/
 		void process(CMessage *message);
 
-
 		virtual void detachFromMap();
 		virtual void attachToMap(CMap* map);
 		
@@ -104,8 +120,9 @@ namespace Logic
 
 		@param animation Nombre de la animación terminada.
 		*/
-		void animationFinished(const std::string &animation);
-		void animationMomentReached(const std::string &animation);
+		void animationFinished(const std::pair<unsigned short,float> track);
+
+		void animationMomentReached(const std::pair<unsigned short,float> track);
 	
 	
 	protected:
@@ -121,7 +138,6 @@ namespace Logic
 		Animación lógica que tiene la entidad activada.
 		*/
 		Logic::AnimationName _currentLogicAnimation;
-
 
 		/**
 		Animación por defecto de una entidad gráfica animada.
@@ -146,8 +162,6 @@ namespace Logic
 		@return puntero al conjuto de animaciones de la entidad, NULL si hubo problemas.
 		*/
 		bool initializeAnimSet(const Map::CEntity *entityInfo);
-
-
 
 	}; // class CAnimatedGraphics
 

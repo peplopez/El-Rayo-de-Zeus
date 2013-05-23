@@ -14,7 +14,6 @@ Contiene la implementación de la clase que reprenta una correspondencia entre no
 */
 #include <assert.h>
 #include "AnimSet.h"
-
 //#include "Graphics\Entity.h"
 //#include "Logic/Maps/Map.h"
 #include "Map/MapEntity.h"
@@ -56,15 +55,20 @@ namespace Graphics
 		return animation;
 	} // getAnimation
 
-	bool CAnimSet::addEventTime(const Logic::AnimationName animEnum,const float eventTime)
+	bool CAnimSet::addEventTime(const Logic::AnimationName animEnum, const Logic::Tracks track, const float eventTime)
 	{
-		std::list<float> lista= _eventChain[animEnum];
-		lista.push_back(eventTime);
-		_eventChain[animEnum]=lista;
+		std::pair<Logic::Tracks,float> trackEvent(track,eventTime );
+		_eventChain[animEnum].emplace_back(trackEvent);
+		 // Using the constructor to declare and initialize a pair
+		
+		/*std::vector<TTrackEvent> trackEvent= _eventChain[animEnum];
+		trackEvent.emplace_back(eventTime);
+		_eventChain[animEnum]=trackEvent;
+		*/	
 		return true;
 	}
 
-	std::list<float>* CAnimSet::getEventChain(const Logic::AnimationName animEnum)
+	std::vector<std::pair<unsigned short,float>>* CAnimSet::getEventChain(const Logic::AnimationName animEnum)
 	{
 		return &_eventChain[animEnum];
 	}

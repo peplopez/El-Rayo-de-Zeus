@@ -106,7 +106,6 @@ namespace Logic
 		return (message->getType() == Message::TRIGGER && 
 			(message->getAction() == Message::TRIGGER_ENTER||
 			message->getAction() == Message::TRIGGER_EXIT) || message->getType() == Message::ALTAR_ACTIVATED ||  message->getAction() == Message::COVER) || (message->getType()==Message::ANIMATION_FINISHED 
-			||message->getType()==Message::ANIMATION_MOMENT
 			||message->getType()==Message::COLLISION);
 	}
 		

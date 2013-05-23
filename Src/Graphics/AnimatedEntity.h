@@ -19,6 +19,7 @@ con animaciones.
 #define __Graphics_AnimatedEntity_H
 
 #include "Graphics\Entity.h"
+//#include "Logic\Entity\Components\AnimatedGraphics.h"
 
 
 // Predeclaración de clases para ahorrar tiempo de compilación
@@ -30,7 +31,7 @@ namespace Ogre
 
 namespace Graphics 
 {
-
+	
 /*	namespace AnimNames {  //Lo dejo por ahora pero esto es para borrarlo, esta info estaría dirigida por datos en Arquetipes.txt
 //		
 		
@@ -87,9 +88,9 @@ namespace Graphics
 
 		@param animation Nombre de la animaci?n terminada.
 		*/
-		virtual void animationFinished(const std::string &animation) {}
+		virtual void animationFinished(const std::pair<unsigned short,float> track) {}
 
-		virtual void animationMomentReached(const std::string &animation) {}
+		virtual void animationMomentReached(const std::pair<unsigned short,float> track) {}
 
 	}; // CAnimatedEntityListener
 
@@ -113,7 +114,7 @@ namespace Graphics
 	class CAnimatedEntity : public CEntity
 	{
 	public:
-
+		
 		/**
 		Constructor de la clase.
 
@@ -121,8 +122,7 @@ namespace Graphics
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
 		CAnimatedEntity(const std::string &name, const std::string &mesh):
-					CEntity(name,mesh), _currentAnimation(0), _currentAnimationName(""), _rewinding(false),_momentEnabled(true),_paused(false),_ticksPaused(0),_maxTicks(0) {}
-
+					CEntity(name,mesh), _currentAnimation(0), _currentAnimationName(""), _rewinding(false),_momentEnabled(true),_paused(false),_ticksPaused(0),_maxTicks(0),_index(0) {}
 
 		/**
 		Activa una animación a partir de su nombre.
@@ -131,15 +131,14 @@ namespace Graphics
 		@param loop true si la animación debe reproducirse cíclicamente.
 		@return true si la animación solicitada fue correctamente activada.
 		*/
-		bool setAnimation(const std::string &anim, float moment, bool loop, std::list<float>* eventChain);
+		bool setAnimation(const std::string &anim, float moment, bool loop, std::vector<std::pair<unsigned short,float>>* eventChain);
 		
 		/**
 		Desactiva una animación a partir de su nombre.
 
-		@param anim Nombre de la animación a activar.
 		@return true si la animación solicitada fue correctamente desactivada.
 		*/
-		bool stopAnimation(const std::string &anim);
+		bool stopAnimation();
 		
 		/**
 		Desactiva todas las animaciones de una entidad.
@@ -162,9 +161,9 @@ namespace Graphics
 		void rewind(const std::string &anim,const bool moment)	{_rewinding=true;} 
 
 
-		bool pauseAnimation(const std::string &anim,float moment);
+		bool pauseAnimation(float moment);
 
-		bool pauseAnimationXTicks(const std::string &anim,float moment, unsigned int ticks);	
+		bool pauseAnimationXTicks(float moment, unsigned int ticks);	
 
 	private:
 
@@ -210,8 +209,9 @@ namespace Graphics
 
 		unsigned int _maxTicks;
 
+		std::vector<std::pair<unsigned short,float>>* _activeEventChain;
 
-		std::list<float>* _activeEventChain;
+		unsigned int _index;
 	}; // class CAnimatedEntity
 
 } // namespace Graphics

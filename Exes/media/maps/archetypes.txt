@@ -145,7 +145,7 @@ Map = {
 		lifeBarWidth = 20.0,
 		lifeBarHeight = 2.0,
 		lifeModifier = -10,
-
+		audio="media\\audio\\QUEJIDO1.wav",
 	},
 	
 	Scorpion = {
@@ -208,10 +208,13 @@ Map = {
 		animCombo1="combo1",
 		animCombo2="combo2",
 		animCombo3="combo3",
-		eventAttack1=0.35,
-		eventAttack2=0.3,
-		eventAttack3=0.3,
-		eventCover=0.45,
+		event_DT_Attack1=0.35,
+		event_DT_Attack2=0.3,
+		event_DT_Attack3=0.3,
+		event_CT_Attack1=0.2,
+		event_CT_Attack2=0.2,
+		event_CT_Attack3=0.2,
+		event_DT_Cover=0.45,
 	},
 	
 	Espartano = {

@@ -61,7 +61,9 @@ namespace Logic
 			AUDIO			 		= 0x26,
 			SET_SCALE		 		= 0x27,
 			SET_INITIAL_MATERIAL	= 0x28,
-			SET_ANIMATION_WITH_TIME = 0X29
+			SET_ANIMATION_WITH_TIME = 0X29,
+			DAMAGE_MOMENT			= 0x30,
+			COMBO_MOMENT	        = 0X31
 		};
 
 		enum TActionType : unsigned char

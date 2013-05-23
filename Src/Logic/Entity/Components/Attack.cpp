@@ -71,7 +71,7 @@ namespace Logic
 	//	return false;
 		return (message->getType() == Message::CONTROL && 
 			(message->getAction() == Message::LIGHT_ATTACK||
-			message->getAction() == Message::HEAVY_ATTACK) || message->getAction() == Message::COVER) || (message->getType()==Message::ANIMATION_FINISHED ||message->getType()==Message::ANIMATION_MOMENT);
+			message->getAction() == Message::HEAVY_ATTACK) || message->getAction() == Message::COVER) || (message->getType()==Message::ANIMATION_FINISHED ||message->getType()==Message::DAMAGE_MOMENT);
 
 	}
 		
@@ -99,7 +99,7 @@ namespace Logic
 				break;
 			}
 		
-		case Message::ANIMATION_MOMENT:
+		case Message::DAMAGE_MOMENT:
 			{
 				//querré saber cual animación es, de momento se que solo puedo recibir un tipo de animación
 				float punto;

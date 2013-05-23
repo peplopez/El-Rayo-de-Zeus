@@ -50,9 +50,6 @@
     <ClCompile Include="..\..\Src\Graphics\Entity.cpp">
       <Filter>SceneElements\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Graphics\AnimatedEntity.cpp">
-      <Filter>SceneElements\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Graphics\Overlay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -66,6 +63,9 @@
       <Filter>DotSceneLoader\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Graphics\AnimSet.cpp">
+      <Filter>SceneElements\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Graphics\AnimatedEntity.cpp">
       <Filter>SceneElements\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
