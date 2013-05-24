@@ -203,8 +203,8 @@ namespace Logic
 					{
 						if (_waiting==false)
 						{
-							_reloj->addTimeObserver(_entity->getOriginBase(),this,2500);		
-						_waiting=true;
+							_reloj->addTimeObserver(_entity->getOriginBase(),this,2500);				
+							_waiting=true;
 						}
 						//en el mismo anillo
 						//ser agresivo
@@ -240,11 +240,11 @@ namespace Logic
 					m->setAction(Logic::Message::WALK_STOP);
 					_entity->emitMessage(m);
 					
-					Logic::CMessageUShort *m3= new Logic::CMessageUShort();
-					m3->setType(Logic::Message::CONTROL);
-					m3->setAction(Logic::Message::CHANGE_BASE);
-					m3->setUShort(CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase());
-					_entity->emitMessage(m3);
+					//Logic::CMessageUShort *m3= new Logic::CMessageUShort();
+					//m3->setType(Logic::Message::CONTROL);
+					//m3->setAction(Logic::Message::CHANGE_BASE);
+					//m3->setUShort(CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase());
+					//_entity->emitMessage(m3);
 				}
 				//activar sus altares o buscarle, cambiar de anillo.
 					

@@ -53,11 +53,17 @@ namespace AI
 	*/
 	void CLatentAction::reset() {
 		// Sólo hacemos algo si ya hemos empezado a ejecutar la acción
-		if (_status != READY) {
+		if (_status != READY) 
+		{
 			// Si estamos en ejecución (normal o suspendida) 
 			// tenemos que llamar a onAbort (porque en realidad
 			// abortamos la acción)
-			this->OnStop();
+			
+			//PT
+			//this->OnStop();
+			if(_status!=SUCCESS)
+				this->OnStop();
+
 			
 			if (_status == RUNNING || _status == SUSPENDED)
 				this->OnAbort();

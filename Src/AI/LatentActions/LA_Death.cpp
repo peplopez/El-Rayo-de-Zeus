@@ -18,6 +18,7 @@
 
 //PT se incluye el servidor de scripts de LUA
 #include "ScriptManager\Server.h"
+#include "Logic/Maps/EntityFactory.h"
 
 
 namespace AI
@@ -45,9 +46,11 @@ namespace AI
 		_endingTime = currentTime + _time;
 
 		//init Respawn Layout and functions
-		ScriptManager::CServer::getSingletonPtr()->loadExeScript("RespawnPlayer");
-		ScriptManager::CServer::getSingletonPtr()->executeProcedure("initRespawn");
-		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showRespawn");
+		if (_entity->isPlayer()){
+			ScriptManager::CServer::getSingletonPtr()->loadExeScript("RespawnPlayer");
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("initRespawn");
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showRespawn");
+		}
 
 		sleepComponents();
 		std::cout<<"AI::StateMachine::WTF-I am Death!!"<<std::endl;
@@ -84,16 +87,34 @@ namespace AI
 	*/
 	void CLA_Death::OnStop()
 	{
-		awakeComponents();
+		//awakeComponents();
 
 		//PT
-		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideRespawn");
-
 		if (_entity->isPlayer())
-			_scene->deactivateCompositor("BW");
+		{
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideRespawn"); //escondo la pantalla de respawn
+			_scene->deactivateCompositor("BW"); //desactivo el compositor blanco y negro
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud"); //muestro el HUD
 
-		if (_entity->isPlayer())
-			Application::CBaseApplication::getSingletonPtr()->setState("gameOver"); 
+			if (_entity->getComponent<CBaseTraveler>()!=NULL)
+			{	
+				_entity->getComponent<CBaseTraveler>()->respawnInBaseOrigin();
+			}
+
+			CMessageBoolString *message = new CMessageBoolString();
+			message->setType(Message::LIFE_RESTORE);
+			_entity->emitMessage(message);
+
+			//finish(true);
+
+		//FIN PT
+
+		}
+
+		awakeComponents();
+
+		finish(true);
+
 	}
 
 	/**
@@ -119,20 +140,21 @@ namespace AI
 			return SUCCESS;*/
 
 		//PT
-		if(Application::CBaseApplication::getSingletonPtr()->getAppTime() > _endingTime)
-		{
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateTime",0);
-			return SUCCESS;
-		}
-		else
-		{
-			int timeToRevive = (int) ((_endingTime-Application::CBaseApplication::getSingletonPtr()->getAppTime())/1000);
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateTime",timeToRevive);
-			return RUNNING;
+		if (_entity->isPlayer()){
+			if(Application::CBaseApplication::getSingletonPtr()->getAppTime() > _endingTime)
+			{
+				ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateTime",0);
+				return SUCCESS;
+			}
+			else
+			{
+				int timeToRevive = (int) ((_endingTime-Application::CBaseApplication::getSingletonPtr()->getAppTime())/1000);
+				ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateTime",timeToRevive);
+				return RUNNING;
+			}
 		}
 
-
-		//return RUNNING;
+		return RUNNING;
 	}
 
 	/**
@@ -208,8 +230,8 @@ namespace AI
 	{
 		if (_entity->getComponent<CAttack>()!=NULL)
 		_entity->getComponent<CAttack>()->resetAttackFlags();
-		if (_entity->getComponent<CAvatarController>()!=NULL)
-		_entity->getComponent<CAvatarController>()->awake();
+		//if (_entity->getComponent<CAvatarController>()!=NULL)
+		//_entity->getComponent<CAvatarController>()->awake();
 		if (_entity->getComponent<CJump>()!=NULL)
 		_entity->getComponent<Logic::CJump>()->awake();
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)

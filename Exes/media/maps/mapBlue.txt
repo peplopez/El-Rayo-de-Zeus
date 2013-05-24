@@ -15,9 +15,9 @@ Map ={
 	GemeloBlue = {
 		type = "OtherPlayer",
 		base=2,
-		ring=0,
+		ring=1,
 		degrees=120,
-		initialMaterial="marineBlue",
+		initialMaterial1="marineBlue",
 	},
 	
 	pointLight1 = {

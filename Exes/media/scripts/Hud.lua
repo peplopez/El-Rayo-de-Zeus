@@ -210,13 +210,13 @@ function reloadHud()
 		PlayernameWindow:setProperty("Font","Diogenes-14")
 		
 		--TitleEnemigosWindow:setProperty("UnifiedAreaRect","{{0.5,0},{0.28,0},{0.9,0},{0.48,0}}")
-		TitleEnemigosWindow:setProperty("UnifiedAreaRect","{{0,110},{0.31,0},{0,180},{0.48,0}}")
+		TitleEnemigosWindow:setProperty("UnifiedAreaRect","{{0,105},{0.31,0},{0,180},{0.48,0}}")
 		TitleEnemigosWindow:setProperty("Font","Diogenes-10")
 		--NumEnemigosWindow:setProperty("UnifiedAreaRect","{{0.705,0},{0.28,0},{0.74,0},{0.48,0}}")
 		NumEnemigosWindow:setProperty("UnifiedAreaRect","{{0,155},{0.31,0},{0,210},{0.48,0}}")
 		
 		--TitlePuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0.4,0},{0.5,0},{0.55,0},{0.7,0}}")
-		TitlePuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0,110},{0.5,0},{0,150},{0.7,0}}")
+		TitlePuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0,105},{0.5,0},{0,150},{0.7,0}}")
 		--PuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0.56,0},{0.5,0},{0.68,0},{0.7,0}}")
 		PuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0,150},{0.5,0},{0,210},{0.7,0}}")
 		

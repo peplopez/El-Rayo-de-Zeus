@@ -103,7 +103,7 @@ namespace Logic
 					showBase(maux->getUShort());	
 				
 			}
-			if(message->getAction() == Message::GOBACK_TO_BASE)
+ 			if(message->getAction() == Message::GOBACK_TO_BASE)
 			{
 				CBaseTraveler::returnToPlayerBase();
 			}
@@ -114,7 +114,7 @@ namespace Logic
 					_changingBase=true;
 					_entity->getMap()->setVisible(); 
 				}
-				if (_entity->getName()=="GemeloGreen" || _entity->getName()=="GemeloYellow" /*|| _entity->getName()=="GemeloBlue"*/) 
+				if (_entity->getName()=="GemeloGreen" || _entity->getName()=="GemeloYellow" || _entity->getName()=="GemeloBlue") 
 				{
 					_changingBase=true;
 					CMessageUShort *maux = static_cast<CMessageUShort*>(message);
@@ -153,6 +153,38 @@ namespace Logic
 
 	//---------------------------------------------------------
 
+	void CBaseTraveler::respawnInBaseOrigin()
+	{	
+		_changingBase = true;
+		_changeAllowed = true;
+
+		_baseToGo = _entity->getOriginBase();
+
+		if (_changingBase)
+		{	
+			jumpToBaseOrigin(_entity->getOriginBase());
+			LOG("EXIT IN RESPAWN");
+
+			CMessageChar *m = new CMessageChar();	
+			m->setType(Message::AVATAR_MOVE);
+			m->setAction(Message::CHANGE_BASE);
+			m->setChar( _baseToGo - (int) _entity->getLogicalPosition()->getBase() ); // Гоз Enviamos diferencial de base (AVATAR_MOVE es movimiento diferencial)
+			_entity->emitMessage(m,this);
+			
+			LOG("Respawn: Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _baseToGo << " when Respawn" );
+			
+			CMessageUInt *m2 = new CMessageUInt();	
+			m2->setType(Message::SET_INITIAL_MATERIAL);
+			m2->setUInt(1);
+			_entity->emitMessage(m2,this);
+		}
+
+		_changingBase=false;
+		_changingBaseTime=0;
+	}
+
+	//---------------------------------------------------------
+
 	void CBaseTraveler::showBase(unsigned short base)
 	{
 		_changeAllowed = true;
@@ -185,6 +217,20 @@ namespace Logic
 			
 			Logic::CServer* srv = Logic::CServer::getSingletonPtr();
 			srv->deferredMoveEntity(_entity, _baseToGo);
+
+		}
+	}
+
+	//---------------------------------------------------------
+	void CBaseTraveler::jumpToBaseOrigin(unsigned short baseOrigin)
+	{
+		if (_changeAllowed || !_entity->isPlayer())
+		{
+			_changeAllowed = false;
+			_changingBase=true;
+			
+			Logic::CServer* srv = Logic::CServer::getSingletonPtr();
+			srv->deferredMoveEntity(_entity, baseOrigin);
 
 		}
 	}

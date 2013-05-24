@@ -230,7 +230,9 @@ namespace Logic
 
 		@return Material de la entidad.
 		*/
-		const std::string &getInitialMaterial() const { return _initialMaterial; }
+		//PT
+		//const std::string &getInitialMaterial() const { return _initialMaterial; }
+		const std::string &getInitialMaterial() const { return _initialMaterial0; }
 
 		/**
 		Devuelve el tipo de la entidad. Este atributo es leido de
@@ -438,7 +440,6 @@ namespace Logic
 		Estructura de datos que contiene la posición lógica
 		*/
 		Logic::CLogicalPosition *_pos;
-		//Logic::CLogicalPosition _pos;
 		
 		/**
 		Tipo para la lista de componetes.
@@ -484,9 +485,16 @@ namespace Logic
 		Matrix4 _transform;
 
 		/**
-		Material inicial de la entidad.
+		Material inicial de la entidad 0.
 		*/
-		std::string _initialMaterial;
+		//std::string _initialMaterial;
+		std::string _initialMaterial0;
+
+		/**
+		Material inicial de la entidad 1.
+		*/
+		std::string _initialMaterial1;
+
 		/**
 		Escala inicial de la entidad.
 		*/

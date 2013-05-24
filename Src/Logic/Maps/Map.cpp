@@ -156,7 +156,7 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-	//PT
+	//PT. Se le pasan los argumentos de nickname, modelo, y color del Player.
 	//void CMap::createPlayer(std::string entityName, bool isLocalPlayer, const std::string& model)
 	void CMap::createPlayer(std::string entityName, bool isLocalPlayer, const std::string& nickname, const std::string& model, const std::string& color)
 	{
@@ -177,10 +177,11 @@ namespace Logic {
 
 		playerInfo.setAttribute("isPlayer", isLocalPlayer? "true" : "false");
 		//PT
-		playerInfo.setAttribute("initialMaterial", color); //player color
+		playerInfo.setAttribute("initialMaterial1", color); //player color
 			
 		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createMergedEntity(&playerInfo, this);
 		//newPlayer->setPosition( newPlayer->getPosition() + (rand()%50-25) * Vector3(1, 0, 1) ); // TODO calibrar esta pos
+
 	
 	} // createPlayer
 

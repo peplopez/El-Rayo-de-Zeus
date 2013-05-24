@@ -192,7 +192,7 @@ Map = {
 		jumpPower = 0.08,
 		behavior="Hercules",
 		hero="Hercules",
-		initialMaterial="SpartanBodyTatoo",
+		initialMaterial0="SpartanBodyTatoo",
 		audio="media\\audio\\QUEJIDO1.wav",
 	},	
 	
@@ -219,7 +219,7 @@ Map = {
 		hero="Hercules",
 		audio="media\\audio\\QUEJIDO1.wav",
 		audioCubriendose="media\\audio\\Sword_scrape2.wav",
-        initialMaterial="SpartanBodyTatooWounds",
+        initialMaterial0="SpartanBodyTatooWounds",
 	},
 	
 	OtherPlayer = {
@@ -242,7 +242,7 @@ Map = {
 		jumpPower = 0.08,
 		behavior="Hercules",
 		hero="Hercules",
-		initialMaterial="SpartanBodyWounds",
+		initialMaterial0="SpartanBodyWounds",
 		audio="media\\audio\\QUEJIDO1.wav",
 		audioCubriendose="media\\audio\\Sword_scrape2.wav",
 	},

@@ -122,7 +122,7 @@ namespace Application
 		unsigned int getLastFrameDuration() const { return _lastFrameDuration; }
 
 		/**
-		Funcin que registra al oyente de la entidad grfica. Por 
+		Funcion que registra al oyente de la entidad grfica. Por 
 		simplicidad solo habr un oyente por entidad.
 		*/
 		void addTimeObserver(int index, IClockListener* listener, unsigned long time)

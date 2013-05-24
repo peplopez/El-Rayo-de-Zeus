@@ -207,9 +207,9 @@ namespace Application {
 			_app->setState("netmenu");
 			break;
 
-		case GUI::Key::R:
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadMenuSingle");
-			break;
+		//case GUI::Key::R:
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadMenuSingle");
+		//	break;
 			
 		default:
 			return false;
@@ -249,6 +249,8 @@ namespace Application {
 // TODO Toda la carga y creación del jugador deberia encapsularse en un startGame() reusable
 	bool CMenuSingleState::startReleased(const CEGUI::EventArgs& e)
 	{
+
+				CEGUI::ProgressBar *hbar = static_cast<CEGUI::ProgressBar*> (CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
 
 				//RECUPERAMOS LA INFORMACION DEL MENUSINGLESTATE (Nickname, Modelo, y Color)
 				// OBTENER PLAYER INFO
@@ -326,16 +328,36 @@ namespace Application {
 
 
 		_app->setState("game");
+
+		//hbar->setProgress(0.0);
+		hbar->CEGUI::ProgressBar::setProgress(0.0f);
+		hbar->setStepSize(0.10f);
 			
 		//[ƒ®§] CARGA de Blueprints, Arquetypes y Map adelantada
 		// Cargamos el archivo con las definiciones de las entidades del nivel.
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
 			return false;
+
+		//hbar->setProgress(0.2);
+		hbar->CEGUI::ProgressBar::setProgress(0.2);
+		hbar->step();
+		hbar->step();
+
+		hbar->update(false);
+		CEGUI::System::getSingleton().renderGUI();
 				
 		// Add - ESC
 		// Cargamos el archivo con las definiciones de los archetypes
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes.txt"))
 			return false;
+
+		//hbar->setProgress(0.4);
+		hbar->CEGUI::ProgressBar::setProgress(0.4);
+		hbar->step();
+		hbar->step();
+
+		hbar->update(false);
+		CEGUI::System::getSingleton().renderGUI();
 			
 		// Add - JLS
 		// Cargamos los anillos a partir del nombre del mapa. 
@@ -351,6 +373,15 @@ namespace Application {
 		//Carga de mapas
 		if (!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad))
 			return false;
+		//hbar->setProgress(0.8);
+		hbar->CEGUI::ProgressBar::setProgress(0.8);
+		hbar->step();
+		hbar->step();
+		hbar->step();
+		hbar->step();
+
+		hbar->update(false);
+		CEGUI::System::getSingleton().renderGUI();
 		
 		// Llamamos al método de creación del jugador. 
 		// Al estar en el estado MenuSingleState el jugador es Single Player (Monojugador)
@@ -363,6 +394,14 @@ namespace Application {
 		//PT. si se le intenta pasar otro modelo da un error en getBones porque no encuentra el hueso "paracasco"
 		//para que funcione medusa, bigdday etc, hay que quitar el casco y el escudo y los accesorios al espartano
 		//en el archetypes. de esa manera no da error.
+
+		//hbar->setProgress(1.0);
+		hbar->CEGUI::ProgressBar::setProgress(1.0);
+		hbar->step();
+		hbar->step();
+
+		hbar->update(false);
+		CEGUI::System::getSingleton().renderGUI();
 
 
 		return true;

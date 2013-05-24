@@ -64,7 +64,7 @@
 			<Property Name="Font" Value="Diogenes-10" />
 			<Property Name="Text" Value="Enemies" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.31,0},{0,180},{0.48,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,105},{0.31,0},{0,180},{0.48,0}}" />
 		</Window>
 
 		<Window Type="OgreTray/NumEnemigos" Name="Hud/NumEnemigos" >
@@ -78,7 +78,7 @@
 			<Property Name="Font" Value="Diogenes-10" />
 			<Property Name="Text" Value="P.M" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.5,0},{0,150},{0.7,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,105},{0.5,0},{0,150},{0.7,0}}" />
 		</Window>
 
 		<Window Type="OgreTray/PuntosMerito" Name="Hud/PuntosMerito" >

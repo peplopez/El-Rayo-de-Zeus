@@ -98,7 +98,7 @@ namespace Logic
 
 	bool CLife::accept(const CMessage *message)
 	{
-		return message->getType() == Message::LIFE_MODIFIER;		
+		return message->getType() == Message::LIFE_MODIFIER || message->getType() == Message::LIFE_RESTORE ;		
 
 	} // accept
 	
@@ -112,11 +112,18 @@ namespace Logic
 			case Message::LIFE_MODIFIER:
 			{
 				CMessageUInt *Msg = static_cast<CMessageUInt*>(message);
+
 				if (message->getAction()==TActionType::DAMAGE)
 					modifyLife(-10);
 				else
 					modifyLife(10);
-				
+				break;
+			}
+
+			//PT
+			case Message::LIFE_RESTORE:
+			{
+				modifyLife(_LIFE_MAX);
 				break;
 			}
 		}
