@@ -15,11 +15,13 @@
 
 #include "Actor.h"
 #include "Scene.h"
+#include "IObserver.h"
+
 #include <Box2D\Dynamics\b2Body.h>
 #include <Box2D\Dynamics\b2World.h>
+#include <Box2D\Dynamics\b2Fixture.h>
 #include <Box2D\Collision\Shapes\b2CircleShape.h>
 #include <Box2D\Collision\Shapes\b2PolygonShape.h>
-
 #include <Box2D\Dynamics\b2Fixture.h>
 
 #include "Physics\Scales.h"
@@ -29,7 +31,7 @@
 namespace Physics
 {
 	CActor::CActor(float degree, float height, Logic::Ring ring, std::string type, IObserver *component) : 
-		 _body(0), _bodyDef(0), _scene(0), _isTrigger(false), _heightCorrection(0),_loaded(false), _component(component)
+		 _body(0), _ghostBody(0), _bodyDef(0), _scene(0), _isTrigger(false), _heightCorrection(0), _loaded(false), _ghosted(false), _component(component)
 	{
 		_bodyDef = new b2BodyDef();
 
@@ -50,7 +52,7 @@ namespace Physics
 		}
 
 		_bodyDef->angle = 0; //set the starting angle
-		_bodyDef->userData = (void*) component;
+		_bodyDef->userData = this;
 		if (type == "static")
 			_bodyDef->type = b2_staticBody; //actor estático
 		else if (type == "dynamic")
@@ -142,14 +144,15 @@ namespace Physics
 		_body->SetFixedRotation(true);
 
 
-		b2CircleShape circleShape;
-		circleShape.m_p.Set(0, 0); 
-		circleShape.m_radius = radius;
+		b2CircleShape* circleShape = new b2CircleShape();
+		circleShape->m_p.Set(0, 0); 
+		circleShape->m_radius = radius;
 
-		b2FixtureDef fixtureDef;
-		fixtureDef.isSensor = isTrigger;
-		fixtureDef.shape = &circleShape; 
-		_body->CreateFixture(&fixtureDef); 
+		b2FixtureDef* fixtureDef = new b2FixtureDef();
+		fixtureDef->isSensor = isTrigger;
+		fixtureDef->shape = circleShape; 
+		_body->CreateFixture(fixtureDef); 
+		_fixtureDefs.push_back(fixtureDef);
 
 	}
 
@@ -167,13 +170,14 @@ namespace Physics
 		_body->SetFixedRotation(true);
 
 
-		b2PolygonShape polygonShape;
-		polygonShape.SetAsBox(halfWidth, halfHeight);
+		b2PolygonShape* polygonShape = new b2PolygonShape();
+		polygonShape->SetAsBox(halfWidth, halfHeight);
 
-		b2FixtureDef fixtureDef;
-		fixtureDef.isSensor = isTrigger;
-		fixtureDef.shape = &polygonShape; 
-		_body->CreateFixture(&fixtureDef); 
+		b2FixtureDef* fixtureDef = new b2FixtureDef();
+		fixtureDef->isSensor = isTrigger;
+		fixtureDef->shape = polygonShape; 
+		_body->CreateFixture(fixtureDef); 
+		_fixtureDefs.push_back(fixtureDef);
 
 	}
 	//--------------------------------------------------------
@@ -191,41 +195,43 @@ namespace Physics
 		_body->SetTransform(pos, _body->GetAngle());
 		_body->SetFixedRotation(true);
 
-		b2CircleShape circleShape1;
-		circleShape1.m_p.Set(0, -halfHeight); //position, relative to body position
-		circleShape1.m_radius = radius; //radius
+		b2CircleShape* circleShape1 = new b2CircleShape();
+		circleShape1->m_p.Set(0, -halfHeight); //position, relative to body position
+		circleShape1->m_radius = radius; //radius
 
-		b2FixtureDef fixtureDef1;
-		fixtureDef1.isSensor = isTrigger;
-		fixtureDef1.density=1.0f;
-		fixtureDef1.friction=0;
-		fixtureDef1.restitution=0;
-		fixtureDef1.shape = &circleShape1; //this is a pointer to the shape above
-		_body->CreateFixture(&fixtureDef1); //add a fixture to the body
+		b2FixtureDef* fixtureDef1 = new b2FixtureDef();
+		fixtureDef1->isSensor = isTrigger;
+		fixtureDef1->density=1.0f;
+		fixtureDef1->friction=0;
+		fixtureDef1->restitution=0;
+		fixtureDef1->shape = circleShape1; //this is a pointer to the shape above
+		_body->CreateFixture(fixtureDef1); //add a fixture to the body
+		_fixtureDefs.push_back(fixtureDef1);
 
-		b2CircleShape circleShape2;
-		circleShape2.m_p.Set(0, halfHeight); //position, relative to body position
-		circleShape2.m_radius = radius; //radius
+		b2CircleShape* circleShape2 = new b2CircleShape();
+		circleShape2->m_p.Set(0, halfHeight); //position, relative to body position
+		circleShape2->m_radius = radius; //radius
 
-		b2FixtureDef fixtureDef2;
-		fixtureDef2.isSensor = isTrigger;
-		fixtureDef2.density=1.0f;
-		fixtureDef2.friction=0;
-		fixtureDef2.restitution=0;
-		fixtureDef2.shape = &circleShape2; //this is a pointer to the shape above
-		_body->CreateFixture(&fixtureDef2); //add a fixture to the body
+		b2FixtureDef* fixtureDef2 = new b2FixtureDef();
+		fixtureDef2->isSensor = isTrigger;
+		fixtureDef2->density=1.0f;
+		fixtureDef2->friction=0;
+		fixtureDef2->restitution=0;
+		fixtureDef2->shape = circleShape2; //this is a pointer to the shape above
+		_body->CreateFixture(fixtureDef2); //add a fixture to the body
+		_fixtureDefs.push_back(fixtureDef2);
 
-		b2PolygonShape polygonShape;
-		polygonShape.SetAsBox(halfWidth, halfHeight);
+		b2PolygonShape* polygonShape = new b2PolygonShape();
+		polygonShape->SetAsBox(halfWidth, halfHeight);
 
-		b2FixtureDef fixtureDef3;
-		fixtureDef3.isSensor = isTrigger;
-		fixtureDef3.density=1.0f;
-		fixtureDef3.friction=0;
-		fixtureDef3.restitution=0;
-		fixtureDef3.shape = &polygonShape; //this is a pointer to the shape above
-		_body->CreateFixture(&fixtureDef3); //add a fixture to the body
-
+		b2FixtureDef* fixtureDef3 = new b2FixtureDef();
+		fixtureDef3->isSensor = isTrigger;
+		fixtureDef3->density=1.0f;
+		fixtureDef3->friction=0;
+		fixtureDef3->restitution=0;
+		fixtureDef3->shape = polygonShape; //this is a pointer to the shape above
+		_body->CreateFixture(fixtureDef3); //add a fixture to the body
+		_fixtureDefs.push_back(fixtureDef3);
 	}
 	//--------------------------------------------------------
 
@@ -268,6 +274,56 @@ namespace Physics
 	{
 		return _body->GetPosition().y * PHYSIC_UPSCALE - _heightCorrection * PHYSIC_UPSCALE;
 	}
+
+	//--------------------------------------------------------
+
+	void CActor::onTrigger(CActor* otherActor, bool enter)
+	{
+		if (_component && otherActor->getPhysicComponent())
+			_component->onTrigger(otherActor->getPhysicComponent(), enter);
+
+		else if (!otherActor->getPhysicComponent() && enter)
+		{
+			if (!_ghosted)
+			{
+				_scene->deferredGhostActor(this);
+				_ghosted = true;
+			}
+
+		}
+	}
+
+	//--------------------------------------------------------
+	void CActor::createGhostBody()
+	{
+		_ghostBody = getPhysicWorld()->CreateBody(_bodyDef);
+		b2Transform transform = _body->GetTransform();
+		if (transform.p.x > 0)
+			transform.p.x -= 360 * PHYSIC_DOWNSCALE;
+		else
+			transform.p.x += 360 * PHYSIC_DOWNSCALE;
+
+		_ghostBody->SetTransform(transform.p, transform.q.GetAngle());
+		CreateGhostFixtures();
+
+	}
+
+	//--------------------------------------------------------
+
+	void CActor::CreateGhostFixtures()
+	{
+		for (int i = 0; i<_fixtureDefs.size(); ++i)
+			_ghostBody->CreateFixture(_fixtureDefs[i]);
+	}
+
+	//--------------------------------------------------------
+
+	void CActor::onCollision(CActor* otherActor)
+	{
+		if (_component && otherActor->getPhysicComponent())
+			_component->onCollision(otherActor->getPhysicComponent());
+	}
+
 
 		
 } // namespace Physics

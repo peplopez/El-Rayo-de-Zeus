@@ -176,7 +176,7 @@ namespace Application {
 				tick(33);
 				accumulator -= 33;
 			}
-			LOG(_clock->getLastFrameDuration());
+			//LOG(_clock->getLastFrameDuration());
 			GUI::CInputManager::getSingletonPtr()->tick();
 			Graphics::CServer::getSingletonPtr()->tick(_clock->getLastFrameDuration()*0.001f);
 		}

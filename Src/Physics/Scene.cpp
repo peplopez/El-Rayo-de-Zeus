@@ -16,16 +16,14 @@
 #include "Physics/IObserver.h"
 #include "Physics/Scene.h"
 #include "Physics/Actor.h"
-#include "Physics/ActorTrigger.h"
 #include "Physics/ContactListener.h"
-
-#include "Physics/Scales.h"
+#include <Physics\DebugDraw\OgreB2DebugDraw.h>
 
 
 #include <Box2D\Dynamics\b2World.h>
 #include <Box2D\Common\b2Math.h>
 #include <Box2D\Common\b2Settings.h>
-#include <Physics\DebugDraw\OgreB2DebugDraw.h>
+
 
 #include "Graphics\Server.h"
 #include "Graphics\Scene.h"
@@ -99,7 +97,9 @@ namespace Physics
 #ifdef _DEBUG
 		_debugDraw->clear();
 #endif
-		_world->Step(timeStep, velocityIterations, positionIterations); //simulación física
+		_world->Step(timeStep, velocityIterations, positionIterations);//simulación física
+		if (_actorsToGhost.size() > 0)
+			createGhostActors();
 #ifdef _DEBUG
 		_world->DrawDebugData();
 		_debugDraw->Render();
@@ -137,25 +137,31 @@ namespace Physics
 
 	void CScene::CreateWorldEdges()
 	{
-		b2BodyDef bodyDef;
-		bodyDef.angle = 0;
-		bodyDef.type = b2_staticBody;
 
-		bodyDef.position.Set(-180 * PHYSIC_DOWNSCALE, 0);
-		b2Body* leftEdge = _world->CreateBody(&bodyDef);
-		bodyDef.position.Set(180 * PHYSIC_DOWNSCALE, 0);
-		b2Body* rightEdge = _world->CreateBody(&bodyDef);
+		CActor* leftWorldEdge = new CActor(180, -100, Logic::Ring::CENTRAL_RING, "static", 0);
+		CActor* rightWorldEdge = new CActor(-180, -100, Logic::Ring::CENTRAL_RING, "static", 0);
 
-		b2PolygonShape polygonShape;
-		polygonShape.SetAsBox(5 * PHYSIC_DOWNSCALE, 100 * PHYSIC_DOWNSCALE);
+		leftWorldEdge->attachToScene(this);
+		rightWorldEdge->attachToScene(this);
 
-		b2FixtureDef fixtureDef;
-		fixtureDef.isSensor = true;
-		fixtureDef.shape = &polygonShape; 
-
-		leftEdge->CreateFixture(&fixtureDef); 
-		rightEdge->CreateFixture(&fixtureDef); 
-
+		leftWorldEdge->createFixture(5, 100, true);
+		rightWorldEdge->createFixture(5, 100, true);
 
 	}
+
+	//--------------------------------------------------------
+	void CScene::deferredGhostActor(CActor* actor)
+	{
+		_actorsToGhost.push_back(actor);
+	}
+
+	//--------------------------------------------------------
+	void CScene::createGhostActors()
+	{
+		for (int i = 0; i < _actorsToGhost.size(); ++i)
+			_actorsToGhost[i]->createGhostBody();
+		
+		_actorsToGhost.clear();
+	}
+	
 } // namespace Physics

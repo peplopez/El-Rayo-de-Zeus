@@ -46,6 +46,9 @@ namespace Physics
 		void remove(CActor* actor);
 
 		b2World* getPhysicWorld() {return _world;}
+		void deferredGhostActor(CActor* actor);
+
+		void createGhostActors();
 
 	protected:
 
@@ -87,6 +90,8 @@ namespace Physics
 		std::string _name;
 
 		TActors _actors;
+
+		TActors _actorsToGhost;
 
 		OgreB2DebugDraw* _debugDraw;
 

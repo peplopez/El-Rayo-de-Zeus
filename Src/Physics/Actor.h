@@ -29,6 +29,7 @@ namespace Physics
 class b2Body;
 class b2World;
 struct b2BodyDef;
+struct b2FixtureDef;
 
 
 namespace Physics
@@ -52,6 +53,10 @@ namespace Physics
 
 		void move(float x, float y);
 		void setLinearVelocity(float x, float y);
+
+		void onTrigger(CActor* otherActor, bool enter);
+		void onCollision(CActor*);
+
 		
 		
 		/************************
@@ -61,33 +66,44 @@ namespace Physics
 		float getDegree();
 		float getHeight();
 
-		void setIObserver(IObserver* component) {_component=component;}
-		IObserver *getIObserver() {return _component;}
+		//b2Vec2 getBodyPosition();
+		IObserver *getPhysicComponent() {return _component;}
 
 	protected:
+
+		friend class CScene;
 
 		bool load();
 		void unload();
 
 		b2World* getPhysicWorld(); 
+		void createGhostBody();
 
 
 	private:
 
+		IObserver* _component;
 		
 		b2Body* _body;
+		b2Body* _ghostBody;
 
 		b2BodyDef* _bodyDef;
+		
+		typedef std::vector<b2FixtureDef*> TFixtureDefs;
+		TFixtureDefs _fixtureDefs;
 
 		CScene* _scene;
 		
 		bool _isTrigger;
 
 		bool _loaded;
+		bool _ghosted;
 
 		float _heightCorrection;
 
-		IObserver* _component;
+		void CreateGhostFixtures();
+
+		
 
 
 	}; // class CActor

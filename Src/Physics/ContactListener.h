@@ -13,7 +13,7 @@ class b2Contact;
 
 namespace Physics
 {
-	class IObserver;
+	class CActor;
 }
 
 // Namespace que contiene las clases relacionadas con la parte física. 
@@ -31,8 +31,8 @@ namespace Physics {
 
 	private:
 
-		IObserver* _l1;
-		IObserver* _l2;
+		CActor* _l1;
+		CActor* _l2;
 
 	}; // class IObserver
 
