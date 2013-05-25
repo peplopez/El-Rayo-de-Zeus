@@ -22,6 +22,7 @@ using namespace Ogre;
 // WARNING : if != 1.0, This scale must be taken into account when setting and getting arbitrary particle attributes !
 
 const float	kWorldFxScale = 1.0f;
+const int FX_SELECTED = 0;
 
 //-------------------------------------------------------------------------------------
 
@@ -438,7 +439,7 @@ bool CHHFXSampleOgre::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonI
 
 			// effect's params
 			NameValuePairList params;
-			m_selectedFx = 1;
+			m_selectedFx = FX_SELECTED;
 
 			params["pack"] = m_selectedPack.c_str();
 			params["fx"] = m_hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetEffects()[m_selectedFx];

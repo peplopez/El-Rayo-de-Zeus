@@ -122,14 +122,14 @@ Parametros:
    <exec executable="${basedir}/../CMake/bin/cmake.exe"
 	 dir="${basedir}/build/">
       <arg value="-DOGRE_DEPENDENCIES_DIR=..\.."/>
-      <!--arg value="-DOGRE_BUILD_SAMPLES=FALSE"/>
+      <arg value="-DOGRE_BUILD_SAMPLES=FALSE"/>
       <arg value="-DOGRE_BUILD_TOOLS=FALSE"/>
       <arg value="-DOGRE_BUILD_COMPONENT_PAGING=FALSE"/>
       <arg value="-DOGRE_BUILD_COMPONENT_TERRAIN=FALSE"/>
       <arg value="-DOGRE_BUILD_PLUGIN_PCZ=FALSE"/>
       <arg value="-DOGRE_BUILD_PLUGIN_OCTREE=FALSE"/>
       <arg value="-DOGRE_BUILD_PLUGIN_BSP=FALSE"/>
-      <arg value="-DOGRE_INSTALL_TOOLS=FALSE"/-->
+      <arg value="-DOGRE_INSTALL_TOOLS=FALSE"/>
       <arg value=".."/>
    </exec>
 
@@ -181,8 +181,7 @@ Parametros:
 
    <copy todir="../bin/Debug">
       <fileset dir="./build/bin/debug" 
-               includes="*.dll,*.cfg"
-               excludes="resources_d.cfg,samples_d.cfg,quakemap_d.cfg"/>
+               includes="*.dll"/>
    </copy>
 
 </target>
@@ -195,8 +194,7 @@ Parametros:
 
    <copy todir="../bin/Release">
       <fileset dir="./build/bin/release"
-               includes="*.dll,*.cfg"
-               excludes="resources.cfg,samples.cfg,quakemap.cfg"/>
+               includes="*.dll"/>
    </copy>
 
 </target>
