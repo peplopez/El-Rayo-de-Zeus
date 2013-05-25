@@ -114,20 +114,15 @@ namespace Logic
 			setYaw(Math::fromDegreesToRadians(-_pos->getDegree()));
 			
 			//  UNDONE FRS: Con el modelo spartan.mesh bien orientado este HACK ya no es necesario
-			//if (_pos->getSense()==LogicalPosition::RIGHT)
-			//	{
-			//	if (_type=="Player" || _type=="OtherPlayer")
-			//		this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));
-			//	else
-			//		this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));		
-			//	}
-			//else
-			//	if (_type=="Player" || _type=="OtherPlayer")				
-			//		//this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
-			//		this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));
-			//	else
-			//		//this->setYaw(-Math::fromDegreesToRadians(_pos->getDegree()));
-			//	this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
+			if (_pos->getSense()==LogicalPosition::RIGHT)
+			{
+				if (_type=="Medusa" || _type=="Spider" || _type=="Sinbad")
+					this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));			
+			}
+			else
+				if (_type=="Medusa"|| _type=="Spider"|| _type=="Sinbad")
+					this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
+				
 		
 		}
 		else //logicInput=false

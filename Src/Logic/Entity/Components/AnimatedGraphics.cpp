@@ -145,9 +145,9 @@ namespace Logic
 		if(entityInfo->hasAttribute("defaultAnimation")) { 
 			_defaultAnimation = entityInfo->getStringAttribute("defaultAnimation");
 			_graphicalEntity->setAnimation(_defaultAnimation,0,true,NULL); //Pep, cuando veais esto con NULL sabed que es temporal y que soy consciente.
-			_graphicalEntity->setObserver(this);
+			
 		}
-
+		_graphicalEntity->setObserver(this);
 		return _graphicalEntity;
 	} // createGraphicsEntity
 
@@ -201,7 +201,8 @@ namespace Logic
 			_animSet->addEventTime(Logic::ATTACK2, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack2"));
 		if (entityInfo->hasAttribute("event_CT_Attack3"))
 			_animSet->addEventTime(Logic::ATTACK3, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack3"));
-
+		if (_entity->getType()=="Sinbad")
+			int i=0;
 		return true;
 	} // initializeAnimSet
 	

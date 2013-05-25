@@ -195,57 +195,57 @@ namespace Logic
 	/*	else
 			_agresivo=false;*/
 		
-			IComponent::tick(msecs);
-			// (_entity->getName()!="locoCubriendose")
-				if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase()==_entity->getLogicalPosition()->getBase())
-					if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing())
-					{
-						if (_waiting==false)
-						{
-							_reloj->addTimeObserver(_entity->getOriginBase(),this,2500);		
-						_waiting=true;
-						}
-						//en el mismo anillo
-						//ser agresivo
-						if (!(_entity->getComponent<CAvatarController>()->isWalkingLeft() || _entity->getComponent<CAvatarController>()->isWalkingRight() ))
-						{
-						/*	Logic::CMessage *m = new Logic::CMessage();
-							m->setType(Logic::Message::CONTROL);
-							m->setAction(Logic::Message::WALK_RIGHT);
-							_entity->emitMessage(m);*/
-						}
-					}
-					else
-					{//en diferente anillo.
-						//cambiemos de anillo.
-						Logic::CMessage *m = new Logic::CMessage();
-						m->setType(Logic::Message::CONTROL);
-						m->setAction(Logic::Message::WALK_STOP);
-						_entity->emitMessage(m);
+		IComponent::tick(msecs);
+		// (_entity->getName()!="locoCubriendose")
+		if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase()==_entity->getLogicalPosition()->getBase() || _entity->getType()!="OtherPlayer")
+			if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing() ||  _entity->getType()!="OtherPlayer")
+			{
+				if (_waiting==false)
+				{
+					_reloj->addTimeObserver(_entity->getEntityID(),this,2500);		
+					_waiting=true;
+				}
+				//en el mismo anillo
+				//ser agresivo
+				if (!(_entity->getComponent<CAvatarController>()->isWalkingLeft() || _entity->getComponent<CAvatarController>()->isWalkingRight() ))
+				{
+				/*	Logic::CMessage *m = new Logic::CMessage();
+					m->setType(Logic::Message::CONTROL);
+					m->setAction(Logic::Message::WALK_RIGHT);
+					_entity->emitMessage(m);*/
+				}
+			}
+			else
+			{//en diferente anillo.
+				//cambiemos de anillo.
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
+				m->setAction(Logic::Message::WALK_STOP);
+				_entity->emitMessage(m);
 					
 
-						Logic::CMessage *m2 = new Logic::CMessage();
-						m2->setType(Logic::Message::CONTROL);
-						if (_entity->getLogicalPosition()->getRing()<CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing())	
-							m2->setAction(Logic::Message::GO_UP);
-						else
-							m2->setAction(Logic::Message::GO_DOWN);
-						_entity->emitMessage(m2);
-					}
+				Logic::CMessage *m2 = new Logic::CMessage();
+				m2->setType(Logic::Message::CONTROL);
+				if (_entity->getLogicalPosition()->getRing()<CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing())	
+					m2->setAction(Logic::Message::GO_UP);
 				else
-				{//en diferente base.						
-					Logic::CMessage *m = new Logic::CMessage();
-					m->setType(Logic::Message::CONTROL);
-					m->setAction(Logic::Message::WALK_STOP);
-					_entity->emitMessage(m);
+					m2->setAction(Logic::Message::GO_DOWN);
+				_entity->emitMessage(m2);
+			}
+		else
+		{//en diferente base.						
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
+			m->setAction(Logic::Message::WALK_STOP);
+			_entity->emitMessage(m);
 					
-					Logic::CMessageUShort *m3= new Logic::CMessageUShort();
-					m3->setType(Logic::Message::CONTROL);
-					m3->setAction(Logic::Message::CHANGE_BASE);
-					m3->setUShort(CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase());
-					_entity->emitMessage(m3);
-				}
-				//activar sus altares o buscarle, cambiar de anillo.
+			Logic::CMessageUShort *m3= new Logic::CMessageUShort();
+			m3->setType(Logic::Message::CONTROL);
+			m3->setAction(Logic::Message::CHANGE_BASE);
+			m3->setUShort(CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase());
+			_entity->emitMessage(m3);
+		}
+			//activar sus altares o buscarle, cambiar de anillo.
 					
 	} //fin de CBasicAI:tick
 

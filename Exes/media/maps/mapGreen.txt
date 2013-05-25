@@ -11,6 +11,7 @@ Map ={
 		degrees=120,
 		initialMaterial="marineGreen",
 	},
+	
 	BaseCamera1 = {
 		type = "BaseCamera1",
 	},
@@ -21,7 +22,7 @@ Map ={
 	},
 	
 	bioshockLOGICO74 = {
-		type = "Bigdaddy",
+		type = "Sinbad",
 		base=3,
 		ring=1,
 		degrees=300,		

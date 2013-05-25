@@ -23,7 +23,7 @@ Map ={
 	},
 		
 	bioshockLOGICO74 = {
-		type = "Bigdaddy",
+		type = "Sinbad",
 		base=4,
 		ring=1,
 		degrees=300,		
