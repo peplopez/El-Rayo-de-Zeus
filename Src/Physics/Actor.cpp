@@ -23,7 +23,6 @@
 #include <Box2D\Dynamics\Joints\b2DistanceJoint.h>
 #include <Box2D\Collision\Shapes\b2CircleShape.h>
 #include <Box2D\Collision\Shapes\b2PolygonShape.h>
-#include <Box2D\Dynamics\b2Fixture.h>
 
 #include "Physics\Scales.h"
 
@@ -52,10 +51,10 @@ namespace Physics
 			break;
 		}
 
-		_bodyDef->angle = 0; //set the starting angle
+		_bodyDef->angle = 0;
 		_bodyDef->userData = this;
 		if (type == "static")
-			_bodyDef->type = b2_staticBody; //actor estático
+			_bodyDef->type = b2_staticBody;
 		else if (type == "dynamic")
 			_bodyDef->type = b2_dynamicBody;
 		else if (type == "kinematic")
@@ -120,6 +119,8 @@ namespace Physics
 				
 			_loaded = false;
 			getPhysicWorld()->DestroyBody(_body);
+			if (_ghostBody)
+				getPhysicWorld()->DestroyBody(_ghostBody);
 			_body = 0;
 		}
 
@@ -134,7 +135,7 @@ namespace Physics
 
 	//--------------------------------------------------------
 
-	void CActor::createFixture(float radius, bool isTrigger)
+	void CActor::createFixture(float radius, float density, float friction, float restitution, bool isTrigger)
 	{
 		radius = radius * PHYSIC_DOWNSCALE;
 		//correción en la posición del body ya que el pivote en lógica se encuentra en los pies
@@ -152,6 +153,9 @@ namespace Physics
 		b2FixtureDef* fixtureDef = new b2FixtureDef();
 		fixtureDef->isSensor = isTrigger;
 		fixtureDef->shape = circleShape; 
+		fixtureDef->density = density;
+		fixtureDef->friction = friction;
+		fixtureDef->restitution = restitution;
 		_body->CreateFixture(fixtureDef); 
 		_fixtureDefs.push_back(fixtureDef);
 
@@ -159,7 +163,7 @@ namespace Physics
 
 	//--------------------------------------------------------
 
-	void CActor::createFixture(float halfWidth, float halfHeight, bool isTrigger)
+	void CActor::createFixture(float halfWidth, float halfHeight, float density, float friction, float restitution, bool isTrigger)
 	{
 		halfWidth = halfWidth * PHYSIC_DOWNSCALE;
 		halfHeight = halfHeight * PHYSIC_DOWNSCALE;
@@ -176,14 +180,17 @@ namespace Physics
 
 		b2FixtureDef* fixtureDef = new b2FixtureDef();
 		fixtureDef->isSensor = isTrigger;
-		fixtureDef->shape = polygonShape; 
+		fixtureDef->shape = polygonShape;
+		fixtureDef->density = density;
+		fixtureDef->friction = friction;
+		fixtureDef->restitution = restitution;
 		_body->CreateFixture(fixtureDef); 
 		_fixtureDefs.push_back(fixtureDef);
 
 	}
 	//--------------------------------------------------------
 
-	void CActor::createFixture(float halfWidth, float halfHeight, float radius, bool isTrigger)
+	void CActor::createFixtures(float halfWidth, float halfHeight, float radius, float density, float friction, float restitution, bool isTrigger)
 	{
 
 		halfWidth = halfWidth * PHYSIC_DOWNSCALE;
@@ -202,9 +209,10 @@ namespace Physics
 
 		b2FixtureDef* fixtureDef1 = new b2FixtureDef();
 		fixtureDef1->isSensor = isTrigger;
-		fixtureDef1->density=1.0f;
-		fixtureDef1->friction=0;
-		fixtureDef1->restitution=0;
+		fixtureDef1->density = density / 3;
+		fixtureDef1->friction = friction / 3;
+		fixtureDef1->restitution = restitution / 3;
+
 		fixtureDef1->shape = circleShape1; //this is a pointer to the shape above
 		_body->CreateFixture(fixtureDef1); //add a fixture to the body
 		_fixtureDefs.push_back(fixtureDef1);
@@ -215,9 +223,10 @@ namespace Physics
 
 		b2FixtureDef* fixtureDef2 = new b2FixtureDef();
 		fixtureDef2->isSensor = isTrigger;
-		fixtureDef2->density=1.0f;
-		fixtureDef2->friction=0;
-		fixtureDef2->restitution=0;
+		fixtureDef2->density = density / 3;
+		fixtureDef2->friction = friction / 3;
+		fixtureDef2->restitution = restitution / 3;
+
 		fixtureDef2->shape = circleShape2; //this is a pointer to the shape above
 		_body->CreateFixture(fixtureDef2); //add a fixture to the body
 		_fixtureDefs.push_back(fixtureDef2);
@@ -227,9 +236,10 @@ namespace Physics
 
 		b2FixtureDef* fixtureDef3 = new b2FixtureDef();
 		fixtureDef3->isSensor = isTrigger;
-		fixtureDef3->density=1.0f;
-		fixtureDef3->friction=0;
-		fixtureDef3->restitution=0;
+		fixtureDef3->density = density / 3;
+		fixtureDef3->friction = friction / 3;
+		fixtureDef3->restitution = restitution / 3;
+
 		fixtureDef3->shape = polygonShape; //this is a pointer to the shape above
 		_body->CreateFixture(fixtureDef3); //add a fixture to the body
 		_fixtureDefs.push_back(fixtureDef3);
@@ -345,6 +355,7 @@ namespace Physics
 	{
 
 		getPhysicWorld()->DestroyBody(_ghostBody);
+		_ghostBody = 0;
 	}
 
 	//--------------------------------------------------------

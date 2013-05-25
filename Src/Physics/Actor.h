@@ -48,9 +48,9 @@ namespace Physics
 		bool attachToScene(CScene *scene);
 		bool detachFromScene();
 
-		void createFixture(float radius, bool isTrigger); //Circle Shape
-		void createFixture(float halfWidth, float halfHeigth, bool isTrigger); //BoxShape
-		void createFixture(float haldWidth, float halfHeight, float radius, bool isTrigger);
+		void createFixture(float radius, float density, float friction, float restitution, bool isTrigger); //Circle Shape
+		void createFixture(float halfWidth, float halfHeigth, float density, float friction, float restitution, bool isTrigger); //BoxShape
+		void createFixtures(float haldWidth, float halfHeight, float radius, float density, float friction, float restitution, bool isTrigger);
 
 		void move(float x, float y);
 		void setLinearVelocity(float x, float y);

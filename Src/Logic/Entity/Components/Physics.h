@@ -63,9 +63,11 @@ namespace Logic
 		Constructor por defecto.
 		*/
 		CPhysics::CPhysics() : 
-		  IComponent(GetAltTypeIdOf(CPhysics)), _physicalActor(0), _isTrigger(false) {}
+		  IComponent(GetAltTypeIdOf(CPhysics)), _physicalActor(0), _isTrigger(false), _radius(0), _halfWidth(0), _halfHeight(0),
+				_density(0), _friction(0), _restitution(0) {}
 		CPhysics::CPhysics(altTypeId id) : 
-		  IComponent(id),  _physicalActor(0), _isTrigger(false) {}
+		  IComponent(id),  _physicalActor(0), _isTrigger(false), _radius(0), _halfWidth(0), _halfHeight(0), 
+				_density(0), _friction(0), _restitution(0) {}
 
 		/**
 		Destructor. Elimina el objeto físico de la escena y lo destruye. 
@@ -92,12 +94,14 @@ namespace Logic
 
 	protected:
 
-		// UNDONE FRS Physics::CServer* _server; // Servidor de física
 		Physics::CScene* _scene; // Servidor de física
 		Physics::CActor* _physicalActor; // Actor que representa la entidad física
 
 		bool _isTrigger;
 		std::string _shape;
+
+		float _radius, _halfWidth, _halfHeight;
+		float _density, _friction, _restitution;
 
 
 

@@ -99,7 +99,7 @@ namespace Logic {
 		// Obtenemos la posición de la entidad. 
 		CLogicalPosition* logicPos = _entity->getLogicalPosition();
 
-		assert(entityInfo->hasAttribute("physicType") && "falta definir atributo tipo estatico /dinamico /kinematico para el actor en el mapa");
+		assert(entityInfo->hasAttribute("physicType") && "falta definir atributo tipo estatico/dinamico/kinematico para el actor en el mapa");
 		std::string physicType = entityInfo->getStringAttribute("physicType");
 		
 		//assert(physicType == "static" || physicType == "kinematic" && "WTF --> physicType inválido para un componente CPhysics" );
@@ -110,32 +110,33 @@ namespace Logic {
 
 		Physics::CActor* actor = new Physics::CActor(logicPos->getDegree(), logicPos->getHeight() + physicBodyOffset, logicPos->getRing(), physicType, this);
 
+		if (entityInfo->hasAttribute("physicRadius"))
+			_radius = entityInfo->getFloatAttribute("physicRadius");
+
+		if (entityInfo->hasAttribute("physicHalfWidth"))
+			_halfWidth = entityInfo->getFloatAttribute("physicHalfWidth");
+		
+		if (entityInfo->hasAttribute("physicHalfHeight"))
+			_halfHeight = entityInfo->getFloatAttribute("physicHalfHeight");
+
+		if (entityInfo->hasAttribute("density"))
+			_density = entityInfo->getFloatAttribute("density");
+
+		if (entityInfo->hasAttribute("friction"))
+			_friction = entityInfo->getFloatAttribute("friction");
+
+		if (entityInfo->hasAttribute("restitution"))
+			_restitution = entityInfo->getFloatAttribute("friction");
+
+
 		if (_scene->add(actor));
 		{
 			if (_shape == "circle")
-			{
-				assert(entityInfo->hasAttribute("radius") && "falta definir atributo radius en el mapa");
-					float radius = entityInfo->getFloatAttribute("radius");
-				actor->createFixture(radius, _isTrigger); 
-			}
+				actor->createFixture(_radius, _density, _friction, _restitution, _isTrigger); 
 			else if (_shape == "box")
-			{
-				assert(entityInfo->hasAttribute("physicWidth") && "falta definir atributo physicWidth en el mapa");
-					float halfWidth = entityInfo->getFloatAttribute("physicWidth");
-				assert(entityInfo->hasAttribute("physicHeight") && "falta definir atributo physicWidth en el mapa");
-					float halfHeight = entityInfo->getFloatAttribute("physicHeight");
-				actor->createFixture(halfWidth, halfHeight, _isTrigger); 
-			}
-			else if (_shape == "chupachups")
-			{
-				assert(entityInfo->hasAttribute("radius") && "falta definir atributo radius en el mapa");
-					float radius = entityInfo->getFloatAttribute("radius");
-				assert(entityInfo->hasAttribute("physicWidth") && "falta definir atributo physicWidth en el mapa");
-					float halfWidth = entityInfo->getFloatAttribute("physicWidth");
-				assert(entityInfo->hasAttribute("physicHeight") && "falta definir atributo physicWidth en el mapa");
-					float halfHeight = entityInfo->getFloatAttribute("physicHeight");
-				actor->createFixture(halfWidth, halfHeight, radius, _isTrigger);
-			}
+				actor->createFixture(_halfWidth, _halfHeight, _density, _friction, _restitution, _isTrigger); 
+			else if (_shape == "capsule")
+				actor->createFixtures(_halfWidth, _halfHeight, _radius, _density, _friction, _restitution, _isTrigger);
 
 			return actor;
 		}

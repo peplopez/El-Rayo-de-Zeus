@@ -146,8 +146,8 @@ namespace Physics
 		leftWorldEdge->attachToScene(this);
 		rightWorldEdge->attachToScene(this);
 
-		leftWorldEdge->createFixture(5, 100, true);
-		rightWorldEdge->createFixture(5, 100, true);
+		leftWorldEdge->createFixture(3, 100, 0, 0, 0, true);
+		rightWorldEdge->createFixture(3, 100, 0, 0, 0, true);
 
 	}
 
