@@ -6,7 +6,7 @@
 
 <project name="Luabind" default="build">
  
-	<property name="bjamDefaultParams" value='-sLUA_PATH="../lua" -sBOOST_BUILD_PATH="../luabind/boost-build" -sBOOST_ROOT="../boost" --toolset=msvc-10.0 link=shared'/>
+	<property name="bjamDefaultParams" value='-sLUA_PATH="../../lua" -sBOOST_BUILD_PATH="../share/boost-build" -sBOOST_ROOT="../../boost" --toolset=msvc-10.0 link=shared'/>
 	 
 	<!-- ================================== -->
 	<!-- TARGETS DE COMPILACION 		    -->
@@ -20,7 +20,7 @@
 		
 	   <target name="debug"
 			   description="Compilación (incremental) en modo Debug">
-		  <exec executable="${basedir}/../bjam/bjam.exe" failonerror="true" dir="${basedir}">
+		  <exec executable="${basedir}/../BoostBuild/bin/bjam.exe" failonerror="true" dir="${basedir}">
 			 <arg line="${bjamDefaultParams}"/>
 			 <arg line="debug"/>
 		  </exec>
@@ -30,7 +30,7 @@
 	
 		<target name="release"
 			   description="Compilación (incremental) en modo Release">		  
-		  <exec executable="${basedir}/../bjam/bjam.exe" failonerror="true" dir="${basedir}">
+		  <exec executable="${basedir}/../BoostBuild/bin/bjam.exe" failonerror="true" dir="${basedir}">
 			 <arg line="${bjamDefaultParams}"/>
 			 <arg line="release"/>
 		  </exec>		  
@@ -67,24 +67,25 @@
 	<!-- =============== -->
 
 		<target name="clean"
-				description="Elimina ficheros de compilación"
-				depends="cleanDebug, cleanRelease">
+				description="Elimina ficheros de compilación">
+			<delete includeemptydirs="true" failonerror="false">
+				<fileset dir="./bin" />
+			</delete>
 		</target>
 		
 		<target name="cleanDebug"
 				description="Elimina los ficheros de la compilacion en Debug">
 			<delete includeemptydirs="true" failonerror="false">
-				<fileset dir="./bin/msvc-10.0/Debug/" />
+				<fileset dir="./bin/msvc-10.0/Debug" />
 			</delete>
 		</target>
 
 		<target name="cleanRelease"
 				description="Elimina los ficheros de la compilacion en Release">
 			<delete includeemptydirs="true" failonerror="false">
-				<fileset dir="./bin/msvc-10.0/Release/" />
+				<fileset dir="./bin/msvc-10.0/Release" />
 			</delete>
 		</target>
 
-		
    
 </project>

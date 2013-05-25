@@ -82,6 +82,9 @@ DocumentacionDoxygen/
 /dependencies/bin/Debug/*
 /dependencies/bin/Release/*
 
+/dependencies/boost/tools/build/v2/engine/bin.ntx86
+/dependencies/boost/tools/build/v2/engine/bootstrap
+
 /dependencies/BoostBuild
 
 /dependencies/CEGUI/bin/*
