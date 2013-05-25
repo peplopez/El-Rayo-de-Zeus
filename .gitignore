@@ -177,7 +177,6 @@ DocumentacionDoxygen/
 !/dependencies/include/IHHFXPublic.h
 !/dependencies/lib/*/enet.lib
 !/dependencies/lib/*/fmodex_vc.lib
-!/dependencies/luabind/bjam.exe
 
 !/Exes/resources.cfg
 !/Exes/plugins*.cfg

@@ -7,42 +7,50 @@
 <project name="Boost" default="publish">
 
 	
-<project name="Luabind" default="build">
- 
-	<property name="bjamDefaultParams" value='-sBOOST_ROOT="../boost" --toolset=msvc-10.0 link=shared'/>
-	 
-	<target name="installB2"
-			   description="Compilación (incremental) en modo Release">		  
-	  <exec executable="${basedir}/tools/build/v2/bootstrap.bat" failonerror="true" dir="${basedir}/tools/build/v2"/>
-	  <exec executable="${basedir}/tools/build/v2/b2" failonerror="true" dir="${basedir}/tools/build/v2">
-		<arg line="${bjamDefaultParams}"/>
-		<arg line="release"/>
-	  </exec>		  
-	  <antcall target="publishRelease"/>
-	</target>
+<project name="Luabind" default="build"> 
+
+	<property name="B2Params" value='-sBOOST_ROOT="../boost" --toolset=msvc-10.0 link=shared'/>
+	 	
 	 
 	<!-- ================================== -->
 	<!-- TARGETS DE COMPILACION 		    -->
 	<!-- ================================== -->
 		
-	   <target name="debug"
-			   description="Compilación (incremental) en modo Debug">
-		  <exec executable="${basedir}/../bjam/bjam.exe" failonerror="true" dir="${basedir}">
-			 <arg line="${bjamDefaultParams}"/>
-			 <arg line="debug"/>
-		  </exec>
-		  <antcall target="publishDebug"/>
-	   </target>	
+	<target name="installB2"
+		    description="Instalación de Boost Build (b2.exe)">		
+			
+	  <exec executable="${basedir}/tools/build/v2/bootstrap.bat" failonerror="true" dir="${basedir}/tools/build/v2"/>
+	  <exec executable="${basedir}/tools/build/v2/b2" failonerror="true" dir="${basedir}/tools/build/v2">
+		<arg line="--prefix=..\..\..\..\BoostBuild"/>	
+	</exec>		  
+	 
+	</target>
+	   <target name="debug"			   
+			   description="Compilación (incremental) en modo Debug"
+			   depends="installB2" >
+			   
+	  <exec executable="${basedir}/../bin/b2.exe" failonerror="true" dir="${basedir}">
+		 <arg line="${B2Params}"/>
+		 <arg line="debug"/>
+	  </exec>
+	  
+	  <antcall target="publishDebug"/>
+		  
+	</target>	
 	
 	
-		<target name="release"
-			   description="Compilación (incremental) en modo Release">		  
-		  <exec executable="${basedir}/../bjam/bjam.exe" failonerror="true" dir="${basedir}">
-			 <arg line="${bjamDefaultParams}"/>
-			 <arg line="release"/>
-		  </exec>		  
-		  <antcall target="publishRelease"/>
-		</target>
+	<target name="release"
+			   description="Compilación (incremental) en modo Release"
+			   depends="installB2">	
+			   
+	  <exec executable="${basedir}/../bin/b2.exe" failonerror="true" dir="${basedir}">
+		 <arg line="${B2Params}"/>
+		 <arg line="release"/>
+	  </exec>		  
+	  
+	  <antcall target="publishRelease"/>
+		  
+	</target>
 	      
 
   <!-- ================================== -->
