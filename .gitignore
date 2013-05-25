@@ -81,6 +81,9 @@ DocumentacionDoxygen/
 ###############
 /dependencies/bin/Debug/*
 /dependencies/bin/Release/*
+
+/dependencies/BoostBuild
+
 /dependencies/CEGUI/bin/*
 /dependencies/CEGUI/cegui/include/config.h
 /dependencies/CEGUI/lib/*

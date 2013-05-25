@@ -82,9 +82,9 @@ Parametros:
 <target name="doxygen"
         description="Genera la documentación, si la hay.">
 
-  <!-- <antcall target="build">
+  <antcall target="build">
     <param name="targetUsed" value="doxygen"/>
-  </antcall> -->
+  </antcall>
 
   <taskdef name="doxygen" classname="org.doxygen.tools.DoxygenTask" />
   <doxygen configFilename="Doxyfile"/>

@@ -6,17 +6,71 @@
 
 <project name="Boost" default="publish">
 
+	
+<project name="Luabind" default="build">
+ 
+	<property name="bjamDefaultParams" value='-sBOOST_ROOT="../boost" --toolset=msvc-10.0 link=shared'/>
+	 
+	<target name="installB2"
+			   description="Compilación (incremental) en modo Release">		  
+	  <exec executable="${basedir}/tools/build/v2/bootstrap.bat" failonerror="true" dir="${basedir}/tools/build/v2"/>
+	  <exec executable="${basedir}/tools/build/v2/b2" failonerror="true" dir="${basedir}/tools/build/v2">
+		<arg line="${bjamDefaultParams}"/>
+		<arg line="release"/>
+	  </exec>		  
+	  <antcall target="publishRelease"/>
+	</target>
+	 
+	<!-- ================================== -->
+	<!-- TARGETS DE COMPILACION 		    -->
+	<!-- ================================== -->
+		
+	   <target name="debug"
+			   description="Compilación (incremental) en modo Debug">
+		  <exec executable="${basedir}/../bjam/bjam.exe" failonerror="true" dir="${basedir}">
+			 <arg line="${bjamDefaultParams}"/>
+			 <arg line="debug"/>
+		  </exec>
+		  <antcall target="publishDebug"/>
+	   </target>	
+	
+	
+		<target name="release"
+			   description="Compilación (incremental) en modo Release">		  
+		  <exec executable="${basedir}/../bjam/bjam.exe" failonerror="true" dir="${basedir}">
+			 <arg line="${bjamDefaultParams}"/>
+			 <arg line="release"/>
+		  </exec>		  
+		  <antcall target="publishRelease"/>
+		</target>
+	      
 
+  <!-- ================================== -->
+  <!-- TARGETS DE COMPILACION INCREMENTAL -->
+  <!-- ================================== -->
+  
+
+	<target name="build"
+        description="Compilación (incremental) Debug y Release."
+        depends="debug, release"/>
+		
+	 <target name="debug" 
+		description="Compilación (incremental) en modo Debug">
+		 <antcall target="publishLibDebug"/>
+	 </target>
+	 
+	 <target name="release" 
+		description="Compilación (incremental) en modo Release">
+		 <antcall target="publishLibRelease"/>
+	 </target>	
+	
 
    <!-- ==================================== -->
   <!-- TARGETS DE PUBLICACION DE RESULTADOS -->
   <!-- AL DIRECTORIO dependencies           -->
-  <!-- ==================================== -->
+  <!-- ==================================== -->    
 
-  <target name="publish" 
-	description="Publica tanto .h como .lib de boost"
-	depends="publishHeaders, publishLibBinDebug, publishLibBinRelease" />
-		
+	
 	<target name="publishHeaders">
 	   <mkdir dir="../include/boost"/>
 	   <copy todir="../include/boost">
@@ -24,42 +78,34 @@
 	   </copy>
 	</target>
 
-	<target name="publishLibBinDebug">
+	<target name="publishLibDebug"
+			depends="publishHeaders">
 	   <copy todir="../lib/Debug">
 		  <fileset dir="./lib/" includes="*gd*.lib"/>
 	   </copy>
+	   
+	   <copy file="bin/msvc-9.0/debug/threading-multi/luabindd.dll" todir="../bin/Debug"/>
+		<copy file="bin/msvc-9.0/debug/threading-multi/luabindd.lib" todir="../lib/Debug"/>
+		
 	</target>
-
-	<target name="publishLibBinRelease">
+	
+	<target name="publishLibRelease"
+			depends="publishHeaders">
 	   <copy todir="../lib/Release">
 		  <fileset dir="./lib/" excludes="*gd*.lib"/>
 	   </copy>
-	</target> 
-	
-	
-	
-  <!-- ================================== -->
-  <!-- TARGETS DE COMPILACION INCREMENTAL -->
-  <!-- ================================== -->
-  
- <!-- Objetivo que compila el proyecto (Debug+Release) de forma incremental. -->
- <target name="build"
-        description="Compilación (incremental) Debug y Release."
-        depends="debug, release"/>
+	   
+	   <copy file="bin/msvc-9.0/release/threading-multi/luabind.dll" todir="../bin/Release"/>
+		<copy file="bin/msvc-9.0/release/threading-multi/luabind.lib" todir="../lib/Release"/>
 		
- <target name="debug" 
-	depends="publishHeaders, publishLibBinDebug"
-    description="Compilación (incremental) en modo Debug"/>
- 
- <target name="release" 
-	depends="publishHeaders, publishLibBinRelease"
-    description="Compilación (incremental) en modo Release"/>
+	</target> 
 	
 	
 	
   <!-- =================== -->
   <!-- TARGETS DE LIMPIEZA -->
   <!-- =================== -->
+  
   
   	<target name="clean"
 			description="Elimina ficheros de compilación"
@@ -68,10 +114,16 @@
 	
 	<target name="cleanDebug"
 			description="Elimina los ficheros de la compilacion en Debug">
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="./bin/msvc-9.0/Debug/" />
+		</delete>
 	</target>
 
 	<target name="cleanRelease"
 			description="Elimina los ficheros de la compilacion en Release">	
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="./bin/msvc-9.0/Release/" />
+		</delete>
 	</target>
 
 </project>
