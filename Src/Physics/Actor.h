@@ -38,7 +38,8 @@ namespace Physics
 	class CActor
 	{
 	public:
-
+		
+		typedef std::vector<b2FixtureDef*> TFixtureDefs;
 
 		CActor(float degrees, float height, Logic::Ring ring,  std::string type, IObserver *component); 
 		
@@ -65,9 +66,7 @@ namespace Physics
 
 		float getDegree();
 		float getHeight();
-
-		//b2Vec2 getBodyPosition();
-		IObserver *getPhysicComponent() {return _component;}
+		
 
 	protected:
 
@@ -78,6 +77,9 @@ namespace Physics
 
 		b2World* getPhysicWorld(); 
 		void createGhostBody();
+		void deleteGhostBody();
+
+		IObserver *getPhysicComponent() {return _component;}
 
 
 	private:
@@ -88,20 +90,18 @@ namespace Physics
 		b2Body* _ghostBody;
 
 		b2BodyDef* _bodyDef;
-		
-		typedef std::vector<b2FixtureDef*> TFixtureDefs;
 		TFixtureDefs _fixtureDefs;
 
 		CScene* _scene;
 		
 		bool _isTrigger;
-
 		bool _loaded;
 		bool _ghosted;
 
 		float _heightCorrection;
 
 		void CreateGhostFixtures();
+		void bodyOutOfWorldBoundaries(); 
 
 		
 

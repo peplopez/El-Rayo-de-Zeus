@@ -36,6 +36,9 @@ namespace Physics
 	{
 		_bodyDef = new b2BodyDef();
 
+		if (degree > 180)
+			degree -= 360;
+
 		switch (ring)
 		{
 		case Logic::Ring::CENTRAL_RING:
@@ -257,6 +260,8 @@ namespace Physics
 	{
 	
 		_body->SetLinearVelocity(b2Vec2(x * PHYSIC_DOWNSCALE, y * PHYSIC_DOWNSCALE));
+		if (_ghostBody)
+			_ghostBody->SetLinearVelocity(b2Vec2(x * PHYSIC_DOWNSCALE, y * PHYSIC_DOWNSCALE));
 	}
 
 	//--------------------------------------------------------
@@ -284,11 +289,21 @@ namespace Physics
 		{
 			if (!_ghosted)
 			{
-				_scene->deferredGhostActor(this);
+				_scene->deferredGhostBody(this);
 				_ghosted = true;
 			}
 
 		}
+		else if (!otherActor->getPhysicComponent() && !enter)
+		{
+			if (_ghosted)
+			{
+				bodyOutOfWorldBoundaries();
+				_scene->deferredUnghostBody(this);
+				_ghosted = false;
+			}
+		}
+
 	}
 
 	//--------------------------------------------------------
@@ -296,28 +311,40 @@ namespace Physics
 	{
 		_ghostBody = getPhysicWorld()->CreateBody(_bodyDef);
 		_ghostBody->SetFixedRotation(true);
+
+
 		b2Transform transform = _body->GetTransform();
 		if (transform.p.x > 0)
-			transform.p.x -= 360 * PHYSIC_DOWNSCALE;
+			transform.p.x -= 360.0f * PHYSIC_DOWNSCALE;
 		else
-			transform.p.x += 360 * PHYSIC_DOWNSCALE;
+			transform.p.x += 360.0f * PHYSIC_DOWNSCALE;
 
 		_ghostBody->SetTransform(transform.p, transform.q.GetAngle());
 		CreateGhostFixtures();
+
 
 		b2DistanceJointDef jointDef;
 		jointDef.bodyA = _body;
 		jointDef.bodyB = _ghostBody;
 		jointDef.collideConnected = false;
-		jointDef.length = 360 * PHYSIC_DOWNSCALE;
+		jointDef.length = 720.0f * PHYSIC_DOWNSCALE;
 
-		jointDef.localAnchorA = _body->GetWorldCenter();
-		jointDef.localAnchorB = _ghostBody->GetWorldCenter();
+
+		jointDef.localAnchorA = _body->GetPosition();
+		jointDef.localAnchorB = _ghostBody->GetPosition();
 
 
 		//create the joint
 		b2DistanceJoint* joint = (b2DistanceJoint*)getPhysicWorld()->CreateJoint( &jointDef );	
 
+	}
+
+	//--------------------------------------------------------
+
+	void CActor::deleteGhostBody()
+	{
+
+		getPhysicWorld()->DestroyBody(_ghostBody);
 	}
 
 	//--------------------------------------------------------
@@ -335,8 +362,19 @@ namespace Physics
 		if (_component && otherActor->getPhysicComponent())
 			_component->onCollision(otherActor->getPhysicComponent());
 	}
-
-
+	
+	//--------------------------------------------------------
+	void CActor::bodyOutOfWorldBoundaries()
+	{
+		if (_body->GetPosition().x > (180 * PHYSIC_DOWNSCALE) || 
+			_body->GetPosition().x < (-180* PHYSIC_DOWNSCALE))
+		{
+			b2Body* aux;
+			aux = _body;
+			_body = _ghostBody;
+			_ghostBody = aux;
+		}
+	}
 		
 } // namespace Physics
 

@@ -56,7 +56,6 @@ namespace Physics
 			_debugDraw = new OgreB2DebugDraw(Graphics::CServer::getSingletonPtr()->getScene(name)->getSceneMgr(), "debugDraw") ;
 			_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(name)->getCamera()->getCameraNode());
 			_debugDraw->SetFlags(b2Draw::e_shapeBit);
-			_debugDraw->SetFlags(b2Draw::e_jointBit);
 			_world->SetDebugDraw(_debugDraw);
 #endif		
 			_worldListener = new CContactListener();
@@ -100,7 +99,9 @@ namespace Physics
 #endif
 		_world->Step(timeStep, velocityIterations, positionIterations);//simulación física
 		if (_actorsToGhost.size() > 0)
-			createGhostActors();
+			createGhostBodies();
+		if (_actorsToUnghost.size() > 0)
+			deleteGhostBodies();
 #ifdef _DEBUG
 		_world->DrawDebugData();
 		_debugDraw->Render();
@@ -151,18 +152,37 @@ namespace Physics
 	}
 
 	//--------------------------------------------------------
-	void CScene::deferredGhostActor(CActor* actor)
+	
+	void CScene::deferredGhostBody(CActor* actor)
 	{
 		_actorsToGhost.push_back(actor);
 	}
 
 	//--------------------------------------------------------
-	void CScene::createGhostActors()
+	
+	void CScene::deferredUnghostBody(CActor* actor)
+	{
+		_actorsToUnghost.push_back(actor);
+	}
+
+	//--------------------------------------------------------
+	
+	void CScene::createGhostBodies()
 	{
 		for (int i = 0; i < _actorsToGhost.size(); ++i)
 			_actorsToGhost[i]->createGhostBody();
 		
 		_actorsToGhost.clear();
+	}
+	
+	//--------------------------------------------------------
+
+	void CScene::deleteGhostBodies()
+	{
+		for (int i = 0; i < _actorsToUnghost.size(); ++i)
+			_actorsToUnghost[i]->deleteGhostBody();
+
+		_actorsToUnghost.clear();
 	}
 	
 } // namespace Physics

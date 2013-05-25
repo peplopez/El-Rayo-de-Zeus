@@ -27,7 +27,7 @@ Map ={
 		type = "Medusa",
 		base=1,
 		ring=1,
-		degrees=30,		
+		degrees=178,		
 	},
 	
 	medusa2 = {
