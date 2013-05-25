@@ -118,20 +118,20 @@ Parametros:
 
 <target name="createSln">
 
-   <!--mkdir dir="${basedir}/build"/>
+   <mkdir dir="${basedir}/build"/>
    <exec executable="${basedir}/../CMake/bin/cmake.exe"
 	 dir="${basedir}/build/">
       <arg value="-DOGRE_DEPENDENCIES_DIR=..\.."/>
-      <arg value="-DOGRE_BUILD_SAMPLES=FALSE"/>
+      <!--arg value="-DOGRE_BUILD_SAMPLES=FALSE"/>
       <arg value="-DOGRE_BUILD_TOOLS=FALSE"/>
       <arg value="-DOGRE_BUILD_COMPONENT_PAGING=FALSE"/>
       <arg value="-DOGRE_BUILD_COMPONENT_TERRAIN=FALSE"/>
       <arg value="-DOGRE_BUILD_PLUGIN_PCZ=FALSE"/>
       <arg value="-DOGRE_BUILD_PLUGIN_OCTREE=FALSE"/>
       <arg value="-DOGRE_BUILD_PLUGIN_BSP=FALSE"/>
-      <arg value="-DOGRE_INSTALL_TOOLS=FALSE"/>
+      <arg value="-DOGRE_INSTALL_TOOLS=FALSE"/-->
       <arg value=".."/>
-   </exec-->
+   </exec>
 
    <!-- Y publicamos los .h que se van a utilizar para -->
    <!-- la generacion -->
@@ -205,6 +205,11 @@ Parametros:
   <!-- TARGETS DE COMPILACION INCREMENTAL -->
   <!-- ================================== -->
 
+<!-- Objetivo que compila el proyecto (Debug+Release) de forma incremental. -->
+<target name="build"
+        description="Compilación (incremental) Debug y Release."
+        depends="debug, release"/>
+		
 <!-- Objetivo que compila el proyecto en modo Debug. -->
 <target name="debug" depends="createSln"
         description="Compilación (incremental) en modo Debug">
@@ -233,10 +238,6 @@ Parametros:
 
 </target>
 
-<!-- Objetivo que compila el proyecto (Debug+Release) de forma incremental. -->
-<target name="build"
-        description="Compilación (incremental) Debug y Release."
-        depends="debug, release"/>
 
   <!-- =============================== -->
   <!-- TARGETS DE COMPILACION COMPLETA -->

@@ -95,6 +95,19 @@ Parametros:
   <!-- TARGETS DE LIMPIEZA -->
   <!-- =================== -->
 
+<target name="cleanObj"
+        description="Elimina los ficheros intermedios de la compilación">
+
+  <antcall target="llamaBuilds">
+    <param name="targetUsed" value="cleanObj"/>
+  </antcall>
+  
+   <delete includeemptydirs="true" failonerror="false">
+     <fileset dir="${basedir}/Projects" includes="**/Release/,**/Debug/,**/*.log"/>   
+   </delete>
+
+</target>
+
 <target name="cleanDebugObj"
         description="Elimina los ficheros intermedios de la compilacion en Debug">
 
@@ -121,18 +134,7 @@ Parametros:
 
 </target>
 
-<target name="cleanObj"
-        description="Elimina los ficheros intermedios de la compilación">
 
-  <antcall target="llamaBuilds">
-    <param name="targetUsed" value="cleanObj"/>
-  </antcall>
-  
-   <delete includeemptydirs="true" failonerror="false">
-     <fileset dir="${basedir}/Projects" includes="**/Release/,**/Debug/,**/*.log"/>   
-   </delete>
-
-</target>
 
 <target name="cleanDebugGaleon"
         description="Elimina los ficheros intermedios de la compilacion en Debug de Galeón">

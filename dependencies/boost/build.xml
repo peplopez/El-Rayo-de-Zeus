@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- Fichero Ant para la publicación de boost -->
+<!-- de Ogre -->
+<!-- FRS -->
+<!-- Mayo 2013 -->
+
+<project name="Boost" default="publish">
+
+
+
+   <!-- ==================================== -->
+  <!-- TARGETS DE PUBLICACION DE RESULTADOS -->
+  <!-- AL DIRECTORIO dependencies           -->
+  <!-- ==================================== -->
+
+  <target name="publish" 
+	description="Publica tanto .h como .lib de boost"
+	depends="publishHeaders, publishLibBinDebug, publishLibBinRelease" />
+		
+	<target name="publishHeaders">
+	   <mkdir dir="../include/boost"/>
+	   <copy todir="../include/boost">
+		  <fileset dir="./boost/"/>
+	   </copy>
+	</target>
+
+	<target name="publishLibBinDebug">
+	   <copy todir="../lib/Debug">
+		  <fileset dir="./lib/" includes="*gd*.lib"/>
+	   </copy>
+	</target>
+
+	<target name="publishLibBinRelease">
+	   <copy todir="../lib/Release">
+		  <fileset dir="./lib/" excludes="*gd*.lib"/>
+	   </copy>
+	</target> 
+	
+	
+	
+  <!-- ================================== -->
+  <!-- TARGETS DE COMPILACION INCREMENTAL -->
+  <!-- ================================== -->
+  
+ <!-- Objetivo que compila el proyecto (Debug+Release) de forma incremental. -->
+ <target name="build"
+        description="Compilación (incremental) Debug y Release."
+        depends="debug, release"/>
+		
+ <target name="debug" 
+	depends="publishHeaders, publishLibBinDebug"
+    description="Compilación (incremental) en modo Debug"/>
+ 
+ <target name="release" 
+	depends="publishHeaders, publishLibBinRelease"
+    description="Compilación (incremental) en modo Release"/>
+	
+	
+	
+  <!-- =================== -->
+  <!-- TARGETS DE LIMPIEZA -->
+  <!-- =================== -->
+  
+  	<target name="clean"
+			description="Elimina ficheros de compilación"
+			depends="cleanDebug, cleanRelease">
+	</target>
+	
+	<target name="cleanDebug"
+			description="Elimina los ficheros de la compilacion en Debug">
+	</target>
+
+	<target name="cleanRelease"
+			description="Elimina los ficheros de la compilacion en Release">	
+	</target>
+
+</project>
+
