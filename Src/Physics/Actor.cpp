@@ -20,6 +20,7 @@
 #include <Box2D\Dynamics\b2Body.h>
 #include <Box2D\Dynamics\b2World.h>
 #include <Box2D\Dynamics\b2Fixture.h>
+#include <Box2D\Dynamics\Joints\b2DistanceJoint.h>
 #include <Box2D\Collision\Shapes\b2CircleShape.h>
 #include <Box2D\Collision\Shapes\b2PolygonShape.h>
 #include <Box2D\Dynamics\b2Fixture.h>
@@ -34,9 +35,6 @@ namespace Physics
 		 _body(0), _ghostBody(0), _bodyDef(0), _scene(0), _isTrigger(false), _heightCorrection(0), _loaded(false), _ghosted(false), _component(component)
 	{
 		_bodyDef = new b2BodyDef();
-
-		if (degree > 180)
-			degree -= 360;
 
 		switch (ring)
 		{
@@ -297,6 +295,7 @@ namespace Physics
 	void CActor::createGhostBody()
 	{
 		_ghostBody = getPhysicWorld()->CreateBody(_bodyDef);
+		_ghostBody->SetFixedRotation(true);
 		b2Transform transform = _body->GetTransform();
 		if (transform.p.x > 0)
 			transform.p.x -= 360 * PHYSIC_DOWNSCALE;
@@ -305,6 +304,19 @@ namespace Physics
 
 		_ghostBody->SetTransform(transform.p, transform.q.GetAngle());
 		CreateGhostFixtures();
+
+		b2DistanceJointDef jointDef;
+		jointDef.bodyA = _body;
+		jointDef.bodyB = _ghostBody;
+		jointDef.collideConnected = false;
+		jointDef.length = 360 * PHYSIC_DOWNSCALE;
+
+		jointDef.localAnchorA = _body->GetWorldCenter();
+		jointDef.localAnchorB = _ghostBody->GetWorldCenter();
+
+
+		//create the joint
+		b2DistanceJoint* joint = (b2DistanceJoint*)getPhysicWorld()->CreateJoint( &jointDef );	
 
 	}
 
