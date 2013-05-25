@@ -28,13 +28,7 @@ namespace GUI {
 
 	CCameraController::CCameraController() : _controlledCameras(0)
 	{
-		//activate();
-		/*PeP: ¿Alquien es capaz de explicarme por qué me he visto forzado a hacer esta ñapa para que se ejecute el Activate()?*/
-		//PT. 
-		//Desde GameState.cpp en el activate (CGameState::activate) al igual que se llama a 
-		//GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
-		//llamamos a
-		//GUI::CServer::getSingletonPtr()->getCameraController()->activate();
+
 	} // CCameraController
 
 	//--------------------------------------------------------

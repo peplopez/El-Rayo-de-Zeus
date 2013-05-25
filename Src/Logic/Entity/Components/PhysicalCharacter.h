@@ -50,7 +50,7 @@ namespace Logic
 	
 	public:
 
-		CPhysicalCharacter() : CPhysics(GetAltTypeIdOf(CPhysicalCharacter)), _auxPos(new Logic::CLogicalPosition()), _negativeYVelocity(60), _diffDegrees(0), _diffHeight(0) {}
+		CPhysicalCharacter() : CPhysics(GetAltTypeIdOf(CPhysicalCharacter)), _negativeYVelocity(60), _diffDegrees(0), _diffHeight(0) {}
 
 		/**Este componente sólo acepta mensajes de tipo AVATAR_WALK.*/
 		virtual bool accept(const CMessage *message);
@@ -86,8 +86,6 @@ namespace Logic
 
 		float _diffDegrees;
 		float _diffHeight;
-
-		Logic::CLogicalPosition* _auxPos;
 
 		float _negativeYVelocity;
 

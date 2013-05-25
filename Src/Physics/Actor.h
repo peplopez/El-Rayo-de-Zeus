@@ -55,6 +55,10 @@ namespace Physics
 		void move(float x, float y);
 		void setLinearVelocity(float x, float y);
 
+
+		void disableCollisions();
+		void enableCollisions();
+
 		void onTrigger(CActor* otherActor, bool enter);
 		void onCollision(CActor*);
 
@@ -66,6 +70,10 @@ namespace Physics
 
 		float getDegree();
 		float getHeight();
+		/**
+		Función de conversión Ph
+		*/
+		Logic::CLogicalPosition getLogicalPosition();
 		
 
 	protected:
@@ -102,8 +110,6 @@ namespace Physics
 
 		void CreateGhostFixtures();
 		void bodyOutOfWorldBoundaries(); 
-
-		
 
 
 	}; // class CActor

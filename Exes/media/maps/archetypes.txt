@@ -9,8 +9,8 @@ Map = {
 		physicType = "static",
 		physicTrigger = true,
 		shape = "box",
-		physicWidth = 4,
-		physicHeight = 0.5,	
+		physicHalfWidth = 4,
+		physicHalfHeight = 0.5,	
 	},
 
 	AltarBlue = {
@@ -20,10 +20,11 @@ Map = {
 		activatedMaterial = "blueActivated",
 		unactivatedMaterial = "blueUnactivated",
 		initialScale = 3,
-		logicInput=true,
-		physicWidth = 2.5,
-		physicHeight = 7.5,
+		physicType = "static",
 		physicTrigger = true,
+		shape = "box",
+		physicHalfWidth = 4,
+		physicHalfHeight = 0.5,
 	},
 	
 	AltarGreen = {

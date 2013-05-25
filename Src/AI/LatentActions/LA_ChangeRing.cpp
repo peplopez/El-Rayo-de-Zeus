@@ -1,6 +1,7 @@
 
 #include "../../Logic/Entity/Components/Attack.h"
 #include "../../Logic/Entity/Components/AvatarController.h"
+#include "../../Logic/Entity/Components/PhysicalCharacter.h"
 #include "../../Logic/Entity/Components/Jump.h"
 #include "Application/BaseApplication.h"
 
@@ -25,9 +26,8 @@ namespace AI
 
 	CLatentAction::LAStatus CLA_ChangeRing::OnStart()
 	{				
-		_justOneTime = false;
 		_changeDone = false;
-		_initialJumpSpeed = (_action == Message::GO_DOWN ? 100 : 300); //elocidad de salto inicial en caso de dejarse caer o saltar arriba
+		_initialJumpSpeed = (_action == Message::GO_DOWN ? 100 : 320); //elocidad de salto inicial en caso de dejarse caer o saltar arriba
 		_initialRing = _entity->getLogicalPosition()->getRing();
 		_jumpSpeed = _initialJumpSpeed;
 		_jumpDecay =(_action == Message::GO_DOWN ? 400 : 570);
@@ -63,16 +63,6 @@ namespace AI
 
 	CLatentAction::LAStatus CLA_ChangeRing::OnAbort() 
 	{
-		// Cuando se aborta se queda en estado terminado con fallo		
-		//REVISAR
-	/*	if (_entity->getComponent<CRingTraveler>()!=NULL)
-		{
-			_entity->getComponent<CRingTraveler>()->resetChangingRing();
-			return FAIL;
-		}
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
-			_entity->getComponent<CBaseTraveler>()->resetChangingRing();
-		*/
 		return FAIL;
 	}
 
@@ -174,40 +164,42 @@ namespace AI
 				{
 					_turning=false;
 					jump();
+					if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+						_entity->getComponent<CPhysicalCharacter>()->disableCollisions();
 				}
 			}
 		}
 		else
 		{
-				if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::RIGHT)
+			if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::RIGHT)
+			{
+				float tickRotation = Math::PI * _turnSpeed * msecs;
+				_entity->yaw(-tickRotation);
+				_acumRotation += tickRotation;
+				_mySense=Logic::LogicalPosition::RIGHT;
+				if (_acumRotation >= Math::PI/2)
 				{
-					float tickRotation = Math::PI * _turnSpeed * msecs;
-					_entity->yaw(-tickRotation);
-					_acumRotation += tickRotation;
-					_mySense=Logic::LogicalPosition::RIGHT;
-					if (_acumRotation >= Math::PI/2)
-					{
-						_entity->yaw(+(_acumRotation - Math::PI/2));
-						_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LOOKING_CENTER);
-						_targetSense = Logic::LogicalPosition::UNDEFINED;
-						_acumRotation = 0;
+					_entity->yaw(+(_acumRotation - Math::PI/2));
+					_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LOOKING_CENTER);
+					_targetSense = Logic::LogicalPosition::UNDEFINED;
+					_acumRotation = 0;
 					
-					}
 				}
-				else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
+			}
+			else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
+			{
+				float tickRotation = Math::PI * _turnSpeed * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+				_entity->yaw(+tickRotation);
+				_acumRotation += tickRotation;
+				_mySense=Logic::LogicalPosition::LEFT;
+				if (_acumRotation >= Math::PI/2)
 				{
-					float tickRotation = Math::PI * _turnSpeed * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
-					_entity->yaw(+tickRotation);
-					_acumRotation += tickRotation;
-					_mySense=Logic::LogicalPosition::LEFT;
-					if (_acumRotation >= Math::PI/2)
-					{
-						_entity->yaw(-(_acumRotation - Math::PI/2));
-						_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LOOKING_CENTER);
-						_targetSense = Logic::LogicalPosition::UNDEFINED;
-						_acumRotation = 0;
-					}
+					_entity->yaw(-(_acumRotation - Math::PI/2));
+					_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LOOKING_CENTER);
+					_targetSense = Logic::LogicalPosition::UNDEFINED;
+					_acumRotation = 0;
 				}
+			}
 			
 			else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LOOKING_CENTER)
 			{
@@ -245,6 +237,8 @@ namespace AI
 				{
 					_turning=false;
 					jump();
+					if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+						_entity->getComponent<CPhysicalCharacter>()->disableCollisions();
 				}
 			}
 		}//else
@@ -252,51 +246,31 @@ namespace AI
 
 		if (_jumping)
 		{
-			unsigned int separationBeteewenRings=50;
-			float myGlobalHeight=_entity->getLogicalPosition()->getHeight()+CServer::getSingletonPtr()->getRingPosition(_entity->getLogicalPosition()->getRing()).y;
-
-			if (!_changeDone && 
-				((_action==Message::GO_UP && myGlobalHeight > CServer::getSingletonPtr()->getRingPosition(_entity->getLogicalPosition()->getRing()).y + 50) ||
-				(_action==Message::GO_DOWN && myGlobalHeight > CServer::getSingletonPtr()->getRingPosition(_entity->getLogicalPosition()->getRing()).y + 1)) )
+			//si estamos en trayectoria descendente activamos salida del salto
+			Logic::Ring ring = _entity->getLogicalPosition()->getRing();
+			
+			if (ring != _initialRing)
 			{
 				_changeDone=true;
-				_justOneTime=true;
-				CMessageChar *m = new CMessageChar();	
-				m->setType(Message::AVATAR_MOVE);
-				m->setAction(Message::CHANGE_RING);		
-				m->setChar(_action==Message::GO_DOWN?-1:1);
-				_entity->emitMessage(m);
 			}
-
-			 
-
-			//si estamos en trayectoria descendente activamos salida del salto
-			if (_jumpSpeed < 0)
-				_maxHeightReached = true;
 			
-			if (_entity->getLogicalPosition()->getHeight() == 0 && _maxHeightReached) 
+			if (_changeDone && _entity->getLogicalPosition()->getHeight() + _jumpSpeed * msecs * 0.001 <= 0) 
 			{
+				if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+					_entity->getComponent<CPhysicalCharacter>()->enableCollisions();
 				_jumping=false;
 				_targetSense=_mySense;
-				turn();
 				_jumpSpeed=_initialJumpSpeed;
-
+				turn();
 			}
+		
 			else
 	     	{
-				float tickHeight = _jumpSpeed * msecs * 0.001;
+				float tickHeight = _jumpSpeed;
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
 				m->setAction(Logic::Message::JUMP);
-					
-				float tickResult;
-				if (_action==Message::GO_UP)
-					tickResult=tickHeight-50 * _justOneTime;
-				if (_action==Message::GO_DOWN)
-					tickResult=tickHeight+50*_justOneTime;
-				m->setFloat(tickResult);
-				if (_justOneTime) 
-					_justOneTime=false;
+				m->setFloat(tickHeight);
 				_entity->emitMessage(m);
 				_jumpSpeed -= _jumpDecay * msecs * 0.001f; 
 			}
@@ -310,6 +284,7 @@ namespace AI
 			_entity->getComponent<CAvatarController>()->sleep();	
 		if (_entity->getComponent<CJump>()!=NULL)
 			_entity->getComponent<CJump>()->sleep();
+
 	}
 
 	void CLA_ChangeRing::awakeComponents()
@@ -317,6 +292,6 @@ namespace AI
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 			_entity->getComponent<CAvatarController>()->awake();	
 		if (_entity->getComponent<CJump>()!=NULL)
-			_entity->getComponent<CJump>()->awake();	
+			_entity->getComponent<CJump>()->awake();
 	}	
 } //namespace LOGIC

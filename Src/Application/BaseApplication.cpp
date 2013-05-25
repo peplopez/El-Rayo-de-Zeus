@@ -177,7 +177,8 @@ namespace Application {
 				accumulator -= 33;
 			}
 			//LOG(_clock->getLastFrameDuration());
-			GUI::CInputManager::getSingletonPtr()->tick();
+			//GUI::CInputManager::getSingletonPtr()->tick();
+
 			Graphics::CServer::getSingletonPtr()->tick(_clock->getLastFrameDuration()*0.001f);
 		}
 
@@ -217,20 +218,7 @@ namespace Application {
 		// añadir en la implementación del método de esa aplicación.
 		
 		//Pep: aquí implemento la comprobación de tiempo
-		if (!_clock->_timeObservers.empty())
-		{
-			IClock::TTimeObserverList::const_iterator it = _clock->_timeObservers.begin();
-			for(; it != _clock->_timeObservers.end(); it++)
-			{
-				if (!_clock->_timeObservers.empty())
-				if (_clock->getTime()>=(*it).second.second)
-				{
-					(*it).second.first->timeArrived();
-					_clock->removeTimeObserver((*it).first);
-					break;
-				}
-			}
-		}
+		CheckTimeObservers();
 
 		if (_currentState)
 			_currentState->tick(msecs);
@@ -287,7 +275,6 @@ namespace Application {
 
 	//--------------------------------------------------------
 
-
 	bool CBaseApplication::mouseReleased(const GUI::CMouseState &mouseState)
 	{
 		// Avisamos al estado actual del fin de la pulsación.
@@ -297,5 +284,25 @@ namespace Application {
 		return false;
 
 	} // mouseReleased
+
+	//--------------------------------------------------------
+
+	void CBaseApplication::CheckTimeObservers()
+	{
+		if (!_clock->_timeObservers.empty())
+		{
+			IClock::TTimeObserverList::const_iterator it = _clock->_timeObservers.begin();
+			for(; it != _clock->_timeObservers.end(); it++)
+			{
+				if (!_clock->_timeObservers.empty())
+				if (_clock->getTime()>=(*it).second.second)
+				{
+					(*it).second.first->timeArrived();
+					_clock->removeTimeObserver((*it).first);
+					break;
+				}
+			}
+		}
+	}
 
 } // namespace Application

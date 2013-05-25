@@ -29,13 +29,6 @@ namespace Logic
 
 	CLogicalPosition::~CLogicalPosition()
 	{
-		//assert(!_map && "¡¡Antes de destruir la entidad debe desacoplarse del mapa!!");
-
-		//destroyAllComponents();
-
-		//PeP: Me temo que esta destrucción no es suficiente. Hay que destruir todo lo creado por esta clase.
-		delete this;
-
 	} // ~CEntity
 	/**
 		Establece la posición de la entidad en grados.
@@ -80,9 +73,6 @@ namespace Logic
 		*/
 		void CLogicalPosition::setHeight(const float height)
 		{
-			//if (height < 0)
-			//	_height = 0;
-			//else
 				_height = height;
 		}
 

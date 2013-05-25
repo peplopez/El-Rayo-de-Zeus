@@ -99,13 +99,16 @@ namespace Logic {
 		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()->getDegree() - _physicalActor->getDegree()));
 
 		
-		_auxPos->setDegree(_physicalActor->getDegree()); 
-		_auxPos->setHeight(_physicalActor->getHeight()); 
-		_auxPos->setRing(_entity->getLogicalPosition()->getRing());
-		_auxPos->setBase(_entity->getLogicalPosition()->getBase());	
-		_auxPos->setSense(_entity->getLogicalPosition()->getSense());
+		CLogicalPosition auxPos = _physicalActor->getLogicalPosition();
+
+		auxPos.setBase(_entity->getLogicalPosition()->getBase());	
+		auxPos.setSense(_entity->getLogicalPosition()->getSense());
+
+		LOG("Altura: " << auxPos.getHeight());
 				
-		_entity->setLogicalPosition(_auxPos); 
+		_entity->setLogicalPosition(&auxPos); 
+
+
 		
 
 		_physicalActor->setLinearVelocity(_diffDegrees, _diffHeight);

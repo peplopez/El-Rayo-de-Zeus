@@ -20,6 +20,7 @@
 #include <Box2D\Dynamics\b2Body.h>
 #include <Box2D\Dynamics\b2World.h>
 #include <Box2D\Dynamics\b2Fixture.h>
+
 #include <Box2D\Dynamics\Joints\b2DistanceJoint.h>
 #include <Box2D\Collision\Shapes\b2CircleShape.h>
 #include <Box2D\Collision\Shapes\b2PolygonShape.h>
@@ -285,7 +286,37 @@ namespace Physics
 
 	float CActor::getHeight()
 	{
+
 		return _body->GetPosition().y * PHYSIC_UPSCALE - _heightCorrection * PHYSIC_UPSCALE;
+	}
+
+	//--------------------------------------------------------
+
+	Logic::CLogicalPosition CActor::getLogicalPosition()
+	{
+		Logic::CLogicalPosition pos;
+		pos.setDegree(_body->GetPosition().x * PHYSIC_UPSCALE);
+		
+		float height = _body->GetPosition().y * PHYSIC_UPSCALE - _heightCorrection * PHYSIC_UPSCALE;
+		if (height > 50)
+		{
+			pos.setHeight(height - 50);
+			pos.setRing(Logic::Ring::UPPER_RING);
+		}
+		else if (height < 0)
+		{
+			pos.setHeight(height + 50);
+			pos.setRing(Logic::Ring::LOWER_RING);
+		}
+
+		else
+		{
+			pos.setHeight(height);
+			pos.setRing(Logic::Ring::CENTRAL_RING);
+		}
+
+		return pos;
+
 	}
 
 	//--------------------------------------------------------
@@ -375,6 +406,7 @@ namespace Physics
 	}
 	
 	//--------------------------------------------------------
+
 	void CActor::bodyOutOfWorldBoundaries()
 	{
 		if (_body->GetPosition().x > (180 * PHYSIC_DOWNSCALE) || 
@@ -384,6 +416,49 @@ namespace Physics
 			aux = _body;
 			_body = _ghostBody;
 			_ghostBody = aux;
+		}
+	}
+
+	//--------------------------------------------------------
+
+	void CActor::disableCollisions()
+	{
+
+		for (b2Fixture* f = _body->GetFixtureList(); f; f = f->GetNext())
+		{
+			b2Filter filter = f->GetFilterData();
+			filter.maskBits = 0;
+			f->SetFilterData(filter);
+		}
+		if (_ghostBody)
+		{
+			for (b2Fixture* f = _ghostBody->GetFixtureList(); f; f = f->GetNext())
+			{
+				b2Filter filter = f->GetFilterData();
+				filter.maskBits = 0;
+				f->SetFilterData(filter);
+			}
+		}
+	}
+
+	//--------------------------------------------------------
+
+	void CActor::enableCollisions()
+	{
+		for (b2Fixture* f = _body->GetFixtureList(); f; f = f->GetNext())
+		{
+			b2Filter filter = f->GetFilterData();
+			filter.maskBits = 0xFFFF;
+			f->SetFilterData(filter);
+		}
+		if (_ghostBody)
+		{
+			for (b2Fixture* f = _ghostBody->GetFixtureList(); f; f = f->GetNext())
+			{
+				b2Filter filter = f->GetFilterData();
+				filter.maskBits = 0xFFFF;
+				f->SetFilterData(filter);
+			}
 		}
 	}
 		

@@ -83,6 +83,9 @@ namespace Logic
 		virtual void detachFromMap();
 		virtual void attachToMap(CMap* map);
 
+		virtual void disableCollisions();
+		virtual void enableCollisions();
+
  
 		/**************
 			IOBSERVER

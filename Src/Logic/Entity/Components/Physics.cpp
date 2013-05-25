@@ -182,4 +182,20 @@ namespace Logic {
 			txMsg->setUInt( static_cast<CPhysics*>(other)->getEntity()->getEntityID() );
 		_entity->emitMessage(txMsg);
 	}
+
+	//---------------------------------------------------------
+
+	void  CPhysics::disableCollisions()
+	{
+		_physicalActor->disableCollisions();
+		
+	}
+
+	//---------------------------------------------------------
+
+	void  CPhysics::enableCollisions()
+	{
+
+		_physicalActor->enableCollisions();
+	}
 }

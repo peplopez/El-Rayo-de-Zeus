@@ -23,13 +23,6 @@ Map ={
 		position = {100, 20, 0},
 	},	
 		
-	medusa1 = {
-		type = "Medusa",
-		base=1,
-		ring=1,
-		degrees=178,		
-	},
-	
 	medusa2 = {
 		type = "Medusa",
 		base=1,
