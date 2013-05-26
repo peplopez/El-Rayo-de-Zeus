@@ -6,7 +6,7 @@
 
 <project name="Luabind" default="build">
  
-	<property name="bjamDefaultParams" value='-sLUA_PATH="../../lua" -sBOOST_BUILD_PATH="../share/boost-build" -sBOOST_ROOT="../../boost" --toolset=msvc-10.0 link=shared'/>
+	<property name="bjamDefaultParams" value='-sLUA_PATH="../lua" -sBOOST_BUILD_PATH="../BoostBuild/share/boost-build" -sBOOST_ROOT="../boost" --toolset=msvc-10.0 link=shared'/>
 	 
 	<!-- ================================== -->
 	<!-- TARGETS DE COMPILACION 		    -->
