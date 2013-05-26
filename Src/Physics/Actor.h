@@ -40,6 +40,7 @@ namespace Physics
 	public:
 		
 		typedef std::vector<b2FixtureDef*> TFixtureDefs;
+		typedef std::vector<CActor*> TContacts;
 
 		CActor(float degrees, float height, Logic::Ring ring,  std::string type, IObserver *component); 
 		
@@ -60,7 +61,7 @@ namespace Physics
 		void enableCollisions();
 
 		void onTrigger(CActor* otherActor, bool enter);
-		void onCollision(CActor*);
+		void onCollision(CActor* otherActor, bool enter);
 
 		
 		
@@ -101,6 +102,8 @@ namespace Physics
 		TFixtureDefs _fixtureDefs;
 
 		CScene* _scene;
+
+		TContacts _contacts;
 		
 		bool _isTrigger;
 		bool _loaded;

@@ -18,8 +18,8 @@ namespace Physics {
 		}
 		else
 		{
-			_l1->onCollision(_l2);
-			_l2->onCollision(_l1);
+			_l1->onCollision(_l2, true);
+			_l2->onCollision(_l1, true);
 		}
 			
 	}
@@ -33,6 +33,11 @@ namespace Physics {
 		{
 			_l1->onTrigger(_l2, false);
 			_l2->onTrigger(_l1, false);
+		}
+		else
+		{
+			_l1->onCollision(_l2, false);
+			_l2->onCollision(_l1, false);
 		}
 
 	}

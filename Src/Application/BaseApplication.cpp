@@ -153,7 +153,8 @@ namespace Application {
 		// empezar, para que el primer frame tenga un tiempo
 		// de frame razonable.
 		_clock->updateTime();
-		unsigned long accumulator = 0;
+		unsigned long accumulator1 = 0;
+		unsigned long accumulator2 = 0;
 
 
 		// Ejecución del bucle principal. Simplemente miramos si
@@ -166,20 +167,23 @@ namespace Application {
 				changeState();
 
 			_clock->updateTime();
-			accumulator += _clock->getLastFrameDuration();
-			
+			accumulator1 += _clock->getLastFrameDuration();
+			accumulator2 += _clock->getLastFrameDuration();
 			
 			//FIXED UPDATE
 			//LOG(accumulator);
-			while (accumulator >= 33)
+			while (accumulator1 >= 33)
 			{	
 				tick(33);
-				accumulator -= 33;
+				accumulator1 -= 33;
 			}
 			//LOG(_clock->getLastFrameDuration());
 			//GUI::CInputManager::getSingletonPtr()->tick();
-
-			Graphics::CServer::getSingletonPtr()->tick(_clock->getLastFrameDuration()*0.001f);
+			if (accumulator2 >= 10)
+			{
+				Graphics::CServer::getSingletonPtr()->tick(accumulator2*0.001f);
+				accumulator2 = 0;
+			}
 		}
 
 	} // run
@@ -217,7 +221,7 @@ namespace Application {
 		// identifican cosas comunes a todos los estados, se pueden
 		// añadir en la implementación del método de esa aplicación.
 		
-		//Pep: aquí implemento la comprobación de tiempo
+		//Pep: aquí implemento la comprobación de tiempo - ESC movido a un método CheckTimeObservers();
 		CheckTimeObservers();
 
 		if (_currentState)

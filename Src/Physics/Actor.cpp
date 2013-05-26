@@ -324,7 +324,25 @@ namespace Physics
 	void CActor::onTrigger(CActor* otherActor, bool enter)
 	{
 		if (_component && otherActor->getPhysicComponent())
-			_component->onTrigger(otherActor->getPhysicComponent(), enter);
+		{
+			TContacts::const_iterator it = std::find(_contacts.begin(), _contacts.end(), otherActor);
+			if ( it == _contacts.end())
+			{
+				if (enter)
+				{
+					_component->onTrigger(otherActor->getPhysicComponent(), enter);
+					_contacts.push_back(otherActor);
+				}
+			}
+			else
+			{
+				if (!enter)
+				{
+					_component->onTrigger(otherActor->getPhysicComponent(), enter);
+					_contacts.erase(it);
+				}
+			}
+		}
 
 		else if (!otherActor->getPhysicComponent() && enter)
 		{
@@ -345,6 +363,31 @@ namespace Physics
 			}
 		}
 
+	}
+
+	//--------------------------------------------------------
+
+	void CActor::onCollision(CActor* otherActor, bool enter)
+	{
+		if (_component && otherActor->getPhysicComponent())
+		{
+			TContacts::const_iterator it = std::find(_contacts.begin(), _contacts.end(), otherActor);
+			if ( it == _contacts.end())
+			{
+				if (enter)
+				{
+					_component->onCollision(otherActor->getPhysicComponent());
+					_contacts.push_back(otherActor);
+				}
+			}
+			else
+			{
+				if (!enter)
+				{
+					_contacts.erase(it);
+				}
+			}
+		}
 	}
 
 	//--------------------------------------------------------
@@ -397,13 +440,6 @@ namespace Physics
 			_ghostBody->CreateFixture(_fixtureDefs[i]);
 	}
 
-	//--------------------------------------------------------
-
-	void CActor::onCollision(CActor* otherActor)
-	{
-		if (_component && otherActor->getPhysicComponent())
-			_component->onCollision(otherActor->getPhysicComponent());
-	}
 	
 	//--------------------------------------------------------
 

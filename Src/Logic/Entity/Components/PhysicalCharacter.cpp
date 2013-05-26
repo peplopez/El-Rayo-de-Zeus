@@ -104,7 +104,6 @@ namespace Logic {
 		auxPos.setBase(_entity->getLogicalPosition()->getBase());	
 		auxPos.setSense(_entity->getLogicalPosition()->getSense());
 
-		LOG("Altura: " << auxPos.getHeight());
 				
 		_entity->setLogicalPosition(&auxPos); 
 
