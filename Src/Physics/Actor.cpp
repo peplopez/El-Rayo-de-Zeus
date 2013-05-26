@@ -463,7 +463,7 @@ namespace Physics
 		for (b2Fixture* f = _body->GetFixtureList(); f; f = f->GetNext())
 		{
 			b2Filter filter = f->GetFilterData();
-			filter.maskBits = 0;
+			filter.maskBits = 0x0000;
 			f->SetFilterData(filter);
 		}
 		if (_ghostBody)
@@ -471,7 +471,7 @@ namespace Physics
 			for (b2Fixture* f = _ghostBody->GetFixtureList(); f; f = f->GetNext())
 			{
 				b2Filter filter = f->GetFilterData();
-				filter.maskBits = 0;
+				filter.maskBits = 0x0000;
 				f->SetFilterData(filter);
 			}
 		}
