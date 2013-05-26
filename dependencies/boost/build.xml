@@ -100,26 +100,23 @@
 	<target name="cleanDebug"
 			description="Elimina los ficheros de la compilacion en Debug">
 		<delete includeemptydirs="true" failonerror="false">
-			<fileset dir="${basedir}/bin.v2/libs/date_time/build/msvc-10.0/debug" />
-			<fileset dir="${basedir}/bin.v2/libs/thread/build/msvc-10.0/debug" />
-			<fileset dir="${basedir}/lib" includes="*gd*.lib"/>
+			<fileset dir="${basedir}/bin.v2" includes="**/debug/"/>
+			<fileset dir="${basedir}/lib" includes="*gd*"/>
 		</delete>
 	</target>
 
 	<target name="cleanRelease"
 			description="Elimina los ficheros de la compilacion en Release">	
 		<delete includeemptydirs="true" failonerror="false">
-			<fileset dir="${basedir}/bin.v2/libs/date_time/build/msvc-10.0/release" />
-			<fileset dir="${basedir}/bin.v2/libs/thread/build/msvc-10.0/release" />
-			<fileset dir="${basedir}/lib" includes="*.lib" excludes="*gd*.lib"/>
+			<fileset dir="${basedir}/bin.v2" includes="**/release/"/>
+			<fileset dir="${basedir}/lib" includes="*.*" excludes="*gd*"/>
 		</delete>
 	</target>
 	
 	<target name="cleanB2"
 		description="Elimina la instalación de BoostBuild">
 		<delete includeemptydirs="true" failonerror="false">
-			<fileset dir="${basedir}/tools/build/v2/engine/bootstrap/" />
-			<fileset dir="${basedir}/tools/build/v2/engine/bin.ntx86/" />
+			<fileset dir="${basedir}/tools/build/v2/" includes="bin/, *.exe, **/bootstrap/, **/bin.ntx86/"/>	
 			<fileset dir="${basedir}/../BoostBuild/" />
 		</delete>		
 	</target>

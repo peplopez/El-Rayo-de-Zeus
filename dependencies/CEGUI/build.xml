@@ -88,13 +88,13 @@
    <!-- Primero borramos los resultados de la conversión anterior -->
    <!-- para que Visual no nos saque una ventana preguntando qué hacer -->
    <!-- con ellos... -->
-   <delete verbose="true">
+   <delete>
       <fileset dir="${basedir}/projects/premake" includes="**/*.vcxproj"/>
       <fileset dir="${basedir}/projects/premake" includes="**/*.vcxproj.filters"/>
       <fileset dir="${basedir}/projects/premake" includes="UpgradeLog*.XML"/>
    </delete>
-   <delete verbose="true" dir="${basedir}/projects/premake/Backup"/>
-   <delete verbose="true" dir="${basedir}/projects/premake/_UpgradeReport_Files"/>
+   <delete dir="${basedir}/projects/premake/Backup"/>
+   <delete dir="${basedir}/projects/premake/_UpgradeReport_Files"/>
 
    <!-- Y luego llamamos a Visual -->
    <vc10 projectfolder="${basedir}/projects/premake" 
@@ -115,13 +115,13 @@
    <!-- Primero borramos los resultados de la conversión anterior -->
    <!-- para que Visual no nos saque una ventana preguntando qué hacer -->
    <!-- con ellos... -->
-   <delete verbose="true">
+   <delete>
       <fileset dir="${basedir}/projects/premake" includes="**/*.vcxproj"/>
       <fileset dir="${basedir}/projects/premake" includes="**/*.vcxproj.filters"/>
       <fileset dir="${basedir}/projects/premake" includes="UpgradeLog*.XML"/>
    </delete>
-   <delete verbose="true" dir="${basedir}/projects/premake/Backup"/>
-   <delete verbose="true" dir="${basedir}/projects/premake/_UpgradeReport_Files"/>
+   <delete dir="${basedir}/projects/premake/Backup"/>
+   <delete dir="${basedir}/projects/premake/_UpgradeReport_Files"/>
 
    <!-- Y luego llamamos a Visual -->
    <vc10 projectfolder="${basedir}/projects/premake" 
@@ -207,8 +207,8 @@ Parametros:
       <fileset dir="${basedir}/projects/premake" includes="**/obj/,**/*.vcxproj,**/*.vcxproj.filters,UpgradeLog*.XML,CEGUI.sln"/>
       <fileset dir="${basedir}/cegui/include" includes="config.h"/>
    </delete>
-   <delete verbose="true" dir="${basedir}/projects/premake/Backup"/>
-   <delete verbose="true" dir="${basedir}/projects/premake/_UpgradeReport_Files"/>
+   <delete dir="${basedir}/projects/premake/Backup"/>
+   <delete dir="${basedir}/projects/premake/_UpgradeReport_Files"/>
 </target>
 
   <!-- ================================== -->
