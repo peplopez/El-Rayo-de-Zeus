@@ -119,9 +119,11 @@ Parametros:
 <target name="createSln">
 
    <mkdir dir="${basedir}/build"/>
+  
    <exec executable="${basedir}/../CMake/bin/cmake.exe"
 	 dir="${basedir}/build/">
-      <arg value="-DOGRE_DEPENDENCIES_DIR=..\.."/>
+	  <env key="BOOST_ROOT" value="${basedir}/../boost"/>
+      <arg value="-DOGRE_DEPENDENCIES_DIR=..\.."/>	
       <arg value="-DOGRE_BUILD_SAMPLES=FALSE"/>
       <arg value="-DOGRE_BUILD_TOOLS=FALSE"/>
       <arg value="-DOGRE_BUILD_COMPONENT_PAGING=FALSE"/>
