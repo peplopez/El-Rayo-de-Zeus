@@ -57,6 +57,14 @@ namespace GUI {
 
 	} // deactivate
 
+
+	void CCameraController::removeControlledCamera(Logic::CEntity *controlledCamera)
+	{
+		TEntities::const_iterator it = std::find(_controlledCameras.begin(), _controlledCameras.begin(), controlledCamera);
+		if (it != _controlledCameras.end())
+			_controlledCameras.erase(it);
+	}
+
 	//--------------------------------------------------------
 
 	bool CCameraController::keyPressed(TKey key)

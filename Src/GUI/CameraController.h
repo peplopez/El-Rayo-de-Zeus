@@ -69,6 +69,9 @@ namespace GUI
 		void setControlledCamera(Logic::CEntity *controlledCamera) 
 										{_controlledCameras.push_back(controlledCamera);} 
 
+		void removeControlledCamera(Logic::CEntity *controlledCamera);
+										
+
 		/**
 		Activa la la clase, se registra en el CInputManager y así empieza a 
 		escuchar eventos.

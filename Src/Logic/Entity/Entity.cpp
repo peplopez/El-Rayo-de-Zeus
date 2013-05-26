@@ -199,6 +199,11 @@ namespace Logic
 		// debemos realizar
 		//if (isPlayer())
 		//	setIsPlayer(false);
+		if ( this->getType() == "Camera" )
+		{
+			//CServer::getSingletonPtr()->setPlayer(this);
+			GUI::CServer::getSingletonPtr()->getCameraController()->removeControlledCamera(this);
+		}
 
 		TComponentMap::const_iterator it; // TODO TComponentList::const_iterator it;
 
