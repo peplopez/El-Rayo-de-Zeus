@@ -30,6 +30,13 @@ Map ={
 		degrees=30,	
 		height=180,
 	},
+	
+	puPoison1 = {
+		type = "PUPoison",
+		base=2,
+		ring=1,
+		degrees=180,
+	},
 
 	LowerRing = {
 		type = "World",

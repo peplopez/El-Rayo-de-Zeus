@@ -53,6 +53,7 @@ namespace Physics
 		void createFixture(float halfWidth, float halfHeigth, float density, float friction, float restitution, bool isTrigger); //BoxShape
 		void createFixtures(float haldWidth, float halfHeight, float radius, float density, float friction, float restitution, bool isTrigger);
 
+
 		void move(float x, float y);
 		void setLinearVelocity(float x, float y);
 
@@ -85,6 +86,8 @@ namespace Physics
 		b2World* getPhysicWorld(); 
 		void createGhostBody();
 		void deleteGhostBody();
+		void CreateBodyFixtures();
+		void CreateGhostFixtures();
 
 		IObserver *getPhysicComponent() {return _component;}
 
@@ -109,7 +112,7 @@ namespace Physics
 
 		float _heightCorrection;
 
-		void CreateGhostFixtures();
+
 		void bodyOutOfWorldBoundaries(); 
 
 

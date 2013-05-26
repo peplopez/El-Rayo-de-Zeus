@@ -102,8 +102,6 @@ namespace Logic {
 		assert(entityInfo->hasAttribute("physicType") && "falta definir atributo tipo estatico/dinamico/kinematico para el actor en el mapa");
 		std::string physicType = entityInfo->getStringAttribute("physicType");
 		
-		//assert(physicType == "static" || physicType == "kinematic" && "WTF --> physicType inválido para un componente CPhysics" );
-		
 		float physicBodyOffset = 0;
 		if (entityInfo->hasAttribute("physicBodyOffset"))
 			physicBodyOffset = entityInfo->getFloatAttribute("physicBodyOffset");
@@ -128,19 +126,16 @@ namespace Logic {
 		if (entityInfo->hasAttribute("restitution"))
 			_restitution = entityInfo->getFloatAttribute("friction");
 
+		if (_shape == "circle")
+			actor->createFixture(_radius, _density, _friction, _restitution, _isTrigger); 
+		else if (_shape == "box")
+			actor->createFixture(_halfWidth, _halfHeight, _density, _friction, _restitution, _isTrigger); 
+		else if (_shape == "capsule")
+			actor->createFixtures(_halfWidth, _halfHeight, _radius, _density, _friction, _restitution, _isTrigger);
 
-		if (_scene->add(actor));
-		{
-			if (_shape == "circle")
-				actor->createFixture(_radius, _density, _friction, _restitution, _isTrigger); 
-			else if (_shape == "box")
-				actor->createFixture(_halfWidth, _halfHeight, _density, _friction, _restitution, _isTrigger); 
-			else if (_shape == "capsule")
-				actor->createFixtures(_halfWidth, _halfHeight, _radius, _density, _friction, _restitution, _isTrigger);
-
+		if (_scene->add(actor))
 			return actor;
-		}
-		
+
 		return 0;
 
 	} // createActor 

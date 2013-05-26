@@ -67,9 +67,9 @@ namespace Logic {
 		//case Message::CHANGE_RING:		// TODO ƒ®§ por seguridad quizá habría que probar que _ring < MAX del enum --> asserts!
 		//	_diffRing = static_cast<CMessageChar*>(message)->getChar();
 		//	break;
-		//case Message::CHANGE_BASE:
-		//	_diffBase = static_cast<CMessageChar*>(message)->getChar();	
-		//	break;
+		case Message::CHANGE_BASE:
+			_diffBase = static_cast<CMessageChar*>(message)->getChar();	
+			break;
 
 		} // switch message action
 
@@ -101,7 +101,7 @@ namespace Logic {
 		
 		CLogicalPosition auxPos = _physicalActor->getLogicalPosition();
 
-		auxPos.setBase(_entity->getLogicalPosition()->getBase());	
+		auxPos.setBase(_entity->getLogicalPosition()->getBase() + _diffBase);	
 		auxPos.setSense(_entity->getLogicalPosition()->getSense());
 
 				
@@ -116,6 +116,7 @@ namespace Logic {
 		//Ponemos el movimiento a cero		
 		_diffDegrees = 0;
 		_diffHeight = 0; 
+		_diffBase = 0;
 	}
 
 

@@ -102,7 +102,12 @@ namespace Physics
 	bool CActor::load()
 	{
 		try{
-			_body = getPhysicWorld()->CreateBody(_bodyDef);		
+			_body = getPhysicWorld()->CreateBody(_bodyDef);	
+			b2Vec2 pos = _body->GetPosition();
+			pos.y += _heightCorrection;
+			_body->SetTransform(pos, _body->GetAngle());
+			_body->SetFixedRotation(true);
+			CreateBodyFixtures();
 			_loaded = true;
 
 		} catch(std::exception e){
@@ -117,12 +122,19 @@ namespace Physics
 	void CActor::unload()
 	{
 		if(_body){
-				
-			_loaded = false;
-			getPhysicWorld()->DestroyBody(_body);
+
 			if (_ghostBody)
+			{
+				_ghosted = false;
 				getPhysicWorld()->DestroyBody(_ghostBody);
+				_ghostBody = 0;
+				
+			}
+			_bodyDef->position = _body->GetPosition();
+			_bodyDef->position.y -= _heightCorrection;
+			getPhysicWorld()->DestroyBody(_body);
 			_body = 0;
+			_loaded = false;	
 		}
 
 	} // unload
@@ -141,11 +153,6 @@ namespace Physics
 		radius = radius * PHYSIC_DOWNSCALE;
 		//correción en la posición del body ya que el pivote en lógica se encuentra en los pies
 		_heightCorrection = radius;
-		b2Vec2 pos = _body->GetPosition();
-		pos.y += _heightCorrection ;
-		_body->SetTransform(pos, _body->GetAngle());
-		_body->SetFixedRotation(true);
-
 
 		b2CircleShape* circleShape = new b2CircleShape();
 		circleShape->m_p.Set(0, 0); 
@@ -157,7 +164,6 @@ namespace Physics
 		fixtureDef->density = density;
 		fixtureDef->friction = friction;
 		fixtureDef->restitution = restitution;
-		_body->CreateFixture(fixtureDef); 
 		_fixtureDefs.push_back(fixtureDef);
 
 	}
@@ -170,11 +176,6 @@ namespace Physics
 		halfHeight = halfHeight * PHYSIC_DOWNSCALE;
 		//correción en la posición del body ya que el pivote en lógica se encuentra en los pies
 		_heightCorrection = halfHeight;
-		b2Vec2 pos = _body->GetPosition();
-		pos.y += _heightCorrection;
-		_body->SetTransform(pos, _body->GetAngle());
-		_body->SetFixedRotation(true);
-
 
 		b2PolygonShape* polygonShape = new b2PolygonShape();
 		polygonShape->SetAsBox(halfWidth, halfHeight);
@@ -184,8 +185,7 @@ namespace Physics
 		fixtureDef->shape = polygonShape;
 		fixtureDef->density = density;
 		fixtureDef->friction = friction;
-		fixtureDef->restitution = restitution;
-		_body->CreateFixture(fixtureDef); 
+		fixtureDef->restitution = restitution; 
 		_fixtureDefs.push_back(fixtureDef);
 
 	}
@@ -199,10 +199,6 @@ namespace Physics
 		radius = radius * PHYSIC_DOWNSCALE;
 
 		_heightCorrection = radius + halfHeight;
-		b2Vec2 pos = _body->GetPosition();
-		pos.y += _heightCorrection;
-		_body->SetTransform(pos, _body->GetAngle());
-		_body->SetFixedRotation(true);
 
 		b2CircleShape* circleShape1 = new b2CircleShape();
 		circleShape1->m_p.Set(0, -halfHeight); //position, relative to body position
@@ -213,9 +209,7 @@ namespace Physics
 		fixtureDef1->density = density / 3;
 		fixtureDef1->friction = friction / 3;
 		fixtureDef1->restitution = restitution / 3;
-
 		fixtureDef1->shape = circleShape1; //this is a pointer to the shape above
-		_body->CreateFixture(fixtureDef1); //add a fixture to the body
 		_fixtureDefs.push_back(fixtureDef1);
 
 		b2CircleShape* circleShape2 = new b2CircleShape();
@@ -227,11 +221,10 @@ namespace Physics
 		fixtureDef2->density = density / 3;
 		fixtureDef2->friction = friction / 3;
 		fixtureDef2->restitution = restitution / 3;
-
 		fixtureDef2->shape = circleShape2; //this is a pointer to the shape above
-		_body->CreateFixture(fixtureDef2); //add a fixture to the body
 		_fixtureDefs.push_back(fixtureDef2);
 
+		
 		b2PolygonShape* polygonShape = new b2PolygonShape();
 		polygonShape->SetAsBox(halfWidth, halfHeight);
 
@@ -240,9 +233,7 @@ namespace Physics
 		fixtureDef3->density = density / 3;
 		fixtureDef3->friction = friction / 3;
 		fixtureDef3->restitution = restitution / 3;
-
 		fixtureDef3->shape = polygonShape; //this is a pointer to the shape above
-		_body->CreateFixture(fixtureDef3); //add a fixture to the body
 		_fixtureDefs.push_back(fixtureDef3);
 	}
 	//--------------------------------------------------------
@@ -358,8 +349,9 @@ namespace Physics
 			if (_ghosted)
 			{
 				bodyOutOfWorldBoundaries();
-				_scene->deferredUnghostBody(this);
 				_ghosted = false;
+				_scene->deferredUnghostBody(this);
+				
 			}
 		}
 
@@ -427,9 +419,16 @@ namespace Physics
 
 	void CActor::deleteGhostBody()
 	{
-
 		getPhysicWorld()->DestroyBody(_ghostBody);
 		_ghostBody = 0;
+	}
+
+	//--------------------------------------------------------
+
+	void CActor::CreateBodyFixtures()
+	{
+		for (int i = 0; i<_fixtureDefs.size(); ++i)
+			_body->CreateFixture(_fixtureDefs[i]);
 	}
 
 	//--------------------------------------------------------
@@ -440,7 +439,6 @@ namespace Physics
 			_ghostBody->CreateFixture(_fixtureDefs[i]);
 	}
 
-	
 	//--------------------------------------------------------
 
 	void CActor::bodyOutOfWorldBoundaries()
