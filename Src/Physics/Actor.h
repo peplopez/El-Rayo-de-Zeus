@@ -71,9 +71,7 @@ namespace Physics
 
 		float getDegree();
 		float getHeight();
-		/**
-		Función de conversión Ph
-		*/
+
 		Logic::CLogicalPosition getLogicalPosition();
 		
 

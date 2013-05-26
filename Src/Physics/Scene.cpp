@@ -97,7 +97,7 @@ namespace Physics
 #ifdef _DEBUG
 		_debugDraw->clear();
 #endif
-		_world->Step(timeStep, velocityIterations, positionIterations);//simulación física
+		_world->Step(timeStep, velocityIterations, positionIterations); //simulación física
 		if (_actorsToGhost.size() > 0)
 			createGhostBodies();
 		if (_actorsToUnghost.size() > 0)

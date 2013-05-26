@@ -195,7 +195,6 @@ namespace Logic {
 
 	void  CPhysics::enableCollisions()
 	{
-
 		_physicalActor->enableCollisions();
 	}
 }

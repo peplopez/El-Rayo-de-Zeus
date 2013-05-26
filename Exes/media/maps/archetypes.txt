@@ -10,7 +10,7 @@ Map = {
 		physicTrigger = true,
 		shape = "box",
 		physicHalfWidth = 4,
-		physicHalfHeight = 2.5,	
+		physicHalfHeight = 4,	
 	},
 
 	AltarBlue = {
@@ -24,7 +24,7 @@ Map = {
 		physicTrigger = true,
 		shape = "box",
 		physicHalfWidth = 4,
-		physicHalfHeight = 2.5,
+		physicHalfHeight = 4,
 	},
 	
 	AltarGreen = {
@@ -38,7 +38,7 @@ Map = {
 		physicTrigger = true,
 		shape = "box",
 		physicHalfWidth = 4,
-		physicHalfHeight = 2.5,
+		physicHalfHeight = 4,
 	},
 
 	AltarYellow = {
@@ -51,7 +51,7 @@ Map = {
 		physicTrigger = true,
 		shape = "box",
 		physicHalfWidth = 4,
-		physicHalfHeight = 2.5,
+		physicHalfHeight = 4,
 	},
 		
 	PointLight = {
