@@ -466,11 +466,11 @@ bool CHHFXSampleOgre::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonI
 					hhfx->SetFXListener(this);
 
 					// set the camera's orientation to the node
-					Quaternion orientation;
-					Quaternion camOri = mCamera->getOrientation();
+					//Quaternion orientation;
+					//Quaternion camOri = mCamera->getOrientation();
 
-					orientation.FromAngleAxis(Radian(camOri.getYaw()), Vector3::UNIT_Y);
-					node->setOrientation(orientation);
+					//orientation.FromAngleAxis(Radian(camOri.getYaw()), Vector3::UNIT_Y);
+					//node->setOrientation(orientation);
 
 					// set the last spawned node to this one. Used in the demo to move the last spawned Fx around.
 					m_lastSpawnedNode = node;
