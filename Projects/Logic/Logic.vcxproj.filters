@@ -22,9 +22,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Component.cpp">
       <Filter>Entity\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\Death.cpp">
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Maps\ComponentFactory.cpp">
       <Filter>Maps\Source Files</Filter>
     </ClCompile>
@@ -201,9 +198,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Component.h">
       <Filter>Entity\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\Death.h">
-      <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Maps\ComponentFactory.h">
       <Filter>Maps\Header Files</Filter>
