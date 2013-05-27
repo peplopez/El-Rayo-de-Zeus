@@ -23,6 +23,13 @@ namespace Graphics
 {
 	class CScene;
 }
+
+//PT
+namespace ScriptManager
+{
+	class Server;
+}
+
 namespace AI 
 {
 
@@ -37,7 +44,9 @@ namespace AI
 		
 		@param time Tiempo de espera
 		*/
-		CLA_Death(CEntity* entity) : CLatentAction() {this->setEntity(entity);};
+		//PT
+		//CLA_Death(CEntity* entity) : CLatentAction() {this->setEntity(entity);};
+		CLA_Death(CEntity* entity, unsigned long time) : CLatentAction(), _time(time) {this->setEntity(entity);};
 		/**
 		Destructor
 		*/
@@ -121,6 +130,17 @@ namespace AI
 	protected:
 		
 		Graphics::CScene* _scene;
+
+		//PT
+		/**
+		Tiempo de espera
+		*/
+		unsigned long _time;
+
+		/**
+		Tiempo en el que se termina la acción
+		*/
+		unsigned long _endingTime;
 	};
 
 } //namespace AI 

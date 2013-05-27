@@ -73,10 +73,23 @@ namespace Logic
 			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna por defecto dirección LEFT
 			_pos->setSense(Logic::LogicalPosition::LEFT);
 
-		if(entityInfo->hasAttribute("initialMaterial"))
+
+		//PT
+		/*if(entityInfo->hasAttribute("initialMaterial"))
 			_initialMaterial = entityInfo->getStringAttribute("initialMaterial");	
 		else
-			_initialMaterial = "marine";	
+			_initialMaterial = "marine";
+			*/
+		if(entityInfo->hasAttribute("initialMaterial0"))
+			_initialMaterial0 = entityInfo->getStringAttribute("initialMaterial0");	
+		else
+			_initialMaterial0 = "marine";
+
+		if(entityInfo->hasAttribute("initialMaterial1"))
+			_initialMaterial1 = entityInfo->getStringAttribute("initialMaterial1");	
+		else
+			_initialMaterial1 = "";
+		//FIN PT
 		
 		_initialScale= 1.0f;	
 		if(entityInfo->hasAttribute("initialScale"))
@@ -144,11 +157,16 @@ namespace Logic
 		bool correct = true;
 		TComponentMap::const_iterator it; // TODO FRS acceso secuencial mejor con vector TComponentList::const_iterator it;		
 			for( it = _components.begin(); it != _components.end() && correct; ++it )
-				if (this->getEntityID() == 46)
-			        correct = it->second->spawn(this,map,entityInfo) && correct;
-				else
-					correct = it->second->spawn(this,map,entityInfo) && correct;
-				// correct = (*it)->spawn(this,map,entityInfo) && correct;
+				//PT. comento todo esto, y solo dejo la linea que se necesita
+				
+				//if (this->getEntityID() == 46)
+			 //       correct = it->second->spawn(this,map,entityInfo) && correct;
+				//else
+				//	correct = it->second->spawn(this,map,entityInfo) && correct;
+				//// correct = (*it)->spawn(this,map,entityInfo) && correct;
+
+				correct = it->second->spawn(this,map,entityInfo) && correct;
+
 		return correct;
 
 	} // spawn

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+ <Window Type="OgreTray/StaticImage" Name="RespawnPlayer" >
+ 	<Property Name="FrameEnabled" Value="false" />
+	<Property Name="BackgroundEnabled" Value="False" />
+	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+	
+    <Window Type="OgreTray/TitleInit" Name="RespawnPlayer/Texto" >
+        <Property Name="Font" Value="Diogenes-24" />
+        <Property Name="Text" Value="You have death. Respawn in: " />
+        <Property Name="AlwaysOnTop" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.4,0},{0.7,0},{0.6,0}}" />
+    </Window>
+
+    <Window Type="OgreTray/TitleInit" Name="RespawnPlayer/Time" >
+        <Property Name="Font" Value="Diogenes-24" />
+        <Property Name="Text" Value="" />
+        <Property Name="AlwaysOnTop" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.75,0},{0.4,0},{0.85,0},{0.6,0}}" />
+    </Window>
+	
+</Window>
+	
+</GUILayout>

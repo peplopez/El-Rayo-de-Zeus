@@ -105,9 +105,14 @@ namespace Logic
 			_graphicalEntity->setSubEntityMaterial(entityInfo->getStringAttribute("submaterial1"), 1);
 		}
 
-		if(entityInfo->hasAttribute("initialMaterial"))
-			_initialMaterial = entityInfo->getStringAttribute("initialMaterial");
-	
+		if(entityInfo->hasAttribute("initialMaterial0"))
+			_initialMaterial0 = entityInfo->getStringAttribute("initialMaterial0");
+
+		if(entityInfo->hasAttribute("initialMaterial1"))
+		{
+			_initialMaterial1 = entityInfo->getStringAttribute("initialMaterial1");
+			_graphicalEntity->setSubEntityMaterial(_initialMaterial1, 1);
+		}
 
 
 		_graphicalEntity->setTransform(_entity->getTransform());
@@ -172,7 +177,18 @@ namespace Logic
 
 		case Message::SET_INITIAL_MATERIAL:{
 			CMessageUInt *rxMsg = static_cast<CMessageUInt*>(message);
-			_graphicalEntity->setSubEntityMaterial(_initialMaterial, rxMsg->getUInt());
+			//PT
+			switch(rxMsg->getUInt())
+			{
+			case 0:
+				_graphicalEntity->setSubEntityMaterial(_initialMaterial0, 0);
+				break;
+			case 1:
+				_graphicalEntity->setSubEntityMaterial(_initialMaterial1, 1);
+				break;
+
+			}
+			//_graphicalEntity->setSubEntityMaterial(_initialMaterial, rxMsg->getUInt());
 		}	break;
 
 		case Message::ATTACH: {

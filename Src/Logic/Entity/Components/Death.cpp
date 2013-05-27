@@ -1,5 +1,5 @@
 /**
-@file Life.cpp
+@file Death.cpp
 
 Contiene la implementación del componente que controla la vida de una entidad.
  
@@ -11,20 +11,20 @@ Contiene la implementación del componente que controla la vida de una entidad.
 */
 
 #include "Death.h"
-
-#include "Application/BaseApplication.h"
-
-#include "Logic/Entity/Entity.h"
-#include "Logic/Maps/EntityFactory.h"
+//#include "Application/BaseApplication.h"
+//#include "Graphics/AnimatedEntity.h"
+//#include "Logic/Entity/Entity.h"
+//#include "Logic/Maps/EntityFactory.h"
 // FRS Prohibido depender de Application en Logic (siempre que se pueda); además el gameover lo gestiona ya la FSM 
 
-#include "Logic/Entity/Components/AvatarController.h"
+//#include "Logic/Entity/Components/AvatarController.h"
 #include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageUShort.h"
-#include "Logic/Entity/Messages/MessageBoolUShort.h"
-#include "Logic/Entity/Components/AnimatedGraphics.h"
-#include "Logic/Entity/Messages/MessageAudio.h"
+//#include "Logic/Entity/Messages/MessageString.h"
+//#include "Logic/Entity/Messages/MessageBoolString.h"
+//#include "Logic/Entity/Messages/MessageAudio.h"
 
+//PT se incluye el servidor de scripts de LUA
+#include "ScriptManager\Server.h"
 
 namespace Logic 
 {
@@ -37,7 +37,6 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
-		_audio = "media\\audio\\fallecimiento.wav"; // FRS Usar map.txt es de débiles!!! xD
 		return true;
 	} // spawn
 	
@@ -45,8 +44,7 @@ namespace Logic
 
 	bool CDeath::accept(const CMessage *message)
 	{
-		return	message->getType() == Message::DEAD ||
-				message->getType() == Message::ANIMATION_FINISHED;
+		return	message->getType() == Message::DEAD;
 
 	} // accept
 	
@@ -57,12 +55,6 @@ namespace Logic
 	{
 		// HACK FRS habrá que tener en cuenta todos los que tengan muerte animada...
 		// (por parámetro en map.txt? animatedDeath = true o CDeathAnimated?)
-
-/* UNDONE Muerte gestionada por FSM
-		if(_entity->getType() == "Player" || _entity->getType() == "OtherPlayer")
-			deathAnimated(message);
-		else
-*/
 			death(message);
 	
 	} // process
@@ -82,9 +74,10 @@ namespace Logic
 
 		switch(message->getType())
 		{
+		//CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
 
-		// MUERTO
-		case Message::DEAD: {
+		//init HUD Layout and functions
+		ScriptManager::CServer::getSingletonPtr()->loadExeScript("RespawnPlayer");
 			CMessageBoolUShort *txMsg = new CMessageBoolUShort(); // Poner la animación de muerte
 				txMsg->setType(TMessageType::SET_ANIMATION);
 				txMsg->setUShort( Logic::DEATH );	

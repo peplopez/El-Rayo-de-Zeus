@@ -55,7 +55,7 @@ namespace Logic
 		defecto.
 		*/
 		CGraphics() : 
-			IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0), _scene(0), _model(""), _initialMaterial("") {}
+			IComponent(GetAltTypeIdOf(CGraphics)), _graphicalEntity(0), _scene(0), _model(""), _initialMaterial0(""), _initialMaterial1("") {}
 
 		CGraphics(altTypeId id) : 
 			IComponent(id), _graphicalEntity(0), _scene(0), _model("") {}
@@ -117,7 +117,11 @@ namespace Logic
 
 		/**
 		*/
-		std::string _initialMaterial;
+		std::string _initialMaterial0;
+
+		/**
+		*/
+		std::string _initialMaterial1;
 		
 
 	    /**

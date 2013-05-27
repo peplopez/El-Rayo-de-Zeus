@@ -17,9 +17,9 @@ basadas en Ogre. Esta clase maneja la ejecución de todo el juego.
 #include "GaleonApplication.h"
 
 #include "InitState.h" //PT
-
 #include "ExitState.h"
 #include "MenuState.h"
+#include "MenuSingleState.h" //PT
 #include "GameOverState.h"
 #include "GameState.h"
 
@@ -51,17 +51,26 @@ namespace Application {
 
 		// CREACION DE ESTADOS. 
 		// La aplicación se hace responsable de destruirlos.
+
+
 		if(!addState("gameOver", new CGameOverState(this)))
 			return false;
+
 		//PT Añadido nuevo estado "inicio" (desde el que se pulsando sobre la pantalla se pasara al estado "menu")
 		if(!addState("inicio", new CInitState(this)))
 			return false;
+
 		if(!addState("menu", new CMenuState(this)))
-			return false;	
+			return false;
+
+		//PT Añadido nuevo estado "menusingle" (cuando se pulse sobre Single nos iremos a otro menu para elegir opciones del player)
+		if(!addState("menusingle", new CMenuSingleState(this)))
+			return false;
 
 	// FRS Es realmente necesario guardarse este miembro?
 	// En el addState, ya se están almacenando todos los estados con su respectivo nombre (en un map creo...)
 		_gameStateInstance=new CGameState(this); 
+
 		if(!addState("game", _gameStateInstance))
 			return false;
 	//

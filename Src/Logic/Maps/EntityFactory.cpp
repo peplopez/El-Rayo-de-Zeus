@@ -287,6 +287,7 @@ namespace Logic
 
 		// UNDONE CEntity *ret = createEntity(entityInfo, map);
 		return createEntity(entityInfo, map); // [ƒ®§] No se optimiza más enchufando directamente la salida así?
+		//return ret;
 	} // createMergedEntity
 
 

@@ -15,6 +15,7 @@ la gestión de los scripts del juego.
 #include <stdio.h>
 #include <iostream>
 #include <sstream>
+#include <string> //PT
 
 //PT
 #include "ScriptManager\Classes\LUA_EntityFunctions.h"
@@ -533,6 +534,32 @@ namespace ScriptManager {
 	} //executeProcedure (1 param)
 
 
+bool CServer::executeProcedureString(const char *name, std::string param1){
+		
+		assert(_lua && "No se ha hecho la inicialización de lua");
+
+		// Obtengo el procedimiento definido en lua
+		luabind::object obj = luabind::globals(_lua)[name];
+
+		//comprobacion de que el tipo es FUNCTION (que es el que queremos recoger)
+		if(!obj.is_valid() || (luabind::type(obj) != LUA_TFUNCTION))
+		{
+			showErrorMessage("ERROR DE LUA! - El procedimiento \"" + std::string(name) + "\" que se está intentando ejecutar no existe o es un procedimiento.");
+			return false;
+		}
+		// Lo ejecuto y hago comprobación de errores.
+		try {
+			obj(param1);
+		} catch (luabind::error &ex) {
+			showErrorMessage("ERROR DE LUA! - Error al ejecutar el procedimiento \"" + std::string(name) + "\". Tipo de error: " + std::string(ex.what()));
+			return false;
+		}
+
+		return true;
+
+	} //executeProcedureString (1 param)
+
+
 	//---------------------------------------------------------
 
 	template <class T>
@@ -743,6 +770,7 @@ namespace ScriptManager {
 	//------------------------------------------------------//
 
 	template bool CServer::executeProcedure<int>(const char *subroutineName, const int& param1);
+	//template bool CServer::executeProcedure<const char*>(const char *subroutineName, const char* param1);
 	template bool CServer::executeProcedure<int>(const char *subroutineName, const int& param1, const int& param2);
 	template bool CServer::executeProcedure<unsigned short>(const char *subroutineName, const unsigned short& param1);
 	template bool CServer::executeProcedure<unsigned short>(const char *subroutineName, const unsigned short& param1, const unsigned short& param2);

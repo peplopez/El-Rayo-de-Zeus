@@ -87,6 +87,9 @@ namespace Logic
 
 		void changeBase();
 
+		//PT. Metodo para que se respawnee el jugador en su base.
+		void respawnInBaseOrigin();
+
 	protected:
 
 		bool _changingBase;	
@@ -110,6 +113,11 @@ namespace Logic
 		/**
 		*/
 		void jumpToBase();
+
+		/**
+		PT
+		*/
+		void jumpToBaseOrigin(unsigned short baseOrigin);
 
 		/**
 		*/

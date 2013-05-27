@@ -156,7 +156,9 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-	void CMap::createPlayer(std::string entityName, bool isLocalPlayer, const std::string& model)
+	//PT. Se le pasan los argumentos de nickname, modelo, y color del Player.
+	//void CMap::createPlayer(std::string entityName, bool isLocalPlayer, const std::string& model)
+	void CMap::createPlayer(std::string entityName, bool isLocalPlayer, const std::string& nickname, const std::string& model, const std::string& color)
 	{
 		// [ƒ®§] Creamos un nuevo jugador. Deberíamos tener la info del player
 		// almacenada en _playerInfo así que solo habría que modificarle el
@@ -166,13 +168,20 @@ namespace Logic {
 		// cambiar la posición de éstos.
 
 		Map::CEntity playerInfo(entityName);
-			playerInfo.setType("Player");			
+		playerInfo.setType("Player");		
+		//PT
+		playerInfo.setAttribute("nickname", nickname);
+		
 		if(model.length() > 0)
 			playerInfo.setAttribute("model", model);
-			playerInfo.setAttribute("isPlayer", isLocalPlayer? "true" : "false");
+
+		playerInfo.setAttribute("isPlayer", isLocalPlayer? "true" : "false");
+		//PT
+		playerInfo.setAttribute("initialMaterial1", color); //player color
 			
 		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createMergedEntity(&playerInfo, this);
-			//newPlayer->setPosition( newPlayer->getPosition() + (rand()%50-25) * Vector3(1, 0, 1) ); // TODO calibrar esta pos
+		//newPlayer->setPosition( newPlayer->getPosition() + (rand()%50-25) * Vector3(1, 0, 1) ); // TODO calibrar esta pos
+
 	
 	} // createPlayer
 

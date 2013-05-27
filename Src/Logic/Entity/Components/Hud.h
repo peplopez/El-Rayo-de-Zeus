@@ -14,11 +14,6 @@
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageChar.h"
 
-namespace Graphics 
-{
-	class CCegui;
-}
-
 namespace Logic
 {
 	class CGameStatus;

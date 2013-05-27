@@ -63,7 +63,8 @@ namespace Logic
 			SET_INITIAL_MATERIAL	= 0x28,
 			SET_ANIMATION_WITH_TIME = 0X29,
 			DAMAGE_MOMENT			= 0x30,
-			COMBO_MOMENT	        = 0X31
+			COMBO_MOMENT	        = 0X31,
+			LIFE_RESTORE			= 0x32
 		};
 
 		enum TActionType : unsigned char

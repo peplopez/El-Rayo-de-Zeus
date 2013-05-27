@@ -1,5 +1,7 @@
 World CGraphics
+Scene CDotSceneLoader
 Camera CCamera
+BaseCamera CBaseCamera
 SkyBox CGraphics
 Altar CGraphics
 Entity CGraphics

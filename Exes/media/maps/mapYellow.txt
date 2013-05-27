@@ -4,6 +4,10 @@ Map ={
 		type = "PlayerCamera",
 	},
 	
+	SkySphere = {
+		type = "SkySphere",
+	},	
+	
 	BaseCamera1 = {
 		type = "BaseCamera1",
 	},
@@ -19,7 +23,7 @@ Map ={
 		base=4,
 		ring=0,
 		degrees=50,
-		initialMaterial="marineYellow",
+		initialMaterial0="marineYellow",
 	},
 		
 	bioshockLOGICO74 = {

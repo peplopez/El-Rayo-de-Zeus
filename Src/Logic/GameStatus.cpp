@@ -24,15 +24,19 @@ namespace Logic
 {
 	CGameStatus* CGameStatus::_instance = 0;
 
-	CGameStatus::CGameStatus(const unsigned short numPlayers)
+	//PT
+	//CGameStatus::CGameStatus(const unsigned short numPlayers)
+	CGameStatus::CGameStatus(TMapNameList &maplist)
 	{
 		_instance=this;
-		_numPlayers=numPlayers;
-		_numBases=numPlayers+1;//base adicional para Lobby
+		//PT
+		//_numPlayers=numPlayers;
+		_numPlayers = maplist.size();
+		_numBases=_numPlayers+1;//base adicional para Lobby
 		
 		for(int i=0; i<=_numPlayers; i++)//creamos las bases con 3 anillos cada una
 		{
-			Logic::CBaseInfo* base=createBase(3); //la base 0 es lobby
+			Logic::CBaseInfo* base=createBase(3,3,0); //la base 0 es lobby (rings, lifeBase, colorBase)
 			if (base!=0)
 				_bases.push_back(base);
 			
@@ -49,11 +53,14 @@ namespace Logic
 		_players.clear();
 	}
 
-	bool CGameStatus::Init(const unsigned short numPlayers)
+	//PT
+	//bool CGameStatus::Init(const unsigned short numPlayers)
+	bool CGameStatus::Init(TMapNameList &maplist)
 	{
 		assert(!_instance && "Segunda inicialización de Logic::CGameStatus no permitida!");
 
-		new CGameStatus(numPlayers);
+		//new CGameStatus(numPlayers);
+		new CGameStatus(maplist);
 
 		return true;
 	} // Init
@@ -82,11 +89,13 @@ namespace Logic
 		return _players[player];
 	}
 	
-	Logic::CBaseInfo* CGameStatus::createBase(const unsigned short rings)
+	Logic::CBaseInfo* CGameStatus::createBase(const unsigned short rings, const unsigned short lifeBase, const unsigned short colorBase)
 	{		
 		assert( &_bases );//&& "LOGIC::GRAPHICS>> No exite lista de bases");
 
-		Logic::CBaseInfo* base=new Logic::CBaseInfo(3);
+		//PT
+		//Logic::CBaseInfo* base=new Logic::CBaseInfo(3);
+		Logic::CBaseInfo* base=new Logic::CBaseInfo(rings, lifeBase, colorBase);
 		if (base)
 			return base;
 

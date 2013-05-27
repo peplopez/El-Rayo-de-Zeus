@@ -1,58 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <GUILayout >
-    <Window Type="DefaultWindow" Name="NetLobbyClient" >
+    <Window Type="DefaultWindow" Name="MenuSingle" >
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-        <Window Type="OgreTray/StaticImage" Name="NetLobbyClient/BackGround" >
+        <Window Type="OgreTray/StaticImage" Name="MenuSingle/BackGround" >
 			<Property Name="FrameEnabled" Value="false" />
 			<Property Name="BackgroundEnabled" Value="False" />		
 			<Property Name="Image" Value="set:BackgroundInit image:BackgroundInit" />			
             <Property Name="AlwaysOnTop" Value="False" />
             <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-            <Window Type="OgreTray/Title" Name="NetLobbyClient/BackGround/" >
+            <Window Type="OgreTray/Title" Name="MenuSingle/BackGround/" >
                 <Property Name="Font" Value="Diogenes-24" />
-                <Property Name="Text" Value="CONNECT TO SERVER" />
+                <Property Name="Text" Value="SINGLE PLAYER OPTIONS" />
                 <Property Name="AlwaysOnTop" Value="True" />
-                <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.2,0},{0.7,0},{0.3,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.2,0},{0.8,0},{0.3,0}}" />
             </Window>
         </Window>
 		
-		 <Window Type="OgreTray/Title" Name="NetLobbyClient/IPBoxLabel" >
-            <Property Name="Font" Value="DejaVuSans-10" />
-            <Property Name="Text" Value="IP" />
-            <Property Name="AlwaysOnTop" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.6,0},{0.43,0},{0.69,0},{0.48,0}}" />
-        </Window>
-		
-        <Window Type="OgreTray/Editbox" Name="NetLobbyClient/IPBox" >
-            <Property Name="Font" Value="DejaVuSans-10" />
-            <Property Name="Text" Value="127.0.0.1" />
-            <Property Name="AlwaysOnTop" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.43,0},{0.95,0},{0.48,0}}" />
-        </Window>
-		
-		 <Window Type="OgreTray/Title" Name="NetLobbyClient/NickBoxLabel" >
+		 <Window Type="OgreTray/Title" Name="MenuSingle/NickBoxLabel" >
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="Nickname" />
             <Property Name="AlwaysOnTop" Value="True" />
             <Property Name="UnifiedAreaRect" Value="{{0.6,1},{0.5,0},{0.69,0},{0.55,0}}" />
         </Window>		
 		
-		<Window Type="OgreTray/Editbox" Name="NetLobbyClient/NickBox" >
+		<Window Type="OgreTray/Editbox" Name="MenuSingle/NickBox" >
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="" />
+			<Property Name="MaxTextLength" Value="10" />
             <Property Name="AlwaysOnTop" Value="True" />
             <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.5,0},{0.95,0},{0.55,0}}" />
         </Window>
 		
-		 <Window Type="OgreTray/Title" Name="NetLobbyClient/ModelBoxLabel" >
+		 <Window Type="OgreTray/Title" Name="MenuSingle/ModelBoxLabel" >
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="Player" />
             <Property Name="AlwaysOnTop" Value="True" />
             <Property Name="UnifiedAreaRect" Value="{{0.6,1},{0.57,0},{0.69,0},{0.62,0}}" />
         </Window>		
 		
-		<Window Type="TaharezLook/Combobox" Name="NetLobbyClient/ModelBox" >
+		<Window Type="TaharezLook/Combobox" Name="MenuSingle/ModelBox" >
 		        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.57,0},{0.95,0},{0.8,0}}" />
                 <Property Name="MaxEditTextLength" Value="1073741823" />
@@ -60,35 +47,42 @@
         </Window>
 		
 		
-		 <Window Type="OgreTray/Title" Name="NetLobbyClient/ColorBoxLabel" >
+		 <Window Type="OgreTray/Title" Name="MenuSingle/ColorBoxLabel" >
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="Color" />
             <Property Name="AlwaysOnTop" Value="True" />
             <Property Name="UnifiedAreaRect" Value="{{0.6,1},{0.64,0},{0.69,0},{0.69,0}}" />
         </Window>		
 		
-		<Window Type="TaharezLook/Combobox" Name="NetLobbyClient/ColorBox" >
+		<Window Type="TaharezLook/Combobox" Name="MenuSingle/ColorBox" >
 		        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.64,0},{0.95,0},{0.85,0}}" />
                 <Property Name="MaxEditTextLength" Value="1073741823" />
 				<Property Name="AlwaysOnTop" Value="True" />
-        </Window>		
+        </Window>
 		
-        <Window Type="OgreTray/Button" Name="NetLobbyClient/Connect" >
+		 <!--<Window Type="OgreTray/StaticText" Name="MenuSingle/Status" >
             <Property Name="Font" Value="DejaVuSans-10" />
-            <Property Name="Text" Value="Connect" />
+            <Property Name="Text" Value="" />
+            <Property Name="AlwaysOnTop" Value="False" />
+            <Property Name="UnifiedAreaRect" Value="{{0.1,1},{0.75,0},{0.95,0},{0.85,0}}" />
+        </Window>-->
+
+		<Window Type="OgreTray/ProgressBar" Name="MenuSingle/Progreso" >
+			<Property Name="StepSize" Value="0.1" />		
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="CurrentProgress" Value="0" />	
+			<Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.75,0},{0.8,0},{0.8,0}}" />
+        </Window>
+		
+        <Window Type="OgreTray/Button" Name="MenuSingle/Play" >
+            <Property Name="Font" Value="DejaVuSans-10" />
+            <Property Name="Text" Value="Play" />
             <Property Name="AlwaysOnTop" Value="True" />
             <Property Name="UnifiedAreaRect" Value="{{0.80,0},{0.9,0},{0.95,0},{0.95,0}}" />
         </Window>
-
-		 <Window Type="OgreTray/StaticText" Name="NetLobbyClient/Status" >
-            <Property Name="Font" Value="DejaVuSans-10" />
-            <Property Name="Text" Value="Status: Not connected." />
-            <Property Name="AlwaysOnTop" Value="False" />
-            <Property Name="UnifiedAreaRect" Value="{{0.2,1},{0.7,0},{0.8,0},{0.8,0}}" />
-        </Window>
 		
-        <Window Type="OgreTray/Button" Name="NetLobbyClient/Back" >
+        <Window Type="OgreTray/Button" Name="MenuSingle/Back" >
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="Back" />
             <Property Name="AlwaysOnTop" Value="True" />

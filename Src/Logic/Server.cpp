@@ -164,7 +164,9 @@ namespace Logic {
 			unLoadWorld();
 
 		// Inicializamos el gestor de los mensajes de red durante el estado de juego
-		if (!Logic::CGameStatus::Init(mapList.size()))
+		//PT Paso el mapList y no el mapList.size() para luego recuperar datos de ese mapList
+		//if (!Logic::CGameStatus::Init(mapList.size()))
+		if (!Logic::CGameStatus::Init(mapList))
 			return false;
 
 		TMapNameList::const_iterator it = mapList.begin();

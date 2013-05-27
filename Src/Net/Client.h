@@ -53,6 +53,7 @@ public:
 	 * @param timeout Tiempo máximo de espera para conectar con la máquina remota.
 	 * @return La conexión creada. Devuelve NULL si la conexión no ha podido ser establecida o si no se llamó a init() anteriormente.
 	 */
+	//PT
 	virtual CConnection* connect(char* address, int port, int channels, unsigned int timeout = 5000)=0;
 
 	/**

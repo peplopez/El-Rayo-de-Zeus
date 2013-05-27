@@ -85,11 +85,6 @@ namespace GUI {
 					case GUI::Key::DOWNARROW:
 						m->setBool(false);
 					break;	
-					//PT. Caso en el que se recargan todos los scripts
-					case GUI::Key::R:
-						ScriptManager::CServer::getSingletonPtr()->reloadScript("Hud");
-						ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadHud");
-						break;
 					default:
 						return false;
 				}

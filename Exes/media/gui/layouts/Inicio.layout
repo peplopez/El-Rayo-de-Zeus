@@ -2,7 +2,6 @@
 
 <GUILayout >
     <Window Type="DefaultWindow" Name="Inicio" >
-<!-- 		<Property Name="FrameEnabled" Value="false" />-->
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
         <Window Type="OgreTray/StaticImage" Name="Inicio/BackGround" >
 			<Property Name="FrameEnabled" Value="false" />

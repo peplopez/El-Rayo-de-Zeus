@@ -1,24 +1,24 @@
 //---------------------------------------------------------------------------
-// LobbyClientState.h
+// MenuSingleState.h
 //---------------------------------------------------------------------------
 
 /**
-@file LobbyClientState.h
+@file MenuSingleState.h
 
-Contiene la declaración del estado de lobby del cliente.
+Contiene la declaración del estado de menú de Single Player (con las opciones para el Jugador).
 
 @see Application::CApplicationState
-@see Application::CLobbyClientState
+@see Application::CMenuSingleState
 
-@author David Llansó
-@date Agosto, 2010
+@author Pablo Terrado
+@date Mayo, 2013
 */
 
-#ifndef __Application_LobbyClientState_H
-#define __Application_LobbyClientState_H
+#ifndef __Application_MenuSingleState_H
+#define __Application_MenuSingleState_H
 
 #include "ApplicationState.h"
-#include "NET/IObserver.h"
+
 
 //PT
 #include <cegui.h> //para que pueda crear combobox
@@ -35,7 +35,6 @@ namespace CEGUI
 	class Window;
 }
 
-//PT
 namespace ScriptManager
 {
 	class Server;
@@ -44,40 +43,32 @@ namespace ScriptManager
 namespace Application 
 {
 	/**
-	Como su nombre indica, esta clase es la clase del menú
-	principal del juego. Es muy sencilla y lo único que hace es cargar
-	un layout de CEGUI al inicio y activarlo y desactivarlo cuando
-	se activa o desactiva el estado (haciéndo visible/invisible también
-	el puntero del ratón). También asocia los eventos de los botones 
-	del menú a las funciones C++ que se deben invocar cuando los botones
-	son pulsados.
-	<p>
-	Este estado es CEGUI dependiente, lo cual no es deseable, la aplicación
-	debería ser independiente de las tecnologías usadas.
+	Como su nombre indica, esta clase es la clase del menú Single Player del juego. 
+	Es muy sencilla ysirve para que el jugador decida su nickname, modelo de jugador, y color.
 
 	@ingroup applicationGroup
 
-	@author David Llansó
-	@date Agosto, 2010
+	@author Pablo Terrado
+	@date Mayo, 2013
 	*/
-	class CLobbyClientState : public CApplicationState, public Net::IObserver
+	class CMenuSingleState : public CApplicationState 
 	{
 
 	protected:
 
 		typedef std::list<std::string> TMapNameList;
-
+	
 	public:
 		/** 
 		Constructor de la clase 
 		*/
-		CLobbyClientState(CBaseApplication *app) : CApplicationState(app)
+		CMenuSingleState(CBaseApplication *app) : CApplicationState(app)
 				{}
 
 		/** 
 		Destructor 
 		*/
-		virtual ~CLobbyClientState();
+		virtual ~CMenuSingleState();
 
 		/**
 		Función llamada cuando se crea el estado (se "engancha" en la
@@ -176,27 +167,22 @@ namespace Application
 		*/
 		virtual bool mouseReleased(const GUI::CMouseState &mouseState);
 
-
-		/******************
-			NET::IOBSERVER
-		******************/
-		virtual void dataPacketReceived(Net::CPacket* packet);	
-		virtual void connexionPacketReceived(Net::CPacket* packet) {};
-		virtual void disconnexionPacketReceived(Net::CPacket* packet){};
-
 	private:
 
 		/**
 		Ventana CEGUI que muestra el menú.
 		*/
-		CEGUI::Window* _menuWindow; 
+		CEGUI::Window* _menuWindow;
 
 		//PT combobox
 		CEGUI::Combobox* _cbModel;
 		CEGUI::Combobox* _cbColor;
 
+		/**
+		*/
 		TMapNameList _mapsToLoad;
-		
+
+	
 		/**
 		Función que se quiere realizar cuando se pulse el botón start.
 		Simplemente cambia al estado de juego.
@@ -204,21 +190,13 @@ namespace Application
 		bool startReleased(const CEGUI::EventArgs& e);
 
 		/**
-		Función que se quiere realizar cuando se pulse el botón back.
-		Simplemente cambia al estado de menu.
+		Función que se quiere realizar cuando se pulse el botón exit.
+		Simplemente termina la aplicación.
 		*/
 		bool backReleased(const CEGUI::EventArgs& e);
 
-
-		/**
-		* Función que ejecuta la acción start. 
-		Centraliza el código y será invocada cuando se pulse la tecla correspondiente o se
-		genere el evento de ratón
-		*/
-		void doStart();
-
-	}; // CMenuState
+	}; // CMenuSingleState
 
 } // namespace Application
 
-#endif //  __Application_MenuState_H
+#endif //  __Application_MenuSingleState_H

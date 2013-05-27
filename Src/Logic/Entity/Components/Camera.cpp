@@ -142,9 +142,9 @@ namespace Logic
 			return;
 		
 
-	
 		Vector3 position = _target->getPosition();
-		Vector3 direction = _distance * position.normalisedCopy(); ;
+
+		Vector3 direction = _distance * position.normalisedCopy();
 		direction.y = _height;
 
 		Vector3 finalCameraPosition = position + direction;

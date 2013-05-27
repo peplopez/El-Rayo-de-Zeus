@@ -15,6 +15,8 @@ Esta es la clase principal de gestión del juego. Contiene clases como son Bases,
 #define __Logic_GameStatus_H
 
 #include <vector>
+#include <string> //PT
+#include <list> //PT
 
 namespace Logic
 {
@@ -25,7 +27,12 @@ namespace Logic
 namespace Logic
 {
 	class CGameStatus
-	{
+	{		
+
+	protected:
+		//PT
+		typedef std::list<std::string> TMapNameList;
+
 	public:
 
 		/**
@@ -41,7 +48,10 @@ namespace Logic
 
 		@return Devuelve false si no se ha podido inicializar.
 		*/
-		static bool Init(const unsigned short numPlayers);
+		//PT
+		//static bool Init(const unsigned short numPlayers);
+		static bool Init(TMapNameList &maplist);
+
 
 		/**
 		Libera la instancia de CGameNetMsgManager. Debe llamarse al finalizar la 
@@ -76,13 +86,15 @@ namespace Logic
 		
 	protected:
 	
-		CGameStatus(const unsigned short numPlayers);
+		//PT
+		//CGameStatus(const unsigned short numPlayers);
+		CGameStatus(TMapNameList &mapList);
 
 		~CGameStatus();
 		/**
 			crea las bases
 		*/
-		Logic::CBaseInfo* createBase(const unsigned short rings);
+		Logic::CBaseInfo* createBase(const unsigned short rings, const unsigned short lifeBase, const unsigned short colorBase);
 		
 		/**
 			crea los jugadores
@@ -117,6 +129,7 @@ namespace Logic
 		Lista de las Bases
 		*/
 		TBases _bases;
+
 
 	private:
 				/**

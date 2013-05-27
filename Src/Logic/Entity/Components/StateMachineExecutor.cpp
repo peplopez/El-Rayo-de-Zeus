@@ -65,14 +65,16 @@ namespace Logic
 
 		if (_currentStateMachine != 0) {
 			// Si cambiamos de nodo
-			if (_currentStateMachine->update()) {
+			if (_currentStateMachine->update()) 
+			{
 				// Dejamos la acción anterior lista para que pueda
 				// volver a ser ejecutada
 				if (_currentAction != 0)
 				{	
-					
-					_currentAction->reset();_currentStateMachine->reset();
-				}// Sacamos la nueva acción
+					_currentAction->reset();
+					_currentStateMachine->reset();
+				}
+				// Sacamos la nueva acción
 				_currentAction = _currentStateMachine->getCurrentNode();
 			}
 			if (_currentAction != 0)

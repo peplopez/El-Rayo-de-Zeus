@@ -206,17 +206,17 @@ function reloadHud()
 		RayoWindow:setProperty("UnifiedAreaRect","{{0.82,0},{0.28,0},{0.92,0},{0.94,0}}")
 		
 		-- PlayernameWindow:setProperty("UnifiedAreaRect","{{0.5,0},{0.15,0},{0.9,0},{0.25,0}}")
-		PlayernameWindow:setProperty("UnifiedAreaRect","{{0,100},{0.10,0},{0,250},{0.3,0}}")
+		PlayernameWindow:setProperty("UnifiedAreaRect","{{0,110},{0.07,0},{0,230},{0.3,0}}")
 		PlayernameWindow:setProperty("Font","Diogenes-14")
 		
 		--TitleEnemigosWindow:setProperty("UnifiedAreaRect","{{0.5,0},{0.28,0},{0.9,0},{0.48,0}}")
-		TitleEnemigosWindow:setProperty("UnifiedAreaRect","{{0,110},{0.31,0},{0,180},{0.48,0}}")
+		TitleEnemigosWindow:setProperty("UnifiedAreaRect","{{0,105},{0.31,0},{0,180},{0.48,0}}")
 		TitleEnemigosWindow:setProperty("Font","Diogenes-10")
 		--NumEnemigosWindow:setProperty("UnifiedAreaRect","{{0.705,0},{0.28,0},{0.74,0},{0.48,0}}")
 		NumEnemigosWindow:setProperty("UnifiedAreaRect","{{0,155},{0.31,0},{0,210},{0.48,0}}")
 		
 		--TitlePuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0.4,0},{0.5,0},{0.55,0},{0.7,0}}")
-		TitlePuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0,110},{0.5,0},{0,150},{0.7,0}}")
+		TitlePuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0,105},{0.5,0},{0,150},{0.7,0}}")
 		--PuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0.56,0},{0.5,0},{0.68,0},{0.7,0}}")
 		PuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0,150},{0.5,0},{0,210},{0.7,0}}")
 		
@@ -230,5 +230,9 @@ function reloadHud()
 		Rayo1Window
 		Rayo2Window
 		Rayo3Window	]]
+end
+
+function initNickName(nickname)
+	PlayernameWindow:setText(nickname)
 end
 

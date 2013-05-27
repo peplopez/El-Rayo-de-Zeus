@@ -197,6 +197,7 @@ namespace Net {
 
 	//---------------------------------------------------------
 
+	//PT
 	void CManager::connectTo(char* address, int port, int channels, unsigned int timeout)
 	{
 		assert(_netClient && "Cliente Red es null"); // Solo se puede ejecutar el connectTo si somos cliente

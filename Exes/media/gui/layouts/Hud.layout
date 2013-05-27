@@ -21,11 +21,11 @@
         </Window>	
 
 		<Window Type="OgreTray/TitleNickname" Name="Hud/PlayerName" >
-			<!--<Property Name="Font" Value="DejaVuSans-8" />-->
 			<Property Name="Font" Value="Diogenes-14" />
-			<Property Name="Text" Value="Spartan" />
+			<Property Name="MaxTextLength" Value="10" />
+			<Property Name="Text" Value="" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0,100},{0.10,0},{0,250},{0.3,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.07,0},{0,230},{0.3,0}}" />
 		</Window>		
 		
 		<!--<Window Type="OgreTray/StaticImage" Name="Hud/RayoBase1" >
@@ -64,7 +64,7 @@
 			<Property Name="Font" Value="Diogenes-10" />
 			<Property Name="Text" Value="Enemies" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.31,0},{0,180},{0.48,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,105},{0.31,0},{0,180},{0.48,0}}" />
 		</Window>
 
 		<Window Type="OgreTray/NumEnemigos" Name="Hud/NumEnemigos" >
@@ -78,7 +78,7 @@
 			<Property Name="Font" Value="Diogenes-10" />
 			<Property Name="Text" Value="P.M" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.5,0},{0,150},{0.7,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,105},{0.5,0},{0,150},{0.7,0}}" />
 		</Window>
 
 		<Window Type="OgreTray/PuntosMerito" Name="Hud/PuntosMerito" >
