@@ -254,7 +254,7 @@ namespace AI
 				_changeDone=true;
 			}
 			
-			if (_changeDone && _entity->getLogicalPosition()->getHeight() + _jumpSpeed * msecs * 0.001 <= 0) 
+			if (_changeDone && _entity->getLogicalPosition()->getHeight() + 3 * _jumpSpeed * msecs * 0.001 <= 0) 
 			{
 				if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
 					_entity->getComponent<CPhysicalCharacter>()->enableCollisions();

@@ -154,6 +154,7 @@ namespace AI
 	//PeP
 	void CLA_ChangeBase::tick(unsigned int msecs) 
 	{
+		CLatentAction::tick();//no olvideis llamar al tick de CLatentAction
 		CMessageFloat *m = new CMessageFloat();	
 		m->setType(Message::SET_SCALE);
 		m->setAction(_actionScale);
@@ -221,8 +222,6 @@ namespace AI
 					m->setAction(_actionScale);	
 				}
 		}
-		CLatentAction::tick();//no olvideis llamar al tick de CLatentAction
-
 	}
 
 	void CLA_ChangeBase::sleepComponents()
