@@ -102,7 +102,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BaseCamera.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BaseTraveler.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BasicAI.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\Death.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Hud.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Jump.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\LifeModifier.cpp" />
@@ -166,7 +165,6 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Hud.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Jump.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BaseTraveler.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\Death.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\LifeModifier.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Light.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\PhysicalCharacter.h" />

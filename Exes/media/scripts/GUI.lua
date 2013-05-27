@@ -24,7 +24,7 @@ GUI.Fonts:create("Batang-26.font")
 GUI.Fonts:create("handshop-30.font")
 ]]
 
---GUI.System:setDefaultMouseCursor("OgreTrayImages","MouseArrow")
+GUI.System:setDefaultMouseCursor("OgreTrayImages","MouseArrow")
 
 --SManager:loadScript("Inicio")
 --SManager:loadScript("Menu")

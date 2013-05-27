@@ -144,6 +144,13 @@ namespace Logic
 			msg->setType(Logic::Message::DEAD);
 			msg->setAction(Logic::Message::DAMAGE); // HACK PeP para que funcione máquina estados
 			_entity->emitMessage(msg, this);
+
+			////PT Cuando la entidad pierde toda su vida, se elimina su billboard (barra de vida) de la escena
+			//if(_lifeBarBB!=0)
+			//{
+			//	_graphicalScene->remove(_lifeBarBB);	
+			//	delete _lifeBarBB;
+			//}
 		
 		// DAMAGE / HEAL 
 		} else if(lifeModifier) { // Solo animaciones
@@ -162,14 +169,15 @@ namespace Logic
 			_entity->emitMessage(maudio);
 		}		
 
-		// LIFEBAR CONTROL
-		float ratio = (float)_life / (float)_LIFE_MAX; // FRS Menudo fail hicimos aquí con los enteros xD
-			_lifeBarBB->setTextureCoords(
-				(1.0f - ratio) / 2.0f,			// u1
-				0.0f,							// v1
-				0.5f + (1.0f - ratio) / 2.0f,	// u2
-				1.0f							// v2
-			);
+			// LIFEBAR CONTROL
+			float ratio = (float)_life / (float)_LIFE_MAX; // FRS Menudo fail hicimos aquí con los enteros xD
+
+				_lifeBarBB->setTextureCoords(
+					(1.0f - ratio) / 2.0f,			// u1
+					0.0f,							// v1
+					0.5f + (1.0f - ratio) / 2.0f,	// u2
+					1.0f							// v2
+				);
 
 
 	} // modifyLife
