@@ -55,8 +55,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../Src;../../dependencies/include;../../dependencies/include/boost;../../dependencies/include/OGRE;../../dependencies/include/OIS;../../dependencies/include/lua;../../dependencies/include/cegui;../../dependencies/include/fmod;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_ALL_NO_LIB;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../Src;../../dependencies/include;../../dependencies/include/OGRE;../../dependencies/include/OIS;../../dependencies/include/lua;../../dependencies/include/cegui;../../dependencies/include/fmod;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -81,7 +81,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../Src;../../dependencies/include;../../dependencies/include/boost;../../dependencies/include/OGRE;../../dependencies/include/OIS;../../dependencies/include/lua;../../dependencies/include/cegui;../../dependencies/include/fmod;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Src;../../dependencies/include;../../dependencies/include/OGRE;../../dependencies/include/OIS;../../dependencies/include/lua;../../dependencies/include/cegui;../../dependencies/include/fmod;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;LUABIND_DYNAMIC_LINK;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -94,11 +94,11 @@
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>lua51.lib;luabind.lib;ws2_32.lib;Winmm.lib;OgreMain.lib;OIS.lib;tolua++.lib;CEGUIBase.lib;CEGUIOgreRenderer.lib;CEGUILuaScriptModule.lib;fmodex_vc.lib;enet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain.lib;OIS.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>..\..\dependencies\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
