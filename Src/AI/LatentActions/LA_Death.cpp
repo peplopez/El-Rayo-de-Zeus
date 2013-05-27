@@ -101,7 +101,8 @@ namespace AI
 				_entity->getComponent<CBaseTraveler>()->respawnInBaseOrigin();
 			}
 
-			CMessageBoolString *message = new CMessageBoolString();
+			//CMessageBoolString *message = new CMessageBoolString();
+			CMessageBoolUShort *message = new CMessageBoolUShort();
 			message->setType(Message::LIFE_RESTORE);
 			_entity->emitMessage(message);
 
