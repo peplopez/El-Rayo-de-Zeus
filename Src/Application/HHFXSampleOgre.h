@@ -71,16 +71,8 @@ protected:
 	virtual bool				frameRenderingQueued(const Ogre::FrameEvent& evt) override;
 
 	// ois implementation
-//	virtual bool				keyPressed(const OIS::KeyEvent& evt) override;
+	virtual bool				keyPressed(const OIS::KeyEvent& evt) override;
 	virtual bool				mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id) override;
-//	virtual bool				mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id) override;
-//	virtual bool				mouseMoved(const OIS::MouseEvent& evt) override;
-
-	// sdk tray listener implementation
-	//virtual void				checkBoxToggled(OgreBites::CheckBox* box) override;
-	//virtual void				sliderMoved(OgreBites::Slider* slider) override;
-	//virtual void				itemSelected(OgreBites::SelectMenu* menu) override;
-	//virtual void				buttonHit(OgreBites::Button* button) override;
 
 	// IHHFX::IFXListener implementation
 	virtual void				OnFXStarted(IHHFX *obj) override;
@@ -92,18 +84,16 @@ private:
 	//	bool						_IntersectGrid(Ogre::Vector3& intersectPos);
 	static bool					_IntersectScene(void *arg, const Ogre::Vector3 &start, const Ogre::Vector3 &direction, float length, SContactReport &contactReport);
 	void						_AnimateLastSpawnedNode(float elapsedTime);
+	void						_createFX(const std::string &fxName, const std::string &fxPack, const Ogre::Vector3 &pos);
+
+	// TODO Manager singleton HHFX init, release, etc....
+	void                        _loadHHFXPackage(const std::string& fxPack);
+	void                        _initHHFX();
+	void						_loadHHFXResources();
+	void						_loadHHFXTextures();
+	void						_loadHHFXCompositors();
 
 private:
-	// ui elements
-	//OgreBites::SelectMenu*		m_selectMenuPack;
-	//OgreBites::SelectMenu*		m_selectMenuFx;
-	//OgreBites::Label*			m_labelTotalParticles;
-	//OgreBites::Button*			m_buttonPauseSimulation;
-	//OgreBites::Button*			m_buttonClearScene;
-	//OgreBites::Slider*			m_sliderSimulationSpeed;
-	//OgreBites::CheckBox*		m_checkBoxShowGrid;
-	//OgreBites::CheckBox*		m_checkBoxAnimate;
-
 	Ogre::Plane					m_floor;
 
 	// controls
@@ -111,9 +101,6 @@ private:
 
 	// HellHeaven's elements
 	IHHFXScene*					m_hhfxScene;
-	Ogre::String				m_selectedPack;
-	Ogre::int32					m_selectedFx;
-
 	Ogre::SceneNode*			m_lastSpawnedNode;
 	Ogre::Vector3				m_lastSpawnedPosition;
 };
