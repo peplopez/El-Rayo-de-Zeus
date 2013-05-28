@@ -12,8 +12,6 @@ mover al jugador.
 @date Agosto, 2010
 */
 
-#include <OgreLogManager.h>
-#include <OgreLog.h>
 
 #include "PlayerController.h"
 #include "InputManager.h"
@@ -48,7 +46,6 @@ namespace GUI {
 	{		
 		CInputManager::getSingletonPtr()->addKeyListener(this);
 		CInputManager::getSingletonPtr()->addMouseListener(this);
-		_log = Ogre::LogManager::getSingletonPtr()->createLog("PlayerController.log");
 
 
 	} // activate
@@ -84,7 +81,6 @@ namespace GUI {
 					return false;			
 				m->setAction(Logic::Message::GO_UP); // Pablo
 				_controlledAvatar->emitMessage(m);
-				_log->logMessage("Pulsada W");
 				break;
 			
 			case GUI::Key::S: //bajar anillo inferior
@@ -92,7 +88,6 @@ namespace GUI {
 					return false;			
 				m->setAction(Logic::Message::GO_DOWN); 
 				_controlledAvatar->emitMessage(m);
-				_log->logMessage("Pulsada S");
 				break;
 
 			case GUI::Key::SPACE:
@@ -100,19 +95,17 @@ namespace GUI {
 					m->setAction(Logic::Message::CHANGE_BASE);
 				else
 					m->setAction(Logic::Message::JUMP);  // Pablo
-				_controlledAvatar->emitMessage(m);
+				    _controlledAvatar->emitMessage(m);
 				break;
 
 			case GUI::Key::A:
 				m->setAction(Logic::Message::WALK_LEFT);
 				_controlledAvatar->emitMessage(m);
-				_log->logMessage("Pulsada A");
 				break;
 
 			case GUI::Key::D:
 				m->setAction(Logic::Message::WALK_RIGHT);
 				_controlledAvatar->emitMessage(m);
-				_log->logMessage("Pulsada D");
 				break;
 
 			case GUI::Key::F:
