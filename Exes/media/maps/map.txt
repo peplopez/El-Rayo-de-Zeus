@@ -47,7 +47,7 @@ Map ={
 	},
 	
 	
-	bioshockLOGICO74 = {
+	bioshockLOGICO105 = {
 		type = "Bigdaddy",
 		base=3,
 		ring=1,
