@@ -172,10 +172,10 @@ namespace Application {
 			
 			//FIXED UPDATE
 			//LOG(accumulator);
-			while (accumulator1 >= 33)
+			while (accumulator1 >= 20)
 			{	
-				tick(33);
-				accumulator1 -= 33;
+				tick(20);
+				accumulator1 -= 20;
 			}
 			//LOG(_clock->getLastFrameDuration());
 			//GUI::CInputManager::getSingletonPtr()->tick();
