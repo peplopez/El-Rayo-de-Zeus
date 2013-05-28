@@ -184,6 +184,14 @@ namespace Logic
 		if (entityInfo->hasAttribute("animCombo3"))
 			_animSet->addAnimation(Logic::COMBO3,entityInfo->getStringAttribute("animCombo3"));
 
+
+		if (entityInfo->hasAttribute("event_CT_Attack1"))
+			_animSet->addEventTime(Logic::ATTACK1, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack1"));
+		if (entityInfo->hasAttribute("event_CT_Attack2"))
+			_animSet->addEventTime(Logic::ATTACK2, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack2"));
+		if (entityInfo->hasAttribute("event_CT_Attack3"))
+			_animSet->addEventTime(Logic::ATTACK3, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack3"));
+
 		if (entityInfo->hasAttribute("event_DT_Attack1"))
 			_animSet->addEventTime(Logic::ATTACK1, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack1"));
 		if (entityInfo->hasAttribute("event_DT_Attack2"))
@@ -194,15 +202,6 @@ namespace Logic
 			_animSet->addEventTime(Logic::COVER_WITH_SHIELD, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Cover"));
 		if (entityInfo->hasAttribute("event_DT_Cover"))
 			_animSet->addEventTime(Logic::COVER_WITH_WEAPON, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Cover"));
-
-		if (entityInfo->hasAttribute("event_CT_Attack1"))
-			_animSet->addEventTime(Logic::ATTACK1, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack1"));
-		if (entityInfo->hasAttribute("event_CT_Attack2"))
-			_animSet->addEventTime(Logic::ATTACK2, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack2"));
-		if (entityInfo->hasAttribute("event_CT_Attack3"))
-			_animSet->addEventTime(Logic::ATTACK3, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack3"));
-		if (_entity->getType()=="Sinbad")
-			int i=0;
 		return true;
 	} // initializeAnimSet
 	
