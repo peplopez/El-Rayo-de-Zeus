@@ -172,8 +172,10 @@ namespace Logic
 			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);
 		}
 
-		if (isPlayer())
-			setIsPlayer(true);
+		if(_isPlayer) {
+			CServer::getSingletonPtr()->setPlayer(this);
+			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);		
+		}
 
 		// Activamos los componentes
 		TComponentMap::const_iterator it;

@@ -6,7 +6,7 @@ BaseCamera CBaseCamera
 SkyBox CGraphics
 Altar CGraphics CPhysics CAltar CDestruction
 Entity CGraphics
-Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CAttack CStateMachineExecutor CLife CPhysicalCharacter CAltarStateSwitcher CAudio CDestruction
+Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CAttack CStateMachineExecutor CLife CHud CPhysicalCharacter CAltarStateSwitcher CAudio CDestruction
 AnimatedEntity CAnimatedGraphics CAvatarController CAttack CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CDestruction
 OtherPlayer CAnimatedGraphics CAvatarController CBaseTraveler CAttack CPhysicalCharacter CLifeModifier CStateMachineExecutor CLife CAltarStateSwitcher CBasicAI CDestruction CAudio 
 PowerUp CGraphics CPhysics CItem CFloatingMovement CLifeModifier CDestruction
