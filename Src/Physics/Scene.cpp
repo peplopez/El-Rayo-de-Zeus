@@ -45,7 +45,7 @@
 
 namespace Physics
 {
-	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0), _worldListener(0)
+	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0), _worldListener(0), _debugDrawEnabled(false)
 	{	
 		b2Vec2 gravity(0, -20);
 		_world = new b2World(gravity);
@@ -103,8 +103,11 @@ namespace Physics
 		if (_actorsToUnghost.size() > 0)
 			deleteGhostBodies();
 #ifdef _DEBUG
-		_world->DrawDebugData();
-		_debugDraw->Render();
+		if (_debugDrawEnabled)
+		{
+			_world->DrawDebugData();
+			_debugDraw->Render();
+		}
 #endif
 	} // tick
 
@@ -183,6 +186,13 @@ namespace Physics
 			_actorsToUnghost[i]->deleteGhostBody();
 
 		_actorsToUnghost.clear();
+	}
+
+	//--------------------------------------------------------
+	void CScene::switchDebugDraw()
+	{
+		_debugDrawEnabled = !_debugDrawEnabled;
+
 	}
 	
 } // namespace Physics

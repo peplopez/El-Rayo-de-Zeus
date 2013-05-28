@@ -76,6 +76,8 @@ namespace Physics
 		bool deactivate();
 		void tick(unsigned int msecs);
 
+		void switchDebugDraw();
+
 
 		/******************
 			GET's & SET's
@@ -98,6 +100,7 @@ namespace Physics
 		TActors _actorsToUnghost;
 
 		OgreB2DebugDraw* _debugDraw;
+		bool _debugDrawEnabled;
 
 		b2World* _world;
 		CContactListener* _worldListener;

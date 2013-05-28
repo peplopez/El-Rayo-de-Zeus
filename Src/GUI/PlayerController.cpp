@@ -21,6 +21,8 @@ mover al jugador.
 #include "Logic/Entity/Messages/MessageUShort.h"
 #include "Logic/Entity/Messages/MessageString.h"
 
+#include "Physics/Server.h"
+
 #include <cassert>
 
 #define TURN_FACTOR 0.001f
@@ -194,6 +196,11 @@ namespace GUI {
 				m3->setAction(Logic::Message::DISPLAY_HUD);
 				_controlledAvatar->emitMessage(m3);
 				break;
+
+			case GUI::Key::F2:
+				Physics::CServer::getSingletonPtr()->SwitchDebugDraw();
+				break;
+
 			/*case GUI::Key::ADD:
 				m._string = "addPlayerToBase";
 				break;
