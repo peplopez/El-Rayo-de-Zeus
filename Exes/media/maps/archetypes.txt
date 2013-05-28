@@ -219,7 +219,7 @@ Map = {
 		initialMaterial="SpartanBodyTatoo",
 		audio="media\\audio\\QUEJIDO1.wav",
 		jumpSpeed=200,
-		jumpDecay=700,
+		jumpDecay=750,
 	},
 	Espartano = {
 		type = "OtherPlayer",
