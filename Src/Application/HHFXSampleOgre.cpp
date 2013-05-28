@@ -21,6 +21,9 @@ using namespace Ogre;
 // WARNING : if != 1.0, This scale must be taken into account when setting and getting arbitrary particle attributes !
 
 const float	kWorldFxScale = 1.0f;
+const std::string FX_PACKAGE = "../Packs/SampleParticlesOgre";
+const std::string fxNames[] = {"Blast", "Blast_Small", "BurnHit", "BurnHit_Small", "ElectricOrb", "FlameThrower", "Rain", "Smoke01", "Sparks", "TorchFire", "Trails", "TurbulenceCircles" };
+int nClicks = 0;
 
 //-------------------------------------------------------------------------------------
 
@@ -66,7 +69,7 @@ void CHHFXSampleOgre::createScene()
 		m_floor.d = 0;
 		MeshManager::getSingleton().createPlane("FloorPlane", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, m_floor, 200, 200, 100, 100, true, 1, 20, 20, Vector3::UNIT_Z);
 		ent = mSceneMgr->createEntity("floor", "FloorPlane");
-		ent->setMaterialName("HHFXSample/Grid");
+		//ent->setMaterialName("HHFXSample/Grid");
 		mSceneMgr->getRootSceneNode()->createChildSceneNode("nGrid")->attachObject(ent);
 	}
 	
@@ -117,11 +120,10 @@ void CHHFXSampleOgre::_initHHFX()
 //-------------------------------------------------------------------------------------
 
 void CHHFXSampleOgre::_loadHHFXResources() 
-{
+{		
 	_loadHHFXTextures();
-	_loadHHFXCompositors();
-	std::string fxPackage( "../Packs/SampleParticlesOgre");
-	_loadHHFXPackage(fxPackage);
+	_loadHHFXCompositors();	
+	_loadHHFXPackage(FX_PACKAGE);
 }
 
 //-------------------------------------------------------------------------------------
@@ -197,7 +199,8 @@ void CHHFXSampleOgre::_loadHHFXPackage(const std::string& fxPack) {
 	OgreAssert(hhfxPackLoaded, "hhfx pack did not load correctly or contains no effects !");
 
 	// get all the effects from this pack and add them to the fx menu, then select the first effect
-	//const std::vector<std::string>& fxNames = m_hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetNames();
+	const std::vector<std::string>& fxNames = m_hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetNames();
+	const std::vector<std::string>& fxEffects = m_hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetEffects();
 }
 
 //-------------------------------------------------------------------------------------
@@ -207,8 +210,8 @@ void CHHFXSampleOgre::_createFX(const std::string &fxName, const std::string &fx
 	
 	// effect's params
 	NameValuePairList params;
-		params["pack"] = fxPack;
-		params["fx"] = fxName;
+		params["pack"] =  m_hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetPack();
+		params["fx"] =  m_hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetEffects()[nClicks%12];//fxName;
 		params["run"] = "yes"; // FRS?
 
 	// spawn a new effect at this location
@@ -220,6 +223,7 @@ void CHHFXSampleOgre::_createFX(const std::string &fxName, const std::string &fx
 	// For such effects, don't bother creating a parent scene node.
 
 	IHHFXOgre *hhfx = static_cast<IHHFXOgre*>(fx);
+//	hhfx->RunFX();
 	if (hhfx->IsFXActive())
 	{
 		// create a node to attach the effect
@@ -420,8 +424,6 @@ bool CHHFXSampleOgre::keyPressed(const OIS::KeyEvent& evt)
 }
 
 
-int nClicks = 0;
-std::string fxNames[] = {"Blast", "Blast_Small", "BurnHit", "BurnHit_Small", "ElectricOrb", "FlameThrower", "Rain", "Smoke01", "Sparks", "TorchFire", "Trails", "TurbulenceCircles" };
 //-------------------------------------------------------------------------------------
 
 bool CHHFXSampleOgre::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
@@ -433,7 +435,7 @@ bool CHHFXSampleOgre::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonI
 		{
 			Ogre::Vector3 pos(0,0,0);
 			std::string hfx("HBO/Entities/Particles/" + fxNames[nClicks++%12] + ".hfx");
-			std::string fxPackage( "../Packs/SampleParticlesOgre");
+			std::string fxPackage( FX_PACKAGE );
 			_createFX(hfx, fxPackage, pos);
 			break;
 		}
