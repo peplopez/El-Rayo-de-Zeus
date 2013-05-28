@@ -26,7 +26,7 @@ Map ={
 		initialMaterial0="marineYellow",
 	},
 		
-	bioshockLOGICO74 = {
+	bioshockLOGICO99 = {
 		type = "Sinbad",
 		base=4,
 		ring=1,

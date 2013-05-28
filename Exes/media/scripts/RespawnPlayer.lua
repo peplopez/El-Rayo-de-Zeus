@@ -18,7 +18,7 @@ function showRespawn()
 		GUI.System:setGUISheet(respawnWindow)
 		respawnWindow:setVisible(true)
 		respawnWindow:activate()
-		GUI.Mouse:show()
+		-- GUI.Mouse:show()
 	end
 end
 

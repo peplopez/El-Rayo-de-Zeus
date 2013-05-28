@@ -8,7 +8,7 @@
 	
     <Window Type="OgreTray/TitleInit" Name="RespawnPlayer/Texto" >
         <Property Name="Font" Value="Diogenes-24" />
-        <Property Name="Text" Value="You have death. Respawn in: " />
+        <Property Name="Text" Value="You are dead. Respawn in: " />
         <Property Name="AlwaysOnTop" Value="True" />
         <Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.4,0},{0.7,0},{0.6,0}}" />
     </Window>

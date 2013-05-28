@@ -135,7 +135,9 @@ namespace Logic
 
 	void CLife::modifyLife(int lifeModifier) {
 
-		Math::Clamp( _life += lifeModifier, 0, _LIFE_MAX); // Disminuir/ aumentar la vida de la entidad
+		_life += lifeModifier;
+
+		Math::Clamp( _life, 0, _LIFE_MAX); // Disminuir/ aumentar la vida de la entidad
 			
 		// DIES
 		if(_life <= 0) {
@@ -146,12 +148,14 @@ namespace Logic
 			_entity->emitMessage(msg, this);
 
 			////PT Cuando la entidad pierde toda su vida, se elimina su billboard (barra de vida) de la escena
-			//if(_lifeBarBB!=0)
-			//{
-			//	_graphicalScene->remove(_lifeBarBB);	
-			//	delete _lifeBarBB;
-			//}
-		
+			if(!_entity->isPlayer())
+			{
+				if(_lifeBarBB!=NULL)
+				{
+					_graphicalScene->remove(_lifeBarBB);
+					_lifeBarBB = NULL;
+				}
+			}
 		// DAMAGE / HEAL 
 		} else if(lifeModifier) { // Solo animaciones
 		
@@ -170,14 +174,18 @@ namespace Logic
 		}		
 
 			// LIFEBAR CONTROL
-			float ratio = (float)_life / (float)_LIFE_MAX; // FRS Menudo fail hicimos aquí con los enteros xD
+			float ratio = float (_life) / float (_LIFE_MAX); // FRS Menudo fail hicimos aquí con los enteros xD
 
+			//Si la entidad tiene su _lifeBar distinto de NULL actualizamos las coordenadas UV, sino NO.
+			if(_lifeBarBB!=NULL)
+			{
 				_lifeBarBB->setTextureCoords(
 					(1.0f - ratio) / 2.0f,			// u1
 					0.0f,							// v1
 					0.5f + (1.0f - ratio) / 2.0f,	// u2
 					1.0f							// v2
 				);
+			}
 
 
 	} // modifyLife
