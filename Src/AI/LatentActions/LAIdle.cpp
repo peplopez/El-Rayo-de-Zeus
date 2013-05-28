@@ -36,25 +36,17 @@ namespace AI
 		
 		if (_anim=="")
 			_anim = Graphics::AnimNames::IDLE;
-		std::cout<<"AI::StateMachine::idle"<<std::endl;
+		//std::cout<<"AI::StateMachine::idle"<<std::endl;
 		CMessageBoolString *message = new CMessageBoolString();
 		message->setType(Message::SET_ANIMATION);
-
-		//si es sinbad
 		message->setString(_anim);
-		message->setAction(Message::WALK_STOP);
 		message->setBool(true);
 		_entity->emitMessage(message);
 
-		CMessageFloat *m2 = new CMessageFloat();	
-		m2->setType(Message::SET_SCALE);
-		m2->setFloat(_entity->getInitialScale());
-		m2->setAction(Message::UNDEF);
-		_entity->emitMessage(m2);
-
 		//
 		if (_entity->getComponent<CAttack>()!=NULL)
-				_entity->getComponent<CAttack>()->setCovering(false);		
+				_entity->getComponent<CAttack>()->setCovering(false);
+
 		// TODO PRÁCTICA IA
 		// Al iniciar el wait, calculamos el instante de tiempo en 
 		// el que se tiene que finalizar la acción. 
