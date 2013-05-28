@@ -91,7 +91,7 @@ namespace Logic
 		/**
 		Add ESC
 		*/
-		IComponent(altTypeId id) : _entity(0), _componentId(id) {}
+		IComponent(altTypeId id) : _entity(0), _componentId(id), _awake(true) {}
 
 		/**
 		Destructor (virtual); en la clase base no hace nada.
