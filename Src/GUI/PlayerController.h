@@ -21,6 +21,11 @@ namespace Logic
 	class CEntity;
 }
 
+namespace Ogre
+{
+	class Log;
+}
+
 // Declaración de la clase
 namespace GUI
 {
@@ -141,6 +146,8 @@ namespace GUI
 		Logic::CEntity *_controlledAvatar;
 
 		bool _baseChangeAllowed;
+
+		Ogre::Log* _log;
 
 	}; // class CPlayerController
 
