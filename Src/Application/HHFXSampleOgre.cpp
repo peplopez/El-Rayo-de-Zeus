@@ -21,7 +21,7 @@ using namespace Ogre;
 // WARNING : if != 1.0, This scale must be taken into account when setting and getting arbitrary particle attributes !
 
 const float	kWorldFxScale = 1.0f;
-const std::string FX_PACKAGE = "../Packs/SampleParticlesOgre";
+const std::string FX_PACKAGE = "media/packs/SampleParticlesOgre";
 const std::string fxNames[] = {"Blast", "Blast_Small", "BurnHit", "BurnHit_Small", "ElectricOrb", "FlameThrower", "Rain", "Smoke01", "Sparks", "TorchFire", "Trails", "TurbulenceCircles" };
 int nClicks = 0;
 
@@ -69,7 +69,7 @@ void CHHFXSampleOgre::createScene()
 		m_floor.d = 0;
 		MeshManager::getSingleton().createPlane("FloorPlane", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, m_floor, 200, 200, 100, 100, true, 1, 20, 20, Vector3::UNIT_Z);
 		ent = mSceneMgr->createEntity("floor", "FloorPlane");
-		//ent->setMaterialName("HHFXSample/Grid");
+		ent->setMaterialName("HHFXSample/Grid");
 		mSceneMgr->getRootSceneNode()->createChildSceneNode("nGrid")->attachObject(ent);
 	}
 	
@@ -208,12 +208,13 @@ void CHHFXSampleOgre::_loadHHFXPackage(const std::string& fxPack) {
 
 void CHHFXSampleOgre::_createFX(const std::string &fxName, const std::string &fxPack, const Ogre::Vector3 &pos) {
 	
+	const std::vector<std::string>& fxEffects = m_hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetEffects();
 	// effect's params
 	NameValuePairList params;
 		params["pack"] =  m_hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetPack();
-		params["fx"] =  m_hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetEffects()[nClicks%12];//fxName;
+		params["fx"] =  fxEffects[ nClicks++ % fxEffects.size() ];//fxName;
 		params["run"] = "yes"; // FRS?
-
+	
 	// spawn a new effect at this location
 	MovableObject	*fx = mSceneMgr->createMovableObject("HHFX", &params);
 	assert(fx && "Error al crear MO");	
@@ -434,7 +435,7 @@ bool CHHFXSampleOgre::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonI
 	case OIS::MB_Left:
 		{
 			Ogre::Vector3 pos(0,0,0);
-			std::string hfx("HBO/Entities/Particles/" + fxNames[nClicks++%12] + ".hfx");
+			std::string hfx("HBO/Entities/Particles/" + fxNames[0] + ".hfx");
 			std::string fxPackage( FX_PACKAGE );
 			_createFX(hfx, fxPackage, pos);
 			break;
