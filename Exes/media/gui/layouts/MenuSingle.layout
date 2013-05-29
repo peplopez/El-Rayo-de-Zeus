@@ -68,12 +68,12 @@
             <Property Name="UnifiedAreaRect" Value="{{0.1,1},{0.75,0},{0.95,0},{0.85,0}}" />
         </Window>-->
 
-		<Window Type="OgreTray/ProgressBar" Name="MenuSingle/Progreso" >
+<!-- 		<Window Type="OgreTray/ProgressBar" Name="MenuSingle/Progreso" >
 			<Property Name="StepSize" Value="0.1" />		
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 			<Property Name="CurrentProgress" Value="0" />	
 			<Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.75,0},{0.8,0},{0.8,0}}" />
-        </Window>
+        </Window> -->
 		
         <Window Type="OgreTray/Button" Name="MenuSingle/Play" >
             <Property Name="Font" Value="DejaVuSans-10" />
