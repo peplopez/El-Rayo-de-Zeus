@@ -4,10 +4,6 @@ Map ={
 		type = "PlayerCamera",
 	},
 	
-	SkySphere = {
-		type = "SkySphere",
-	},
-	
 	BaseCamera1 = {
 		type = "BaseCamera1",
 	},
@@ -32,12 +28,7 @@ Map ={
 		ring=0,
 		degrees=0,
 	},
-	puThrone1 = {
-		type = "PUThrone",
-		base=2,
-		ring=0,
-		degrees=120,
-	},
+	
 
 	puPoison1 = {
 		type = "PUPoison",
@@ -58,18 +49,33 @@ Map ={
 		type = "World",
 		base=2,
 		ring=0,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -2,
 	},
 	
 	CenterRing = {
 		type = "World",
 		base=2,
 		ring=1,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -2,
 	},
 	
 	UpperRing = {
 		type = "World",
 		base=2,
 		ring=2,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -2,
 	},
 	
 	Altar1 = {

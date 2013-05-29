@@ -308,6 +308,10 @@ namespace Application
 		*/
 		IClock *_clock;
 
+		/**
+		*/
+		void CheckTimeObservers();
+
 	}; // class BaseApplication
 
 } // namespace Application

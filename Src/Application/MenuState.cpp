@@ -171,9 +171,8 @@ namespace Application {
 
 			_mapsToLoad.push_back("mapRed");
 			_mapsToLoad.push_back("mapBlue");
-			
-			_mapsToLoad.push_back("mapGreen");
-			_mapsToLoad.push_back("mapYellow");
+			//_mapsToLoad.push_back("mapGreen");
+			//_mapsToLoad.push_back("mapYellow");
 
 			if (!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad))
 				return false;
@@ -249,8 +248,8 @@ namespace Application {
 
 		_mapsToLoad.push_back("mapRed");
 		_mapsToLoad.push_back("mapBlue");
-		_mapsToLoad.push_back("mapGreen");
-		_mapsToLoad.push_back("mapYellow");
+		//_mapsToLoad.push_back("mapGreen");
+		//_mapsToLoad.push_back("mapYellow");
 
 		if (!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad))
 			return false;

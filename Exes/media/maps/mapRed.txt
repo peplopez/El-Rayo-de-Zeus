@@ -8,11 +8,7 @@ Map ={
 	Camera = {
 		type = "PlayerCamera",
 	},
-	
-	SkySphere = {
-		type = "SkySphere",
-	},
-		
+			
 	BaseCamera1 = {
 		type = "BaseCamera1",
 	},
@@ -25,148 +21,129 @@ Map ={
 	pointLight2 = {
 		type = "PointLight",
 		position = {100, 20, 0},
-	},
-	
+	},	
 		
-	puApple1 = {
-		type = "PUApple",
-		base=1,
-		ring=0,
-		degrees=0,
-	},
-	
-	puThrone1 = {
-		type = "PUThrone",
-		base=1,
-		ring=0,
-		degrees=120,
-	},
-	
-	puPandora1 = {
-		type = "PUPandora",
-		base=1,
-		ring=2,
-		degrees=0,
-	},
-	puPoison1 = {
-		type = "PUPoison",
-		base=1,
-		ring=1,
-		degrees=180,
-	},
-		
-	medusa1 = {
+	medusa2 = {
 		type = "Medusa",
 		base=1,
 		ring=1,
-		degrees=300,		
-	},	
+		degrees=30,	
+		height=180,
+	},
 	
-	peludo = {
-		type = "Spider",
-		base=1,
+	puPoison1 = {
+		type = "PUPoison",
+		base=2,
 		ring=1,
-		degrees=80,		
+		degrees=180,
 	},
 
-	peluda = {
-		type = "Spider",
-		base=1,
-		ring=2,
-		degrees=70,		
-	},	
-	
 	LowerRing = {
 		type = "World",
 		base=1,
 		ring=0,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -2,
 	},
 	
 	CenterRing = {
 		type = "World",
 		base=1,
 		ring=1,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -2,
 	},
 	
 	UpperRing = {
 		type = "World",
 		base=1,
 		ring=2,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -2,
 	},
 	
 	Altar1 = {
 		type = "AltarRed",
-		degrees=60,
+		degrees=30,
 		ring=0,
 		base=1,	
 	},
 	
 	Altar2 = {
 		type = "AltarRed",
-		degrees=180,
+		degrees=150,
 		ring=0,
 		base=1,		
 	},
 	
 	Altar3 = {
 		type = "AltarRed",
-		degrees=300,
+		degrees=270,
 		ring=0,
 		base=1,		
 	},
 	
 	Altar4 = {
 		type = "AltarRed",
-		degrees=36,
+		degrees=6,
 		ring=1,
 		base=1,		
 	},
 	
 	Altar5 = {
 		type = "AltarRed",
-		degrees=108,
+		degrees=78,
 		ring=1,
 		base=1,		
 	},
 	
 	Altar6 = {
 		type = "AltarRed",
-		degrees=180,
+		degrees=150,
 		ring=1,
 		base=1,		
 	},
 	
 	Altar7 = {
 		type = "AltarRed",
-		degrees=252,
+		degrees=222,
 		ring=1,
 		base=1,		
 	},
 	
 	Altar8 = {
 		type = "AltarRed",
-		degrees=324,
+		degrees=294,
 		ring=1,
 		base=1,		
 	},
 	
 	Altar9 = {
 		type = "AltarRed",
-		degrees=60,
+		degrees=30,
 		ring=2,
 		base=1,		
 	},
 	
 	Altar10 = {
 		type = "AltarRed",
-		degrees=180,
+		degrees=150,
 		ring=2,
 		base=1,		
 	},
 	
 	Altar11 = {
 		type = "AltarRed",
-		degrees=300,
+		degrees=270,
 		ring=2,
 		base=1,		
 	},				

@@ -1,6 +1,3 @@
-//----------------------------------------------12
-
-
 //-----------------------------
 // Scene.cpp
 //---------------------------------------------------------------------------
@@ -14,10 +11,24 @@
 @author Emilio Santalla
 @date Febrero 2013
 */
+#include <string>
 
-#include "Logic/Entity/LogicalPosition.h"
 #include "Physics/IObserver.h"
 #include "Physics/Scene.h"
+#include "Physics/Actor.h"
+#include "Physics/ContactListener.h"
+#include <Physics\DebugDraw\OgreB2DebugDraw.h>
+
+
+#include <Box2D\Dynamics\b2World.h>
+#include <Box2D\Common\b2Math.h>
+#include <Box2D\Common\b2Settings.h>
+
+
+#include "Graphics\Server.h"
+#include "Graphics\Scene.h"
+#include "Graphics\Camera.h"
+
 
 #include <assert.h>
 #include <iostream>
@@ -34,13 +45,30 @@
 
 namespace Physics
 {
+	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0), _worldListener(0), _debugDrawEnabled(false)
+	{	
+		b2Vec2 gravity(0, -20);
+		_world = new b2World(gravity);
+
+		if (_name != "dummy_scene")
+		{
+#ifdef _DEBUG
+			_debugDraw = new OgreB2DebugDraw(Graphics::CServer::getSingletonPtr()->getScene(name)->getSceneMgr(), "debugDraw") ;
+			_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(name)->getCamera()->getCameraNode());
+			_debugDraw->SetFlags(b2Draw::e_shapeBit);
+			_world->SetDebugDraw(_debugDraw);
+#endif		
+			_worldListener = new CContactListener();
+			_world->SetContactListener(_worldListener);
+
+			CreateWorldEdges();
+		}
+	};
 
 	CScene::~CScene() 
 	{
+		delete _world;
 		deactivate();	
-		/* UNDONE FRS Sacado de Graphics::Scene
-		_sceneMgr->destroyStaticGeometry(_staticGeometry);		
-		_root->destroySceneManager(_sceneMgr);*/ 
 
 	} // ~CScene
 	
@@ -48,6 +76,7 @@ namespace Physics
 
 	bool CScene::activate()
 	{
+
 		return true;
 	} // activate
 
@@ -59,146 +88,111 @@ namespace Physics
 	} // deactivate
 	
 	//--------------------------------------------------------
-	
-	void CScene::tick(unsigned int secs)
+	 
+	void CScene::tick(unsigned int msecs)
 	{	
-		this->simulate(); // Empezar la simulación física.
+		float32 timeStep = msecs * 0.001f;
+		int32 velocityIterations = 6;
+		int32 positionIterations = 3;
+#ifdef _DEBUG
+		_debugDraw->clear();
+#endif
+		_world->Step(timeStep, velocityIterations, positionIterations); //simulación física
+		if (_actorsToGhost.size() > 0)
+			createGhostBodies();
+		if (_actorsToUnghost.size() > 0)
+			deleteGhostBodies();
+#ifdef _DEBUG
+		if (_debugDrawEnabled)
+		{
+			_world->DrawDebugData();
+			_debugDraw->Render();
+		}
+#endif
 	} // tick
-
-	
-
 
 	/************
 		ACTORS
 	************/
 
-	// TODO FRS hacerlas inline? 
-	bool CScene::addActor(CActor* collider)
+	bool CScene::add(CActor* actor)
 	{
-		_colliders.push_back(collider);
-		return true;
+		if(!actor->attachToScene(this))
+			return false;
+		else 
+		{
+			_actors.push_back(actor);
+			return true;
+		}
 	} // addActor
 
-	bool CScene::addActor(CActorTrigger* trigger)
-	{
-		_triggers.push_back(trigger);
-		return true;
-	} // addActor
-
-
-		
 
 	//--------------------------------------------------------
-
-
-	void CScene::removeActor(CActor* collider)
+	void CScene::remove(CActor* actor)
 	{
-		TColliders::iterator colliderIndex = std::find(_colliders.begin(), _colliders.end(), collider);
-		if (colliderIndex != _colliders.end())
-			_colliders.erase(colliderIndex); // FRS El delete es responsabilidad del creador (Logic::CPhysics)		
+		actor->detachFromScene();		
+
+		TActors::iterator actorIndex = std::find(_actors.begin(), _actors.end(), actor);
+		if (actorIndex != _actors.end())
+			_actors.erase(actorIndex); // FRS El delete es responsabilidad del creador (Logic::CPhysics)		
 	} // removeActor
 
-	void CScene::removeActor(CActorTrigger* trigger)
+
+	//--------------------------------------------------------
+
+	void CScene::CreateWorldEdges()
 	{
-		TTriggers::iterator triggerIndex = std::find(_triggers.begin(), _triggers.end(), trigger);
-		if (triggerIndex != _triggers.end())			
-			_triggers.erase(triggerIndex);// FRS El delete es responsabilidad del creador (Logic::CPhysics)		
-	} // removeActor
 
-	
+		CActor* leftWorldEdge = new CActor(180, -100, Logic::Ring::CENTRAL_RING, "static", 0);
+		CActor* rightWorldEdge = new CActor(-180, -100, Logic::Ring::CENTRAL_RING, "static", 0);
 
-	/******************
-		SIMULATION
-	*****************/
-	
-	void CScene::simulate()
-	{	
-		checkCollisions();
-		checkTriggers();
+		leftWorldEdge->createFixture(3, 100, 0, 0, 0, true);
+		rightWorldEdge->createFixture(3, 100, 0, 0, 0, true);
 
-	} // simulate	
+		leftWorldEdge->attachToScene(this);
+		rightWorldEdge->attachToScene(this);
 
-	//--------------------------------------------------------
-
-	void CScene::checkCollisions() {
-
-		//WTF!!
-		float x = 0;
-		float y = 0;
-		for (size_t i = 0; i < _colliders.size() - 1; ++i)	
-			for (size_t j = i + 1; j < _colliders.size(); ++j)
-				if ( _colliders[i]->intersects(_colliders[j], x, y) )
-				{		
-					LOG("Collision")
-					updateLogicPosition(_colliders[i], _colliders[j], x, y);
-					_colliders[i]->getIObserver()->onCollision(_colliders[j]->getIObserver());
-					_colliders[j]->getIObserver()->onCollision(_colliders[i]->getIObserver());	
-				}
-
-	} // checkCollisions
-
-	//--------------------------------------------------------
-
-	void CScene::checkTriggers() {
-
-		for (size_t i = 0; i < _triggers.size(); ++i)	
-			for (size_t j = 0; j < _colliders.size(); ++j)
-				
-				if ( _colliders[j]->intersects( _triggers[i] ) ) {
-					if( _triggers[i]->enters( _colliders[j] ) ) {						
-						LOG("Trigger Enter")
-						_triggers[i]->getIObserver()->onTrigger( _colliders[j]->getIObserver(), true);
-						_colliders[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), true);	
-					}
-					
-				} else if( _triggers[i]->exits( _colliders[j] ) ) {						
-						LOG("Trigger Exit")
-						_triggers[i]->getIObserver()->onTrigger( _colliders[j]->getIObserver(), false);
-						_colliders[j]->getIObserver()->onTrigger( _triggers[i]->getIObserver(), false);
-				}
-
-	} // checkTriggers
-
-
-	//--------------------------------------------------------
-
-	void CScene::updateLogicPosition(Physics::CActor *actor1, Physics::CActor *actor2, float x, float y)
-	{
-		if (abs(x) < abs(y) || y == 0)
-		{
-			if (x < 0)
-			{
-				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
-				pos->setDegree(pos->getDegree()-x);
-				if (pos->getDegree()> 360)
-					pos->setDegree(pos->getDegree()-360);
-				actor2->setLogicPosition(pos);
-			}
-			else if (x > 0)
-			{
-				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
-				pos->setDegree(pos->getDegree()-x);
-				if (pos->getDegree() < 0)
-					pos->setDegree(pos->getDegree()+360);
-				actor2->setLogicPosition(pos);
-			}
-		}
-		else
-		{
-			if (y < 0)
-			{
-				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
-				pos->setHeight(pos->getHeight()-y);
-				actor2->setLogicPosition(pos);
-			}
-			else if (y > 0)
-			{
-				Logic::CLogicalPosition* pos = actor2->getLogicPosition();
-				pos->setHeight(pos->getHeight()+y);
-				actor2->setLogicPosition(pos);
-			}
-		}
 	}
 
+	//--------------------------------------------------------
+	
+	void CScene::deferredGhostBody(CActor* actor)
+	{
+		_actorsToGhost.push_back(actor);
+	}
 
+	//--------------------------------------------------------
+	
+	void CScene::deferredUnghostBody(CActor* actor)
+	{
+		_actorsToUnghost.push_back(actor);
+	}
+
+	//--------------------------------------------------------
+	
+	void CScene::createGhostBodies()
+	{
+		for (int i = 0; i < _actorsToGhost.size(); ++i)
+			_actorsToGhost[i]->createGhostBody();
+		
+		_actorsToGhost.clear();
+	}
+	
+	//--------------------------------------------------------
+
+	void CScene::deleteGhostBodies()
+	{
+		for (int i = 0; i < _actorsToUnghost.size(); ++i)
+			_actorsToUnghost[i]->deleteGhostBody();
+
+		_actorsToUnghost.clear();
+	}
+
+	//--------------------------------------------------------
+	void CScene::switchDebugDraw()
+	{
+		_debugDrawEnabled = !_debugDrawEnabled;
+
+	}
+	
 } // namespace Physics

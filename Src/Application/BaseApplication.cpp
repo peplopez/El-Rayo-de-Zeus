@@ -18,8 +18,17 @@ de todo el juego.
 #include "BaseApplication.h"
 #include "ApplicationState.h"
 #include "Clock.h"
+#include "Graphics/Server.h"
 
 #include <assert.h>
+
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "BASEAPPLICATION>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 namespace Application {
 
@@ -144,6 +153,9 @@ namespace Application {
 		// empezar, para que el primer frame tenga un tiempo
 		// de frame razonable.
 		_clock->updateTime();
+		unsigned long accumulator1 = 0;
+		unsigned long accumulator2 = 0;
+
 
 		// Ejecución del bucle principal. Simplemente miramos si
 		// tenemos que hacer una transición de estado, y si no hay que
@@ -155,8 +167,23 @@ namespace Application {
 				changeState();
 
 			_clock->updateTime();
-
-			tick(_clock->getLastFrameDuration());
+			accumulator1 += _clock->getLastFrameDuration();
+			accumulator2 += _clock->getLastFrameDuration();
+			
+			//FIXED UPDATE
+			//LOG(accumulator);
+			while (accumulator1 >= 20)
+			{	
+				tick(20);
+				accumulator1 -= 20;
+			}
+			//LOG(_clock->getLastFrameDuration());
+			//GUI::CInputManager::getSingletonPtr()->tick();
+			if (accumulator2 >= 10)
+			{
+				Graphics::CServer::getSingletonPtr()->tick(accumulator2*0.001f);
+				accumulator2 = 0;
+			}
 		}
 
 	} // run
@@ -194,21 +221,8 @@ namespace Application {
 		// identifican cosas comunes a todos los estados, se pueden
 		// añadir en la implementación del método de esa aplicación.
 		
-		//Pep: aquí implemento la comprobación de tiempo
-		if (!_clock->_timeObservers.empty())
-		{
-			IClock::TTimeObserverList::const_iterator it = _clock->_timeObservers.begin();
-			for(; it != _clock->_timeObservers.end(); it++)
-			{
-				if (!_clock->_timeObservers.empty())
-				if (_clock->getTime()>=(*it).second.second)
-				{
-					(*it).second.first->timeArrived();
-					_clock->removeTimeObserver((*it).first);
-					break;
-				}
-			}
-		}
+		//Pep: aquí implemento la comprobación de tiempo - ESC movido a un método CheckTimeObservers();
+		CheckTimeObservers();
 
 		if (_currentState)
 			_currentState->tick(msecs);
@@ -265,7 +279,6 @@ namespace Application {
 
 	//--------------------------------------------------------
 
-
 	bool CBaseApplication::mouseReleased(const GUI::CMouseState &mouseState)
 	{
 		// Avisamos al estado actual del fin de la pulsación.
@@ -275,5 +288,25 @@ namespace Application {
 		return false;
 
 	} // mouseReleased
+
+	//--------------------------------------------------------
+
+	void CBaseApplication::CheckTimeObservers()
+	{
+		if (!_clock->_timeObservers.empty())
+		{
+			IClock::TTimeObserverList::const_iterator it = _clock->_timeObservers.begin();
+			for(; it != _clock->_timeObservers.end(); it++)
+			{
+				if (!_clock->_timeObservers.empty())
+				if (_clock->getTime()>=(*it).second.second)
+				{
+					(*it).second.first->timeArrived();
+					_clock->removeTimeObserver((*it).first);
+					break;
+				}
+			}
+		}
+	}
 
 } // namespace Application

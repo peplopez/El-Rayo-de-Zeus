@@ -17,6 +17,10 @@ el mundo físico.
 #include "Logic/Entity/Components/Physics.h"
 #include "Logic/Entity/LogicalPosition.h"
 
+namespace Physics
+{
+	class CActor;
+}
 
 // Los componentes se definen dentro del namespace Logica
 // TODO corregir comentarios
@@ -46,10 +50,10 @@ namespace Logic
 	
 	public:
 
-		CPhysicalCharacter() : CPhysics(GetAltTypeIdOf(CPhysicalCharacter)), _auxPos(new Logic::CLogicalPosition()) {}
+		CPhysicalCharacter() : CPhysics(GetAltTypeIdOf(CPhysicalCharacter)), _negativeYVelocity(60), _diffDegrees(0), _diffHeight(0), _diffBase(0) {}
 
 		/**Este componente sólo acepta mensajes de tipo AVATAR_WALK.*/
-		bool accept(const CMessage *message);
+		virtual bool accept(const CMessage *message);
 		
 		/**
 		Cuando se recibe un mensaje de tipo AVATAR_WALK, se almacena su vector de 
@@ -57,7 +61,7 @@ namespace Logic
 		De esta forma, si en un ciclo se reciben varios mensaje de tipo AVATAR_WALK 
 		sólo tendrá efecto el último.
 		*/
-		void process(CMessage *message);
+		virtual void process(CMessage *message);
 
 		/**
 		Este método se invoca en cada ciclo de la simulación y hace lo siguiente:
@@ -69,18 +73,22 @@ namespace Logic
 		<p>
 		Los character controllers no tienen orientación, sólo posición
 		*/
-		void tick(unsigned int msecs);
+		virtual void tick(unsigned int msecs);
 
 		/**************
 			IOBSERVER
 		***************/
 		//Se invoca cuando se produce una colisión entre una entidad física y un trigger.
-		void onTrigger(IObserver*, bool);
-		void onCollision(IObserver* other);
+		virtual void onTrigger(IObserver*, bool);
+		virtual void onCollision(IObserver* other);
 
 	protected:
 
-		Logic::CLogicalPosition* _auxPos;
+		float _diffDegrees;
+		float _diffHeight;
+		char _diffBase;
+
+		float _negativeYVelocity;
 
 		
 	}; // class CPhysicalCharacter

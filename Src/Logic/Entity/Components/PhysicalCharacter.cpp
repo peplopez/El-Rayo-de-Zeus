@@ -4,7 +4,7 @@
 Contiene la implementación del componente que se utiliza para representar jugadores y enemigos en
 el mundo físico usando character controllers.
 
-@see Logic::CPhysicaalCharacter
+@see Logic::CPhysicalCharacter
 @see Logic::CPhysics
 @see Physics::IObserver
 
@@ -14,12 +14,16 @@ el mundo físico usando character controllers.
 
 #include "PhysicalCharacter.h"
 
+
 #include "Logic/Entity/Entity.h"
+#include "Map/MapEntity.h"
+
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageChar.h" // TODO PeP: sería óptimo enviar un unsigned short???
 #include "Logic/Entity/Messages/MessageFloat.h"
 
 #include "Physics/Actor.h"
+#include "Physics/Scene.h"
 
 
 
@@ -53,14 +57,16 @@ namespace Logic {
 			
 		case Message::WALK_LEFT:
 		case Message::WALK_RIGHT:
-			_diffDegrees = static_cast<CMessageFloat*>(message)->getFloat();	
+			_diffDegrees += static_cast<CMessageFloat*>(message)->getFloat();	
 			break;
+		case Message::WALK_STOP:
+			_physicalActor->setLinearVelocity(0,_diffHeight);
 		case Message::JUMP:
-			_diffHeight = static_cast<CMessageFloat*>(message)->getFloat();
+			_diffHeight  += static_cast<CMessageFloat*>(message)->getFloat();
 			break;
-		case Message::CHANGE_RING:		// TODO ƒ®§ por seguridad quizá habría que probar que _ring < MAX del enum --> asserts!
-			_diffRing = static_cast<CMessageChar*>(message)->getChar();
-			break;
+		//case Message::CHANGE_RING:		// TODO ƒ®§ por seguridad quizá habría que probar que _ring < MAX del enum --> asserts!
+		//	_diffRing = static_cast<CMessageChar*>(message)->getChar();
+		//	break;
 		case Message::CHANGE_BASE:
 			_diffBase = static_cast<CMessageChar*>(message)->getChar();	
 			break;
@@ -90,38 +96,26 @@ namespace Logic {
 		// usando la información proporcionada por el motor de física	
 		// Este a genera  SET_TRANSFORM por debajo que informa al CGraphics
 
-		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()->getDegree() - _physicalActor->getLogicPosition()->getDegree()));
+		_entity->yaw(Math::fromDegreesToRadians(_entity->getLogicalPosition()->getDegree() - _physicalActor->getDegree()));
 
-		//assert((_entity->getLogicalPosition()->getDegree() - _physicalActor->getLogicPosition()->getDegree())==0);
-		// HACK ESC - PEACHO HaCK para que no se sobreescriba el sense con el del actor físico
-		//Logic::CLogicalPosition* pos =_physicalActor->getLogicPosition();
-		// PeP: este hack, no es muy hardcore? estamos haciendo un new en cada tick por cada actor físico que haya en escena. Hay que mirarlo
 		
-		_auxPos->setBase(_physicalActor->getLogicPosition()->getBase());
-		_auxPos->setRing(_physicalActor->getLogicPosition()->getRing());
-		_auxPos->setHeight(_physicalActor->getLogicPosition()->getHeight());
-		_auxPos->setDegree(_physicalActor->getLogicPosition()->getDegree());
-		_auxPos->setSense(_entity->getLogicalPosition()->getSense());
-		
-		_entity->setLogicalPosition(_auxPos); 
-		
-		// TODO Efecto de la gravedad quizá sea necesario..?
-		//if (_falling) { // PeP: _entity->getHeight() también nos proporciona la misma info, si es 0 está en el suelo.
-		//	_movement += Vector3(0,-1,0);
-		//}
+		CLogicalPosition auxPos = _physicalActor->getLogicalPosition();
 
-		// Intentamos mover el actor según los AVATAR_MOVE acumulados. 
-		// UNDONE FRS _server->moveActor(_physicActor, _diffDegrees, _diffHeight, _diffRing, _diffBase); 
-		
-		_physicalActor->move(_diffDegrees, _diffHeight, _diffRing, _diffBase);
+		auxPos.setBase(_entity->getLogicalPosition()->getBase() + _diffBase);	
+		auxPos.setSense(_entity->getLogicalPosition()->getSense());
 
-		// TODO Actualizamos el flag que indica si estamos cayendo
-		//_falling =  !(flags & PxControllerFlag::eCOLLISION_DOWN);
+				
+		_entity->setLogicalPosition(&auxPos); 
+
+
+		
+
+		_physicalActor->setLinearVelocity(_diffDegrees, _diffHeight);
+
 		
 		//Ponemos el movimiento a cero		
 		_diffDegrees = 0;
-		_diffHeight = 0;
-		_diffRing = 0;
+		_diffHeight = 0; 
 		_diffBase = 0;
 	}
 
@@ -138,6 +132,8 @@ namespace Logic {
 		
 		//_entity->emitMessage(m,this);
 	}
+
+	//---------------------------------------------------------
 
 	void  CPhysicalCharacter::onTrigger (Physics::IObserver* other, bool enter) 
 	{

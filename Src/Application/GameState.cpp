@@ -150,11 +150,6 @@ namespace Application {
 		Physics::CServer::getSingletonPtr()->tick(msecs);// Simulación física 		
 		Logic::CServer::getSingletonPtr()->tick(msecs);// Actualizamos la lógica de juego.
 
-		/*_time += msecs;*/
-
-		/*	if (_gameStatus->getBase(3)->areAllAltarsActivated())
-			std::cout<<"APPLICATION::GAMESTATE::RAYAZO EN BASE 3"<<std::endl;
-		*/
 	} // tick
 
 	
