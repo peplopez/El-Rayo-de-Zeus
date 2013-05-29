@@ -1,6 +1,0 @@
-fragment_program HHFXSample/GridPS hlsl
-{
-	source HHFXSample.hlsl
-	entry_point mainGridPS
-	target ps_2_0
-}
