@@ -83,7 +83,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy &quot;$(TargetDir)$(TargetName).lib&quot; &quot;$(SolutionDir)..\lib\$(ConfigurationName)\&quot; /y&#x0D;&#x0A;mkdir &quot;$(SolutionDir)..\include\zzip&quot;&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\zzip.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\types.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\conf.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\_msvc.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y"
+				CommandLine="copy &quot;$(TargetDir)$(TargetName).lib&quot; &quot;$(SolutionDir)..\lib\$(ConfigurationName)\&quot; /y&#x0D;&#x0A;mkdir &quot;$(SolutionDir)..\include\zzip&quot;&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\zzip.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\types.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\conf.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\_msvc.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\plugin.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y"
 			/>
 		</Configuration>
 		<Configuration
@@ -152,7 +152,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy &quot;$(TargetDir)$(TargetName).lib&quot; &quot;$(SolutionDir)..\lib\$(ConfigurationName)\&quot; /y&#x0D;&#x0A;mkdir &quot;$(SolutionDir)..\include\zzip&quot;&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\zzip.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\types.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\conf.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\_msvc.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y"
+				CommandLine="copy &quot;$(TargetDir)$(TargetName).lib&quot; &quot;$(SolutionDir)..\lib\$(ConfigurationName)\&quot; /y&#x0D;&#x0A;mkdir &quot;$(SolutionDir)..\include\zzip&quot;&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\zzip.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\types.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\conf.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\_msvc.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\plugin.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y"
 			/>
 		</Configuration>
 		<Configuration
@@ -221,7 +221,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy &quot;$(TargetDir)$(TargetName).lib&quot; &quot;$(SolutionDir)..\lib\$(ConfigurationName)\&quot; /y&#x0D;&#x0A;mkdir &quot;$(SolutionDir)..\include\zzip&quot;&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\zzip.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\types.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\conf.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\_msvc.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y"
+				CommandLine="copy &quot;$(TargetDir)$(TargetName).lib&quot; &quot;$(SolutionDir)..\lib\$(ConfigurationName)\&quot; /y&#x0D;&#x0A;mkdir &quot;$(SolutionDir)..\include\zzip&quot;&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\zzip.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\types.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\conf.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\_msvc.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\plugin.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y"
 			/>
 		</Configuration>
 		<Configuration
@@ -291,7 +291,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy &quot;$(TargetDir)$(TargetName).lib&quot; &quot;$(SolutionDir)..\lib\$(ConfigurationName)\&quot; /y&#x0D;&#x0A;mkdir &quot;$(SolutionDir)..\include\zzip&quot;&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\zzip.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\types.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\conf.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\_msvc.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y"
+				CommandLine="copy &quot;$(TargetDir)$(TargetName).lib&quot; &quot;$(SolutionDir)..\lib\$(ConfigurationName)\&quot; /y&#x0D;&#x0A;mkdir &quot;$(SolutionDir)..\include\zzip&quot;&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\zzip.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\types.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\conf.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\_msvc.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y&#x0D;&#x0A;copy &quot;$(ProjectDir)..\zzip\plugin.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y"
 			/>
 		</Configuration>
 	</Configurations>
