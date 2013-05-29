@@ -1,15 +1,14 @@
 World CGraphics CPhysics CDestruction
 Sky CGraphics
-Scene
+Scene CDotSceneLoader
 Camera CCamera
 BaseCamera CBaseCamera
-SkyBox CGraphics
 Altar CGraphics CPhysics CAltar CDestruction
 Entity CGraphics
 Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CAttack CStateMachineExecutor CLife CHud CPhysicalCharacter CAltarStateSwitcher CAudio CDestruction
 Medusa CAnimatedGraphics CAvatarController CAttack CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CBasicAI CDestruction
 Spider CAnimatedGraphics CAvatarController CAttack CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CBasicAI CDestruction
 Sinbad CAnimatedGraphics CAvatarController CAttack CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CBasicAI CDestruction
-OtherPlayer CAnimatedGraphics CAvatarController CBaseTraveler CAttack CPhysicalCharacter CLifeModifier CStateMachineExecutor CLife CAltarStateSwitcher CBasicAI CDestruction CAudio 
+OtherPlayer CAnimatedGraphics CAvatarController CBaseTraveler CAttack CStateMachineExecutor CPhysicalCharacter CLifeModifier  CLife CAltarStateSwitcher CBasicAI CDestruction CAudio 
 PowerUp CGraphics CPhysics CItem CFloatingMovement CLifeModifier CDestruction
 Light CLight

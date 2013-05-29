@@ -8,6 +8,10 @@ Map ={
 		type = "BaseCamera1",
 	},
 	
+	SkySphere = {
+		type = "SkySphere",
+	},
+	
 	GemeloBlue = {
 		type = "OtherPlayer",
 		base=2,
@@ -29,6 +33,12 @@ Map ={
 		degrees=0,
 	},
 	
+	puThrone1 = {
+		type = "PUThrone",
+		base=2,
+		ring=0,
+		degrees=120,
+	},
 
 	puPoison1 = {
 		type = "PUPoison",

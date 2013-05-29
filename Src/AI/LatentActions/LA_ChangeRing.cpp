@@ -88,7 +88,6 @@ namespace AI
 	//PeP
 	void CLA_ChangeRing::tick(unsigned int msecs) 
 	{	
-		CLatentAction::tick();//no olvideis llamar al tick de CLatentAction
 		
 		if (_turning)
 		{	
@@ -275,7 +274,8 @@ namespace AI
 				_jumpSpeed -= _jumpDecay * msecs * 0.001f; 
 			}
 		}
-		
+
+		CLatentAction::tick();//no olvideis llamar al tick de CLatentAction
 	}
 
 	void CLA_ChangeRing::sleepComponents()

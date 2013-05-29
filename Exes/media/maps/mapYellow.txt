@@ -51,18 +51,33 @@ Map ={
 		type = "World",
 		base=4,
 		ring=0,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -2,
 	},
 	
 	CenterRing = {
 		type = "World",
 		base=4,
 		ring=1,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -2,
 	},
 	
 	UpperRing = {
 		type = "World",
 		base=4,
 		ring=2,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -2,
 	},
 	
 	Altar1 = {
