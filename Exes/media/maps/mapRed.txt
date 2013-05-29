@@ -27,15 +27,7 @@ Map ={
 		type = "PointLight",
 		position = {100, 20, 0},
 	},	
-		
-	medusa2 = {
-		type = "Medusa",
-		base=1,
-		ring=1,
-		degrees=30,	
-		height=180,
-	},
-	
+			
 	puApple1 = {
 		type = "PUApple",
 		base=1,
