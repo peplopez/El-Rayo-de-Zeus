@@ -21,6 +21,8 @@ namespace Logic
 	class CEntity;
 }
 
+
+
 // Declaración de la clase
 namespace GUI
 {
@@ -141,6 +143,7 @@ namespace GUI
 		Logic::CEntity *_controlledAvatar;
 
 		bool _baseChangeAllowed;
+
 
 	}; // class CPlayerController
 

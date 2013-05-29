@@ -1,0 +1,12 @@
+material debugDraw
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_check off
+        }
+    }
+}

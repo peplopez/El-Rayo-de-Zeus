@@ -151,7 +151,6 @@
     <ClCompile Include="..\..\Src\Logic\RingInfo.cpp">
       <Filter>GameStatus\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\Light.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BaseCamera.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
@@ -172,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\CMessageBoolFloatString.cpp">
       <Filter>Entity\Messages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Light.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolUShort.cpp">
       <Filter>Entity\Messages\Source Files</Filter>

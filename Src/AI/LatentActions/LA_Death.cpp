@@ -5,6 +5,7 @@
 
 #include "../../Logic/Entity/Components/Attack.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
+#include "../../Logic/Entity/Components/PhysicalCharacter.h"
 
 #include "../StateMachines/StateMachine.h"
 #include "Logic/Entity/Messages/MessageAudio.h"
@@ -58,7 +59,6 @@ namespace AI
 		message->setAction(Message::WALK_STOP);
 		message->setBool(false);
 		_entity->emitMessage(message);
-
 		std::string _audio = "media\\audio\\fallecimiento.wav";
 		Logic::CMessageAudio *maudio=new Logic::CMessageAudio();		
 		maudio->setType(Message::AUDIO);			
@@ -213,30 +213,35 @@ namespace AI
 	void CLA_Death::tick(unsigned int msecs) 
 	{
 		CLatentAction::tick();
+
 	}
 
 	void CLA_Death::sleepComponents()
 	{
 		if (_entity->getComponent<CAttack>()!=NULL)
-		_entity->getComponent<CAttack>()->resetAttackFlags();
+			_entity->getComponent<CAttack>()->resetAttackFlags();
 		if (_entity->getComponent<CAvatarController>()!=NULL)
-		_entity->getComponent<CAvatarController>()->sleep();
-		if (_entity->getComponent<CJump>()!=NULL)
-		_entity->getComponent<Logic::CJump>()->sleep();
+			_entity->getComponent<CAvatarController>()->sleep();
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)
-		_entity->getComponent<CBaseTraveler>()->sleep();
+			_entity->getComponent<CBaseTraveler>()->sleep();
+		if (_entity->getComponent<CPhysicalCharacter>() != 0)
+			_entity->getComponent<CPhysicalCharacter>()->sleep();
+		if (_entity->getComponent<CJump>() != 0)
+			_entity->getComponent<Logic::CJump>()->sleep();
 	}
 
 	void CLA_Death::awakeComponents()
 	{
 		if (_entity->getComponent<CAttack>()!=NULL)
-		_entity->getComponent<CAttack>()->resetAttackFlags();
+			_entity->getComponent<CAttack>()->resetAttackFlags();
 		if (_entity->getComponent<CAvatarController>()!=NULL)
-		_entity->getComponent<CAvatarController>()->awake();
+			_entity->getComponent<CAvatarController>()->awake();
 		if (_entity->getComponent<CJump>()!=NULL)
-		_entity->getComponent<Logic::CJump>()->awake();
+			_entity->getComponent<Logic::CJump>()->awake();
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)
-		_entity->getComponent<CBaseTraveler>()->awake();
+			_entity->getComponent<CBaseTraveler>()->awake();
+		if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+			_entity->getComponent<CPhysicalCharacter>()->awake();
 	}
 
 } //namespace LOGIC

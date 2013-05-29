@@ -127,21 +127,7 @@ namespace Logic
 	{
 		_walkingRight = false;	
 		_walkingLeft = true;
-	//		_entity->getComponent<CAttack>()->resetAttackFlags();
-	
 
-		// Cambiamos la animación	
-		/*if (_entity->getType()!="Player")
-	{
-		CMessageBoolString *message = new CMessageBoolString();
-		message->setType(Message::SET_ANIMATION);		
-		message->setAction(Message::WALK_LEFT);
-				//message->setString("run");
-		message->setString("run");
-		message->setBool(true);
-		_entity->emitMessage(message,this);
-		
-	}*/
 	}
 
 	//---------------------------------------------------------
@@ -149,21 +135,10 @@ namespace Logic
 	void CAvatarController::stopMovement() 
 	{
 		_walkingLeft = _walkingRight = false;
-	///	_entity->getComponent<CAttack>()->resetAttackFlags();
-	
-		// Cambiamos la animación si no seguimos desplazándonos
-		// lateralmente
-		/*	if (_entity->getType()!="Player")
-				{
-					CMessageBoolString *message = new CMessageBoolString();
-					message->setType(Message::SET_ANIMATION);		
-					message->setAction(Message::WALK_STOP);
-					message->setString("IdleKatana");
-					message->setBool(true);
-					_entity->emitMessage(message,this);
-		
-				} // stopWalk
-	*/
+		Logic::CMessageFloat *m = new Logic::CMessageFloat();
+		m->setType(Logic::Message::AVATAR_MOVE);
+		m->setAction(Logic::Message::WALK_STOP);
+
 	}
 	//---------------------------------------------------------
 
@@ -179,7 +154,7 @@ namespace Logic
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
 				m->setAction(Logic::Message::WALK_RIGHT);
-				m->setFloat(-_angularSpeed*msecs);
+				m->setFloat(-_angularSpeed);
 				_entity->emitMessage(m);
 			}
 			//rotar hacia derecha
@@ -196,7 +171,7 @@ namespace Logic
 				Logic::CMessageFloat *m = new Logic::CMessageFloat();
 				m->setType(Logic::Message::AVATAR_MOVE);
 				m->setAction(Logic::Message::WALK_LEFT);
-				m->setFloat(_angularSpeed*msecs);
+				m->setFloat(_angularSpeed);
 				_entity->emitMessage(m);
 			}
 			//rotar hacia izquierda

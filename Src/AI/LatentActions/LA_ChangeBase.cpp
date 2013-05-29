@@ -221,8 +221,8 @@ namespace AI
 					m->setAction(_actionScale);	
 				}
 		}
-		CLatentAction::tick();//no olvideis llamar al tick de CLatentAction
 
+		CLatentAction::tick();//no olvideis llamar al tick de CLatentAction
 	}
 
 	void CLA_ChangeBase::sleepComponents()

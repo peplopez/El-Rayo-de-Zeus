@@ -42,6 +42,11 @@ namespace Graphics
 	class CLight;
 };
 
+namespace Physics
+{
+	class CScene;
+};
+
 namespace Logic
 {
 	class CDotSceneLoader;
@@ -164,6 +169,7 @@ namespace Graphics
 		friend class CSceneElement;
 		friend class CLight;
 		friend class Logic::CDotSceneLoader;
+		friend class Physics::CScene;
 
 		/**
 		Nombre de la escena.
