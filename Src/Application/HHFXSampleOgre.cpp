@@ -21,7 +21,7 @@ using namespace Ogre;
 // WARNING : if != 1.0, This scale must be taken into account when setting and getting arbitrary particle attributes !
 
 const float	kWorldFxScale = 1.0f;
-const std::string FX_PACKAGE = "media/packs/SampleParticlesOgre";
+const std::string FX_PACKAGE = "media/packs/fx";
 const std::string fxNames[] = {"Blast", "Blast_Small", "BurnHit", "BurnHit_Small", "ElectricOrb", "FlameThrower", "Rain", "Smoke01", "Sparks", "TorchFire", "Trails", "TurbulenceCircles" };
 int nClicks = 0;
 
