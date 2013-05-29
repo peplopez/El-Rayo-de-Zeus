@@ -66,10 +66,10 @@ namespace Logic
 
 	enum Tracks : unsigned short //Posibles tracks de animaciones.
 	{
-		ANIMATION_BEGIN=0u,
-		ANIMATION_END=1u,
-		COMBO_TRACK=2u,
-		DAMAGE_TRACK=3u
+		ANIMATION_BEGIN=0,
+		ANIMATION_END=1,
+		COMBO_TRACK=2,
+		DAMAGE_TRACK=3
 	};
 	
 	//typedef  std::pair<Logic::Tracks,float> TTrackEvent;
