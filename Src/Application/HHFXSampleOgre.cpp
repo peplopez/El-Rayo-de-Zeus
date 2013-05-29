@@ -599,9 +599,9 @@ void CHHFXSampleOgre::OnFXStopped(IHHFX* obj)
 
 	// destroy the created node's effect parent and the effect
 	IHHFXOgre	*fx = static_cast<IHHFXOgre*>(obj);
-	SceneNode	*parentNode = fx->getParentSceneNode();
+	SceneNode	*parentNode = fx->getParentSceneNode(); 
 
-	if (parentNode == m_lastSpawnedNode)
+	if (parentNode == m_lastSpawnedNode) /// Si FX no tiene padre
 	{
 		m_lastSpawnedNode = NULL;
 		m_lastSpawnedPosition = Vector3::ZERO;
