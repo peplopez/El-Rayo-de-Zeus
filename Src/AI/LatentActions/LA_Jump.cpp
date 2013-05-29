@@ -55,11 +55,6 @@ namespace AI
 	void CLA_Jump::OnStop()
 	{
 		//Reactivación de componentes	
-		awakeComponents();
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
-		{
-			_entity->getComponent<CBaseTraveler>()->resetChangingBase();		
-		}
 	}
 
 	/**
@@ -79,11 +74,6 @@ namespace AI
 		// superado el tiempo de espera. Según lo hayamos superado o no,
 		// la acción tendrá que pasar a un estado de terminado con éxito o
 		// quedarse en el mismo estado en ejecución.
-		/*if(Application::CBaseApplication::getSingletonPtr()->getAppTime() < _endingTime)
-			return RUNNING;
-		else 
-			return SUCCESS;*/
-
 		return RUNNING;
 	}
 
@@ -100,6 +90,11 @@ namespace AI
 	CLatentAction::LAStatus CLA_Jump::OnAbort() 
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
+		awakeComponents();
+		if (_entity->getComponent<CBaseTraveler>()!=NULL)
+		{
+			_entity->getComponent<CBaseTraveler>()->resetChangingBase();		
+		}
 		return FAIL;
 	}
 	/**
@@ -126,13 +121,6 @@ namespace AI
 	*/
 	void CLA_Jump::process(CMessage *message)
 	{
-		// TODO PRÁCTICA IA
-		// La acción no procesa mensajes
-		/*if(message->getType() == Message::CONTROL)
-			 if ( message->getAction()==Message::LIGHT_ATTACK)
-				finish(true); // bool = exito o fallo
-			 else
-				finish(false);*/
 	}
 	
 	void CLA_Jump::tick(unsigned int msecs) 

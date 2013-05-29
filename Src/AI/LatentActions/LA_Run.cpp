@@ -71,11 +71,6 @@ namespace AI
 		// superado el tiempo de espera. Según lo hayamos superado o no,
 		// la acción tendrá que pasar a un estado de terminado con éxito o
 		// quedarse en el mismo estado en ejecución.
-		/*if(Application::CBaseApplication::getSingletonPtr()->getAppTime() < _endingTime)
-			return RUNNING;
-		else 
-			return SUCCESS;*/
-
 		return RUNNING;
 	}
 
@@ -106,9 +101,8 @@ namespace AI
 	*/
 	bool CLA_Run::accept(const CMessage *message)
 	{		
-		
 		return false;
-		}
+	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
 	ejecución de la acción cuando se recibe el mensaje.
