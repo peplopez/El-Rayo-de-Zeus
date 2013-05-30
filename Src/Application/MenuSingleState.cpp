@@ -33,6 +33,10 @@ Contiene la implementación del estado de menú de opciones de Single Player.
 //PT
 #include <CEGUIDataContainer.h>
 #include <CEGUIWindowRenderer.h>
+#include <cegui\elements\CEGUIProgressBar.h>
+//PT
+#include <OGRE\Ogre.h>
+#include <Ogre.h>
 
 namespace Application {
 
@@ -86,6 +90,17 @@ namespace Application {
 			_cbColor->addItem(new CEGUI::ListboxTextItem("Azul",3));
 
 			_cbColor->setReadOnly(true);
+
+
+			//_hbar = static_cast<CEGUI::ProgressBar*> 
+			//	(CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
+
+			//_hbar->subscribeEvent(CEGUI::ProgressBar::EventProgressChanged, 
+			//	CEGUI::Event::Subscriber(&CMenuSingleState::onProgressChanged, this));
+
+			//_hbar->setProgress(0.0f);
+
+
 
 		return true;
 
@@ -144,6 +159,9 @@ namespace Application {
 	{
 		CApplicationState::tick(msecs);
 
+		//PT
+		//CEGUI::System::getSingleton().renderGUI();
+
 	} // tick
 
 	//--------------------------------------------------------
@@ -198,9 +216,11 @@ namespace Application {
 		
 			// Llamamos al método de creación del jugador. Deberemos decidir
 			// si el jugador es el jugador local. Al ser el monojugador lo es.
-			Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true);
 
 			// TODO Deberíamos poder propocionar caracteríasticas  (nombre, modelo, etc.)... ==> Ampliar MenuSingleState...
+			//Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true);
+			Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true, "Mono", "spartan2.4.mesh", "SpartanBodyWounds");
+
 			break;
 
 		case GUI::Key::M:
@@ -250,7 +270,14 @@ namespace Application {
 	bool CMenuSingleState::startReleased(const CEGUI::EventArgs& e)
 	{
 
-				//CEGUI::ProgressBar *hbar = static_cast<CEGUI::ProgressBar*> (CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
+				//Ventana principal de MenuSingle
+				//CEGUI::Window * mWindow = CEGUI::WindowManager::getSingleton().getWindow("MenuSingle");
+
+				// Barra de progreso de MenuSingle
+				CEGUI::ProgressBar *hbar = static_cast<CEGUI::ProgressBar*> (CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
+				//hbar->subscribeEvent(CEGUI::ProgressBar::EventProgressChanged, CEGUI::Event::Subscriber(&EventGalore::onProgressChanged, this));
+				hbar->subscribeEvent(CEGUI::ProgressBar::EventProgressChanged, CEGUI::Event::Subscriber(&CMenuSingleState::onProgressChanged, this));
+				//subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::SubscriberSlot(&CMenuSingleState::startReleased, this));
 
 				//RECUPERAMOS LA INFORMACION DEL MENUSINGLESTATE (Nickname, Modelo, y Color)
 				// OBTENER PLAYER INFO
@@ -329,33 +356,37 @@ namespace Application {
 
 		_app->setState("game");
 
-		//hbar->setProgress(0.0);
+		//hbar->setProgress(0.0f);
 		//hbar->CEGUI::ProgressBar::setProgress(0.0f);
 		//hbar->setStepSize(0.10f);
+		//mWindow->update(false);
+		//CEGUI::System::getSingleton().renderGUI();
+
+		
 			
 		//[ƒ®§] CARGA de Blueprints, Arquetypes y Map adelantada
 		// Cargamos el archivo con las definiciones de las entidades del nivel.
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
 			return false;
 
-		//hbar->setProgress(0.2);
-		//hbar->CEGUI::ProgressBar::setProgress(0.2);
+		hbar->setProgress(0.2f);
+		//hbar->CEGUI::ProgressBar::setProgress(0.2f);
 		//hbar->step();
 		//hbar->step();
-		//hbar->update(false);
 		//CEGUI::System::getSingleton().renderGUI();
+		//hbar->update(0.0001f);
 				
 		// Add - ESC
 		// Cargamos el archivo con las definiciones de los archetypes
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes.txt"))
 			return false;
 
-		//hbar->setProgress(0.4);
-		//hbar->CEGUI::ProgressBar::setProgress(0.4);
+		hbar->setProgress(0.4f);
+		//hbar->CEGUI::ProgressBar::setProgress(0.4f);
 		//hbar->step();
 		//hbar->step();
-		//hbar->update(false);
 		//CEGUI::System::getSingleton().renderGUI();
+		//hbar->update(0.0001f);
 			
 		// Add - JLS
 		// Cargamos los anillos a partir del nombre del mapa. 
@@ -371,18 +402,18 @@ namespace Application {
 		//Carga de mapas
 		if (!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad))
 			return false;
-		//hbar->setProgress(0.8);
-		//hbar->CEGUI::ProgressBar::setProgress(0.8);
+
+		hbar->setProgress(0.8f);
+		/*hbar->CEGUI::ProgressBar::setProgress(0.8f);*/
 		//hbar->step();
 		//hbar->step();
 		//hbar->step();
 		//hbar->step();
-		//hbar->update(false);
 		//CEGUI::System::getSingleton().renderGUI();
+		//hbar->update(0.0001f);
 		
 		// Llamamos al método de creación del jugador. 
 		// Al estar en el estado MenuSingleState el jugador es Single Player (Monojugador)
-
 
 
 		//CMap::createPlayer(entityName, isLocalPlayer, model)
@@ -392,13 +423,13 @@ namespace Application {
 		//para que funcione medusa, bigdday etc, hay que quitar el casco y el escudo y los accesorios al espartano
 		//en el archetypes. de esa manera no da error.
 
-		//hbar->setProgress(1.0);
-		//hbar->CEGUI::ProgressBar::setProgress(1.0);
+		hbar->setProgress(1.0f);
+		//hbar->CEGUI::ProgressBar::setProgress(1.0f);
 		//hbar->step();
 		//hbar->step();
 		//hbar->update(false);
 		//CEGUI::System::getSingleton().renderGUI();
-
+		//hbar->swapBuffers(false);
 
 		return true;
 
@@ -412,5 +443,18 @@ namespace Application {
 		return true;
 
 	} // backReleased
+
+
+	bool CMenuSingleState::onProgressChanged(const CEGUI::EventArgs &e)
+	{
+		// The progress changed.
+		float progress =  static_cast<CEGUI::ProgressBar*> (CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"))->getProgress();
+		int finalProgress = static_cast<int>(progress*100);
+		std::stringstream resultStr;
+		resultStr << "Progress: " << finalProgress << "%";
+ 
+		CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/TextoProgreso")->setText(resultStr.str());
+		return true;
+	} //onProgressChanged
 
 } // namespace Application

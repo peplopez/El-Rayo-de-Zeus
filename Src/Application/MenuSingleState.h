@@ -40,6 +40,12 @@ namespace ScriptManager
 	class Server;
 }
 
+//PT
+namespace Ogre
+{
+	class Root;
+}
+
 namespace Application 
 {
 	/**
@@ -178,6 +184,9 @@ namespace Application
 		CEGUI::Combobox* _cbModel;
 		CEGUI::Combobox* _cbColor;
 
+		//PT
+		//CEGUI::ProgressBar* _hbar;
+
 		/**
 		*/
 		TMapNameList _mapsToLoad;
@@ -194,6 +203,12 @@ namespace Application
 		Simplemente termina la aplicación.
 		*/
 		bool backReleased(const CEGUI::EventArgs& e);
+
+		/**
+		Función que se quiere realizar cuando el progreso avance/actualice
+		para cambiar la barra de progreso
+		*/
+		bool CMenuSingleState::onProgressChanged(const CEGUI::EventArgs &e);
 
 	}; // CMenuSingleState
 

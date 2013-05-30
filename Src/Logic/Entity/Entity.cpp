@@ -97,7 +97,7 @@ namespace Logic
 		
 		if(entityInfo->hasAttribute("offsetHeight"))					
 		{
-			_offsetHeight=entityInfo->getIntAttribute("offsetHeight");
+			_offsetHeight=entityInfo->getFloatAttribute("offsetHeight");
 		}
 
 		if(entityInfo->hasAttribute("base"))					

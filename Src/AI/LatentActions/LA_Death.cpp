@@ -140,6 +140,7 @@ namespace AI
 		else 
 			return SUCCESS;*/
 
+
 		//PT
 		if (_entity->isPlayer()){
 			if(Application::CBaseApplication::getSingletonPtr()->getAppTime() > _endingTime)
@@ -156,6 +157,8 @@ namespace AI
 		}
 
 		return RUNNING;
+
+
 	}
 
 	/**
