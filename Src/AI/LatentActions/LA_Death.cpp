@@ -87,7 +87,6 @@ namespace AI
 	*/
 	void CLA_Death::OnStop()
 	{
-		//awakeComponents();
 
 		//PT
 		if (_entity->isPlayer())
@@ -96,34 +95,12 @@ namespace AI
 			_scene->deactivateCompositor("BW"); //desactivo el compositor blanco y negro
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud"); //muestro el HUD
 
-			if (_entity->getComponent<CBaseTraveler>()!=NULL)
-			{	
-				_entity->getComponent<CBaseTraveler>()->respawnInBaseOrigin();
-			}
-
-			//CMessageBoolString *message = new CMessageBoolString();
-			CMessageBoolUShort *message = new CMessageBoolUShort();
-			message->setType(Message::LIFE_RESTORE);
-			_entity->emitMessage(message);
-
-			//finish(true);
-
-		//FIN PT
+			respawn();
 
 		}
 
 		if(_entity->getType()=="OtherPlayer")
-		{
-			if (_entity->getComponent<CBaseTraveler>()!=NULL)
-			{	
-				_entity->getComponent<CBaseTraveler>()->respawnInBaseOrigin();
-			}
-
-			//CMessageBoolString *message = new CMessageBoolString();
-			CMessageBoolUShort *message = new CMessageBoolUShort();
-			message->setType(Message::LIFE_RESTORE);
-			_entity->emitMessage(message);
-		}
+			respawn();
 
 		awakeComponents();
 
@@ -167,6 +144,13 @@ namespace AI
 				ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateTime",timeToRevive);
 				return RUNNING;
 			}
+		}
+		else if(_entity->getType()=="OtherPlayer")
+		{
+			if(Application::CBaseApplication::getSingletonPtr()->getAppTime() > _endingTime)
+				return SUCCESS;
+			else
+				return RUNNING;
 		}
 
 		return RUNNING;
@@ -258,6 +242,20 @@ namespace AI
 			_entity->getComponent<CBaseTraveler>()->awake();
 		if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
 			_entity->getComponent<CPhysicalCharacter>()->awake();
+	}
+
+	void CLA_Death::respawn()
+	{
+			//PT Respawneo en la base Origen
+			if (_entity->getComponent<CBaseTraveler>()!=NULL)
+			{	
+				_entity->getComponent<CBaseTraveler>()->respawnInBaseOrigin();
+			}
+
+			//PT mando mensaje al componente LIFE para restaurar la vida al máximo
+			CMessageBoolUShort *message = new CMessageBoolUShort();
+			message->setType(Message::LIFE_RESTORE);
+			_entity->emitMessage(message);
 	}
 
 } //namespace LOGIC

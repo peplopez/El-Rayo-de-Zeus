@@ -48,12 +48,6 @@ namespace Application {
 	{
 		CApplicationState::init();
 
-		// Cargamos la ventana que muestra el menú
-		/*
-		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("MenuSingle.layout");
-		_menuWindow = CEGUI::WindowManager::getSingleton().getWindow("MenuSingle");
-		*/
-
 		// Cargamos la ventana que muestra el menú con LUA
 		ScriptManager::CServer::getSingletonPtr()->loadExeScript("MenuSingle");
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("initMenuSingle");
@@ -94,17 +88,6 @@ namespace Application {
 
 			_cbColor->setReadOnly(true);
 
-
-			//_hbar = static_cast<CEGUI::ProgressBar*> 
-			//	(CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
-
-			//_hbar->subscribeEvent(CEGUI::ProgressBar::EventProgressChanged, 
-			//	CEGUI::Event::Subscriber(&CMenuSingleState::onProgressChanged, this));
-
-			//_hbar->setProgress(0.0f);
-
-
-
 		return true;
 
 	} // init
@@ -125,14 +108,6 @@ namespace Application {
 
 		CBaseApplication::getSingletonPtr()->getClock()->removeAllTimeObserver();
 
-		// Activamos la ventana que nos muestra el menú y activamos el ratón.
-		/*
-		CEGUI::System::getSingletonPtr()->setGUISheet(_menuWindow);
-		_menuWindow->setVisible(true);
-		_menuWindow->activate();
-		CEGUI::MouseCursor::getSingleton().show();
-		*/
-
 		// Activamos la ventana que nos muestra el menú y activamos el ratón desde LUA
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showMenuSingle");
 
@@ -142,12 +117,6 @@ namespace Application {
 
 	void CMenuSingleState::deactivate() 
 	{		
-		// Desactivamos la ventana GUI con el menú y el ratón.
-		/*
-		CEGUI::MouseCursor::getSingleton().hide();
-		_menuWindow->deactivate();
-		_menuWindow->setVisible(false);
-		*/
 
 		// Desactivamos la ventana GUI con el menú y el ratón desde LUA
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideMenuSingle");

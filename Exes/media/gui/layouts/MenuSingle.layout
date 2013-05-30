@@ -61,13 +61,6 @@
 				<Property Name="AlwaysOnTop" Value="True" />
         </Window>
 		
-		 <!--<Window Type="OgreTray/StaticText" Name="MenuSingle/Status" >
-            <Property Name="Font" Value="DejaVuSans-10" />
-            <Property Name="Text" Value="" />
-            <Property Name="AlwaysOnTop" Value="False" />
-            <Property Name="UnifiedAreaRect" Value="{{0.1,1},{0.75,0},{0.95,0},{0.85,0}}" />
-        </Window>-->
-
 		<Window Type="OgreTray/ProgressBar" Name="MenuSingle/Progreso" >
 			<Property Name="StepSize" Value="0.1" />		
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />

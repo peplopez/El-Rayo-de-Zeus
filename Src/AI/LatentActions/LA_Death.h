@@ -127,6 +127,10 @@ namespace AI
 		virtual void sleepComponents();
 
 		virtual void awakeComponents();
+
+		// PT Funcion que ejecuta el respawn en la base origen
+		void respawn();
+
 	protected:
 		
 		Graphics::CScene* _scene;
