@@ -16,70 +16,104 @@ Contiene la declaración de la clase que representa una entidad física.
 #ifndef __Physics_Actor_H
 #define __Physics_Actor_H
 
-
-#include "Logic/Entity/LogicalPosition.h"
+#include "Logic\Entity\LogicalPosition.h"
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 
 namespace Physics 
 {
 	class IObserver;
+	class CScene;
 }
+
+class b2Body;
+class b2World;
+struct b2BodyDef;
+struct b2FixtureDef;
+
 
 namespace Physics
 {
-	
 
 	class CActor
 	{
 	public:
+		
+		typedef std::vector<b2FixtureDef*> TFixtureDefs;
+		typedef std::vector<CActor*> TContacts;
 
-		CActor();
-		CActor(Logic::CLogicalPosition* position, const float angularWidth, const float height, IObserver *component);
+		CActor(float degrees, float height, Logic::Ring ring,  std::string type, IObserver *component); 
 		
 		virtual ~CActor() {}
 
-		// UNDONE RS si la clase CLogicalPos no va admitir valores negativos, nunca podremos implementar el move asin
-		//void move(const Logic::TLogicalPosition &pos);  
+		bool attachToScene(CScene *scene);
+		bool detachFromScene();
+
+		void createFixture(float radius, float density, float friction, float restitution, bool isTrigger); //Circle Shape
+		void createFixture(float halfWidth, float halfHeigth, float density, float friction, float restitution, bool isTrigger); //BoxShape
+		void createFixtures(float haldWidth, float halfHeight, float radius, float density, float friction, float restitution, bool isTrigger);
+
+
+		void move(float x, float y);
+		void setLinearVelocity(float x, float y);
+
+
+		void disableCollisions();
+		void enableCollisions();
+
+		void onTrigger(CActor* otherActor, bool enter);
+		void onCollision(CActor* otherActor, bool enter);
+
 		
-		void move(const float degrees, const float height, const char ring, const char base);
-
-		bool intersects(CActor *otherActor, float &degrees, float &height);
-		bool intersects(CActor *otherActor);
-
-		// UNDONE FRS Ya tenemos el getLogicPos que hace exactamente lo mismo 
-		//Logic::TLogicalPosition& getGlobalPose() {return _logicPosition;}
-
 		
 		/************************
 			GETTER's & SETTER's
 		************************/
-		void setLogicPosition(Logic::CLogicalPosition* &position) {_logicPosition=position;}
-		Logic::CLogicalPosition* &getLogicPosition() {return _logicPosition;}
 
-		void setBoxWidth(const float angularWidth) {_boxWidth=angularWidth;}
-		float getBoxWidth() {return _boxWidth;}
+		float getDegree();
+		float getHeight();
 
-		void setBoxHeight(const float height) {_boxHeight=height;}
-		float getBoxHeight() {return _boxHeight;}
-
-		void setIObserver(IObserver* component) {_component=component;}
-		IObserver *getIObserver() {return _component;}
+		Logic::CLogicalPosition getLogicalPosition();
+		
 
 	protected:
 
-		// CScene es la única que puede añadir o eliminar actores.
+		friend class CScene;
 
-		//friend class CScene;
+		bool load();
+		void unload();
 
-		//CScene *_scene;
+		b2World* getPhysicWorld(); 
+		void createGhostBody();
+		void deleteGhostBody();
+		void CreateBodyFixtures();
+		void CreateGhostFixtures();
 
-		Logic::CLogicalPosition* _logicPosition;
+		IObserver *getPhysicComponent() {return _component;}
 
-		float _boxWidth;
-		float _boxHeight;
+
+	private:
 
 		IObserver* _component;
+		
+		b2Body* _body;
+		b2Body* _ghostBody;
+
+		b2BodyDef* _bodyDef;
+		TFixtureDefs _fixtureDefs;
+
+		CScene* _scene;
+
+		TContacts _contacts;
+		
+		bool _isTrigger;
+		bool _loaded;
+		bool _ghosted;
+
+		float _heightCorrection;
+
+
+		void bodyOutOfWorldBoundaries(); 
 
 
 	}; // class CActor

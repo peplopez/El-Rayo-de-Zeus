@@ -13,35 +13,45 @@ de una escena.
 #ifndef __Physics_Scene_H
 #define __Physics_Scene_H
 
-//HACK TOCHO ?
 
 #include <vector>
 
-#include "Physics/Actor.h"
-#include "Physics/ActorTrigger.h"
 
+namespace Physics
+{
+	class CActor;
+	class CActorTrigger;
+	class CContactListener;	
+}
+
+
+class b2World;
+class OgreB2DebugDraw;
 
 namespace Physics 
 {
 
+	
 	class CScene 
 	{
 
 	public:
 
-		typedef std::vector<CActor*>		TColliders;
-		typedef std::vector<CActorTrigger*> TTriggers;
+		typedef std::vector<CActor*>		TActors;
 
 		/************
 			ACTORS
 		*************/
-		bool addActor(CActor *actor);
-		bool addActor(CActorTrigger* actor);
-		//bool addStaticActor(Physics::CStaticActor *actor);
+		bool add(CActor *actor);
+		void remove(CActor* actor);
 
-		void removeActor(CActor* actor);
-		void removeActor(CActorTrigger* actor);
-		//void removeStaticActor(CStaticActor* actor);
+		b2World* getPhysicWorld() {return _world;}
+
+		void deferredGhostBody(CActor* actor);
+		void deferredUnghostBody(CActor* actor);
+
+		void createGhostBodies();
+		void deleteGhostBodies();
 
 	protected:
 
@@ -52,7 +62,7 @@ namespace Physics
 		friend class CServer;
 
 		/**	Constructor de la clase.	*/
-		CScene(const std::string& name) : _name(name) {};
+		CScene(const std::string& name);
 
 		/**
 		Destructor de la aplicación.
@@ -64,7 +74,9 @@ namespace Physics
 
 		/**	Duerme la escena*/
 		bool deactivate();
-		void tick(unsigned int);
+		void tick(unsigned int msecs);
+
+		void switchDebugDraw();
 
 
 		/******************
@@ -81,25 +93,27 @@ namespace Physics
 
 		/**	Nombre de la escena.*/
 		std::string _name;
-		TColliders	_colliders;
-		TTriggers	_triggers;
 
-		// Componentes de la simulacion
-		void checkCollisions();
-		void checkTriggers();
+		TActors _actors;
 
+		TActors _actorsToGhost;
+		TActors _actorsToUnghost;
+
+		OgreB2DebugDraw* _debugDraw;
+		bool _debugDrawEnabled;
+
+		b2World* _world;
+		CContactListener* _worldListener;
 
 		/**
 		Actualiza el estado de la escena cada ciclo.
 		*/
-		void simulate();
+		void simulate(unsigned int timeDiff);
 
-		/**
-		Corrige la posición de 2 actores que colisionan.
-		*/
-		void updateLogicPosition(Physics::CActor *actor1, Physics::CActor *actor2, float x, float y);		
+		void CreateWorldEdges();
 
-		
+
+	
 
 	}; // class CScene
 

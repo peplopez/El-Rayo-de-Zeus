@@ -63,9 +63,11 @@ namespace Logic
 		Constructor por defecto.
 		*/
 		CPhysics::CPhysics() : 
-		  IComponent(GetAltTypeIdOf(CPhysics)), _physicalActor(0), _isTrigger(false), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0){}
+		  IComponent(GetAltTypeIdOf(CPhysics)), _physicalActor(0), _isTrigger(false), _radius(0), _halfWidth(0), _halfHeight(0),
+				_density(0), _friction(0), _restitution(0) {}
 		CPhysics::CPhysics(altTypeId id) : 
-		  IComponent(id),  _physicalActor(0), _isTrigger(false), _diffDegrees(0), _diffHeight(0), _diffRing(0), _diffBase(0){	}
+		  IComponent(id),  _physicalActor(0), _isTrigger(false), _radius(0), _halfWidth(0), _halfHeight(0), 
+				_density(0), _friction(0), _restitution(0) {}
 
 		/**
 		Destructor. Elimina el objeto físico de la escena y lo destruye. 
@@ -81,6 +83,9 @@ namespace Logic
 		virtual void detachFromMap();
 		virtual void attachToMap(CMap* map);
 
+		virtual void disableCollisions();
+		virtual void enableCollisions();
+
  
 		/**************
 			IOBSERVER
@@ -89,28 +94,19 @@ namespace Logic
 		virtual void onTrigger(IObserver* other, bool enter);
 		virtual void onCollision(IObserver* other);
 
-		void resetScene() {_scene = NULL;}
-		void setScene(Physics::CScene* scene) {_scene = scene;}
-
-		virtual Physics::CActor* reCreateActor();
 
 	protected:
 
-		// UNDONE FRS Physics::CServer* _server; // Servidor de física
 		Physics::CScene* _scene; // Servidor de física
 		Physics::CActor* _physicalActor; // Actor que representa la entidad física
 
-		float _physicWidth;
-		float _physicHeight;
-
 		bool _isTrigger;
+		std::string _shape;
 
-		// Desplazamiento recibido en los últimos mensajes de tipo MOVE.
-		// Sirve para mover entidades físicas cinemáticas y de character.
-		char _diffBase;
-		char _diffRing;
-		float _diffDegrees;
-		float _diffHeight;
+		float _radius, _halfWidth, _halfHeight;
+		float _density, _friction, _restitution;
+
+
 
 		// Crea el actor que representa la entidad física a partir de la información del mapa.*/
 		virtual Physics::CActor* createActor(const Map::CEntity* entityInfo);

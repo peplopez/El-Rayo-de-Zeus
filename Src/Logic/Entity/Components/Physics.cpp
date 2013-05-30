@@ -23,7 +23,7 @@ para representar character controllers.
 
 #include "Physics/Scene.h"
 #include "Physics/Actor.h"
-#include "Physics/ActorTrigger.h"
+
 
 #define DEBUG 1
 #if DEBUG
@@ -41,11 +41,9 @@ namespace Logic {
 
 	CPhysics::~CPhysics() 
 	{
-		if ( _physicalActor ) { // TODO FRS Quizá este tipo de comprobación sucia debería hacerla la propia scene en su remove
-			_isTrigger ? 
-				_scene->removeActor(  static_cast<Physics::CActorTrigger*>(_physicalActor) ):
-				_scene->removeActor(  _physicalActor ); // Eliminar el actor de la escena	
-
+		if ( _physicalActor ) 
+		{ 
+			_scene->remove( _physicalActor ); // Eliminar el actor de la escena	
 			delete _physicalActor;
 		}
 		
@@ -54,7 +52,7 @@ namespace Logic {
 	
 	void CPhysics::detachFromMap()
 	{
-		_scene->removeActor(_physicalActor);
+		_scene->remove(_physicalActor);
 		_scene = NULL;
 	}
 
@@ -63,7 +61,7 @@ namespace Logic {
 	void CPhysics::attachToMap(CMap* map)
 	{
 		_scene = map->getPhysicScene();
-		_scene->addActor(_physicalActor);
+		_scene->add(_physicalActor);
 	}
 
 	//---------------------------------------------------------
@@ -77,9 +75,16 @@ namespace Logic {
 		_scene = map->getPhysicScene();
 			assert(_scene && "Escena física es NULL");
 
+		assert(entityInfo->hasAttribute("shape") && "falta definir atributo shape en el mapa");
+			_shape = entityInfo->getStringAttribute("shape");
+
+		if (entityInfo->hasAttribute("physicTrigger"))
+			_isTrigger = entityInfo->getBoolAttribute("physicTrigger");
+
 		_physicalActor = createActor(entityInfo); // Crear el actor asociado al componente
 			if(!_physicalActor)
 				return false;
+	
 
 		return true;
 	} // spawn
@@ -93,69 +98,47 @@ namespace Logic {
 
 		// Obtenemos la posición de la entidad. 
 		CLogicalPosition* logicPos = _entity->getLogicalPosition();
-	
-		// Leer el ancho del angular box
-		assert(entityInfo->hasAttribute("physicWidth")); 
-		_physicWidth = entityInfo->getFloatAttribute("physicWidth");
 
-		// Leer la altura del angular box
-		assert(entityInfo->hasAttribute("physicHeight"));
-		_physicHeight = entityInfo->getFloatAttribute("physicHeight");
-
-		// TRIGGER: Leer si es un trigger (por defecto no)	
-		_isTrigger = false;
-		if (entityInfo->hasAttribute("physicTrigger"))
-			_isTrigger = entityInfo->getBoolAttribute("physicTrigger");
+		assert(entityInfo->hasAttribute("physicType") && "falta definir atributo tipo estatico/dinamico/kinematico para el actor en el mapa");
+		std::string physicType = entityInfo->getStringAttribute("physicType");
 		
-		// TRIGGER
-		if(_isTrigger)  {
-			Physics::CActorTrigger* trigger = new Physics::CActorTrigger(logicPos, _physicWidth, _physicHeight, this);
-				if( _scene->addActor(trigger ) ) // Añadir el actor a la escena
-					return trigger ;
-				else
-					return 0;
+		float physicBodyOffset = 0;
+		if (entityInfo->hasAttribute("physicBodyOffset"))
+			physicBodyOffset = entityInfo->getFloatAttribute("physicBodyOffset");
 
-		// COLLIDER
-		} else {
-			Physics::CActor* collider = new Physics::CActor(logicPos, _physicWidth, _physicHeight, this);
-				if(_scene->addActor(collider) ) // Añadir el actor a la escena
-					return collider;
-				else
-					return 0;
-		}
+		Physics::CActor* actor = new Physics::CActor(logicPos->getDegree(), logicPos->getHeight() + physicBodyOffset, logicPos->getRing(), physicType, this);
+
+		if (entityInfo->hasAttribute("physicRadius"))
+			_radius = entityInfo->getFloatAttribute("physicRadius");
+
+		if (entityInfo->hasAttribute("physicHalfWidth"))
+			_halfWidth = entityInfo->getFloatAttribute("physicHalfWidth");
+		
+		if (entityInfo->hasAttribute("physicHalfHeight"))
+			_halfHeight = entityInfo->getFloatAttribute("physicHalfHeight");
+
+		if (entityInfo->hasAttribute("density"))
+			_density = entityInfo->getFloatAttribute("density");
+
+		if (entityInfo->hasAttribute("friction"))
+			_friction = entityInfo->getFloatAttribute("friction");
+
+		if (entityInfo->hasAttribute("restitution"))
+			_restitution = entityInfo->getFloatAttribute("friction");
+
+		if (_shape == "circle")
+			actor->createFixture(_radius, _density, _friction, _restitution, _isTrigger); 
+		else if (_shape == "box")
+			actor->createFixture(_halfWidth, _halfHeight, _density, _friction, _restitution, _isTrigger); 
+		else if (_shape == "capsule")
+			actor->createFixtures(_halfWidth, _halfHeight, _radius, _density, _friction, _restitution, _isTrigger);
+
+		if (_scene->add(actor))
+			return actor;
+
+		return 0;
 
 	} // createActor 
-
-	//---------------------------------------------------------
-
-	// Crear el actor físico
-	Physics::CActor* CPhysics::reCreateActor()
-	{
-		assert(_scene && "LOGIC::PHYSICS>> No existe escena física!");		
-
-		delete _physicalActor;
-		// Obtenemos la posición de la entidad. 
-		CLogicalPosition* logicPos = new CLogicalPosition(*(_entity->getLogicalPosition()));
-
-		_entity->getLogicalPosition();
-				
-		// TRIGGER
-		if(_isTrigger)  {
-			_physicalActor = new Physics::CActorTrigger(logicPos, _physicWidth, _physicHeight, this);
-				if( _scene->addActor(_physicalActor ) ) // Añadir el actor a la escena
-					return _physicalActor ;
-				else
-					return 0;
-		// COLLIDER
-		} else {
-			_physicalActor = new Physics::CActor(logicPos, _physicWidth, _physicHeight, this);
-				if(_scene->addActor(_physicalActor) ) // Añadir el actor a la escena
-					return _physicalActor;
-				else
-					return 0;
-		}
-
-	} // reCreateActor 
 
 	//---------------------------------------------------------
 
@@ -183,6 +166,8 @@ namespace Logic {
 
 	} // onTrigger
 
+	//---------------------------------------------------------
+
 	void  CPhysics::onCollision (Physics::IObserver* other) //PeP
 	{
 
@@ -191,5 +176,20 @@ namespace Logic {
 			
 			txMsg->setUInt( static_cast<CPhysics*>(other)->getEntity()->getEntityID() );
 		_entity->emitMessage(txMsg);
+	}
+
+	//---------------------------------------------------------
+
+	void  CPhysics::disableCollisions()
+	{
+		_physicalActor->disableCollisions();
+		
+	}
+
+	//---------------------------------------------------------
+
+	void  CPhysics::enableCollisions()
+	{
+		_physicalActor->enableCollisions();
 	}
 }

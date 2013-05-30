@@ -13,8 +13,6 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLatentAction::tick() 
 	{
-		if (_status==SUCCESS || _status==FAIL)
-			_status=_status;
 		// ¿Hay que empezar la tarea?
 		if (_status == READY) {
 			_status = this->OnStart();
@@ -22,15 +20,21 @@ namespace AI
 
 		// Llamamos al Tick, si el OnStart no terminó
 		// con la ejecución
-		if ((_status == RUNNING) && !_finishing)
+		if ((_status == RUNNING)) {
 			_status = this->OnRun();
+			// Si hemos pasado de RUNNING a un estado de finalización (SUCCESS o FAIL) 
+			// aún tenemos que parar
+			if (_status == SUCCESS || _status == FAIL)
+				_stopping = true;
+		}
 
 		// Si OnRun() terminó, llamamos al OnStop() y terminamos;
 		// si estábamos terminando (se solicitó la terminación
 		// de forma asíncrona), también.
-		if ((_status == SUCCESS) || (_status == FAIL) || (_finishing)) {
+		if ((_status == SUCCESS || _status == FAIL) && (_stopping)) {
+			// Paramos y decimos que ya no hay que volver a ejecutar OnStop
 			this->OnStop();
-			_finishing = false;
+			_stopping = false;
 		}
 		return _status;
 	} // tick
@@ -41,7 +45,7 @@ namespace AI
 	la tarea es anulado.
 	*/
 	void CLatentAction::abort() {
-		_finishing = false;
+		_stopping = false;
 		_status = this->OnAbort();
 	}
 
@@ -53,24 +57,30 @@ namespace AI
 	*/
 	void CLatentAction::reset() {
 		// Sólo hacemos algo si ya hemos empezado a ejecutar la acción
-		if (_status != READY) 
-		{
+		if (_status != READY) {
 			// Si estamos en ejecución (normal o suspendida) 
 			// tenemos que llamar a onAbort (porque en realidad
 			// abortamos la acción)
-			
-			//PT
-			//this->OnStop();
-			if(_status!=SUCCESS)
-				this->OnStop();
-
-			
 			if (_status == RUNNING || _status == SUSPENDED)
 				this->OnAbort();
+			// Si hemos terminado la ejecución pero no hemos parado (OnStop) tenemos que 
+			// llamar a OnStop
+			if ((_status == SUCCESS || _status == FAIL) && (_stopping)) 
+				this->OnStop();
 			// Dejamos el estado listo para volver a ejecutarla
 			_status = READY;
-			_finishing = false;
+			_stopping = false;
 		}
+	}
+
+	/**
+	Solicita la finalización de la acción en el siguiente tick, 
+	estableciendo el estado	a SUCCESS o FAIL según el valor del
+	parámetro de entrada.
+	*/
+	void CLatentAction::finish(bool success) { 
+		_status = (success ? SUCCESS : FAIL);
+		_stopping = true;
 	}
 
 

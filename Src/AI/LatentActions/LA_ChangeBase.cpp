@@ -75,6 +75,10 @@ namespace AI
 		awakeComponents();
 	//	if (_entity->isPlayer())
 		//	_scene->deactivateCompositor("RadialBlur");
+		CMessageFloat *m2 = new CMessageFloat();	
+		m2->setType(Message::SET_SCALE);
+		m2->setFloat(_entity->getInitialScale());
+		_entity->emitMessage(m2);
 	}
 
 	/**
@@ -221,8 +225,8 @@ namespace AI
 					m->setAction(_actionScale);	
 				}
 		}
-		CLatentAction::tick();//no olvideis llamar al tick de CLatentAction
 
+		CLatentAction::tick();//no olvideis llamar al tick de CLatentAction
 	}
 
 	void CLA_ChangeBase::sleepComponents()

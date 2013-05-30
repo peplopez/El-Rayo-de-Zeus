@@ -8,6 +8,7 @@
 #define __Physics_IObserver_H
 
 
+
 // Namespace que contiene las clases relacionadas con la parte física. 
 namespace Physics {
 	
@@ -23,6 +24,8 @@ namespace Physics {
 		*/
 
 		virtual ~IObserver() {};
+
+
 		virtual void onTrigger(IObserver* other, bool enter) = 0;
 		virtual void onCollision(IObserver* other) = 0;
 	}; // class IObserver

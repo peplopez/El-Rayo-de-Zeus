@@ -66,6 +66,10 @@ namespace Logic
 
 		if(entityInfo->hasAttribute("degrees"))
 			_pos->setDegree(entityInfo->getFloatAttribute("degrees"));
+
+		if(entityInfo->hasAttribute("height"))
+			_pos->setHeight(entityInfo->getFloatAttribute("height"));
+			
 			
 		if(entityInfo->hasAttribute("sense"))
 			_pos->setSense(static_cast<Logic::Sense>(entityInfo->getIntAttribute("sense")));
@@ -181,8 +185,10 @@ namespace Logic
 			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);
 		}
 
-		if (isPlayer())
-			setIsPlayer(true);
+		if(_isPlayer) {
+			CServer::getSingletonPtr()->setPlayer(this);
+			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);		
+		}
 
 		// Activamos los componentes
 		TComponentMap::const_iterator it;
@@ -208,6 +214,11 @@ namespace Logic
 		// debemos realizar
 		//if (isPlayer())
 		//	setIsPlayer(false);
+		if ( this->getType() == "Camera" )
+		{
+			//CServer::getSingletonPtr()->setPlayer(this);
+			GUI::CServer::getSingletonPtr()->getCameraController()->removeControlledCamera(this);
+		}
 
 		TComponentMap::const_iterator it; // TODO TComponentList::const_iterator it;
 

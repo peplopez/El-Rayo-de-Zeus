@@ -28,13 +28,7 @@ namespace GUI {
 
 	CCameraController::CCameraController() : _controlledCameras(0)
 	{
-		//activate();
-		/*PeP: ¿Alquien es capaz de explicarme por qué me he visto forzado a hacer esta ñapa para que se ejecute el Activate()?*/
-		//PT. 
-		//Desde GameState.cpp en el activate (CGameState::activate) al igual que se llama a 
-		//GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
-		//llamamos a
-		//GUI::CServer::getSingletonPtr()->getCameraController()->activate();
+
 	} // CCameraController
 
 	//--------------------------------------------------------
@@ -62,6 +56,14 @@ namespace GUI {
 	//	CInputManager::getSingletonPtr()->removeMouseListener(this);
 
 	} // deactivate
+
+
+	void CCameraController::removeControlledCamera(Logic::CEntity *controlledCamera)
+	{
+		TEntities::const_iterator it = std::find(_controlledCameras.begin(), _controlledCameras.begin(), controlledCamera);
+		if (it != _controlledCameras.end())
+			_controlledCameras.erase(it);
+	}
 
 	//--------------------------------------------------------
 

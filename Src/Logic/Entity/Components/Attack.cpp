@@ -24,7 +24,7 @@ angular de entidades.
 #include "Logic/Entity/Messages/MessageFloat.h"
 #include "Logic/Entity/Messages/MessageBoolUShort.h"
 #include "Logic/Entity/Messages/MessageUShort.h"
-#include "Logic/Entity/Messages/MessageInt.h"
+#include "Logic/Entity/Messages/MessageUInt.h"
 #include "Logic/Entity/Messages/MessageAudio.h"
 
 //declaración de la clase
@@ -50,15 +50,7 @@ namespace Logic
 	bool CAttack::activate()
 	{				
 		_lightAttack=_heavyAttack=false;
-				if (_entity->getType()=="OtherPlayer")
-		{
-			/*
-			CMessageString *m = new CMessageString();	
-			m->setType(Message::SET_MATERIAL);
-			m->setString("marineRed");
-			_entity->emitMessage(m);
-			*/
-		}
+
 		return true;
 	}		
 
@@ -70,29 +62,31 @@ namespace Logic
 	{//aviso de que tanto accept como process son un poco hack, pero es es solo hasta tener un componente NPCCONTROLLER
 	//	return false;
 		return (message->getType() == Message::CONTROL && 
-			(message->getAction() == Message::LIGHT_ATTACK||
-			message->getAction() == Message::HEAVY_ATTACK) || message->getAction() == Message::COVER) || (message->getType()==Message::ANIMATION_FINISHED ||message->getType()==Message::DAMAGE_MOMENT);
+				(message->getAction() == Message::LIGHT_ATTACK || 
+				message->getAction() == Message::HEAVY_ATTACK || 
+				message->getAction() == Message::COVER) || 
+				(message->getType()==Message::ANIMATION_FINISHED || message->getType()==Message::DAMAGE_MOMENT));
 
 	}
 		
-	 void CAttack::process(CMessage *message)
-		 {
+	void CAttack::process(CMessage *message)
+	{
 		switch(message->getType())
 		{
 		case Message::CONTROL:
 			{			
 				if(message->getAction() == Message::LIGHT_ATTACK)
-					lightAttack();
+					 lightAttack();
 				else if(message->getAction() == Message::HEAVY_ATTACK)
 					 heavyAttack();
 				else if(message->getAction() == Message::COVER)
-					cover();
+					 cover();
 				break;
 			}
 		case Message::ANIMATION_FINISHED:
 			{
 				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
-				if (maux->getUShort()==Logic::ATTACK1 || maux->getUShort()==Logic::ATTACK2 | maux->getUShort()==Logic::ATTACK3)
+				if (maux->getUShort()==Logic::ATTACK1 || maux->getUShort()==Logic::ATTACK2 || maux->getUShort()==Logic::ATTACK3)
 				{					
 					_lightAttack=_heavyAttack=false;
 				}
@@ -104,23 +98,10 @@ namespace Logic
 				//querré saber cual animación es, de momento se que solo puedo recibir un tipo de animación
 				float punto;
 				if (_entity->getLogicalPosition()->getSense()==Logic::LogicalPosition::RIGHT)
-					{
-						punto=_entity->getLogicalPosition()->getDegree()-10;
-						Logic::CMessageFloat *m = new Logic::CMessageFloat();
-						m->setType(Logic::Message::AVATAR_MOVE);
-						m->setAction(Logic::Message::WALK_RIGHT);
-						m->setFloat(-1);
-						_entity->emitMessage(m);
-				}
+					punto=_entity->getLogicalPosition()->getDegree()-10;
 				else
-				{
-					Logic::CMessageFloat *m = new Logic::CMessageFloat();
-					m->setType(Logic::Message::AVATAR_MOVE);
-					m->setAction(Logic::Message::WALK_LEFT);
-					m->setFloat(1);
-					_entity->emitMessage(m);
 					punto=_entity->getLogicalPosition()->getDegree()+10;
-				}	//con este metodo vemos si con la espada le estamos dando
+					//con este metodo vemos si con la espada le estamos dando
 				
 					unsigned short resultadoAtaque=attackPlace(punto,_entity->getLogicalPosition()->getRing(),_entity->getLogicalPosition()->getBase(),false);
 					if (resultadoAtaque==2)
@@ -128,7 +109,6 @@ namespace Logic
 						CMessageBoolUShort *message = new CMessageBoolUShort();
 						message->setType(Message::REWIND_ANIMATION);
 						message->setUShort(Logic::ATTACK1); // FRS de momento pongo la equivalente -> hay que corregir / calibrar
-						message->setAction(Message::UNDEF);
 						message->setBool(false);
 						_entity->emitMessage(message,this);
 					}					
@@ -144,7 +124,6 @@ namespace Logic
 				CMessageBoolUShort *message = new CMessageBoolUShort();
 				message->setType(Message::SET_ANIMATION);
 				message->setUShort(Logic::COVER_WITH_SHIELD);
-				message->setAction(Message::UNDEF);
 				message->setBool(true);
 				_entity->emitMessage(message,this);
 			}
@@ -181,7 +160,7 @@ namespace Logic
 
 			if(_entity != (*it) )
 			{
-				if (((*it)->getType().compare("PowerUp")!=0)&&((*it)->getType().compare("Altar")!=0)&& ((*it)->getType().compare("World")!=0)&& ((*it)->getType().compare("SkyBox")!=0))
+				if (((*it)->getType().compare("PowerUp")!=0)&&((*it)->getType().compare("Altar")!=0)&& ((*it)->getType().compare("World")!=0)&& ((*it)->getType().compare("Sky")!=0))
 				{//lo que hay que  hacer es que no se itere sobre entidades que no tengan componente CCollider, de momento se hace esa comprobación
 
 			
@@ -222,14 +201,12 @@ namespace Logic
 								}
 								else
 								{
-									CMessageInt *m2 = new CMessageInt();
-									m2->setInt(-10);
+									CMessageUInt *m2 = new CMessageUInt();
+									m2->setUInt(-10);
 									m2->setType(Message::LIFE_MODIFIER);						
 									m2->setAction(Message::DAMAGE);						
+									(*it)->emitMessage(m2);
 
-									(*it)->emitMessage(m2,this);
-									//veces++;
-									//std::cout<<veces<<std::endl;
 									Logic::CMessage *m = new Logic::CMessage();
 									m->setType(Logic::Message::CONTROL);
 									m->setAction(Logic::Message::WALK_STOP);
@@ -243,7 +220,7 @@ namespace Logic
 			}					
 		}		
 		return 0; //le has dado al aire
-		}
+	}
 
 	void CAttack::resetAttackFlags()
 	{

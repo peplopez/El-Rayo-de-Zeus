@@ -69,10 +69,11 @@ namespace Logic
 		ANIMATION_BEGIN=0,
 		ANIMATION_END=1,
 		COMBO_TRACK=2,
-		DAMAGE_TRACK=3
+		DAMAGE_TRACK=3,
+		COVER_MOMENT=4
 	};
 	
-	//typedef  std::pair<Logic::Tracks,float> TTrackEvent;
+
 
 
 

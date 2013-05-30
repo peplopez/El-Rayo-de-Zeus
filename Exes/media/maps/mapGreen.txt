@@ -28,36 +28,38 @@ Map ={
 		degrees=300,		
 	},	
 	
-	peludo = {
-		type = "Spider",
-		base=3,
-		ring=1,
-		degrees=80,		
-	},
-
-	peluda = {
-		type = "Spider",
-		base=3,
-		ring=2,
-		degrees=70,		
-	},	
 	
 	LowerRing = {
 		type = "World",
 		base=3,
 		ring=0,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -2,
 	},
 	
 	CenterRing = {
 		type = "World",
 		base=3,
 		ring=1,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -2,
 	},
 	
 	UpperRing = {
 		type = "World",
 		base=3,
 		ring=2,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -2,
 	},
 	
 	Altar1 = {

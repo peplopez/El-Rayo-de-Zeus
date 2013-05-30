@@ -12,6 +12,7 @@ mover al jugador.
 @date Agosto, 2010
 */
 
+
 #include "PlayerController.h"
 #include "InputManager.h"
 
@@ -19,6 +20,8 @@ mover al jugador.
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageUShort.h"
 #include "Logic/Entity/Messages/MessageString.h"
+
+#include "Physics/Server.h"
 
 #include <cassert>
 
@@ -28,7 +31,7 @@ namespace GUI {
 
 	CPlayerController::CPlayerController() : _controlledAvatar(0), _baseChangeAllowed(false)
 	{
-
+		
 	} // CPlayerController
 
 	//--------------------------------------------------------
@@ -45,6 +48,7 @@ namespace GUI {
 	{		
 		CInputManager::getSingletonPtr()->addKeyListener(this);
 		CInputManager::getSingletonPtr()->addMouseListener(this);
+
 
 	} // activate
 
@@ -93,7 +97,7 @@ namespace GUI {
 					m->setAction(Logic::Message::CHANGE_BASE);
 				else
 					m->setAction(Logic::Message::JUMP);  // Pablo
-				_controlledAvatar->emitMessage(m);
+				    _controlledAvatar->emitMessage(m);
 				break;
 
 			case GUI::Key::A:
@@ -192,6 +196,11 @@ namespace GUI {
 				m3->setAction(Logic::Message::DISPLAY_HUD);
 				_controlledAvatar->emitMessage(m3);
 				break;
+
+			case GUI::Key::F2:
+				Physics::CServer::getSingletonPtr()->SwitchDebugDraw();
+				break;
+
 			/*case GUI::Key::ADD:
 				m._string = "addPlayerToBase";
 				break;

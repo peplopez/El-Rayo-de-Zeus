@@ -172,25 +172,22 @@ namespace Graphics
 				_maxTicks=0;
 				_paused=false;
 			}
-			if(_observer)
-				if (_currentAnimation->getTimePosition()<0.2 ) 
-					_momentEnabled=true;
 			
 			if (_activeEventChain!=NULL)
 			{
-				if(_observer && !_activeEventChain->empty() && _index<_activeEventChain->size() && _activeEventChain->at(_index).second<_currentAnimation->getTimePosition())
-				//if (_momentEnabled)
+				if(_observer && !_activeEventChain->empty())
 				{
-					_momentEnabled=false;
-					_observer->animationMomentReached(_activeEventChain->at(_index));
-					_index++;
+					while (_index < _activeEventChain->size() && _activeEventChain->at(_index).second < _currentAnimation->getTimePosition())
+					{
+						_observer->animationMomentReached(_activeEventChain->at(_index));
+						_index++;
+					}
 				}			
 				// Comprobamos si la animaci?n ha terminado para avisar
 			}
 			if(_observer && _currentAnimation->hasEnded())
 			{
 				_observer->animationFinished(std::pair<unsigned short,float>(1,0)); //correspondiente a ANIMATION_END
-				_index=0;
 			}
 		}
 

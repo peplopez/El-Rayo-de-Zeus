@@ -36,7 +36,6 @@ namespace Graphics
 	CAnimSet::~CAnimSet()
 	{
 		_animationSet.clear();
-		delete this;
 	}
 
 	//--------------------------------------------------------
@@ -58,7 +57,7 @@ namespace Graphics
 	bool CAnimSet::addEventTime(const Logic::AnimationName animEnum, const Logic::Tracks track, const float eventTime)
 	{
 		std::pair<Logic::Tracks,float> trackEvent(track,eventTime );
-		_eventChain[animEnum].emplace_back(trackEvent);
+		_eventChainMap[animEnum].push_back(trackEvent);
 		 // Using the constructor to declare and initialize a pair
 		
 		/*std::vector<TTrackEvent> trackEvent= _eventChain[animEnum];
@@ -70,7 +69,7 @@ namespace Graphics
 
 	std::vector<std::pair<unsigned short,float>>* CAnimSet::getEventChain(const Logic::AnimationName animEnum)
 	{
-		return &_eventChain[animEnum];
+		return &_eventChainMap[animEnum];
 	}
 
 	//--------------------------------------------------------	

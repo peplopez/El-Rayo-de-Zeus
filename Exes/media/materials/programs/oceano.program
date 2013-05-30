@@ -1,0 +1,6 @@
+vertex_program ShaderOceano hlsl
+{
+	source oceano.hlsl
+	entry_point vsMain
+	target vs_2_0
+}

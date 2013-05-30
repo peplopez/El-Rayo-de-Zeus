@@ -72,6 +72,8 @@ namespace AI
 	void CLA_Attack::OnStop()
 	{
 		awakeComponents();
+		if (_entity->getComponent<CAttack>()!=NULL)
+			_entity->getComponent<CAttack>()->resetAttackFlags();
 	}
 
 	/**
@@ -86,10 +88,7 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Attack::OnRun() 
 	{
-		if (this->getStatus()!=SUCCESS && this->getStatus()!=FAIL)
 		return RUNNING;
-		else 
-			return this->getStatus();
 	}
 
 	/**
@@ -105,8 +104,9 @@ namespace AI
 	CLatentAction::LAStatus CLA_Attack::OnAbort() 
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
+		awakeComponents();
 		if (_entity->getComponent<CAttack>()!=NULL)
-		_entity->getComponent<CAttack>()->resetAttackFlags();
+			_entity->getComponent<CAttack>()->resetAttackFlags();
 	
 		return FAIL;
 	}

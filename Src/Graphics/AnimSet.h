@@ -16,14 +16,16 @@ Contiene la declaración de la clase que reprenta una correspondencia entre nombr
 #ifndef __Graphics_AnimSet_H
 #define __Graphics_AnimSet_H
 
+#include "Logic\Entity\Components\AnimatedGraphics.h"
+
 #include <map>
 #include <vector>
 #include <string>
-#include "Logic\Entity\Components\AnimatedGraphics.h"
+
 
 namespace Graphics 
 {
-	
+
 	/**
 	Clase que representa una entidad gráfica con animaciones. Especializa la clase
 	Graphics::CEntity por lo que contiene una referencia a una entidad de 
@@ -44,6 +46,11 @@ namespace Graphics
 	class CAnimSet
 	{
 	public:
+
+		typedef std::map<Logic::AnimationName,std::string> TAnimationSet;
+		typedef std::pair<unsigned short,float> TAnimationEvent;
+		typedef std::vector<TAnimationEvent> TEventChain;
+		typedef std::map<Logic::AnimationName,TEventChain> TEventChainMap;
 
 		/**
 		Constructor de la clase.
@@ -98,16 +105,16 @@ namespace Graphics
 	private:
 
 		/**
-		Map de nombres de animaciones correspondientes a los enum Lógicos
+		Diccionario animaciones correspondientes a los enum Lógicos
 		*/
-		std::map<Logic::AnimationName,std::string> _animationSet; 
+		TAnimationSet _animationSet; 
 		
 
 
 		/**
 		Map que guarda una lista de eventos para una animación Lógica.
 		*/
-		std::map<Logic::AnimationName,std::vector<std::pair<unsigned short,float>>> _eventChain;
+		TEventChainMap _eventChainMap;
 
 	}; // class CAnimSet
 

@@ -166,7 +166,7 @@ namespace AI
 		bool check(CLatentAction* currentNode, CEntity* entity)
 		{
 			if  (entity->getComponent<CJump>()!=NULL)			
-				return !entity->getComponent<CJump>()->getJumping();
+				return !entity->getComponent<CJump>()->isJumping();
 			return false;
 		}
 };
@@ -188,22 +188,17 @@ namespace AI
 		@param messageType Tipo de mensaje que estamos escuchando
 		*/
 		//Message::TMessageType::
-		CConditionMessageAction(Logic::Message::TMessageType messageType, Logic::Message::TActionType actionType, bool startActivated,Logic::Message::TMessageType messageTypeToActivate) : _received(false) {
-			_received=false;
-			_messageType = messageType;
-			_actionType = actionType;
-			_initialStatus=startActivated;
-			_enabled= _initialStatus;
-			_messageTypeToActivate=messageTypeToActivate;
-			//_actionTypeToActivate=actionTypeToActivate;
+		CConditionMessageAction(Logic::Message::TMessageType messageType, Logic::Message::TActionType actionType, 
+			bool startActivated,Logic::Message::TMessageType messageTypeToActivate) : 
+			_received(false) , _messageType(messageType), _actionType(actionType), _initialStatus(startActivated), _enabled(startActivated), 
+				_messageTypeToActivate(messageTypeToActivate)
+		
+		{
 		}
 
-		CConditionMessageAction(Logic::Message::TMessageType messageType, Logic::Message::TActionType actionType) : _received(false) {
-			_received=false;
-			_messageType = messageType;
-			_actionType = actionType;
-			_initialStatus=true;
-			_enabled= _initialStatus;
+		CConditionMessageAction(Logic::Message::TMessageType messageType, Logic::Message::TActionType actionType) : 
+			_received(false), _messageType(messageType), _actionType(actionType), _initialStatus(true), _enabled(true)
+		{
 			_messageTypeToActivate=Message::ALTAR_ACTIVATED; //por ejemplo, este no se usa
 			//_actionTypeToActivate=actionTypeToActivate;
 		}
@@ -245,12 +240,13 @@ namespace AI
 				return (message->getType() == _messageType && message->getAction()==_actionType);
 			}
 			else
-				//return 
+			{	//return 
 				if (message->getType() == _messageTypeToActivate)  //ignoramos el actiontoactivate
 				{		
-					_enabled=true; return false;
+					_enabled=true; 
 				}	
 				return false;
+			}
 		};
 		/**
 		Procesa el mensaje recibido. Como sólo aceptamos mensajes del
@@ -268,7 +264,8 @@ namespace AI
 				{	
 					_enabled=_initialStatus;
 					_received = (message->getType() == _messageType && message->getAction()==_actionType) || _received;
-					if (_received) reset();
+					if (_received) 
+						reset();
 				}
 		};
 

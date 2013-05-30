@@ -44,13 +44,7 @@ namespace AI
 		message->setBool(true);
 		_entity->emitMessage(message);
 
-		CMessageFloat *m2 = new CMessageFloat();	
-		m2->setType(Message::SET_SCALE);
-		m2->setFloat(_entity->getInitialScale());
-		m2->setAction(Message::UNDEF);
-		_entity->emitMessage(m2);
-
-		//
+		
 		if (_entity->getComponent<CAttack>()!=NULL)
 				_entity->getComponent<CAttack>()->setCovering(false);		
 
@@ -80,15 +74,6 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLAIdle::OnRun() 
 	{
-		// TODO PRÁCTICA IA
-		// En cada paso de ejecución tendremos que comprobar si hemos
-		// superado el tiempo de espera. Según lo hayamos superado o no,
-		// la acción tendrá que pasar a un estado de terminado con éxito o
-		// quedarse en el mismo estado en ejecución.
-		/*if(Application::CBaseApplication::getSingletonPtr()->getAppTime() < _endingTime)
-			return RUNNING;
-		else 
-			return SUCCESS;*/
 
 		return RUNNING;
 	}
@@ -132,7 +117,7 @@ namespace AI
 	void CLAIdle::process(CMessage *message){}
 	
 	void CLAIdle::tick(unsigned int msecs) 
-	{
+	{		
 		CLatentAction::tick();
 	}
 

@@ -105,7 +105,7 @@ namespace AI
 		/**
 		Constructor
 		*/
-		CLatentAction() : _status(READY), _finishing(false),_anim("") {};
+		CLatentAction() : _status(READY), _stopping(false),_anim("") {};
 		/**
 		Establece la entidad que ejecuta la acción.
 		*/
@@ -193,7 +193,7 @@ namespace AI
 		/**
 		Se pone a cierto cuando se solicita la finalización de la acción.
 		*/
-		bool _finishing;
+		bool _stopping;
 
 		/**
 		Método invocado al principio de la ejecución de la acción,
@@ -237,15 +237,14 @@ namespace AI
 		de OnStop().
 		*/
 		virtual LAStatus OnAbort() { return FAIL; }
+		
 		/**
 		Solicita la finalización de la acción en el siguiente tick, 
 		estableciendo el estado	a SUCCESS o FAIL según el valor del
 		parámetro de entrada.
 		*/
-		virtual void finish (bool success) { 
-			_status = (success ? SUCCESS : FAIL);
-			_finishing = true;
-		};
+		virtual void finish (bool success);
+
 		/**
 		Continúa la ejecución de la acción cuando esta se encuentra suspendida
 		Cuidado: únicamente realiza el cambio de estado de SUSPENDED a RUNNING.
