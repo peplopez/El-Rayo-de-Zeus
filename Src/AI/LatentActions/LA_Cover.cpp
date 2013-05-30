@@ -50,9 +50,6 @@ namespace AI
 	void CLA_Cover::OnStop()
 	{
 
-		std::cout<<"AI::StateMachine::CoverSALIENDO"<<std::endl;	
-
-		awakeComponents();
 	}
 
 	/**
@@ -86,7 +83,8 @@ namespace AI
 	CLatentAction::LAStatus CLA_Cover::OnAbort() 
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
-	
+		std::cout<<"AI::StateMachine::CoverSALIENDO"<<std::endl;	
+		awakeComponents();
 		return FAIL;
 	}
 	/**
