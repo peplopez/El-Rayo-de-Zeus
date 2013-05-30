@@ -73,7 +73,7 @@ namespace Logic
 		COVER_MOMENT=4
 	};
 	
-	//typedef  std::pair<Logic::Tracks,float> TTrackEvent;
+
 
 
 

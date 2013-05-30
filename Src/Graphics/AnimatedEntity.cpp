@@ -175,10 +175,13 @@ namespace Graphics
 			
 			if (_activeEventChain!=NULL)
 			{
-				if(_observer && !_activeEventChain->empty() && _index < _activeEventChain->size() && _activeEventChain->at(_index).second < _currentAnimation->getTimePosition())
+				if(_observer && !_activeEventChain->empty())
 				{
-					_observer->animationMomentReached(_activeEventChain->at(_index));
-					_index++;
+					while (_index < _activeEventChain->size() && _activeEventChain->at(_index).second < _currentAnimation->getTimePosition())
+					{
+						_observer->animationMomentReached(_activeEventChain->at(_index));
+						_index++;
+					}
 				}			
 				// Comprobamos si la animaci?n ha terminado para avisar
 			}
