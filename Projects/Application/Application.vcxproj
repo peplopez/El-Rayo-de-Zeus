@@ -69,7 +69,7 @@
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>ws2_32.lib;Winmm.lib;OgreMain_d.lib;OIS_d.lib;lua51.lib;luabindd.lib;tolua++_d.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;CEGUILuaScriptModule_d.lib;fmodex_vc.lib;enet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;lua51.lib;luabindd.lib;tolua++_d.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;CEGUILuaScriptModule_d.lib;fmodex_vc.lib;ws2_32.lib;Winmm.lib;enet.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>..\..\dependencies\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -94,7 +94,7 @@
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>lua51.lib;luabind.lib;ws2_32.lib;Winmm.lib;OgreMain.lib;OIS.lib;tolua++.lib;CEGUIBase.lib;CEGUIOgreRenderer.lib;CEGUILuaScriptModule.lib;fmodex_vc.lib;enet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain.lib;OIS.lib;lua51.lib;luabind.lib;tolua++.lib;CEGUIBase.lib;CEGUIOgreRenderer.lib;CEGUILuaScriptModule.lib;fmodex_vc.lib;ws2_32.lib;Winmm.lib;enet.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>..\..\dependencies\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -152,7 +152,7 @@
     <ProjectReference Include="..\Audio\Audio.vcxproj">
       <Project>{2a27afa1-174a-4ac6-a8ea-1aeb3cc0feab}</Project>
       <Private>true</Private>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
@@ -185,6 +185,14 @@
       <Project>{288b50d7-60bc-4542-a263-74de0acfe822}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\Map\Map.vcxproj">
+      <Project>{599f27dc-a593-4e7c-a461-d7b3198118b0}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
     <ProjectReference Include="..\Net\Net.vcxproj">
       <Project>{6517a543-d72a-4ed1-83be-104fe82dc59a}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
@@ -200,7 +208,7 @@
     <ProjectReference Include="..\ScriptManager\ScriptManager.vcxproj">
       <Project>{12c7c6a6-14f1-4dfb-a1dc-3cb096bdda50}</Project>
       <Private>true</Private>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
