@@ -10,10 +10,11 @@
  * @author  Juan A. Recio Garc?a
  * @date Junio, 2006
  */
-#include "ClientENET.h"
-#include "ConnectionENET.h"
 
 #include <iostream>
+
+#include "ClientENET.h"
+#include "ConnectionENET.h"
 
 #define DEBUG 0
 

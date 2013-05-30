@@ -51,7 +51,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../Src;../../Src/Map;../../dependencies/include/OIS;../../dependencies/include/OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src;../../dependencies/include;../../dependencies/include/OIS;../../dependencies/include/OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -69,7 +69,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../Src;../../Src/Map;../../dependencies/include/OIS;../../dependencies/include/OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../src;../../dependencies/include;../../dependencies/include/OIS;../../dependencies/include/OGRE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -101,12 +101,6 @@
     <None Include="..\..\Src\Map\location.hh" />
     <None Include="..\..\Src\Map\position.hh" />
     <None Include="..\..\Src\Map\stack.hh" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BaseSubsystems\BaseSubsystems.vcxproj">
-      <Project>{9c5c21d7-f23c-409d-a332-7be5a325fd7a}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

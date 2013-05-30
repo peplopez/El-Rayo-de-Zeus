@@ -15,8 +15,10 @@
 #ifndef __SERIALIZABLE_H
 #define __SERIALIZABLE_H
 
-#include "buffer.h"
 #include <string>
+
+#include "buffer.h"
+
 
 namespace Net {
 

@@ -15,9 +15,11 @@
 #ifndef __Net_Client_H
 #define __Net_Client_H
 
+#include <vector>
+
 #include "Connection.h"
 #include "packet.h"
-#include <vector>
+
 
 namespace Net {
 

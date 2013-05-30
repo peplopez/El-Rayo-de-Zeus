@@ -12,8 +12,9 @@
  * @date Octumbre, 2006
  */
 
-#include "Packet.h"
 #include "string.h"
+#include "Packet.h"
+
 
 namespace Net {
 

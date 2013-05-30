@@ -55,7 +55,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../Src;../../dependencies/include;../../dependencies/include/boost;../../dependencies/include/OGRE;../../dependencies/include/OIS;../../dependencies/include/lua;../../dependencies/include/cegui;../../dependencies/include/fmod;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Src;../../dependencies/include;../../dependencies/include/OGRE;../../dependencies/include/OIS;../../dependencies/include/lua;../../dependencies/include/cegui;../../dependencies/include/fmod;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;LUABIND_DYNAMIC_LINK;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -81,7 +81,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../Src;../../dependencies/include;../../dependencies/include/boost;../../dependencies/include/OGRE;../../dependencies/include/OIS;../../dependencies/include/lua;../../dependencies/include/cegui;../../dependencies/include/fmod;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Src;../../dependencies/include;../../dependencies/include/OGRE;../../dependencies/include/OIS;../../dependencies/include/lua;../../dependencies/include/cegui;../../dependencies/include/fmod;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;LUABIND_DYNAMIC_LINK;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

@@ -15,10 +15,10 @@ mover al jugador.
 #include "PlayerController.h"
 #include "InputManager.h"
 
-#include "Logic/Entity/Entity.h"
-#include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageUShort.h"
-#include "Logic/Entity/Messages/MessageString.h"
+#include <Logic/Entity/Entity.h>
+#include <Logic/Entity/Messages/Message.h>
+#include <Logic/Entity/Messages/MessageUShort.h>
+#include <Logic/Entity/Messages/MessageString.h>
 
 #include <cassert>
 
