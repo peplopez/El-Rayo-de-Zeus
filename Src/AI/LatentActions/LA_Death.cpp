@@ -112,6 +112,19 @@ namespace AI
 
 		}
 
+		if(_entity->getType()=="OtherPlayer")
+		{
+			if (_entity->getComponent<CBaseTraveler>()!=NULL)
+			{	
+				_entity->getComponent<CBaseTraveler>()->respawnInBaseOrigin();
+			}
+
+			//CMessageBoolString *message = new CMessageBoolString();
+			CMessageBoolUShort *message = new CMessageBoolUShort();
+			message->setType(Message::LIFE_RESTORE);
+			_entity->emitMessage(message);
+		}
+
 		awakeComponents();
 
 		finish(true);

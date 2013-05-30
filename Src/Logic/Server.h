@@ -15,8 +15,6 @@ la gestión de la lógica del juego.
 #include <string>
 #include "Logic\Entity\LogicalPosition.h"
 
-//PT
-//#include <cegui\elements\CEGUIProgressBar.h>
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Logic 
@@ -27,11 +25,18 @@ namespace Logic
 }
 
 //PT
-//namespace CEGUI
-//{
-//	class EventArgs;
-//	class Window;
-//}
+namespace CEGUI
+{
+	class EventArgs;
+	class Window;
+	class WindowManager;
+	class ProgressBar;
+}
+//PT
+namespace Graphics
+{
+	class Server;
+}
 
 /**
 Namespace que engloba la lógica del juego. Engloba desde el mapa lógico

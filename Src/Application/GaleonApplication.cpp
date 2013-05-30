@@ -57,8 +57,8 @@ namespace Application {
 			return false;
 
 		//PT Añadido nuevo estado "inicio" (desde el que se pulsando sobre la pantalla se pasara al estado "menu")
-		if(!addState("inicio", new CInitState(this)))
-			return false;
+		//if(!addState("inicio", new CInitState(this)))
+		//	return false;
 
 		if(!addState("menu", new CMenuState(this)))
 			return false;
@@ -87,13 +87,13 @@ namespace Application {
 			return false;
 
 		// ESTADO INICIAL
-		/*if(!setState("menu"))
-			return false;*/
+		if(!setState("menu"))
+			return false;
 
 
 		//PT se sustituye el estado inicial menu, por el estado inicial inicio.
-		if(!setState("inicio"))
-			return false;
+		//if(!setState("inicio"))
+		//	return false;
 
 
 		return true;

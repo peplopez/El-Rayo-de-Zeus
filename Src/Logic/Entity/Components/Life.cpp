@@ -151,8 +151,9 @@ namespace Logic
 			msg->setAction(Logic::Message::DAMAGE); // HACK PeP para que funcione máquina estados
 			_entity->emitMessage(msg, this);
 
-			////PT Cuando la entidad pierde toda su vida, se elimina su billboard (barra de vida) de la escena
-			if(!_entity->isPlayer())
+			// PT Cuando la entidad pierde toda su vida, se elimina la entidad 
+			// (tanto grafica como fisicamente)
+			if(!_entity->isPlayer() && _entity->getType()!="OtherPlayer")
 			{
 				//if(_lifeBarBB!=NULL)
 				//{
@@ -160,23 +161,9 @@ namespace Logic
 				//	_lifeBarBB = NULL;
 				//}
 
-				//PT desatacho/elimino la entidad LOGICAMENTE
-				//_entity->detachFromMap();
-
-				CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
-				_lifeBarBB = NULL;
-
-				//_lifeBarBB = 0;
-				//delete _lifeBarBB;
-
-				//CMessage *msg2 = new CMessage();
-				//msg2->setType(Logic::Message::DELETE_GRAPHICAL_ENTITY);
-				//_entity->emitMessage(msg2, this);
-
-				//PT desatacho/elimino la entidad GRAFICAMENTE
-
-				//PT TODO desatachar/eliminar la entidad FISICAMENTE
-
+				// PT Lo comento porque peta
+				//CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
+				//_lifeBarBB = NULL;
 
 			}
 		// DAMAGE / HEAL 

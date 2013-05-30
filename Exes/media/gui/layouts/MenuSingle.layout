@@ -75,8 +75,8 @@
 			<Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.75,0},{0.8,0},{0.8,0}}" />
         </Window>
 		
-		<Window Type="OgreTray/StaticText" Name="MenuSingle/TextoProgreso" >
-			<Property Name="Text" Value="Progreso" />
+		<Window Type="OgreTray/Title" Name="MenuSingle/TextoProgreso" >
+			<Property Name="Text" Value="" />
 			<Property Name="Font" Value="DejaVuSans-10" />
 			<Property Name="AlwaysOnTop" Value="True" />
 			<Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.82,0},{0.8,0},{0.88,0}}" />

@@ -33,6 +33,7 @@ namespace CEGUI
 {
 	class EventArgs;
 	class Window;
+	class ProgressBar;
 }
 
 namespace ScriptManager
@@ -40,10 +41,9 @@ namespace ScriptManager
 	class Server;
 }
 
-//PT
-namespace Ogre
+namespace Graphics
 {
-	class Root;
+	class Server;
 }
 
 namespace Application 
@@ -178,14 +178,20 @@ namespace Application
 		/**
 		Ventana CEGUI que muestra el menú.
 		*/
-		CEGUI::Window* _menuWindow;
+		//CEGUI::Window* _menuWindow;
 
 		//PT combobox
 		CEGUI::Combobox* _cbModel;
 		CEGUI::Combobox* _cbColor;
 
-		//PT
-		//CEGUI::ProgressBar* _hbar;
+		//PT Barra de Progreso
+		CEGUI::ProgressBar * _hbar;
+
+		std::string playerNick;
+		int playerModelID;
+		std::string playerModel;
+		int playercolorID;
+		std::string playerColor;
 
 		/**
 		*/
@@ -209,6 +215,12 @@ namespace Application
 		para cambiar la barra de progreso
 		*/
 		bool CMenuSingleState::onProgressChanged(const CEGUI::EventArgs &e);
+
+		//PT
+		bool CMenuSingleState::loadGame();
+
+		//PT
+		bool CMenuSingleState::loadInfoSingleData();
 
 	}; // CMenuSingleState
 
