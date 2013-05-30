@@ -1,6 +1,7 @@
+import gloom_material from "gloom_material.material"
 import base_material from "Normal_AO_Specular_Mapping_Shader.material"
 
-material  mar: base_material
+material  mar : gloom_material
 {
 	set_texture_alias diffuseMap 	ocean_D.tga
 	set_texture_alias specMap 		ocean_D.tga
@@ -9,13 +10,17 @@ material  mar: base_material
     set $diffuseCol "1 1 1"
     set $specularCol "1 1 1"
     set $shininess "89.4998" 
-	pass 
-		{
-	vertex_program_ref ShaderOceano
+	technique
 	{
-		param_named_auto ViewProjectionMatrix worldviewproj_matrix
-		param_named_auto tiempo time_0_x 100.0
-	}
+			
+		pass
+		{		
+		specular 1 1 1 128
+		scene_blend alpha_blend
+		depth_write off
+		
+		}
+		
 	}
 }
 
@@ -29,11 +34,14 @@ material espumaoceano
 			scene_blend alpha_blend
 			depth_write off
 			
-
 			texture_unit
 			{
 				texture espumaocean_D.tif
+		
+         colour_op_ex source1 src_manual src_current 0 0 0
+         alpha_op_ex source1 src_manual src_current 0.00       
 			}
+			
 		}
 
 	}
