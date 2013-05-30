@@ -199,9 +199,9 @@ namespace Logic
 		if (entityInfo->hasAttribute("event_DT_Attack3"))
 			_animSet->addEventTime(Logic::ATTACK3, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack3"));
 		if (entityInfo->hasAttribute("event_DT_Cover"))
-			_animSet->addEventTime(Logic::COVER_WITH_SHIELD, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Cover"));
+			_animSet->addEventTime(Logic::COVER_WITH_SHIELD, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
 		if (entityInfo->hasAttribute("event_DT_Cover"))
-			_animSet->addEventTime(Logic::COVER_WITH_WEAPON, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Cover"));
+			_animSet->addEventTime(Logic::COVER_WITH_WEAPON, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
 		return true;
 	} // initializeAnimSet
 	
@@ -255,6 +255,9 @@ namespace Logic
 			break;
 			case Logic::COMBO_TRACK:			
 				msg->setType(Message::COMBO_MOMENT);
+			break;
+			case Logic::COVER_MOMENT:			
+				msg->setType(Message::UNASSIGNED);
 			break;
 			}
 			_entity->emitMessage(msg);
