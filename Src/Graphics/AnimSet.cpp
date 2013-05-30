@@ -36,7 +36,6 @@ namespace Graphics
 	CAnimSet::~CAnimSet()
 	{
 		_animationSet.clear();
-		delete this;
 	}
 
 	//--------------------------------------------------------

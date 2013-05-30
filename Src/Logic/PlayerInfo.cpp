@@ -56,11 +56,19 @@ namespace Logic
 	
 	bool CPlayerInfo::inMyBase()
 	{//quiero que dependiendo de si el bot está en su propia base o en otra tenga diferente comportamiento.
-		if (_player->getLogicalPosition()->getBase()==_player->getOriginBase())
-			setInMyBase(true);
+		if(_player)
+		{
+			if (_player->getLogicalPosition()->getBase()==_player->getOriginBase())
+				setInMyBase(true);
+			else
+				setInMyBase(false);
+			return _inMyBase;
+		}
 		else
-			setInMyBase(false);
-		return _inMyBase;
+		{
+			return false;
+		}
+			
 	}
 
 	//PT

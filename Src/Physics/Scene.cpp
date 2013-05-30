@@ -52,12 +52,12 @@ namespace Physics
 
 		if (_name != "dummy_scene")
 		{
-#ifdef _DEBUG
+//#ifdef _DEBUG
 			_debugDraw = new OgreB2DebugDraw(Graphics::CServer::getSingletonPtr()->getScene(name)->getSceneMgr(), "debugDraw") ;
 			_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(name)->getCamera()->getCameraNode());
 			_debugDraw->SetFlags(b2Draw::e_shapeBit);
 			_world->SetDebugDraw(_debugDraw);
-#endif		
+//#endif		
 			_worldListener = new CContactListener();
 			_world->SetContactListener(_worldListener);
 
@@ -94,21 +94,21 @@ namespace Physics
 		float32 timeStep = msecs * 0.001f;
 		int32 velocityIterations = 6;
 		int32 positionIterations = 3;
-#ifdef _DEBUG
+//#ifdef _DEBUG
 		_debugDraw->clear();
-#endif
+//#endif
 		_world->Step(timeStep, velocityIterations, positionIterations); //simulación física
 		if (_actorsToGhost.size() > 0)
 			createGhostBodies();
 		if (_actorsToUnghost.size() > 0)
 			deleteGhostBodies();
-#ifdef _DEBUG
+//#ifdef _DEBUG
 		if (_debugDrawEnabled)
 		{
 			_world->DrawDebugData();
 			_debugDraw->Render();
 		}
-#endif
+//#endif
 	} // tick
 
 	/************
