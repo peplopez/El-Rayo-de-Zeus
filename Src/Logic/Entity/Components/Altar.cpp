@@ -259,9 +259,9 @@ namespace Logic
 			if (_acumTime >= _switchingTime)
 			{
 				if (_on)
-					LOG(_entity->getName() << ": activado")
+					LOG(_entity->getName() << ": activado");
 				else 
-					LOG(_entity->getName() << ": desactivado")
+					LOG(_entity->getName() << ": desactivado");
 
 				_revertingState = false;
 				_acumTime = _switchingTime;

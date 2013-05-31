@@ -133,7 +133,7 @@ namespace Logic
 				LOG("START");
 				_psTable.begin()->second->start();			
 				break;			
-			case Message::FX_STOP
+			case Message::FX_STOP:
 				LOG("STOP");
 				_psTable.begin()->second->stop();	
 				break;		
