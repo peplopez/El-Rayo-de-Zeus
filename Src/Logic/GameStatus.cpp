@@ -116,7 +116,8 @@ namespace Logic
 	//PT
 	unsigned short CGameStatus::getEnemiesInBase(unsigned short base)
 	{
-		unsigned short enemies = 0;
+		_enemies = 0;
+
 		for(std::vector<CPlayerInfo*>::iterator itPlayers = _players.begin();
 			itPlayers != _players.end(); itPlayers++)
 		{
@@ -125,13 +126,15 @@ namespace Logic
 			//para evitar el primer player que no es nadie
 			if(player->getPlayer() != NULL)
 			{
-				//Si el player no soy yo, y el player esta en mi base aumento el numero de players enemigos
-				if( (!player->inMyBase()) &&  (player->inBase(base)) )
-					enemies++;
+				// Si el player no soy yo, y el player esta en mi base, y ese player
+				// no esta muerto aumento el numero de players enemigos
+				if( (!player->inMyBase()) &&  (player->inBase(base)) && (player->getLife() > 0) )
+					_enemies++;
+
 			}
 
 		}
 
-		return enemies;
+		return _enemies;
 	}
 }

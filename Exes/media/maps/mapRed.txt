@@ -63,14 +63,14 @@ Map ={
 		degrees=300,		
 	},	
 	
-	peludo = {
+	peludo9 = {
 		type = "Spider",
 		base=1,
 		ring=1,
 		degrees=80,		
 	},
 
-	peluda = {
+	peluda23 = {
 		type = "Spider",
 		base=1,
 		ring=2,

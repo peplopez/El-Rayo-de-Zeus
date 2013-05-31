@@ -108,7 +108,12 @@ namespace Logic
 		/**
 			Número de bases, pueden ser diferentes, caso de la base Lobby
 		*/
-		unsigned short _numBases; 
+		unsigned short _numBases;
+
+		/**
+			Número de enemigos en la base del Player
+		*/
+		unsigned short _enemies;
 
 		/**
 		Tipo para la lista de Jugadores
