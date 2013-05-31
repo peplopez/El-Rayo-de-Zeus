@@ -23,7 +23,7 @@ Map ={
 		base=4,
 		ring=0,
 		degrees=50,
-		initialMaterial0="marineYellow",
+		initialMaterial1="marineYellow",
 	},
 		
 	bioshockLOGICO99 = {

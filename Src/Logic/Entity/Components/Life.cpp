@@ -155,13 +155,15 @@ namespace Logic
 			// (tanto grafica como fisicamente)
 			if(!_entity->isPlayer() && _entity->getType()!="OtherPlayer")
 			{
-				//if(_lifeBarBB!=NULL)
-				//{
-				//	_graphicalScene->remove(_lifeBarBB);
-				//	_lifeBarBB = NULL;
-				//}
+				if(_lifeBarBB!=NULL)
+				{
+					_graphicalScene->remove(_lifeBarBB);
+					_lifeBarBB = NULL;
+				}
 
-				// PT Lo comento porque peta
+				// PT Lo comento porque peta en OgreRoot.cpp -> 
+				// bool Root::renderOneFrame(Real timeSinceLastFrame) 
+				// -> evt.timeSinceLastEvent = calculateEventTime(now, FETT_ANY);
 				//CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
 				//_lifeBarBB = NULL;
 

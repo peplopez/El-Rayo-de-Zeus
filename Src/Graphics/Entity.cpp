@@ -168,7 +168,7 @@ namespace Graphics
 	{
 		assert(_node && "La entidad no ha sido cargada en la escena");
 		if(_node)
-			_entity->setMaterialName(materialName);	
+			_entity->setMaterialName(materialName);
 	} // setMaterial
 
 	//--------------------------------------------------------
