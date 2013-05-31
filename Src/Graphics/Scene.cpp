@@ -280,7 +280,7 @@ namespace Graphics
 
 		// bind the collision callback (i.e. used by Rain.hfx)
 //		m_hhfxScene->SetCollisionCallback(this, &_IntersectScene); TODO FRS
-		_hhfxScene->SetWorldScale(2); // ?? TODO const float	kWorldFxScale = 1.0f;
+		_hhfxScene->SetWorldScale(8); // ?? TODO const float	kWorldFxScale = 1.0f;
 
 		_root->addFrameListener(this);
 	}
