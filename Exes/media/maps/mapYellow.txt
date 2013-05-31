@@ -12,8 +12,8 @@ Map ={
 		type = "PointLight",
 		position = {0, 100, 0},
 	},
-	
-		
+
+			
 	GemeloYellow = {
 		type = "OtherPlayer",
 		base=4,
@@ -65,28 +65,28 @@ Map ={
 		type = "AltarYellow",
 		degrees=60,
 		ring=0,
-		base=4,	
+		base=4,		
 	},
 	
 	Altar2 = {
 		type = "AltarYellow",
 		degrees=180,
 		ring=0,
-		base=4,		
+		base=4,				
 	},
 	
 	Altar3 = {
 		type = "AltarYellow",
 		degrees=300,
 		ring=0,
-		base=4,		
+		base=4,			
 	},
 	
 	Altar4 = {
 		type = "AltarYellow",
 		degrees=36,
 		ring=1,
-		base=4,		
+		base=4,	
 	},
 	
 	Altar5 = {

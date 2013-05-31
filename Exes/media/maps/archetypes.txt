@@ -1,4 +1,47 @@
 Map = {	
+
+	PlayerCamera = {
+		type = "Camera",
+		distance = 200,
+		height = 13,
+		targetDistance =6,
+		targetHeight = 7,
+		cameraSpeed = 1.5,
+		radio=120,
+		trembleOffset = 0.8,
+		trembleSpeed = 0.005,
+	},
+	
+	Player = {
+		type = "Player",
+		model = "spartan2.4.mesh",
+		modelFacial = "goatee2.4.mesh",
+		modelWeapon = "club2.0.mesh",
+		modelShield = "shield2.4.mesh",		
+		modelHelmet = "helmet2.3.mesh",
+		logicInput=true,
+		base=1,
+		ring=1,
+		degrees=0,
+		sense=2,
+		physicWidth = 7,
+		physicHeight = 5,
+		lifeMax = 100.0,
+		lifeBarPosition = 23.0,
+		lifeBarWidth = 15.0,
+		lifeBarHeight = 1.5,	
+		lifeBase = 3,		
+		angularSpeed = 0.0425,
+		defaultAnimation = "idle",
+		logicInput=true,
+		jumpPower = 0.08,
+		behavior="Hercules",
+		hero="Hercules",
+		initialMaterial="SpartanBodyTatoo",
+		audio="media\\audio\\QUEJIDO1.wav",
+		fxScript1 = "FlameThrower.hfx",	
+	},
+	
 	AltarRed = {
 		type = "Altar",
 		model = "altar.mesh",
@@ -65,17 +108,7 @@ Map = {
 		angularspeed = 20,
 	},
 	
-	PlayerCamera = {
-		type = "Camera",
-		distance = 200,
-		height = 13,
-		targetDistance =6,
-		targetHeight = 7,
-		cameraSpeed = 1.5,
-		radio=120,
-		trembleOffset = 0.8,
-		trembleSpeed = 0.005,
-	},
+
 	
 	BarraVida = {
 		type = "BarraVida",
@@ -167,34 +200,7 @@ Map = {
 		audio="media\\audio\\QUEJIDO1.wav",
 	},
 	
-	Player = {
-		type = "Player",
-		model = "spartan2.4.mesh",
-		modelFacial = "goatee2.4.mesh",
-		modelWeapon = "club2.0.mesh",
-		modelShield = "shield2.4.mesh",		
-		modelHelmet = "helmet2.3.mesh",
-		logicInput=true,
-		base=1,
-		ring=1,
-		degrees=0,
-		sense=2,
-		physicWidth = 7,
-		physicHeight = 5,
-		lifeMax = 100.0,
-		lifeBarPosition = 23.0,
-		lifeBarWidth = 15.0,
-		lifeBarHeight = 1.5,	
-		lifeBase = 3,		
-		angularSpeed = 0.0425,
-		defaultAnimation = "idle",
-		logicInput=true,
-		jumpPower = 0.08,
-		behavior="Hercules",
-		hero="Hercules",
-		initialMaterial="SpartanBodyTatoo",
-		audio="media\\audio\\QUEJIDO1.wav",
-	},
+	
 	
 	Espartano = {
 		type = "OtherPlayer",
@@ -268,8 +274,7 @@ Map = {
 		physicTrigger = true,
 		orbitalOffset = 0.013,
 		orbitalSpeed = 0.004,
-		orbitalRotationSpeed = 0.001,
-		fxScript1 = "Blast.hfx",
+		orbitalRotationSpeed = 0.001,		
 	},
 	PUPandora = {
 		type = "PowerUp",
@@ -294,8 +299,7 @@ Map = {
 		physicTrigger = true,
 		orbitalOffset = 0.013,
 		orbitalSpeed = 0.004,
-		orbitalRotationSpeed = 0.001,
-		fxScript1 = "TorchFire",
+		orbitalRotationSpeed = 0.001,	
 	},
 	PUHourglass = {
 		type = "PowerUp",

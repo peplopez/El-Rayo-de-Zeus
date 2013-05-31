@@ -68,8 +68,7 @@ namespace Graphics
 		/*********************
 			HELL HEAVENS FX		
 		**********************/
-		IHHFXOgre*			_movObj;	// Sistema de particulas (movable object)
-		IHHFXScene*			_hhfxScene; // TODO Barajar si es necesario o a partir del getSceneMgr
+		IHHFXOgre*			_movObj;	// Sistema de particulas (movable object)		
 	
 		//--------- IHHFX::IFXListener implementation -------------------
 		void				OnFXStarted(IHHFX *obj) override;

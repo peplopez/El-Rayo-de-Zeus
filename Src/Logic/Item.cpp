@@ -60,14 +60,6 @@ namespace Logic
 		// FRS Sólo cogen items los players
 		if(otherEntity->getType() == "Player" || otherEntity->getType() == "OtherPlayer") {	
 			
-			// UNDONE FRS No queremos una animacion al coger PU's
-			//GET OBJECT ANIM
-			//CMessageBoolString *txMsg2 = new CMessageBoolString();
-			//	txMsg2->setType(TMessageType::SET_ANIMATION); 
-			//	txMsg2->setBool(false);
-			//	txMsg2->setString("GetObject");
-			//	otherEntity->emitMessage(txMsg2); // TODO FRS falta desactivar INPUT => migrar esto a FSM de animaciones
-
 			// ATTACH TO HAND
 			if( _modelOnHand.length() > 0 ) {
 				CMessageString *txMsg3 = new CMessageString();
@@ -77,11 +69,9 @@ namespace Logic
 					otherEntity->emitMessage(txMsg3);
 			}
 
-			// ITEM DEATH
-			//CMessage *txMsg1 = new CMessage();
-			//	txMsg1->setType(TMessageType::DEAD); // Si alguien nos coge, morimos
-			//	_entity->emitMessage(txMsg1, this);
 
+
+			// ITEM DEATH
 			//FRS Sin CDeath habrá que hacer el deferred delete directamente
 			CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
 

@@ -24,8 +24,6 @@ Map ={
 		type = "PointLight",
 		position = {0, 100, 0},
 	},
-	
-		
 
 	puThrone1 = {
 		type = "PUThrone",

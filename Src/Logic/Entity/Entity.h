@@ -392,16 +392,13 @@ namespace Logic
 		template <typename T>
 		T* getComponent()
 		{
-			std::map<altTypeId, IComponent*>::const_iterator it;
-
-			it=_components.find(TAltTypeIdGenerator<T>::GetAltTypeId());
-
-			if (it != _components.end())
-			{
-				return static_cast<T*>(it->second);
-			}
-			std::cerr << "id no encontrado" << std::endl;
-			return NULL;	
+			IComponent* component = _compoTable[ TAltTypeIdGenerator<T>::GetAltTypeId() ];
+				if (component)			
+					return static_cast<T*>(component);
+				else {
+					std::cerr << "id no encontrado" << std::endl;
+					return NULL;	
+				}
 		}
 		
 		/**
@@ -444,13 +441,13 @@ namespace Logic
 		Tipo para la lista de componetes.
 		*/
 		typedef std::map<altTypeId, IComponent*> TComponentMap;
-		// TODO FRS typedef std::list<IComponent*> TComponentList;
+		typedef std::vector<IComponent*>		TComponentVector;
 
 		/**
 		Lista de los componentes de la entidad.
 		*/
-		TComponentMap _components;
-		//TODO FRS TComponentList _components;
+		TComponentMap		_compoTable;
+		TComponentVector	_compoList;
 
 		/**
 		Indica si la entidad está activa.

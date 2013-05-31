@@ -33,13 +33,13 @@ namespace Logic
 	@author FRS
 	@date Mayo, 2013
 */
-	class CSpecialEffects : public IComponent
+	class CFX : public IComponent
 	{
-		DEC_FACTORY(CSpecialEffects);
+		DEC_FACTORY(CFX);
 	public:
 
-		CSpecialEffects() : IComponent(GetAltTypeIdOf(CSpecialEffects)) {}		
-		~CSpecialEffects();
+		CFX() : IComponent(GetAltTypeIdOf(CFX)) {}		
+		~CFX();
 		
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 		bool accept(const CMessage *message);
@@ -58,7 +58,7 @@ namespace Logic
 
 	}; // class CFX
 
-	REG_FACTORY(CSpecialEffects);
+	REG_FACTORY(CFX);
 
 } // namespace Logic
 

@@ -26,11 +26,11 @@ Contiene la implementación del componente que controla la vida de una entidad.
 
 namespace Logic 
 {
-	IMP_FACTORY(CSpecialEffects);
+	IMP_FACTORY(CFX);
 
 	//---------------------------------------------------------
 	
-	CSpecialEffects::~CSpecialEffects() {
+	CFX::~CFX() {
 		if(!_psTable.empty())
 		{			
 			TParticleTable::const_iterator it = _psTable.begin();
@@ -46,7 +46,7 @@ namespace Logic
 	//---------------------------------------------------------
 
 
-	void CSpecialEffects::detachFromMap()
+	void CFX::detachFromMap()
 	{
 		if(!_psTable.empty())
 		{			
@@ -60,7 +60,7 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	void CSpecialEffects::attachToMap(CMap* map)
+	void CFX::attachToMap(CMap* map)
 	{
 		_graphicalScene = map->getGraphicScene();
 
@@ -76,7 +76,7 @@ namespace Logic
 	//---------------------------------------------------------
 
 	// HACK FRS Esto se debería hacer con loop hasta cargar todos los efectos de la entidad
-	bool CSpecialEffects::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
+	bool CFX::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
@@ -105,7 +105,7 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	bool CSpecialEffects::accept(const CMessage *message)
+	bool CFX::accept(const CMessage *message)
 	{
 		return message->getType() == Message::FX_START ||
 			   message->getType() == Message::FX_STOP;		
@@ -115,7 +115,7 @@ namespace Logic
 	//---------------------------------------------------------
 
 	// HACK FRS Falta extraer un action o arg que indique el efecto específico (ahora solo tenemos uno)
-	void CSpecialEffects::process(CMessage *message)
+	void CFX::process(CMessage *message)
 	{
 		switch(message->getType())
 		{

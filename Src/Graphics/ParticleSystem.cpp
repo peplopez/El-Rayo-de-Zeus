@@ -75,13 +75,13 @@ namespace Graphics
 	{
 		assert( getSceneMgr()->hasSceneNode( _parentName + "_node") );
 
-		try{
+		try{		
 
 			// effect's params
 			Ogre::NameValuePairList params;
-				params["pack"] =  _hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetPack();
+				params["pack"] =  _scene->getHHFXScene()->GetHHFXBase().GetHHFXPackExplorer().GetPack();
 				params["fx"] =  "HBO/Entities/Particles/" + _hfx; // TODO FRS Hardcodear el path así solo si siempre va a ser el mismo	
-	
+	params["run"] = "yes";
 			// spawn a new effect at this location
 			Ogre::MovableObject	*mo = getSceneMgr()->createMovableObject("HHFX", &params);
 			assert(mo && "Error al crear ParticleSystem");	
