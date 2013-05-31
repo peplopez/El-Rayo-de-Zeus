@@ -24,6 +24,11 @@ la gestión de la lógica del juego.
 
 #include "Logic\Entity\RingStruct.h"
 
+//PT
+#include <cegui\CEGUIWindowManager.h>
+#include <cegui\elements\CEGUIProgressBar.h>
+#include <Graphics\Server.h>
+
 #include <cassert>
 
 namespace Logic {
@@ -172,11 +177,20 @@ namespace Logic {
 		TMapNameList::const_iterator it = mapList.begin();
 		TMapNameList::const_iterator end = mapList.end();
 		
-	
+		//PT creo la barra de progreso
+		CEGUI::ProgressBar *hbar = static_cast<CEGUI::ProgressBar*> (CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
+		float progress = hbar->getProgress();
+		unsigned short nummapas = mapList.size();
+		float step = (0.9f - progress) / nummapas;
+
 		for (; it != end; ++it)
 		{
 			_worldIsLoaded = loadMap(*it);
 			_mapNames.push_back(*it);
+			//PT
+			progress+= step;
+			hbar->setProgress(progress);
+			Graphics::CServer::getSingletonPtr()->tick(0);
 		}	
 
   		mapList.clear();

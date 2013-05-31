@@ -15,12 +15,27 @@ la gestión de la lógica del juego.
 #include <string>
 #include "Logic\Entity\LogicalPosition.h"
 
+
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Logic 
 {
 	class CMap;
 	class CEntity;
 	class CGameNetMsgManager;	
+}
+
+//PT
+namespace CEGUI
+{
+	class EventArgs;
+	class Window;
+	class WindowManager;
+	class ProgressBar;
+}
+//PT
+namespace Graphics
+{
+	class Server;
 }
 
 /**

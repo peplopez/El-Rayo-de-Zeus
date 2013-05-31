@@ -145,7 +145,8 @@ namespace Logic
 				 message->getType() == Message::SET_SUBENTITY_MATERIAL ||
 				 message->getType() == Message::ATTACH ||
 				 message->getType() == Message::SET_SCALE ||
-				 message->getType() == Message::SET_INITIAL_MATERIAL;
+				 message->getType() == Message::SET_INITIAL_MATERIAL ||
+				 message->getType() == Message::DELETE_GRAPHICAL_ENTITY ;
 
 	} // accept
 	
@@ -223,6 +224,12 @@ namespace Logic
 					
 				_graphicalEntity->setScale(escalaInicial);
 				
+			} break;
+
+			//PT
+		case Message::DELETE_GRAPHICAL_ENTITY:{
+				//_graphicalEntity->detachFromScene();
+				//CGraphics::detachFromMap();
 			} break;
 
 		} // switch

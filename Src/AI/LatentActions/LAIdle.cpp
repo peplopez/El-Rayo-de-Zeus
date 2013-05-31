@@ -44,12 +44,7 @@ namespace AI
 		message->setBool(true);
 		_entity->emitMessage(message);
 
-		CMessageFloat *m2 = new CMessageFloat();	
-		m2->setType(Message::SET_SCALE);
-		m2->setFloat(_entity->getInitialScale());
-		_entity->emitMessage(m2);
-
-
+		
 		if (_entity->getComponent<CAttack>()!=NULL)
 				_entity->getComponent<CAttack>()->setCovering(false);		
 

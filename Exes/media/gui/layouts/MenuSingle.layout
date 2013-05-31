@@ -61,19 +61,19 @@
 				<Property Name="AlwaysOnTop" Value="True" />
         </Window>
 		
-		 <!--<Window Type="OgreTray/StaticText" Name="MenuSingle/Status" >
-            <Property Name="Font" Value="DejaVuSans-10" />
-            <Property Name="Text" Value="" />
-            <Property Name="AlwaysOnTop" Value="False" />
-            <Property Name="UnifiedAreaRect" Value="{{0.1,1},{0.75,0},{0.95,0},{0.85,0}}" />
-        </Window>-->
-
-<!-- 		<Window Type="OgreTray/ProgressBar" Name="MenuSingle/Progreso" >
+		<Window Type="OgreTray/ProgressBar" Name="MenuSingle/Progreso" >
 			<Property Name="StepSize" Value="0.1" />		
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 			<Property Name="CurrentProgress" Value="0" />	
 			<Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.75,0},{0.8,0},{0.8,0}}" />
-        </Window> -->
+        </Window>
+		
+		<Window Type="OgreTray/Title" Name="MenuSingle/TextoProgreso" >
+			<Property Name="Text" Value="" />
+			<Property Name="Font" Value="DejaVuSans-10" />
+			<Property Name="AlwaysOnTop" Value="True" />
+			<Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.82,0},{0.8,0},{0.88,0}}" />
+        </Window>		
 		
         <Window Type="OgreTray/Button" Name="MenuSingle/Play" >
             <Property Name="Font" Value="DejaVuSans-10" />

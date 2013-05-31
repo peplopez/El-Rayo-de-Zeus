@@ -25,6 +25,9 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Entity/Messages/MessageAudio.h"
 #include "Map/MapEntity.h"
 
+//PT
+#include "Logic/Maps/EntityFactory.h"
+
 
 namespace Logic 
 {
@@ -35,7 +38,8 @@ namespace Logic
 	CLife::~CLife() {
 		if(_lifeBarBB)
 		{
-			_graphicalScene->remove(_lifeBarBB);	
+			_graphicalScene->remove(_lifeBarBB);
+			_lifeBarBB = 0; //PT
 			delete _lifeBarBB;
 		}
 	}
@@ -147,14 +151,20 @@ namespace Logic
 			msg->setAction(Logic::Message::DAMAGE); // HACK PeP para que funcione máquina estados
 			_entity->emitMessage(msg, this);
 
-			////PT Cuando la entidad pierde toda su vida, se elimina su billboard (barra de vida) de la escena
-			if(!_entity->isPlayer())
+			// PT Cuando la entidad pierde toda su vida, se elimina la entidad 
+			// (tanto grafica como fisicamente)
+			if(!_entity->isPlayer() && _entity->getType()!="OtherPlayer")
 			{
-				if(_lifeBarBB!=NULL)
-				{
-					_graphicalScene->remove(_lifeBarBB);
-					_lifeBarBB = NULL;
-				}
+				//if(_lifeBarBB!=NULL)
+				//{
+				//	_graphicalScene->remove(_lifeBarBB);
+				//	_lifeBarBB = NULL;
+				//}
+
+				// PT Lo comento porque peta
+				//CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
+				//_lifeBarBB = NULL;
+
 			}
 		// DAMAGE / HEAL 
 		} else if(lifeModifier) { // Solo animaciones

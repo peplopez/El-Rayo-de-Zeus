@@ -64,7 +64,9 @@ namespace Logic
 			SET_ANIMATION_WITH_TIME = 0X29,
 			DAMAGE_MOMENT			= 0x30,
 			COMBO_MOMENT	        = 0X31,
-			LIFE_RESTORE			= 0x32
+			LIFE_RESTORE			= 0x32,
+			DELETE_GRAPHICAL_ENTITY = 0x33, //mensaje de eliminacion de la entidad Grafica
+			DELETE_PHYSICAL_ENTITY = 0x34 //mensaje de eliminacion de la entidad fisica
 		};
 
 		enum TActionType : unsigned char

@@ -1,0 +1,107 @@
+material gloom_material
+{
+    set $diffuseCol "1 1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "32"	
+ 
+    technique
+    {
+        pass
+        {
+            illumination_stage ambient
+ 
+            ambient 	1 1 1
+            diffuse 	$diffuseCol
+            specular 	0 0 0 0       
+ 
+            vertex_program_ref ambient_vs
+            {
+            }
+ 
+            fragment_program_ref ambient_ps
+            {
+            }
+ 
+            texture_unit diffuseMap
+            {
+                texture white.png
+            }
+ 
+            texture_unit aoMap
+            {
+                texture white.png
+            }
+			
+			vertex_program_ref ShaderOceano
+			{
+				param_named_auto ViewProjectionMatrix worldviewproj_matrix
+				param_named_auto tiempo time
+			}
+        }
+ 
+        pass
+        {
+            illumination_stage per_light
+ 
+            scene_blend add
+//            iteration once_per_light   not needed while   illumination_stage per_light   is used
+ 
+            vertex_program_ref diffuse_vs
+            {
+            }
+ 
+            fragment_program_ref diffuse_ps
+            {
+            }
+ 
+			ambient 	0 0 0
+            diffuse 	$diffuseCol
+            specular 	$specularCol $shininess      
+ 
+            texture_unit diffuseMap
+            {
+                texture white.png
+            }
+ 
+            texture_unit specMap
+            {
+                texture white.png
+            }
+ 
+            texture_unit normalMap
+            {
+                texture flat_n.png
+            }
+			
+			vertex_program_ref ShaderOceano
+			{
+				param_named_auto ViewProjectionMatrix worldviewproj_matrix
+				param_named_auto tiempo time
+			}
+
+		
+        }
+    }
+}
+ 
+
+// examples (require the appropriate [[textures]], all found in the Ogre samples)
+
+
+material some_material : base_material
+{
+    // any of these maps can be left out if you don't have one
+    set_texture_alias diffuseMap some_dif.png
+    set_texture_alias specMap some_spec.png
+    set_texture_alias normalMap some_norm.png
+    set_texture_alias aoMap some_ao.png
+ 
+    // diffuse colour multiplier (for example, green-ish)
+    set $diffuseCol "0.1 1 0.1"
+    // specular colour multiplier (for example, red-ish)
+    set $specularCol "1 0.1 0.1"
+    // specular power (shininess) (the higher, the sharper the highlights)
+    set $shininess "128"
+ 
+    // once again, you can leave any of these configurables out if you don't need them
+}
