@@ -1,3 +1,4 @@
+import gloom_material from "gloom_material.material"
 import base_material from "Normal_AO_Specular_Mapping_Shader.material"
 
 
@@ -83,7 +84,7 @@ material cascadLAVAaPart2
 
 }
 
-material magma
+material magma 
 {
 	technique
 	{
@@ -95,6 +96,11 @@ material magma
 			texture_unit
 			{
 				texture lava-texture.tga
+			}
+			vertex_program_ref ShaderOceano
+			{
+				param_named_auto ViewProjectionMatrix worldviewproj_matrix
+				param_named_auto tiempo time
 			}
 		}
 

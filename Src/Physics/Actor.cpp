@@ -316,21 +316,24 @@ namespace Physics
 	{
 		if (_component && otherActor->getPhysicComponent())
 		{
-			TContacts::const_iterator it = std::find(_contacts.begin(), _contacts.end(), otherActor);
-			if ( it == _contacts.end())
+			if (enter)
 			{
-				if (enter)
-				{
-					_component->onTrigger(otherActor->getPhysicComponent(), enter);
-					_contacts.push_back(otherActor);
-				}
+				TContacts::const_iterator it = std::find(_contacts.begin(), _contacts.end(), otherActor);
+				if ( it == _contacts.end())
+					_component->onTrigger(otherActor->getPhysicComponent(), true);
+						
+				_contacts.push_back(otherActor);
 			}
+			
 			else
 			{
-				if (!enter)
+				TContacts::const_iterator it = std::find(_contacts.begin(), _contacts.end(), otherActor);
+				if (it != _contacts.end())
 				{
-					_component->onTrigger(otherActor->getPhysicComponent(), enter);
-					_contacts.erase(it);
+					TContacts::iterator erased = _contacts.erase(it);
+					TContacts::const_iterator it2 = std::find(erased, _contacts.end(), otherActor);
+					if ( it2 == _contacts.end())
+						_component->onTrigger(otherActor->getPhysicComponent(), false);
 				}
 			}
 		}
@@ -363,21 +366,20 @@ namespace Physics
 	{
 		if (_component && otherActor->getPhysicComponent())
 		{
-			TContacts::const_iterator it = std::find(_contacts.begin(), _contacts.end(), otherActor);
-			if ( it == _contacts.end())
+			if (enter)
 			{
-				if (enter)
-				{
+				TContacts::const_iterator it = std::find(_contacts.begin(), _contacts.end(), otherActor);
+				if ( it == _contacts.end())
 					_component->onCollision(otherActor->getPhysicComponent());
-					_contacts.push_back(otherActor);
-				}
+						
+				_contacts.push_back(otherActor);
 			}
+			
 			else
 			{
-				if (!enter)
-				{
+				TContacts::const_iterator it = std::find(_contacts.begin(), _contacts.end(), otherActor);
+				if (it != _contacts.end())
 					_contacts.erase(it);
-				}
 			}
 		}
 	}

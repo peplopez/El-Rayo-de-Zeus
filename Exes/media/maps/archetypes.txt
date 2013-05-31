@@ -68,14 +68,14 @@ Map = {
 	
 	BaseCamera1 = {
 		type = "BaseCamera",
-		radius = 250,
+		radius = 400,
 		height = 50,
 		angularspeed = 20,
 	},
 	
 	PlayerCamera = {
 		type = "Camera",
-		distance = 250,
+		distance = 300,
 		height = 30,
 		targetDistance =6,
 		targetHeight = 7,
