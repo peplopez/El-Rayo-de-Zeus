@@ -266,6 +266,11 @@ namespace Graphics
 		*/
 		void close();
 
+
+		/*********************
+			HELL HEAVEN FX
+		********************/	
+		void _preloadHHFXTextures();
 		
 		
 

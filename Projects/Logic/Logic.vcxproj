@@ -86,6 +86,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Logic\AltarInfo.cpp" />
     <ClCompile Include="..\..\Src\Logic\BaseInfo.cpp" />
+    <ClCompile Include="..\..\src\Logic\FX.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Audio.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Destruction.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\DotSceneLoader.cpp" />
@@ -148,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\Logic\AltarInfo.h" />
     <ClInclude Include="..\..\Src\Logic\BaseInfo.h" />
+    <ClInclude Include="..\..\src\Logic\FX.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Audio.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Destruction.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\DotSceneLoader.h" />

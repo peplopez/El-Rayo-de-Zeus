@@ -85,7 +85,8 @@ namespace Graphics
 	}
 
 	//--------------------------------------------------------
-
+	
+	// FRS Si ya estamos en la clase Camera, es redundante prefijar todos los métodos con "Camera"
 	const Quaternion &CCamera::getCameraOrientation() 
 	{
 		return _camera->getOrientation();

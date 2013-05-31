@@ -20,7 +20,7 @@ namespace Graphics
 	class CBillboard;
 }
 
-namespace Logicavnc
+namespace Logic
 {
 	class CMessage;
 }

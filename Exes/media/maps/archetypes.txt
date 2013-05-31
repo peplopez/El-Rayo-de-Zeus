@@ -256,7 +256,7 @@ Map = {
 		physicTrigger = true,
 		orbitalOffset = 0.013,
 		orbitalSpeed = 0.004,
-		orbitalRotationSpeed = 0.001,
+		orbitalRotationSpeed = 0.001,	
 	},
 	PUThrone = {
 		type = "PowerUp",
@@ -269,6 +269,7 @@ Map = {
 		orbitalOffset = 0.013,
 		orbitalSpeed = 0.004,
 		orbitalRotationSpeed = 0.001,
+		fxScript1 = "Blast.hfx",
 	},
 	PUPandora = {
 		type = "PowerUp",
@@ -294,6 +295,7 @@ Map = {
 		orbitalOffset = 0.013,
 		orbitalSpeed = 0.004,
 		orbitalRotationSpeed = 0.001,
+		fxScript1 = "TorchFire",
 	},
 	PUHourglass = {
 		type = "PowerUp",

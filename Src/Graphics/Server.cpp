@@ -25,8 +25,17 @@ la ventana, etc.
 
 #include <OgreRoot.h>
 #include <OgreRenderWindow.h>
-#include <OgreWindowEventUtilities.h>
 #include <OgreOverlayManager.h>
+#include <OgreWindowEventUtilities.h>
+
+
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "GRAPHICS::SERVER>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 namespace Graphics 
 {
@@ -85,6 +94,8 @@ namespace Graphics
 
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_renderWindow = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow();
+
+		_preloadHHFXTextures(); // Hell Heaven FX
 
 		//PT. Se carga el manager de overlays
 		_overlayManager = Ogre::OverlayManager::getSingletonPtr();
@@ -152,10 +163,6 @@ namespace Graphics
 
 	void CServer::removeScene(const std::string& name)
 	{
-		// UNDONE FRS Y para qué tenemos el acceso por índice [ ]?
-		/*CScene* scene = (*_scenes.find(name)).second;
-		removeScene(scene);*/
-
 		removeScene( _scenes[name] );
 	} // removeScene
 
@@ -246,5 +253,71 @@ namespace Graphics
 			_root->renderOneFrame(secs);
 		}
 	} // tick
+
+	
+	//-------------------------------------------------------------------------------------
+
+
+
+	/*********************
+		HELL HEAVEN FX
+	********************/
+
+	// HACK FRS Dar un repaso y evaluar si se están cargando de antes, si este es el lugar apropiado, etc
+	void CServer::_preloadHHFXTextures() 
+	{
+		/////////////////////////////////////////////////////////////////////////////////////////
+		// preload the distortion texture with hardware gamma correction
+		/////////////////////////////////////////////////////////////////////////////////////////
+
+		LOG("[HHFX] ---------- preload texture hardware gamma ----------");
+
+		// ok then, load all the textures in the HellHeaven resource group
+		std::string resourceGroup("HellHeaven");
+
+		Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+		Ogre::ResourceGroupManager::getSingleton().loadResourceGroup(resourceGroup);
+
+		Ogre::StringVectorPtr strVectorPtr = Ogre::ResourceGroupManager::getSingleton().listResourceNames(resourceGroup);
+
+		for (unsigned int i = 0; i < strVectorPtr->size(); ++i)
+		{
+			std::string texName = strVectorPtr->at(i);
+
+			try
+			{
+				LOG("[HHFX] Trying to load " << texName << " as texture...");
+
+				// should load all the textures with gamma correction 
+				// except the ones used for distortion post effect
+				if (!texName.compare("ParticleDeformBlur_01.dds") ||
+					!texName.compare("RainDeform_01.dds") ||
+					!texName.compare("RainDropsDeform_01.dds"))
+				{
+					Ogre::TexturePtr pTex = Ogre::TextureManager::getSingleton().load(
+																			texName, resourceGroup,
+																			Ogre::TEX_TYPE_2D, Ogre::MIP_DEFAULT,
+																			1.0f, false, Ogre::PF_UNKNOWN, false);
+				}
+				else
+				{
+					// gamma corrected
+					Ogre::TexturePtr pTex = Ogre::TextureManager::getSingleton().load(
+																			texName, resourceGroup,
+																			Ogre::TEX_TYPE_2D, Ogre::MIP_DEFAULT,
+																			1.0f, false, Ogre::PF_A8R8G8B8, true);
+				}
+			}
+			catch (Ogre::Exception e) // texture not loaded because it surely is not one
+			{
+				continue;
+			}
+		}
+
+		LOG("[HHFX] ---------- done ----------");
+	}
+
+
+
 
 } // namespace Graphics

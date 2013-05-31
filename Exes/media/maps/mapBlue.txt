@@ -26,12 +26,7 @@ Map ={
 	},
 	
 		
-	puApple1 = {
-		type = "PUApple",
-		base=2,
-		ring=0,
-		degrees=0,
-	},
+
 	puThrone1 = {
 		type = "PUThrone",
 		base=2,

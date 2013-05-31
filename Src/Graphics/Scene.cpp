@@ -16,30 +16,23 @@ de una escena.
 
 #include "Scene.h"
 
-#include "BaseSubsystems/Server.h"
-
-#include "Graphics/Light.h"
-#include "Graphics/Camera.h"
-#include "Graphics/Entity.h"
-#include "Graphics/GlowMaterialListener.h"
-//#include "Graphics/Server.h"
-#include "Graphics/SceneElement.h"
-
-#include "Logic/Server.h"
-
 #include <assert.h>
+#include <OgreRenderWindow.h>
 #include <OgreRoot.h>
 #include <OgreSceneManager.h>
-#include <OgreRenderWindow.h>
-#include <OgreViewport.h>
 #include <OgreStaticGeometry.h>
+#include <OgreViewport.h>
+#include <IHHFXPublic.h>
+
+#include <BaseSubsystems/Server.h>
 
 
-//#include <OgreColourValue.h>
+#include "Light.h"
+#include "Camera.h"
+#include "Entity.h"
+#include "GlowMaterialListener.h"
+#include "SceneElement.h"
 
-//PT
-//#include <OgreParticleSystem.h> // TODO FRS Por desvincular (al igual que billboardSet)
-//#include <OgreCompositorManager.h>
 
 
 namespace Graphics 
@@ -52,6 +45,8 @@ namespace Graphics
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
 		_camera = new CCamera(name,this);
 		_baseCamera = new CCamera("base" + name, this);
+
+		_initHHFXScene(); // Init Hell Heaven FX Scene
 	} // CScene
 
 	//--------------------------------------------------------
@@ -80,22 +75,22 @@ namespace Graphics
 
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
 
-		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Glow", true);
+		Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
+			comp->setEnabled(true);
 
 		GlowMaterialListener *gml = new GlowMaterialListener();
 		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
 
 		/* PRUEBAS PEP */
-		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "BW", false);
+		comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
+			comp->setEnabled(false);
 		
 		/** Bloom CACA */
 		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Bloom", false);
 		//Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Bloom", true);
 
-		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "RadialBlur", false);
+		comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
+			comp->setEnabled(false);
 		//BWMaterialListener *bwml = new BWMaterialListener();
 		//Ogre::MaterialManager::getSingletonPtr()->addListener(bwml);
 
@@ -105,6 +100,8 @@ namespace Graphics
 		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
 		//Sombras Chulas - Consumen mucho*/
 		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
+
+		_loadHHFXCompositors(); // Hell Heaven FX 
 
 	} // activate
 
@@ -177,7 +174,7 @@ namespace Graphics
 		SCENE ELEMENTS
 	************************/
 
-	//---------- GENERIC SCENE ELEMENTS (p.e. billboards, parcticles, etc)-----------
+	//---------- GENERIC SCENE ELEMENTS (p.e. billboards, particles, etc)-----------
 
 	bool CScene::add(CSceneElement* sceneElement) {		return sceneElement->attachToScene(this);	}
 	void CScene::remove(CSceneElement* sceneElement) {	sceneElement->detachFromScene();			} 
@@ -251,40 +248,43 @@ namespace Graphics
 		_lights.remove(light);
 	} // removeBillboard
 
-	//-------------------PARTICLES------------------
 
-	// TODO FRS quizá sea necesario temporizar las particulas sin padre para borrar su nodo
-	// TODO FRS estamos limitando a una partícula por entidad
 
-	// POS. RELATIVA (particulas hijas de otra entidad gráfica)
-	void CScene::createParticleSystem(const std::string& templateName, const std::string& parentEntity) 
+
+	/*********************
+		HELL HEAVEN FX
+	*********************/
+	void CScene::_initHHFXScene() 
 	{
-		assert( getSceneMgr()->hasSceneNode( parentEntity + "_node") && "No existe la entidad de referencia" ); 
+		// retrieve the HellHeaven's scene from an empty fx. for each Ogre::SceneManager a HHFXScene is associated.
+		Ogre::MovableObject	*dummyMO = _sceneMgr->createMovableObject("HHFX");
+			if (dummyMO) {	
+				_hhfxScene = &static_cast<IHHFXOgre*>(dummyMO)->GetHHFXScene();			
+				_sceneMgr->destroyMovableObject(dummyMO); // we got the hh scene, destroy the dummy effect
+			}
+			assert(_hhfxScene && "failed creating HHFxXScene !");	
+
+	
+		// bind the collision callback (i.e. used by Rain.hfx)
+//		m_hhfxScene->SetCollisionCallback(this, &_IntersectScene); TODO FRS
+//		_hhfxScene->SetWorldScale(kWorldFxScale); // ?? TODO const float	kWorldFxScale = 1.0f;
 				
-		_sceneMgr->getSceneNode( parentEntity + "_node")->attachObject( 
-			_sceneMgr->createParticleSystem(parentEntity + "_ps", templateName) // Suponemos un único PS por entidad
-		);
+		// load a pack
+		bool hhfxPackLoaded = _hhfxScene->GetHHFXBase().LoadPack("media/packs/hhfx", true); // TODO FRS Verifica que esto tenga que hacerse para cada hhfxScene y que Base no sea comun a todos
+		OgreAssert(hhfxPackLoaded, "hhfx pack did not load correctly or contains no effects !");
+		// HACK FRS Fix esto con un const o leyendolo de mapa
 	}
 
-	// POSICIÓN ABSOLUTA
-	void CScene::createParticleSystem(const std::string& templateName, const Vector3& position) 
-	{		 		
-		 _sceneMgr->getRootSceneNode()
-				->createChildSceneNode(position)
-				->attachObject( 
-			_sceneMgr->createParticleSystem("_ps", templateName)
-		);
+	//-------------------------------------------------------------------------------------
+
+	void CScene::_loadHHFXCompositors() 
+	{
+		// adding compositor for post fx
+		Ogre::CompositorInstance*	comp = Ogre::CompositorManager::getSingleton().addCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");
+			assert(comp && "[HHFX ERROR] Cannot load compositor Distortion !" );
+		//	comp->setEnabled(true);
 	}
 
-	// TODO FRS DestructorSi fuera necesario...
-		// Desvinculamos el sistema de partículas del nodo
-		/*
-		sceneNode->detachObject(pssmoke); 
-		// Destruimos el nodo
-		_sceneMgr->destroySceneNode(sceneNode); 
-		// Destruimos el sistema de partículas
-		_sceneMgr->destroyParticleSystem(pssmoke);
-		*/
 	
 
 } // namespace Graphics

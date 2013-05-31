@@ -179,6 +179,9 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\CMessageBoolFloatString.cpp">
       <Filter>Entity\Messages\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Logic\FX.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedGraphics.h">
@@ -372,6 +375,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloatString.h">
       <Filter>Entity\Messages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Logic\FX.h">
+      <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -22,6 +22,8 @@ de una escena.
 #include <list>
 
 // Predeclaración de clases para ahorrar tiempo de compilación
+class IHHFXScene;
+
 namespace Ogre 
 {
 	class Root;
@@ -84,7 +86,10 @@ namespace Graphics
 	*/
 	class CScene 
 	{
+
+
 	public:
+		
 
 		/**
 		Devuelve la cámara de la escena.
@@ -94,6 +99,9 @@ namespace Graphics
 		CCamera *getCamera() {return _camera;}
 
 		CCamera *getBaseCamera() {return _baseCamera;}
+
+		// Hell Heavens FX
+		IHHFXScene*	getHHFXScene() const { assert(_hhfxScene); return _hhfxScene; }
 
 		/**
 		Devuelve el nombre de la escena.
@@ -163,7 +171,7 @@ namespace Graphics
 		friend class CCamera;
 		friend class CSceneElement;
 		friend class CLight;
-		friend class Logic::CDotSceneLoader;
+		friend class Logic::CDotSceneLoader; // HACK FRS Logic???
 
 		/**
 		Nombre de la escena.
@@ -199,6 +207,9 @@ namespace Graphics
 		en la lógica del juego sería el mapa o nivel. 
 		*/
 		Ogre::SceneManager *_sceneMgr;
+
+		// Hell Heavens FX
+		IHHFXScene *_hhfxScene;
 
 
 		/***************
@@ -298,6 +309,9 @@ namespace Graphics
 		*/
 		Ogre::StaticGeometry *getStaticGeometry() { return _staticGeometry; }
 		
+		// Hell Heavens FX
+		void _initHHFXScene();
+		void _loadHHFXCompositors();
 
 	}; // class CScene
 

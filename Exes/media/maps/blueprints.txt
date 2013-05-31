@@ -8,5 +8,5 @@ Entity CGraphics
 Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CAttack CStateMachineExecutor CLife CPhysicalCharacter CAltarStateSwitcher CAudio CHud CDestruction
 AnimatedEntity CAnimatedGraphics CAvatarController CAttack CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CDestruction
 OtherPlayer CAnimatedGraphics CAvatarController CBaseTraveler CAttack CPhysicalCharacter CLifeModifier CStateMachineExecutor CLife CAltarStateSwitcher CBasicAI CDestruction CAudio 
-PowerUp CGraphics CPhysics CItem CFloatingMovement CLifeModifier CDestruction
+PowerUp CLifeModifier CDestruction CGraphics CSpecialEffects CPhysics CItem CFloatingMovement
 Light CLight
