@@ -1645,61 +1645,6 @@
         </StateImagery>
     </WidgetLook>
 	
-	
-<WidgetLook name="bbUI/HUD/HeatBar">
-        <Property name="ReversedProgress" value="True"/>
-		
-        <NamedArea name="ProgressArea">
-            <Area>
-                <Dim type="LeftEdge"> <AbsoluteDim value="0"/> </Dim>
-                <Dim type="TopEdge">  <AbsoluteDim value="0" /></Dim>
-                <Dim type="Width">    <UnifiedDim scale="1" type="Width"/> </Dim>
-                <Dim type="Height">   <UnifiedDim scale="1" type="Height"/> </Dim>
-            </Area>
-        </NamedArea>
-		
-        <ImagerySection name="bg">
-            <ImageryComponent>
-                <Area>
-                    <Dim type="LeftEdge"> <AbsoluteDim value="0"/>  </Dim>
-                    <Dim type="TopEdge"> <AbsoluteDim value="0" /> </Dim>
-                    <Dim type="Width">   <UnifiedDim scale="1" type="Width"/> </Dim>
-                    <Dim type="Height">  <UnifiedDim scale="1" type="Height"/></Dim>
-                </Area>
-                <Image imageset="bbHUD"  image="HeatBarBG"/>
-                <VertFormat type="TopAligned"/>
-                <HorzFormat type="CenterAligned"/>
-            </ImageryComponent>
-        </ImagerySection>
-		
-        <ImagerySection name="fg">
-            <ImageryComponent>
-                <Area>
-                    <Dim type="LeftEdge">  <AbsoluteDim value="0"/>  </Dim>
-                    <Dim type="TopEdge">   <AbsoluteDim value="0" /> </Dim>
-                    <Dim type="Width">     <UnifiedDim scale="1" type="Width"/> </Dim>
-                    <Dim type="Height">    <UnifiedDim scale="1" type="Height"/></Dim>
-                </Area>
-                <Image imageset="bbHUD"   image="HeatBarFG"/>
-                <VertFormat type="TopAligned"/>
-                <HorzFormat type="CenterAligned"/>
-            </ImageryComponent>
-        </ImagerySection>
-
-        <StateImagery name="Enabled">
-            <Layer>
-                <Section section="bg"/>
-            </Layer>
-        </StateImagery>
-        <StateImagery name="Disabled"/>
-		
-        <StateImagery name="EnabledProgress">
-            <Layer>
-                <Section section="fg"/>
-            </Layer>
-        </StateImagery>
-        <StateImagery name="DisabledProgress"/>
-    </WidgetLook>	
 
 <!--
 :::: Editbox

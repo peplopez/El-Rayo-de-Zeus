@@ -180,17 +180,32 @@ namespace Logic {
 		//PT creo la barra de progreso
 		CEGUI::ProgressBar *hbar = static_cast<CEGUI::ProgressBar*> (CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
 		float progress = hbar->getProgress();
-		unsigned short nummapas = mapList.size();
-		float step = (0.9f - progress) / nummapas;
+		int nummaps = mapList.size();
+		float step = (0.9f - progress) / nummaps;
+
+		int i = 1;
+		std::string texto = "";
 
 		for (; it != end; ++it)
 		{
 			_worldIsLoaded = loadMap(*it);
 			_mapNames.push_back(*it);
+
 			//PT
 			progress+= step;
 			hbar->setProgress(progress);
+
+			std::string result;
+			std::stringstream ss;
+			ss.clear();
+			ss << "Loading maps: " << i << " / " << nummaps;
+
+			result = ss.str();
+
+			CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/TextoProgreso")->setText(result);
 			Graphics::CServer::getSingletonPtr()->tick(0);
+
+			i++;
 		}	
 
   		mapList.clear();

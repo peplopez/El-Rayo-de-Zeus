@@ -9,7 +9,7 @@ Map ={
 		base=3,
 		ring=0,
 		degrees=120,
-		initialMaterial="marineGreen",
+		initialMaterial1="marineGreen",
 	},
 	
 	BaseCamera1 = {

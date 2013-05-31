@@ -6,7 +6,7 @@ function initMenuSingle()
 		GUI.Windows:loadWindowLayout("MenuSingle.layout")
 		menuSingle = GUI.Windows:getWindow("MenuSingle")
 		
-		menuSingleStatusWindow = menuSingle:getChild("MenuSingle/Status")
+		--menuSingleStatusWindow = menuSingle:getChild("MenuSingle/Status")
 
 	end
 end
@@ -54,7 +54,7 @@ function reloadMenuSingle()
 end
 
 function showError(msgError)
-	menuSingleStatusWindow:setProperty("AlwaysOnTop","True")
-    menuSingleStatusWindow:setProperty("Text",msgError)
-	menuSingleStatusWindow:setProperty("AlwaysOnTop","False")
+	--menuSingleStatusWindow:setProperty("AlwaysOnTop","True")
+    --menuSingleStatusWindow:setProperty("Text",msgError)
+	--menuSingleStatusWindow:setProperty("AlwaysOnTop","False")
 end
