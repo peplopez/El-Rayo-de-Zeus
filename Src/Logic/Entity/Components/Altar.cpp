@@ -32,7 +32,7 @@ capacidad de un Character de activar/desactivar altares
 #include "Application/BaseApplication.h"
 #include "../../../Application/GameState.h"
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "LOGIC::ALTAR>> " << msg << std::endl;

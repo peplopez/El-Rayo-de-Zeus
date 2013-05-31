@@ -25,7 +25,7 @@ para representar character controllers.
 #include "Physics/Actor.h"
 #include "Physics/ActorTrigger.h"
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "LOGIC::PHYSIC>> " << msg << std::endl;

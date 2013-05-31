@@ -23,6 +23,13 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Maps/Map.h"
 #include "Map/MapEntity.h"
 
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "LOGIC::FX>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 namespace Logic 
 {
@@ -117,12 +124,17 @@ namespace Logic
 	// HACK FRS Falta extraer un action o arg que indique el efecto específico (ahora solo tenemos uno)
 	void CFX::process(CMessage *message)
 	{
+		if(_psTable.empty())
+			return;
+
 		switch(message->getType())
 		{
 			case Message::FX_START:	
+				LOG("START");
 				_psTable.begin()->second->start();			
 				break;			
-			case Message::FX_STOP:
+			case Message::FX_STOP
+				LOG("STOP");
 				_psTable.begin()->second->stop();	
 				break;		
 		}

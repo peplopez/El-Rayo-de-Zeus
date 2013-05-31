@@ -31,7 +31,7 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/PlayerInfo.h"
 
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "LOGIC::PHYSIC_CHARACTER>> " << msg << std::endl;

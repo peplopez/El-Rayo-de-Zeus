@@ -99,27 +99,23 @@ Map ={
 		degrees=60,
 		ring=0,
 		base=1,	
-		fxScript1 = "BurnHit.hfx",	
-		fxPos1 = {0,4,0},
+		fxScript1 = "Blast.hfx",			
 	},
 	
 	Altar2 = {
 		type = "AltarRed",
 		degrees=180,
 		ring=0,
-		base=1,			
-		fxScript1 = "Smoke01.hfx",	
-		fxPos1 = {0,4,0},
+		base=1,		
+		fxScript1 = "ElectricOrb.hfx",	
 	},
 	
 	Altar3 = {
 		type = "AltarRed",
 		degrees=300,
 		ring=0,
-		base=1,	
-		fxScript1 = "Sparks.hfx",	
-		fxPos1 = {0,4,0},
-
+		base=1,		
+		fxScript1 = "Trails.hfx",	
 	},
 	
 	Altar4 = {

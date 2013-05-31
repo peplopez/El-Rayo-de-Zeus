@@ -35,7 +35,7 @@ gráfica de la entidad.
 #include "Logic/BaseInfo.h"
 #include "Logic/PlayerInfo.h"
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "LOGIC::BASE_TRAVELER>> " << msg << std::endl;

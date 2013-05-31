@@ -323,8 +323,9 @@ namespace Logic
 		bool anyReceiver = false;
 		TComponentVector::const_iterator it = _compoList.begin(); 	
 		TComponentVector::const_iterator end = _compoList.end(); 
-			for(; it != end && *it != emitter; ++it ) // Al emisor no se le envia el mensaje.				
-				anyReceiver = (*it)->set(message) || anyReceiver;			
+			for(; it != end; ++it ) // Al emisor no se le envia el mensaje.				
+				if(*it != emitter)
+					anyReceiver = (*it)->set(message) || anyReceiver;			
 
 		message->release();
 
