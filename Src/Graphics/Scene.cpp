@@ -17,15 +17,17 @@ de una escena.
 #include "Scene.h"
 
 #include <assert.h>
+
+#include <HHFX/IHHFXPublic.h>
+#include <HHFX/RendererSubView.h>
+
 #include <OgreRenderWindow.h>
 #include <OgreRoot.h>
 #include <OgreSceneManager.h>
 #include <OgreStaticGeometry.h>
 #include <OgreViewport.h>
-#include <IHHFXPublic.h>
 
 #include <BaseSubsystems/Server.h>
-
 
 #include "Light.h"
 #include "Camera.h"
@@ -254,25 +256,33 @@ namespace Graphics
 	/*********************
 		HELL HEAVEN FX
 	*********************/
+
 	void CScene::_initHHFXScene() 
 	{
+		// set the default visibility flag for all the movable objects, because we will use posts effects that 
+		// needs to filter objects for rendering
+		Ogre::MovableObject::setDefaultVisibilityFlags(1); // TODO mover a Graphics Server?
+
 		// retrieve the HellHeaven's scene from an empty fx. for each Ogre::SceneManager a HHFXScene is associated.
 		Ogre::MovableObject	*dummyMO = _sceneMgr->createMovableObject("HHFX");
 			if (dummyMO) {	
-				_hhfxScene = &static_cast<IHHFXOgre*>(dummyMO)->GetHHFXScene();			
+				_hhfxScene = &( static_cast<IHHFXOgre*>(dummyMO)->GetHHFXScene() );			
 				_sceneMgr->destroyMovableObject(dummyMO); // we got the hh scene, destroy the dummy effect
 			}
 			assert(_hhfxScene && "failed creating HHFxXScene !");	
+			
+							
+		// load a pack		
+		bool hhfxPackLoaded = _hhfxScene->GetHHFXBase().LoadPack("media/packs/hhfx", true); // TODO FRS Verifica que esto tenga que hacerse para cada hhfxScene y que Base no sea comun a todos
+		OgreAssert(hhfxPackLoaded, "hhfx pack did not load correctly or contains no effects !");
+		// TODO Esto solo hace falta la primera vez, el resto no vuelve a recargar el packete
+		// HACK FRS Fix esto con un const o leyendolo de mapa				
 
-	
 		// bind the collision callback (i.e. used by Rain.hfx)
 //		m_hhfxScene->SetCollisionCallback(this, &_IntersectScene); TODO FRS
 //		_hhfxScene->SetWorldScale(kWorldFxScale); // ?? TODO const float	kWorldFxScale = 1.0f;
-				
-		// load a pack
-		bool hhfxPackLoaded = _hhfxScene->GetHHFXBase().LoadPack("media/packs/hhfx", true); // TODO FRS Verifica que esto tenga que hacerse para cada hhfxScene y que Base no sea comun a todos
-		OgreAssert(hhfxPackLoaded, "hhfx pack did not load correctly or contains no effects !");
-		// HACK FRS Fix esto con un const o leyendolo de mapa
+
+		_root->addFrameListener(this);
 	}
 
 	//-------------------------------------------------------------------------------------
@@ -283,6 +293,36 @@ namespace Graphics
 		Ogre::CompositorInstance*	comp = Ogre::CompositorManager::getSingleton().addCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");
 			assert(comp && "[HHFX ERROR] Cannot load compositor Distortion !" );
 		//	comp->setEnabled(true);
+	}
+
+
+	//-----------FRAME LISTENER IMPL--------------------------------------------------------------------------
+
+	bool CScene::frameStarted(const Ogre::FrameEvent& evt)
+	{
+		_hhfxScene->Update(evt.timeSinceLastFrame); // update the hhfx scene
+		return true;
+	}
+
+	//-------------------------------------------------------------------------------------
+
+	bool CScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
+	{	
+		const Vector3& camPos = _camera->getCameraPosition();
+		const Quaternion& camOri = _camera->getCameraOrientation();
+
+		Matrix4 worldTransforms;
+			worldTransforms.makeTransform(camPos, Vector3::UNIT_SCALE, camOri);
+			worldTransforms = worldTransforms.transpose(); // FRS Transformación de cámara se aplica con la M transpuesta
+
+		HellHeaven::CRendererSubView view; // setting render params for the particles renderers
+			view.setHHFXScene(*_hhfxScene);
+			view.setViewMatrix(worldTransforms);
+			view.setSceneManager(*_sceneMgr);
+
+		_hhfxScene->Render(view, camPos);
+
+		return  true;
 	}
 
 	

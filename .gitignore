@@ -171,7 +171,7 @@ DocumentacionDoxygen/
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++bin/premake.lua
 !/dependencies/include/enet/
 !/dependencies/include/fmod/
-!/dependencies/include/IHHFXPublic.h
+!/dependencies/include/hhfx/
 !/dependencies/lib/*/enet.lib
 !/dependencies/lib/*/fmodex_vc.lib
 

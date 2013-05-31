@@ -17,7 +17,8 @@ de una escena.
 #ifndef __Graphics_Scene_H
 #define __Graphics_Scene_H
 
-#include "BaseSubsystems/Math.h"
+#include <BaseSubsystems/Math.h>
+#include <OgreFrameListener.h>
 
 #include <list>
 
@@ -84,7 +85,7 @@ namespace Graphics
 	@author David Llansó
 	@date Julio, 2010
 	*/
-	class CScene 
+	class CScene  :  public Ogre::FrameListener
 	{
 
 
@@ -159,6 +160,14 @@ namespace Graphics
 		Desactivar compositor, pensado para el de blanco y negro sobre todo. También RadialBlur
 		*/
 		void deactivateCompositor(std::string name);
+
+
+		/*************************
+			FRAME LISTENER (HHFX)
+		**************************/
+		bool frameStarted(const Ogre::FrameEvent& evt);
+		bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+
 
 	protected:
 

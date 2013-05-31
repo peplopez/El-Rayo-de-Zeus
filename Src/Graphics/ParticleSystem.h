@@ -16,7 +16,7 @@ Contiene la declaración de la clase que maneja el ParticleSystem.
 #ifndef __Graphics_ParticleSystem_H
 #define __Graphics_ParticleSystem_H
 
-#include <IHHFXPublic.h>
+#include <HHFX/IHHFXPublic.h>
 
 #include "SceneElement.h"
 
@@ -61,8 +61,8 @@ namespace Graphics
 		
 
 		//-------- SceneElement implementation --------------
-		bool				load()		override; 
-		void				unload()	override;
+		bool				load(); 
+		void				unload();
 
 
 		/*********************
@@ -71,8 +71,8 @@ namespace Graphics
 		IHHFXOgre*			_movObj;	// Sistema de particulas (movable object)		
 	
 		//--------- IHHFX::IFXListener implementation -------------------
-		void				OnFXStarted(IHHFX *obj) override;
-		void				OnFXStopped(IHHFX *obj) override;
+		void				OnFXStarted(IHHFX *obj);
+		void				OnFXStopped(IHHFX *obj);
 
 
 	//	static bool					_IntersectScene(void *arg, const Ogre::Vector3 &start, const Ogre::Vector3 &direction, float length, SContactReport &contactReport);
