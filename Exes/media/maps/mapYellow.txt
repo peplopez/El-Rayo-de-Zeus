@@ -55,7 +55,7 @@ Map ={
 		shape="box",
 		physicHalfWidth = 190,
 		physicHalfHeight = 1,
-		physicBodyOffset = -2,
+		physicBodyOffset = -1.9,
 	},
 	
 	CenterRing = {
@@ -66,7 +66,7 @@ Map ={
 		shape="box",
 		physicHalfWidth = 190,
 		physicHalfHeight = 1,
-		physicBodyOffset = -2,
+		physicBodyOffset = -1.9,
 	},
 	
 	UpperRing = {
@@ -77,7 +77,7 @@ Map ={
 		shape="box",
 		physicHalfWidth = 190,
 		physicHalfHeight = 1,
-		physicBodyOffset = -2,
+		physicBodyOffset = -1.9,
 	},
 	
 	Altar1 = {

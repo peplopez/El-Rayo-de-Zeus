@@ -146,8 +146,13 @@ namespace Logic
 		*/
 		CEntity *_target;
 
-		//Vector3 _targetInmovil;
+		/*
+		*/
 		Vector3 _currentPos;
+
+		/*
+		*/
+		Vector3 _currentTargetPos;
 
 		/**
 		Distancia de la cámara respecto a la entidad objetivo. Es distancia

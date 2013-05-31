@@ -1,5 +1,10 @@
 Map ={
 	
+	hadesScene = {
+		type = "Scene",
+		sceneFile = "hadesScene.scene",
+	},
+	
 	Camera = {
 		type = "PlayerCamera",
 	},
@@ -10,6 +15,7 @@ Map ={
 	
 	SkySphere = {
 		type = "SkySphere",
+		material = "skyHades",
 	},
 	
 	GemeloBlue = {
@@ -59,33 +65,36 @@ Map ={
 		type = "World",
 		base=2,
 		ring=0,
+		model = "lower_ring.mesh",
 		physicType = "static",
 		shape="box",
 		physicHalfWidth = 190,
 		physicHalfHeight = 1,
-		physicBodyOffset = -2,
+		physicBodyOffset = -1.9,
 	},
 	
 	CenterRing = {
 		type = "World",
 		base=2,
 		ring=1,
+		model = "central_ring.mesh",
 		physicType = "static",
 		shape="box",
 		physicHalfWidth = 190,
 		physicHalfHeight = 1,
-		physicBodyOffset = -2,
+		physicBodyOffset = -1.9,
 	},
 	
 	UpperRing = {
 		type = "World",
 		base=2,
 		ring=2,
+		model = "upper_ring.mesh",
 		physicType = "static",
 		shape="box",
 		physicHalfWidth = 190,
 		physicHalfHeight = 1,
-		physicBodyOffset = -2,
+		physicBodyOffset = -1.9,
 	},
 	
 	Altar1 = {

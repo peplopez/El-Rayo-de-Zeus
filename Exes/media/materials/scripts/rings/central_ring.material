@@ -1,0 +1,93 @@
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+material anillaco2 : base_material
+{
+	set_texture_alias diffuseMap rocaanillopart_2.tga
+    set_texture_alias normalMap ani_roto_NM.tga
+ 
+	set $diffuseCol "1 1 1"
+    set $specularCol "0.85185 0.85185 0.85185 1"
+	set $shininess "70.7861" 
+
+}
+
+
+
+material cintoani : base_material
+{	
+	set_texture_alias diffuseMap anipartalt_DIFU.tif
+    set_texture_alias normalMap anipartalt_NM.tga
+	
+	set $diffuseCol "1 1 1"
+    set $specularCol "0.822217 0.822217 0.822217 1"
+    set $shininess "103.858" 
+}
+
+
+
+material hierba
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0 0 0 1 97.5741
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture hierba2dtif.tif
+			}
+		}
+
+	}
+
+}
+
+
+
+material hojaseto
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0.269139 0.269139 0.269139 1 128
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture BoxwoodLeaves_2.tga
+			}
+		}
+
+	}
+
+}
+
+
+
+material ramitaseto
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0.5 0.5 0.5 1 128
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture Branches_03.tga
+			}
+		}
+
+	}
+
+}

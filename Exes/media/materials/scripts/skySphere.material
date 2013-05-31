@@ -13,3 +13,19 @@ material sky
 	}
 
 }
+
+material skyHades
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture hades-panorama_022.jpg
+			}
+		}
+
+	}
+
+}

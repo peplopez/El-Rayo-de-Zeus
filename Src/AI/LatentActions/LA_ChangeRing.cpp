@@ -27,7 +27,7 @@ namespace AI
 	CLatentAction::LAStatus CLA_ChangeRing::OnStart()
 	{				
 		_changeDone = false;
-		_initialJumpSpeed = (_action == Message::GO_DOWN ? 100 : 320); //elocidad de salto inicial en caso de dejarse caer o saltar arriba
+		_initialJumpSpeed = (_action == Message::GO_DOWN ? 100 : 420); //elocidad de salto inicial en caso de dejarse caer o saltar arriba
 		_initialRing = _entity->getLogicalPosition()->getRing();
 		_jumpSpeed = _initialJumpSpeed;
 		_jumpDecay =(_action == Message::GO_DOWN ? 400 : 570);

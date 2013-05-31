@@ -1,0 +1,50 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="100" unitType="centimeters" minOgreVersion="1.7" ogreMaxVersion="2.4.4" author="OgreMax Scene Exporter (www.ogremax.com)" application="Maya">
+    <environment>
+        <colourAmbient r="0.329412" g="0.329412" b="0.329412" />
+        <colourBackground r="0" g="0" b="0" />
+        <clipping near="0" far="100000" />
+    </environment>
+    <nodes>
+        <node name="magma1">
+            <position x="0" y="0" z="0" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <entity name="magma1" castShadows="true" receiveShadows="true" meshFile="magma1.mesh">
+                <subentities>
+                    <subentity index="0" materialName="magma" renderQueuePriority="1139775504" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="locator1">
+            <position x="0" y="-40" z="0" />
+            <scale x="1" y="1" z="1" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <node name="escenario">
+                <position x="0" y="0" z="0" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="escenario" castShadows="true" receiveShadows="true" meshFile="escenario.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="cartelhades" renderQueuePriority="765603968" />
+                        <subentity index="1" materialName="piedrolos" renderQueuePriority="765603968" />
+                        <subentity index="2" materialName="rocaplanadesfiladero" renderQueuePriority="765603968" />
+                        <subentity index="3" materialName="desfiladero_roca" renderQueuePriority="765603968" />
+                        <subentity index="4" materialName="piedrolo5blinn3SG" renderQueuePriority="765603968" />
+                        <subentity index="5" materialName="cascadLAVAaPart2" renderQueuePriority="765603968" />
+                        <subentity index="6" materialName="cascadaLAVAPart1" renderQueuePriority="765603968" />
+                    </subentities>
+                </entity>
+            </node>
+            <node name="esqueletos">
+                <position x="0" y="0" z="0" />
+                <scale x="1" y="1" z="1" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="esqueletos" castShadows="true" receiveShadows="true" meshFile="esqueletos.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="esqueleto" renderQueuePriority="1149587472" />
+                    </subentities>
+                </entity>
+            </node>
+        </node>
+    </nodes>
+</scene>

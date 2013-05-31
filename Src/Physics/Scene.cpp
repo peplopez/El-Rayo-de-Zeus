@@ -143,11 +143,11 @@ namespace Physics
 	void CScene::CreateWorldEdges()
 	{
 
-		CActor* leftWorldEdge = new CActor(180, -100, Logic::Ring::CENTRAL_RING, "static", 0);
-		CActor* rightWorldEdge = new CActor(-180, -100, Logic::Ring::CENTRAL_RING, "static", 0);
+		CActor* leftWorldEdge = new CActor(180, -150, Logic::Ring::CENTRAL_RING, "static", 0);
+		CActor* rightWorldEdge = new CActor(-180, -150, Logic::Ring::CENTRAL_RING, "static", 0);
 
-		leftWorldEdge->createFixture(3, 100, 0, 0, 0, true);
-		rightWorldEdge->createFixture(3, 100, 0, 0, 0, true);
+		leftWorldEdge->createFixture(3, 150, 0, 0, 0, true);
+		rightWorldEdge->createFixture(3, 150, 0, 0, 0, true);
 
 		leftWorldEdge->attachToScene(this);
 		rightWorldEdge->attachToScene(this);

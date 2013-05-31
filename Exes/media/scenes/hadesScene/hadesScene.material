@@ -1,0 +1,106 @@
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+
+material esqueleto : base_material
+{
+	set_texture_alias diffuseMap bones_colspec.tga
+	set_texture_alias normalMap bones_norms.tga
+	set_texture_alias specMap bones_spec.tga
+	
+	set $diffuseCol "1 1 1"
+    set $specularCol "0 0 0 1"
+	set $shininess "89.6" 
+
+}
+
+material rocaplanadesfiladero : base_material
+{
+	set_texture_alias diffuseMap Rock2_D.tga
+	set_texture_alias normalMap Rock_N.tga
+	set_texture_alias specMap Rock2_D.tga
+	
+	set $diffuseCol "1 1 1"
+    set $specularCol "0.455283 0.455283 0.455283 1"
+	set $shininess "54.1212" 
+}
+
+material cartelhades
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0.3252 0.3252 0.3252 1 128
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture hadesland.png
+			}
+		}
+
+	}
+
+}
+
+material cascadaLAVAPart1
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.4 0.4 0.4 1
+			specular 0 0 0 1 55.168
+
+			texture_unit
+			{
+				texture lava-texture.tga
+			}
+		}
+
+	}
+
+}
+
+material cascadLAVAaPart2
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.4 0.4 0.4 1
+			specular 0 0 0 1 55.1618
+
+			texture_unit
+			{
+				texture lava-texture.tga
+			}
+		}
+
+	}
+
+}
+
+material magma
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0.5 0.5 0.5 1 89.6
+
+			texture_unit
+			{
+				texture lava-texture.tga
+			}
+		}
+
+	}
+
+}
+
+
+

@@ -1,0 +1,166 @@
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+
+
+material espartano_nuevoshuesos_pesadocompletocuerpo1 : base_material
+{
+
+	set_texture_alias diffuseMap spartanBodyG_wounds_DF.tga
+    set_texture_alias normalMap spartanBody_NM.tga
+	set_texture_alias specMap spartanBody_SPC.tga
+	
+	set $diffuseCol "1 1 1"
+    set $specularCol "0 0 0 1 "
+	set $shininess "1.34526" 
+
+}
+
+material arbolhojas
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0.390127 0.390127 0.390127 1 128
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture BoxwoodLeaves_2.tga
+			}
+		}
+
+	}
+
+}
+
+material agua
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			diffuse 0.30103 0.420462 0.456794 1
+			specular 0.461723 0.461723 0.461723 1 100.22
+			scene_blend add
+
+			texture_unit
+			{
+				colour_op_ex blend_manual src_manual src_current 0.597528 1 1 1
+				colour_op_multipass_fallback dest_colour zero
+				alpha_op_ex source1 src_manual src_current 0.597528
+			}
+		}
+
+	}
+
+}
+
+material arbolramas
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0.5 0.5 0.5 1 128
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture Branches_03.tga
+			}
+		}
+
+	}
+
+}
+
+
+material cortearbol
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0.5 0.5 0.5 1 107.826
+
+			texture_unit
+			{
+				texture Cap_01.tga
+			}
+		}
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
+material hojasarbol2
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0.192599 0.192599 0.192599 1 128
+			scene_blend alpha_blend
+
+			texture_unit
+			{
+				texture BoxwoodLeaves_3.tga
+			}
+		}
+
+	}
+
+}
+
+
+
+
+material lambert1
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			diffuse 0.5 0.5 0.5 1
+		}
+
+	}
+
+}
+
+
+material troncoarbol
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 1
+			specular 0.187655 0.187655 0.187655 1 74.7547
+
+			texture_unit
+			{
+				texture BoxwoodBark.tga
+			}
+		}
+
+	}
+
+}

@@ -80,14 +80,9 @@ namespace Logic
 		
 		Vector3 initialScale = Vector3::UNIT_SCALE;
 
-	// HACK FRS Esto lo suyo es que el modelo ya lo traiga , no?
-	// o meter la escala como vector en el map
-		if(_entity->getType() == "World"
-			&& _entity->getLogicalPosition()->getRing() == LogicalPosition::CENTRAL_RING)
-			initialScale = Vector3(1.3f,1.0f,1.3f);
-	//
 
-		else if(entityInfo->hasAttribute("initialScale") )
+
+		if(entityInfo->hasAttribute("initialScale") )
 			initialScale *=  entityInfo->getFloatAttribute("initialScale");
 			
 		if(entityInfo->hasAttribute("material"))

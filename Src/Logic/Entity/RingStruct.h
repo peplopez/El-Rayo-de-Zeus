@@ -24,8 +24,8 @@ namespace Logic
 {	
 	//si queremos, estas tres constantes pueden ser parametros de entrada
 	// pero al ser algo que no se va a cambiar frecuentemente no hace falta
-	const Vector3 separationBetweenRings = Vector3(0,50,0);
-	const Vector3 startingRingPosition = Vector3(0,-50,0);
+	const Vector3 separationBetweenRings = Vector3(0,100,0);
+	const Vector3 startingRingPosition = Vector3(0,-100,0);
 
 	const unsigned short RADIO_MAYOR = 73;
 	const unsigned short RADIO_MENOR = 58;

@@ -10,7 +10,7 @@ Map = {
 		physicTrigger = true,
 		shape = "box",
 		physicHalfWidth = 4,
-		physicHalfHeight = 4,	
+		physicHalfHeight = 4,		
 	},
 
 	AltarBlue = {
@@ -25,7 +25,7 @@ Map = {
 		physicTrigger = true,
 		shape = "box",
 		physicHalfWidth = 4,
-		physicHalfHeight = 4,
+		physicHalfHeight = 4,	
 	},
 	
 	AltarGreen = {
@@ -40,7 +40,7 @@ Map = {
 		physicTrigger = true,
 		shape = "box",
 		physicHalfWidth = 4,
-		physicHalfHeight = 4,
+		physicHalfHeight = 4,	
 	},
 
 	AltarYellow = {
@@ -75,8 +75,8 @@ Map = {
 	
 	PlayerCamera = {
 		type = "Camera",
-		distance = 200,
-		height = 13,
+		distance = 250,
+		height = 30,
 		targetDistance =6,
 		targetHeight = 7,
 		cameraSpeed = 1.5,

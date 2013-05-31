@@ -45,10 +45,10 @@ namespace Physics
 			_bodyDef->position.Set(degree * PHYSIC_DOWNSCALE, height * PHYSIC_DOWNSCALE);
 			break;
 		case Logic::Ring::LOWER_RING:
-			_bodyDef->position.Set(degree * PHYSIC_DOWNSCALE, height * PHYSIC_DOWNSCALE - 50 * PHYSIC_DOWNSCALE);
+			_bodyDef->position.Set(degree * PHYSIC_DOWNSCALE, height * PHYSIC_DOWNSCALE - 100 * PHYSIC_DOWNSCALE);
 			break;
 		case Logic::Ring::UPPER_RING:
-			_bodyDef->position.Set(degree * PHYSIC_DOWNSCALE, height * PHYSIC_DOWNSCALE + 50 * PHYSIC_DOWNSCALE);
+			_bodyDef->position.Set(degree * PHYSIC_DOWNSCALE, height * PHYSIC_DOWNSCALE + 100 * PHYSIC_DOWNSCALE);
 			break;
 		}
 
@@ -289,14 +289,14 @@ namespace Physics
 		pos.setDegree(_body->GetPosition().x * PHYSIC_UPSCALE);
 		
 		float height = _body->GetPosition().y * PHYSIC_UPSCALE - _heightCorrection * PHYSIC_UPSCALE;
-		if (height > 50)
+		if (height > 100)
 		{
-			pos.setHeight(height - 50);
+			pos.setHeight(height - 100);
 			pos.setRing(Logic::Ring::UPPER_RING);
 		}
 		else if (height < 0)
 		{
-			pos.setHeight(height + 50);
+			pos.setHeight(height + 100);
 			pos.setRing(Logic::Ring::LOWER_RING);
 		}
 
