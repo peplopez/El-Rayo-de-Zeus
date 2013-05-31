@@ -3,7 +3,7 @@ Scene CDotSceneLoader
 Camera CCamera
 BaseCamera CBaseCamera
 SkyBox CGraphics
-Altar CGraphics CPhysics CAltar CDestruction
+Altar CGraphics CPhysics CAltar CDestruction CFX
 Entity CGraphics
 Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CAttack CStateMachineExecutor CLife CPhysicalCharacter CAltarStateSwitcher CAudio CHud CDestruction CFX
 AnimatedEntity CAnimatedGraphics CAvatarController CAttack CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CDestruction

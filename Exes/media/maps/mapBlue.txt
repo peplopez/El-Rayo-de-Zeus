@@ -69,14 +69,14 @@ Map ={
 		type = "AltarBlue",
 		degrees=60,
 		ring=0,
-		base=2,	
+		base=2,			
 	},
 	
 	Altar2 = {
 		type = "AltarBlue",
 		degrees=180,
 		ring=0,
-		base=2,		
+		base=2,						
 	},
 	
 	Altar3 = {
@@ -84,6 +84,7 @@ Map ={
 		degrees=300,
 		ring=0,
 		base=2,		
+			
 	},
 	
 	Altar4 = {
@@ -91,6 +92,7 @@ Map ={
 		degrees=36,
 		ring=1,
 		base=2,		
+		
 	},
 	
 	Altar5 = {

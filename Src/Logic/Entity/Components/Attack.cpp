@@ -157,6 +157,12 @@ namespace Logic
 		_heavyAttack=false;
 		_lightAttack=true;
 
+///////////// HACK TEST FRS Para probar FX
+		CMessage *txMsg = new CMessage();	
+			txMsg->setType(Message::FX_START);
+			_entity->emitMessage(txMsg,this);
+////////////////////
+
 
 	} // turn
 

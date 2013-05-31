@@ -81,7 +81,7 @@ namespace Logic
 			//poner el submaterial de los altares desactivados de inicio
 			_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
 		
-if (_on)
+		if (_on)
 				{
 					LOG(_entity->getName() << ": activado")
 					CMessageUIntString *m = new CMessageUIntString();	
@@ -90,7 +90,14 @@ if (_on)
 					m->setUInt(0);
 					_entity->emitMessage(m,this);
 					//_gameStatus->getPlayer(_entity->getLogicalPosition()->getBase())->increaseAltarsActivated();
-				
+					
+
+///////////// HACK TEST FRS Para probar FX
+		CMessage *txMsg = new CMessage();	
+			txMsg->setType(Message::FX_START);
+			_entity->emitMessage(txMsg,this);
+////////////////////
+
 				if (_player!=NULL)		
 					{
 					//aviso a _gameStatus

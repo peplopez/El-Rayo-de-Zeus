@@ -99,27 +99,30 @@ Map ={
 		degrees=60,
 		ring=0,
 		base=1,	
+		fxScript1 = "TorchFire.hfx",	
+		fxPos1 = {0,5,0},
 	},
 	
 	Altar2 = {
 		type = "AltarRed",
 		degrees=180,
 		ring=0,
-		base=1,		
+		base=1,			
 	},
 	
 	Altar3 = {
 		type = "AltarRed",
 		degrees=300,
 		ring=0,
-		base=1,		
+		base=1,	
+
 	},
 	
 	Altar4 = {
 		type = "AltarRed",
 		degrees=36,
 		ring=1,
-		base=1,		
+		base=1,	
 	},
 	
 	Altar5 = {

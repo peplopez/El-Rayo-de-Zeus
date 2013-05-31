@@ -39,31 +39,32 @@ namespace Graphics
 
 
 	/**********************
-		-- LISTENER
+		HHFX LISTENER
 	***********************/
 
+	// TODO revisar
 	void CParticleSystem::OnFXStarted(IHHFX* obj)
 	{
-		//// create a light under the ElectricOrb effect
-		//if (strstr(obj->GetPath(), "ElectricOrb.hfx") != NULL)
-		//{
-		//	IHHFXOgre* fx = static_cast<IHHFXOgre*>(obj);
-		//	const Vector3& fxPosition = fx->getParentSceneNode()->getPosition();
+		// create a light under the ElectricOrb effect
+		if (strstr(obj->GetPath(), "ElectricOrb.hfx") != NULL)
+		{
+			IHHFXOgre* fx = static_cast<IHHFXOgre*>(obj);
+			const Vector3& fxPosition = fx->getParentSceneNode()->getPosition();
 
-		//	Light* pointLight = mSceneMgr->createLight("pointLight" + StringConverter::toString((unsigned int)(obj)));
-		//	pointLight->setType(Light::LT_POINT);
-		//	pointLight->setPosition(fxPosition + Vector3::UNIT_Y * 0.8f);
-		//	pointLight->setDiffuseColour(0.1f, 0.1f, 1.0f);
-		//	pointLight->setSpecularColour(0.8f, 0.8f, 1.0f);
-		//}
+			Ogre::Light* pointLight = getSceneMgr()->createLight("pointLight" + Ogre::StringConverter::toString((unsigned int)(obj)));
+			pointLight->setType(Ogre::Light::LT_POINT);
+			pointLight->setPosition(fxPosition + Vector3::UNIT_Y * 0.8f);
+			pointLight->setDiffuseColour(0.1f, 0.1f, 1.0f);
+			pointLight->setSpecularColour(0.8f, 0.8f, 1.0f);
+		}
 	}
 
 	// called when an effect stopped by itself or when the hhfx scene is cleared
 	void CParticleSystem::OnFXStopped(IHHFX* obj)
 	{
 		//// destroy the light created under ElectricOrb
-		//if (strstr(obj->GetPath(), "ElectricOrb.hfx") != NULL)
-		//	mSceneMgr->destroyLight("pointLight" + StringConverter::toString((unsigned int)(obj)));
+		if (strstr(obj->GetPath(), "ElectricOrb.hfx") != NULL)
+			getSceneMgr()->destroyLight("pointLight" + Ogre::StringConverter::toString((unsigned int)(obj)));
 	}
 
 
@@ -81,7 +82,7 @@ namespace Graphics
 			Ogre::NameValuePairList params;
 				params["pack"] =  _scene->getHHFXScene()->GetHHFXBase().GetHHFXPackExplorer().GetPack();
 				params["fx"] =  "HBO/Entities/Particles/" + _hfx; // TODO FRS Hardcodear el path así solo si siempre va a ser el mismo	
-	params["run"] = "yes";
+	
 			// spawn a new effect at this location
 			Ogre::MovableObject	*mo = getSceneMgr()->createMovableObject("HHFX", &params);
 			assert(mo && "Error al crear ParticleSystem");	
@@ -110,6 +111,8 @@ namespace Graphics
 		} catch(std::exception e){
 			_loaded = false;
 		}
+
+		_movObj->RunFX();
 
 		return _loaded;		
 	} // load
