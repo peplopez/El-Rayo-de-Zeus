@@ -83,6 +83,8 @@ namespace Graphics
 				params["pack"] =  _scene->getHHFXScene()->GetHHFXBase().GetHHFXPackExplorer().GetPack();
 				params["fx"] =  "HBO/Entities/Particles/" + _hfx; // TODO FRS Hardcodear el path así solo si siempre va a ser el mismo	
 	
+				params["run"] = "yes"; // HACK
+
 			// spawn a new effect at this location
 			Ogre::MovableObject	*mo = getSceneMgr()->createMovableObject("HHFX", &params);
 			assert(mo && "Error al crear ParticleSystem");	
@@ -102,7 +104,7 @@ namespace Graphics
 
 		    // create a node to attach the effect
 			_node = getSceneMgr()->getSceneNode( _parentName + "_node")
-								->createChildSceneNode(_parentName + "_nodePS", _relativePos, orientation);
+								->createChildSceneNode(_parentName + "_nodePS", _relativePos, orientation );
 				_node->attachObject(_movObj);
 			// HACK FRS estamos limitando a una partícula por entidad -> ver attachs
 							
