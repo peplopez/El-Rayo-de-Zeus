@@ -68,8 +68,8 @@ Map = {
 	
 	BaseCamera1 = {
 		type = "BaseCamera",
-		radius = 400,
-		height = 50,
+		radius = 500,
+		height = 100,
 		angularspeed = 20,
 	},
 	
