@@ -112,8 +112,6 @@ namespace Graphics
 			_loaded = false;
 		}
 
-		_movObj->RunFX();
-
 		return _loaded;		
 	} // load
 	

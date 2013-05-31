@@ -90,14 +90,7 @@ namespace Logic
 					m->setUInt(0);
 					_entity->emitMessage(m,this);
 					//_gameStatus->getPlayer(_entity->getLogicalPosition()->getBase())->increaseAltarsActivated();
-					
-
-///////////// HACK TEST FRS Para probar FX
-		CMessage *txMsg = new CMessage();	
-			txMsg->setType(Message::FX_START);
-			_entity->emitMessage(txMsg,this);
-////////////////////
-
+			
 				if (_player!=NULL)		
 					{
 					//aviso a _gameStatus
@@ -215,6 +208,12 @@ namespace Logic
 					_entity->emitMessage(m,this);
 					//_gameStatus->getPlayer(_entity->getLogicalPosition()->getBase())->increaseAltarsActivated();
 				
+///////////// HACK TEST FRS Para probar FX
+		CMessage *txMsg = new CMessage();	
+			txMsg->setType(Message::FX_START);
+			_entity->emitMessage(txMsg,this);
+////////////////////
+
 				if (_player!=NULL)		
 					{
 					//aviso a _gameStatus
@@ -242,6 +241,13 @@ namespace Logic
 						m2->setString(_entity->getName());
 						_player->emitMessage(m2,this);
 					}
+
+
+///////////// HACK TEST FRS Para probar FX
+		CMessage *txMsg = new CMessage();	
+			txMsg->setType(Message::FX_STOP);
+			_entity->emitMessage(txMsg,this);
+////////////////////
 				}
 				_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
 				_acumTime = _switchingTime;
