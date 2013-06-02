@@ -116,6 +116,7 @@ namespace Logic
 	//PT
 	unsigned short CGameStatus::getEnemiesInBase(unsigned short base)
 	{
+		//set enemies number 0 before calculating it
 		_enemies = 0;
 
 		for(std::vector<CPlayerInfo*>::iterator itPlayers = _players.begin();
@@ -126,8 +127,8 @@ namespace Logic
 			//para evitar el primer player que no es nadie
 			if(player->getPlayer() != NULL)
 			{
-				// Si el player no soy yo, y el player esta en mi base, y ese player
-				// no esta muerto aumento el numero de players enemigos
+				// If player its not me and player is in my base
+				//and that player is not dead, it is added enemies number
 				if( (!player->inMyBase()) &&  (player->inBase(base)) && (player->getLife() > 0) )
 					_enemies++;
 
