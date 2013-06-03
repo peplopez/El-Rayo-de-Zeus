@@ -37,6 +37,7 @@ namespace GUI{
 	CInputManager::CInputManager() :
 		_mouse(0),
 		_keyboard(0),
+		_joystick(0),
 		_inputSystem(0)
 	{
 		assert(!_instance && "¡Segunda inicialización de GUI::CInputManager no permitida!");
@@ -104,6 +105,10 @@ namespace GUI{
 		if(_mouse)
 			_mouse->setEventCallback(this);
 
+		_joystick = BaseSubsystems::CServer::getSingletonPtr()->getBufferedJoystick();
+		if(_joystick)
+			_joystick->setEventCallback(this);
+
 		return true;
 
 	} // open
@@ -115,6 +120,7 @@ namespace GUI{
 		// No somos responsables de la destrucción de los objetos.
 		_mouse = 0;
 		_keyboard = 0;
+		_joystick = 0;
 		_inputSystem = 0;
 
 	} // close
@@ -130,6 +136,10 @@ namespace GUI{
 
 		if(_keyboard) {
 			_keyboard->capture();
+		}
+
+		if(_joystick) {
+			_joystick->capture();
 		}
 
 	} // capture
@@ -154,6 +164,15 @@ namespace GUI{
 
 	//--------------------------------------------------------
 
+	void CInputManager::addJoystickListener(CJoystickListener *joystickListener) 
+	{
+		if(_joystick)
+			_joystickListeners.push_front(joystickListener);
+		
+	} // addJoystickListener
+
+	//--------------------------------------------------------
+
 	void CInputManager::removeKeyListener(CKeyboardListener *keyListener) 
 	{
 		_keyListeners.remove(keyListener);
@@ -170,10 +189,19 @@ namespace GUI{
 
 	//--------------------------------------------------------
 
+	void CInputManager::removeJoystickListener(CJoystickListener *joystickListener) 
+	{
+		_joystickListeners.remove(joystickListener);
+
+	} // removeJoystickListener
+
+	//--------------------------------------------------------
+
 	void CInputManager::removeAllListeners() 
 	{
 		_keyListeners.clear();
 		_mouseListeners.clear();
+		_joystickListeners.clear();
 
 	} // removeAllListeners
 
@@ -192,6 +220,14 @@ namespace GUI{
 		_mouseListeners.clear();
 
 	} // removeAllMouseListeners
+
+	//--------------------------------------------------------
+
+	void CInputManager::removeAllJoystickListeners() 
+	{
+		_joystickListeners.clear();
+
+	} // removeAllJoystickListeners
 
 	//--------------------------------------------------------
 
@@ -362,5 +398,35 @@ namespace GUI{
 		return false;
 
 	} // mouseReleased
+
+	
+	//--------------------------------------------------------
+
+	bool CInputManager::axisMoved(const OIS::JoyStickEvent &e, int axis) 
+	{
+		if (!_joystickListeners.empty()) 
+		{
+			// Actualizamos el estado antes de enviarlo
+			_mouseState.setExtents(e.state.width, e.state.height);
+			_mouseState.setPosition(e.state.X.abs,e.state.Y.abs);
+			_mouseState.movX = e.state.X.rel;
+			_mouseState.movY = e.state.Y.rel;
+			_mouseState.scrool = e.state.Z.rel;
+			_mouseState.button = Button::UNASSIGNED;
+
+			e.state.mAxes[axis].
+
+			std::list<CMouseListener*>::const_iterator it;
+			it = _mouseListeners.begin();
+			for (; it != _mouseListeners.end(); it++) 
+			{
+				if ((*it)->mouseMoved(_mouseState))
+				  return true;
+			}
+		}
+
+		return false;
+
+	} // mouseMoved
 	
 } // namespace GUI

@@ -23,6 +23,7 @@ ratón y teclado.
 
 #include <OISMouse.h>
 #include <OISKeyboard.h>
+#include <OISJoyStick.h>
 
 #include <list>
 
@@ -489,6 +490,144 @@ namespace GUI
 
 	}; // CMouseListener
 
+
+	/**
+	clase que representa el estado del joystick. Sirve para aunar 
+	varios atributos simples que definen el estado. Los atributos
+	son públicos para que sean más fáciles de acceder.
+	
+	@ingroup GUIGroup
+
+	@author David Llansó
+	@date Julio, 2010
+	*/
+	class CJoystickState
+	{
+	public:
+
+		/**
+		Constructor. Por defecto se le dan unos valores a los 
+		atributos, pero estos deben de ser cambiados en función
+		de las propiedades de la ventana, posición del ratón,
+		botón pulsado, etc.
+		*/
+		CJoystickState()
+		{
+			width = 800;
+			height = 600;
+			posAbsX = 0;
+			posAbsY = 0;
+			posRelX = 0;
+			posRelY = 0;
+			movX = 0;
+			movY = 0;
+			scrool = 0;
+			button =  Button::UNASSIGNED;
+		}
+
+		/**
+		Constructor parametrizado.
+		
+		@param width Anchura de la ventana en pixels.
+		@param height Altura de la ventana en pixels.
+		@param posAbsX Posición absoluta del eje X del puntero del ratón.
+		Va desde 0 hasta el ancho de la ventana.
+		@param posAbsY Posición absoluta del eje Y del puntero del ratón.
+		Va desde 0 hasta el alto de la ventana.
+		*/
+		CJoystickState(unsigned int width, unsigned int height, 
+					unsigned int posAbsX = 0, unsigned int posAbsY = 0)
+		{
+			setExtents(width,height);
+			setPosition(posAbsX,posAbsY);
+			movX = 0;
+			movY = 0;
+			scrool = 0;
+			button = (TButton)-1; // Button::UNASSIGNED
+		}
+
+		/**
+		Establece la anchura y altura del área de 
+		trabajo del ratón.
+
+		@param width Anchura de la ventana en pixels.
+		@param height Altura de la ventana en pixels.
+		*/
+		void setExtents(unsigned int width, unsigned int height)
+		{
+			this->width = width;
+			this->height = height;
+		}
+
+		/**
+		Establece las posiciones de los ejes X e Y del puntero del 
+		ratón.
+		
+		@param posAbsX Posición absoluta del eje X del puntero del ratón.
+		Va desde 0 hasta el ancho de la ventana.
+		@param posAbsY Posición absoluta del eje Y del puntero del ratón.
+		Va desde 0 hasta el alto de la ventana.
+		*/
+		void setPosition(unsigned int posAbsX, unsigned int posAbsY)
+		{
+			this->posAbsX = posAbsX;
+			this->posAbsY = posAbsY;
+			this->posRelX = (float)posAbsX / (float)width;
+			this->posRelY = (float)posAbsY / (float)height;
+		}
+
+		/** 
+		Estos valores representan la anchura y altura del área de 
+		trabajo del ratón. Suele estar asociado al tamaño de la 
+		ventana de renderizado. Su valor es mutable para que se
+		pueda cambiar aunque se pase como const.
+		*/
+		unsigned int width, height;
+
+		/**
+		Posiciones absolutas de los ejes X e Y del puntero del 
+		ratón. Los valores van desde 0 hasta el ancho y alto de 
+		la ventana.
+		*/
+		unsigned int posAbsX, posAbsY;
+
+		/**
+		Posiciones relativas de los ejes X e Y del puntero del 
+		ratón. Los valores van desde 0 hasta 1 independientemente
+		del ancho y alto de la ventana.
+		*/
+		float posRelX, posRelY;
+
+		/**
+		Movimiento de los ejes X e Y del puntero del ratón respecto 
+		del último evento. Valores positivos movimiento a derechas,
+		negativos a izquierdas.
+		*/
+		int movX, movY;
+		
+		/**
+		Movimiento de la rueda del ratón respecto del último evento.
+		*/
+		int scroll;
+
+		/**
+		Indica que botón ha sido el último en producir un evento.
+		Si no ha habido eventos de ratón su valor es 
+		Button::UNASSIGNED.
+		*/
+		TButton button;
+	};
+	
+
+	class CJoystickListener
+	{
+	public:
+		virtual bool axisMoved(const CJoystickState &joystickState) {return false;}
+		virtual bool buttonPressed(const CJoystickState &joystickState) {return false;}
+		virtual bool buttonReleased(const CJoystickState &joystickState) {return false;}
+	};
+
+
 	/**
 	Gestor de periféricos de entrada. Controla y captura los eventos
 	que se producen en teclado y ratón. Permite registrar oyentes que
@@ -518,7 +657,7 @@ namespace GUI
 	@date Julio, 2010
 	*/
 	class CInputManager : public OIS::KeyListener, 
-		public OIS::MouseListener 
+		public OIS::MouseListener , public OIS::JoyStickListener
 	{
 	public:
 
@@ -563,6 +702,14 @@ namespace GUI
 		void addMouseListener(CMouseListener *mouseListener);
 
 		/** 
+		Añade un oyente del ratón.
+		
+		@param keyListener Oyente del ratón.
+		*/
+		void addJoystickListener(CJoystickListener *joystickListener);
+
+
+		/** 
 		Borra un oyente del teclado.
 		
 		@param keyListener Oyente del teclado
@@ -572,9 +719,17 @@ namespace GUI
 		/** 
 		Borra un oyente del ratón.
 		
-		@param keyListener Oyente del ratón.
+		@param mouseListener Oyente del ratón.
 		*/
 		void removeMouseListener(CMouseListener *mouseListener);
+
+
+		/** 
+		Borra un oyente del joystick.
+		
+		@param joystListener Oyente del joystick.
+		*/
+		void removeJoystickListener(CJoystickListener *joystickListener);
 
 		/** 
 		Borra todos los oyentes.
@@ -590,6 +745,11 @@ namespace GUI
 		Borra todos los oyentes del ratón.
 		*/
 		void removeAllMouseListeners();
+
+		/** 
+		Borra todos los oyentes del joystick.
+		*/
+		void removeAllJoystickListeners();
 
 		/**
 		Método que consulta si una tecla está o no pulsada.
@@ -697,6 +857,36 @@ namespace GUI
 		*/
 		bool mouseReleased(const OIS::MouseEvent &e, OIS::MouseButtonID button);
 
+
+		/** 
+		Método invocado por OIS cuando se mueve el ratón. 
+		Es el encargado de avisar a todos los oyentes del evento.
+
+		@param e Evento producido.
+		@return true si se captura el evento.
+		*/
+		bool axisMoved(const OIS::JoyStickEvent &e, int axis);
+		
+		/** 
+		Método invocado por OIS cuando se pulsa un botón del ratón. 
+		Es el encargado de avisar a todos los oyentes del evento.
+
+		@param e Evento producido.
+		@param button código del botón pulsado.
+		@return true si se captura el evento.
+		*/
+		bool buttonPressed(const OIS::JoyStickEvent &e, int button);
+
+		/** 
+		Método invocado por OIS cuando se deja de pulsar un botón. 
+		Es el encargado de avisar a todos los oyentes del evento.
+
+		@param e Evento producido.
+		@param button código del botón soltado.
+		@return true si se captura el evento.
+		*/
+		bool buttonReleased(const OIS::JoyStickEvent &e, int button);
+
 		/** 
 		Buffer de la entrada del ratón OIS.
 		*/
@@ -706,6 +896,11 @@ namespace GUI
 		Buffer de la entrada del teclado OIS.
 		*/
 		OIS::Keyboard *_keyboard;
+
+		/** 
+		Buffer de la entrada del joystick OIS.
+		*/
+		OIS::JoyStick *_joystick;
 		
 		/**
 		Estado del ratón en el último evento. Se usa para transmitir
@@ -713,6 +908,13 @@ namespace GUI
 		resto de la aplicación de OIS.
 		*/
 		CMouseState _mouseState;
+
+		/**
+		Estado del joystick en el último evento. Se usa para transmitir
+		los cambios a las clases oyentes. Sirve para independizar el
+		resto de la aplicación de OIS.
+		*/
+		CJoystickState _joystickState;
 
 		/**
 		Sistema de gestión de periféricos de entrada de OIS.
@@ -728,6 +930,11 @@ namespace GUI
 		Lista de oyentes de eventos del ratón.
 		*/
 		std::list<CMouseListener*> _mouseListeners;
+	
+		/**
+		Lista de oyentes de eventos del joystick.
+		*/
+		std::list<CJoystickListener*> _joystickListeners;
 
 	}; // class InputManager
 

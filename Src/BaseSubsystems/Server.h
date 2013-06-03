@@ -185,6 +185,13 @@ namespace BaseSubsystems
 		OIS::Keyboard* getBufferedKeyboard(){return _keyboard;}
 
 		/**
+		Devuelve la instancia OIS del buffer del joystick.
+
+		@return Instancia del buffer del joystick.
+		*/
+		OIS::JoyStick* getBufferedJoystick(){return _joystick;}
+
+		/**
 		Devuelve el sistema de la interfaz gráfica de usuario CEGUI.
 
 		@return Puntero al sistema de la interfaz gráfica de usuario 
@@ -337,6 +344,12 @@ namespace BaseSubsystems
 		Buffer de la entrada del teclado OIS.
 		*/
 		OIS::Keyboard *_keyboard;
+
+		/**
+		Buffer de la entrada del joystick OIS.
+		*/
+		OIS::JoyStick *_joystick;
+
 
 		/**
 		Sistema de la interfaz gráfica de usuario CEGUI.
