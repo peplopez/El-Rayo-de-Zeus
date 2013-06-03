@@ -70,6 +70,20 @@ namespace GUI
 
 		}; // enum TButton
 
+		enum TJoysticButton
+		{
+			UNASSIGNED = 0xFFFFFFFF,
+			LEFT       = OIS::MB_Left,
+			RIGHT      = OIS::MB_Right,
+			MIDDLE     = OIS::MB_Middle,
+			BUTTON_3   = OIS::MB_Button3,
+			BUTTON_4   = OIS::MB_Button4,
+			BUTTON_5   = OIS::MB_Button5,
+			BUTTON_6   = OIS::MB_Button6,
+			BUTTON_7   = OIS::MB_Button7
+
+		}; // enum TButton
+
 	} // namespace Button
 
 	/**
@@ -521,7 +535,7 @@ namespace GUI
 			posRelY = 0;
 			movX = 0;
 			movY = 0;
-			scrool = 0;
+			scroll = 0;
 			button =  Button::UNASSIGNED;
 		}
 
