@@ -1,5 +1,5 @@
 #include "LA_Cover.h"
-#include "Logic/Entity/Components/Attack.h"
+#include "Logic/Entity/Components/Combat.h"
 #include "../../Logic/Entity/Components/AvatarController.h"
 #include "../../Logic/Entity/Components/AnimatedGraphics.h"
 #include "../StateMachines/StateMachine.h"
@@ -133,8 +133,8 @@ namespace AI
 	{ 
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 				_entity->getComponent<CAvatarController>()->awake();
-		if (_entity->getComponent<CAttack>()!=NULL)
-				_entity->getComponent<CAttack>()->setCovering(false);		
+		if (_entity->getComponent<CCombat>()!=NULL)
+				_entity->getComponent<CCombat>()->setCovering(false);		
 	}
 
 	

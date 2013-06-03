@@ -1,17 +1,16 @@
 /**
-@file Attack.h
+@file Combat.h
 
-Contiene la declaración del componente que controla el movimiento 
-angular de entidades.
+Contiene la declaración del componente que gestiona el combate entre entidades.
 
-@see Logic::CAttack
+@see Logic::CCombat
 @see Logic::IComponent
 
 @author José Luis López
 @date Febrero, 2013
 */
-#ifndef __Logic_Attack_H
-#define __Logic_Attack_H
+#ifndef __Logic_Combat_H
+#define __Logic_Combat_H
 
 #include "Logic/Entity/Component.h"
 #include "BaseSubsystems/Math.h"
@@ -37,16 +36,17 @@ namespace Logic
 	@author David Llansó García
 	@date Agosto, 2010
 */
-	class CAttack : public IComponent
+	class CCombat : public IComponent
 	{
-		DEC_FACTORY(CAttack);
+		DEC_FACTORY(CCombat);
 	public:
 
 		/**
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAttack() : IComponent(GetAltTypeIdOf(CAttack)),_attackPower(0),_lightAttack(false),_heavyAttack(false),_covering(false){}
+		CCombat() : IComponent(GetAltTypeIdOf(CCombat)),_attackPower(0),_lightAttack(false),_heavyAttack(false),_lifeModifierLightAttack(0), _lifeModifierHeavyAttack(0),_covering(false){}
+		//CCombat() : IComponent(GetAltTypeIdOf(CCombat)),_attackPower(0),_lifeModifierLightAttack(-10), _lifeModifierHeavyAttack(-20),_covering(false){}
 
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -124,8 +124,8 @@ namespace Logic
 	
 		void cover();
 	 
-			//este metodo devuelve null si no se está ocupando ese grado o la entidad que ocupa ese espacio
-		unsigned short attackPlace(float grado, short base, short ring,bool soloInfo);
+		//este metodo devuelve null si no se está ocupando ese grado o la entidad que ocupa ese espacio
+		unsigned short attackToPlace(float grado, short base, short ring,bool soloInfo);
 
 		void resetAttackFlags();
 	
@@ -134,21 +134,24 @@ namespace Logic
 
 		void setCovering(bool covering)
 		{_covering=covering;}	
+
 protected:
 
 		float _attackPower;
-		
-		bool _lightAttack;
-		
-		bool _heavyAttack;
+
+		bool _lightAttack, _heavyAttack;
+
+		float _lifeModifierLightAttack;
+
+		float _lifeModifierHeavyAttack;
 
 		bool _covering;
 		
 		std::string _audioCubriendose;
-	}; // class CAttack
+	}; // class CCombat
 
-	REG_FACTORY(CAttack);
+	REG_FACTORY(CCombat);
 
 } // namespace Logic
 
-#endif // __Logic_Attack_H
+#endif // __Logic_Combat_H

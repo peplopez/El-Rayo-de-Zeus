@@ -55,14 +55,23 @@ namespace Logic
 		CEntity* entity = _entity->getMap()->getEntityByID( rxMsg->getUInt() );
 
 		CMessageUInt *txMsg = new CMessageUInt();
-			txMsg->setType(Message::LIFE_MODIFIER);
-			txMsg->setUInt( abs(_LIFE_MODIFIER) );
-			if (_LIFE_MODIFIER < 0)
-				txMsg->setAction(Message::DAMAGE);
-			else
-				txMsg->setAction(Message::HEAL);			
+
+		//LifeModifier manda un mensaje al componente LIFE.cpp 
+		// mensaje TIPO LIFE_MODIFIER. Action = DAMAGE, HEAL
+		
+		txMsg->setType(Message::LIFE_MODIFIER);
 			
-			entity->emitMessage(txMsg, this);
+		//PT. se carga en el entero el modificador de vida (negativo o positivo)
+		//txMsg->setUInt( abs(_LIFE_MODIFIER) );
+		txMsg->setUInt(_LIFE_MODIFIER );
+
+		if (_LIFE_MODIFIER < 0)
+			txMsg->setAction(Message::DAMAGE);
+		else
+			txMsg->setAction(Message::HEAL);			
+			
+		entity->emitMessage(txMsg, this);
+
 	} // process
 
 } // namespace Logic

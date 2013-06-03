@@ -72,14 +72,19 @@ namespace Logic
 
 		assert( entityInfo->hasAttribute("lifeMax") );
 			_life = _LIFE_MAX = entityInfo->getIntAttribute("lifeMax");
+
 		assert( entityInfo->hasAttribute("lifeBarPosition") );		
-			float lifeBarPosition = entityInfo->getFloatAttribute("lifeBarPosition");		
+			float lifeBarPosition = entityInfo->getFloatAttribute("lifeBarPosition");
+
 		assert( entityInfo->hasAttribute("lifeBarWidth") );	
 			float lifeBarWidth = entityInfo->getFloatAttribute("lifeBarWidth");	
+
 		assert( entityInfo->hasAttribute("lifeBarHeight") );
 			float lifeBarHeight = entityInfo->getFloatAttribute("lifeBarHeight");
+
 		if (entityInfo->hasAttribute("audio") )
 			_audio = entityInfo->getStringAttribute("audio");
+
 
 		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
 		std::stringstream ssAux; // FRS Importante añadir ID para evitar entidades gráficas con = nombre
@@ -102,7 +107,7 @@ namespace Logic
 
 	bool CLife::accept(const CMessage *message)
 	{
-		return message->getType() == Message::LIFE_MODIFIER || message->getType() == Message::LIFE_RESTORE ;		
+		return message->getType() == Message::LIFE_MODIFIER || message->getType() == Message::LIFE_RESTORE ;
 
 	} // accept
 	
@@ -117,10 +122,17 @@ namespace Logic
 			{
 				CMessageUInt *Msg = static_cast<CMessageUInt*>(message);
 
-				if (message->getAction()==TActionType::DAMAGE)
-					modifyLife(-10);
-				else
-					modifyLife(10);
+				//if (message->getAction()==TActionType::DAMAGE)
+				//	modifyLife(-10);
+				//else
+				//	modifyLife(10);
+
+				//PT Me da igual que la action sea DAMAGE o HEAL, lo importante es que sea LIFE_MODIFIER el tipo
+				// ya que luego en el entero del mensaje me vendrá el numero a modificar en negativo o positivo
+				//En Msg->getUint viene el modificador entero.
+
+				modifyLife(Msg->getUInt()); 
+
 				break;
 			}
 
@@ -161,7 +173,9 @@ namespace Logic
 					_lifeBarBB = NULL;
 				}
 
-				// PT Lo comento porque peta en OgreRoot.cpp -> 
+				// PT. Estoy intentando eliminar la entidad cuando no es
+				// de tipo Player. 
+				// Lo comento porque peta en OgreRoot.cpp -> 
 				// bool Root::renderOneFrame(Real timeSinceLastFrame) 
 				// -> evt.timeSinceLastEvent = calculateEventTime(now, FETT_ANY);
 				//CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);

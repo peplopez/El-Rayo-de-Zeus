@@ -19,6 +19,8 @@ mover al jugador.
 namespace Logic 
 {
 	class CEntity;
+	class CMessage;
+	class CMessageUShort;
 }
 
 

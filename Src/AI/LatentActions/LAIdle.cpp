@@ -2,7 +2,7 @@
 #include "../../Logic/Entity/Components/AnimatedGraphics.h"
 #include "Application/BaseApplication.h"
 
-#include "../../Logic/Entity/Components/Attack.h"
+#include "../../Logic/Entity/Components/Combat.h"
 
 #include "../StateMachines/StateMachine.h"
 
@@ -45,8 +45,8 @@ namespace AI
 		_entity->emitMessage(message);
 
 		
-		if (_entity->getComponent<CAttack>()!=NULL)
-				_entity->getComponent<CAttack>()->setCovering(false);		
+		if (_entity->getComponent<CCombat>()!=NULL)
+				_entity->getComponent<CCombat>()->setCovering(false);		
 
 		return SUSPENDED;
 	}

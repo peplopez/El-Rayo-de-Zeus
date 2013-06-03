@@ -3,7 +3,7 @@
 #include "Graphics/Server.h"
 #include "Graphics/Scene.h"
 
-#include "../../Logic/Entity/Components/Attack.h"
+#include "../../Logic/Entity/Components/Combat.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
 #include "../../Logic/Entity/Components/PhysicalCharacter.h"
 
@@ -218,8 +218,8 @@ namespace AI
 
 	void CLA_Death::sleepComponents()
 	{
-		if (_entity->getComponent<CAttack>()!=NULL)
-			_entity->getComponent<CAttack>()->resetAttackFlags();
+		if (_entity->getComponent<CCombat>()!=NULL)
+			_entity->getComponent<CCombat>()->resetAttackFlags();
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 			_entity->getComponent<CAvatarController>()->sleep();
 		if (_entity->getComponent<CBaseTraveler>()!=NULL)
@@ -232,8 +232,8 @@ namespace AI
 
 	void CLA_Death::awakeComponents()
 	{
-		if (_entity->getComponent<CAttack>()!=NULL)
-			_entity->getComponent<CAttack>()->resetAttackFlags();
+		if (_entity->getComponent<CCombat>()!=NULL)
+			_entity->getComponent<CCombat>()->resetAttackFlags();
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 			_entity->getComponent<CAvatarController>()->awake();
 		if (_entity->getComponent<CJump>()!=NULL)

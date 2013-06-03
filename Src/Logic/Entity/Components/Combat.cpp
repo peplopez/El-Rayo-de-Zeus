@@ -1,17 +1,17 @@
 /**
-@file Attack.cpp
+@file Combat.cpp
 
 Contiene la declaración del componente que controla el ataque 
 angular de entidades.
 
-@see Logic::CAttack
+@see Logic::CCombat
 @see Logic::IComponent
 
 @author José Luis López
 @date Diciembre, 2012
 */
 
-#include "Attack.h"
+#include "Combat.h"
 
 #include "Logic/Entity/Components/AnimatedGraphics.h"
 
@@ -30,35 +30,46 @@ angular de entidades.
 //declaración de la clase
 namespace Logic 
 {
-	IMP_FACTORY(CAttack);
+	IMP_FACTORY(CCombat);
 
-	bool CAttack::spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo){
+	bool CCombat::spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo){
 
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
 		if(entityInfo->hasAttribute("attackPower"))
 			_attackPower = entityInfo->getFloatAttribute("attackPower");
+
 		if (_entity->getName()=="locoCubriendose")
 			cover();
 
 		if (entityInfo->hasAttribute("audioCubriendose") )
 			_audioCubriendose = entityInfo->getStringAttribute("audioCubriendose");
+
+		//PT Modificadores de daño de ataque (ligero y pesado)
+		//assert( entityInfo->hasAttribute("lifeModifierLightAttack") );
+		if(entityInfo->hasAttribute("lifeModifierLightAttack"))
+			_lifeModifierLightAttack = entityInfo->getIntAttribute("lifeModifierLightAttack");
+
+		//assert( entityInfo->hasAttribute("lifeModifierHeavyAttack") );
+		if(entityInfo->hasAttribute("lifeModifierHeavyAttack"))
+			_lifeModifierHeavyAttack = entityInfo->getIntAttribute("lifeModifierHeavyAttack");
+
 		return true;
 		}
 
-	bool CAttack::activate()
+	bool CCombat::activate()
 	{				
-		_lightAttack=_heavyAttack=false;
+		//_lightAttack=_heavyAttack=false;
 
 		return true;
 	}		
 
-	void CAttack::deactivate()
+	void CCombat::deactivate()
 	{
 	}
 	
-	bool CAttack::accept(const CMessage *message)
+	bool CCombat::accept(const CMessage *message)
 	{//aviso de que tanto accept como process son un poco hack, pero es es solo hasta tener un componente NPCCONTROLLER
 	//	return false;
 		return (message->getType() == Message::CONTROL && 
@@ -69,7 +80,7 @@ namespace Logic
 
 	}
 		
-	void CAttack::process(CMessage *message)
+	void CCombat::process(CMessage *message)
 	{
 		switch(message->getType())
 		{
@@ -88,7 +99,7 @@ namespace Logic
 				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
 				if (maux->getUShort()==Logic::ATTACK1 || maux->getUShort()==Logic::ATTACK2 || maux->getUShort()==Logic::ATTACK3)
 				{					
-					_lightAttack=_heavyAttack=false;
+					//_lightAttack=_heavyAttack=false;
 				}
 				break;
 			}
@@ -103,7 +114,7 @@ namespace Logic
 					punto=_entity->getLogicalPosition()->getDegree()+10;
 					//con este metodo vemos si con la espada le estamos dando
 				
-					unsigned short resultadoAtaque=attackPlace(punto,_entity->getLogicalPosition()->getRing(),_entity->getLogicalPosition()->getBase(),false);
+					unsigned short resultadoAtaque=attackToPlace(punto,_entity->getLogicalPosition()->getRing(),_entity->getLogicalPosition()->getBase(),false);
 					if (resultadoAtaque==2)
 					{
 						CMessageBoolUShort *message = new CMessageBoolUShort();
@@ -116,7 +127,7 @@ namespace Logic
 		}
 	 }
 
-	 void CAttack::cover()
+	 void CCombat::cover()
 	 {
 		_covering=true;
 			if (_entity->getType()!="Player")
@@ -130,25 +141,42 @@ namespace Logic
 	 }
 
 
-	void CAttack::lightAttack() 
+	void CCombat::lightAttack() 
 	{
-		if (_lightAttack) return;
-		_heavyAttack=false;
-		_lightAttack=true;
+		//if (_lightAttack) return;
+		//_heavyAttack=false;
+		//_lightAttack=true;
 
+		////Emito mensaje al componente Life para modificarle la vida
+		 //CMessageUInt *muint = new CMessageUInt();
+		 //muint->setType(Message::LIFE_MODIFIER);
+		 //muint->setAction(Message::DAMAGE);
+		 //muint->setUInt(_lifeModifierLightAttack);
+		 //_entity->emitMessage(muint);
 
-	} // turn
+		_attackPower = _lifeModifierLightAttack;
 
-	void CAttack::heavyAttack() 
+	} // lightAttack
+
+	void CCombat::heavyAttack() 
 	{		
-		if (_heavyAttack) return;
-		_heavyAttack=true;
-		_lightAttack=false;
+		//if (_heavyAttack) return;
+		//_heavyAttack=true;
+		//_lightAttack=false;
 
-	} // turn
+		////Emito mensaje al componente Life para modificarle la vida
+		// CMessageUInt *muint = new CMessageUInt();
+		// muint->setType(Message::LIFE_MODIFIER);
+		// muint->setAction(Message::DAMAGE);
+		// muint->setUInt(_lifeModifierHeavyAttack);
+		// _entity->emitMessage(muint);
+
+		_attackPower = _lifeModifierHeavyAttack;
+
+	} // heavyAttack
 
 	//este metodo devuelve null si no se está ocupando ese grado o la entidad que ocupa ese espacio
-	unsigned short CAttack::attackPlace(float grado, short ring, short base,bool soloInfo)
+	unsigned short CCombat::attackToPlace(float grado, short ring, short base,bool soloInfo)
 	{//acotar				
 		CMap::TEntityList::const_iterator it = _entity->getMap()->getEntities().begin();
 		CMap::TEntityList::const_iterator end = _entity->getMap()->getEntities().end();
@@ -172,7 +200,7 @@ namespace Logic
 						float limiteDerecho=(*it)->getLogicalPosition()->getDegree()+5;
 					//	if (_entity->getLogicalPosition()->getDegree()<grado) limiteIzquierdo =_entity->getLogicalPosition()->getDegree();
 					//	else if (_entity->getLogicalPosition()->getDegree()>grado) limiteDerecho =_entity->getLogicalPosition()->getDegree();
-						if ((*it)->getComponent<CAttack>()!=NULL)
+						if ((*it)->getComponent<CCombat>()!=NULL)
 						if (grado>limiteIzquierdo && grado<limiteDerecho 
 							|| (grado>=limiteIzquierdo && grado>=limiteDerecho &&  _entity->getLogicalPosition()->getDegree()<=limiteIzquierdo && _entity->getLogicalPosition()->getDegree()<=limiteDerecho) 
 							||  (grado<=limiteIzquierdo && grado<=limiteDerecho &&  _entity->getLogicalPosition()->getDegree()>=limiteIzquierdo && _entity->getLogicalPosition()->getDegree()>=limiteDerecho) 
@@ -180,8 +208,8 @@ namespace Logic
 						{
 							if (!soloInfo)
 							{				
-								if ((*it)->getComponent<CAttack>()!=NULL)
-								if ((*it)->getComponent<CAttack>()->_covering==true && (*it)->getLogicalPosition()->getSense()!=_entity->getLogicalPosition()->getSense())
+								if ((*it)->getComponent<CCombat>()!=NULL)
+								if ((*it)->getComponent<CCombat>()->_covering==true && (*it)->getLogicalPosition()->getSense()!=_entity->getLogicalPosition()->getSense())
 								{
 									Logic::CMessage *m = new Logic::CMessage();
 									m->setType(Logic::Message::CONTROL);
@@ -202,7 +230,8 @@ namespace Logic
 								else
 								{
 									CMessageUInt *m2 = new CMessageUInt();
-									m2->setUInt(-10);
+									//m2->setUInt(-10);
+									m2->setUInt(_attackPower);
 									m2->setType(Message::LIFE_MODIFIER);						
 									m2->setAction(Message::DAMAGE);						
 									(*it)->emitMessage(m2);
@@ -222,18 +251,18 @@ namespace Logic
 		return 0; //le has dado al aire
 	}
 
-	void CAttack::resetAttackFlags()
+	void CCombat::resetAttackFlags()
 	{
-		_heavyAttack=false;
-		_lightAttack=false;
+		//_heavyAttack=false;
+		//_lightAttack=false;
 
 	}
 	
-	void CAttack::tick(unsigned int msecs)
+	void CCombat::tick(unsigned int msecs)
 	{
 			IComponent::tick(msecs);
 			
-	} //fin de CAttack:tick
+	} //fin de CCombat:tick
 
 
 } // namespace Logic

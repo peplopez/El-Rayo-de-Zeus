@@ -98,7 +98,7 @@
     <ClCompile Include="..\..\Src\Logic\Item.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Altar.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AltarStateSwitcher.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\Attack.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Combat.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BaseCamera.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BaseTraveler.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\BasicAI.cpp" />
@@ -159,7 +159,7 @@
     <ClInclude Include="..\..\Src\Logic\Item.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Altar.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AltarStateSwitcher.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\Attack.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Combat.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BaseCamera.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\BasicAI.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Hud.h" />

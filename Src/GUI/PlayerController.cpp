@@ -19,7 +19,6 @@ mover al jugador.
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageUShort.h"
-#include "Logic/Entity/Messages/MessageString.h"
 
 #include "Physics/Server.h"
 
@@ -70,6 +69,7 @@ namespace GUI {
 		{
 			Logic::CMessage *m = new Logic::CMessage();
 				m->setType(Logic::Message::CONTROL);
+
 			Logic::CMessageUShort *m2 = new Logic::CMessageUShort();
 				m2->setType(Logic::Message::CONTROL);
 
@@ -272,19 +272,21 @@ namespace GUI {
 		else
 		{
 			Logic::CMessage *m = new Logic::CMessage();
+
 			m->setType(Logic::Message::CONTROL);
 			switch(mouseState.button)
 			{
 			case GUI::Button::LEFT:				
-			m->setAction(Logic::Message::LIGHT_ATTACK);						
+				m->setAction(Logic::Message::LIGHT_ATTACK);
 				break;
 			case GUI::Button::RIGHT:				
-			m->setAction(Logic::Message::HEAVY_ATTACK);
+				m->setAction(Logic::Message::HEAVY_ATTACK);
 				break;			
 			default:
 				return false;
 			}
 			_controlledAvatar->emitMessage(m);
+
 			return true;
 		}
 	} // mousePressed

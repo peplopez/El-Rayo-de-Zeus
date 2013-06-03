@@ -1,5 +1,5 @@
 
-#include "../../Logic/Entity/Components/Attack.h"
+#include "../../Logic/Entity/Components/Combat.h"
 #include "../../Logic/Entity/Components/AvatarController.h"
 #include "../../Logic/Entity/Components/PhysicalCharacter.h"
 #include "../../Logic/Entity/Components/Jump.h"

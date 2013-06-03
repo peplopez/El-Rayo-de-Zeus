@@ -1,10 +1,10 @@
 /**
-@file Attack.h
+@file BasicAI.h
 
 Contiene la declaración del componente que controla el movimiento 
 angular de entidades.
 
-@see Logic::CAttack
+@see Logic::CBasicAI
 @see Logic::IComponent
 
 @author José Luis López
