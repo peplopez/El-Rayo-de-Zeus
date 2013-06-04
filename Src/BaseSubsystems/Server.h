@@ -37,6 +37,7 @@ namespace OIS
 	class InputManager;
 	class Mouse;
 	class Keyboard;
+	class JoyStick;
 }
 
 namespace CEGUI
@@ -348,7 +349,7 @@ namespace BaseSubsystems
 		/**
 		Buffer de la entrada del joystick OIS.
 		*/
-		OIS::JoyStick *_joystick;
+		OIS::JoyStick* _joystick;
 
 
 		/**

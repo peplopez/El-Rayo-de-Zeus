@@ -107,7 +107,10 @@ namespace GUI{
 
 		_joystick = BaseSubsystems::CServer::getSingletonPtr()->getBufferedJoystick();
 		if(_joystick)
+		{
 			_joystick->setEventCallback(this);
+			_joystickState = new CJoystickState(_joystick->getJoyStickState().mAxes.size(), _joystick->getJoyStickState().mButtons.size());
+		}
 
 		return true;
 
@@ -122,6 +125,9 @@ namespace GUI{
 		_keyboard = 0;
 		_joystick = 0;
 		_inputSystem = 0;
+
+		//del joystickState sí somos responsables
+		delete _joystickState;
 
 	} // close
 
@@ -405,20 +411,64 @@ namespace GUI{
 	bool CInputManager::axisMoved(const OIS::JoyStickEvent &e, int axis) 
 	{
 		
-		int x = e.state.mAxes[axis].abs;
 		if (!_joystickListeners.empty()) 
 		{
+			_joystickState->_axes[axis].abs = e.state.mAxes[axis].abs;
+			_joystickState->_axes[axis].rel= e.state.mAxes[axis].rel;
 			std::list<CJoystickListener*>::const_iterator it;
 			it = _joystickListeners.begin();
 			for (; it != _joystickListeners.end(); ++it) 
 			{
-				if ((*it)->axisMoved(_joystickState))
+				if ((*it)->axisMoved(_joystickState, axis))
 				  return true;
 			}
 		}
 
 		return false;
 
-	} // mouseMoved
+	} // axisMoved
+
+	//--------------------------------------------------------
+	
+	bool CInputManager::buttonPressed(const OIS::JoyStickEvent &e, int button) 
+	{
+		
+		if (!_joystickListeners.empty()) 
+		{
+			_joystickState->_buttons[button] = e.state.mButtons[button];
+			std::list<CJoystickListener*>::const_iterator it;
+			it = _joystickListeners.begin();
+			for (; it != _joystickListeners.end(); ++it) 
+			{
+				if ((*it)->buttonPressed(_joystickState, button))
+				  return true;
+			}
+		}
+
+		return false;
+
+	} // buttonPressed
+
+
+	//--------------------------------------------------------
+	
+	bool CInputManager::buttonReleased(const OIS::JoyStickEvent &e, int button) 
+	{
+		
+		if (!_joystickListeners.empty()) 
+		{
+			_joystickState->_buttons[button] = e.state.mButtons[button];
+			std::list<CJoystickListener*>::const_iterator it;
+			it = _joystickListeners.begin();
+			for (; it != _joystickListeners.end(); ++it) 
+			{
+				if ((*it)->buttonReleased(_joystickState, button))
+				  return true;
+			}
+		}
+
+		return false;
+
+	} // buttonPressed
 	
 } // namespace GUI

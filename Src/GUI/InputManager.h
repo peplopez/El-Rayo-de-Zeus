@@ -70,19 +70,6 @@ namespace GUI
 
 		}; // enum TButton
 
-		enum TJoysticButton
-		{
-			UNASSIGNED = 0xFFFFFFFF,
-			LEFT       = OIS::MB_Left,
-			RIGHT      = OIS::MB_Right,
-			MIDDLE     = OIS::MB_Middle,
-			BUTTON_3   = OIS::MB_Button3,
-			BUTTON_4   = OIS::MB_Button4,
-			BUTTON_5   = OIS::MB_Button5,
-			BUTTON_6   = OIS::MB_Button6,
-			BUTTON_7   = OIS::MB_Button7
-
-		}; // enum TButton
 
 	} // namespace Button
 
@@ -355,7 +342,7 @@ namespace GUI
 			movX = 0;
 			movY = 0;
 			scrool = 0;
-			button =  Button::UNASSIGNED;
+			button = (TButton)-1;
 		}
 
 		/**
@@ -512,110 +499,52 @@ namespace GUI
 	
 	@ingroup GUIGroup
 
-	@author David Llansó
-	@date Julio, 2010
+	@author Emilio Santalla
+	@date Junio, 2013
 	*/
 	class CJoystickState
 	{
 	public:
 
-		/**
-		Constructor. Por defecto se le dan unos valores a los 
-		atributos, pero estos deben de ser cambiados en función
-		de las propiedades de la ventana, posición del ratón,
-		botón pulsado, etc.
-		*/
-		CJoystickState()
+		
+		struct TAxisValue
 		{
-			width = 800;
-			height = 600;
-			posAbsX = 0;
-			posAbsY = 0;
-			posRelX = 0;
-			posRelY = 0;
-			movX = 0;
-			movY = 0;
-			scroll = 0;
-			button =  Button::UNASSIGNED;
-		}
+			int abs;
+			int rel;
+
+			TAxisValue() : abs(0), rel(0) {}
+		};
+		
+		
+		typedef std::vector<TAxisValue> TAxes;
+		typedef std::vector<bool> TButtons;
+
 
 		/**
 		Constructor parametrizado.
-		
-		@param width Anchura de la ventana en pixels.
-		@param height Altura de la ventana en pixels.
-		@param posAbsX Posición absoluta del eje X del puntero del ratón.
-		Va desde 0 hasta el ancho de la ventana.
-		@param posAbsY Posición absoluta del eje Y del puntero del ratón.
-		Va desde 0 hasta el alto de la ventana.
 		*/
-		CJoystickState(unsigned int width, unsigned int height, 
-					unsigned int posAbsX = 0, unsigned int posAbsY = 0)
+		CJoystickState(unsigned int axes, unsigned int buttons)
 		{
-			setExtents(width,height);
-			setPosition(posAbsX,posAbsY);
-			movX = 0;
-			movY = 0;
-			scroll = 0;
-			button = (TButton)-1; // Button::UNASSIGNED
+			TAxisValue axisValue;
+			for (int i = 0; i < axes; ++i)
+				_axes.push_back(axisValue);
+
+			bool buttonValue = 0;
+			for (int i = 0; i < buttons; ++i)
+				_buttons.push_back(buttonValue);
 		}
-
-		/**
-		Establece la anchura y altura del área de 
-		trabajo del ratón.
-
-		@param width Anchura de la ventana en pixels.
-		@param height Altura de la ventana en pixels.
-		*/
-		void setExtents(unsigned int width, unsigned int height)
-		{
-			this->width = width;
-			this->height = height;
-		}
-
-		/**
-		Establece las posiciones de los ejes X e Y del puntero del 
-		ratón.
-		
-		@param posAbsX Posición absoluta del eje X del puntero del ratón.
-		Va desde 0 hasta el ancho de la ventana.
-		@param posAbsY Posición absoluta del eje Y del puntero del ratón.
-		Va desde 0 hasta el alto de la ventana.
-		*/
-		void setPosition(unsigned int posAbsX, unsigned int posAbsY)
-		{
-			this->posAbsX = posAbsX;
-			this->posAbsY = posAbsY;
-			this->posRelX = (float)posAbsX / (float)width;
-			this->posRelY = (float)posAbsY / (float)height;
-		}
-
-
-		unsigned int width, height;
-
-
-		unsigned int posAbsX, posAbsY;
-
-
-		float posRelX, posRelY;
-
 	
-		int movX, movY;
-		
-	
-		int scroll;
-
-
-		TButton button;
+		TAxes _axes;
+		TButtons _buttons;
 	};
 	
 
 	class CJoystickListener
 	{
 	public:
-		virtual bool axisMoved(const CJoystickState &joystickState) {return false;}
-		virtual bool buttonPressed(const CJoystickState &joystickState) {return false;}
-		virtual bool buttonReleased(const CJoystickState &joystickState) {return false;}
+		virtual bool axisMoved(const CJoystickState *joystickState, int axis) {return false;}
+		virtual bool buttonPressed(const CJoystickState *joystickState, int button) {return false;}
+		virtual bool buttonReleased(const CJoystickState *joystickState, int button) {return false;}
 	};
 
 
@@ -905,7 +834,7 @@ namespace GUI
 		los cambios a las clases oyentes. Sirve para independizar el
 		resto de la aplicación de OIS.
 		*/
-		CJoystickState _joystickState;
+		CJoystickState *_joystickState;
 
 		/**
 		Sistema de gestión de periféricos de entrada de OIS.

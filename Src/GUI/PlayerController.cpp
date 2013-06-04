@@ -48,6 +48,7 @@ namespace GUI {
 	{		
 		CInputManager::getSingletonPtr()->addKeyListener(this);
 		CInputManager::getSingletonPtr()->addMouseListener(this);
+		CInputManager::getSingletonPtr()->addJoystickListener(this);
 
 
 	} // activate
@@ -58,6 +59,7 @@ namespace GUI {
 	{
 		CInputManager::getSingletonPtr()->removeKeyListener(this);
 		CInputManager::getSingletonPtr()->removeMouseListener(this);
+		CInputManager::getSingletonPtr()->removeJoystickListener(this);
 
 	} // deactivate
 
@@ -294,7 +296,61 @@ namespace GUI {
 	bool CPlayerController::mouseReleased(const CMouseState &mouseState)
 	{
 		return false;
-
 	} // mouseReleased
+
+	//--------------------------------------------------------
+
+	bool CPlayerController::axisMoved(const CJoystickState *joystickState, int axis)
+	{
+		if (_controlledAvatar)
+		{
+			Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
+			switch (axis)
+			{
+			case 3:
+				if (abs(joystickState->_axes[3].abs) > abs(joystickState->_axes[2].abs))
+				{
+					if (joystickState->_axes[3].abs > 6000)
+					{
+						m->setAction(Logic::Message::WALK_RIGHT);
+						_controlledAvatar->emitMessage(m);
+					}
+					else if (joystickState->_axes[3].abs < -6000)
+					{
+						m->setAction(Logic::Message::WALK_LEFT);
+						_controlledAvatar->emitMessage(m);
+					}
+				}
+					
+				if (joystickState->_axes[3].abs > -6000 && joystickState->_axes[3].abs < 6000)
+				{
+						m->setAction(Logic::Message::WALK_STOP);
+						_controlledAvatar->emitMessage(m);
+				}
+					
+				return true;
+				break;
+			}
+
+		}
+		return false;
+	}
+
+	//--------------------------------------------------------
+
+	bool CPlayerController::buttonPressed(const CJoystickState *joystickState, int button)
+	{
+		return false;
+	}
+
+	//--------------------------------------------------------
+
+	bool CPlayerController::buttonReleased(const CJoystickState *joystickState, int button)
+	{
+		return false;
+	}
+
+	//--------------------------------------------------------
 
 } // namespace GUI

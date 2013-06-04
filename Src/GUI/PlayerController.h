@@ -40,7 +40,7 @@ namespace GUI
 	@author David Llansó
 	@date Agosto, 2010
 	*/
-	class CPlayerController : public CKeyboardListener, public CMouseListener
+	class CPlayerController : public CKeyboardListener, public CMouseListener, public CJoystickListener
 	{
 	public:
 
@@ -133,6 +133,15 @@ namespace GUI
 		el gestor no llamará a otros listeners.
 		*/
 		bool mouseReleased(const CMouseState &mouseState);
+
+		/***************************************************************
+		Métodos de CJoystickListener
+		***************************************************************/
+
+		bool axisMoved(const CJoystickState *joystickState, int axis);
+		bool buttonPressed(const CJoystickState *joystickState, int button);
+		bool buttonReleased(const CJoystickState *joystickState, int button);
+
 
 	protected:
 
