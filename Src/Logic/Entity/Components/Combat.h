@@ -45,7 +45,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CCombat() : IComponent(GetAltTypeIdOf(CCombat)),_attackPower(0),_lightAttack(false),_heavyAttack(false),_lifeModifierLightAttack(0), _lifeModifierHeavyAttack(0),_covering(false){}
+		CCombat() : IComponent(GetAltTypeIdOf(CCombat)),_attackPower(0),_lifeModifierLightAttack(0), _lifeModifierHeavyAttack(0),_covering(false){}
 		//CCombat() : IComponent(GetAltTypeIdOf(CCombat)),_attackPower(0),_lifeModifierLightAttack(-10), _lifeModifierHeavyAttack(-20),_covering(false){}
 
 		/**
@@ -139,11 +139,9 @@ protected:
 
 		float _attackPower;
 
-		bool _lightAttack, _heavyAttack;
+		int _lifeModifierLightAttack;
 
-		float _lifeModifierLightAttack;
-
-		float _lifeModifierHeavyAttack;
+		int _lifeModifierHeavyAttack;
 
 		bool _covering;
 		

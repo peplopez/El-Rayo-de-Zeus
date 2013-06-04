@@ -197,6 +197,7 @@ namespace GUI {
 				_controlledAvatar->emitMessage(m3);
 				break;
 
+
 			case GUI::Key::F2:
 				Physics::CServer::getSingletonPtr()->SwitchDebugDraw();
 				break;

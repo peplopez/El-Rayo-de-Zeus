@@ -20,9 +20,12 @@ namespace Graphics
 	class CBillboard;
 }
 
-namespace Logicavnc
+namespace Logic
 {
 	class CMessage;
+	class CMessageUInt;
+	class CMessageBoolString;
+	class CMessageFloat;
 }
 
 //declaración de la clase
@@ -50,7 +53,7 @@ namespace Logic
 	public:
 
 		CLife() : IComponent(GetAltTypeIdOf(CLife)), 
-			_LIFE_MAX(0), _life(0), _lifeBarBB(0){}
+			_LIFE_MAX(0), _life(0), _lifeBarBB(0), _lifemodificator(0){}
 		
 		~CLife();
 		
@@ -79,6 +82,8 @@ namespace Logic
 
 		/**Atributo que indica la magnitud de la vida de la entidad.*/
 		int _life;
+
+		int _lifemodificator;
 
 		void modifyLife(int);
 

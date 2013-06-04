@@ -21,6 +21,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
 #include "Logic/Maps/Map.h"
 #include "Logic/Entity/Messages/MessageAudio.h"
 #include "Map/MapEntity.h"
@@ -49,16 +50,22 @@ namespace Logic
 
 	void CLife::detachFromMap()
 	{
-		_graphicalScene->remove(_lifeBarBB);
-		_graphicalScene = NULL;
+		if(!_entity->isPlayer())
+		{
+			_graphicalScene->remove(_lifeBarBB);
+			_graphicalScene = NULL;
+		}
 	}
 
 	//---------------------------------------------------------
 
 	void CLife::attachToMap(CMap* map)
 	{
-		_graphicalScene = map->getGraphicScene();
-		_graphicalScene->add(_lifeBarBB);
+		if(!_entity->isPlayer())
+		{
+			_graphicalScene = map->getGraphicScene();
+			_graphicalScene->add(_lifeBarBB);
+		}
 	}
 
 	//---------------------------------------------------------
@@ -86,18 +93,23 @@ namespace Logic
 			_audio = entityInfo->getStringAttribute("audio");
 
 
-		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
-		std::stringstream ssAux; // FRS Importante añadir ID para evitar entidades gráficas con = nombre
-			ssAux << _entity->getName() << _entity->getEntityID();
-			std::string	parentName = ssAux.str();
+		//Si la entidad no es el PLAYER le creamos el Billboard
 
-		_lifeBarBB = new Graphics::CBillboard( 
-			parentName,// nombre de la entidad gráfica de ref
-			Vector3(0, lifeBarPosition, 0), 
-			lifeBarWidth, lifeBarHeight, "lifeBar"
-		);  		
-			_graphicalScene->add(_lifeBarBB);
-			_lifeBarBB->setTextureCoords(0.0f, 0.0f, 0.5f, 1.0f);
+		if(!_entity->isPlayer())
+		{
+			// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
+			std::stringstream ssAux; // FRS Importante añadir ID para evitar entidades gráficas con = nombre
+				ssAux << _entity->getName() << _entity->getEntityID();
+				std::string	parentName = ssAux.str();
+
+			_lifeBarBB = new Graphics::CBillboard( 
+				parentName,// nombre de la entidad gráfica de ref
+				Vector3(0, lifeBarPosition, 0), 
+				lifeBarWidth, lifeBarHeight, "lifeBar"
+			);  		
+				_graphicalScene->add(_lifeBarBB);
+				_lifeBarBB->setTextureCoords(0.0f, 0.0f, 0.5f, 1.0f);
+		}
 
 		return true;
 
@@ -109,7 +121,7 @@ namespace Logic
 	{
 		return message->getType() == Message::LIFE_MODIFIER || message->getType() == Message::LIFE_RESTORE ;
 
-	} // accept
+	} // accept	
 	
 	//---------------------------------------------------------
 
@@ -131,12 +143,18 @@ namespace Logic
 				// ya que luego en el entero del mensaje me vendrá el numero a modificar en negativo o positivo
 				//En Msg->getUint viene el modificador entero.
 
-				modifyLife(Msg->getUInt()); 
+				//if (message->getAction()==TActionType::DAMAGE)
+				//	_lifemodificator = -Msg->getUInt();
+				//else
+				//	_lifemodificator = Msg->getUInt();
+
+				_lifemodificator = Msg->getUInt();
+				modifyLife(_lifemodificator); 
 
 				break;
 			}
 
-			//PT
+			//PT. This case happens when a player is respawned into its origin base
 			case Message::LIFE_RESTORE:
 			{
 				modifyLife(_LIFE_MAX);
@@ -200,17 +218,31 @@ namespace Logic
 		}		
 
 			// LIFEBAR CONTROL
-			float ratio = float (_life) / float (_LIFE_MAX); // FRS Menudo fail hicimos aquí con los enteros xD
+			float ratio = float (_life) / float (_LIFE_MAX);
 
-			//Si la entidad tiene su _lifeBar distinto de NULL actualizamos las coordenadas UV, sino NO.
-			if(_lifeBarBB!=NULL)
+
+			//Si la entidad no es el player actualizamos su billboard
+			if(!_entity->isPlayer())
 			{
-				_lifeBarBB->setTextureCoords(
-					(1.0f - ratio) / 2.0f,			// u1
-					0.0f,							// v1
-					0.5f + (1.0f - ratio) / 2.0f,	// u2
-					1.0f							// v2
-				);
+				//Si la entidad tiene su _lifeBar distinto de NULL actualizamos las coordenadas UV, sino NO.
+				if(_lifeBarBB!=NULL)
+				{
+					_lifeBarBB->setTextureCoords(
+						(1.0f - ratio) / 2.0f,			// u1
+						0.0f,							// v1
+						0.5f + (1.0f - ratio) / 2.0f,	// u2
+						1.0f							// v2
+					);
+				}
+			}
+			else // if entity is Player then we update its HUD progressbar, sending a message
+			{
+				CMessageFloat *message = new CMessageFloat();
+				message->setType(Logic::Message::HUD);
+				message->setAction(Logic::Message::UPDATE_HUD_LIFE);
+				message->setFloat(ratio);
+				_entity->emitMessage(message);
+
 			}
 
 

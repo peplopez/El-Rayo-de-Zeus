@@ -17,6 +17,7 @@
 namespace Logic
 {
 	class CGameStatus;
+	class CMessageFloat;
 }
 
 namespace ScriptManager
@@ -44,7 +45,7 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		CHud() : IComponent(GetAltTypeIdOf(CHud)), _time(0), numMaxAltares(0), numBase(0) { }
+		CHud() : IComponent(GetAltTypeIdOf(CHud)), _time(0), numMaxAltares(0), numBase(0), _ratioLife(1.0f) { }
 		
 		/** Destructor */
 		CHud::~CHud();
@@ -80,6 +81,8 @@ namespace Logic
 		void tick(unsigned int msecs);
 
 		void displayHud();
+
+		void updateHudLife(float ratioLife);
 		
 
 	protected:
@@ -97,6 +100,8 @@ namespace Logic
 		unsigned short numMaxAltares;
 		unsigned short numBase;
 		unsigned short player;
+
+		float _ratioLife;
 
 		 
 	}; // class CHud

@@ -29,6 +29,8 @@
 		</Window>	
 		
 		<Window Type="OgreTray/ProgressBar" Name="Hud/Life" >
+			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+			<Property Name="CurrentProgress" Value="1" />		
 			<Property Name="AlwaysOnTop" Value="True" />
 			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.305,0},{0,230},{0.35,0}}" />
 		</Window>
