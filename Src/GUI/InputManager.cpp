@@ -404,23 +404,15 @@ namespace GUI{
 
 	bool CInputManager::axisMoved(const OIS::JoyStickEvent &e, int axis) 
 	{
+		
+		int x = e.state.mAxes[axis].abs;
 		if (!_joystickListeners.empty()) 
 		{
-			// Actualizamos el estado antes de enviarlo
-			_mouseState.setExtents(e.state.width, e.state.height);
-			_mouseState.setPosition(e.state.X.abs,e.state.Y.abs);
-			_mouseState.movX = e.state.X.rel;
-			_mouseState.movY = e.state.Y.rel;
-			_mouseState.scrool = e.state.Z.rel;
-			_mouseState.button = Button::UNASSIGNED;
-
-			e.state.mAxes[axis].
-
-			std::list<CMouseListener*>::const_iterator it;
-			it = _mouseListeners.begin();
-			for (; it != _mouseListeners.end(); it++) 
+			std::list<CJoystickListener*>::const_iterator it;
+			it = _joystickListeners.begin();
+			for (; it != _joystickListeners.end(); ++it) 
 			{
-				if ((*it)->mouseMoved(_mouseState))
+				if ((*it)->axisMoved(_joystickState))
 				  return true;
 			}
 		}

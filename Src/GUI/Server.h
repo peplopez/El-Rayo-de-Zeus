@@ -49,7 +49,7 @@ namespace GUI
 	@author David Llansó
 	@date Agosto, 2010
 	*/
-	class CServer : public CKeyboardListener, public CMouseListener
+	class CServer : public CKeyboardListener, public CMouseListener, public CJoystickListener
 	{
 	public:
 

@@ -556,7 +556,7 @@ namespace GUI
 			setPosition(posAbsX,posAbsY);
 			movX = 0;
 			movY = 0;
-			scrool = 0;
+			scroll = 0;
 			button = (TButton)-1; // Button::UNASSIGNED
 		}
 
@@ -590,45 +590,22 @@ namespace GUI
 			this->posRelY = (float)posAbsY / (float)height;
 		}
 
-		/** 
-		Estos valores representan la anchura y altura del área de 
-		trabajo del ratón. Suele estar asociado al tamaño de la 
-		ventana de renderizado. Su valor es mutable para que se
-		pueda cambiar aunque se pase como const.
-		*/
+
 		unsigned int width, height;
 
-		/**
-		Posiciones absolutas de los ejes X e Y del puntero del 
-		ratón. Los valores van desde 0 hasta el ancho y alto de 
-		la ventana.
-		*/
+
 		unsigned int posAbsX, posAbsY;
 
-		/**
-		Posiciones relativas de los ejes X e Y del puntero del 
-		ratón. Los valores van desde 0 hasta 1 independientemente
-		del ancho y alto de la ventana.
-		*/
+
 		float posRelX, posRelY;
 
-		/**
-		Movimiento de los ejes X e Y del puntero del ratón respecto 
-		del último evento. Valores positivos movimiento a derechas,
-		negativos a izquierdas.
-		*/
+	
 		int movX, movY;
 		
-		/**
-		Movimiento de la rueda del ratón respecto del último evento.
-		*/
+	
 		int scroll;
 
-		/**
-		Indica que botón ha sido el último en producir un evento.
-		Si no ha habido eventos de ratón su valor es 
-		Button::UNASSIGNED.
-		*/
+
 		TButton button;
 	};
 	
