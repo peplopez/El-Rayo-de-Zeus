@@ -27,6 +27,14 @@ ratón y teclado.
 #include <sstream>
 #include <cassert>
 
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "LOGIC::PHYSIC>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
+
 
 namespace GUI{
 
@@ -110,7 +118,10 @@ namespace GUI{
 		{
 			_joystick->setEventCallback(this);
 			_joystickState = new CJoystickState(_joystick->getJoyStickState().mAxes.size(), _joystick->getJoyStickState().mButtons.size());
+			loadJoyBindingMap();
 		}
+
+		
 
 		return true;
 
@@ -130,6 +141,57 @@ namespace GUI{
 		delete _joystickState;
 
 	} // close
+
+	//--------------------------------------------------------
+
+	void CInputManager::loadJoyBindingMap()
+	{
+		//Ogre::ConfigFile cf;
+  //      cf.load("controls.cfg");
+  //      Ogre::ConfigFile::SectionIterator secIt = cf.getSectionIterator();
+  //      secIt.getNext();
+  //      Ogre::String sectionstring = "";
+  //      Ogre::String typestring = "";
+  //      Ogre::String paramstring = "";
+  //      while (secIt.hasMoreElements()) 
+		//{
+  //          sectionstring = secIt.peekNextKey();
+  //          Ogre::ConfigFile::SettingsMultiMap* settings = secIt.getNext();
+  //          //Do the code for section... e.g. print sectionstring
+  //          for (Ogre::ConfigFile::SettingsMultiMap::iterator setIt = settings->begin(); setIt != settings->end(); ++setIt)
+		//	{
+  //              typestring = setIt->first;
+  //              paramstring = setIt->second;
+  //              // do the code for key/value
+  //          }
+  //      }
+
+		_jAxisBindings[3] = TJoyAxis::XAXIS1;
+		_jAxisBindings[2] = TJoyAxis::YAXIS1;
+		_jAxisBindings[1] = TJoyAxis::XAXIS2;
+		_jAxisBindings[0] = TJoyAxis::YAXIS2;
+
+		_jButtonBindings[0] = TJoyButton::BUTTON1;
+		_jButtonBindings[1] = TJoyButton::BUTTON2;
+		_jButtonBindings[2] = TJoyButton::BUTTON3;
+		_jButtonBindings[3] = TJoyButton::BUTTON4;
+		_jButtonBindings[4] = TJoyButton::BUTTON5;
+
+	}
+
+	//--------------------------------------------------------
+
+	TJoyButton CInputManager::getButtonForOISButton(int OISButton)
+	{
+        return _jButtonBindings.at(OISButton);
+    }
+
+	//--------------------------------------------------------
+
+	TJoyAxis CInputManager::getAxisForOISAxis(int OISAxis) 
+	{
+        return _jAxisBindings.at(OISAxis);
+    }
 
 	//--------------------------------------------------------
 
@@ -413,13 +475,14 @@ namespace GUI{
 		
 		if (!_joystickListeners.empty()) 
 		{
-			_joystickState->_axes[axis].abs = e.state.mAxes[axis].abs;
-			_joystickState->_axes[axis].rel= e.state.mAxes[axis].rel;
+			LOG("InputManager: AXIS: " << axis << "   VALUE: " << e.state.mAxes[axis].abs);
+			_joystickState->_axes[getAxisForOISAxis(axis)].abs = e.state.mAxes[axis].abs;
+			_joystickState->_axes[getAxisForOISAxis(axis)].rel= e.state.mAxes[axis].rel;
 			std::list<CJoystickListener*>::const_iterator it;
 			it = _joystickListeners.begin();
 			for (; it != _joystickListeners.end(); ++it) 
 			{
-				if ((*it)->axisMoved(_joystickState, axis))
+				if ((*it)->axisMoved(_joystickState, getAxisForOISAxis(axis)))
 				  return true;
 			}
 		}
@@ -435,12 +498,12 @@ namespace GUI{
 		
 		if (!_joystickListeners.empty()) 
 		{
-			_joystickState->_buttons[button] = e.state.mButtons[button];
+			_joystickState->_buttons[getButtonForOISButton(button)] = e.state.mButtons[button];
 			std::list<CJoystickListener*>::const_iterator it;
 			it = _joystickListeners.begin();
 			for (; it != _joystickListeners.end(); ++it) 
 			{
-				if ((*it)->buttonPressed(_joystickState, button))
+				if ((*it)->buttonPressed(_joystickState, getButtonForOISButton(button)))
 				  return true;
 			}
 		}
@@ -457,12 +520,12 @@ namespace GUI{
 		
 		if (!_joystickListeners.empty()) 
 		{
-			_joystickState->_buttons[button] = e.state.mButtons[button];
+			_joystickState->_buttons[getButtonForOISButton(button)] = e.state.mButtons[button];
 			std::list<CJoystickListener*>::const_iterator it;
 			it = _joystickListeners.begin();
 			for (; it != _joystickListeners.end(); ++it) 
 			{
-				if ((*it)->buttonReleased(_joystickState, button))
+				if ((*it)->buttonReleased(_joystickState, getButtonForOISButton(button)))
 				  return true;
 			}
 		}

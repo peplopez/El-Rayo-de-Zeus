@@ -70,7 +70,6 @@ namespace GUI
 
 		}; // enum TButton
 
-
 	} // namespace Button
 
 	/**
@@ -502,6 +501,31 @@ namespace GUI
 	@author Emilio Santalla
 	@date Junio, 2013
 	*/
+	namespace Joystick
+	{
+
+		enum TJoyAxis
+		{
+			XAXIS1,
+			YAXIS1,
+			XAXIS2,
+			YAXIS2,
+		};
+
+		enum TJoyButton
+		{
+			BUTTON1,
+			BUTTON2,
+			BUTTON3,
+			BUTTON4,
+			BUTTON5,
+		};
+
+	}
+
+	typedef Joystick::TJoyAxis TJoyAxis;
+	typedef Joystick::TJoyButton TJoyButton;
+
 	class CJoystickState
 	{
 	public:
@@ -542,9 +566,9 @@ namespace GUI
 	class CJoystickListener
 	{
 	public:
-		virtual bool axisMoved(const CJoystickState *joystickState, int axis) {return false;}
-		virtual bool buttonPressed(const CJoystickState *joystickState, int button) {return false;}
-		virtual bool buttonReleased(const CJoystickState *joystickState, int button) {return false;}
+		virtual bool axisMoved(const CJoystickState *joystickState, TJoyAxis axis) {return false;}
+		virtual bool buttonPressed(const CJoystickState *joystickState, TJoyButton button) {return false;}
+		virtual bool buttonReleased(const CJoystickState *joystickState, TJoyButton button){return false;}
 	};
 
 
@@ -580,6 +604,9 @@ namespace GUI
 		public OIS::MouseListener , public OIS::JoyStickListener
 	{
 	public:
+
+		typedef	std::map<int, TJoyAxis> TJAxisBindings;
+		typedef	std::map<int, TJoyButton> TJButtonBindings;
 
 		/**
 		Devuelve la única instancia de la clase.
@@ -691,6 +718,7 @@ namespace GUI
 
 	private:
 
+
 		/**
 		Constructor.
 		*/
@@ -721,6 +749,14 @@ namespace GUI
 		Única instancia de la clase. 
 		*/
 		static CInputManager *_instance;
+
+
+		/**
+		*/
+		void loadJoyBindingMap();
+
+		TJoyButton getButtonForOISButton(int OISButton);
+		TJoyAxis getAxisForOISAxis(int OISAxis);
 
 		/** 
 		Método invocado por OIS cuando se pulsa una tecla. Es el
@@ -855,6 +891,12 @@ namespace GUI
 		Lista de oyentes de eventos del joystick.
 		*/
 		std::list<CJoystickListener*> _joystickListeners;
+
+		/**
+		*/
+		TJAxisBindings _jAxisBindings;
+		TJButtonBindings _jButtonBindings;
+
 
 	}; // class InputManager
 

@@ -300,7 +300,7 @@ namespace GUI {
 
 	//--------------------------------------------------------
 
-	bool CPlayerController::axisMoved(const CJoystickState *joystickState, int axis)
+	bool CPlayerController::axisMoved(const CJoystickState *joystickState, TJoyAxis axis)
 	{
 		if (_controlledAvatar)
 		{
@@ -308,26 +308,48 @@ namespace GUI {
 				m->setType(Logic::Message::CONTROL);
 			switch (axis)
 			{
-			case 3:
-				if (abs(joystickState->_axes[3].abs) > abs(joystickState->_axes[2].abs))
+			case TJoyAxis::XAXIS1:
+
+				if (joystickState->_axes[TJoyAxis::XAXIS1].abs > 5000)
 				{
-					if (joystickState->_axes[3].abs > 6000)
-					{
-						m->setAction(Logic::Message::WALK_RIGHT);
-						_controlledAvatar->emitMessage(m);
-					}
-					else if (joystickState->_axes[3].abs < -6000)
-					{
-						m->setAction(Logic::Message::WALK_LEFT);
-						_controlledAvatar->emitMessage(m);
-					}
+					m->setAction(Logic::Message::WALK_RIGHT);
+					_controlledAvatar->emitMessage(m);
+				}
+				else if (joystickState->_axes[TJoyAxis::XAXIS1].abs < -5000)
+				{
+					m->setAction(Logic::Message::WALK_LEFT);
+					_controlledAvatar->emitMessage(m);
 				}
 					
-				if (joystickState->_axes[3].abs > -6000 && joystickState->_axes[3].abs < 6000)
+				if (abs(joystickState->_axes[TJoyAxis::XAXIS1].abs) < 20)
 				{
 						m->setAction(Logic::Message::WALK_STOP);
 						_controlledAvatar->emitMessage(m);
 				}
+
+				return true;
+				break;
+
+			case TJoyAxis::YAXIS1:
+
+				if (joystickState->_axes[TJoyAxis::YAXIS1].abs > 5000)
+				{
+					m->setAction(Logic::Message::GO_DOWN);
+					_controlledAvatar->emitMessage(m);
+				}
+
+				if (joystickState->_axes[TJoyAxis::YAXIS1].abs < -5000)
+				{
+					m->setAction(Logic::Message::GO_UP);
+					_controlledAvatar->emitMessage(m);
+				}
+				
+				if (abs(joystickState->_axes[TJoyAxis::YAXIS1].abs) < 20)
+				{
+						m->setAction(Logic::Message::WALK_STOP);
+						_controlledAvatar->emitMessage(m);
+				}
+
 					
 				return true;
 				break;
@@ -339,14 +361,14 @@ namespace GUI {
 
 	//--------------------------------------------------------
 
-	bool CPlayerController::buttonPressed(const CJoystickState *joystickState, int button)
+	bool CPlayerController::buttonPressed(const CJoystickState *joystickState, TJoyButton button)
 	{
 		return false;
 	}
 
 	//--------------------------------------------------------
 
-	bool CPlayerController::buttonReleased(const CJoystickState *joystickState, int button)
+	bool CPlayerController::buttonReleased(const CJoystickState *joystickState, TJoyButton button)
 	{
 		return false;
 	}

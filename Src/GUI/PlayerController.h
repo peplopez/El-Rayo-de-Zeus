@@ -138,9 +138,9 @@ namespace GUI
 		Métodos de CJoystickListener
 		***************************************************************/
 
-		bool axisMoved(const CJoystickState *joystickState, int axis);
-		bool buttonPressed(const CJoystickState *joystickState, int button);
-		bool buttonReleased(const CJoystickState *joystickState, int button);
+		bool axisMoved(const CJoystickState *joystickState, TJoyAxis axis);
+		bool buttonPressed(const CJoystickState *joystickState, TJoyButton button);
+		bool buttonReleased(const CJoystickState *joystickState, TJoyButton button);
 
 
 	protected:
