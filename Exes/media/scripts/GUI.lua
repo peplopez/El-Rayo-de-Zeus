@@ -10,19 +10,19 @@ GUI = {
 	Logger = CEGUI.Logger:getSingleton(),
 }
 
+-- Schemes Initialization
 GUI.Schemes:create("TaharezLook.scheme")
 GUI.Schemes:create("OgreTray.scheme")
 
+-- Fonts Initialization
 GUI.Fonts:create("DejaVuSans-10.font")
 GUI.Fonts:create("FairChar-30.font")
 GUI.Fonts:create("Diogenes-10.font")
 GUI.Fonts:create("Diogenes-14.font")
 GUI.Fonts:create("Diogenes-24.font")
-
---[[
-GUI.Fonts:create("Batang-26.font")
-GUI.Fonts:create("handshop-30.font")
-]]
+GUI.Fonts:create("Diogenes-24.font")
+GUI.Fonts:create("Cantoria-10.font")
+GUI.Fonts:create("Cantoria-14.font")
 
 GUI.System:setDefaultMouseCursor("OgreTrayImages","MouseArrow")
 

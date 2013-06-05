@@ -9,9 +9,13 @@ lifeBase = lifeBaseMax
 
 --Funcion de inicializacion/carga de un layout y sus ventanas y subventanas
 function initHud()
+
 	if hud==nil then
+	
 		GUI.Windows:loadWindowLayout("Hud.layout")
 		hud = GUI.Windows:getWindow("Hud")
+		
+		LifeWindow = hud:getChild("Hud/Life")
 		
 		TitleEnemigosWindow = hud:getChild("Hud/TitleEnemigos")
 		NumEnemigosWindow = hud:getChild("Hud/NumEnemigos")
@@ -234,5 +238,10 @@ end
 
 function initNickName(nickname)
 	PlayernameWindow:setText(nickname)
+end
+
+function updateHudLife(ratio)
+	local pbar = CEGUI.toProgressBar(LifeWindow)
+	pbar:setProgress(ratio)
 end
 

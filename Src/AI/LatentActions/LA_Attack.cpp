@@ -2,7 +2,7 @@
 
 #include "../../Logic/Entity/Components/AnimatedGraphics.h"
 
-#include "../../Logic/Entity/Components/Attack.h"
+#include "../../Logic/Entity/Components/Combat.h"
 #include "../../Logic/Entity/Components/AvatarController.h"
 #include "../../Logic/Entity/Components/Jump.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
@@ -49,10 +49,12 @@ namespace AI
 		{
 			CMessageBoolUShort *message = new CMessageBoolUShort();
 			message->setType(Message::SET_ANIMATION);
+
 			if (_action==Message::LIGHT_ATTACK)
 				message->setUShort(Logic::ATTACK1);
 			else
-				message->setUShort(Logic::ATTACK2);				
+				message->setUShort(Logic::ATTACK2);	
+
 			message->setAction(_action);
 			message->setBool(false);
 			_entity->emitMessage(message);
@@ -72,8 +74,8 @@ namespace AI
 	void CLA_Attack::OnStop()
 	{
 		awakeComponents();
-		if (_entity->getComponent<CAttack>()!=NULL)
-			_entity->getComponent<CAttack>()->resetAttackFlags();
+		if (_entity->getComponent<CCombat>()!=NULL)
+			_entity->getComponent<CCombat>()->resetAttackFlags();
 	}
 
 	/**
@@ -105,8 +107,8 @@ namespace AI
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
 		awakeComponents();
-		if (_entity->getComponent<CAttack>()!=NULL)
-			_entity->getComponent<CAttack>()->resetAttackFlags();
+		if (_entity->getComponent<CCombat>()!=NULL)
+			_entity->getComponent<CCombat>()->resetAttackFlags();
 	
 		return FAIL;
 	}
@@ -171,14 +173,6 @@ namespace AI
 				{
 					if (_action==Message::HEAVY_ATTACK)
 					{
-						/*CMessageBoolString *message = new CMessageBoolString();
-						message->setType(Message::SET_ANIMATION);
-						message->setString("INDEFINIDO");
-						message->setAction(_action);
-						message->setBool(false);
-						_entity->emitMessage(message);	
-						_initialYaw=_entity->getYaw();
-						_yawAmount=0;*/
 						CMessageBoolUShort *message = new CMessageBoolUShort();
 						message->setType(Message::SET_ANIMATION);
 						message->setUShort(Logic::ATTACK3);
@@ -195,10 +189,7 @@ namespace AI
 						message->setAction(_action);
 						message->setBool(false);
 						_entity->emitMessage(message);	
-						_animationSetedByMe=true;
-						//finish(false);	
-						//_initialYaw=_entity->getYaw();
-						//_yawAmount=0;				
+						_animationSetedByMe=true;				
 					}
 					break;	
 				}
@@ -213,25 +204,13 @@ namespace AI
 
 	void CLA_Attack::tick(unsigned int msecs) 
 	{
-		/*if (_initialCombatState==2 && _yawAmount>=0 && _action==Message::HEAVY_ATTACK)
-		{
-			_yawAmount++;
-			_entity->yaw(_entity->getYaw()+0.001f*msecs);
-			if (_yawAmount>40) 
-				{
-					_yawAmount=-10;
-					_entity->setYaw(_initialYaw);
-				
-					finish(false);
-				}				
-		}*/
 		CLatentAction::tick();
 	}
 
 	void CLA_Attack::sleepComponents()
 	{
-		if (_entity->getComponent<CAttack>()!=NULL)
-		_entity->getComponent<CAttack>()->resetAttackFlags();
+		if (_entity->getComponent<CCombat>()!=NULL)
+		_entity->getComponent<CCombat>()->resetAttackFlags();
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 		_entity->getComponent<CAvatarController>()->sleep();
 		if (_entity->getComponent<CJump>()!=NULL)
@@ -242,8 +221,8 @@ namespace AI
 
 	void CLA_Attack::awakeComponents()
 	{
-		if (_entity->getComponent<CAttack>()!=NULL)
-		_entity->getComponent<CAttack>()->resetAttackFlags();
+		if (_entity->getComponent<CCombat>()!=NULL)
+		_entity->getComponent<CCombat>()->resetAttackFlags();
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 		_entity->getComponent<CAvatarController>()->awake();
 		if (_entity->getComponent<CJump>()!=NULL)

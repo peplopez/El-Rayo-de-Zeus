@@ -48,8 +48,10 @@ function asociarEventosMenuSingle()
 end
 
 function reloadMenuSingle()
-		if menuSingle ~= nil then	
-			menuSingleStatusWindow:setProperty("UnifiedAreaRect","{{0.1,1},{0.75,0},{0.95,0},{0.85,0}}")
+		if menuSingle ~= nil then
+			menuSingleProgress = GUI.Windows:getWindow("MenuSingle/Progreso")
+			--menuSingleProgress:setVisible(true)
+			--menuSingleProgress:setProperty("UnifiedAreaRect", "{{0.05,0},{0.78,0},{0.95,0},{0.8,0}}")
 		end
 end
 

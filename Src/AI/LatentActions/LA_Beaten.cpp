@@ -1,7 +1,7 @@
 #include "LA_Beaten.h"
 #include "../../Logic/Entity/Components/AnimatedGraphics.h"
 
-#include "../../Logic/Entity/Components/Attack.h"
+#include "../../Logic/Entity/Components/Combat.h"
 #include "../StateMachines/StateMachine.h"
 #include "Logic/Entity/Messages/MessageBoolUShort.h"
 #include "Logic/Entity/Messages/MessageUShort.h"

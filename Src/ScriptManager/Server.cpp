@@ -770,6 +770,7 @@ bool CServer::executeProcedureString(const char *name, std::string param1){
 	//------------------------------------------------------//
 
 	template bool CServer::executeProcedure<int>(const char *subroutineName, const int& param1);
+	template bool CServer::executeProcedure<float>(const char *subroutineName, const float& param1);
 	//template bool CServer::executeProcedure<const char*>(const char *subroutineName, const char* param1);
 	template bool CServer::executeProcedure<int>(const char *subroutineName, const int& param1, const int& param2);
 	template bool CServer::executeProcedure<unsigned short>(const char *subroutineName, const unsigned short& param1);

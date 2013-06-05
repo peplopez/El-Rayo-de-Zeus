@@ -13,7 +13,7 @@ de la entidad.
 
 #include "AvatarController.h"
 
-#include "Attack.h"
+#include "Combat.h"
 #include "Logic/Entity/Entity.h"
 #include "Map/MapEntity.h"
 #include "Logic/Entity/Messages/Message.h"

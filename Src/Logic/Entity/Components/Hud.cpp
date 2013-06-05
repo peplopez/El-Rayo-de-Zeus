@@ -15,6 +15,7 @@ Contiene la implementación del componente que controla el HUD mediante CEGUI.
 //Inclusion de los mensajes
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
+#include "Logic/Entity/Messages/MessageFloat.h"
 
 #include "Logic/GameStatus.h"
 #include "Logic/BaseInfo.h"
@@ -96,8 +97,17 @@ namespace Logic
 			switch(message->getType())
 			{
 				case Message::HUD:
+
 					if(message->getAction() == Message::DISPLAY_HUD)
 						displayHud();
+
+					if(message->getAction() == Message::UPDATE_HUD_LIFE)
+					{
+						CMessageFloat *maux = static_cast<CMessageFloat*>(message);
+						_ratioLife = maux->getFloat();
+						updateHudLife(_ratioLife);
+					}
+
 					break;
 			}
 
@@ -136,6 +146,11 @@ namespace Logic
 	void CHud::displayHud()
 	{
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("changeHudVisibility");
+	}
+
+	void CHud::updateHudLife(float ratioLife)
+	{
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateHudLife",ratioLife);
 	}
 
 } // namespace Logic
