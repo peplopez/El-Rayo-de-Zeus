@@ -39,7 +39,8 @@ namespace AI
 		message->setUShort( Logic::RUN );
 		message->setBool(true);
 		_entity->emitMessage(message);		
-
+		if (_entity->getType()=="Cancerbero")
+			int i=0;
 		return SUSPENDED;
 	}
 
