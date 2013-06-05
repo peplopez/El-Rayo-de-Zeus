@@ -35,7 +35,12 @@ restrictions:
 #elif defined OIS_LINUX_PLATFORM
 #  include "linux/LinuxInputManager.h"
 #elif defined OIS_APPLE_PLATFORM
+#  ifdef __OBJC__
+#    include "mac/CocoaInputManager.h"
+#  endif
 #  include "mac/MacInputManager.h"
+#elif defined OIS_IPHONE_PLATFORM
+#  include "iphone/iPhoneInputManager.h"
 #elif defined OIS_XBOX_PLATFORM
 #  include "xbox/XBoxInputManager.h"
 #endif
@@ -58,6 +63,8 @@ InputManager::InputManager(const std::string& name) :
 	m_lircSupport(0),
 	m_wiiMoteSupport(0)
 {
+    mFactories.clear();
+    mFactoryObjects.clear();
 }
 
 //----------------------------------------------------------------------------//
@@ -109,7 +116,21 @@ InputManager* InputManager::createInputSystem( ParamList &paramList )
 #elif defined OIS_LINUX_PLATFORM
 	im = new LinuxInputManager();
 #elif defined OIS_APPLE_PLATFORM
-	im = new MacInputManager();
+	ParamList::iterator i = paramList.find("WINDOW");
+	if(i != paramList.end())
+    {
+#ifdef __OBJC__
+        id obj = (id)strtoul(i->second.c_str(), 0, 10);
+        if(obj && [obj isKindOfClass:[NSWindow class]])
+            im = new CocoaInputManager();
+#endif
+#ifndef __LP64__
+        else
+            im = new MacInputManager();
+#endif
+    }
+#elif defined OIS_IPHONE_PLATFORM
+	im = new iPhoneInputManager();
 #else
 	OIS_EXCEPT(E_General, "No platform library.. check build platform defines!");
 #endif 

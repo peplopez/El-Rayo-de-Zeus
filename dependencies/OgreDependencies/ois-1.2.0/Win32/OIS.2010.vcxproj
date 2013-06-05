@@ -18,6 +18,61 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\includes\OIS.h" />
+    <ClInclude Include="..\includes\OISConfig.h" />
+    <ClInclude Include="..\includes\OISEffect.h" />
+    <ClInclude Include="..\includes\OISEvents.h" />
+    <ClInclude Include="..\includes\OISException.h" />
+    <ClInclude Include="..\includes\OISFactoryCreator.h" />
+    <ClInclude Include="..\includes\OISForceFeedback.h" />
+    <ClInclude Include="..\includes\OISInputManager.h" />
+    <ClInclude Include="..\includes\OISInterface.h" />
+    <ClInclude Include="..\includes\OISJoyStick.h" />
+    <ClInclude Include="..\includes\OISKeyboard.h" />
+    <ClInclude Include="..\includes\OISMouse.h" />
+    <ClInclude Include="..\includes\OISMultiTouch.h" />
+    <ClInclude Include="..\includes\OISObject.h" />
+    <ClInclude Include="..\includes\OISPrereqs.h" />
+    <ClInclude Include="..\includes\win32\Win32ForceFeedback.h" />
+    <ClInclude Include="..\includes\win32\Win32InputManager.h" />
+    <ClInclude Include="..\includes\win32\Win32JoyStick.h" />
+    <ClInclude Include="..\includes\win32\Win32KeyBoard.h" />
+    <ClInclude Include="..\includes\win32\Win32Mouse.h" />
+    <ClInclude Include="..\includes\win32\Win32Prereqs.h" />
+    <ClInclude Include="..\src\extras\LIRC\OISLIRC.h" />
+    <ClInclude Include="..\src\extras\LIRC\OISLIRCFactoryCreator.h" />
+    <ClInclude Include="..\src\extras\LIRC\OISLIRCRingBuffer.h" />
+    <ClInclude Include="..\src\win32\extras\WiiMote\hiddevice.h" />
+    <ClInclude Include="..\src\win32\extras\WiiMote\OISWiiMote.h" />
+    <ClInclude Include="..\src\win32\extras\WiiMote\OISWiiMoteFactoryCreator.h" />
+    <ClInclude Include="..\src\win32\extras\WiiMote\OISWiiMoteForceFeedback.h" />
+    <ClInclude Include="..\src\win32\extras\WiiMote\OISWiiMoteRingBuffer.h" />
+    <ClInclude Include="..\src\win32\extras\WiiMote\wiimote.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\extras\LIRC\OISLIRC.cpp" />
+    <ClCompile Include="..\src\extras\LIRC\OISLIRCFactoryCreator.cpp" />
+    <ClCompile Include="..\src\OISEffect.cpp" />
+    <ClCompile Include="..\src\OISException.cpp" />
+    <ClCompile Include="..\src\OISForceFeedback.cpp" />
+    <ClCompile Include="..\src\OISInputManager.cpp" />
+    <ClCompile Include="..\src\OISJoyStick.cpp" />
+    <ClCompile Include="..\src\OISKeyboard.cpp" />
+    <ClCompile Include="..\src\OISObject.cpp" />
+    <ClCompile Include="..\src\win32\extras\WiiMote\hiddevice.cpp" />
+    <ClCompile Include="..\src\win32\extras\WiiMote\main.cpp" />
+    <ClCompile Include="..\src\win32\extras\WiiMote\OISWiiMote.cpp" />
+    <ClCompile Include="..\src\win32\extras\WiiMote\OISWiiMoteFactoryCreator.cpp" />
+    <ClCompile Include="..\src\win32\extras\WiiMote\OISWiiMoteForceFeedback.cpp" />
+    <ClCompile Include="..\src\win32\extras\WiiMote\OISWiiMoteRingBuffer.cpp" />
+    <ClCompile Include="..\src\win32\extras\WiiMote\wiimote.cpp" />
+    <ClCompile Include="..\src\win32\Win32ForceFeedback.cpp" />
+    <ClCompile Include="..\src\win32\Win32InputManager.cpp" />
+    <ClCompile Include="..\src\win32\Win32JoyStick.cpp" />
+    <ClCompile Include="..\src\win32\Win32KeyBoard.cpp" />
+    <ClCompile Include="..\src\win32\Win32Mouse.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>OIS</ProjectName>
     <ProjectGuid>{9CC704CB-4956-4479-BDEC-57CBC03F700E}</ProjectGuid>
@@ -227,62 +282,6 @@ copy "$(ProjectDir)..\includes\*.*" "$(SolutionDir)..\include\OIS" /y
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\src\OISEffect.cpp" />
-    <ClCompile Include="..\src\OISException.cpp" />
-    <ClCompile Include="..\src\OISForceFeedback.cpp" />
-    <ClCompile Include="..\src\OISInputManager.cpp" />
-    <ClCompile Include="..\src\OISJoyStick.cpp" />
-    <ClCompile Include="..\src\OISKeyboard.cpp" />
-    <ClCompile Include="..\src\OISObject.cpp" />
-    <ClCompile Include="..\src\win32\Win32ForceFeedback.cpp" />
-    <ClCompile Include="..\src\win32\Win32InputManager.cpp" />
-    <ClCompile Include="..\src\win32\Win32JoyStick.cpp" />
-    <ClCompile Include="..\src\win32\Win32KeyBoard.cpp" />
-    <ClCompile Include="..\src\win32\Win32Mouse.cpp" />
-    <ClCompile Include="..\src\win32\extras\WiiMote\hiddevice.cpp" />
-    <ClCompile Include="..\src\win32\extras\WiiMote\OISWiiMote.cpp" />
-    <ClCompile Include="..\src\win32\extras\WiiMote\OISWiiMoteFactoryCreator.cpp" />
-    <ClCompile Include="..\src\win32\extras\WiiMote\OISWiiMoteForceFeedback.cpp" />
-    <ClCompile Include="..\src\win32\extras\WiiMote\OISWiiMoteRingBuffer.cpp" />
-    <ClCompile Include="..\src\win32\extras\WiiMote\wiimote.cpp" />
-    <ClCompile Include="..\src\extras\LIRC\OISLIRC.cpp" />
-    <ClCompile Include="..\src\extras\LIRC\OISLIRCFactoryCreator.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\includes\OIS.h" />
-    <ClInclude Include="..\includes\OISConfig.h" />
-    <ClInclude Include="..\includes\OISEvents.h" />
-    <ClInclude Include="..\includes\OISException.h" />
-    <ClInclude Include="..\includes\OISFactoryCreator.h" />
-    <ClInclude Include="..\includes\OISInputManager.h" />
-    <ClInclude Include="..\includes\OISJoystick.h" />
-    <ClInclude Include="..\includes\OISKeyboard.h" />
-    <ClInclude Include="..\includes\OISMouse.h" />
-    <ClInclude Include="..\includes\OISObject.h" />
-    <ClInclude Include="..\includes\OISPrereqs.h" />
-    <ClInclude Include="..\includes\win32\Win32ForceFeedback.h" />
-    <ClInclude Include="..\includes\win32\Win32InputManager.h" />
-    <ClInclude Include="..\includes\win32\Win32JoyStick.h" />
-    <ClInclude Include="..\includes\win32\Win32KeyBoard.h" />
-    <ClInclude Include="..\includes\win32\Win32Mouse.h" />
-    <ClInclude Include="..\includes\win32\Win32Prereqs.h" />
-    <ClInclude Include="..\includes\OISEffect.h" />
-    <ClInclude Include="..\includes\OISForceFeedback.h" />
-    <ClInclude Include="..\includes\OISInterface.h" />
-    <ClInclude Include="..\src\win32\extras\WiiMote\hiddevice.h" />
-    <ClInclude Include="..\src\win32\extras\WiiMote\OISWiiMote.h" />
-    <ClInclude Include="..\src\win32\extras\WiiMote\OISWiiMoteFactoryCreator.h" />
-    <ClInclude Include="..\src\win32\extras\WiiMote\OISWiiMoteForceFeedback.h" />
-    <ClInclude Include="..\src\win32\extras\WiiMote\OISWiiMoteRingBuffer.h" />
-    <ClInclude Include="..\src\win32\extras\WiiMote\wiimote.h" />
-    <ClInclude Include="..\src\extras\LIRC\OISLIRC.h" />
-    <ClInclude Include="..\src\extras\LIRC\OISLIRCFactoryCreator.h" />
-    <ClInclude Include="..\src\extras\LIRC\OISLIRCRingBuffer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\ReadMe.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
