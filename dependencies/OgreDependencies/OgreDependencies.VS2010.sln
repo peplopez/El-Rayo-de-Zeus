@@ -6,8 +6,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "zlib-1.2.3\projects
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zziplib", "zziplib-0.13.57\msvc8\zziplib.2010.vcxproj", "{CB440073-2ED3-48CE-A1A1-B6EACB3A44BD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OIS", "ois-1.2.0\Win32\OIS.2010.vcxproj", "{9CC704CB-4956-4479-BDEC-57CBC03F700E}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeImageLib", "FreeImage-3.13.1\Source\FreeImageLib\FreeImageLib.2010.vcxproj", "{9E219DF2-315D-478E-8A07-8960C377CE1E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibJPEG", "FreeImage-3.13.1\Source\LibJPEG\LibJPEG.2010.vcxproj", "{5E1D4E5F-E10C-4BA3-B663-F33014FD21D9}"
@@ -27,6 +25,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cg", "Cg-2.2\Cg.2010.vcxproj", "{37206450-1118-4368-B904-62EB242BDE31}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZLib-freeImage", "FreeImage-3.13.1\Source\ZLib\ZLib.FreeImage.2010.vcxproj", "{33134F61-C1AD-4B6F-9CEA-503A9F140C52}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OIS", "ois-1.4.0\Win32\OIS.2010.vcxproj", "{9CC704CB-4956-4479-BDEC-57CBC03F700E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,14 +60,6 @@ Global
 		{CB440073-2ED3-48CE-A1A1-B6EACB3A44BD}.Release|Win32.Build.0 = Release|Win32
 		{CB440073-2ED3-48CE-A1A1-B6EACB3A44BD}.Release|x64.ActiveCfg = Release|x64
 		{CB440073-2ED3-48CE-A1A1-B6EACB3A44BD}.Release|x64.Build.0 = Release|x64
-		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Debug|Win32.ActiveCfg = Debug|Win32
-		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Debug|Win32.Build.0 = Debug|Win32
-		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Debug|x64.ActiveCfg = Debug|x64
-		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Debug|x64.Build.0 = Debug|x64
-		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Release|Win32.ActiveCfg = Release|Win32
-		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Release|Win32.Build.0 = Release|Win32
-		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Release|x64.ActiveCfg = Release|x64
-		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Release|x64.Build.0 = Release|x64
 		{9E219DF2-315D-478E-8A07-8960C377CE1E}.Debug|Win32.ActiveCfg = Debug|Win32
 		{9E219DF2-315D-478E-8A07-8960C377CE1E}.Debug|Win32.Build.0 = Debug|Win32
 		{9E219DF2-315D-478E-8A07-8960C377CE1E}.Debug|x64.ActiveCfg = Debug|x64
@@ -148,6 +140,14 @@ Global
 		{33134F61-C1AD-4B6F-9CEA-503A9F140C52}.Release|Win32.Build.0 = Release|Win32
 		{33134F61-C1AD-4B6F-9CEA-503A9F140C52}.Release|x64.ActiveCfg = Release|x64
 		{33134F61-C1AD-4B6F-9CEA-503A9F140C52}.Release|x64.Build.0 = Release|x64
+		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Debug|Win32.Build.0 = Debug|Win32
+		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Debug|x64.ActiveCfg = Debug|x64
+		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Debug|x64.Build.0 = Debug|x64
+		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Release|Win32.ActiveCfg = Release|Win32
+		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Release|Win32.Build.0 = Release|Win32
+		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Release|x64.ActiveCfg = Release|x64
+		{9CC704CB-4956-4479-BDEC-57CBC03F700E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
