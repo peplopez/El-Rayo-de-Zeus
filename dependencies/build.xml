@@ -59,7 +59,7 @@
 	  </antcall>
 	  
 	  <delete includeemptydirs="true" failonerror="false">
-		<fileset dir="${basedir}/include" excludes="enet/,fmod/,IHHFXPublic.h"/>  
+		<fileset dir="${basedir}/include" excludes="enet/,fmod/,hhfx/"/>  
 		<fileset dir="${basedir}/../Exes" includes="*" excludes="*.cfg"/>  
 	  </delete>  
 
