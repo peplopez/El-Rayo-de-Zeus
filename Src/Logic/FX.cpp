@@ -114,8 +114,9 @@ namespace Logic
 
 	bool CFX::accept(const CMessage *message)
 	{
-		return message->getType() == Message::FX_START ||
-			   message->getType() == Message::FX_STOP;		
+		return message->getType() == Message::FX_START	||
+			   message->getType() == Message::FX_STOP	||
+			   message->getType() == Message::CHANGE_RING;
 
 	} // accept
 	
@@ -130,13 +131,16 @@ namespace Logic
 		switch(message->getType())
 		{
 			case Message::FX_START:	
-				LOG("START");
+				LOG("Start");
 				_psTable.begin()->second->start();			
 				break;			
 			case Message::FX_STOP:
-				LOG("STOP");
+				LOG("Stop");
 				_psTable.begin()->second->stop();	
 				break;		
+			case Message::CHANGE_RING:
+				LOG("Change Ring");
+				break;
 		}
 	
 	} // process

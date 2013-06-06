@@ -77,13 +77,14 @@ namespace Graphics
 		assert( getSceneMgr()->hasSceneNode( _parentName + "_node") );
 
 		try{		
+			_hhfxScene = _scene->getHHFXScene();
 
 			// effect's params
 			Ogre::NameValuePairList params;
-				params["pack"] =  _scene->getHHFXScene()->GetHHFXBase().GetHHFXPackExplorer().GetPack();
+				params["pack"] =  _hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetPack();
 				params["fx"] =  "HBO/Entities/Particles/" + _hfx; // TODO FRS Hardcodear el path así solo si siempre va a ser el mismo	
 	
-				params["run"] = "yes"; // HACK
+	//			params["run"] = "yes"; // HACK
 
 			// spawn a new effect at this location
 			Ogre::MovableObject	*mo = getSceneMgr()->createMovableObject("HHFX", &params);

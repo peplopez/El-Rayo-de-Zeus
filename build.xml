@@ -42,6 +42,20 @@
   <!-- TARGET DE INVOCACION A VISUAL STUDIO -->
   <!-- ==================================== -->
 
+<!-- Objetivo que compila el proyecto.
+Parametros:
+   config: Debug o Release
+   rebuild: "true" si se quiere recompilar; false si no.
+-->
+<target name="compilaSln">
+
+  <antcall target="windowsbuilder">
+    <param name="projectfolder" value="."/>
+    <param name="buildmode" value="${config}"/>
+    <param name="project" value="${slnName}"/>
+  </antcall>
+</target>
+
 <!-- Objetivo que compila un proyecto de VC9.
 Parámetros (utilizando propiedades):
   projectfolder: Directorio donde está el SLN.
@@ -58,20 +72,6 @@ Parámetros (utilizando propiedades):
     <targets dir="${projectfolder}" includes="${project}"/>
   </vc10>
   <delete file = "${vslogfile}"/>
-</target>
-
-<!-- Objetivo que compila el proyecto.
-Parametros:
-   config: Debug o Release
-   rebuild: "true" si se quiere recompilar; false si no.
--->
-<target name="compilaSln">
-
-  <antcall target="windowsbuilder">
-    <param name="projectfolder" value="."/>
-    <param name="buildmode" value="${config}"/>
-    <param name="project" value="${slnName}"/>
-  </antcall>
 </target>
 
   <!-- ==================================== -->
@@ -204,33 +204,11 @@ Parametros:
   <!-- TARGETS DE COMPILACION INCREMENTAL -->
   <!-- ================================== -->
 
-<!-- Objetivo que compila el proyecto en modo Debug (sin sus dependencias). -->
-<target name="debugGaleon"
-        description="Compilación (incremental) en modo Debug (sin sus dependencias)">
-
-  <antcall target="compilaSln">
-    <param name="config" value="Debug"/>
-    <param name="rebuild" value="false"/>
-  </antcall>
-
-</target>
-
-<!-- Objetivo que compila el proyecto en modo Release. -->
-<target name="releaseGaleon"
-        description="Compilación (incremental) en modo Release (sin sus dependencias)">
-
-  <antcall target="compilaSln">
-    <param name="config" value="Release"/>
-    <param name="rebuild" value="false"/>
-  </antcall>
-
-</target>
-
-<!-- Objetivo que compila el proyecto (Debug+Release) de forma incremental. -->
-<target name="buildGaleon"
-        description="Compilación (incremental) Debug y Release (sin sus dependencias)."
-        depends="debugGaleon, releaseGaleon"/>
-
+ <!-- Objetivo que compila el proyecto (Debug+Release) de forma incremental. -->
+<target name="build"
+        description="Compilación (incremental) Debug y Release (con sus dependencias)."
+        depends="debug, release"/>
+		
 <!-- Objetivo que compila el proyecto en modo Debug. -->
 <target name="debug"
         description="Compilación (incremental) en modo Debug (con sus dependencias)">
@@ -261,10 +239,40 @@ Parametros:
 
 </target>
 
-<!-- Objetivo que compila el proyecto (Debug+Release) de forma incremental. -->
-<target name="build"
-        description="Compilación (incremental) Debug y Release (con sus dependencias)."
-        depends="debug, release"/>
+
+
+
+ <!-- Objetivo que compila el proyecto (Debug+Release) de forma incremental. -->
+<target name="buildGaleon"
+        description="Compilación (incremental) Debug y Release (sin sus dependencias)."
+        depends="debugGaleon, releaseGaleon"/>
+		
+<!-- Objetivo que compila el proyecto en modo Debug (sin sus dependencias). -->
+<target name="debugGaleon"
+        description="Compilación (incremental) en modo Debug (sin sus dependencias)">
+
+  <antcall target="compilaSln">
+    <param name="config" value="Debug"/>
+    <param name="rebuild" value="false"/>
+  </antcall>
+
+</target>
+
+<!-- Objetivo que compila el proyecto en modo Release. -->
+<target name="releaseGaleon"
+        description="Compilación (incremental) en modo Release (sin sus dependencias)">
+
+  <antcall target="compilaSln">
+    <param name="config" value="Release"/>
+    <param name="rebuild" value="false"/>
+  </antcall>
+
+</target>
+		
+		
+		
+
+
 
   <!-- =============================== -->
   <!-- TARGETS DE COMPILACION COMPLETA -->
