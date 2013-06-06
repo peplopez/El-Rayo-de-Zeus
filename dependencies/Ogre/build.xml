@@ -119,6 +119,8 @@ Parametros:
 <target name="createSln">
 
    <mkdir dir="${basedir}/build"/>
+   
+   <delete file="${basedir}/build/CMakeCache.txt" failonerror="false"/>
   
    <exec executable="${basedir}/../CMake/bin/cmake.exe"
 	 dir="${basedir}/build/">
