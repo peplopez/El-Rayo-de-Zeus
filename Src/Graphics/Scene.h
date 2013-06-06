@@ -101,8 +101,7 @@ namespace Graphics
 
 		CCamera *getBaseCamera() {return _baseCamera;}
 
-		// Hell Heavens FX
-		IHHFXScene*	getHHFXScene() const { assert(_hhfxScene); return _hhfxScene; }
+		
 
 		/**
 		Devuelve el nombre de la escena.
@@ -162,13 +161,7 @@ namespace Graphics
 		void deactivateCompositor(std::string name);
 
 
-		/*************************
-			FRAME LISTENER (HHFX)
-		**************************/
-		bool frameStarted(const Ogre::FrameEvent& evt);
-		bool frameRenderingQueued(const Ogre::FrameEvent& evt);
-
-
+		
 	protected:
 
 		/**
@@ -217,8 +210,7 @@ namespace Graphics
 		*/
 		Ogre::SceneManager *_sceneMgr;
 
-		// Hell Heavens FX
-		IHHFXScene *_hhfxScene;
+	
 
 
 		/***************
@@ -318,9 +310,24 @@ namespace Graphics
 		*/
 		Ogre::StaticGeometry *getStaticGeometry() { return _staticGeometry; }
 		
-		// Hell Heavens FX
+
+
+
+	/*********************
+		HELL HEAVENS FX
+	*********************/
+	public:		
+		IHHFXScene*	getHHFXScene() const { assert(_hhfxScene); return _hhfxScene; }
+		
+		//	FRAME LISTENER 
+		bool frameStarted(const Ogre::FrameEvent& evt);
+		bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+		
+	private:				
+		IHHFXScene *_hhfxScene;
 		void _initHHFXScene();
 		void _loadHHFXCompositors();
+		void _unloadHHFXCompositors();
 
 	}; // class CScene
 

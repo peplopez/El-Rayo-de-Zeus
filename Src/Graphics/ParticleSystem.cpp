@@ -105,10 +105,9 @@ namespace Graphics
 
 		    // create a node to attach the effect
 			_node = getSceneMgr()->getSceneNode( _parentName + "_node")
-								->createChildSceneNode(_parentName + "_nodePS", _relativePos, orientation );
+								 ->createChildSceneNode(_relativePos,orientation);
 				_node->attachObject(_movObj);
-			// HACK FRS estamos limitando a una partícula por entidad -> ver attachs
-							
+
 			_loaded = true;
 			
 		} catch(std::exception e){
@@ -121,14 +120,13 @@ namespace Graphics
 	//--------------------------------------------------------
 		
 	void CParticleSystem::unload()
-	{
-		CSceneElement::unload();
-					
+	{	
+		CSceneElement::unload();	
+
 		if(_movObj)	{		
 			getSceneMgr()->destroyMovableObject(_movObj); 
 			_movObj = 0;
 		}
-
 	} // unload
 
 	

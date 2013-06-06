@@ -55,11 +55,16 @@ namespace Graphics
 
 	CScene::~CScene() 
 	{
-		deactivate();
+		deactivate();		
+		
+		// Hell Heaven FX 
+		_hhfxScene->Clear(); // clear the scene before shutting down ogre since the hhfx ogre implementation holds some Ogre objects.
+		_unloadHHFXCompositors(); 
+
 		_sceneMgr->destroyStaticGeometry(_staticGeometry);
 		delete _camera;
 		_root->destroySceneManager(_sceneMgr);
-
+			
 	} // ~CScene
 
 	//--------------------------------------------------------
@@ -86,10 +91,6 @@ namespace Graphics
 		/* PRUEBAS PEP */
 		comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
 			comp->setEnabled(false);
-		
-		/** Bloom CACA */
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Bloom", false);
-		//Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Bloom", true);
 
 		comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
 			comp->setEnabled(false);
@@ -131,7 +132,7 @@ namespace Graphics
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
 
 		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, "Glow", true);
+			activateCompositor("Glow");
 
 		GlowMaterialListener *gml = new GlowMaterialListener();
 		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
@@ -258,29 +259,19 @@ namespace Graphics
 	*********************/
 
 	void CScene::_initHHFXScene() 
-	{
-		// set the default visibility flag for all the movable objects, because we will use posts effects that 
-		// needs to filter objects for rendering
-		Ogre::MovableObject::setDefaultVisibilityFlags(1); // TODO mover a Graphics Server?
-
+	{	
 		// retrieve the HellHeaven's scene from an empty fx. for each Ogre::SceneManager a HHFXScene is associated.
 		Ogre::MovableObject	*dummyMO = _sceneMgr->createMovableObject("HHFX");
 			if (dummyMO) {	
 				_hhfxScene = &( static_cast<IHHFXOgre*>(dummyMO)->GetHHFXScene() );			
 				_sceneMgr->destroyMovableObject(dummyMO); // we got the hh scene, destroy the dummy effect
 			}
-			assert(_hhfxScene && "failed creating HHFxXScene !");	
-			
-							
-		// load a pack		
-		bool hhfxPackLoaded = _hhfxScene->GetHHFXBase().LoadPack("media/packs/hhfx", true); // TODO FRS Verifica que esto tenga que hacerse para cada hhfxScene y que Base no sea comun a todos
-		OgreAssert(hhfxPackLoaded, "hhfx pack did not load correctly or contains no effects !");
-		// TODO Esto solo hace falta la primera vez, el resto no vuelve a recargar el packete
-		// HACK FRS Fix esto con un const o leyendolo de mapa				
+			assert(_hhfxScene && "failed creating HHFXScene !");	
 
 		// bind the collision callback (i.e. used by Rain.hfx)
 //		m_hhfxScene->SetCollisionCallback(this, &_IntersectScene); TODO FRS
 		_hhfxScene->SetWorldScale(8); // ?? TODO const float	kWorldFxScale = 1.0f;
+// HACK FRS Fix esto con un const o leyendolo de mapa		
 
 		_root->addFrameListener(this);
 	}
@@ -293,6 +284,14 @@ namespace Graphics
 		Ogre::CompositorInstance*	comp = Ogre::CompositorManager::getSingleton().addCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");
 			assert(comp && "[HHFX ERROR] Cannot load compositor Distortion !" );
 		//	comp->setEnabled(true);
+	}
+
+	//-------------------------------------------------------------------------------------
+
+	void CScene::_unloadHHFXCompositors() 
+	{
+		// remove our compositor
+		Ogre::CompositorManager::getSingleton().removeCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");	
 	}
 
 

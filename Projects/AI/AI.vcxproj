@@ -93,7 +93,6 @@
     <ClCompile Include="..\..\Src\AI\Perception\PerceptionManager.cpp" />
     <ClCompile Include="..\..\Src\AI\Perception\SightSensor.cpp" />
     <ClCompile Include="..\..\Src\AI\Server.cpp" />
-    <ClCompile Include="..\..\Src\AI\StateMachines\StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\AI\LatentActions\LA_Beaten.h" />

@@ -15,21 +15,22 @@ la ventana, etc.
 */
 
 #include "Server.h"
-#include "Scene.h"
-#include "Overlay.h"
-
-#include "BaseSubsystems/Server.h"
-#include "BaseSubsystems/Math.h"
 
 #include <assert.h>
-
+#include <BaseSubsystems/Server.h>
+#include <BaseSubsystems/Math.h>
+#include <HHFX/IHHFXPublic.h>
 #include <OgreRoot.h>
 #include <OgreRenderWindow.h>
 #include <OgreOverlayManager.h>
 #include <OgreWindowEventUtilities.h>
 
+#include "Scene.h"
+#include "Overlay.h"
 
-#define DEBUG 1
+
+
+#define DEBUG 0
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "GRAPHICS::SERVER>> " << msg << std::endl;
@@ -94,17 +95,15 @@ namespace Graphics
 
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_renderWindow = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow();
-
-		_preloadHHFXTextures(); // Hell Heaven FX
-
-		//PT. Se carga el manager de overlays
-		_overlayManager = Ogre::OverlayManager::getSingletonPtr();
+		
+		_overlayManager = Ogre::OverlayManager::getSingletonPtr();//PT. Se carga el manager de overlays
 
 		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.		
+				
+		_initHHFX(); // Hell Heaven FX
+		
 		setActiveScene(_dummyScene); // Por defecto la escena activa es la dummy
-
 		return true;
-
 	} // open
 
 	//--------------------------------------------------------
@@ -262,6 +261,28 @@ namespace Graphics
 	/*********************
 		HELL HEAVEN FX
 	********************/
+
+	void CServer::_initHHFX() 
+	{
+		_preloadHHFXTextures();
+
+		// set the default visibility flag for all the movable objects, because we will use posts effects that 
+		// needs to filter objects for rendering
+		Ogre::MovableObject::setDefaultVisibilityFlags(1); 
+
+		// retrieve the HellHeaven's scene from an empty fx. for each Ogre::SceneManager a HHFXScene is associated.
+		Ogre::MovableObject	*dummyMO = _dummyScene->getSceneMgr()->createMovableObject("HHFX");
+			if (dummyMO) {	
+				_hhfxBase =  &static_cast<IHHFXOgre*>(dummyMO)->GetHHFXScene().GetHHFXBase();			
+				_dummyScene->getSceneMgr()->destroyMovableObject(dummyMO); // we got the hh scene, destroy the dummy effect
+			}
+			assert(_hhfxBase && "failed initialing HHFX !");
+							
+		// load a pack		
+		bool hhfxPackLoaded = _hhfxBase->LoadPack("media/packs/hhfx", true); 
+		OgreAssert(hhfxPackLoaded, "hhfx pack did not load correctly or contains no effects !");
+	}
+
 
 	// HACK FRS Dar un repaso y evaluar si se están cargando de antes, si este es el lugar apropiado, etc
 	void CServer::_preloadHHFXTextures() 

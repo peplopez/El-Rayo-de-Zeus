@@ -20,6 +20,9 @@ la ventana, etc.
 #include <map>
 
 // Predeclaración de clases para ahorrar tiempo de compilación
+
+class IHHFXBase;
+
 namespace Ogre 
 {
 	class Root;
@@ -32,6 +35,9 @@ namespace Graphics
 	class CScene;
 	class COverlay;
 }
+
+	
+
 
 /**
 Namespace con todo lo que se refiere a la parte gráfica. Las diferentes clases
@@ -267,12 +273,17 @@ namespace Graphics
 		void close();
 
 
-		/*********************
-			HELL HEAVEN FX
-		********************/	
-		void _preloadHHFXTextures();
+	/*********************
+		HELL HEAVEN FX
+	********************/	
+
+	public:
+		IHHFXBase* getHHFXBase() { return _hhfxBase; }
 		
-		
+	private:
+		IHHFXBase* _hhfxBase;
+		void _initHHFX();
+		void _preloadHHFXTextures();	
 
 	}; // class CServer
 
