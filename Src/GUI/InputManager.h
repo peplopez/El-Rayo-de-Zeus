@@ -506,19 +506,19 @@ namespace GUI
 
 		enum TJoyAxis
 		{
-			XAXIS1,
-			YAXIS1,
-			XAXIS2,
-			YAXIS2,
+			MOVEXAXIS,
+			MOVEYAXIS,
+			POINTERXAXIS,
+			POINTERYAXIS,
 		};
 
 		enum TJoyButton
 		{
-			BUTTON1,
-			BUTTON2,
-			BUTTON3,
-			BUTTON4,
-			BUTTON5,
+			ATTACK1,
+			ATTACK2,
+			JUMP,
+			ACTIVATE,
+			MODIFIER,
 		};
 
 	}

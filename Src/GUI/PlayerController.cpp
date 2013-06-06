@@ -308,20 +308,20 @@ namespace GUI {
 				m->setType(Logic::Message::CONTROL);
 			switch (axis)
 			{
-			case TJoyAxis::XAXIS1:
+			case TJoyAxis::MOVEXAXIS:
 
-				if (joystickState->_axes[TJoyAxis::XAXIS1].abs > 5000)
+				if (joystickState->_axes[TJoyAxis::MOVEXAXIS].abs > 5000)
 				{
 					m->setAction(Logic::Message::WALK_RIGHT);
 					_controlledAvatar->emitMessage(m);
 				}
-				else if (joystickState->_axes[TJoyAxis::XAXIS1].abs < -5000)
+				else if (joystickState->_axes[TJoyAxis::MOVEXAXIS].abs < -5000)
 				{
 					m->setAction(Logic::Message::WALK_LEFT);
 					_controlledAvatar->emitMessage(m);
 				}
 					
-				if (abs(joystickState->_axes[TJoyAxis::XAXIS1].abs) < 20)
+				if (abs(joystickState->_axes[TJoyAxis::MOVEXAXIS].abs) < 20)
 				{
 						m->setAction(Logic::Message::WALK_STOP);
 						_controlledAvatar->emitMessage(m);
@@ -330,21 +330,21 @@ namespace GUI {
 				return true;
 				break;
 
-			case TJoyAxis::YAXIS1:
+			case TJoyAxis::MOVEYAXIS:
 
-				if (joystickState->_axes[TJoyAxis::YAXIS1].abs > 5000)
+				if (joystickState->_axes[TJoyAxis::MOVEYAXIS].abs > 5000)
 				{
 					m->setAction(Logic::Message::GO_DOWN);
 					_controlledAvatar->emitMessage(m);
 				}
 
-				if (joystickState->_axes[TJoyAxis::YAXIS1].abs < -5000)
+				if (joystickState->_axes[TJoyAxis::MOVEYAXIS].abs < -5000)
 				{
 					m->setAction(Logic::Message::GO_UP);
 					_controlledAvatar->emitMessage(m);
 				}
 				
-				if (abs(joystickState->_axes[TJoyAxis::YAXIS1].abs) < 20)
+				if (abs(joystickState->_axes[TJoyAxis::MOVEYAXIS].abs) < 20)
 				{
 						m->setAction(Logic::Message::WALK_STOP);
 						_controlledAvatar->emitMessage(m);

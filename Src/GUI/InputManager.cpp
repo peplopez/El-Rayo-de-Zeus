@@ -166,16 +166,16 @@ namespace GUI{
   //          }
   //      }
 
-		_jAxisBindings[3] = TJoyAxis::XAXIS1;
-		_jAxisBindings[2] = TJoyAxis::YAXIS1;
-		_jAxisBindings[1] = TJoyAxis::XAXIS2;
-		_jAxisBindings[0] = TJoyAxis::YAXIS2;
+		_jAxisBindings[5] = TJoyAxis::MOVEXAXIS;
+		_jAxisBindings[4] = TJoyAxis::MOVEYAXIS;
+		_jAxisBindings[1] = TJoyAxis::POINTERXAXIS;
+		_jAxisBindings[0] = TJoyAxis::POINTERYAXIS;
 
-		_jButtonBindings[0] = TJoyButton::BUTTON1;
-		_jButtonBindings[1] = TJoyButton::BUTTON2;
-		_jButtonBindings[2] = TJoyButton::BUTTON3;
-		_jButtonBindings[3] = TJoyButton::BUTTON4;
-		_jButtonBindings[4] = TJoyButton::BUTTON5;
+		_jButtonBindings[0] = TJoyButton::ATTACK1;
+		_jButtonBindings[1] = TJoyButton::ATTACK2;
+		_jButtonBindings[2] = TJoyButton::JUMP;
+		_jButtonBindings[3] = TJoyButton::ACTIVATE;
+		_jButtonBindings[4] = TJoyButton::MODIFIER;
 
 	}
 
@@ -487,7 +487,7 @@ namespace GUI{
 			}
 		}
 
-		return false;
+		return true;
 
 	} // axisMoved
 
@@ -508,7 +508,7 @@ namespace GUI{
 			}
 		}
 
-		return false;
+		return true;
 
 	} // buttonPressed
 
@@ -530,7 +530,7 @@ namespace GUI{
 			}
 		}
 
-		return false;
+		return true;
 
 	} // buttonPressed
 	
