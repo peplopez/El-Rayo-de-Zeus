@@ -141,6 +141,7 @@ namespace GUI
 		bool axisMoved(const CJoystickState *joystickState, TJoyAxis axis);
 		bool buttonPressed(const CJoystickState *joystickState, TJoyButton button);
 		bool buttonReleased(const CJoystickState *joystickState, TJoyButton button);
+		bool povMoved(const CJoystickState *joystickState);
 
 
 	protected:

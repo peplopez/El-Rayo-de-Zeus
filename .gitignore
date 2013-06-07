@@ -165,6 +165,7 @@ DocumentacionDoxygen/
 #############
 
 !/Exes/resources.cfg
+!/Exes/controls.cfg
 
 !/dependencies/bin/*/fmodex.dll
 !/dependencies/CEGUI/projects/premake/ScriptingModules/premake.lua

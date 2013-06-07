@@ -363,6 +363,32 @@ namespace GUI {
 
 	bool CPlayerController::buttonPressed(const CJoystickState *joystickState, TJoyButton button)
 	{
+		if (_controlledAvatar)
+		{
+			Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
+			switch (button)
+			{
+			case Joystick::Button::ATTACK1:
+				m->setAction(Logic::Message::LIGHT_ATTACK);
+				_controlledAvatar->emitMessage(m);
+				break;
+			case Joystick::Button::ATTACK2:
+				m->setAction(Logic::Message::HEAVY_ATTACK);
+				_controlledAvatar->emitMessage(m);
+				break;
+			case Joystick::Button::JUMP:
+				m->setAction(Logic::Message::JUMP);
+				_controlledAvatar->emitMessage(m);
+				break;
+			case Joystick::Button::ACTIVATE:
+				m->setAction(Logic::Message::SWITCH_ALTAR);
+				_controlledAvatar->emitMessage(m);
+				break;
+			}
+
+		}
+
 		return false;
 	}
 
@@ -375,4 +401,48 @@ namespace GUI {
 
 	//--------------------------------------------------------
 
+	bool CPlayerController::povMoved(const CJoystickState *joystickState)
+	{
+		if (_controlledAvatar)
+		{
+			Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
+			switch (joystickState->_pov)
+			{
+			case Joystick::POV::CENTERED:
+				m->setAction(Logic::Message::WALK_STOP);
+				_controlledAvatar->emitMessage(m);
+				break;
+
+			case Joystick::POV::WEST:
+			case Joystick::POV::NORTHWEST:
+			case Joystick::POV::SOUTHWEST:
+				m->setAction(Logic::Message::WALK_LEFT);
+				_controlledAvatar->emitMessage(m);
+				break;
+			
+			case Joystick::POV::EAST:
+			case Joystick::POV::NORTHEAST:
+			case Joystick::POV::SOUTHEAST:
+				m->setAction(Logic::Message::WALK_RIGHT);
+				_controlledAvatar->emitMessage(m);
+				break;
+
+			case Joystick::POV::NORTH:
+				m->setAction(Logic::Message::GO_UP);
+				_controlledAvatar->emitMessage(m);
+				break;
+
+			case Joystick::POV::SOUTH:
+				m->setAction(Logic::Message::GO_DOWN);
+				_controlledAvatar->emitMessage(m);
+				break;
+			}
+
+		}
+				
+		return false;
+	}
+
+	//--------------------------------------------------------
 } // namespace GUI

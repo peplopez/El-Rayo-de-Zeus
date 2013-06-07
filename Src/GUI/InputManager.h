@@ -503,34 +503,58 @@ namespace GUI
 	*/
 	namespace Joystick
 	{
-
-		enum TJoyAxis
+		namespace Axis
 		{
-			MOVEXAXIS,
-			MOVEYAXIS,
-			POINTERXAXIS,
-			POINTERYAXIS,
-		};
+			enum TJoyAxis
+			{
+				UNDEFINED,
+				MOVEXAXIS,
+				MOVEYAXIS,
+				POINTERXAXIS,
+				POINTERYAXIS,
+			};
+		}
 
-		enum TJoyButton
+		namespace Button
 		{
-			ATTACK1,
-			ATTACK2,
-			JUMP,
-			ACTIVATE,
-			MODIFIER,
-		};
+			enum TJoyButton
+			{
+				UNDEFINED,
+				ATTACK1,
+				ATTACK2,
+				JUMP,
+				ACTIVATE,
+				MODIFIER,
+			};
+		}
+
+		namespace POV
+		{
+
+			enum Direction : int
+			{
+					CENTERED	= 0,
+					EAST		= 256,
+					NORTH		= 1,
+					NORTHEAST	= 257,
+					NORTHWEST	= 4097,
+					SOUTH		= 16,
+					SOUTHEAST	= 272,
+					SOUTHWEST	= 4112,
+					WEST		= 4096
+			};
+		}
 
 	}
 
-	typedef Joystick::TJoyAxis TJoyAxis;
-	typedef Joystick::TJoyButton TJoyButton;
+	typedef Joystick::Axis::TJoyAxis TJoyAxis;
+	typedef Joystick::Button::TJoyButton TJoyButton;
+	typedef Joystick::POV::Direction TPovDirection;
 
 	class CJoystickState
 	{
 	public:
 
-		
 		struct TAxisValue
 		{
 			int abs;
@@ -540,14 +564,14 @@ namespace GUI
 		};
 		
 		
-		typedef std::vector<TAxisValue> TAxes;
-		typedef std::vector<bool> TButtons;
+		typedef std::vector<TAxisValue> TAxesVector;
+		typedef std::vector<bool> TButtonsVector;
 
 
 		/**
 		Constructor parametrizado.
 		*/
-		CJoystickState(unsigned int axes, unsigned int buttons)
+		CJoystickState(int axes, int buttons)
 		{
 			TAxisValue axisValue;
 			for (int i = 0; i < axes; ++i)
@@ -558,8 +582,9 @@ namespace GUI
 				_buttons.push_back(buttonValue);
 		}
 	
-		TAxes _axes;
-		TButtons _buttons;
+		TAxesVector _axes;
+		TButtonsVector _buttons;
+		TPovDirection _pov;
 	};
 	
 
@@ -569,6 +594,7 @@ namespace GUI
 		virtual bool axisMoved(const CJoystickState *joystickState, TJoyAxis axis) {return false;}
 		virtual bool buttonPressed(const CJoystickState *joystickState, TJoyButton button) {return false;}
 		virtual bool buttonReleased(const CJoystickState *joystickState, TJoyButton button){return false;}
+		virtual bool povMoved(const CJoystickState *joystickState){return false;}
 	};
 
 
@@ -607,6 +633,11 @@ namespace GUI
 
 		typedef	std::map<int, TJoyAxis> TJAxisBindings;
 		typedef	std::map<int, TJoyButton> TJButtonBindings;
+
+		// DICCIONARIOS
+		typedef std::map<std::string, TJoyAxis> TAxisDictionary;
+		typedef std::map<std::string, TJoyButton> TButtonDictionary;
+		typedef std::map<std::string, int> TOISDictionary;
 
 		/**
 		Devuelve la única instancia de la clase.
@@ -815,7 +846,7 @@ namespace GUI
 
 
 		/** 
-		Método invocado por OIS cuando se mueve el ratón. 
+		Método invocado por OIS cuando se mueve un analógico. 
 		Es el encargado de avisar a todos los oyentes del evento.
 
 		@param e Evento producido.
@@ -824,7 +855,7 @@ namespace GUI
 		bool axisMoved(const OIS::JoyStickEvent &e, int axis);
 		
 		/** 
-		Método invocado por OIS cuando se pulsa un botón del ratón. 
+		Método invocado por OIS cuando se pulsa un botón del gamepad. 
 		Es el encargado de avisar a todos los oyentes del evento.
 
 		@param e Evento producido.
@@ -834,7 +865,7 @@ namespace GUI
 		bool buttonPressed(const OIS::JoyStickEvent &e, int button);
 
 		/** 
-		Método invocado por OIS cuando se deja de pulsar un botón. 
+		Método invocado por OIS cuando se deja de pulsar un botón del gamepad. 
 		Es el encargado de avisar a todos los oyentes del evento.
 
 		@param e Evento producido.
@@ -842,6 +873,24 @@ namespace GUI
 		@return true si se captura el evento.
 		*/
 		bool buttonReleased(const OIS::JoyStickEvent &e, int button);
+
+		/** 
+		Método invocado por OIS cuando se pulsa on pov. 
+		Es el encargado de avisar a todos los oyentes del evento.
+
+		@param e Evento producido.
+		@param button código del botón soltado.
+		@return true si se captura el evento.
+		*/
+		bool povMoved(const OIS::JoyStickEvent &e, int index);
+
+
+
+		/**
+		*/
+		TAxisDictionary initAxisDictionary();
+		TButtonDictionary initButtonDictionary();
+		TOISDictionary initOISDictionary();
 
 		/** 
 		Buffer de la entrada del ratón OIS.
@@ -896,6 +945,13 @@ namespace GUI
 		*/
 		TJAxisBindings _jAxisBindings;
 		TJButtonBindings _jButtonBindings;
+
+
+		TAxisDictionary AXIS_DICTIONARY;
+		TButtonDictionary BUTTON_DICTIONARY;
+		TOISDictionary OIS_DICTIONARY;
+
+
 
 
 	}; // class InputManager
