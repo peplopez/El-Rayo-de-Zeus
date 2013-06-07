@@ -53,9 +53,8 @@ namespace Graphics
 		void stop() const;
 
 
-	private:
+	private:		
 		
-		std::string _hfx;
 		std::string _parentName;
 		Vector3 _relativePos;	// Pos relativa respecto al padre (particulas son hijas de otra entidad gráfica)
 		
@@ -68,6 +67,7 @@ namespace Graphics
 		/*********************
 			HELL HEAVENS FX		
 		**********************/
+		std::string			_hfx;
 		IHHFXOgre*			_movObj;	// Sistema de particulas (movable object)		
 		IHHFXScene*			_hhfxScene; // HHFX Scene
 	

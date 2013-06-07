@@ -27,8 +27,11 @@ namespace Graphics
 {		
 	
 	void CParticleSystem::start() const
-	{
-		_movObj->RunFX();
+	{		
+		if(_movObj->IsFXActive() )
+			_movObj->RunFX();
+		else
+			_movObj->LoadFX(_hfx.c_str(), true);
 	}
 
 	void CParticleSystem::stop() const
