@@ -309,8 +309,8 @@ namespace Graphics
 
 	bool CScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	{	
-		const Vector3& camPos = _camera->getCameraPosition();
-		const Quaternion& camOri = _camera->getCameraOrientation();
+		const Vector3& camPos = _camera->getPosition();
+		const Quaternion& camOri = _camera->getOrientation();
 
 		Matrix4 worldTransforms;
 			worldTransforms.makeTransform(camPos, Vector3::UNIT_SCALE, camOri);

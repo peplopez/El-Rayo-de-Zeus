@@ -34,27 +34,19 @@ namespace Graphics
 		_name = name;
 		_scene = scene;
 
-		// Creamos la estructura de nodos de la cámara. Los nodos cuelgan
-		// de la raiz, son globales.
-		_cameraNode = _scene->getSceneMgr()->getRootSceneNode()->
-					createChildSceneNode(name + "_camera_node");
-		_targetNode = scene->getSceneMgr()->getRootSceneNode()->
-					createChildSceneNode(name + "_target_node");
-
-		// Hacemos que el nodo de la cámara siempre esté mirando al nodo
-		// objetivo.
-		_cameraNode->setAutoTracking(true, _targetNode);
-		// Fijamos el viraje de la cámara para se mantenga paralelo al
-		// suelo.
-		_cameraNode->setFixedYawAxis(true);
-
 		_camera = scene->getSceneMgr()->createCamera(name + "_camera");
+			_camera->setNearClipDistance(5);
+			_camera->setFarClipDistance(10000);
 		//HACK: Valores cableados de las distancias para reenderizar. 
 		// Deberían poder configurarse.
-		_camera->setNearClipDistance(5);
-		_camera->setFarClipDistance(10000);
-		// Finalmente adjuntamos la cámara a su nodo.
-		_cameraNode->attachObject (_camera);
+
+		// Creamos la estructura de nodos de la cámara. Los nodos cuelgan
+		// de la raiz, son globales.		
+		_targetNode = scene->getSceneMgr()->getRootSceneNode()->createChildSceneNode(name + "_target_node");
+		_cameraNode = _scene->getSceneMgr()->getRootSceneNode()->createChildSceneNode(name + "_camera_node");
+			_cameraNode->setAutoTracking(true, _targetNode);// Hacemos que el nodo de la cámara siempre esté mirando al nodo objetivo.
+			_cameraNode->setFixedYawAxis(true); // Fijamos el viraje de la cámara para se mantenga paralelo al suelo.
+			_cameraNode->attachObject (_camera); // Finalmente adjuntamos la cámara a su nodo.
 
 	} // CCamera
 
@@ -70,45 +62,52 @@ namespace Graphics
 
 	} // ~CCamera
 
-	//--------------------------------------------------------
+
+	/********************
+		GET's & SET's
+	*******************/
 	
-	const Vector3 &CCamera::getCameraPosition() 
+	const Vector3 &CCamera::getPosition() const
 	{
 		return _cameraNode->getPosition();
+	}
+	
+	//--------------------------------------------------------
+	
+	const Quaternion &CCamera::getOrientation() const
+	{
+		return _cameraNode->getOrientation();
 	}
 
 	//--------------------------------------------------------
 
-	const Vector3 &CCamera::getTargetCameraPosition() 
+	const Vector3 &CCamera::getTargetPosition() const
 	{
 		return _targetNode->getPosition();
 	}
 
 	//--------------------------------------------------------
-	
-	// FRS Si ya estamos en la clase Camera, es redundante prefijar todos los métodos con "Camera"
-	const Quaternion &CCamera::getCameraOrientation() 
+
+	Ogre::Viewport* CCamera::getViewport() const
 	{
-		return _camera->getOrientation();
+		return _camera->getViewport();
 	}
+
 
 	//--------------------------------------------------------
 
-	void CCamera::setCameraPosition(const Vector3 &newPosition)
+	void CCamera::setPosition(const Vector3 &newPosition)
 	{
 		_cameraNode->setPosition(newPosition);
 	}
 
 	//--------------------------------------------------------
 
-	void CCamera::setTargetCameraPosition(const Vector3 &newPosition)
+	void CCamera::setTargetPosition(const Vector3 &newPosition)
 	{
 		_targetNode->setPosition(newPosition);
 	}
 
-	Ogre::Viewport* CCamera::getViewport()
-	{
-		return _camera->getViewport();
-	}
+	
 
 } // namespace Graphics

@@ -94,19 +94,10 @@ namespace Graphics
 				_movObj->SetFXListener(this);
 			// set this class to listen to the ps, to be notified when it is destroyed, 
 			// so we may remove the scene node we created, if needed.
-			
-			
-			// set the camera's orientation for the node
-			Quaternion orientation;		
-				orientation.FromAngleAxis(
-					Ogre::Radian( _scene->getCamera()->getCameraOrientation().getYaw()), 
-					Vector3::UNIT_Y
-				);	
 
 		    // create a node to attach the effect
 			_node = getSceneMgr()->getSceneNode( _parentName + "_node")
-								 ->createChildSceneNode(_relativePos,orientation); // TODO FRS orient relativa o absoluta?
-			_node->setOrientation(orientation);
+								 ->createChildSceneNode(_relativePos); // TODO FRS añadir algún tipo de orientación inicial?
 				_node->attachObject(_movObj);
 
 			_loaded = true;

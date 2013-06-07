@@ -90,7 +90,7 @@ namespace Logic
  
 		_currentPos = (2000, 600, 2000);// Esto lo ponemos así de momento para que salga desde arriba la camara
 
-		_graphicsCamera->setCameraPosition(_currentPos);
+		_graphicsCamera->setPosition(_currentPos);
 
 		
 		return true;
@@ -153,12 +153,9 @@ namespace Logic
 		Vector3 deltaMove = ( finalCameraPosition 
 			- _currentPos ) * _cameraSpeed * msecs * 0.001;
 
-
 		_currentPos += deltaMove;
 
-
-		_graphicsCamera->setCameraPosition(_currentPos);
-		
+		_graphicsCamera->setPosition(_currentPos);		
 		
 		position = (_targetDistance +  _target->getLogicalPosition()->getRadio()) * _currentPos.normalisedCopy() ;
 		//position.y = CServer::getSingletonPtr()->getRingPosition(_target->getLogicalPosition()->getRing()).y;
@@ -185,7 +182,7 @@ namespace Logic
 		short factor = riesgo*_tremble;
 		Vector3 offset= Vector3(position.x + factor * estimateOffset(position.x, msecs), 
 			position.y + factor * estimateOffset(position.y,msecs), position.z + factor * estimateOffset(position.z, msecs));
-		_graphicsCamera->setTargetCameraPosition(offset);
+		_graphicsCamera->setTargetPosition(offset);
 		
 	} // tick
 
