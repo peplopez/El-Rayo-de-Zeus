@@ -105,7 +105,8 @@ namespace Graphics
 
 		    // create a node to attach the effect
 			_node = getSceneMgr()->getSceneNode( _parentName + "_node")
-								 ->createChildSceneNode(_relativePos,orientation);
+								 ->createChildSceneNode(_relativePos,orientation); // TODO FRS orient relativa o absoluta?
+			_node->setOrientation(orientation);
 				_node->attachObject(_movObj);
 
 			_loaded = true;
