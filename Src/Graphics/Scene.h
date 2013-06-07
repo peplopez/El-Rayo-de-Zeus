@@ -90,7 +90,6 @@ namespace Graphics
 
 
 	public:
-		
 
 		/**
 		Devuelve la cámara de la escena.
@@ -316,7 +315,12 @@ namespace Graphics
 	/*********************
 		HELL HEAVENS FX
 	*********************/
+
 	public:		
+
+		// WARNING : if != 1.0, This scale must be taken into account when setting and getting arbitrary particle attributes !
+		static const float HHFX_WORLD_SCALE;
+
 		IHHFXScene*	getHHFXScene() const { assert(_hhfxScene); return _hhfxScene; }
 		
 		//	FRAME LISTENER 

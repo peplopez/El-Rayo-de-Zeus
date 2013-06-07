@@ -39,6 +39,8 @@ de una escena.
 
 namespace Graphics 
 {
+	// WARNING : if != 1.0, This scale must be taken into account when setting and getting arbitrary particle attributes !
+	const float CScene::HHFX_WORLD_SCALE = 5.0f;
 
 	CScene::CScene(const std::string& name) : _name(name), _viewport(0), 
 			_staticGeometry(0)
@@ -270,7 +272,7 @@ namespace Graphics
 
 		// bind the collision callback (i.e. used by Rain.hfx)
 //		m_hhfxScene->SetCollisionCallback(this, &_IntersectScene); TODO FRS
-		_hhfxScene->SetWorldScale(8); // ?? TODO const float	kWorldFxScale = 1.0f;
+		_hhfxScene->SetWorldScale( HHFX_WORLD_SCALE ); // ?? TODO const float	kWorldFxScale = 1.0f;
 // HACK FRS Fix esto con un const o leyendolo de mapa		
 
 		_root->addFrameListener(this);
