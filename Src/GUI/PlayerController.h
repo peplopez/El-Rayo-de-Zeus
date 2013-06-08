@@ -144,6 +144,10 @@ namespace GUI
 		bool povMoved(const CJoystickState *joystickState);
 
 
+		void processMovement(const CJoystickState *joystickState);
+		void showBase(const CJoystickState *joystickState);
+
+
 	protected:
 
 		/**
@@ -152,7 +156,8 @@ namespace GUI
 		*/
 		Logic::CEntity *_controlledAvatar;
 
-		bool _baseChangeAllowed;
+		bool _changeBaseAllowed;
+		bool _joyModifierPressed;
 
 
 	}; // class CPlayerController

@@ -29,7 +29,7 @@ mover al jugador.
 
 namespace GUI {
 
-	CPlayerController::CPlayerController() : _controlledAvatar(0), _baseChangeAllowed(false)
+	CPlayerController::CPlayerController() : _controlledAvatar(0), _changeBaseAllowed(false), _joyModifierPressed(false)
 	{
 		
 	} // CPlayerController
@@ -72,6 +72,7 @@ namespace GUI {
 		{
 			Logic::CMessage *m = new Logic::CMessage();
 				m->setType(Logic::Message::CONTROL);
+
 			Logic::CMessageUShort *m2 = new Logic::CMessageUShort();
 				m2->setType(Logic::Message::CONTROL);
 
@@ -81,24 +82,24 @@ namespace GUI {
 			switch(key.keyId)
 			{
 			case GUI::Key::W: //subir anillo superior
-				if (_controlledAvatar->getLogicalPosition()->getRing()==Logic::LogicalPosition::UPPER_RING)
-					return false;			
-				m->setAction(Logic::Message::GO_UP); // Pablo
+				if (_controlledAvatar->getLogicalPosition()->getRing() == Logic::LogicalPosition::UPPER_RING)
+					return true;			
+				m->setAction(Logic::Message::GO_UP);
 				_controlledAvatar->emitMessage(m);
 				break;
 			
 			case GUI::Key::S: //bajar anillo inferior
-				if (_controlledAvatar->getLogicalPosition()->getRing()==Logic::LogicalPosition::LOWER_RING)
-					return false;			
+				if (_controlledAvatar->getLogicalPosition()->getRing() == Logic::LogicalPosition::LOWER_RING)
+					return true;			
 				m->setAction(Logic::Message::GO_DOWN); 
 				_controlledAvatar->emitMessage(m);
 				break;
 
 			case GUI::Key::SPACE:
-				if (_baseChangeAllowed)
+				if (_changeBaseAllowed)
 					m->setAction(Logic::Message::CHANGE_BASE);
 				else
-					m->setAction(Logic::Message::JUMP);  // Pablo
+					m->setAction(Logic::Message::JUMP); 
 				    _controlledAvatar->emitMessage(m);
 				break;
 
@@ -127,7 +128,7 @@ namespace GUI {
 				m2->setUShort(1);								
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
-				_baseChangeAllowed = true;
+				_changeBaseAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;
 
@@ -136,7 +137,7 @@ namespace GUI {
 				m2->setUShort(2);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
-				_baseChangeAllowed = true;
+				_changeBaseAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;	
 
@@ -145,7 +146,7 @@ namespace GUI {
 				m2->setUShort(3);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
-				_baseChangeAllowed = true;
+				_changeBaseAllowed = true;;
 				_controlledAvatar->emitMessage(m2);
 				break;
 
@@ -154,7 +155,7 @@ namespace GUI {
 				m2->setUShort(4);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
-				_baseChangeAllowed = true;
+				_changeBaseAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;	
 
@@ -163,7 +164,7 @@ namespace GUI {
 				m2->setUShort(5);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
-				_baseChangeAllowed = true;
+				_changeBaseAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;
 
@@ -172,7 +173,7 @@ namespace GUI {
 				m2->setUShort(6);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
-				_baseChangeAllowed = true;
+				_changeBaseAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;	
 
@@ -181,7 +182,7 @@ namespace GUI {
 				m2->setUShort(7);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
-				_baseChangeAllowed = true;
+				_changeBaseAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;
 
@@ -190,7 +191,7 @@ namespace GUI {
 				m2->setUShort(8);
 				if (_controlledAvatar->getLogicalPosition()->getBase()==m2->getUShort())
 					return false;
-				_baseChangeAllowed = true;
+				_changeBaseAllowed = true;
 				_controlledAvatar->emitMessage(m2);
 				break;
 
@@ -209,13 +210,12 @@ namespace GUI {
 			case GUI::Key::M:
 				m._string = "minusPlayerToBase";
 				break;*/
-			default:
-				return false;
+
 			}
 			
 			return true;
 		}
-		return false;
+		return true;
 
 	} // keyPressed
 
@@ -245,7 +245,7 @@ namespace GUI {
 			case GUI::Key::NUMBER7:
 			case GUI::Key::NUMBER8:
 				m->setAction(Logic::Message::GOBACK_TO_BASE);
-				_baseChangeAllowed = false;
+				_changeBaseAllowed = false;
 				break;
 			default:
 				return false;
@@ -367,36 +367,61 @@ namespace GUI {
 		{
 			Logic::CMessage *m = new Logic::CMessage();
 				m->setType(Logic::Message::CONTROL);
+
 			switch (button)
 			{
 			case Joystick::Button::ATTACK1:
 				m->setAction(Logic::Message::LIGHT_ATTACK);
-				_controlledAvatar->emitMessage(m);
 				break;
+
 			case Joystick::Button::ATTACK2:
 				m->setAction(Logic::Message::HEAVY_ATTACK);
-				_controlledAvatar->emitMessage(m);
 				break;
+
 			case Joystick::Button::JUMP:
-				m->setAction(Logic::Message::JUMP);
-				_controlledAvatar->emitMessage(m);
+				if (_changeBaseAllowed)
+					m->setAction(Logic::Message::CHANGE_BASE);
+				else
+					m->setAction(Logic::Message::JUMP);
 				break;
+
 			case Joystick::Button::ACTIVATE:
 				m->setAction(Logic::Message::SWITCH_ALTAR);
-				_controlledAvatar->emitMessage(m);
 				break;
+
+			case Joystick::Button::MODIFIER:
+				_joyModifierPressed = true;
+				delete m;
+				return true;
 			}
+
+			_controlledAvatar->emitMessage(m);
 
 		}
 
-		return false;
+		return true;
 	}
 
 	//--------------------------------------------------------
 
 	bool CPlayerController::buttonReleased(const CJoystickState *joystickState, TJoyButton button)
 	{
-		return false;
+		if (_controlledAvatar)
+		{
+			switch (button)
+			{
+			case Joystick::Button::MODIFIER:
+				_joyModifierPressed = false;
+				_changeBaseAllowed = false;
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
+				m->setAction(Logic::Message::GOBACK_TO_BASE);
+				_controlledAvatar->emitMessage(m);
+				break;
+			}
+		}
+		
+		return true;
 	}
 
 	//--------------------------------------------------------
@@ -405,44 +430,164 @@ namespace GUI {
 	{
 		if (_controlledAvatar)
 		{
-			Logic::CMessage *m = new Logic::CMessage();
-				m->setType(Logic::Message::CONTROL);
-			switch (joystickState->_pov)
-			{
-			case Joystick::POV::CENTERED:
-				m->setAction(Logic::Message::WALK_STOP);
-				_controlledAvatar->emitMessage(m);
-				break;
-
-			case Joystick::POV::WEST:
-			case Joystick::POV::NORTHWEST:
-			case Joystick::POV::SOUTHWEST:
-				m->setAction(Logic::Message::WALK_LEFT);
-				_controlledAvatar->emitMessage(m);
-				break;
-			
-			case Joystick::POV::EAST:
-			case Joystick::POV::NORTHEAST:
-			case Joystick::POV::SOUTHEAST:
-				m->setAction(Logic::Message::WALK_RIGHT);
-				_controlledAvatar->emitMessage(m);
-				break;
-
-			case Joystick::POV::NORTH:
-				m->setAction(Logic::Message::GO_UP);
-				_controlledAvatar->emitMessage(m);
-				break;
-
-			case Joystick::POV::SOUTH:
-				m->setAction(Logic::Message::GO_DOWN);
-				_controlledAvatar->emitMessage(m);
-				break;
-			}
-
+			if (_joyModifierPressed)
+				showBase(joystickState);
+			else
+				processMovement(joystickState);
 		}
-				
-		return false;
+
+		return true;
 	}
 
 	//--------------------------------------------------------
+	void CPlayerController::processMovement(const CJoystickState *joystickState)
+	{
+		Logic::CMessage *m = new Logic::CMessage();
+		m->setType(Logic::Message::CONTROL);
+
+		switch (joystickState->_pov)
+		{
+		case Joystick::POV::CENTERED:
+			m->setAction(Logic::Message::WALK_STOP);
+			break;
+
+		case Joystick::POV::WEST:
+		case Joystick::POV::NORTHWEST:
+		case Joystick::POV::SOUTHWEST:
+			m->setAction(Logic::Message::WALK_LEFT);
+			break;
+			
+		case Joystick::POV::EAST:
+		case Joystick::POV::NORTHEAST:
+		case Joystick::POV::SOUTHEAST:
+			m->setAction(Logic::Message::WALK_RIGHT);
+			break;
+
+		case Joystick::POV::NORTH:
+			if (_controlledAvatar->getLogicalPosition()->getRing() == Logic::LogicalPosition::UPPER_RING)
+			{
+				delete m;
+				return;	
+			}
+			m->setAction(Logic::Message::GO_UP);
+			break;
+
+		case Joystick::POV::SOUTH:
+			if (_controlledAvatar->getLogicalPosition()->getRing() == Logic::LogicalPosition::LOWER_RING)
+			{
+				delete m;
+				return;	
+			}
+			m->setAction(Logic::Message::GO_DOWN);
+			break;
+		}
+
+		_controlledAvatar->emitMessage(m);
+
+	}
+
+	//--------------------------------------------------------
+
+	void CPlayerController::showBase(const CJoystickState *joystickState)
+	{
+
+		Logic::CMessageUShort *m = new Logic::CMessageUShort();
+		m->setType(Logic::Message::CONTROL);
+		_changeBaseAllowed = true;
+
+		switch (joystickState->_pov)
+		{
+		case Joystick::POV::CENTERED:
+			_changeBaseAllowed = false;
+			m->setAction(Logic::Message::GOBACK_TO_BASE);
+			break;
+
+		case Joystick::POV::NORTH:
+			if (_controlledAvatar->getLogicalPosition()->getBase() == 1)
+			{
+				delete m;
+				return;
+			}
+			m->setAction(Logic::Message::SHOW_BASE);
+			m->setUShort(1);								
+			break;
+
+		case Joystick::POV::EAST:
+			if (_controlledAvatar->getLogicalPosition()->getBase() == 2)
+			{
+				delete m;
+				return;
+			}
+			m->setAction(Logic::Message::SHOW_BASE);
+			m->setUShort(2);								
+			break;
+
+		case Joystick::POV::SOUTH:
+			if (_controlledAvatar->getLogicalPosition()->getBase() == 3)
+			{
+				delete m;
+				return;
+			}
+			m->setAction(Logic::Message::SHOW_BASE);
+			m->setUShort(3);								
+			break;
+
+		case Joystick::POV::WEST:
+			if (_controlledAvatar->getLogicalPosition()->getBase() == 4)
+			{
+				delete m;
+				return;
+			}
+			m->setAction(Logic::Message::SHOW_BASE);
+			m->setUShort(4);								
+			break;
+
+		case Joystick::POV::NORTHEAST:
+			if (_controlledAvatar->getLogicalPosition()->getBase() == 5)
+			{
+				delete m;
+				return;
+			}
+			m->setAction(Logic::Message::SHOW_BASE);
+			m->setUShort(5);								
+			break;
+
+		case Joystick::POV::SOUTHEAST:
+			if (_controlledAvatar->getLogicalPosition()->getBase() == 6)
+			{
+				delete m;
+				return;
+			}
+			m->setAction(Logic::Message::SHOW_BASE);
+			m->setUShort(6);								
+			break;
+
+
+		case Joystick::POV::SOUTHWEST:
+			if (_controlledAvatar->getLogicalPosition()->getBase() == 7)
+			{
+				delete m;
+				return;
+			}
+			m->setAction(Logic::Message::SHOW_BASE);
+			m->setUShort(7);								
+			break;
+
+		case Joystick::POV::NORTHWEST:
+			if (_controlledAvatar->getLogicalPosition()->getBase() == 8)
+			{
+				delete m;
+				return;
+			}
+			m->setAction(Logic::Message::SHOW_BASE);
+			m->setUShort(8);								
+			break;
+			
+		}
+
+		_controlledAvatar->emitMessage(m);
+
+	}
+
+	
 } // namespace GUI
