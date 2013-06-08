@@ -198,6 +198,7 @@ namespace GUI{
 			dictionary["jump"]			 =	Joystick::Button::JUMP;
 			dictionary["activate"]		 =	Joystick::Button::ACTIVATE;
 			dictionary["modifier"]		 =	Joystick::Button::MODIFIER;
+			dictionary["cover"]			 =  Joystick::Button::COVER;
 
 		return dictionary;
 	}

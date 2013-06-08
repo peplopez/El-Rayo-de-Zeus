@@ -525,6 +525,7 @@ namespace GUI
 				JUMP,
 				ACTIVATE,
 				MODIFIER,
+				COVER,
 			};
 		}
 

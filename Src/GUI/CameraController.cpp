@@ -22,7 +22,6 @@ mover al jugador.
 
 #include <cassert>
 
-#define TURN_FACTOR 0.001f
 
 namespace GUI {
 

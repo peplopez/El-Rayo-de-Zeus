@@ -143,9 +143,19 @@ namespace GUI
 		bool buttonReleased(const CJoystickState *joystickState, TJoyButton button);
 		bool povMoved(const CJoystickState *joystickState);
 
-
+		/**
+		*/
 		void processMovement(const CJoystickState *joystickState);
-		void showBase(const CJoystickState *joystickState);
+		void processMovement(TKey key);
+		void processAction(TKey key);
+		void processExtra(TKey key);
+
+		void showBase(int baseNumber);
+
+		int fromPOVToBaseNumber(const CJoystickState *joystickState);
+		int fromKeyToBaseNumber(TKey key);
+
+		int getKeyType(const TKey &key);
 
 
 	protected:
