@@ -39,7 +39,7 @@ Map = {
 		hero="Hercules",
 		initialMaterial="SpartanBodyTatoo",
 		audio="media\\audio\\QUEJIDO1.wav",
-		fxScript1 = "Blast.hfx",	
+		fxScript1 = "Trails.hfx",	
 		fxPos1 = {0,5,0},
 	},
 	

@@ -30,8 +30,8 @@ namespace Graphics
 	{		
 		if(_movObj->IsFXActive() )
 			_movObj->RunFX();
-		else
-			_movObj->LoadFX(_hfx.c_str(), true);
+		/*else
+			_movObj->LoadFX(_hfx.c_str(), true);*/
 	}
 
 	void CParticleSystem::stop() const
@@ -86,8 +86,7 @@ namespace Graphics
 			Ogre::NameValuePairList params;
 				params["pack"] =  _hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetPack();
 				params["fx"] =  "HBO/Entities/Particles/" + _hfx; // TODO FRS Hardcodear el path así solo si siempre va a ser el mismo	
-	
-	//			params["run"] = "yes"; // HACK
+				// TODO params["fx"] = m_hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetEffects()[ enumSelected ];
 
 			// spawn a new effect at this location
 			Ogre::MovableObject	*mo = getSceneMgr()->createMovableObject("HHFX", &params);

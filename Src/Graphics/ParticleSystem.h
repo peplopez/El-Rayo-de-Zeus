@@ -41,7 +41,7 @@ namespace Graphics
 		// TODO FRS parametrizar o hacer enum de hfx
 		CParticleSystem(
 			const std::string& hfx, const std::string& parentName, const Vector3& relativePos = Vector3::ZERO) :
-			_hfx(hfx), _parentName(parentName), _relativePos(relativePos) {}
+			_hfx(hfx), _parentName(parentName), _relativePos(relativePos), _movObj(0), _hhfxScene(0) {}
 			
 
 		/*****************

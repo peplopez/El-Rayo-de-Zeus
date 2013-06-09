@@ -320,6 +320,7 @@ namespace Graphics
 			view.setHHFXScene(*_hhfxScene);
 			view.setViewMatrix(worldTransforms);
 			view.setSceneManager(*_sceneMgr);
+			view.setUsePostFX(true);
 
 		_hhfxScene->Render(view, camPos);
 
