@@ -529,7 +529,7 @@ namespace GUI{
 		
 		if (!_joystickListeners.empty()) 
 		{
-			LOG(" AXIS: " << axis << "   VALUE ABS: " << e.state.mAxes[axis].abs << "   VALUE REL: " << e.state.mAxes[axis].rel);	
+			//LOG(" AXIS: " << axis << "   VALUE ABS: " << e.state.mAxes[axis].abs << "   VALUE REL: " << e.state.mAxes[axis].rel);	
 			if (getAxisForOISAxis(axis))
 			{
 				_joystickState->_axes[getAxisForOISAxis(axis)].abs = e.state.mAxes[axis].abs;

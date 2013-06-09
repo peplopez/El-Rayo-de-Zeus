@@ -56,27 +56,6 @@ Map ={
 		degrees=180,
 	},
 		
-	medusa1 = {
-		type = "Medusa",
-		base=1,
-		ring=1,
-		degrees=300,		
-	},	
-	
-	peludo9 = {
-		type = "Spider",
-		base=1,
-		ring=1,
-		degrees=80,		
-	},
-
-	peluda23 = {
-		type = "Spider",
-		base=1,
-		ring=2,
-		degrees=70,		
-	},	
-	
 
 	LowerRing = {
 		type = "World",

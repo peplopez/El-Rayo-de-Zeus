@@ -25,7 +25,6 @@ mover al jugador.
 
 #include <cassert>
 
-#define TURN_FACTOR 0.001f
 
 namespace GUI {
 
@@ -96,6 +95,7 @@ namespace GUI {
 	}
 
 	//--------------------------------------------------------
+	
 	bool CPlayerController::keyPressed(TKey key)
 	{
 		// TODO Preguntar al CServer quién es el player si es null y dejarlo guardado
@@ -164,6 +164,7 @@ namespace GUI {
 	}
 
 	//--------------------------------------------------------
+	
 	void CPlayerController::processAction(TKey key)
 	{
 		Logic::CMessage *m = new Logic::CMessage();
@@ -188,6 +189,7 @@ namespace GUI {
 	}
 
 	//--------------------------------------------------------
+	
 	void CPlayerController::processExtra(TKey key)
 	{
 		Logic::CMessage *m = new Logic::CMessage();
@@ -292,54 +294,72 @@ namespace GUI {
 	{
 		if (_controlledAvatar)
 		{
-			Logic::CMessage *m = new Logic::CMessage();
-				m->setType(Logic::Message::CONTROL);
+
 			switch (axis)
 			{
 			case TJoyAxis::MOVEXAXIS:
 
-				if (joystickState->_axes[TJoyAxis::MOVEXAXIS].abs > 5000)
+				if (joystickState->_axes[TJoyAxis::MOVEXAXIS].abs > 10000)
 				{
+					Logic::CMessage *m = new Logic::CMessage();
+					m->setType(Logic::Message::CONTROL);
 					m->setAction(Logic::Message::WALK_RIGHT);
 					_controlledAvatar->emitMessage(m);
 				}
-				else if (joystickState->_axes[TJoyAxis::MOVEXAXIS].abs < -5000)
+				else if (joystickState->_axes[TJoyAxis::MOVEXAXIS].abs < -10000)
 				{
+					Logic::CMessage *m = new Logic::CMessage();
+					m->setType(Logic::Message::CONTROL);
 					m->setAction(Logic::Message::WALK_LEFT);
 					_controlledAvatar->emitMessage(m);
 				}
 					
-				if (abs(joystickState->_axes[TJoyAxis::MOVEXAXIS].abs) < 20)
+				else if (abs(joystickState->_axes[TJoyAxis::MOVEXAXIS].abs) < 10000)
 				{
-						m->setAction(Logic::Message::WALK_STOP);
-						_controlledAvatar->emitMessage(m);
+					Logic::CMessage *m = new Logic::CMessage();
+					m->setType(Logic::Message::CONTROL);
+					m->setAction(Logic::Message::WALK_STOP);
+					_controlledAvatar->emitMessage(m);
 				}
 
-				return true;
+				else
+				{
+					return true;
+				}
+
 				break;
 
 			case TJoyAxis::MOVEYAXIS:
 
-				if (joystickState->_axes[TJoyAxis::MOVEYAXIS].abs > 5000)
+				if (joystickState->_axes[TJoyAxis::MOVEYAXIS].abs > 20000)
 				{
+					if (_controlledAvatar->getLogicalPosition()->getRing() == Logic::LogicalPosition::LOWER_RING)
+					{
+						return true;	
+					}
+					Logic::CMessage *m = new Logic::CMessage();
+					m->setType(Logic::Message::CONTROL);
 					m->setAction(Logic::Message::GO_DOWN);
 					_controlledAvatar->emitMessage(m);
 				}
 
-				if (joystickState->_axes[TJoyAxis::MOVEYAXIS].abs < -5000)
+				else if (joystickState->_axes[TJoyAxis::MOVEYAXIS].abs < -20000)
 				{
+					if (_controlledAvatar->getLogicalPosition()->getRing() == Logic::LogicalPosition::UPPER_RING)
+					{
+						return true;	
+					}
+					Logic::CMessage *m = new Logic::CMessage();
+					m->setType(Logic::Message::CONTROL);
 					m->setAction(Logic::Message::GO_UP);
 					_controlledAvatar->emitMessage(m);
 				}
 				
-				if (abs(joystickState->_axes[TJoyAxis::MOVEYAXIS].abs) < 20)
+				else 
 				{
-						m->setAction(Logic::Message::WALK_STOP);
-						_controlledAvatar->emitMessage(m);
+					return true;
 				}
-
-					
-				return true;
+	
 				break;
 			}
 
@@ -495,7 +515,9 @@ namespace GUI {
 			return;
 
 		Logic::CMessageUShort *m = new Logic::CMessageUShort();
-		m->setType(Logic::Message::CONTROL);
+			m->setType(Logic::Message::CONTROL);
+		Logic::CMessage *m2 = new Logic::CMessage();
+			m2->setType(Logic::Message::CONTROL);
 		_changeBaseAllowed = true;
 
 		switch (baseNumber)
@@ -503,9 +525,12 @@ namespace GUI {
 		case 0:
 			_changeBaseAllowed = false;
 			m->setAction(Logic::Message::GOBACK_TO_BASE);
+			m2->setAction(Logic::Message::WALK_STOP);
+			_controlledAvatar->emitMessage(m2);
 			break;
 
 		default:
+			delete m2;
 			m->setAction(Logic::Message::SHOW_BASE);
 			m->setUShort(baseNumber);								
 			break;
@@ -520,7 +545,6 @@ namespace GUI {
 
 	int CPlayerController::fromPOVToBaseNumber(const CJoystickState* joystickState)
 	{
-		
 		
 		switch (joystickState->_pov)
 		{
@@ -549,8 +573,7 @@ namespace GUI {
 			return 7;
 
 		case Joystick::POV::NORTHWEST:
-			return 8;
-			
+			return 8;	
 		}
 
 	}

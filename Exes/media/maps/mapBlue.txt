@@ -18,13 +18,6 @@ Map ={
 		material = "skyHades",
 	},
 	
-	GemeloBlue = {
-		type = "OtherPlayer",
-		base=2,
-		ring=1,
-		degrees=120,
-		initialMaterial1="marineBlue",
-	},
 	
 	pointLight1 = {
 		type = "PointLight",
@@ -52,15 +45,7 @@ Map ={
 		ring=1,
 		degrees=180,
 	},
-	
-	medusa2 = {
-		type = "Medusa",
-		base=2,
-		ring=1,
-		degrees=300,		
-	},	
-	
-	
+		
 	LowerRing = {
 		type = "World",
 		base=2,
