@@ -81,7 +81,7 @@ namespace Logic
 			//poner el submaterial de los altares desactivados de inicio
 			_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
 		
-if (_on)
+			if (_on)
 				{
 					LOG(_entity->getName() << ": activado")
 					CMessageUIntString *m = new CMessageUIntString();	

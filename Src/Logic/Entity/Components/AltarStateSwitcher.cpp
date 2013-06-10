@@ -121,13 +121,13 @@ namespace Logic
 			break;
 		
 		case Message::ALTAR_ACTIVATED:
-				_gameStatus->getPlayer(_entity->getOriginBase())->increaseAltarsActivated();
-				CMessageBoolUShort *message = new CMessageBoolUShort();
-				message->setType(Message::SET_ANIMATION);		
-				message->setUShort(Logic::IDLE);
-				message->setBool(true);
-				_entity->emitMessage(message,this);
-				break;
+			_gameStatus->getPlayer(_entity->getOriginBase())->increaseAltarsActivated();
+			CMessageBoolUShort *message = new CMessageBoolUShort();
+			message->setType(Message::SET_ANIMATION);		
+			message->setUShort(Logic::IDLE);
+			message->setBool(true);
+			_entity->emitMessage(message,this);
+			break;
 		
 		}
 	} // process
@@ -202,7 +202,7 @@ namespace Logic
 			}
 			else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
 			{
-				float tickRotation = Math::PI * 0.005f * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+				float tickRotation = Math::PI * 0.005f * msecs; 
 				_entity->yaw(-tickRotation);
 				_acumRotation += tickRotation;
 				if (_acumRotation >= Math::PI/2)
@@ -218,7 +218,7 @@ namespace Logic
 			{
 				if (_targetSense == Logic::LogicalPosition::RIGHT)
 				{
-					float tickRotation = Math::PI * 0.005f * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+					float tickRotation = Math::PI * 0.005f * msecs; 
 					_entity->yaw(-tickRotation);
 					_acumRotation += tickRotation;
 					if (_acumRotation >= Math::PI/2)
