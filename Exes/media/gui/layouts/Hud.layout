@@ -5,10 +5,6 @@
 		<Property Name="FrameEnabled" Value="false" />
 		<Property Name="BackgroundEnabled" Value="False" />
         <Property Name="AlwaysOnTop" Value="False" />
-        <!--<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.23,0},{0.30,0}}" />
-		<Property Name="Image" Value="set:HudBackground image:HudBackgroundImage" />-->
-		<!-- En lugar de con medidas relativas, voy a usar medidas absolutas -->
-		<!--<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.34,0},{0.17,0}}" />-->
 		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,257},{0,96}}" /> <!-- 257 px de ancho, y 96 px de alto, la mitad que hud-fondo4.png-->
 		<Property Name="Image" Value="set:HudBackgroundNuevo image:HudBackgroundNuevoImage" />
 		
@@ -34,31 +30,6 @@
 			<Property Name="AlwaysOnTop" Value="True" />
 			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.305,0},{0,230},{0.35,0}}" />
 		</Window>
-	
-		
-		<!--<Window Type="OgreTray/StaticImage" Name="Hud/RayoBase1" >
-			<Property Name="FrameEnabled" Value="false" />
-			<Property Name="BackgroundEnabled" Value="False" />
-			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="Image" Value="set:HudBackground image:RayoActivado" />
-            <Property Name="UnifiedAreaRect" Value="{{0.47,0},{0.125,0},{0.57,0},{0.3,0}}" />
-        </Window>
-		
-		<Window Type="OgreTray/StaticImage" Name="Hud/RayoBase2" >
-			<Property Name="FrameEnabled" Value="false" />
-			<Property Name="BackgroundEnabled" Value="False" />			
-			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="Image" Value="set:HudBackground image:RayoActivado" />
-            <Property Name="UnifiedAreaRect" Value="{{0.62,0},{0.125,0},{0.72,0},{0.3,0}}" />
-        </Window>
-
-		<Window Type="OgreTray/StaticImage" Name="Hud/RayoBase3" >
-			<Property Name="FrameEnabled" Value="false" />
-			<Property Name="BackgroundEnabled" Value="False" />			
-			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="Image" Value="set:HudBackground image:RayoActivado" />
-            <Property Name="UnifiedAreaRect" Value="{{0.77,0},{0.125,0},{0.87,0},{0.3,0}}" />
-        </Window>-->
 		
 		<Window Type="OgreTray/StaticImage" Name="Hud/RayoBase" >
 			<Property Name="FrameEnabled" Value="false" />

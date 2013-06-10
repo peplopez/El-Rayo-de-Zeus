@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout >
+    <Window Type="OgreTray/FrameWindow" Name="Shop" >
+        <Property Name="Text" Value="Olimpo Shop" />
+		<Property Name="Tooltip" Value="This is Olimpo Shop where you can buy items, criatures and powers with your merite points." />
+	    <Property Name="Font" Value="DejaVuSans-10" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.5,0},{0.1,0},{1,0},{0.9,0}}" />
+		
+       <Window Type="OgreTray/TabControl" Name="Shop/TabControl" >
+            <Property Name="Tooltip" Value="tab control" />
+            <Property Name="TabHeight" Value="{0,-1}" />
+            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
+            <Property Name="TabPanePosition" Value="Bottom" />
+            <Property Name="UnifiedAreaRect" Value="{{0,10},{0,10},{1,-10},{1,-10}}" />
+        </Window>		
+    </Window>
+</GUILayout>

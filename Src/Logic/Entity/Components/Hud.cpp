@@ -1,5 +1,5 @@
 /***
-@file HudCegui.cpp
+@file Hud.cpp
 
 Contiene la implementación del componente que controla el HUD mediante CEGUI.
  

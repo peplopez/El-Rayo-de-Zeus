@@ -37,6 +37,16 @@ namespace Logic
 	class CMessage;
 }
 
+//PT
+namespace GUI
+{
+	class CServer;
+	class CPlayerController;
+	class CCameraController;
+	class CHudController;
+	class CShopController;
+}
+
 // Declaración de la clase
 namespace Logic 
 {

@@ -27,7 +27,7 @@
 		<Window Type="OgreTray/Editbox" Name="MenuSingle/NickBox" >
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="" />
-			<Property Name="MaxTextLength" Value="10" />
+			<!-- <Property Name="MaxTextLength" Value="10" /> -->
             <Property Name="AlwaysOnTop" Value="True" />
             <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.5,0},{0.95,0},{0.55,0}}" />
         </Window>
@@ -39,7 +39,7 @@
             <Property Name="UnifiedAreaRect" Value="{{0.6,1},{0.57,0},{0.69,0},{0.62,0}}" />
         </Window>		
 		
-		<Window Type="TaharezLook/Combobox" Name="MenuSingle/ModelBox" >
+		<Window Type="OgreTray/Combobox" Name="MenuSingle/ModelBox" >
 		        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.57,0},{0.95,0},{0.8,0}}" />
                 <Property Name="MaxEditTextLength" Value="1073741823" />
@@ -54,7 +54,7 @@
             <Property Name="UnifiedAreaRect" Value="{{0.6,1},{0.64,0},{0.69,0},{0.69,0}}" />
         </Window>		
 		
-		<Window Type="TaharezLook/Combobox" Name="MenuSingle/ColorBox" >
+		<Window Type="OgreTray/Combobox" Name="MenuSingle/ColorBox" >
 		        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.64,0},{0.95,0},{0.85,0}}" />
                 <Property Name="MaxEditTextLength" Value="1073741823" />

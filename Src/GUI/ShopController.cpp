@@ -1,41 +1,40 @@
+
 /**
-@file HudController.cpp
+@file ShopController.cpp
 
-Contiene la implementación de la clase CHudController. Se encarga de
+Contiene la implementación de la clase CShopController. Se encarga de
 recibir eventos del teclado y del ratón y de interpretarlos para
-mover al jugador.
+cambiar la tienda del Olimpo
 
-@see GUI::CHudController
+@see GUI::CShopController
 
 @author Pablo Terrado Contreras
-@date Mayo, 2013
+@date Junio, 2013
 */
 
-#include "HudController.h"
+#include "ShopController.h"
 #include "InputManager.h"
-
 #include "Logic/Entity/Entity.h"
 #include "ScriptManager\Server.h"
 #include "Logic/Entity/Messages/Message.h"
 
-
 namespace GUI {
 
-	CHudController::CHudController(): _controlledHud(0)
+	CShopController::CShopController():_controlledShop(0)
 	{
 		//activate();
-	} // CHudController
+	} // CShopController
 
 	//--------------------------------------------------------
 
-	CHudController::~CHudController()
+	CShopController::~CShopController()
 	{
 		deactivate();
-	} // ~CHudController
+	} // ~CShopController
 
 	//--------------------------------------------------------
 
-	void CHudController::activate()
+	void CShopController::activate()
 	{		
 		CInputManager::getSingletonPtr()->addKeyListener(this);
 		CInputManager::getSingletonPtr()->addMouseListener(this);
@@ -43,7 +42,7 @@ namespace GUI {
 
 	//--------------------------------------------------------
 
-	void CHudController::deactivate()
+	void CShopController::deactivate()
 	{
 		CInputManager::getSingletonPtr()->removeKeyListener(this);
 		CInputManager::getSingletonPtr()->removeMouseListener(this);
@@ -51,41 +50,32 @@ namespace GUI {
 
 	//--------------------------------------------------------
 
-	bool CHudController::keyPressed(TKey key)
+	bool CShopController::keyPressed(TKey key)
 	{
 		return false;
 	} // keyPressed
 
 	//--------------------------------------------------------
 
-	bool CHudController::keyReleased(TKey key)
+	bool CShopController::keyReleased(TKey key)
 	{
-
-		if(_controlledHud)
+		if(_controlledShop)
 		{
-
 			Logic::CMessage *m = new Logic::CMessage();
-			m->setType(Logic::Message::HUD);
+			m->setType(Logic::Message::SHOP);
 
 			switch(key.keyId)
 			{
-
-				//to show HUD widget
-				case GUI::Key::V:
-					m->setAction(Logic::Message::DISPLAY_HUD); 
-					_controlledHud->emitMessage(m);
-					break;
-
-				//to reload HUD for DEBUG
-				case GUI::Key::R:
-					ScriptManager::CServer::getSingletonPtr()->reloadScript("Hud");
-					ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadHud");
+				case GUI::Key::T:
+					//ScriptManager::CServer::getSingletonPtr()->reloadScript("Shop");
+					//ScriptManager::CServer::getSingletonPtr()->executeProcedure("changeShopVisibility");
+					m->setAction(Logic::Message::DISPLAY_SHOP); 
+					_controlledShop->emitMessage(m);
 					break;
 
 				default:
 					return false;
 			}
-
 			return true;
 		}
 		return false;
@@ -94,3 +84,5 @@ namespace GUI {
 
 
 } // namespace GUI
+
+

@@ -25,6 +25,7 @@ namespace GUI
 	class CPlayerController;
 	class CCameraController;
 	class CHudController; //PT
+	class CShopController; //PT
 }
 
 namespace CEGUI
@@ -98,6 +99,13 @@ namespace GUI
 		@return Instancia de la clase GUI que recarga el HUD.
 		*/
 		CHudController *getHudController() {return _hudController;}
+
+		/** PT
+		Devuelve la instancia de la clase GUI que se encarga de procesar la tienda SHOP
+
+		@return Instancia de la clase GUI que recarga el SHOP.
+		*/
+		CShopController *getShopController() {return _shopController;}
 
 
 		/***************************************************************
@@ -205,6 +213,12 @@ namespace GUI
 		Clase GUI que se encarga de controlar el HUD.
 		*/
 		CHudController *_hudController;
+
+		//PT
+		/**
+		Clase GUI que se encarga de controlar el HUD.
+		*/
+		CShopController *_shopController;
 
 
 		/**

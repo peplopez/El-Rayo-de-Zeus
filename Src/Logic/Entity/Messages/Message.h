@@ -66,7 +66,8 @@ namespace Logic
 			COMBO_MOMENT	        = 0X31,
 			LIFE_RESTORE			= 0x32,
 			DELETE_GRAPHICAL_ENTITY = 0x33, //mensaje de eliminacion de la entidad Grafica
-			DELETE_PHYSICAL_ENTITY = 0x34 //mensaje de eliminacion de la entidad fisica
+			DELETE_PHYSICAL_ENTITY  = 0x34,	//mensaje de eliminacion de la entidad fisica
+			SHOP				    = 0x35
 		};
 
 		enum TActionType : unsigned char
@@ -105,7 +106,8 @@ namespace Logic
 			HEAL				= 0x35,
 			DAMAGE				= 0x36,
 			DESTROY				= 0x37,
-			UPDATE_HUD_LIFE		= 0x38
+			UPDATE_HUD_LIFE		= 0x38,
+			DISPLAY_SHOP		= 0x39
 		};
 	}
 

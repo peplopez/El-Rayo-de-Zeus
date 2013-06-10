@@ -24,6 +24,7 @@ Contiene la implementación del estado de juego.
 #include "GUI/PlayerController.h"
 #include "GUI/CameraController.h" //PT
 #include "GUI/HudController.h" //PT
+#include "GUI/ShopController.h" //PT
 
 #include "Physics/Server.h"
 
@@ -48,8 +49,6 @@ namespace Application {
 		//Parameters for game in LUA
 		ScriptManager::CServer::getSingletonPtr()->loadExeScript("GameParameters");
 
-		//_gameStatus = Logic::CGameStatus::getSingletonPtr();
-
 		// FRS el Logic:: loadLevel se mueve a la parte final del lobby/menu state
 		//, ya que los mapas cargados varían dependiendo de si somos server, client o monojudador
 
@@ -60,15 +59,13 @@ namespace Application {
 		// Hay que desacoplarlo utilizando un nuevo paquete donde se abstraiga
 		// el subsistema utilizado
 
-		// Cargamos la ventana del HUD del Jugador.
-		//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("Hud.layout");
-		//_hudWindow = CEGUI::WindowManager::getSingleton().getWindow("Hud");
+		// Cargamos la ventana del HUDSHOP del Jugador. (Contiene ventana HUD y ventana SHOP)
+		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("HudShop.layout");
 
-		// Cargamos la ventana del HUD del Jugador mediante LUA
+		_rootWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root");
 
-		//ScriptManager::CServer::getSingletonPtr()->loadExeScript("Hud");
-		//ScriptManager::CServer::getSingletonPtr()->executeProcedure("initHud");
-
+		//Se activa la ventana Padre
+		CEGUI::System::getSingletonPtr()->setGUISheet(_rootWindow);
 
 		//inicialización del GameStatus:
 		// se supone que hemos elegido ya en este punto cuantos jugadores somos
@@ -77,6 +74,8 @@ namespace Application {
 		else
 			delete _gameStatus;
 			*/
+
+
 		return true;
 	
 	} // init
@@ -120,6 +119,13 @@ namespace Application {
 
 		// PT. Para recargar el HUD en DEBUG.
         GUI::CServer::getSingletonPtr()->getHudController()->activate();
+
+		// PT. Para visualizar o no la tienda SHOP.
+        GUI::CServer::getSingletonPtr()->getShopController()->activate();
+
+		//Raton rayo en el juego
+		CEGUI::System::getSingletonPtr()->setDefaultMouseCursor("OgreTrayImages","MouseArrow");
+		//CEGUI::MouseCursor::getSingletonPtr()->show();
 
 
 	} // activate

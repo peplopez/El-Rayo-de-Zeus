@@ -12,39 +12,55 @@ function initHud()
 
 	if hud==nil then
 	
-		GUI.Windows:loadWindowLayout("Hud.layout")
-		hud = GUI.Windows:getWindow("Hud")
+		--GUI.Windows:loadWindowLayout("Hud.layout")		
 		
-		LifeWindow = hud:getChild("Hud/Life")
+		root = GUI.Windows:getWindow("Root")
 		
-		TitleEnemigosWindow = hud:getChild("Hud/TitleEnemigos")
-		NumEnemigosWindow = hud:getChild("Hud/NumEnemigos")
+		--hud = GUI.Windows:getWindow("Hud")
+		hud = GUI.Windows:getWindow("Root/Hud")
 		
-		TitlePuntosMeritoWindow = hud:getChild("Hud/TitlePuntosMerito")
-		PuntosMeritoWindow = hud:getChild("Hud/PuntosMerito")
+		--LifeWindow = hud:getChild("Hud/Life")
+		LifeWindow = hud:getChild("Root/Hud/Life")
 		
-		ImagenAltarWindow = hud:getChild("Hud/Altares")		
-		NumberAltaresActivatedWindow = hud:getChild("Hud/NumAltares")
+		--TitleEnemigosWindow = hud:getChild("Hud/TitleEnemigos")
+		--NumEnemigosWindow = hud:getChild("Hud/NumEnemigos")
 		
-		PersonajeWindow = hud:getChild("Hud/Personaje")
+		TitleEnemigosWindow = hud:getChild("Root/Hud/TitleEnemigos")
+		NumEnemigosWindow = hud:getChild("Root/Hud/NumEnemigos")		
 		
-		PlayernameWindow = hud:getChild("Hud/PlayerName")
+		--TitlePuntosMeritoWindow = hud:getChild("Hud/TitlePuntosMerito")
+		--PuntosMeritoWindow = hud:getChild("Hud/PuntosMerito")
 		
-
-
-		--Rayo1Window = hud:getChild("Hud/RayoBase1")
-		--Rayo2Window = hud:getChild("Hud/RayoBase2")
-		--Rayo3Window = hud:getChild("Hud/RayoBase3")
-
-		RayoWindow = hud:getChild("Hud/RayoBase")
+		TitlePuntosMeritoWindow = hud:getChild("Root/Hud/TitlePuntosMerito")
+		PuntosMeritoWindow = hud:getChild("Root/Hud/PuntosMerito")		
+		
+		--ImagenAltarWindow = hud:getChild("Hud/Altares")		
+		--NumberAltaresActivatedWindow = hud:getChild("Hud/NumAltares")
+		
+		ImagenAltarWindow = hud:getChild("Root/Hud/Altares")		
+		NumberAltaresActivatedWindow = hud:getChild("Root/Hud/NumAltares")		
+		
+		--PersonajeWindow = hud:getChild("Hud/Personaje")
+		
+		--PlayernameWindow = hud:getChild("Hud/PlayerName")
+		
+		--RayoWindow = hud:getChild("Hud/RayoBase")
+		
+		PersonajeWindow = hud:getChild("Root/Hud/Personaje")
+		
+		PlayernameWindow = hud:getChild("Root/Hud/PlayerName")
+		
+		RayoWindow = hud:getChild("Root/Hud/RayoBase")		
 	end
 end
 
 
 --Funcion que muestra la ventana del HUD
 function showHud()
-	if hud ~= nil then
-		GUI.System:setGUISheet(hud)
+	--if hud ~= nil then
+	if root ~= nil then
+		--GUI.System:setGUISheet(hud)
+		GUI.System:setGUISheet(root)
 		hud:setVisible(true)
 		hud:activate()
 	end
@@ -53,7 +69,8 @@ end
 
 --Funcion que oculta una ventana del GUI
 function hideHud()
-	if hud ~= nil then
+	--if hud ~= nil then
+	if root ~= nil then
 		hud:deactivate()		
 		hud:setVisible(false)
 	end

@@ -5,7 +5,7 @@ Camera CCamera
 BaseCamera CBaseCamera
 Altar CGraphics CPhysics CAltar CDestruction
 Entity CGraphics
-Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CCombat CStateMachineExecutor CLife CHud CPhysicalCharacter CAltarStateSwitcher CAudio CDestruction
+Player CAnimatedGraphics CAvatarController CJump CBaseTraveler CCombat CStateMachineExecutor CHud CLife CShop CPhysicalCharacter CAltarStateSwitcher CAudio CDestruction
 Medusa CAnimatedGraphics CAvatarController CCombat CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CBasicAI CDestruction
 Spider CAnimatedGraphics CAvatarController CCombat CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CBasicAI CDestruction
 Sinbad CAnimatedGraphics CAvatarController CCombat CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CBasicAI CDestruction

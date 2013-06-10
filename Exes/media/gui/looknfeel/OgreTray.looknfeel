@@ -1480,6 +1480,7 @@
                     <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
                     <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
                 </Area>
+				
 				<Image type="TopLeftCorner" imageset="OgreTrayImages" image="ButtonUpTL" />
                 <Image type="TopRightCorner" imageset="OgreTrayImages" image="ButtonUpTR" />
                 <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="ButtonUpBL" />
@@ -1574,6 +1575,135 @@
             </Layer>
         </StateImagery>
     </WidgetLook>
+	
+	
+	
+	
+<!--
+:::: PushButtonCombobox (Pablo)
+-->
+    <WidgetLook name="OgreTray/PushButtonCombobox">
+        <!--<PropertyDefinition name="NormalTextColour" initialValue="88FFFFFF" redrawOnWrite="true" /> --> <!-- azul -->
+		<PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" /> 
+        <PropertyDefinition name="HoverTextColour" initialValue="FF000000" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedTextColour" initialValue="FF000000" redrawOnWrite="true" />
+        <PropertyDefinition name="DisabledTextColour" initialValue="FF888888" redrawOnWrite="true" />
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <VertFormat type="CentreAligned" />
+                <HorzFormat type="WordWrapCentreAligned" />
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="normal">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+				<Image type="TopLeftCorner" imageset="OgreTrayImages" image="ButtonUpTLCombobox" />
+                <Image type="TopRightCorner" imageset="OgreTrayImages" image="ButtonUpTRCombobox" />
+                <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="ButtonUpBLCombobox" />
+                <Image type="BottomRightCorner" imageset="OgreTrayImages" image="ButtonUpBRCombobox" />
+				
+                <Image type="LeftEdge" imageset="OgreTrayImages" image="ButtonUpLCombobox" />
+                <Image type="TopEdge" imageset="OgreTrayImages" image="ButtonUpTCombobox" />
+                <Image type="RightEdge" imageset="OgreTrayImages" image="ButtonUpRCombobox" />
+                <Image type="BottomEdge" imageset="OgreTrayImages" image="ButtonUpBCombobox" />
+				
+                <Image type="Background" imageset="OgreTrayImages" image="ButtonUpMCombobox" />
+            </FrameComponent>
+        </ImagerySection>
+		
+        <ImagerySection name="hover">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+				<Image type="TopLeftCorner" imageset="OgreTrayImages" image="ButtonOverTLCombobox" />
+                <Image type="TopRightCorner" imageset="OgreTrayImages" image="ButtonOverTRCombobox" />
+                <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="ButtonOverBLCombobox" />
+                <Image type="BottomRightCorner" imageset="OgreTrayImages" image="ButtonOverBRCombobox" />
+				
+                <Image type="LeftEdge" imageset="OgreTrayImages" image="ButtonOverLCombobox" />
+                <Image type="TopEdge" imageset="OgreTrayImages" image="ButtonOverTCombobox" />
+                <Image type="RightEdge" imageset="OgreTrayImages" image="ButtonOverRCombobox" />
+                <Image type="BottomEdge" imageset="OgreTrayImages" image="ButtonOverBCombobox" />
+				
+                <Image type="Background" imageset="OgreTrayImages" image="ButtonOverMCombobox" />
+            </FrameComponent>
+        </ImagerySection>
+		
+        <ImagerySection name="pushed">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="OgreTrayImages" image="ButtonDownTL" />
+                <Image type="TopRightCorner" imageset="OgreTrayImages" image="ButtonDownTR" />
+                <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="ButtonDownBL" />
+                <Image type="BottomRightCorner" imageset="OgreTrayImages" image="ButtonDownBR" />
+                <Image type="LeftEdge" imageset="OgreTrayImages" image="ButtonDownL" />
+                <Image type="TopEdge" imageset="OgreTrayImages" image="ButtonDownT" />
+                <Image type="RightEdge" imageset="OgreTrayImages" image="ButtonDownR" />
+                <Image type="BottomEdge" imageset="OgreTrayImages" image="ButtonDownB" />
+                <Image type="Background" imageset="OgreTrayImages" image="ButtonDownM" />
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Normal">
+            <Layer>
+                <Section section="normal" />
+                <Section section="label">
+                    <ColourProperty name="NormalTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Hover">
+            <Layer>
+                <Section section="hover" />
+                <Section section="label">
+                    <ColourProperty name="HoverTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Pushed">
+            <Layer>
+                <Section section="pushed" />
+                <Section section="label">
+                    <ColourProperty name="PushedTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="PushedOff">
+            <Layer>
+                <Section section="hover" />
+                <Section section="label">
+                    <ColourProperty name="HoverTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal" />
+                <Section section="label">
+                    <ColourProperty name="DisabledTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>	
 
 <!--
 :::: Progress Bar
@@ -2003,6 +2133,7 @@
                 </Dim>
             </Area>
         </NamedArea>
+		
         <NamedArea name="ItemRenderingAreaHScroll">
             <Area>
                 <Dim type="LeftEdge" >
@@ -2031,6 +2162,7 @@
                 </Dim>
             </Area>
         </NamedArea>
+		
         <NamedArea name="ItemRenderingAreaVScroll">
             <Area>
                 <Dim type="LeftEdge" >
@@ -2059,6 +2191,7 @@
                 </Dim>
             </Area>
         </NamedArea>
+		
         <NamedArea name="ItemRenderingAreaHVScroll">
             <Area>
                 <Dim type="LeftEdge" >
@@ -2091,6 +2224,7 @@
                 </Dim>
             </Area>
         </NamedArea>
+		
         <Child type="OgreTray/HorizontalScrollbar" nameSuffix="__auto_hscrollbar__">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="OgreTrayImages" image="MiniTrayL" dimension="Width" /></Dim>
@@ -2117,6 +2251,7 @@
             <VertAlignment type="BottomAligned" />
             <Property name="NonClient" value="True" />
         </Child>
+		
         <Child type="OgreTray/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
             <Area>
                 <Dim type="LeftEdge" >
@@ -2139,6 +2274,7 @@
             <HorzAlignment type="RightAligned" />
             <Property name="NonClient" value="True" />
         </Child>
+		
         <ImagerySection name="main">
             <FrameComponent>
                 <Area>
@@ -2147,17 +2283,21 @@
                     <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
                     <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
                 </Area>
+				
                 <Image type="TopLeftCorner" imageset="OgreTrayImages" image="MiniTrayTL" />
                 <Image type="TopRightCorner" imageset="OgreTrayImages" image="MiniTrayTR" />
                 <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="MiniTrayBL" />
                 <Image type="BottomRightCorner" imageset="OgreTrayImages" image="MiniTrayBR" />
+				
                 <Image type="LeftEdge" imageset="OgreTrayImages" image="MiniTrayL" />
                 <Image type="TopEdge" imageset="OgreTrayImages" image="MiniTrayT" />
                 <Image type="RightEdge" imageset="OgreTrayImages" image="MiniTrayR" />
                 <Image type="BottomEdge" imageset="OgreTrayImages" image="MiniTrayB" />
                 <Image type="Background" imageset="OgreTrayImages" image="MiniTrayM" />
+				
             </FrameComponent>
         </ImagerySection>
+		
         <StateImagery name="Enabled">
             <Layer><Section section="main" /></Layer>
         </StateImagery>
@@ -2172,6 +2312,7 @@
     <WidgetLook name="OgreTray/Combobox">
         <PropertyLinkDefinition name="NormalEditTextColour" widget="__auto_editbox__" targetProperty="NormalTextColour" initialValue="FF000000" />
         <PropertyLinkDefinition name="SelectedEditTextColour" widget="__auto_editbox__" targetProperty="SelectedTextColour" initialValue="FF000000" />
+		
         <Child  type="OgreTray/Editbox" nameSuffix="__auto_editbox__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
@@ -2188,6 +2329,7 @@
                 </Dim>
             </Area>
         </Child>
+		
         <Child  type="OgreTray/ComboDropList" nameSuffix="__auto_droplist__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
@@ -2197,7 +2339,8 @@
             </Area>
             <Property name="ClippedByParent" value="False" />
         </Child>
-        <Child  type="OgreTray/Button" nameSuffix="__auto_button__">
+		
+<!--         <Child  type="OgreTray/Button" nameSuffix="__auto_button__">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
@@ -2206,7 +2349,19 @@
             </Area>
             <HorzAlignment type="RightAligned" />
             <Property name="Text" value="V" />
-        </Child>
+        </Child> -->
+		
+		<Child  type="OgreTray/ButtonCombobox" nameSuffix="__auto_button__">
+            <Area>
+                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
+                <Dim type="Width" ><WidgetDim widget="__auto_editbox__" dimension="Height" /></Dim>
+                <Dim type="Height" ><WidgetDim widget="__auto_editbox__" dimension="Height" /></Dim>
+            </Area>
+            <HorzAlignment type="RightAligned" />
+            <Property name="Text" value="V" />
+        </Child>	
+		
         <StateImagery name="Enabled" />
         <StateImagery name="Disabled" />
     </WidgetLook>

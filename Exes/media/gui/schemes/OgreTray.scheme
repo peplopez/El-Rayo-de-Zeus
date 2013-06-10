@@ -11,6 +11,7 @@
     <LookNFeel Filename="OgreTray.looknfeel" />
     <WindowRendererSet Filename="CEGUIFalagardWRBase" />
     <FalagardMapping WindowType="OgreTray/Button"               TargetType="CEGUI/PushButton"       Renderer="Falagard/Button"              LookNFeel="OgreTray/PushButton" />
+	<FalagardMapping WindowType="OgreTray/ButtonCombobox"       TargetType="CEGUI/PushButton"       Renderer="Falagard/Button"              LookNFeel="OgreTray/PushButtonCombobox" />
     <FalagardMapping WindowType="OgreTray/Titlebar"             TargetType="CEGUI/Titlebar"         Renderer="Falagard/Titlebar"            LookNFeel="OgreTray/Titlebar" />
     <FalagardMapping WindowType="OgreTray/FrameWindow"          TargetType="CEGUI/FrameWindow"      Renderer="Falagard/FrameWindow"         LookNFeel="OgreTray/FrameWindow" />
     <FalagardMapping WindowType="OgreTray/Thumb"                TargetType="CEGUI/Thumb"            Renderer="Falagard/Button"              LookNFeel="OgreTray/Thumb" />

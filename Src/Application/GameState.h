@@ -189,11 +189,9 @@ namespace Application
 		Escena del estado.
 		*/
 		Graphics::CScene* _scene;
+
+		CEGUI::Window* _rootWindow;
 	
-		/**
-		Puntero al gamestatus global
-		*/
-		//Logic::CGameStatus* _gameStatus;
 
 	}; // CGameState
 

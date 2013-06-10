@@ -46,6 +46,10 @@ namespace AI
 
 		//init Respawn Layout and functions
 		if (_entity->isPlayer()){
+
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideHud"); //oculto el HUD
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideShop"); //oculto el SHOP
+
 			ScriptManager::CServer::getSingletonPtr()->loadExeScript("RespawnPlayer");
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("initRespawn");
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showRespawn");
@@ -94,7 +98,7 @@ namespace AI
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideRespawn"); //escondo la pantalla de respawn
 			_scene->deactivateCompositor("BW"); //desactivo el compositor blanco y negro
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud"); //muestro el HUD
-
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showShop"); //muestro el SHOP
 			respawn();
 
 		}

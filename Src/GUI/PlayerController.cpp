@@ -192,11 +192,6 @@ namespace GUI {
 				_controlledAvatar->emitMessage(m2);
 				break;
 
-			case GUI::Key::V:
-				m3->setAction(Logic::Message::DISPLAY_HUD);
-				_controlledAvatar->emitMessage(m3);
-				break;
-
 
 			case GUI::Key::F2:
 				Physics::CServer::getSingletonPtr()->SwitchDebugDraw();

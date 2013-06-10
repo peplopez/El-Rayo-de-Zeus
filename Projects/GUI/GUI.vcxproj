@@ -88,6 +88,7 @@
     <ClCompile Include="..\..\Src\GUI\InputManager.cpp" />
     <ClCompile Include="..\..\Src\GUI\PlayerController.cpp" />
     <ClCompile Include="..\..\Src\GUI\Server.cpp" />
+    <ClCompile Include="..\..\Src\GUI\ShopController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\GUI\CameraController.h" />
@@ -96,6 +97,7 @@
     <ClInclude Include="..\..\Src\GUI\InputManager.h" />
     <ClInclude Include="..\..\Src\GUI\PlayerController.h" />
     <ClInclude Include="..\..\Src\GUI\Server.h" />
+    <ClInclude Include="..\..\Src\GUI\ShopController.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseSubsystems\BaseSubsystems.vcxproj">

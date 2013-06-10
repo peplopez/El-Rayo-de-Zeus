@@ -14,6 +14,7 @@ la gestión de la interfaz con el usuario (entrada de periféricos, CEGui...).
 #include "PlayerController.h"
 #include "CameraController.h"
 #include "HudController.h" //PT
+#include "ShopController.h" //PT
 #include "BaseSubsystems/Server.h"
 
 #include <cassert>
@@ -33,7 +34,7 @@ namespace GUI {
 
 	//PT. Antes. CServer::CServer() : _playerController(0)
 
-	CServer::CServer() : _playerController(0), _cameraController(0), _hudController(0)
+	CServer::CServer() : _playerController(0), _cameraController(0), _hudController(0), _shopController(0)
 	{
 		_instance = this;
 
@@ -87,6 +88,7 @@ namespace GUI {
 		_playerController = new CPlayerController();
 		_cameraController = new CCameraController();
 		_hudController = new CHudController(); //PT
+		_shopController = new CShopController(); //PT
 
 		_GUISystem = BaseSubsystems::CServer::getSingletonPtr()->getGUISystem();
 
@@ -121,6 +123,7 @@ namespace GUI {
 		delete _playerController;
 		delete _cameraController;
 		delete _hudController; //PT
+		delete _shopController; //PT
 	} // close
 
 	//--------------------------------------------------------

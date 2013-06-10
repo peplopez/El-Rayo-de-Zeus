@@ -91,6 +91,7 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\DotSceneLoader.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\FloatingMovement.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Script.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Shop.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\CMessageBoolFloatString.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageAudio.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolUShort.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\DotSceneLoader.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\FloatingMovement.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Script.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Shop.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageAudio.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloatString.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageBoolUShort.h" />

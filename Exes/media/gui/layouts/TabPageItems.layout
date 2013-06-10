@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<GUILayout>
+    <Window Type="DefaultGUISheet" Name="PageItems">
+        <Property Name="Text" Value="Items" />
+
+        <Window Type="OgreTray/Listbox" Name="PageItems/PageList">
+            <Property Name="UnifiedAreaRect" Value="{{0.55,0},{0.1,0},{0.95,0},{0.48,0}}" />
+            <Property Name="Tooltip" Value="A list of available tabs to experiment with" />
+        </Window>
+		
+    </Window>
+</GUILayout>

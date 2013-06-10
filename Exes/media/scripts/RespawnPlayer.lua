@@ -18,7 +18,7 @@ function showRespawn()
 		GUI.System:setGUISheet(respawnWindow)
 		respawnWindow:setVisible(true)
 		respawnWindow:activate()
-		-- GUI.Mouse:show()
+		GUI.Mouse:hide()
 	end
 end
 
@@ -26,7 +26,7 @@ end
 --Funcion que oculta una ventana del GUI
 function hideRespawn()
 	if respawnWindow ~= nil then
-		GUI.Mouse:hide()
+		GUI.Mouse:show()
 		respawnWindow:deactivate()		
 		respawnWindow:setVisible(false)
 	end

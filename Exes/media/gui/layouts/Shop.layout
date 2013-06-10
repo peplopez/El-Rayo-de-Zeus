@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow" Name="Shop" >
+        <Property Name="Text" Value="Olimpo Shop" />
+        <Property Name="AlwaysOnTop" Value="True" />
+        <Property Name="Font" Value="DejaVuSans-10" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.727354,0},{0.00944353,0},{0.997086,0},{0.982883,0}}" />
+        <Property Name="SizingEnabled" Value="True" />
+        <Property Name="DragMovingEnabled" Value="True" />
+        <Property Name="CloseButtonEnabled" Value="True" />
+        <Window Type="TaharezLook/TabControl" Name="Shop/ControlPestanas" >
+            <Property Name="Tooltip" Value="This is the tab control" />
+            <Property Name="TabHeight" Value="{0,25.8886}" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="TabPanePosition" Value="Top" />
+            <Property Name="UnifiedAreaRect" Value="{{0.0242733,0},{-0.00190571,0},{1.00578,0},{0.982612,0}}" />
+            <Window Type="DefaultWindow" Name="Shop/ControlPestanas/Items" >
+                <Property Name="Text" Value="Items" />
+                <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                <Window Type="TaharezLook/StaticImage" Name="Shop/ControlPestanas/Items/Imagen1bis" >
+                    <Property Name="Font" Value="DejaVuSans-10" />
+                    <Property Name="Text" Value="texto de la imagen1 sin alt" />
+                    <Property Name="Image" Value="set:BackgroundInit image:BackgroundInit" />
+                    <Property Name="Tooltip" Value="tooltip staticimage" />
+                    <Property Name="FrameEnabled" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+                </Window>
+            </Window>
+            <Window Type="DefaultWindow" Name="Shop/ControlPestanas/Criatures" >
+                <Property Name="Text" Value="Criatures" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+            </Window>
+            <Window Type="DefaultWindow" Name="Shop/ControlPestanas/Combos" >
+                <Property Name="Text" Value="Combos" />
+                <Property Name="Visible" Value="False" />
+                <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

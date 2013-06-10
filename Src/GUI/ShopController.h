@@ -1,15 +1,15 @@
 /**
-@file HudController.h
+@file ShopController.h
 
-Contiene la declaración de la clase CHudController. Se encarga de
-recibir eventos del teclado (la R) para recargar el HUD
+Contiene la declaración de la clase CShopController. Se encarga de
+recibir eventos del teclado (la R) para recargar el Shop
 
 @author Pablo Terrado Contreras
 @date Mayo, 2013
 */
 
-#ifndef __GUI_HudController_H
-#define __GUI_HudController_H
+#ifndef __GUI_ShopController_H
+#define __GUI_ShopController_H
 
 #include "InputManager.h"
 
@@ -30,41 +30,41 @@ namespace ScriptManager
 namespace GUI
 {
 	/**
-	Esta clase sirve para gestionar el teclado, y recargar el HUD 
+	Esta clase sirve para gestionar el teclado, y recargar el Shop 
 	
 	@ingroup GUIGroup
 
 	@author Pablo Terrado
-	@date Mayo, 2013
+	@date Junio, 2013
 	*/
 
-	class CHudController : public CKeyboardListener, public CMouseListener
+	class CShopController : public CKeyboardListener, public CMouseListener
 	{
 	public:
 
 		/**
 		Constructor.
 		*/
-		CHudController();
+		CShopController();
 
 		/**
 		Destructor.
 		*/
-		~CHudController();
+		~CShopController();
 
 		/**
 		Establece el componente del jugador al que enviaremos acciones 
 		de movimiento en función de las teclas pulsadas y el movimiento 
 		del ratón.
 
-		@param setControlledHud Componente al que enviaremos acciones de 
+		@param setControlledShop Componente al que enviaremos acciones de 
 		movimiento en función de las teclas pulsadas y el movimiento del 
 		ratón.
 		*/
-		void setControlledHud(Logic::CEntity *controlledHud) 
-										{_controlledHud = controlledHud;} 
+		void setControlledShop(Logic::CEntity *controlledShop) 
+										{_controlledShop = controlledShop;} 
 
-		Logic::CEntity * getControlledHud() {return _controlledHud; } 
+		Logic::CEntity * getControlledShop() {return _controlledShop; } 
  
 
 		/**
@@ -102,13 +102,12 @@ namespace GUI
 		*/
 		bool keyReleased(TKey key);
 
-
 	protected:
-		Logic::CEntity* _controlledHud;
+		Logic::CEntity* _controlledShop;
 
 
-	}; // class CHudController
+	}; // class CShopController
 
 } // namespace GUI
 
-#endif // __GUI_HudController_H
+#endif // __GUI_ShopController_H

@@ -23,6 +23,8 @@ de juego. Es una colección de componentes.
 #include "GUI/Server.h"
 #include "GUI/PlayerController.h"
 #include "GUI/CameraController.h"
+#include "GUI/HudController.h" //PT
+#include "GUI/ShopController.h" //PT
 
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageTF.h"
@@ -241,8 +243,10 @@ namespace Logic
 		_isPlayer = isPlayer; 
 		if(_isPlayer) {
 			CServer::getSingletonPtr()->setPlayer(this);
-			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);		
-		} else {
+			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);
+			GUI::CServer::getSingletonPtr()->getHudController()->setControlledHud(this); //PT
+			GUI::CServer::getSingletonPtr()->getShopController()->setControlledShop(this); //PT
+		} else { //if not player. no HUD, no SHOP
 			if(CServer::getSingletonPtr()->getPlayer() == this)
 				CServer::getSingletonPtr()->setPlayer(0);
 			if(GUI::CServer::getSingletonPtr()->getPlayerController()->getControlledAvatar() == this)
