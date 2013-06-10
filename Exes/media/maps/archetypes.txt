@@ -210,9 +210,9 @@ Map = {
 		audio="media\\audio\\QUEJIDO1.wav",
 	},
 	
-	Scorpion = {
-		type = "Spider",
-		model = "katana.mesh",
+	Cancerbero = {
+		type = "Cancerbero",
+		model = "cancerbero.mesh",
 		initialScale = 0.5,
 		logicInput = true,
 		base=0,
@@ -233,6 +233,18 @@ Map = {
 		lifeModifierLightAttack = -10,
 		lifeModifierHeavyAttack = -20,		
 		audio="media\\audio\\QUEJIDO1.wav",
+		behavior="Hercules",
+		animRun="Walk",
+		animIdle="Walk",
+		animDeath="Walk",
+		animJump="Walk",
+		animDamage="Walk",
+		animActivateAltar="Walk",
+		animCoverWithWeapon="Walk",
+		animCoverWithShield="Walk",
+		animAttack1="Walk",
+		animAttack2="Walk",
+		animAttack3="Walk",
 	},
 	
 	Player = {
