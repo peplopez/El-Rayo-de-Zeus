@@ -23,6 +23,7 @@ ratón y teclado.
 
 #include <OISMouse.h>
 #include <OISKeyboard.h>
+#include <OISJoyStick.h>
 
 #include <list>
 
@@ -340,7 +341,7 @@ namespace GUI
 			movX = 0;
 			movY = 0;
 			scrool = 0;
-			button =  Button::UNASSIGNED;
+			button = (TButton)-1;
 		}
 
 		/**
@@ -489,6 +490,115 @@ namespace GUI
 
 	}; // CMouseListener
 
+
+	/**
+	clase que representa el estado del joystick. Sirve para aunar 
+	varios atributos simples que definen el estado. Los atributos
+	son públicos para que sean más fáciles de acceder.
+	
+	@ingroup GUIGroup
+
+	@author Emilio Santalla
+	@date Junio, 2013
+	*/
+	namespace Joystick
+	{
+		namespace Axis
+		{
+			enum TJoyAxis
+			{
+				UNDEFINED,
+				MOVEXAXIS,
+				MOVEYAXIS,
+				POINTERXAXIS,
+				POINTERYAXIS,
+			};
+		}
+
+		namespace Button
+		{
+			enum TJoyButton
+			{
+				UNDEFINED,
+				ATTACK1,
+				ATTACK2,
+				JUMP,
+				ACTIVATE,
+				MODIFIER,
+				COVER,
+			};
+		}
+
+		namespace POV
+		{
+
+			enum Direction : int
+			{
+					CENTERED	= 0,
+					EAST		= 256,
+					NORTH		= 1,
+					NORTHEAST	= 257,
+					NORTHWEST	= 4097,
+					SOUTH		= 16,
+					SOUTHEAST	= 272,
+					SOUTHWEST	= 4112,
+					WEST		= 4096
+			};
+		}
+
+	}
+
+	typedef Joystick::Axis::TJoyAxis TJoyAxis;
+	typedef Joystick::Button::TJoyButton TJoyButton;
+	typedef Joystick::POV::Direction TPovDirection;
+
+	class CJoystickState
+	{
+	public:
+
+		struct TAxisValue
+		{
+			int abs;
+			int rel;
+
+			TAxisValue() : abs(0), rel(0) {}
+		};
+		
+		
+		typedef std::vector<TAxisValue> TAxesVector;
+		typedef std::vector<bool> TButtonsVector;
+
+
+		/**
+		Constructor parametrizado.
+		*/
+		CJoystickState(int axes, int buttons)
+		{
+			TAxisValue axisValue;
+			for (int i = 0; i < axes; ++i)
+				_axes.push_back(axisValue);
+
+			bool buttonValue = 0;
+			for (int i = 0; i < buttons; ++i)
+				_buttons.push_back(buttonValue);
+		}
+	
+		TAxesVector _axes;
+		TButtonsVector _buttons;
+		TPovDirection _pov;
+	};
+	
+
+	class CJoystickListener
+	{
+	public:
+		virtual bool axisMoved(const CJoystickState *joystickState, TJoyAxis axis) {return false;}
+		virtual bool buttonPressed(const CJoystickState *joystickState, TJoyButton button) {return false;}
+		virtual bool buttonReleased(const CJoystickState *joystickState, TJoyButton button){return false;}
+		virtual bool povMoved(const CJoystickState *joystickState){return false;}
+	};
+
+
 	/**
 	Gestor de periféricos de entrada. Controla y captura los eventos
 	que se producen en teclado y ratón. Permite registrar oyentes que
@@ -518,9 +628,17 @@ namespace GUI
 	@date Julio, 2010
 	*/
 	class CInputManager : public OIS::KeyListener, 
-		public OIS::MouseListener 
+		public OIS::MouseListener , public OIS::JoyStickListener
 	{
 	public:
+
+		typedef	std::map<int, TJoyAxis> TJAxisBindings;
+		typedef	std::map<int, TJoyButton> TJButtonBindings;
+
+		// DICCIONARIOS
+		typedef std::map<std::string, TJoyAxis> TAxisDictionary;
+		typedef std::map<std::string, TJoyButton> TButtonDictionary;
+		typedef std::map<std::string, int> TOISDictionary;
 
 		/**
 		Devuelve la única instancia de la clase.
@@ -563,6 +681,14 @@ namespace GUI
 		void addMouseListener(CMouseListener *mouseListener);
 
 		/** 
+		Añade un oyente del ratón.
+		
+		@param keyListener Oyente del ratón.
+		*/
+		void addJoystickListener(CJoystickListener *joystickListener);
+
+
+		/** 
 		Borra un oyente del teclado.
 		
 		@param keyListener Oyente del teclado
@@ -572,9 +698,17 @@ namespace GUI
 		/** 
 		Borra un oyente del ratón.
 		
-		@param keyListener Oyente del ratón.
+		@param mouseListener Oyente del ratón.
 		*/
 		void removeMouseListener(CMouseListener *mouseListener);
+
+
+		/** 
+		Borra un oyente del joystick.
+		
+		@param joystListener Oyente del joystick.
+		*/
+		void removeJoystickListener(CJoystickListener *joystickListener);
 
 		/** 
 		Borra todos los oyentes.
@@ -590,6 +724,11 @@ namespace GUI
 		Borra todos los oyentes del ratón.
 		*/
 		void removeAllMouseListeners();
+
+		/** 
+		Borra todos los oyentes del joystick.
+		*/
+		void removeAllJoystickListeners();
 
 		/**
 		Método que consulta si una tecla está o no pulsada.
@@ -610,6 +749,7 @@ namespace GUI
 			{return _keyboard->isModifierDown((OIS::Keyboard::Modifier)modifier);}
 
 	private:
+
 
 		/**
 		Constructor.
@@ -641,6 +781,14 @@ namespace GUI
 		Única instancia de la clase. 
 		*/
 		static CInputManager *_instance;
+
+
+		/**
+		*/
+		void loadJoyBindingMap();
+
+		TJoyButton getButtonForOISButton(int OISButton);
+		TJoyAxis getAxisForOISAxis(int OISAxis);
 
 		/** 
 		Método invocado por OIS cuando se pulsa una tecla. Es el
@@ -697,6 +845,54 @@ namespace GUI
 		*/
 		bool mouseReleased(const OIS::MouseEvent &e, OIS::MouseButtonID button);
 
+
+		/** 
+		Método invocado por OIS cuando se mueve un analógico. 
+		Es el encargado de avisar a todos los oyentes del evento.
+
+		@param e Evento producido.
+		@return true si se captura el evento.
+		*/
+		bool axisMoved(const OIS::JoyStickEvent &e, int axis);
+		
+		/** 
+		Método invocado por OIS cuando se pulsa un botón del gamepad. 
+		Es el encargado de avisar a todos los oyentes del evento.
+
+		@param e Evento producido.
+		@param button código del botón pulsado.
+		@return true si se captura el evento.
+		*/
+		bool buttonPressed(const OIS::JoyStickEvent &e, int button);
+
+		/** 
+		Método invocado por OIS cuando se deja de pulsar un botón del gamepad. 
+		Es el encargado de avisar a todos los oyentes del evento.
+
+		@param e Evento producido.
+		@param button código del botón soltado.
+		@return true si se captura el evento.
+		*/
+		bool buttonReleased(const OIS::JoyStickEvent &e, int button);
+
+		/** 
+		Método invocado por OIS cuando se pulsa on pov. 
+		Es el encargado de avisar a todos los oyentes del evento.
+
+		@param e Evento producido.
+		@param button código del botón soltado.
+		@return true si se captura el evento.
+		*/
+		bool povMoved(const OIS::JoyStickEvent &e, int index);
+
+
+
+		/**
+		*/
+		TAxisDictionary initAxisDictionary();
+		TButtonDictionary initButtonDictionary();
+		TOISDictionary initOISDictionary();
+
 		/** 
 		Buffer de la entrada del ratón OIS.
 		*/
@@ -706,6 +902,11 @@ namespace GUI
 		Buffer de la entrada del teclado OIS.
 		*/
 		OIS::Keyboard *_keyboard;
+
+		/** 
+		Buffer de la entrada del joystick OIS.
+		*/
+		OIS::JoyStick *_joystick;
 		
 		/**
 		Estado del ratón en el último evento. Se usa para transmitir
@@ -713,6 +914,13 @@ namespace GUI
 		resto de la aplicación de OIS.
 		*/
 		CMouseState _mouseState;
+
+		/**
+		Estado del joystick en el último evento. Se usa para transmitir
+		los cambios a las clases oyentes. Sirve para independizar el
+		resto de la aplicación de OIS.
+		*/
+		CJoystickState *_joystickState;
 
 		/**
 		Sistema de gestión de periféricos de entrada de OIS.
@@ -728,6 +936,24 @@ namespace GUI
 		Lista de oyentes de eventos del ratón.
 		*/
 		std::list<CMouseListener*> _mouseListeners;
+	
+		/**
+		Lista de oyentes de eventos del joystick.
+		*/
+		std::list<CJoystickListener*> _joystickListeners;
+
+		/**
+		*/
+		TJAxisBindings _jAxisBindings;
+		TJButtonBindings _jButtonBindings;
+
+
+		TAxisDictionary AXIS_DICTIONARY;
+		TButtonDictionary BUTTON_DICTIONARY;
+		TOISDictionary OIS_DICTIONARY;
+
+
+
 
 	}; // class InputManager
 
