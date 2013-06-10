@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<GUILayout>
+<Window Type="TaharezLook/ImageButton" Name="btnMinotauro">
+	<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
+	<Property Name="UnifiedSize" Value="{{0,70},{0,50}}" />
+	
+	<!-- Here we choose what images to take. set:THEButton means they are stored -->
+	<!-- in the imageset named THEButton and image:btnNormal specifies wich image it is. -->
+	<Property Name="NormalImage"     Value="set:ShopCriatures image:minotauroNormal" />
+	<Property Name="HoverImage"      Value="set:ShopCriatures image:minotauroHover"  />
+	<Property Name="PushedImage"     Value="set:ShopCriatures image:minotauroPushed" />
+	<Property Name="DisabledImage"   Value="set:ShopCriatures image:minotauroDisabl" />
+	
+	<Property Name="Tooltip" Value="Minotauro tooltip" />
+	<!-- Now the button would be ready, but without caption ... So we add a caption. -->
+</Window>
+</GUILayout>

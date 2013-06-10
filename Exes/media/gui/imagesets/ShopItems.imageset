@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="ShopItems" Imagefile="items.jpg" >
+
+	<Image Name="item1Normal" XPos="95" YPos="8"  Width="63" Height="63" />
+	<Image Name="item1Hover"  XPos="95" YPos="75"  Width="63" Height="63" />
+	<Image Name="item1Pushed" XPos="95" YPos="8"  Width="63" Height="63" />
+	<Image Name="item1Disabl" XPos="95" YPos="8"  Width="63" Height="63" />
+	
+	<Image Name="item2Normal" XPos="1651" YPos="760"  Width="63" Height="63" />
+	<Image Name="item2Hover"  XPos="1722" YPos="760"  Width="63" Height="63" />
+	<Image Name="item2Pushed" XPos="95" YPos="8"  Width="63" Height="63" />
+	<Image Name="item2Disabl" XPos="95" YPos="8"  Width="63" Height="63" />
+
+	<Image Name="item3Normal" XPos="596" YPos="755"  Width="63" Height="63" />
+	<Image Name="item3Hover"  XPos="662" YPos="755"  Width="63" Height="63" />
+	<Image Name="item3Pushed" XPos="95" YPos="8"  Width="63" Height="63" />
+	<Image Name="item3Disabl" XPos="95" YPos="8"  Width="63" Height="63" />	
+	
+</Imageset>

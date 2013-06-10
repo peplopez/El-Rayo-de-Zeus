@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<GUILayout>
+<Window Type="TaharezLook/ImageButton" Name="btnItem1">
+	<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
+	<Property Name="UnifiedSize" Value="{{0,40},{0,40}}" />
+	
+	<!-- Here we choose what images to take. set:THEButton means they are stored -->
+	<!-- in the imageset named THEButton and image:btnNormal specifies wich image it is. -->
+	<Property Name="NormalImage"     Value="set:ShopItems image:item1Normal" />
+	<Property Name="HoverImage"      Value="set:ShopItems image:item1Hover"  />
+	<Property Name="PushedImage"     Value="set:ShopItems image:item1Pushed" />
+	<Property Name="DisabledImage"   Value="set:ShopItems image:item1Disabl" />
+	
+	<Property Name="Tooltip" Value="Item1 tooltip" />
+	
+</Window>
+</GUILayout>

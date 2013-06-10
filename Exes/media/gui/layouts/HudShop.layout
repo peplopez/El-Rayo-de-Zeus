@@ -119,6 +119,7 @@
         <Property Name="CloseButtonEnabled" Value="True" />
 		<Property Name="Visible" Value="False" />
 		<Property Name="RollupEnabled" Value="False"/>
+		<Property Name="Alpha" Value="0.6" />
 		
         <Window Type="TaharezLook/TabControl" Name="Root/Shop/ControlPestanas" >
             <Property Name="Tooltip" Value="This is the tab control" />
@@ -129,14 +130,14 @@
             <Window Type="DefaultWindow" Name="Root/Shop/ControlPestanas/Items" >
                 <Property Name="Text" Value="Items" />
                 <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-                <Window Type="TaharezLook/StaticImage" Name="Root/Shop/ControlPestanas/Items/Imagen1bis" >
+<!--                 <Window Type="TaharezLook/StaticImage" Name="Root/Shop/ControlPestanas/Items/Imagen1bis" >
                     <Property Name="Font" Value="DejaVuSans-10" />
                     <Property Name="Text" Value="texto de la imagen1 sin alt" />
                     <Property Name="Image" Value="set:BackgroundInit image:BackgroundInit" />
                     <Property Name="Tooltip" Value="tooltip staticimage" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-                </Window>
+                </Window> -->
             </Window>
             <Window Type="DefaultWindow" Name="Root/Shop/ControlPestanas/Criatures" >
                 <Property Name="Text" Value="Criatures" />
