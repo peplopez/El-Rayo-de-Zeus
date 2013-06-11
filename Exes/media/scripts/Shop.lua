@@ -16,7 +16,7 @@ function initShop()
 		
 		shop = GUI.Windows:getWindow("Root/Shop")
 		
-		area = shop:getInnerRectClipper() -- area es una variable de tipo Rect
+		--area = shop:getInnerRectClipper() -- area es una variable de tipo Rect
 
 		--tabControlWindow = shop:getChild("Shop/TabControl")
 		
@@ -68,7 +68,7 @@ function changeShopVisibility()
 		else
 			shop:setVisible(true)
 			GUI.Mouse:show()
-			GUI.Mouse:setUnifiedConstraintArea(nil)
+			--GUI.Mouse:setUnifiedConstraintArea(nil)
 		end
 end
 

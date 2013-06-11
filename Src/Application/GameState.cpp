@@ -137,6 +137,17 @@ namespace Application {
 	{
 		// Desactivamos la clase que procesa eventos de entrada para  controlar al jugador.
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
+
+		//PT
+		// Desactivamos la clase que procesa eventos de entrada para  controlar la camara
+		GUI::CServer::getSingletonPtr()->getCameraController()->deactivate();
+
+		// Desactivamos la clase que procesa eventos de entrada para  controlar el HUD.
+		GUI::CServer::getSingletonPtr()->getHudController()->deactivate();
+
+		// Desactivamos la clase que procesa eventos de entrada para  controlar el SHOP.
+		GUI::CServer::getSingletonPtr()->getShopController()->deactivate();
+		// FIN PT
 		
 		// Desactivamos el mapa de la partida (incluye la desactivacion de la escenas)
 		Logic::CServer::getSingletonPtr()->deactivateAllMaps();

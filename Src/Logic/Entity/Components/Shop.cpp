@@ -71,55 +71,53 @@ namespace Logic
 
 		_winShop->setRollupEnabled(false); //para que al clickar dos veces sobre el titlebar no desaparezca
 
-		_area = _winShop->getInnerRectClipper(); //conseguir el area de la ventana (para el movimiento del raton)
+		//_area = _winShop->getInnerRectClipper(); //conseguir el area de la ventana (para el movimiento del raton)
 
 		// ajustar margenes del area de movimiento del raton
-		_area.d_top = _area.d_top - 18; //para que se pueda pulsar sobre el TitleBar
-		_area.d_bottom = _area.d_bottom - 10;
+		//_area.d_top = _area.d_top - 18; //para que se pueda pulsar sobre el TitleBar
+		//_area.d_bottom = _area.d_bottom - 10;
 
 		//ITEMS
-		_itemsWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/ControlPestanas/Items");
+			_itemsWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/ControlPestanas/Items");
 
-		CEGUI::Window *w11 = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item1.layout" );
-		_itemsWindow->addChildWindow(w11);
-		w11->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,50.0f) ) );
-		w11->setVisible( true );
-		w11->setInheritsAlpha(false);
+			item1window = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item1.layout" );
+			_itemsWindow->addChildWindow(item1window);
+			item1window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,50.0f) ) );
+			item1window->setVisible( true );
+			item1window->setInheritsAlpha(false);
 
-		CEGUI::Window *w12 = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item2.layout" );
-		_itemsWindow->addChildWindow(w12);
-		w12->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,100.0f) ) );
-		w12->setInheritsAlpha(false);
+			item2window = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item2.layout" );
+			_itemsWindow->addChildWindow(item2window);
+			item2window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,100.0f) ) );
+			item2window->setInheritsAlpha(false);
 
-		CEGUI::Window *w13 = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item3.layout" );
-		_itemsWindow->addChildWindow(w13);
-		w13->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,150.0f) ) );
-		w13->setInheritsAlpha(false);
-
+			item3window = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item3.layout" );
+			_itemsWindow->addChildWindow(item3window);
+			item3window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,150.0f) ) );
+			item3window->setInheritsAlpha(false);
 
 
 		//CRIATURES
-		_criaturesWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/ControlPestanas/Criatures");
 
 
-		//The windows that are being loading are Taharez/ImageButtons
-		CEGUI::Window *w = CEGUI::WindowManager::getSingleton().loadWindowLayout( "medusa.layout" );
-		_criaturesWindow->addChildWindow(w);
-		w->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,10.0f) ) );
-		w->setVisible( true );
-		w->setInheritsAlpha(false);
+			_criaturesWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/ControlPestanas/Criatures");
 
-		CEGUI::Window *w2 = CEGUI::WindowManager::getSingleton().loadWindowLayout( "cancerbero.layout" );
-		_criaturesWindow->addChildWindow(w2);
-		w2->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,70.0f) ) );
-		w2->setInheritsAlpha(false);
+			//The windows that are being loading are Taharez/ImageButtons
+			medusawindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "medusa.layout" );
+			_criaturesWindow->addChildWindow(medusawindow);
+			medusawindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,10.0f) ) );
+			medusawindow->setVisible( true );
+			medusawindow->setInheritsAlpha(false);
 
-		CEGUI::Window *w3 = CEGUI::WindowManager::getSingleton().loadWindowLayout( "minotauro.layout" );
-		_criaturesWindow->addChildWindow(w3);
-		w3->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,130.0f) ) );
-		w3->setInheritsAlpha(false);
+			cancerberowindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "cancerbero.layout" );
+			_criaturesWindow->addChildWindow(cancerberowindow);
+			cancerberowindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,70.0f) ) );
+			cancerberowindow->setInheritsAlpha(false);
 
-
+			minotaurowindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "minotauro.layout" );
+			_criaturesWindow->addChildWindow(minotaurowindow);
+			minotaurowindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,130.0f) ) );
+			minotaurowindow->setInheritsAlpha(false);
 
 
 
@@ -147,6 +145,26 @@ namespace Logic
 	void CShop::deactivate()
 	{
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideShop");
+
+		//ITEMS
+		//CEGUI::WindowManager::getSingleton().destroyWindow(item1window->getName());
+		//CEGUI::WindowManager::getSingleton().destroyWindow(item2window->getName());
+		//CEGUI::WindowManager::getSingleton().destroyWindow(item3window->getName());
+
+		//CRIATURES
+		//CEGUI::WindowManager::getSingleton().destroyWindow(medusawindow->getName());
+		//CEGUI::WindowManager::getSingleton().destroyWindow(cancerberowindow->getName());
+		//CEGUI::WindowManager::getSingleton().destroyWindow(minotaurowindow->getName());
+
+		item1window->destroy();
+		item2window->destroy();
+		item3window->destroy();
+
+		medusawindow->destroy();
+		cancerberowindow->destroy();
+		minotaurowindow->destroy();
+
+
 	}//deactivate
 	
 	//---------------------------------------------------------
@@ -207,7 +225,7 @@ namespace Logic
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showShop");
 
 		//PT para limitar el uso del raton en la ventana de la tienda del Olimpo
-		CEGUI::MouseCursor::getSingletonPtr()->setConstraintArea(&_area);
+		//CEGUI::MouseCursor::getSingletonPtr()->setConstraintArea(&_area);
 
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
 		GUI::CServer::getSingletonPtr()->getCameraController()->deactivate();

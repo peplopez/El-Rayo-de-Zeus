@@ -21,6 +21,9 @@ Contiene la implementación del componente que controla el HUD mediante CEGUI.
 #include "Logic/BaseInfo.h"
 #include "Logic/PlayerInfo.h"
 
+#include "GUI/Server.h" //PT
+#include "GUI/HudController.h" //PT
+
 //PT se incluye el servidor de scripts de LUA
 #include "ScriptManager\Server.h"
 
@@ -80,6 +83,7 @@ namespace Logic
 	void CHud::deactivate()
 	{
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideHud");
+
 	}//deactivate
 	
 	//---------------------------------------------------------
