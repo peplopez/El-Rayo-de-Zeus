@@ -81,7 +81,7 @@ namespace Logic
 			//poner el submaterial de los altares desactivados de inicio
 			_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
 		
-if (_on)
+			if (_on)
 				{
 					LOG(_entity->getName() << ": activado")
 					CMessageUIntString *m = new CMessageUIntString();	
@@ -166,7 +166,14 @@ if (_on)
 		LOG(_entity->getName() << ": cambiando de estado")	
 		_switchingState = true;
 		_revertingState = false;
-
+		if (_player)
+		{
+		
+			CMessage *m2 = new CMessage();
+			m2->setType(Message::ALTAR_MS_ORDER);
+			m2->setAction(Message::SWITCH_ALTAR);
+			_player->emitMessage(m2);
+		}
 
 	}
 
@@ -179,6 +186,15 @@ if (_on)
 			LOG(_entity->getName() << ": volviendo al estado original")
 			_switchingState = false;
 			_revertingState = true;
+			if (_player)
+			{
+		
+				CMessage *m2 = new CMessage();
+				m2->setType(Message::ALTAR_MS_ORDER);
+				m2->setAction(Message::STOP_SWITCH);
+				_player->emitMessage(m2);
+			}
+
 
 		}
 	}
@@ -194,7 +210,7 @@ if (_on)
 			_acumTime -= msecs;
 			if (_acumTime <= 0 )
 			{
-				_switchingState = false;
+				
 				_on = !_on;
 				/* avisamos a continuación al _gameStatus*/
 					
@@ -216,8 +232,10 @@ if (_on)
 
 						CMessageString *m2 = new CMessageString();	
 						m2->setType(Message::ALTAR_ACTIVATED);
+
 						m2->setString(_entity->getName());
 						_player->emitMessage(m2,this);
+						stopSwitchingState();//para la máquina de estados que salga del estado.
 					}
 				}
 				else 
@@ -234,8 +252,10 @@ if (_on)
 						m2->setType(Message::ALTAR_ACTIVATED);
 						m2->setString(_entity->getName());
 						_player->emitMessage(m2,this);
+						stopSwitchingState();
 					}
 				}
+				_switchingState = false;
 				_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
 				_acumTime = _switchingTime;
 			}

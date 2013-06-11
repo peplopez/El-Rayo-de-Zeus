@@ -32,6 +32,8 @@ de ejemplo.
 #include "../LatentActions/LA_Cover.h"
 #include "../LatentActions/LA_Beaten.h"
 #include "../LatentActions/LA_Death.h"
+#include "../LatentActions/LA_AltarSwitch.h"
+
 
 #include "Logic/Entity/Messages/Message.h"
 
@@ -188,6 +190,9 @@ namespace AI
 			int changingRingUp=this->addNode(new CLA_ChangeRing(entity,Message::GO_UP));			
 			int changingRingDown=this->addNode(new CLA_ChangeRing(entity,Message::GO_DOWN));
 
+			int changingAltar=this->addNode(new CLA_AltarSwitch(entity));
+
+
 			int h_attack2Fatality=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
 
 			int damaged=this->addNode(new CLA_Beaten(entity));
@@ -207,6 +212,9 @@ namespace AI
 			
 			this->addEdge(jumping, idle, new CConditionFlagJumpingActivated());
 			
+			this->addEdge(idle, changingAltar, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::SWITCH_ALTAR));
+			this->addEdge(changingAltar, idle, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::STOP_SWITCH));
+		
 
 			this->addEdge(l_run, idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_STOP));
 			this->addEdge(r_run, idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_STOP));

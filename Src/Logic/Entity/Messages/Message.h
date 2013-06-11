@@ -67,7 +67,8 @@ namespace Logic
 			LIFE_RESTORE			= 0x32,
 			DELETE_GRAPHICAL_ENTITY = 0x33, //mensaje de eliminacion de la entidad Grafica
 			DELETE_PHYSICAL_ENTITY  = 0x34,	//mensaje de eliminacion de la entidad fisica
-			SHOP				    = 0x35
+			SHOP				    = 0x35,
+			ALTAR_MS_ORDER 		    = 0x36
 		};
 
 		enum TActionType : unsigned char

@@ -95,6 +95,9 @@
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_ChangeRing.cpp">
       <Filter>Decision\LatentActions\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_AltarSwitch.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\AI\Server.h">
@@ -155,6 +158,9 @@
       <Filter>Decision\LatentActions\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\AI\LatentActions\LA_ChangeRing.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_AltarSwitch.h">
       <Filter>Decision\LatentActions\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

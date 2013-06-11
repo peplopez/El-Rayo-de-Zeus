@@ -123,11 +123,11 @@ namespace Logic
 			case Message::ALTAR_ACTIVATED:
 			{
 				_gameStatus->getPlayer(_entity->getOriginBase())->increaseAltarsActivated();
-				CMessageBoolUShort *message = new CMessageBoolUShort();
+				/*CMessageBoolUShort *message = new CMessageBoolUShort();
 				message->setType(Message::SET_ANIMATION);		
 				message->setUShort(Logic::IDLE);
 				message->setBool(true);
-				_entity->emitMessage(message,this);
+				_entity->emitMessage(message,this);*/
 			}
 		}
 	} // process
@@ -145,17 +145,29 @@ namespace Logic
 				_entity->getComponent<CAvatarController>()->sleep();
 			_switchingState = true;
 			
+	/*		CMessageUInt *m = new CMessageUInt();
+			m->setType(Message::CONTROL);
+			m->setAction(Message::SWITCH_ALTAR);
+			m->setUInt(_entity->getEntityID());
+			_target->emitMessage(m);
+				*/
 			CMessageUInt *m = new CMessageUInt();
 			m->setType(Message::CONTROL);
 			m->setAction(Message::SWITCH_ALTAR);
 			m->setUInt(_entity->getEntityID());
 			_target->emitMessage(m);
-				
-			CMessageBoolUShort *message = new CMessageBoolUShort();
+			
+			/*CMessageUInt *m = new CMessageUInt();
+			m->setType(Message::CONTROL);
+			m->setAction(Message::SWITCH_ALTAR);
+			m->setUInt(_entity->getEntityID());
+			_entity->emitMessage(m);*/
+
+			/*CMessageBoolUShort *message = new CMessageBoolUShort();
 			message->setType(Message::SET_ANIMATION);		
 			message->setUShort(Logic::ACTIVATE_ALTAR);
 			message->setBool(true);
-			_entity->emitMessage(message,this);
+			_entity->emitMessage(message,this);*/
 		}
 	}
 
@@ -171,6 +183,7 @@ namespace Logic
 			m->setType(Message::CONTROL);
 			m->setAction(Message::STOP_SWITCH);
 			_target->emitMessage(m);
+
 		}
 
 	}
@@ -229,6 +242,7 @@ namespace Logic
 						_switchingState = false;
 						_acumRotation = 0;
 						_entity->getComponent<CAvatarController>()->awake();
+					
 					}
 				}
 				else if (_targetSense == Logic::LogicalPosition::LEFT)
@@ -244,6 +258,7 @@ namespace Logic
 						_switchingState = false;
 						_acumRotation = 0;
 						_entity->getComponent<CAvatarController>()->awake();
+						 
 					}
 				}
 			}
