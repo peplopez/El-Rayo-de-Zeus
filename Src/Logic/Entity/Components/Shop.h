@@ -57,7 +57,8 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		CShop() : IComponent(GetAltTypeIdOf(CShop)), _time(0), numBase(0), _winShop(0), _itemsWindow(0), _criaturesWindow(0), _comboWindow(0)   { }
+		CShop() : IComponent(GetAltTypeIdOf(CShop)), _time(0), numBase(0), _winShop(0), _itemsWindow(0), _criaturesWindow(0), _comboWindow(0),
+		item1window(0), item2window(0), item3window(0), medusawindow(0), cancerberowindow(0), minotaurowindow(0) { }
 		
 		/** Destructor */
 		CShop::~CShop();
@@ -94,10 +95,6 @@ namespace Logic
 
 		void displayShop();
 
-		//bool handleMouseUp(const CEGUI::EventArgs& e);
-		//bool handleMouseDown(const CEGUI::EventArgs& e);
-		//bool handleDrag(const CEGUI::EventArgs& e);
-
 		bool handleClose(const CEGUI::EventArgs&e);
 
 		void deactivateControl();
@@ -126,6 +123,14 @@ namespace Logic
 		CEGUI::Window* _itemsWindow;
 		CEGUI::Window* _criaturesWindow;
 		CEGUI::Window* _comboWindow;
+
+		CEGUI::Window* item1window;
+		CEGUI::Window* item2window;
+		CEGUI::Window* item3window;
+
+		CEGUI::Window* medusawindow;
+		CEGUI::Window* cancerberowindow;
+		CEGUI::Window* minotaurowindow;
 
 		 
 	}; // class CShop

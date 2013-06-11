@@ -61,10 +61,10 @@ namespace Application {
 			subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CMenuSingleState::backReleased, this));
 
-		// Barra de progreso de MenuSingle
-		_hbar = static_cast<CEGUI::ProgressBar*> (CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
-		_hbar->subscribeEvent(CEGUI::ProgressBar::EventProgressChanged, CEGUI::Event::Subscriber(&CMenuSingleState::onProgressChanged, this));
-		_hbar->setVisible(false);
+			// Barra de progreso de MenuSingle
+			_hbar = static_cast<CEGUI::ProgressBar*> (CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
+			_hbar->subscribeEvent(CEGUI::ProgressBar::EventProgressChanged, CEGUI::Event::Subscriber(&CMenuSingleState::onProgressChanged, this));
+			_hbar->setVisible(false);
 
 			//Modelo .mesh o personaje
 		   _cbModel = static_cast<CEGUI::Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/ModelBox"));
@@ -110,6 +110,12 @@ namespace Application {
 
 		// Activamos la ventana que nos muestra el menú y activamos el ratón desde LUA
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showMenuSingle");
+
+		// In case we come back from game to MenuSingleState
+		CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/TextoProgreso")->setText("");
+		_hbar->setVisible(false);
+		_hbar->setProgress(0.0f);
+		
 
 	} // activate
 
