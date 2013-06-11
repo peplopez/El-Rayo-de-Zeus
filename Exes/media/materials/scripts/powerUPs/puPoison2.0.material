@@ -10,7 +10,6 @@ material skull_bomb_poison_bomb
 			texture_unit
 			{			
 				texture skull_bomb.tga
-				filtering linear linear linear
 			}
 		}
 
@@ -48,7 +47,6 @@ material clouds_poison_bomb
 			texture_unit
 			{
 				texture cloud.tga
-				filtering linear linear linear
 			}
 		}
 

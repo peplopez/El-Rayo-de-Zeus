@@ -46,6 +46,18 @@ material cartelhades
 
 }
 
+material piedrolo5blinn3SG
+{
+	technique
+	{
+		pass
+		{
+		}
+
+	}
+
+}
+
 material cascadaLAVAPart1
 {
 	technique

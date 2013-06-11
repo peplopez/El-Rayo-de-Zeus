@@ -154,7 +154,6 @@ namespace Application {
 		// de frame razonable.
 		_clock->updateTime();
 		unsigned long accumulator1 = 0;
-		unsigned long accumulator2 = 0;
 
 
 		// Ejecución del bucle principal. Simplemente miramos si
@@ -169,7 +168,6 @@ namespace Application {
 			_clock->updateTime();
 			
 			accumulator1 += _clock->getLastFrameDuration();
-			accumulator2 += _clock->getLastFrameDuration();
 			if (accumulator1 > 200)
 				accumulator1 = 20;
 	
@@ -183,11 +181,7 @@ namespace Application {
 			}
 			//LOG(_clock->getLastFrameDuration());
 			GUI::CInputManager::getSingletonPtr()->tick();
-			if (accumulator2 > 8)
-			{
-				Graphics::CServer::getSingletonPtr()->tick(accumulator2 * 0.001f);
-				accumulator2 = 0;
-			}
+			Graphics::CServer::getSingletonPtr()->tick(_clock->getLastFrameDuration() * 0.001f);
 		}
 
 	} // run

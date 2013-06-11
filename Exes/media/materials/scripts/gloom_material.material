@@ -85,23 +85,3 @@ material gloom_material
 }
  
 
-// examples (require the appropriate [[textures]], all found in the Ogre samples)
-
-
-material some_material : base_material
-{
-    // any of these maps can be left out if you don't have one
-    set_texture_alias diffuseMap some_dif.png
-    set_texture_alias specMap some_spec.png
-    set_texture_alias normalMap some_norm.png
-    set_texture_alias aoMap some_ao.png
- 
-    // diffuse colour multiplier (for example, green-ish)
-    set $diffuseCol "0.1 1 0.1"
-    // specular colour multiplier (for example, red-ish)
-    set $specularCol "1 0.1 0.1"
-    // specular power (shininess) (the higher, the sharper the highlights)
-    set $shininess "128"
- 
-    // once again, you can leave any of these configurables out if you don't need them
-}

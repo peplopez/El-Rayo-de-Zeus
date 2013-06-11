@@ -40,7 +40,15 @@ namespace Logic
 	
 	//---------------------------------------------------------
 		
-	CShop::~CShop() {	 	
+	CShop::~CShop() {
+
+		item1window->destroy();
+		item2window->destroy();
+		item3window->destroy();
+
+		medusawindow->destroy();
+		cancerberowindow->destroy();
+		minotaurowindow->destroy();
 	} // destructor
 
 	//---------------------------------------------------------
@@ -144,7 +152,7 @@ namespace Logic
 
 	void CShop::deactivate()
 	{
-		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideShop");
+		//ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideShop");
 
 		//ITEMS
 		//CEGUI::WindowManager::getSingleton().destroyWindow(item1window->getName());
@@ -156,13 +164,7 @@ namespace Logic
 		//CEGUI::WindowManager::getSingleton().destroyWindow(cancerberowindow->getName());
 		//CEGUI::WindowManager::getSingleton().destroyWindow(minotaurowindow->getName());
 
-		item1window->destroy();
-		item2window->destroy();
-		item3window->destroy();
 
-		medusawindow->destroy();
-		cancerberowindow->destroy();
-		minotaurowindow->destroy();
 
 
 	}//deactivate
