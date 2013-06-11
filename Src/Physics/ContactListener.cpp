@@ -11,7 +11,7 @@ namespace Physics {
 		_l1 = static_cast<CActor*>(contact->GetFixtureA()->GetBody()->GetUserData());
 		_l2 = static_cast<CActor*>(contact->GetFixtureB()->GetBody()->GetUserData());
 
-		if (contact->GetFixtureA()->IsSensor() || contact->GetFixtureA()->IsSensor())
+		if (contact->GetFixtureA()->IsSensor() || contact->GetFixtureB()->IsSensor())
 		{
 			_l1->onTrigger(_l2, true);
 			_l2->onTrigger(_l1, true);
@@ -29,7 +29,7 @@ namespace Physics {
 		_l1 = static_cast<CActor*>(contact->GetFixtureA()->GetBody()->GetUserData());
 		_l2 = static_cast<CActor*>(contact->GetFixtureB()->GetBody()->GetUserData());
 
-		if (contact->GetFixtureA()->IsSensor() || contact->GetFixtureA()->IsSensor())
+		if (contact->GetFixtureA()->IsSensor() || contact->GetFixtureB()->IsSensor())
 		{
 			_l1->onTrigger(_l2, false);
 			_l2->onTrigger(_l1, false);

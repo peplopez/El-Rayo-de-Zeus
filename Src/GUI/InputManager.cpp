@@ -47,6 +47,7 @@ namespace GUI{
 		_mouse(0),
 		_keyboard(0),
 		_joystick(0),
+		_joystickState(0),
 		_inputSystem(0)
 	{
 		assert(!_instance && "¡Segunda inicialización de GUI::CInputManager no permitida!");

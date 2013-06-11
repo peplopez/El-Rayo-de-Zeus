@@ -19,7 +19,7 @@ namespace Logic
 	public:
 
 
-		CMessageAudio() : CMessage(GetAltTypeIdOf(CMessageAudio)), _path(""), _id(""), _position(Vector3::ZERO){}	
+		CMessageAudio() : CMessage(GetAltTypeIdOf(CMessageAudio)), _path(""), _id(""), _position(Vector3::ZERO), _notIfPlay(false), _isPlayer(false){}	
 		~CMessageAudio() {}
 
 		std::string getPath() const { return _path; }

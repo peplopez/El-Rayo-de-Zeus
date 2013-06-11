@@ -98,7 +98,7 @@ namespace AI
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideRespawn"); //escondo la pantalla de respawn
 			_scene->deactivateCompositor("BW"); //desactivo el compositor blanco y negro
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud"); //muestro el HUD
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showShop"); //muestro el SHOP
+			//ScriptManager::CServer::getSingletonPtr()->executeProcedure("showShop"); //muestro el SHOP
 			respawn();
 
 		}
