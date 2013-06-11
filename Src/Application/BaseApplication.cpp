@@ -182,7 +182,7 @@ namespace Application {
 				accumulator1 -= 20;
 			}
 			//LOG(_clock->getLastFrameDuration());
-			//GUI::CInputManager::getSingletonPtr()->tick();
+			GUI::CInputManager::getSingletonPtr()->tick();
 			if (accumulator2 > 8)
 			{
 				Graphics::CServer::getSingletonPtr()->tick(accumulator2 * 0.001f);

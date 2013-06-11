@@ -19,7 +19,7 @@
             <Window Type="DefaultWindow" Name="Shop/ControlPestanas/Items" >
                 <Property Name="Text" Value="Items" />
                 <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-                <Window Type="TaharezLook/StaticImage" Name="Shop/ControlPestanas/Items/Imagen1bis" >
+				<Window Type="TaharezLook/StaticImage" Name="Shop/ControlPestanas/Items/Imagen1bis" >
                     <Property Name="Font" Value="DejaVuSans-10" />
                     <Property Name="Text" Value="texto de la imagen1 sin alt" />
                     <Property Name="Image" Value="set:BackgroundInit image:BackgroundInit" />

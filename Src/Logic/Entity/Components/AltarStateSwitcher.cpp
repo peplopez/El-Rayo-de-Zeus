@@ -74,8 +74,8 @@ namespace Logic
 	bool CAltarStateSwitcher::accept(const CMessage *message)
 	{
 		return (message->getType() == Message::TRIGGER ||
-					message->getType() == Message::CONTROL
-/*Pep, mensaje mio*/||message->getType() == Message::ALTAR_ACTIVATED );
+					message->getType() == Message::CONTROL ||
+						message->getType() == Message::ALTAR_ACTIVATED );
 
 	} // accept
 	
@@ -85,50 +85,50 @@ namespace Logic
 	{
 		switch(message->getType())
 		{
+		
 		case Message::TRIGGER:
-			if(message->getAction() == Message::TRIGGER_ENTER &&
-				(_target = _entity->getMap()->getEntityByID(static_cast<CMessageUInt*>(message)->getUInt())) != NULL)
+			if(message->getAction() == Message::TRIGGER_ENTER) 
 			{
-				if(_target->getType() == "Altar")
+				CEntity *auxTarget = _entity->getMap()->getEntityByID(static_cast<CMessageUInt*>(message)->getUInt());
+				if(auxTarget->getType() == "Altar")
 				{
 					_switchingAllowed = true;
-				}
-				else
-				{
-					_target = NULL;
+					_target = auxTarget;
 				}
 			}
-			else if(message->getAction() == Message::TRIGGER_EXIT &&
-				_target == _entity->getMap()->getEntityByID(static_cast<CMessageUInt*>(message)->getUInt()))
+			else if(message->getAction() == Message::TRIGGER_EXIT)
+			{
+
+				CEntity *auxTarget = _entity->getMap()->getEntityByID(static_cast<CMessageUInt*>(message)->getUInt());
+				if(auxTarget && auxTarget->getType() == "Altar")
 				{	
 					_switchingAllowed = false;
-					_target = NULL;
+					_target = 0;
 				}
-		case Message::CONTROL:
-			if(message->getAction() == Message::SWITCH_ALTAR)
-				startSwitchingState();
-			else if(message->getAction() == Message::WALK_RIGHT)
-			{	
-				stopSwitchingState(Logic::LogicalPosition::RIGHT);
-			}
-			else if(message->getAction() == Message::WALK_LEFT)
-			{	
-				stopSwitchingState(Logic::LogicalPosition::LEFT);
-			}
-			else
-			{
-				stopSwitchingState(Logic::LogicalPosition::RIGHT);
 			}
 			break;
-			case Message::ALTAR_ACTIVATED:
-			{
-				_gameStatus->getPlayer(_entity->getOriginBase())->increaseAltarsActivated();
+		
+		case Message::CONTROL:
+
+			if(message->getAction() == Message::SWITCH_ALTAR)
+				startSwitchingState();
+			else if(message->getAction() == Message::WALK_RIGHT)	
+				stopSwitchingState(Logic::LogicalPosition::RIGHT);
+			else if(message->getAction() == Message::WALK_LEFT)	
+				stopSwitchingState(Logic::LogicalPosition::LEFT);
+			else
+				stopSwitchingState(Logic::LogicalPosition::RIGHT);
+			break;
+		
+		case Message::ALTAR_ACTIVATED:
+			_gameStatus->getPlayer(_entity->getOriginBase())->increaseAltarsActivated();
 				/*CMessageBoolUShort *message = new CMessageBoolUShort();
-				message->setType(Message::SET_ANIMATION);		
-				message->setUShort(Logic::IDLE);
-				message->setBool(true);
+			message->setType(Message::SET_ANIMATION);		
+			message->setUShort(Logic::IDLE);
+			message->setBool(true);
 				_entity->emitMessage(message,this);*/
-			}
+			break;
+		
 		}
 	} // process
 	
@@ -215,7 +215,7 @@ namespace Logic
 			}
 			else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
 			{
-				float tickRotation = Math::PI * 0.005f * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+				float tickRotation = Math::PI * 0.005f * msecs; 
 				_entity->yaw(-tickRotation);
 				_acumRotation += tickRotation;
 				if (_acumRotation >= Math::PI/2)
@@ -231,7 +231,7 @@ namespace Logic
 			{
 				if (_targetSense == Logic::LogicalPosition::RIGHT)
 				{
-					float tickRotation = Math::PI * 0.005f * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+					float tickRotation = Math::PI * 0.005f * msecs; 
 					_entity->yaw(-tickRotation);
 					_acumRotation += tickRotation;
 					if (_acumRotation >= Math::PI/2)

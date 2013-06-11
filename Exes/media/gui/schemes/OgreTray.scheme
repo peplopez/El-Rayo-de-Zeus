@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
 <GUIScheme Name="OgreTray">
+
     <Imageset Name ="OgreTrayImages" Filename="OgreTray.imageset" />
 	<Imageset Name="Background" Filename="MenuBackground.imageset" />
 	<Imageset Name="BackgroundInit" Filename="MenuBackgroundInit.imageset" />
@@ -7,9 +8,14 @@
 	<Imageset Name="HudBackgroundNuevo" Filename="HudBackgroundNuevo.imageset" />
 	<Imageset Name="HudPersonaje" Filename="HudPersonaje.imageset" />
 	<Imageset Name="HudBaseLife" Filename="HudBaseLife.imageset" />
+	<Imageset Name="ShopItems" Filename="ShopItems.imageset" />
+	<Imageset Name="ShopCriatures" Filename="ShopCriatures.imageset" />
+	<!-- <Imageset Name="ShopCombos" Filename="ShopCombos.imageset" /> -->
+	
     <Font Filename="DejaVuSans-10.font" />
     <LookNFeel Filename="OgreTray.looknfeel" />
     <WindowRendererSet Filename="CEGUIFalagardWRBase" />
+	
     <FalagardMapping WindowType="OgreTray/Button"               TargetType="CEGUI/PushButton"       Renderer="Falagard/Button"              LookNFeel="OgreTray/PushButton" />
 	<FalagardMapping WindowType="OgreTray/ButtonCombobox"       TargetType="CEGUI/PushButton"       Renderer="Falagard/Button"              LookNFeel="OgreTray/PushButtonCombobox" />
     <FalagardMapping WindowType="OgreTray/Titlebar"             TargetType="CEGUI/Titlebar"         Renderer="Falagard/Titlebar"            LookNFeel="OgreTray/Titlebar" />

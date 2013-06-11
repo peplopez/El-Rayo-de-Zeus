@@ -162,7 +162,7 @@ namespace Application {
 	{
 		CBaseApplication::tick(msecs);
 
-		GUI::CInputManager::getSingletonPtr()->tick();
+		//GUI::CInputManager::getSingletonPtr()->tick();
 
 		//Graphics::CServer::getSingletonPtr()->tick(msecs/1000.0f);
 

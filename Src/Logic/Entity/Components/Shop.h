@@ -14,6 +14,7 @@
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageChar.h"
 
+#include "../../../../dependencies/include/cegui/CEGUIWindow.h"
 #include "../../../../dependencies/include/cegui/CEGUIRect.h"
 
 namespace Logic
@@ -56,7 +57,7 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		CShop() : IComponent(GetAltTypeIdOf(CShop)), _time(0), numBase(0) { }
+		CShop() : IComponent(GetAltTypeIdOf(CShop)), _time(0), numBase(0), _winShop(0), _itemsWindow(0), _criaturesWindow(0), _comboWindow(0)   { }
 		
 		/** Destructor */
 		CShop::~CShop();
@@ -121,6 +122,10 @@ namespace Logic
 		CEGUI::Rect _area;
 
 		CEGUI::FrameWindow* _winShop;
+
+		CEGUI::Window* _itemsWindow;
+		CEGUI::Window* _criaturesWindow;
+		CEGUI::Window* _comboWindow;
 
 		 
 	}; // class CShop

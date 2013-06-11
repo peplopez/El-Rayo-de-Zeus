@@ -150,8 +150,8 @@ DocumentacionDoxygen/
 /dependencies/OgreDependencies/FreeImage-3.13.1/Source/ZLib/*.2010.vcxproj.user
 /dependencies/OgreDependencies/freetype-2.3.11/builds/win32/vc2005/*.2010.vcxproj.user
 /dependencies/OgreDependencies/freetype-2.3.11/objs/
-/dependencies/OgreDependencies/ois-1.2.0/dll/
-/dependencies/OgreDependencies/ois-1.2.0/Win32/*.2010.vcxproj.user
+/dependencies/OgreDependencies/ois-1.4.0/dll/
+/dependencies/OgreDependencies/ois-1.4.0/Win32/*.2010.vcxproj.user
 /dependencies/OgreDependencies/zlib-1.2.3/projects/visualc6/Win32_LIB_Debug/
 /dependencies/OgreDependencies/zlib-1.2.3/projects/visualc6/Win32_LIB_Release/
 /dependencies/OgreDependencies/zlib-1.2.3/projects/visualc6/*.2010.vcxproj.user
@@ -165,6 +165,7 @@ DocumentacionDoxygen/
 #############
 
 !/Exes/resources.cfg
+!/Exes/controls.cfg
 
 !/dependencies/bin/*/fmodex.dll
 !/dependencies/CEGUI/projects/premake/ScriptingModules/premake.lua

@@ -71,7 +71,7 @@ Parametros:
      <fileset dir="${basedir}/FreeImage-3.13.1/Source" includes="**/Debug/"/>   
      <fileset dir="${basedir}/freetype-2.3.11/objs" includes="debug/"/>   
      <fileset dir="${basedir}/freetype-2.3.11/objs/win32/vc2005" includes="*_D*"/>   
-     <fileset dir="${basedir}/ois-1.2.0/dll" includes="*_d,debug/"/>   
+     <fileset dir="${basedir}/ois-1.4.0/dll" includes="*_d,debug/"/>   
      <fileset dir="${basedir}/zlib-1.2.3/projects/visualc6" includes="Win32_LIB_Debug/"/>   
      <fileset dir="${basedir}/zziplib-0.13.57/msvc8" includes="zziplibd.lib,Debug/"/>   
    </delete>
@@ -86,7 +86,7 @@ Parametros:
      <fileset dir="${basedir}/FreeImage-3.13.1/Source" includes="**/Release/"/>   
      <fileset dir="${basedir}/freetype-2.3.11/objs" includes="release/"/>   
      <fileset dir="${basedir}/freetype-2.3.11/objs/win32/vc2005" includes="*" excludes="*_D*"/>   
-     <fileset dir="${basedir}/ois-1.2.0/dll" includes="*,release/" excludes="*_d,debug/"/>   
+     <fileset dir="${basedir}/ois-1.4.0/dll" includes="*,release/" excludes="*_d,debug/"/>   
      <fileset dir="${basedir}/zlib-1.2.3/projects/visualc6" includes="Win32_LIB_Release/"/>  
      <fileset dir="${basedir}/zziplib-0.13.57/msvc8" includes="zziplib.lib,Release/"/>
    </delete>
@@ -106,7 +106,7 @@ Parametros:
 	
    <delete includeemptydirs="true" failonerror="false">
      <fileset dir="${basedir}/freetype-2.3.11" includes="objs/"/>  
-     <fileset dir="${basedir}/ois-1.2.0" includes="dll/"/>    
+     <fileset dir="${basedir}/ois-1.4.0" includes="dll/"/>    
    </delete>
    
 </target>

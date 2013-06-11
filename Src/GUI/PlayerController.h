@@ -42,7 +42,7 @@ namespace GUI
 	@author David Llansó
 	@date Agosto, 2010
 	*/
-	class CPlayerController : public CKeyboardListener, public CMouseListener
+	class CPlayerController : public CKeyboardListener, public CMouseListener, public CJoystickListener
 	{
 	public:
 
@@ -136,6 +136,30 @@ namespace GUI
 		*/
 		bool mouseReleased(const CMouseState &mouseState);
 
+		/***************************************************************
+		Métodos de CJoystickListener
+		***************************************************************/
+
+		bool axisMoved(const CJoystickState *joystickState, TJoyAxis axis);
+		bool buttonPressed(const CJoystickState *joystickState, TJoyButton button);
+		bool buttonReleased(const CJoystickState *joystickState, TJoyButton button);
+		bool povMoved(const CJoystickState *joystickState);
+
+		/**
+		*/
+		void processMovement(const CJoystickState *joystickState);
+		void processMovement(TKey key);
+		void processAction(TKey key);
+		void processExtra(TKey key);
+
+		void showBase(int baseNumber);
+
+		int fromPOVToBaseNumber(const CJoystickState *joystickState);
+		int fromKeyToBaseNumber(TKey key);
+
+		int getKeyType(const TKey &key);
+
+
 	protected:
 
 		/**
@@ -144,7 +168,8 @@ namespace GUI
 		*/
 		Logic::CEntity *_controlledAvatar;
 
-		bool _baseChangeAllowed;
+		bool _changeBaseAllowed;
+		bool _joyModifierPressed;
 
 
 	}; // class CPlayerController

@@ -77,6 +77,58 @@ namespace Logic
 		_area.d_top = _area.d_top - 18; //para que se pueda pulsar sobre el TitleBar
 		_area.d_bottom = _area.d_bottom - 10;
 
+		//ITEMS
+		_itemsWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/ControlPestanas/Items");
+
+		CEGUI::Window *w11 = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item1.layout" );
+		_itemsWindow->addChildWindow(w11);
+		w11->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,50.0f) ) );
+		w11->setVisible( true );
+		w11->setInheritsAlpha(false);
+
+		CEGUI::Window *w12 = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item2.layout" );
+		_itemsWindow->addChildWindow(w12);
+		w12->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,100.0f) ) );
+		w12->setInheritsAlpha(false);
+
+		CEGUI::Window *w13 = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item3.layout" );
+		_itemsWindow->addChildWindow(w13);
+		w13->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,150.0f) ) );
+		w13->setInheritsAlpha(false);
+
+
+
+		//CRIATURES
+		_criaturesWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/ControlPestanas/Criatures");
+
+
+		//The windows that are being loading are Taharez/ImageButtons
+		CEGUI::Window *w = CEGUI::WindowManager::getSingleton().loadWindowLayout( "medusa.layout" );
+		_criaturesWindow->addChildWindow(w);
+		w->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,10.0f) ) );
+		w->setVisible( true );
+		w->setInheritsAlpha(false);
+
+		CEGUI::Window *w2 = CEGUI::WindowManager::getSingleton().loadWindowLayout( "cancerbero.layout" );
+		_criaturesWindow->addChildWindow(w2);
+		w2->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,70.0f) ) );
+		w2->setInheritsAlpha(false);
+
+		CEGUI::Window *w3 = CEGUI::WindowManager::getSingleton().loadWindowLayout( "minotauro.layout" );
+		_criaturesWindow->addChildWindow(w3);
+		w3->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,130.0f) ) );
+		w3->setInheritsAlpha(false);
+
+
+
+
+
+		//COMBOS
+		_comboWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/ControlPestanas/Combos");
+
+
+
+
 		return true;
 
 	} // spawn
