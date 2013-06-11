@@ -337,7 +337,7 @@ namespace Physics
 				}
 			}
 		}
-
+		//Triggers de Mundo
 		else if (!otherActor->getPhysicComponent() && enter)
 		{
 			if (!_ghosted)

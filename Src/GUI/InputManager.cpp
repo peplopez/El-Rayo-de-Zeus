@@ -23,9 +23,18 @@ ratón y teclado.
 #include "BaseSubsystems/Server.h"
 
 #include <OISInputManager.h>
+#include <OgreConfigFile.h>
 
 #include <sstream>
 #include <cassert>
+
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "GUI::INPUTMANAGER>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 
 namespace GUI{
@@ -37,6 +46,7 @@ namespace GUI{
 	CInputManager::CInputManager() :
 		_mouse(0),
 		_keyboard(0),
+		_joystick(0),
 		_inputSystem(0)
 	{
 		assert(!_instance && "¡Segunda inicialización de GUI::CInputManager no permitida!");
@@ -104,6 +114,17 @@ namespace GUI{
 		if(_mouse)
 			_mouse->setEventCallback(this);
 
+		_joystick = BaseSubsystems::CServer::getSingletonPtr()->getBufferedJoystick();
+		if(_joystick)
+		{
+			_joystick->setEventCallback(this);
+			_joystickState = new CJoystickState(_joystick->getJoyStickState().mAxes.size(), _joystick->getJoyStickState().mButtons.size());
+			AXIS_DICTIONARY = initAxisDictionary();
+			BUTTON_DICTIONARY = initButtonDictionary();
+			OIS_DICTIONARY = initOISDictionary();
+			loadJoyBindingMap();
+		}
+		
 		return true;
 
 	} // open
@@ -115,9 +136,117 @@ namespace GUI{
 		// No somos responsables de la destrucción de los objetos.
 		_mouse = 0;
 		_keyboard = 0;
+		_joystick = 0;
 		_inputSystem = 0;
 
+		//del joystickState sí somos responsables
+		if (_joystickState)
+			delete _joystickState;
+
 	} // close
+
+	//--------------------------------------------------------
+
+	void CInputManager::loadJoyBindingMap()
+	{
+		Ogre::ConfigFile cf;
+        cf.load("controls.cfg");
+        Ogre::ConfigFile::SectionIterator secIt = cf.getSectionIterator();
+        secIt.getNext();
+        Ogre::String sectionstring = "";
+        Ogre::String typestring = "";
+        Ogre::String paramstring = "";
+        while (secIt.hasMoreElements()) 
+		{
+            sectionstring = secIt.peekNextKey();
+            Ogre::ConfigFile::SettingsMultiMap* settings = secIt.getNext();
+            //CÖDIGO para la sección [ ]
+            for (Ogre::ConfigFile::SettingsMultiMap::iterator setIt = settings->begin(); setIt != settings->end(); ++setIt)
+			{
+				typestring = setIt->first;
+				paramstring = setIt->second;
+				if (OIS_DICTIONARY.count(paramstring) > 0)
+				{
+					if (sectionstring == "axes" && AXIS_DICTIONARY.count(typestring) > 0)
+						_jAxisBindings[OIS_DICTIONARY[paramstring]] = AXIS_DICTIONARY[typestring];
+					else if (sectionstring == "buttons" && BUTTON_DICTIONARY.count(typestring))
+						_jButtonBindings[OIS_DICTIONARY[paramstring]] = BUTTON_DICTIONARY[typestring];
+				}
+            }
+        }
+
+	}
+	//--------------------------------------------------------
+	CInputManager::TAxisDictionary CInputManager::initAxisDictionary() 
+	{
+			TAxisDictionary dictionary;
+
+				dictionary["movexaxis"]		 =	Joystick::Axis::MOVEXAXIS;		
+				dictionary["moveyaxis"]		 =	Joystick::Axis::MOVEYAXIS;;
+				dictionary["pointerxaxis"]	 =	Joystick::Axis::POINTERXAXIS;;
+				dictionary["pointeryaxis"]	 =	Joystick::Axis::POINTERYAXIS;;
+		
+			return dictionary;
+	}
+	//--------------------------------------------------------
+
+	CInputManager::TButtonDictionary CInputManager::initButtonDictionary() 
+	{
+		TButtonDictionary dictionary;
+
+			dictionary["attack1"]		 =	Joystick::Button::ATTACK1;		
+			dictionary["attack2"]		 =	Joystick::Button::ATTACK2;;
+			dictionary["jump"]			 =	Joystick::Button::JUMP;
+			dictionary["activate"]		 =	Joystick::Button::ACTIVATE;
+			dictionary["modifier"]		 =	Joystick::Button::MODIFIER;
+			dictionary["cover"]			 =  Joystick::Button::COVER;
+
+		return dictionary;
+	}
+	//--------------------------------------------------------
+
+	CInputManager::TOISDictionary CInputManager::initOISDictionary() 
+	{
+		TOISDictionary dictionary;
+
+			dictionary["axis0"]			 =	0;		
+			dictionary["axis1"]			 =	1;
+			dictionary["axis2"]			 =	2;
+			dictionary["axis3"]			 =	3;
+			dictionary["axis4"]			 =	4;
+			dictionary["axis5"]			 =	5;
+			dictionary["button0"]		 =	0;
+			dictionary["button1"]		 =	1;
+			dictionary["button2"]		 =	2;
+			dictionary["button3"]		 =	3;
+			dictionary["button4"]		 =	4;
+			dictionary["button5"]		 =	5;
+			dictionary["button6"]		 =	6;
+			dictionary["button7"]		 =	7;
+			dictionary["button8"]		 =	8;
+			dictionary["button9"]		 =	9;
+
+		return dictionary;
+	}
+	//--------------------------------------------------------
+
+	TJoyButton CInputManager::getButtonForOISButton(int OISButton)
+	{
+		if (_jButtonBindings.count(OISButton) > 0)
+			return _jButtonBindings.at(OISButton);
+		else
+			return Joystick::Button::UNDEFINED;
+    }
+
+	//--------------------------------------------------------
+
+	TJoyAxis CInputManager::getAxisForOISAxis(int OISAxis) 
+	{
+        if (_jAxisBindings.count(OISAxis) > 0)
+			return _jAxisBindings.at(OISAxis);
+		else 
+			return Joystick::Axis::UNDEFINED;
+    }
 
 	//--------------------------------------------------------
 
@@ -130,6 +259,10 @@ namespace GUI{
 
 		if(_keyboard) {
 			_keyboard->capture();
+		}
+
+		if(_joystick) {
+			_joystick->capture();
 		}
 
 	} // capture
@@ -154,6 +287,15 @@ namespace GUI{
 
 	//--------------------------------------------------------
 
+	void CInputManager::addJoystickListener(CJoystickListener *joystickListener) 
+	{
+		if(_joystick)
+			_joystickListeners.push_front(joystickListener);
+		
+	} // addJoystickListener
+
+	//--------------------------------------------------------
+
 	void CInputManager::removeKeyListener(CKeyboardListener *keyListener) 
 	{
 		_keyListeners.remove(keyListener);
@@ -170,10 +312,19 @@ namespace GUI{
 
 	//--------------------------------------------------------
 
+	void CInputManager::removeJoystickListener(CJoystickListener *joystickListener) 
+	{
+		_joystickListeners.remove(joystickListener);
+
+	} // removeJoystickListener
+
+	//--------------------------------------------------------
+
 	void CInputManager::removeAllListeners() 
 	{
 		_keyListeners.clear();
 		_mouseListeners.clear();
+		_joystickListeners.clear();
 
 	} // removeAllListeners
 
@@ -192,6 +343,14 @@ namespace GUI{
 		_mouseListeners.clear();
 
 	} // removeAllMouseListeners
+
+	//--------------------------------------------------------
+
+	void CInputManager::removeAllJoystickListeners() 
+	{
+		_joystickListeners.clear();
+
+	} // removeAllJoystickListeners
 
 	//--------------------------------------------------------
 
@@ -362,5 +521,104 @@ namespace GUI{
 		return false;
 
 	} // mouseReleased
+
+	
+	//--------------------------------------------------------
+
+	bool CInputManager::axisMoved(const OIS::JoyStickEvent &e, int axis) 
+	{
+		
+		if (!_joystickListeners.empty()) 
+		{
+			//LOG(" AXIS: " << axis << "   VALUE ABS: " << e.state.mAxes[axis].abs << "   VALUE REL: " << e.state.mAxes[axis].rel);	
+			if (getAxisForOISAxis(axis))
+			{
+				_joystickState->_axes[getAxisForOISAxis(axis)].abs = e.state.mAxes[axis].abs;
+				_joystickState->_axes[getAxisForOISAxis(axis)].rel= e.state.mAxes[axis].rel;
+				std::list<CJoystickListener*>::const_iterator it;
+				it = _joystickListeners.begin();
+				for (; it != _joystickListeners.end(); ++it) 
+				{
+					(*it)->axisMoved(_joystickState, getAxisForOISAxis(axis));
+				}
+			}
+		}
+
+		return true;
+
+	} // axisMoved
+
+	//--------------------------------------------------------
+	
+	bool CInputManager::buttonPressed(const OIS::JoyStickEvent &e, int button) 
+	{
+		
+		if (!_joystickListeners.empty()) 
+		{
+			LOG(" BUTTON PRESSED: " << button);	
+			if (getButtonForOISButton(button))
+			{
+				_joystickState->_buttons[getButtonForOISButton(button)] = e.state.mButtons[button];
+				std::list<CJoystickListener*>::const_iterator it;
+				it = _joystickListeners.begin();
+				for (; it != _joystickListeners.end(); ++it) 
+				{
+					(*it)->buttonPressed(_joystickState, getButtonForOISButton(button));
+		
+				}
+			}
+		}
+
+		return true;
+
+	} // buttonPressed
+
+
+	//--------------------------------------------------------
+	
+	bool CInputManager::buttonReleased(const OIS::JoyStickEvent &e, int button) 
+	{
+		
+		if (!_joystickListeners.empty()) 
+		{
+			LOG(" BUTTON RELEASED: " << button);	
+			if (getButtonForOISButton(button))
+			{
+				_joystickState->_buttons[getButtonForOISButton(button)] = e.state.mButtons[button];
+				std::list<CJoystickListener*>::const_iterator it;
+				it = _joystickListeners.begin();
+				for (; it != _joystickListeners.end(); ++it) 
+				{
+					(*it)->buttonReleased(_joystickState, getButtonForOISButton(button));
+				}
+			}
+		}
+
+		return true;
+
+	} // buttonPressed
+
+	//--------------------------------------------------------
+	
+	bool CInputManager::povMoved(const OIS::JoyStickEvent &e, int index) 
+	{
+		
+		if (!_joystickListeners.empty()) 
+		{
+			LOG(" POV MOVED: " << index << " direction: " << e.state.mPOV[index].direction);	
+			_joystickState->_pov = static_cast<TPovDirection>(e.state.mPOV[index].direction);
+			std::list<CJoystickListener*>::const_iterator it;
+			it = _joystickListeners.begin();
+			for (; it != _joystickListeners.end(); ++it) 
+			{
+					(*it)->povMoved(_joystickState);
+			}
+		}
+
+		return true;
+
+	} // buttonPressed
+
+
 	
 } // namespace GUI

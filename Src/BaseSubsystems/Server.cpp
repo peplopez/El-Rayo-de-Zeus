@@ -31,6 +31,7 @@ usados. La mayoría de ellos son parte de Ogre.
 #include <OISInputManager.h>
 #include <OISMouse.h>
 #include <OISKeyboard.h>
+#include <OISJoyStick.h>
 
 //PT. LUA (Indicacion en http://mastervj.fdi.ucm.es/dokuwiki/doku.php?id=ayuda_proyectos:cegui)
 #include <ScriptingModules/LuaScriptModule/CEGUILua.h>
@@ -98,6 +99,7 @@ namespace BaseSubsystems
 		_renderWindow(0),
 		_mouse(0),
 		_keyboard(0),
+		_joystick(0),
 		_inputSystem(0),
 		_windowEventListener(0)
 	{
@@ -282,6 +284,13 @@ namespace BaseSubsystems
 			setWindowExtents(width, height);
 		}
 
+		// Si es posible creamos el buffer del joystick.
+		if (_inputSystem->getNumberOfDevices(OIS::OISJoyStick) > 0) 
+		{
+			_joystick = static_cast<OIS::JoyStick*>(_inputSystem->createInputObject(OIS::OISJoyStick, true));
+		}
+
+
 		return true;
 
 	} // initOIS
@@ -393,6 +402,12 @@ namespace BaseSubsystems
 		{
 			_inputSystem->destroyInputObject(_keyboard);
 			_keyboard = 0;
+		}
+
+		if(_joystick) 
+		{
+			_inputSystem->destroyInputObject(_joystick);
+			_joystick = 0;
 		}
 
 		if(_inputSystem)
