@@ -140,7 +140,8 @@ namespace GUI{
 		_inputSystem = 0;
 
 		//del joystickState sí somos responsables
-		delete _joystickState;
+		if (_joystickState)
+			delete _joystickState;
 
 	} // close
 
