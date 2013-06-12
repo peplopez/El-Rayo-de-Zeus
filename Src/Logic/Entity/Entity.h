@@ -219,6 +219,13 @@ namespace Logic
 		const std::string &getName() const { return _name; }
 
 		/**
+		Devuelve el nombre gráfico de la entidad (name + ID)
+
+		@return Nombre de la entidad gráfica asociada
+		*/
+		const std::string &getGraphicalName() const { return _graphicalName; };
+
+		/**
 		Devuelve la escala inicial de la entidad.
 
 		@return Escala inicial de la entidad.
@@ -469,6 +476,11 @@ namespace Logic
 		Nombre de la entidad.
 		*/
 		std::string _name;
+
+		/**
+		Nombre gráfico de la entidad (name + id)
+		*/
+		std::string _graphicalName;
 
 		/**
 		Mapa lógico donde está la entidad.

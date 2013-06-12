@@ -101,7 +101,16 @@ namespace Logic
 			Z_AXIS				= 0x34,
 			HEAL				= 0x35,
 			DAMAGE				= 0x36,
-			DESTROY				= 0x37
+			DESTROY				= 0x37,
+			FX_BLAST,
+			FX_CIRCLES,
+			FX_ELECTRIC_ORB,
+			FX_FLAME_THROWER,
+			FX_RAIN,
+			FX_SMOKE,
+			FX_SMOKE_BURN,
+			FX_SPARKS,
+			FX_TRAILS,
 		};
 	}
 

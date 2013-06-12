@@ -36,6 +36,10 @@ namespace Logic
 	IMP_FACTORY(CFX);
 
 	//---------------------------------------------------------
+
+	const CFX::TActionToHfxMap CFX::ACTION_TO_HFX = CFX::_initActionToHfxMap();
+
+	//---------------------------------------------------------
 	
 	CFX::~CFX() {
 		if(!_psTable.empty())
@@ -87,24 +91,29 @@ namespace Logic
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
+		
+					
 
-		_graphicalScene = map->getGraphicScene();
-
-		std::stringstream ssAux; // FRS Importante añadir ID para evitar entidades gráficas con = nombre
-			ssAux << _entity->getName() << _entity->getEntityID();
-			std::string	parentName = ssAux.str();
-
-		// TODO Determinar si por llevar CFX es obligado un script minimo
-		if( entityInfo->hasAttribute("fxScript1") ){
+		// READ FXs & CREATE PSs
+		for(int i = 1; ; ++i) {
+			
+			ssAux << "fxScript" << i;
+			std::string varName = ssAux.str();
+				if( !entityInfo->hasAttribute( varName) )
+					break;
 			
 			std::string hfx1 = entityInfo->getStringAttribute("fxScript1");			
 			if( !entityInfo->hasAttribute("fxPos1") ) 
-				_psTable[hfx1] = new Graphics::CParticleSystem(	hfx1, parentName);
+				
 			else
 				_psTable[hfx1] = new Graphics::CParticleSystem(
-					hfx1, parentName, entityInfo->getVector3Attribute("fxPos1") );	
-			_graphicalScene->add( _psTable[hfx1] );			
+				hfx1, _entity->getGraphicalName(), entityInfo->getVector3Attribute("fxPos1") );	
+					
+
+			_psTable[hfx1] = new Graphics::CParticleSystem(	hfx1, parentName);
 		}
+
+		attachToMap(map); // Add PSs to Scene
 
 		return true;
 

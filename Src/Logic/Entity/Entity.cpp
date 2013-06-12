@@ -46,7 +46,6 @@ namespace Logic
 	CEntity::~CEntity()
 	{
 		assert(!_map && "¡¡Antes de destruir la entidad debe desacoplarse del mapa!!");
-
 		destroyAllComponents();
 
 	} // ~CEntity
@@ -60,11 +59,19 @@ namespace Logic
 		_type = entityInfo->getType();
 		_logicInput = false;
 		_offsetHeight  = 0;
+
 		Vector3 position = Vector3::ZERO;	
 		_pos = new CLogicalPosition();
-		if(entityInfo->hasAttribute("name"))
+
+		assert(entityInfo->hasAttribute("name")) ;
 			_name = entityInfo->getStringAttribute("name");	
 
+		// FRS GRAPHICAL NAME = name + ID => para evitar entidades gráficas con = nombre
+		std::stringstream ssAux; 
+			ssAux << _name << _entityID;
+			_graphicalName = ssAux.str();
+		
+		// TODO FRS Este parámetro no es necesario -> se puede deducir del siguiente if
 		if(entityInfo->hasAttribute("logicInput"))
 			_logicInput = entityInfo->getBoolAttribute("logicInput");
 

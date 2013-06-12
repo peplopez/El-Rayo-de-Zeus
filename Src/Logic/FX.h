@@ -54,7 +54,28 @@ namespace Logic
 		Graphics::CScene* _graphicalScene;
 
 		typedef std::map<std::string, Graphics::CParticleSystem*> TParticleTable;
-		TParticleTable _psTable;		
+		TParticleTable _psTable;	
+
+		// DICCIONARIO TAttachPoint -> BoneName
+		typedef std::map<Message::TActionType, std::string> TActionToHfxMap;
+
+			static const TActionToHfxMap ACTION_TO_HFX;
+
+				static TActionToHfxMap _initActionToHfxMap() {
+					TActionToHfxMap map;
+						map[Message::TActionType::FX_BLAST]			="Blast.hfx";
+						map[Message::TActionType::FX_CIRCLES]		="Circles.hfx";
+						map[Message::TActionType::FX_ELECTRIC_ORB]	="ElectricOrb.hfx";
+						map[Message::TActionType::FX_FLAME_THROWER]	="FlameThrower.hfx";
+						map[Message::TActionType::FX_RAIN]			="Rain.hfx";
+						map[Message::TActionType::FX_SMOKE]			="Smoke.hfx";
+						map[Message::TActionType::FX_SMOKE_BURN]	="BurnHit.hfx";
+						map[Message::TActionType::FX_SPARKS]		="Sparks.hfx";
+						map[Message::TActionType::FX_TRAILS]		="Trails.hfx";
+
+					// TODO añadir on demand...
+					return map;
+				}
 
 	}; // class CFX
 
