@@ -22,6 +22,7 @@ Contiene la implementación de la clase que maneja el ParticleSystem.
 
 #include "Camera.h"
 #include "Scene.h"
+#include "Server.h"
 
 #define DEBUG 0
 #if DEBUG
@@ -32,20 +33,46 @@ Contiene la implementación de la clase que maneja el ParticleSystem.
 #endif
 
 namespace Graphics 
-{		
-	
-	void CParticleSystem::start() const
-	{		
-		if(_movObj->IsFXActive() )
-			_movObj->RunFX();	
+{	
+
+	CParticleSystem::CParticleSystem(const std::string& hfx, const std::string& parentName, const Vector3& relativePos) :
+			_parentName(parentName), _relativePos(relativePos), _movObj(0), _hhfxScene(0) 
+	{
+		_hhfxParams["pack"] =  Graphics::CServer::getSingletonPtr()->getHHFXBase()->GetHHFXPackExplorer().GetPack();
+		_hhfxParams["fx"]	=  Graphics::CServer::getSingletonPtr()->getHFXLongName(hfx);
+		_hhfxParams["run"]	=  "yes";	// Por defecto: ejecución inmediata al crear el MO
 	}
+
+	//--------------------------------------------------------
+	
+	void CParticleSystem::start()
+	{	
+		if(_movObj) // MO tiene que ser NULL; lo contrario significa que ya hay un FX en curso
+			return;
+
+		// spawn a new effect at this location
+		Ogre::MovableObject	*mo = getSceneMgr()->createMovableObject("HHFX", &_hhfxParams);
+			assert(mo && "Error al crear ParticleSystem");	
+
+		// set this class to listen to the ps, to be notified when it is destroyed.
+		_movObj = static_cast<IHHFXOgre*>(mo);
+			_movObj->SetFXListener(this);
+			_node->attachObject(_movObj);
+	}
+
+	//--------------------------------------------------------
 
 	void CParticleSystem::stop() const
 	{
-		_movObj->StopFX();
+		if(_movObj) // MO tiene que ser !NULL; lo contrario significa que no hay un FX en curso
+			_movObj->StopFX();
+
 		// TODO comprobar que se llama al stopped para liberar MO
 	}
 		
+	
+
+
 
 
 	/**********************
@@ -73,6 +100,8 @@ namespace Graphics
 		//}
 	}
 
+	//--------------------------------------------------------
+
 	// called when an effect stopped by itself or when the hhfx scene is cleared
 	void CParticleSystem::OnFXStopped(IHHFX* obj)
 	{		
@@ -90,6 +119,10 @@ namespace Graphics
 
 	}
 
+	
+
+
+
 
 	/**********************
 		SCENE ELEMENT
@@ -102,26 +135,9 @@ namespace Graphics
 		try{		
 			_hhfxScene = _scene->getHHFXScene();
 
-			// effect's params
-			Ogre::NameValuePairList params;
-				params["pack"] =  _hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetPack();
-				params["fx"] = _hhfxScene->GetHHFXBase().GetHHFXPackExplorer().GetEffects()[ enumSelected ];
-				params["run"] = "yes";
-
-			// spawn a new effect at this location
-			Ogre::MovableObject	*mo = getSceneMgr()->createMovableObject("HHFX", &params);
-			assert(mo && "Error al crear ParticleSystem");	
-
-			_movObj = static_cast<IHHFXOgre*>(mo);
-				_movObj->SetFXListener(this);
-			// set this class to listen to the ps, to be notified when it is destroyed, 
-			// so we may remove the scene node we created, if needed.
-
 		    // create a node to attach the effect
 			_node = getSceneMgr()->getSceneNode( _parentName + "_node")
 								 ->createChildSceneNode(_relativePos); // TODO FRS añadir algún tipo de orientación inicial?
-				_node->attachObject(_movObj);
-
 			_loaded = true;
 			
 		} catch(std::exception e){
@@ -142,6 +158,9 @@ namespace Graphics
 			_movObj = 0;
 		}
 	} // unload
+
+	
+
 
 	
 	

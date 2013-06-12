@@ -17,6 +17,7 @@ la ventana, etc.
 #ifndef __Graphics_Server_H
 #define __Graphics_Server_H
 
+#include <assert.h>
 #include <map>
 
 // Predeclaración de clases para ahorrar tiempo de compilación
@@ -277,10 +278,23 @@ namespace Graphics
 		HELL HEAVEN FX
 	********************/	
 
+	private:		
+		// DICCIONARIO "short hfx name" (Blast.hfx) => "long hfx name" (/HBO/Entities/Particles/Blast.hfx)
+		typedef std::map<std::string, std::string> THFXNamesMap;
+			THFXNamesMap _HFX_LONG_NAMES;
+
 	public:
-		IHHFXBase* getHHFXBase() { return _hhfxBase; }
+		IHHFXBase* getHHFXBase() const { 
+			assert(_hhfxBase && "HHFX No ha sido inicializado correctamente"); 
+			return _hhfxBase; 
+		}	
+		const std::string& CServer::getHFXLongName(const std::string& hfxShortName) { 
+			assert( !_HFX_LONG_NAMES[ hfxShortName ].empty() && "Nombre de script HFX incorrecto o no incluido en el paquete precargado");
+			return _HFX_LONG_NAMES[ hfxShortName ]; 
+		}
 		
-	private:
+	private:			
+
 		IHHFXBase* _hhfxBase;
 		void _initHHFX();
 		void _preloadHHFXTextures();	

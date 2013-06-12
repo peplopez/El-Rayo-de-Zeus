@@ -121,8 +121,8 @@ Map ={
 		degrees=36,
 		ring=1,
 		base=1,	
-		fxScript1 = "TorchFire.hfx",	
-		fxPos1 = {0,5,0},
+		fxScript0 = "TorchFire",	
+		fxPos0 = {0,5,0},
 	},
 	
 	Altar5 = {
@@ -130,8 +130,8 @@ Map ={
 		degrees=108,
 		ring=1,
 		base=1,		
-		fxScript1 = "TorchFire.hfx",	
-		fxPos1 = {0,5,0},
+		fxScript0 = "TorchFire",	
+		fxPos0 = {0,5,0},
 	},
 	
 	Altar6 = {
@@ -139,8 +139,8 @@ Map ={
 		degrees=180,
 		ring=1,
 		base=1,	
-		fxScript1 = "TorchFire.hfx",	
-		fxPos1 = {0,5,0},
+		fxScript0 = "TorchFire",	
+		fxPos0 = {0,5,0},
 	},
 	
 	Altar7 = {
@@ -148,8 +148,8 @@ Map ={
 		degrees=252,
 		ring=1,
 		base=1,	
-		fxScript1 = "TorchFire.hfx",	
-		fxPos1 = {0,5,0},		
+		fxScript0 = "TorchFire",	
+		fxPos0 = {0,5,0},		
 	},
 	
 	Altar8 = {
@@ -157,8 +157,8 @@ Map ={
 		degrees=324,
 		ring=1,
 		base=1,	
-		fxScript1 = "TorchFire.hfx",	
-		fxPos1 = {0,5,0},		
+		fxScript0 = "TorchFire",	
+		fxPos0 = {0,5,0},		
 	},
 	
 	Altar9 = {

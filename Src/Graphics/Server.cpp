@@ -278,9 +278,15 @@ namespace Graphics
 			}
 			assert(_hhfxBase && "failed initialing HHFX !");
 							
-		// load a pack		
+		// LOAD HFX PACK	
 		bool hhfxPackLoaded = _hhfxBase->LoadPack("media/packs/hhfx", true); 
-		OgreAssert(hhfxPackLoaded, "hhfx pack did not load correctly or contains no effects !");
+		assert(hhfxPackLoaded && "hhfx pack did not load correctly or contains no effects !");
+
+		// INIT HFX NAMES DICTIONARY
+		const std::vector<std::string>& hfxShortNames = _hhfxBase->GetHHFXPackExplorer().GetNames();
+		const std::vector<std::string>& hfxLongNames =  _hhfxBase->GetHHFXPackExplorer().GetEffects();
+			for(int i = 0; i < hfxShortNames.size(); ++i) 
+				_HFX_LONG_NAMES[ hfxShortNames[i] ] = hfxLongNames[i];
 	}
 
 
@@ -339,6 +345,6 @@ namespace Graphics
 	}
 
 
-
+	
 
 } // namespace Graphics

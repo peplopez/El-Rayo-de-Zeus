@@ -12,16 +12,14 @@ Contiene la implementación del componente que controla la vida de una entidad.
 
 #include "FX.h"
 
-#include "BaseSubsystems/Math.h"
+#include <BaseSubsystems/Math.h>
+#include <Graphics/ParticleSystem.h>
+#include <Graphics/Scene.h>
+#include <Map/MapEntity.h>
 
-#include "Graphics/ParticleSystem.h"
-#include "Graphics/Scene.h"
+#include "Entity/Entity.h"
+#include "Maps/Map.h"
 
-#include "Logic/Entity/Entity.h"
-#include "Logic/Entity/Messages/Message.h"
-
-#include "Logic/Maps/Map.h"
-#include "Map/MapEntity.h"
 
 #define DEBUG 1
 #if DEBUG
@@ -37,11 +35,13 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	const CFX::TActionToHfxMap CFX::ACTION_TO_HFX = CFX::_initActionToHfxMap();
+	CFX::TActionToHfxMap CFX::_ACTION_TO_HFX = CFX::_initActionToHfxMap();
+
 
 	//---------------------------------------------------------
 	
 	CFX::~CFX() {
+
 		if(!_psTable.empty())
 		{			
 			TParticleTable::const_iterator it = _psTable.begin();
@@ -92,25 +92,24 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 		
-					
+		std::string varScript("fxScript0");
+		std::string varPos("fxPos0");
 
 		// READ FXs & CREATE PSs
-		for(int i = 1; ; ++i) {
-			
-			ssAux << "fxScript" << i;
-			std::string varName = ssAux.str();
-				if( !entityInfo->hasAttribute( varName) )
-					break;
-			
-			std::string hfx1 = entityInfo->getStringAttribute("fxScript1");			
-			if( !entityInfo->hasAttribute("fxPos1") ) 
-				
-			else
-				_psTable[hfx1] = new Graphics::CParticleSystem(
-				hfx1, _entity->getGraphicalName(), entityInfo->getVector3Attribute("fxPos1") );	
-					
+		for(int i = 0; i < _MAX_FX ; ++i) {	// 10 FXs maximo por entidad deberia ser suficente
 
-			_psTable[hfx1] = new Graphics::CParticleSystem(	hfx1, parentName);
+			if( !entityInfo->hasAttribute( varScript ) )
+				break;
+			
+			std::string hfx = entityInfo->getStringAttribute( varScript );	
+				if( entityInfo->hasAttribute( varPos ) ) 
+					_psTable[hfx] = new Graphics::CParticleSystem( hfx, _entity->getGraphicalName(), 
+										entityInfo->getVector3Attribute( varPos ) );					
+				else
+					_psTable[hfx] = new Graphics::CParticleSystem( hfx, _entity->getGraphicalName() );	
+
+			++varScript[ varScript.length() - 1];
+			++varPos   [ varPos.length()    - 1];
 		}
 
 		attachToMap(map); // Add PSs to Scene
@@ -124,32 +123,37 @@ namespace Logic
 	bool CFX::accept(const CMessage *message)
 	{
 		return message->getType() == Message::FX_START	||
-			   message->getType() == Message::FX_STOP	||
-			   message->getType() == Message::CHANGE_RING;
+			   message->getType() == Message::FX_STOP;
 
 	} // accept
 	
 	//---------------------------------------------------------
 
-	// HACK FRS Falta extraer un action o arg que indique el efecto específico (ahora solo tenemos uno)
+	
 	void CFX::process(CMessage *message)
 	{
 		if(_psTable.empty())
 			return;
 
+		Graphics::CParticleSystem* ps = 
+			message->getAction() == Message::TActionType::UNDEF ?
+				_psTable.begin()->second :
+				_psTable[ _ACTION_TO_HFX[ message->getAction() ] ]; 
+				// Si no se especifica Action actuamos sobre el primer PS
+
+		assert(ps && "La entidad no usa el FX que especifica el ActionType recibido");
+		// TODO FRS Quizá habría que generar el sistema, aunque sea en la posicion 0,0,0
+
 		switch(message->getType())
 		{
 			case Message::FX_START:	
 				LOG("Start");
-				_psTable.begin()->second->start();			
+				ps->start();			
 				break;			
 			case Message::FX_STOP:
 				LOG("Stop");
-				_psTable.begin()->second->stop();	
+				ps->stop();
 				break;		
-			case Message::CHANGE_RING:
-				LOG("Change Ring");
-				break;
 		}
 	
 	} // process
