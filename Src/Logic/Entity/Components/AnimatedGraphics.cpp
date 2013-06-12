@@ -248,7 +248,7 @@ namespace Logic
 		{
 			CMessageUShort *msg = new CMessageUShort();
 			msg->setUShort(_currentLogicAnimation);
-			switch (track.first)
+			switch (static_cast<Logic::Tracks>(track.first))
 			{
 			case Logic::DAMAGE_TRACK:				
 				msg->setType(Message::DAMAGE_MOMENT);	

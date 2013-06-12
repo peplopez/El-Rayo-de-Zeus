@@ -38,10 +38,8 @@ namespace AI
 		//Desactivación de componentes
 		sleepComponents();
 		std::cout<<"AI::INITIALCOMBATSTATE: "+_initialCombatState<<std::endl;		
-		std::cout<<"AI::INITIAL_ACTION: "+(int)_action<<std::endl;
+		
 		_animationSetedByMe=false;
-		_initialYaw=_entity->getYaw();
-		_yawAmount=0;
 
 		switch(_initialCombatState)
 		{
@@ -60,6 +58,10 @@ namespace AI
 			_entity->emitMessage(message);
 			break;
 		}
+		default:
+			int x;
+			std::cout<<"AI::INITIALCOMBATSTATE: "+_initialCombatState<<std::endl;	
+			break;
 		}
 		return SUSPENDED;
 	}
@@ -138,7 +140,6 @@ namespace AI
 		switch(message->getType())
 		{
 		case Message::ANIMATION_FINISHED: //ConditionFail
-		{
 			if (_initialCombatState==0  || _animationSetedByMe  )
 			{
 				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
@@ -154,21 +155,22 @@ namespace AI
 				{
 					finish(false);				
 				}
-			}else
+			}
+			else
 			{
-			switch(_initialCombatState)
-			{
+				switch(_initialCombatState)
+				{
 				case 1:
 				{
 					CMessageBoolUShort *message = new CMessageBoolUShort();
 					message->setType(Message::SET_ANIMATION);
 					message->setUShort(Logic::ATTACK2);
-					message->setAction(_action);
 					message->setBool(false);
 					_entity->emitMessage(message);		
 					_animationSetedByMe=true;
 					break;
-				}	
+				}
+			
 				case 2:
 				{
 					if (_action==Message::HEAVY_ATTACK)
@@ -176,7 +178,6 @@ namespace AI
 						CMessageBoolUShort *message = new CMessageBoolUShort();
 						message->setType(Message::SET_ANIMATION);
 						message->setUShort(Logic::ATTACK3);
-						message->setAction(_action);
 						message->setBool(false);
 						_entity->emitMessage(message);
 						_animationSetedByMe=true;
@@ -186,20 +187,17 @@ namespace AI
 						CMessageBoolUShort *message = new CMessageBoolUShort();
 						message->setType(Message::SET_ANIMATION);
 						message->setUShort(Logic::ATTACK3);
-						message->setAction(_action);
 						message->setBool(false);
 						_entity->emitMessage(message);	
 						_animationSetedByMe=true;				
 					}
 					break;	
 				}
-		}
-					
-		}//else
+				}		
+			}//else
 		
 		break;
 		}
-	}
 	}
 
 	void CLA_Attack::tick(unsigned int msecs) 

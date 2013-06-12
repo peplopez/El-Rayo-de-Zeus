@@ -137,7 +137,7 @@ namespace AI
 		Tipo que guarda la información de todas las aristas. Está indexado 
 		por el identificador del nodo de origen.
 		*/
-		typedef std::map<int, PairVector*> EdgeList;
+		typedef std::tr1::unordered_map<int, PairVector*> EdgeList;
 
 		/**
 		Entidad que ejecuta la máquina de estado.
@@ -150,7 +150,7 @@ namespace AI
 		/**
 		Lista de nodos. Es un map que relaciona cada identificador de nodo con su contenido.
 		*/
-		std::map<int, TNode*> _nodes;
+		std::tr1::unordered_map<int, TNode*> _nodes;
 		/**
 		Lista de aristas. Es un map que asocia cada nodo de origen de cada arista con una lista
 		formada por pares (condición, nodo destino). Por ejemplo, si tenemos una aristas que sale
@@ -226,9 +226,9 @@ namespace AI
 
 			//COMBO 1
 			this->addEdge(idle, l_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK));
-			this->addEdge(l_attack0, idle, new CConditionFail());
 			this->addEdge(l_attack0, l_attack1,new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,false,Message::COMBO_MOMENT));
 			this->addEdge(l_attack1, h_attack2, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::COMBO_MOMENT));
+			this->addEdge(l_attack0, idle, new CConditionFail());
 			this->addEdge(l_attack1, idle, new CConditionFail());
 			this->addEdge(h_attack2, idle, new CConditionFail());
 
@@ -357,7 +357,7 @@ namespace AI
 		delete _edges;
 
 		// Borramos los nodos
-		for (std::map<int, TNode*>::iterator it = _nodes.begin(); it != _nodes.end(); it++)
+		for (std::tr1::unordered_map<int, TNode*>::iterator it = _nodes.begin(); it != _nodes.end(); it++)
 		{
 			delete it->second;
 		}

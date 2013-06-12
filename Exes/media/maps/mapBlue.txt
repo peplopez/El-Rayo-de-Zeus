@@ -17,15 +17,7 @@ Map ={
 		type = "SkySphere",
 		material = "skyHades",
 	},
-	
-	GemeloBlue = {
-		type = "OtherPlayer",
-		base=2,
-		ring=1,
-		degrees=120,
-		initialMaterial1="marineBlue",
-	},
-	
+		
 	pointLight1 = {
 		type = "PointLight",
 		position = {0, 100, 0},

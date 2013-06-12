@@ -122,7 +122,7 @@ namespace Graphics
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
 		CAnimatedEntity(const std::string &name, const std::string &mesh):
-					CEntity(name,mesh), _currentAnimation(0), _currentAnimationName(""), _rewinding(false),_paused(false),_ticksPaused(0),_maxTicks(0),_index(0) {}
+					CEntity(name,mesh), _currentAnimation(0), _currentAnimationName(""), _activeEventChain(0), _rewinding(false),_paused(false),_ticksPaused(0),_maxTicks(0),_index(0) {}
 
 		/**
 		Activa una animación a partir de su nombre.

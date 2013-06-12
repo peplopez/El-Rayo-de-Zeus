@@ -34,7 +34,8 @@ namespace AI
 		
 		@param time Tiempo de espera
 		*/
-		CLA_Attack(CEntity* entity,unsigned short initialCombatState, Message::TActionType action) : CLatentAction(),_comboOportunity(false),_animationSetedByMe(false) {this->setEntity(entity);_initialCombatState=initialCombatState;_action=action;};
+		CLA_Attack(CEntity* entity,unsigned short initialCombatState, Message::TActionType action) : CLatentAction(),
+			_animationSetedByMe(false), _initialCombatState(initialCombatState), _action(action) {this->setEntity(entity);}
 		/**
 		Destructor
 		*/
@@ -117,17 +118,11 @@ namespace AI
 		virtual void awakeComponents();
 
 	protected:
-		/**
-			Al llegar a cierto momento de la animación hay posibilidad de realizar un combo.
-		*/
-		bool _comboOportunity;
 		
 		bool _animationSetedByMe;
 		unsigned short _initialCombatState;
 
 		Message::TActionType _action;
-		float _initialYaw;
-		float _yawAmount;
 	};
 
 } //namespace AI 
