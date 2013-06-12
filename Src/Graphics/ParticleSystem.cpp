@@ -47,28 +47,31 @@ namespace Graphics
 	
 	void CParticleSystem::start()
 	{	
-		if(_movObj) // MO tiene que ser NULL; lo contrario significa que ya hay un FX en curso
-			return;
+		if(_movObj) { // MO tiene que ser NULL; lo contrario significa que ya hay un FX en curso
+			_movObj->RunFX(); // TODO Verificar que se liberan bien... queremos acumular N veces el mismo efecto?
 
-		// spawn a new effect at this location
-		Ogre::MovableObject	*mo = getSceneMgr()->createMovableObject("HHFX", &_hhfxParams);
-			assert(mo && "Error al crear ParticleSystem");	
+		} else {
+			// spawn a new effect at this location
+			Ogre::MovableObject	*mo = getSceneMgr()->createMovableObject("HHFX", &_hhfxParams);
+				assert(mo && "Error al crear ParticleSystem");	
 
-		// set this class to listen to the ps, to be notified when it is destroyed.
-		_movObj = static_cast<IHHFXOgre*>(mo);
-			_movObj->SetFXListener(this);
-			_node->attachObject(_movObj);
+			// set this class to listen to the ps, to be notified when it is destroyed.
+			_movObj = static_cast<IHHFXOgre*>(mo);
+				_movObj->SetFXListener(this);
+				_node->attachObject(_movObj);
+		}
 	}
 
 	//--------------------------------------------------------
 
-	void CParticleSystem::stop() const
-	{
-		if(_movObj) // MO tiene que ser !NULL; lo contrario significa que no hay un FX en curso
-			_movObj->StopFX();
+	// UNDONE FRS: No se puede usar el método StopFX => Inconsistencias y pescaillas que se muerden la cola con evento StoppedFX
+	//void CParticleSystem::stop() const
+	//{
+	//	if(_movObj) // MO tiene que ser !NULL; lo contrario significa que no hay un FX en curso
+	//		_movObj->StopFX();
 
-		// TODO comprobar que se llama al stopped para liberar MO
-	}
+	//	// TODO comprobar que se llama al stopped para liberar MO
+	//}
 		
 	
 
@@ -108,9 +111,10 @@ namespace Graphics
 		assert( _movObj == static_cast<IHHFXOgre*>(obj)  
 			&& "Evento recibido para un MO distinto del wrappeado en este ParticleSystem");
 		
-		_node->detachObject(_movObj);
+		_movObj->detachFromParent();
 		getSceneMgr()->destroyMovableObject(_movObj); 
 		_movObj = 0;
+		
 
 		// destroy the light created under ElectricOrb
 		// UNDONE FRS
