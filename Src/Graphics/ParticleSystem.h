@@ -47,8 +47,8 @@ namespace Graphics
 		*******************/
 
 		bool isVisible() const;
-		void start();
-		void stop() const;		
+		void start(); // TODO Si solo tenemos start -> renombrar a RUN
+		//void stop() const; UNDONE		
 
 
 	private:		
