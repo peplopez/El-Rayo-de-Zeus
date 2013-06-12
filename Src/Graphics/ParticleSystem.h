@@ -50,7 +50,7 @@ namespace Graphics
 
 		bool isVisible() const;
 		void start() const;
-		void stop() const;
+		void stop() const;		
 
 
 	private:		

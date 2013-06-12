@@ -24,6 +24,7 @@ de una escena.
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 class IHHFXScene;
+struct SContactReport;
 
 namespace Ogre 
 {
@@ -329,9 +330,10 @@ namespace Graphics
 		
 	private:				
 		IHHFXScene *_hhfxScene;
-		void _initHHFXScene();
-		void _loadHHFXCompositors();
-		void _unloadHHFXCompositors();
+		void _hhfxSceneSetup();
+		void _hhfxCompositorLoad();
+		void _hhfxCompositorUnload();
+		static bool _hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, const Ogre::Vector3 &direction, float length, SContactReport &contactReport);
 
 	}; // class CScene
 

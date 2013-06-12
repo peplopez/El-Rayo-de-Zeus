@@ -50,7 +50,7 @@ namespace Graphics
 		_camera = new CCamera(name,this);
 		_baseCamera = new CCamera("base" + name, this);
 
-		_initHHFXScene(); // Init Hell Heaven FX Scene
+		_hhfxSceneSetup(); // Init Hell Heaven FX Scene
 	} // CScene
 
 	//--------------------------------------------------------
@@ -61,7 +61,7 @@ namespace Graphics
 		
 		// Hell Heaven FX 
 		_hhfxScene->Clear(); // clear the scene before shutting down ogre since the hhfx ogre implementation holds some Ogre objects.
-		_unloadHHFXCompositors(); 
+		_hhfxCompositorUnload(); 
 
 		_sceneMgr->destroyStaticGeometry(_staticGeometry);
 		delete _camera;
@@ -106,7 +106,7 @@ namespace Graphics
 		//Sombras Chulas - Consumen mucho*/
 		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
-		_loadHHFXCompositors(); // Hell Heaven FX 
+		_hhfxCompositorLoad(); // Hell Heaven FX 
 
 	} // activate
 
@@ -260,7 +260,7 @@ namespace Graphics
 		HELL HEAVEN FX
 	*********************/
 
-	void CScene::_initHHFXScene() 
+	void CScene::_hhfxSceneSetup() 
 	{	
 		// retrieve the HellHeaven's scene from an empty fx. for each Ogre::SceneManager a HHFXScene is associated.
 		Ogre::MovableObject	*dummyMO = _sceneMgr->createMovableObject("HHFX");
@@ -270,31 +270,75 @@ namespace Graphics
 			}
 			assert(_hhfxScene && "failed creating HHFXScene !");	
 
-		// bind the collision callback (i.e. used by Rain.hfx)
-//		m_hhfxScene->SetCollisionCallback(this, &_IntersectScene); TODO FRS
-		_hhfxScene->SetWorldScale( HHFX_WORLD_SCALE ); // ?? TODO const float	kWorldFxScale = 1.0f;
-// HACK FRS Fix esto con un const o leyendolo de mapa		
+		// bind the collision callback 
+		_hhfxScene->SetCollisionCallback(this, &_hhfxCollisionCheck); 
+		_hhfxScene->SetWorldScale( HHFX_WORLD_SCALE ); 
 
 		_root->addFrameListener(this);
 	}
 
 	//-------------------------------------------------------------------------------------
 
-	void CScene::_loadHHFXCompositors() 
+	void CScene::_hhfxCompositorLoad() 
 	{
 		// adding compositor for post fx
 		Ogre::CompositorInstance*	comp = Ogre::CompositorManager::getSingleton().addCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");
 			assert(comp && "[HHFX ERROR] Cannot load compositor Distortion !" );
-		//	comp->setEnabled(true);
+			comp->setEnabled(true);
 	}
 
 	//-------------------------------------------------------------------------------------
 
-	void CScene::_unloadHHFXCompositors() 
+	void CScene::_hhfxCompositorUnload() 
 	{
 		// remove our compositor
 		Ogre::CompositorManager::getSingleton().removeCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");	
 	}
+
+	//-------------------------------------------------------------------------------------
+
+	// HACK FRS Esto hay que migrarlo a LOGIC -> map? y usar los valores correctos
+	bool CScene::_hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, 
+		const Ogre::Vector3 &direction, float length, SContactReport &contactReport)
+	{
+			
+		static const Ogre::Plane RING_PLANES[] = { 
+			Ogre::Plane(	Vector3::UNIT_Y,  100), 
+			Ogre::Plane(	Vector3::UNIT_Y,    0), 	
+			Ogre::Plane(	Vector3::UNIT_Y, -100)
+		};
+		static const int RADIUS_SQR_MIN[] = {1500, 3364, 1500}; // Probando con radios 73 y 58  +-20 de anchura
+		static const int RADIUS_SQR_MAX[] = {6000, 10000, 6000}; // TODO CServer::getSingletonPtr()->getRingRadio(ring)
+		
+
+		// CHECK RING INTERSECT
+		Ray	traceRay(start, direction);
+		std::pair<bool, Ogre::Real> result;
+		int ringIndex = 0;			
+			do{	
+				result = traceRay.intersects( RING_PLANES[ringIndex] ); 
+			} while(!result.first && ++ringIndex <= 3);
+
+
+		// RESULT CORRECTION
+		if (result.first) 
+		{
+			contactReport.m_Point = traceRay.getPoint(result.second);
+			float contactSqrDist =	contactReport.m_Point.x * contactReport.m_Point.x +
+									contactReport.m_Point.y * contactReport.m_Point.y;
+			
+			// stay on our "visible" ring
+			if (contactSqrDist > RADIUS_SQR_MIN[ringIndex] && contactSqrDist < RADIUS_SQR_MAX[ringIndex]) {						
+				contactReport.m_Time = result.second;
+				contactReport.m_Normal = RING_PLANES[ringIndex].normal;
+			
+			} else
+				result.first = false;
+		}
+
+		return result.first;
+	}
+
 
 
 	//-----------FRAME LISTENER IMPL--------------------------------------------------------------------------

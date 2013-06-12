@@ -23,6 +23,14 @@ Contiene la implementación de la clase que maneja el ParticleSystem.
 #include "Camera.h"
 #include "Scene.h"
 
+#define DEBUG 0
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "GRAPHICS::PARTICLE_SYSTEM>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
+
 namespace Graphics 
 {		
 	
@@ -36,7 +44,7 @@ namespace Graphics
 	{
 		_movObj->StopFX();
 	}
-
+		
 
 
 	/**********************
@@ -132,39 +140,6 @@ namespace Graphics
 		return _movObj->isVisible();
 	}
 
-	//--------------------------------------------------------
-
-
-
-	//// simplistic collision with our ground-plane (200 units-wide)
-
-	//bool	CHHFXSampleOgre::_IntersectScene(void *arg, const Ogre::Vector3 &start, const Ogre::Vector3 &direction, float length, SContactReport &contactReport)
-	//{
-	//	CHHFXSampleOgre	*self = (CHHFXSampleOgre*)arg;
-	//	Ray	traceRay(start, direction);
-
-	//	//std::pair<bool, Real> result = traceRay.intersects(Ogre::Plane( Vector3(0,0,1) , Vector3(0,0,0) ) ); // FRS
-	//	std::pair<bool, Real> result = traceRay.intersects(self->m_floor);
-
-	//	// plane intersected
-	//	if (result.first == true)
-	//	{
-	//		contactReport.m_Point = traceRay.getPoint(result.second);
-
-	//		// stay on our "visible" plane
-	//		result.first = false;
-	//		if (contactReport.m_Point.x > -100 && contactReport.m_Point.x < 100 &&
-	//			contactReport.m_Point.z > -100 && contactReport.m_Point.z < 100)
-	//		{
-	//			result.first = true;
-
-	//			contactReport.m_Time = result.second;
-	//			//contactReport.m_Normal = Vector3(0,0,1); // FRS
-	//			contactReport.m_Normal = self->m_floor.normal;
-	//		}
-	//	}
-	//	return result.first;
-	//}
-
+	
 } // namespace Graphics
 
