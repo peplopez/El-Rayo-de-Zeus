@@ -70,12 +70,6 @@ namespace GUI {
 			switch(key.keyId)
 			{
 
-				//to show HUD widget
-				case GUI::Key::V:
-					m->setAction(Logic::Message::DISPLAY_HUD); 
-					_controlledHud->emitMessage(m);
-					break;
-
 				//to reload HUD for DEBUG
 				case GUI::Key::R:
 					ScriptManager::CServer::getSingletonPtr()->reloadScript("Hud");
