@@ -26,7 +26,7 @@ end
 --Funcion que oculta una ventana del GUI
 function hideRespawn()
 	if respawnWindow ~= nil then
-		GUI.Mouse:show()
+		--GUI.Mouse:show()
 		respawnWindow:deactivate()		
 		respawnWindow:setVisible(false)
 	end
