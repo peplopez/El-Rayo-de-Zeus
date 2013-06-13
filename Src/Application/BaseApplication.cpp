@@ -294,14 +294,17 @@ namespace Application {
 		if (!_clock->_timeObservers.empty())
 		{
 			IClock::TTimeObserverList::const_iterator it = _clock->_timeObservers.begin();
-			for(; it != _clock->_timeObservers.end(); it++)
+			IClock::TTimeObserverList::const_iterator end = _clock->_timeObservers.end();
+			while(it != end)
 			{
-				if (!_clock->_timeObservers.empty())
-				if (_clock->getTime()>=(*it).second.second)
+				if (_clock->getTime() >= it->second)
 				{
-					(*it).second.first->timeArrived();
-					_clock->removeTimeObserver((*it).first);
-					break;
+					it->first->timeArrived();
+					_clock->_timeObservers.erase(it++);
+				}
+				else
+				{
+					++it;
 				}
 			}
 		}

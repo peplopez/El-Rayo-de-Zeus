@@ -202,7 +202,7 @@ namespace Logic
 			{
 				if (_waiting==false)
 				{
-					_reloj->addTimeObserver(_entity->getEntityID(),this,2500);		
+					_reloj->addTimeObserver(this, 2500);		
 					_waiting=true;
 				}
 				//en el mismo anillo
