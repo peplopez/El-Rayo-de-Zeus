@@ -149,13 +149,12 @@ namespace Logic
 			case Message::FX_START:	
 				LOG("Start");
 				ps->start();			
-				break;			
-
-			// UNDONE FRS
-			//case Message::FX_STOP:
-			//	LOG("Stop");
-			//	ps->stop();
-			//	break;		
+				break;		
+			
+			case Message::FX_STOP:
+				LOG("Stop");
+				ps->stop();
+				break;		
 		}
 	
 	} // process

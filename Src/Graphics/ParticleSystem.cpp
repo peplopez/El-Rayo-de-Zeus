@@ -65,13 +65,18 @@ namespace Graphics
 	//--------------------------------------------------------
 
 	// UNDONE FRS: No se puede usar el método StopFX => Inconsistencias y pescaillas que se muerden la cola con evento StoppedFX
-	//void CParticleSystem::stop() const
-	//{
-	//	if(_movObj) // MO tiene que ser !NULL; lo contrario significa que no hay un FX en curso
-	//		_movObj->StopFX();
+	void CParticleSystem::stop()
+	{
+		if(_movObj) { // MO tiene que ser !NULL; lo contrario significa que no hay un FX en curso
+			_movObj->StopFX();
+			//_movObj->detachFromParent();
+			//getSceneMgr()->destroyMovableObject(_movObj); 			
+			//_movObj = 0;
 
-	//	// TODO comprobar que se llama al stopped para liberar MO
-	//}
+		
+		}
+		//_movObj->StopFX();
+	}
 		
 	
 
@@ -110,10 +115,12 @@ namespace Graphics
 	{		
 		assert( _movObj == static_cast<IHHFXOgre*>(obj)  
 			&& "Evento recibido para un MO distinto del wrappeado en este ParticleSystem");
-		
-		_movObj->detachFromParent();
-		getSceneMgr()->destroyMovableObject(_movObj); 
-		_movObj = 0;
+
+		//stop();
+
+		//_movObj->detachFromParent();
+		//getSceneMgr()->destroyMovableObject(_movObj); 
+		//_movObj = 0;
 		
 
 		// destroy the light created under ElectricOrb
