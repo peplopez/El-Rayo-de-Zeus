@@ -131,6 +131,7 @@ namespace Logic
 		@param animation Nombre de la animación terminada.
 		*/
 		void timeArrived();
+
 	protected:
 		
 		

@@ -12,9 +12,11 @@ Contiene la declaración de un interfaz para un temporizador.
 @author David Llansó
 @date Julio, 2010
 */
-#include <map>
+
 #ifndef __Application_Clock_H
 #define __Application_Clock_H
+
+#include <list>
 
 namespace Application 
 {
@@ -81,7 +83,7 @@ namespace Application
 	class IClock
 	{
 	public:
-		friend class CBaseApplication;
+		
 		/** 
 		Constructor de la clase 
 		*/
@@ -103,7 +105,7 @@ namespace Application
 		Devuelve la hora en el momento de la última invocación
 		a updateTime().
 
-		@return Hora (en milisegundos) en la última invocación a
+		@return Hora (en MICROSEGUNDOS) en la última invocación a
 		updateTime(). No se debe asumir que la "hora 0" es la hora
 		en la que se inició el temporizador, ni el tiempo de vida
 		de la aplicación, ni siquiera del sistema. La hora debe
@@ -112,7 +114,7 @@ namespace Application
 		unsigned long getTime() const { return _lastTime; }
 
 		/**
-		Devuelve la duración del último frame, o lo que es lo mismo,
+		Devuelve la duración del último frame EN MICROSEGUNDOS, o lo que es lo mismo,
 		el tiempo transcurrido entre las dos últimas invocaciones
 		a updateTime().
 
@@ -125,39 +127,31 @@ namespace Application
 		Funcion que registra al oyente de la entidad grfica. Por 
 		simplicidad solo habr un oyente por entidad.
 		*/
-		void addTimeObserver(int index, IClockListener* listener, unsigned long time)
-		{//std::pair<IClockListener*,unsigned long> par
-			std::pair<IClockListener*,unsigned long> par= std::pair<IClockListener*,unsigned long>(listener,time+getTime());
-			//par.second=par.second+getTime();// así tengo el momento exacto en el que avisar
-			_timeObservers[index]=par;
+		void addTimeObserver(IClockListener* listener, unsigned long time)
+		{
+			std::pair<IClockListener*,unsigned long> pair(listener, time * 1000 + _lastTime);
+			_timeObservers.push_back(pair);
 		}
 
 		
-		/**
-		Funci?n que quita al oyente de la entidad gr?fica. Por 
-		simplicidad solo habr? un oyente por entidad.
-		*/
-		void removeTimeObserver(int index)
-		{			
-			_timeObservers.erase(index);
-		}			
-
 		void removeAllTimeObserver()
 		{
 			_timeObservers.clear();
-		}			
+		}
+
 	protected:
 
+		friend class CBaseApplication;
 
 		/**
 		 Método que devuelve la "hora física" del sistema
-		 en milisegundos. Cada invocación al método debería
+		 en microsegundos. Cada invocación al método debería
 		 devolver una hora distinta (si la precisión del
 		 reloj hardware lo permite).
 
 		 El "sistema de referencia" del valor devuelto puede
 		 ser cualquiera, es decir, no se puede asumir que
-		 una hora de 1000 milisegundos signifique que la
+		 una hora de 1000000 microsegundos signifique que la
 		 aplicación llega en ejecución 1 segundo, ni siquiera
 		 que el reloj se creó hace 1 segundo.
 
@@ -175,11 +169,9 @@ namespace Application
 		*/
 		unsigned int _lastFrameDuration;
 
-				/**
-		Tipo lista de CEntity donde guardaremos los pendientes de borrar.
+		/**
 		*/
-		//typedef std::list<std::pair<IClockListener*,unsigned long>> TTimeObserverList; //typedef std::list<CMessage*> TMessageList;
-		typedef std::map<int, std::pair<IClockListener*,unsigned long>> TTimeObserverList; //typedef std::list<CMessage*> TMessageList;
+		typedef std::list<std::pair<IClockListener*,unsigned long>> TTimeObserverList;
 
 		/**
 		Lista de objetos oyentes que es informado de cambios en la entidad como 

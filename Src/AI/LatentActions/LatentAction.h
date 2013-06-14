@@ -105,7 +105,7 @@ namespace AI
 		/**
 		Constructor
 		*/
-		CLatentAction() : _status(READY), _stopping(false),_anim("") {};
+		CLatentAction() : _status(READY), _stopping(false), _anim("") {};
 		/**
 		Establece la entidad que ejecuta la acción.
 		*/

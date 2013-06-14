@@ -118,6 +118,7 @@ namespace AI
 		virtual void sleepComponents();
 
 		virtual void awakeComponents();
+
 	protected:
 		
 	};

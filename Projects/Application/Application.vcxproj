@@ -137,6 +137,7 @@
     <ClInclude Include="..\..\Src\Application\MenuState.h" />
     <ClInclude Include="..\..\Src\Application\NetMenuState.h" />
     <ClInclude Include="..\..\Src\Application\OgreClock.h" />
+    <ClInclude Include="..\..\Src\Application\TimeConstants.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Galeon.ico" />

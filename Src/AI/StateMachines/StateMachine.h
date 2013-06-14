@@ -145,7 +145,7 @@ namespace AI
 		Tipo que guarda la información de todas las aristas. Está indexado 
 		por el identificador del nodo de origen.
 		*/
-		typedef std::map<int, PairVector*> EdgeList;
+		typedef std::tr1::unordered_map<int, PairVector*> EdgeList;
 
 		/**
 		Entidad que ejecuta la máquina de estado.
@@ -158,7 +158,7 @@ namespace AI
 		/**
 		Lista de nodos. Es un map que relaciona cada identificador de nodo con su contenido.
 		*/
-		std::map<int, TNode*> _nodes;
+		std::tr1::unordered_map<int, TNode*> _nodes;
 		/**
 		Lista de aristas. Es un map que asocia cada nodo de origen de cada arista con una lista
 		formada por pares (condición, nodo destino). Por ejemplo, si tenemos una aristas que sale
@@ -198,7 +198,7 @@ namespace AI
 			int changingRingUp=this->addNode(new CLA_ChangeRing(entity,Message::GO_UP));			
 			int changingRingDown=this->addNode(new CLA_ChangeRing(entity,Message::GO_DOWN));
 
-			int changingAltar=this->addNode(new CLA_AltarSwitch(entity));
+			int switchingAltar=this->addNode(new CLA_AltarSwitch(entity));
 
 
 			int h_attack2Fatality=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
@@ -206,7 +206,7 @@ namespace AI
 			int damaged=this->addNode(new CLA_Beaten(entity));
 			//PT
 			//int dead=this->addNode(new CLA_Death(entity));
-			int dead=this->addNode(new CLA_Death(entity,5000)); //1000 es 1 segundo. 10000 son 10 segundos.
+			int dead=this->addNode(new CLA_Death(entity,5)); //5 segundos
 
 			this->addEdge(idle, l_run, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_LEFT));
 			this->addEdge(idle, r_run, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_RIGHT));
@@ -220,9 +220,11 @@ namespace AI
 			
 			this->addEdge(jumping, idle, new CConditionFlagJumpingActivated());
 			
-			this->addEdge(idle, changingAltar, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::SWITCH_ALTAR));
-			this->addEdge(changingAltar, idle, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::STOP_SWITCH));
-		
+			this->addEdge(idle, switchingAltar, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::SWITCH_ALTAR));
+			this->addEdge(l_run, switchingAltar, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::SWITCH_ALTAR));
+			this->addEdge(r_run, switchingAltar, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::SWITCH_ALTAR));
+			this->addEdge(switchingAltar, idle, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::STOP_SWITCH));
+			this->addEdge(switchingAltar, idle, new CConditionSuccess());
 
 			this->addEdge(l_run, idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_STOP));
 			this->addEdge(r_run, idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_STOP));
@@ -234,9 +236,9 @@ namespace AI
 
 			//COMBO 1
 			this->addEdge(idle, l_attack0, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK));
-			this->addEdge(l_attack0, idle, new CConditionFail());
 			this->addEdge(l_attack0, l_attack1,new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::LIGHT_ATTACK,false,Message::COMBO_MOMENT));
 			this->addEdge(l_attack1, h_attack2, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::HEAVY_ATTACK,false,Message::COMBO_MOMENT));
+			this->addEdge(l_attack0, idle, new CConditionFail());
 			this->addEdge(l_attack1, idle, new CConditionFail());
 			this->addEdge(h_attack2, idle, new CConditionFail());
 
@@ -257,7 +259,6 @@ namespace AI
 			this->addEdge(idle, changingRingDown, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_DOWN));
 			this->addEdge(idle, changingRingUp, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_UP));
 			this->addEdge(changingBase, idle, new CConditionFinished());
-			//this->addEdge(changingRing, idle, new CConditionFinished());
 			this->addEdge(changingRingUp, idle, new CConditionSuccess);
 			this->addEdge(changingRingDown, idle, new CConditionSuccess);
 
@@ -426,7 +427,7 @@ class CSCancerbero : public CStateMachine<CLatentAction>
 		delete _edges;
 
 		// Borramos los nodos
-		for (std::map<int, TNode*>::iterator it = _nodes.begin(); it != _nodes.end(); it++)
+		for (std::tr1::unordered_map<int, TNode*>::iterator it = _nodes.begin(); it != _nodes.end(); it++)
 		{
 			delete it->second;
 		}

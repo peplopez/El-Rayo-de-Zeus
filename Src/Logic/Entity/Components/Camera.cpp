@@ -76,8 +76,6 @@ namespace Logic
 		if(entityInfo->hasAttribute("trembleOffset")) 
 			_trembleOffset = entityInfo->getFloatAttribute("trembleOffset");
 		
-		//_trembleOffset+=1;
-		//_trembleSpeed*=1.3;
 		return true;
 
 	} // spawn
@@ -184,8 +182,8 @@ namespace Logic
 			_tremble=false;
 			_calm=false;
 			timeArrived();
-			//_reloj->addTimeObserver(_entity->getEntityID(),this,3000);
 		}
+
 		if (riesgo == 0) 
 			_calm=true;
 		short factor = riesgo*_tremble;
@@ -210,7 +208,7 @@ namespace Logic
 	void CCamera::timeArrived()
 	{
 	    _tremble=!_tremble;
-		_reloj->addTimeObserver(_entity->getEntityID()+_tremble,this,1000+!_tremble*1000);
+		_reloj->addTimeObserver(this, 1000+!_tremble*1000);
 		std::cout<<_tremble<<std::endl;
 	}
 } // namespace Logic

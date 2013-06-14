@@ -15,6 +15,7 @@ Contiene la implementación del estado de juego.
 */
 
 #include "GameState.h"
+#include "TimeConstants.h"
 
 #include "Logic/Server.h"
 #include "Logic/Maps/EntityFactory.h"
@@ -164,7 +165,7 @@ namespace Application {
 		// FRS Los siguientes ticks no se colocan a nivel de C3DApplication::tick
 		// porque a diferencia de otros servers, sólo deben actualizarse durante el GameState)
 		
-		Physics::CServer::getSingletonPtr()->tick(msecs);// Simulación física 		
+		Physics::CServer::getSingletonPtr()->tick(TIMESTEP_SECS);// Simulación física 		
 		Logic::CServer::getSingletonPtr()->tick(msecs);// Actualizamos la lógica de juego.
 
 	} // tick

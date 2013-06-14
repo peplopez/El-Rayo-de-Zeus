@@ -44,11 +44,6 @@ namespace Logic
 	bool CAvatarController::activate()
 	{
 
-		//Menudos HACKS os marcais
-		/**
-		if (!_entity->isPlayer())
-			_walkingRight=true;
-		*/
 		return true;
 	} // activate
 	
@@ -108,16 +103,6 @@ namespace Logic
 	{
 		_walkingLeft = false;
 		_walkingRight = true;
-	/*if (_entity->getType()!="Player")
-	{
-		CMessageBoolString *message = new CMessageBoolString();
-		message->setType(Message::SET_ANIMATION);
-		message->setAction(Message::WALK_RIGHT);		
-		//message->setString("run");
-		message->setString("run");
-		message->setBool(true);
-		_entity->emitMessage(message,this);
-	}*/
 		
 	}
 
@@ -146,6 +131,7 @@ namespace Logic
 	{
 		IComponent::tick(msecs);
 
+		
 		//si estamos andado hacia la derecha y no está girando
 		if(_walkingRight && _targetSense == Logic::LogicalPosition::UNDEFINED)
 		{		
@@ -183,12 +169,15 @@ namespace Logic
 		//rotacion a derechas
 		else if (_targetSense == Logic::LogicalPosition::RIGHT)
 		{
-			float tickRotation = Math::PI * 0.005f * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+			float totalYaw = Math::PI;
+			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
+				totalYaw = Math::PI * 0.5f;
+			float tickRotation = totalYaw * 0.005f * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
 			_entity->yaw(-tickRotation);
 			_acumRotation += tickRotation;
-			if (_acumRotation >= Math::PI)
+			if (_acumRotation >= totalYaw)
 			{
-				_entity->yaw(_acumRotation - Math::PI);
+				_entity->yaw(_acumRotation - totalYaw);
 				_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::RIGHT);
 				_targetSense = Logic::LogicalPosition::UNDEFINED;
 				_acumRotation = 0;
@@ -197,12 +186,15 @@ namespace Logic
 		//rotacion a izquierdas
 		else if (_targetSense == Logic::LogicalPosition::LEFT)
 		{
-			float tickRotation = Math::PI * 0.005f * msecs;
+			float totalYaw = Math::PI;
+			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
+				totalYaw = Math::PI * 0.5f;
+			float tickRotation = totalYaw * 0.005f * msecs;
 			_entity->yaw(tickRotation);
 			_acumRotation += tickRotation;
-			if (_acumRotation >= Math::PI)
+			if (_acumRotation >= totalYaw)
 			{
-				_entity->yaw(-(_acumRotation - Math::PI));
+				_entity->yaw(-(_acumRotation - totalYaw));
 				_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LEFT);
 				_targetSense = Logic::LogicalPosition::UNDEFINED;
 				_acumRotation = 0;

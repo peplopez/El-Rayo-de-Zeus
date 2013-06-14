@@ -82,10 +82,10 @@ namespace Logic
 				// Paramos todas las animaciones antes de poner una nueva.
 				// Un control más sofisticado debería permitir interpolación
 				// de animaciones. Galeon no lo plantea.
-				_graphicalEntity->stopAllAnimations();
+				_graphicalEntity->stopAnimation();
 				Logic::AnimationName name=static_cast<Logic::AnimationName>(rxMsg->getUShort());
 				std::string animString = _animSet->getAnimation(name);
-				if (_graphicalEntity->setAnimation(animString, 0, rxMsg ->getBool(),_animSet->getEventChain(name)))
+				if (_graphicalEntity->setAnimation(animString, 0, rxMsg->getBool(), _animSet->getEventChain(name)))
 					_currentLogicAnimation=name; //Tengo actualizada mi animación lógica actual
 				else
 					_currentLogicAnimation=Logic::AnimationName::NONE; //Tengo actualizada mi animación lógica actual
@@ -203,8 +203,7 @@ namespace Logic
 			_animSet->addEventTime(Logic::COVER_WITH_SHIELD, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
 		if (entityInfo->hasAttribute("event_DT_Cover"))
 			_animSet->addEventTime(Logic::COVER_WITH_WEAPON, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
-		if (entityInfo->hasAttribute("event_DT_ActivateAltar"))
-			_animSet->addEventTime(Logic::ACTIVATE_ALTAR, Logic::ACTIVATION_MOMENT, entityInfo->getFloatAttribute("event_DT_ActivateAltar"));
+
 		//especificos de cancerbero
 		if (entityInfo->hasAttribute("animJumpDown"))
 			_animSet->addAnimation(Logic::JUMP_DOWN,entityInfo->getStringAttribute("animJumpDown"));
@@ -252,7 +251,7 @@ namespace Logic
 		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
 		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
 
-		if (_currentLogicAnimation==Logic::COVER_WITH_SHIELD || _currentLogicAnimation==Logic::COVER_WITH_WEAPON || _currentLogicAnimation==Logic::ACTIVATE_ALTAR)
+		if (_currentLogicAnimation == Logic::COVER_WITH_SHIELD || _currentLogicAnimation == Logic::COVER_WITH_WEAPON)
 		{
 			_graphicalEntity->pauseAnimation(track.second);
 		}
@@ -260,7 +259,7 @@ namespace Logic
 		{
 			CMessageUShort *msg = new CMessageUShort();
 			msg->setUShort(_currentLogicAnimation);
-			switch (track.first)
+			switch (static_cast<Logic::Tracks>(track.first))
 			{
 			case Logic::DAMAGE_TRACK:				
 				msg->setType(Message::DAMAGE_MOMENT);	

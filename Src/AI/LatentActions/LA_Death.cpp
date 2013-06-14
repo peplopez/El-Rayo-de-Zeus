@@ -42,7 +42,7 @@ namespace AI
 	{
 		//PT
 		unsigned int currentTime = Application::CBaseApplication::getSingletonPtr()->getAppTime();
-		_endingTime = currentTime + _time;
+		_endingTime = currentTime + _time * 1000000;
 
 		//init Respawn Layout and functions
 		if (_entity->isPlayer()){
@@ -144,7 +144,7 @@ namespace AI
 			}
 			else
 			{
-				int timeToRevive = (int) ((_endingTime-Application::CBaseApplication::getSingletonPtr()->getAppTime())/1000);
+				int timeToRevive = (int) ((_endingTime-Application::CBaseApplication::getSingletonPtr()->getAppTime()) * 0.000001f);
 				ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateTime",timeToRevive);
 				return RUNNING;
 			}

@@ -54,8 +54,7 @@ namespace Logic
 			SPACE_REQUEST			= 0x19, //para mandar un mensaje en el que preguntas si un punto del espacio está ocupado
 			ANIMATION_MOMENT		= 0x20,
 			REWIND_ANIMATION		= 0x21,
-			ALTAR_ACTIVATED 		= 0x22,
-			ALTAR_DEACTIVATED 		= 0x23,
+			ALTAR_SWITCHED	 		= 0x22,
 			ATTACH					= 0x24,
 			DETACH					= 0x25,
 			AUDIO			 		= 0x26,
@@ -108,7 +107,8 @@ namespace Logic
 			DAMAGE				= 0x36,
 			DESTROY				= 0x37,
 			UPDATE_HUD_LIFE		= 0x38,
-			DISPLAY_SHOP		= 0x39
+			DISPLAY_SHOP		= 0x39,
+			FINISH_SUCCESS		= 0x40
 		};
 	}
 

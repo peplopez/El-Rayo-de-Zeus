@@ -22,7 +22,6 @@ capacidad de un Character de activar/desactivar altares
 namespace Logic
 {
 	class CMessage;
-	class CGameStatus;
 }
 
 //declaración de la clase
@@ -82,7 +81,6 @@ namespace Logic
 
 		float _acumRotation;
 		
-		Logic::CGameStatus* _gameStatus;
 
 	}; // class CAltarStateSwitcher
 
