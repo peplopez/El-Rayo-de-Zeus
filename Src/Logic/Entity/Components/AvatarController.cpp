@@ -172,7 +172,7 @@ namespace Logic
 			float totalYaw = Math::PI;
 			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
 				totalYaw = Math::PI * 0.5f;
-			float tickRotation = totalYaw * 0.005f * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+			float tickRotation = Math::PI * 0.005f * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
 			_entity->yaw(-tickRotation);
 			_acumRotation += tickRotation;
 			if (_acumRotation >= totalYaw)
@@ -189,7 +189,7 @@ namespace Logic
 			float totalYaw = Math::PI;
 			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
 				totalYaw = Math::PI * 0.5f;
-			float tickRotation = totalYaw * 0.005f * msecs;
+			float tickRotation = Math::PI * 0.005f * msecs;
 			_entity->yaw(tickRotation);
 			_acumRotation += tickRotation;
 			if (_acumRotation >= totalYaw)

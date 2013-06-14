@@ -97,7 +97,7 @@ namespace Logic
 				if(auxTarget && auxTarget->getType() == "Altar")
 				{	
 					if(_switchingState)
-						stopSwitchingState(_entity->getLogicalPosition()->getSense());
+						stopSwitchingState();
 					_switchingAllowed = false;
 					_target = 0;
 				}
@@ -108,10 +108,10 @@ namespace Logic
 
 			if(message->getAction() == Message::SWITCH_ALTAR)
 				startSwitchingState();
-			else if(message->getAction() == Message::WALK_RIGHT)	
-				stopSwitchingState(Logic::LogicalPosition::RIGHT);
-			else if(message->getAction() == Message::WALK_LEFT)	
-				stopSwitchingState(Logic::LogicalPosition::LEFT);
+			else if(message->getAction() == Message::WALK_RIGHT ||
+					message->getAction() == Message::WALK_LEFT ||
+					message->getAction() == Message::JUMP)	
+				stopSwitchingState();
 
 			break;
 		
@@ -156,19 +156,23 @@ namespace Logic
 	}
 
 	//---------------------------------------------------------
-	void CAltarStateSwitcher::stopSwitchingState(Logic::Sense targetSense)
+	void CAltarStateSwitcher::stopSwitchingState()
 	{
 		
-		if (_switchingState && _targetSense == Logic::LogicalPosition::UNDEFINED &&  _switchingAllowed)
+		if (_switchingState && _switchingAllowed && _entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
 		{
-			_targetSense = targetSense;
+			_switchingState = false;
 
-			
 			CMessage *m = new CMessage();
 			m->setType(Message::CONTROL);
 			m->setAction(Message::STOP_SWITCH);
 			_target->emitMessage(m);
 
+			_entity->getComponent<CAvatarController>()->awake();
+			CMessage *smMsg = new CMessage();
+			smMsg->setType(Message::ALTAR_MS_ORDER);
+			smMsg->setAction(Message::STOP_SWITCH);
+			_entity->emitMessage(smMsg);
 
 		}
 
@@ -213,62 +217,6 @@ namespace Logic
 				}
 			}
 
-			else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LOOKING_CENTER)
-			{
-				if (_targetSense == Logic::LogicalPosition::RIGHT)
-				{
-					float tickRotation = Math::PI * 0.005f * msecs; 
-					_entity->yaw(-tickRotation);
-					_acumRotation += tickRotation;
-					if (_acumRotation >= Math::PI/2)
-					{
-						_entity->yaw(_acumRotation - Math::PI/2);
-						_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::RIGHT);
-						_targetSense = Logic::LogicalPosition::UNDEFINED;
-						_switchingState = false;
-						_acumRotation = 0;
-						_entity->getComponent<CAvatarController>()->awake();
-						CMessage *smMsg = new CMessage();
-						smMsg->setType(Message::ALTAR_MS_ORDER);
-						smMsg->setAction(Message::STOP_SWITCH);
-						_entity->emitMessage(smMsg);
-
-					
-					}
-				}
-				else if (_targetSense == Logic::LogicalPosition::LEFT)
-				{
-					float tickRotation = Math::PI * 0.005f * msecs;
-					_entity->yaw(tickRotation);
-					_acumRotation += tickRotation;
-					if (_acumRotation >= Math::PI/2)
-					{
-						_entity->yaw(-(_acumRotation - Math::PI/2));
-						_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LEFT);
-						_targetSense = Logic::LogicalPosition::UNDEFINED;
-						_switchingState = false;
-						_acumRotation = 0;
-						_entity->getComponent<CAvatarController>()->awake();
-						CMessage *smMsg = new CMessage();
-						smMsg->setType(Message::ALTAR_MS_ORDER);
-						smMsg->setAction(Message::STOP_SWITCH);
-						_entity->emitMessage(smMsg);
-					
-						 
-					}
-				}
-
-				else if (_targetSense == Logic::LogicalPosition::LOOKING_CENTER)
-				{
-						_targetSense = Logic::LogicalPosition::UNDEFINED;
-						_switchingState = false;
-						_entity->getComponent<CAvatarController>()->awake();
-						CMessage *smMsg = new CMessage();
-						smMsg->setType(Message::ALTAR_MS_ORDER);
-						smMsg->setAction(Message::STOP_SWITCH);
-						_entity->emitMessage(smMsg);
-				}
-			}
 		}
 	} // tick
 } // namespace Logic

@@ -52,7 +52,7 @@ namespace Logic
 		void prohibitSwitching();
 		
 		void startSwitchingState();
-		void stopSwitchingState(Logic::Sense targetSense);
+		void stopSwitchingState();
 
 		CEntity* getTarget(){return _target;};
 
