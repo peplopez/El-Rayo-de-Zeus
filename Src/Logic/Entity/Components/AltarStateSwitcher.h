@@ -57,6 +57,8 @@ namespace Logic
 
 		CEntity* getTarget(){return _target;};
 
+		void turnDone();
+
 	protected:
 
 		/**

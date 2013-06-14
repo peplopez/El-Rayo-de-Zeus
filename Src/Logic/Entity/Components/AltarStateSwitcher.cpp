@@ -18,6 +18,7 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/Maps/Map.h"
 
 #include "Logic/Entity/Components/AvatarController.h"
+#include "Logic/Entity/Components/StateMachineExecutor.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
 #include "Logic/Entity/Messages/MessageBoolUShort.h"
@@ -111,7 +112,13 @@ namespace Logic
 		case Message::CONTROL:
 
 			if(message->getAction() == Message::SWITCH_ALTAR)
-				startSwitchingState();
+			{
+				if (_entity->getComponent<CStateMachineExecutor>()!=NULL)
+				{//comprobación de que estemos en el estado inicial (que es idle) para poder activar un altar. Si no se ignora la pulsación de la tecla F			
+					if (_entity->getComponent<CStateMachineExecutor>()->getCurrentStateMachine()->getCurrentNode()==_entity->getComponent<CStateMachineExecutor>()->getCurrentStateMachine()->getInitialNode())
+						startSwitchingState();
+				}
+			}
 			else if(message->getAction() == Message::WALK_RIGHT)	
 				stopSwitchingState(Logic::LogicalPosition::RIGHT);
 			else if(message->getAction() == Message::WALK_LEFT)	
@@ -177,17 +184,26 @@ namespace Logic
 		
 		if (_switchingState && _targetSense == Logic::LogicalPosition::UNDEFINED &&  _switchingAllowed)
 		{
-			_targetSense = targetSense;
-			
+			_targetSense = targetSense;		
+		
 			CMessage *m = new CMessage();
 			m->setType(Message::CONTROL);
 			m->setAction(Message::STOP_SWITCH);
 			_target->emitMessage(m);
-
 		}
 
 	}
 	
+	void CAltarStateSwitcher::turnDone()
+	{
+		
+		CMessage *m2 = new CMessage();
+		m2->setType(Message::ALTAR_MS_ORDER);
+		m2->setAction(Message::STOP_SWITCH);
+		_entity->emitMessage(m2);
+
+	}
+
 	//---------------------------------------------------------
 
 	void CAltarStateSwitcher::tick(unsigned int msecs)
@@ -242,7 +258,7 @@ namespace Logic
 						_switchingState = false;
 						_acumRotation = 0;
 						_entity->getComponent<CAvatarController>()->awake();
-					
+						turnDone();
 					}
 				}
 				else if (_targetSense == Logic::LogicalPosition::LEFT)
@@ -258,6 +274,7 @@ namespace Logic
 						_switchingState = false;
 						_acumRotation = 0;
 						_entity->getComponent<CAvatarController>()->awake();
+						turnDone();
 						 
 					}
 				}

@@ -24,6 +24,8 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/Entity/Messages/MessageUInt.h"
 
 
+#include "Logic/Entity/Messages/MessageBoolUShort.h"
+#include "Logic/Entity/Components/AnimatedGraphics.h"
 /*para tener un acceso directo al gamestatus*/
 #include "Logic/GameStatus.h"
 #include "Logic/RingInfo.h"
@@ -188,11 +190,15 @@ namespace Logic
 			_revertingState = true;
 			if (_player)
 			{
-		
-				CMessage *m2 = new CMessage();
-				m2->setType(Message::ALTAR_MS_ORDER);
-				m2->setAction(Message::STOP_SWITCH);
-				_player->emitMessage(m2);
+				CMessageBoolUShort *message = new CMessageBoolUShort();
+				message->setType(Message::SET_ANIMATION);
+
+				//si es sinbad
+				message->setUShort(Logic::IDLE);
+				message->setAction(Message::WALK_STOP);
+				message->setBool(true);
+				_player->emitMessage(message);
+				
 			}
 
 

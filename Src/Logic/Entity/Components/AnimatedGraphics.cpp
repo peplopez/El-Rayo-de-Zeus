@@ -184,7 +184,6 @@ namespace Logic
 		if (entityInfo->hasAttribute("animCombo3"))
 			_animSet->addAnimation(Logic::COMBO3,entityInfo->getStringAttribute("animCombo3"));
 
-
 		if (entityInfo->hasAttribute("event_CT_Attack1"))
 			_animSet->addEventTime(Logic::ATTACK1, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack1"));
 		if (entityInfo->hasAttribute("event_CT_Attack2"))
@@ -198,10 +197,23 @@ namespace Logic
 			_animSet->addEventTime(Logic::ATTACK2, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack2"));
 		if (entityInfo->hasAttribute("event_DT_Attack3"))
 			_animSet->addEventTime(Logic::ATTACK3, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack3"));
+		if (entityInfo->hasAttribute("event_DT_Attack4")) //CORREGIR QUE FALLARÁ
+			_animSet->addEventTime(Logic::ATTACK3, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack4"));
 		if (entityInfo->hasAttribute("event_DT_Cover"))
 			_animSet->addEventTime(Logic::COVER_WITH_SHIELD, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
 		if (entityInfo->hasAttribute("event_DT_Cover"))
 			_animSet->addEventTime(Logic::COVER_WITH_WEAPON, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
+		if (entityInfo->hasAttribute("event_DT_ActivateAltar"))
+			_animSet->addEventTime(Logic::ACTIVATE_ALTAR, Logic::ACTIVATION_MOMENT, entityInfo->getFloatAttribute("event_DT_ActivateAltar"));
+		//especificos de cancerbero
+		if (entityInfo->hasAttribute("animJumpDown"))
+			_animSet->addAnimation(Logic::JUMP_DOWN,entityInfo->getStringAttribute("animJumpDown"));
+		if (entityInfo->hasAttribute("animAlert"))
+			_animSet->addAnimation(Logic::ALERT,entityInfo->getStringAttribute("animAlert"));
+		if (entityInfo->hasAttribute("animWalk"))
+			_animSet->addAnimation(Logic::WALK,entityInfo->getStringAttribute("animWalk"));
+			
+
 		return true;
 	} // initializeAnimSet
 	
@@ -240,7 +252,7 @@ namespace Logic
 		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
 		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
 
-		if (_currentLogicAnimation==Logic::COVER_WITH_SHIELD || _currentLogicAnimation==Logic::COVER_WITH_WEAPON)
+		if (_currentLogicAnimation==Logic::COVER_WITH_SHIELD || _currentLogicAnimation==Logic::COVER_WITH_WEAPON || _currentLogicAnimation==Logic::ACTIVATE_ALTAR)
 		{
 			_graphicalEntity->pauseAnimation(track.second);
 		}
