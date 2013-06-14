@@ -37,30 +37,30 @@ namespace AI
 		
 		//Desactivación de componentes
 		sleepComponents();
-		std::cout<<"AI::INITIALCOMBATSTATE: "+_initialCombatState<<std::endl;		
-		
-		_animationSetedByMe=false;
 
 		switch(_initialCombatState)
 		{
-		case 0:
-		{
+		case 0:	{
 			CMessageBoolUShort *message = new CMessageBoolUShort();
 			message->setType(Message::SET_ANIMATION);
 
 			if (_action==Message::LIGHT_ATTACK)
+			{
 				message->setUShort(Logic::ATTACK1);
+				_animationSetedByMe = Logic::ATTACK1;
+			}
 			else
-				message->setUShort(Logic::ATTACK2);	
+			{
+				message->setUShort(Logic::ATTACK2);
+				_animationSetedByMe = Logic::ATTACK2;
+			}
 
-			message->setAction(_action);
 			message->setBool(false);
 			_entity->emitMessage(message);
-			break;
-		}
+
+		}	break;
+		
 		default:
-			int x;
-			std::cout<<"AI::INITIALCOMBATSTATE: "+_initialCombatState<<std::endl;	
 			break;
 		}
 		return SUSPENDED;
@@ -140,59 +140,33 @@ namespace AI
 		switch(message->getType())
 		{
 		case Message::ANIMATION_FINISHED: //ConditionFail
-			if (_initialCombatState==0  || _animationSetedByMe  )
+			CMessageUShort* rxMsg = static_cast<CMessageUShort*>(message);
+			if ( _animationSetedByMe == rxMsg->getUShort() )
 			{
-				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
-				if (maux->getUShort()==Logic::ATTACK1)  //ACORDARSE DE PONER ATTACK3 O EL QUE SEA PARA QUE LO TENGA EN CUENTA
-				{	
 					finish(false);
-				}
-				else if (maux->getUShort()==Logic::ATTACK2)
-				{
-					finish(false);				
-				}
-				else if (maux->getUShort()==Logic::ATTACK3)
-				{
-					finish(false);				
-				}
 			}
 			else
 			{
 				switch(_initialCombatState)
 				{
-				case 1:
-				{
-					CMessageBoolUShort *message = new CMessageBoolUShort();
-					message->setType(Message::SET_ANIMATION);
-					message->setUShort(Logic::ATTACK2);
-					message->setBool(false);
-					_entity->emitMessage(message);		
-					_animationSetedByMe=true;
-					break;
-				}
+				case 1:	{
+					CMessageBoolUShort *txMsg = new CMessageBoolUShort();
+					txMsg->setType(Message::SET_ANIMATION);
+					txMsg->setUShort(Logic::ATTACK2);
+					txMsg->setBool(false);
+					_entity->emitMessage(txMsg);		
+					_animationSetedByMe=Logic::ATTACK2;		
+				}	break;
 			
-				case 2:
-				{
-					if (_action==Message::HEAVY_ATTACK)
-					{
-						CMessageBoolUShort *message = new CMessageBoolUShort();
-						message->setType(Message::SET_ANIMATION);
-						message->setUShort(Logic::ATTACK3);
-						message->setBool(false);
-						_entity->emitMessage(message);
-						_animationSetedByMe=true;
-					}
-					else
-					{
-						CMessageBoolUShort *message = new CMessageBoolUShort();
-						message->setType(Message::SET_ANIMATION);
-						message->setUShort(Logic::ATTACK3);
-						message->setBool(false);
-						_entity->emitMessage(message);	
-						_animationSetedByMe=true;				
-					}
-					break;	
-				}
+				case 2: {
+
+					CMessageBoolUShort *txMsg = new CMessageBoolUShort();
+					txMsg->setType(Message::SET_ANIMATION);
+					txMsg->setUShort(Logic::ATTACK3);
+					txMsg->setBool(false);
+					_entity->emitMessage(txMsg);
+					_animationSetedByMe=Logic::ATTACK3;	
+				} break;	
 				}		
 			}//else
 		

@@ -67,7 +67,7 @@ namespace Physics {
 		Realiza la simulación física y actualiza la posición de todas las 
 		entidades físicas. 
 		*/
-		void tick(unsigned int msecs);
+		void tick(float secs);
 
 		/**
 		*/

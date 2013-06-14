@@ -32,15 +32,9 @@ namespace AI
 	CLatentAction::LAStatus CLAIdle::OnStart()
 	{
 		
-		/*if (_anim=="")
-			_anim = Graphics::AnimNames::IDLE;
-		*/std::cout<<"AI::StateMachine::idle"<<std::endl;
 		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
-
-		//si es sinbad
 		message->setUShort(Logic::IDLE);
-		message->setAction(Message::WALK_STOP);
 		message->setBool(true);
 		_entity->emitMessage(message);
 

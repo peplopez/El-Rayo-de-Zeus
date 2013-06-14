@@ -88,4 +88,12 @@ namespace Logic
 		_meritPoints+=ScriptManager::CServer::getSingletonPtr()->getGlobal("incPM",100);
 	}
 
+	void CPlayerInfo::decreaseAltarsActivated()
+	{
+		_altarsActivated--;
+		//incPM es una variable global de LUA, para que el incremento de puntos de merito
+		//este scriptado y no sea una variable de C++ que haya que compilar de nuevo
+		_meritPoints+=ScriptManager::CServer::getSingletonPtr()->getGlobal("incPM",100);
+	}
+
 }

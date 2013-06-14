@@ -105,7 +105,7 @@ namespace Application
 		Devuelve la hora en el momento de la última invocación
 		a updateTime().
 
-		@return Hora (en milisegundos) en la última invocación a
+		@return Hora (en MICROSEGUNDOS) en la última invocación a
 		updateTime(). No se debe asumir que la "hora 0" es la hora
 		en la que se inició el temporizador, ni el tiempo de vida
 		de la aplicación, ni siquiera del sistema. La hora debe
@@ -114,7 +114,7 @@ namespace Application
 		unsigned long getTime() const { return _lastTime; }
 
 		/**
-		Devuelve la duración del último frame, o lo que es lo mismo,
+		Devuelve la duración del último frame EN MICROSEGUNDOS, o lo que es lo mismo,
 		el tiempo transcurrido entre las dos últimas invocaciones
 		a updateTime().
 
@@ -129,7 +129,7 @@ namespace Application
 		*/
 		void addTimeObserver(IClockListener* listener, unsigned long time)
 		{
-			std::pair<IClockListener*,unsigned long> pair(listener, time + _lastTime);
+			std::pair<IClockListener*,unsigned long> pair(listener, time * 1000 + _lastTime);
 			_timeObservers.push_back(pair);
 		}
 

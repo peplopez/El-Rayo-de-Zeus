@@ -74,7 +74,7 @@ namespace Physics
 
 		/**	Duerme la escena*/
 		bool deactivate();
-		void tick(unsigned int msecs);
+		void tick(float timeStep);
 
 		void switchDebugDraw();
 
@@ -105,10 +105,6 @@ namespace Physics
 		b2World* _world;
 		CContactListener* _worldListener;
 
-		/**
-		Actualiza el estado de la escena cada ciclo.
-		*/
-		void simulate(unsigned int timeDiff);
 
 		void CreateWorldEdges();
 

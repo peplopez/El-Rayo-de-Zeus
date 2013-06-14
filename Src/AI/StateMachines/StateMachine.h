@@ -190,7 +190,7 @@ namespace AI
 			int changingRingUp=this->addNode(new CLA_ChangeRing(entity,Message::GO_UP));			
 			int changingRingDown=this->addNode(new CLA_ChangeRing(entity,Message::GO_DOWN));
 
-			int changingAltar=this->addNode(new CLA_AltarSwitch(entity));
+			int switchingAltar=this->addNode(new CLA_AltarSwitch(entity));
 
 
 			int h_attack2Fatality=this->addNode(new CLA_Attack(entity,2,Message::HEAVY_ATTACK));
@@ -212,8 +212,10 @@ namespace AI
 			
 			this->addEdge(jumping, idle, new CConditionFlagJumpingActivated());
 			
-			this->addEdge(idle, changingAltar, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::SWITCH_ALTAR));
-			this->addEdge(changingAltar, idle, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::STOP_SWITCH));
+			this->addEdge(idle, switchingAltar, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::SWITCH_ALTAR));
+			this->addEdge(l_run, switchingAltar, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::SWITCH_ALTAR));
+			this->addEdge(r_run, switchingAltar, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::SWITCH_ALTAR));
+			this->addEdge(switchingAltar, idle, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::STOP_SWITCH));
 		
 
 			this->addEdge(l_run, idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_STOP));

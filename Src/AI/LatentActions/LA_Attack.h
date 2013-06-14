@@ -18,6 +18,7 @@ latentes básicas.
 
 #include "Logic/Entity/Entity.h"
 
+
 using namespace Logic;
 
 namespace AI 
@@ -35,7 +36,7 @@ namespace AI
 		@param time Tiempo de espera
 		*/
 		CLA_Attack(CEntity* entity,unsigned short initialCombatState, Message::TActionType action) : CLatentAction(),
-			_animationSetedByMe(false), _initialCombatState(initialCombatState), _action(action) {this->setEntity(entity);}
+			_animationSetedByMe(0), _initialCombatState(initialCombatState), _action(action) {this->setEntity(entity);}
 		/**
 		Destructor
 		*/
@@ -119,7 +120,7 @@ namespace AI
 
 	protected:
 		
-		bool _animationSetedByMe;
+		unsigned short _animationSetedByMe;
 		unsigned short _initialCombatState;
 
 		Message::TActionType _action;
