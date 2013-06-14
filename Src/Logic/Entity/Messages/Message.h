@@ -108,7 +108,7 @@ namespace Logic
 			DESTROY				= 0x37,
 			UPDATE_HUD_LIFE		= 0x38,
 			DISPLAY_SHOP		= 0x39,
-			SET_IDLE			= 0x40
+			FINISH_SUCCESS		= 0x40
 		};
 	}
 

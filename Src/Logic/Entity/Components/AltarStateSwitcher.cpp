@@ -117,7 +117,7 @@ namespace Logic
 		case Message::ALTAR_SWITCHED:
 			CMessage *smMsg = new CMessage();
 			smMsg->setType(Message::ALTAR_MS_ORDER);
-			smMsg->setAction(Message::SET_IDLE);
+			smMsg->setAction(Message::FINISH_SUCCESS);
 			_entity->emitMessage(smMsg);	
 			break;
 		
@@ -224,6 +224,10 @@ namespace Logic
 						_switchingState = false;
 						_acumRotation = 0;
 						_entity->getComponent<CAvatarController>()->awake();
+						CMessage *smMsg = new CMessage();
+						smMsg->setType(Message::ALTAR_MS_ORDER);
+						smMsg->setAction(Message::STOP_SWITCH);
+						_entity->emitMessage(smMsg);
 
 					
 					}

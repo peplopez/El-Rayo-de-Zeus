@@ -104,7 +104,7 @@ namespace AI
 	{		
 		// La acción no acepta mensajes
 		return message->getType() == Message::ALTAR_MS_ORDER &&
-				message->getAction() == Message::SET_IDLE;
+				message->getAction() == Message::FINISH_SUCCESS;
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
@@ -114,11 +114,7 @@ namespace AI
 	*/
 	void CLA_AltarSwitch::process(CMessage *message)
 	{
-		CMessageBoolUShort *txMsg = new CMessageBoolUShort(); 
-		txMsg->setType(Message::SET_ANIMATION);		
-		txMsg->setUShort(Logic::IDLE);
-		txMsg->setBool(true);
-		_entity->emitMessage(txMsg);
+		finish(true);
 	}
 	
 	void CLA_AltarSwitch::tick(unsigned int msecs) 
