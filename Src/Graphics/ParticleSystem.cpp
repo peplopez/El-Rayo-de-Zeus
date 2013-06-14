@@ -68,14 +68,10 @@ namespace Graphics
 	void CParticleSystem::stop()
 	{
 		if(_movObj) { // MO tiene que ser !NULL; lo contrario significa que no hay un FX en curso
-			_movObj->StopFX();
-			//_movObj->detachFromParent();
-			//getSceneMgr()->destroyMovableObject(_movObj); 			
-			//_movObj = 0;
-
-		
+			_movObj->setVisible(false);
+			//_movObj->StopFX();		
 		}
-		//_movObj->StopFX();
+	
 	}
 		
 	
@@ -115,14 +111,11 @@ namespace Graphics
 	{		
 		assert( _movObj == static_cast<IHHFXOgre*>(obj)  
 			&& "Evento recibido para un MO distinto del wrappeado en este ParticleSystem");
-
-		//stop();
-
-		//_movObj->detachFromParent();
-		//getSceneMgr()->destroyMovableObject(_movObj); 
-		//_movObj = 0;
 		
-
+		_movObj->detachFromParent();
+		getSceneMgr()->destroyMovableObject(_movObj); 
+		_movObj = 0;
+		
 		// destroy the light created under ElectricOrb
 		// UNDONE FRS
 		//if (strstr(obj->GetPath(), "ElectricOrb.hfx") != NULL)

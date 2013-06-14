@@ -317,7 +317,7 @@ namespace Graphics
 		int ringIndex = 0;			
 			do{	
 				result = traceRay.intersects( RING_PLANES[ringIndex] ); 
-			} while(!result.first && ++ringIndex <= 3);
+			} while(!result.first && ++ringIndex < 3);
 
 
 		// RESULT CORRECTION
