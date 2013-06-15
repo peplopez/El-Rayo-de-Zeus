@@ -26,12 +26,16 @@ namespace AI
 
 	CLatentAction::LAStatus CLA_ChangeRing::OnStart()
 	{				
+		_mySense=_entity->getLogicalPosition()->getSense();
+		if (_mySense == Logic::Sense::LOOKING_CENTER)
+			return SUCCESS;
 		_changeDone = false;
 		_initialJumpSpeed = (_action == Message::GO_DOWN ? 100 : 410); //elocidad de salto inicial en caso de dejarse caer o saltar arriba
 		_initialRing = _entity->getLogicalPosition()->getRing();
 		_jumpSpeed = _initialJumpSpeed;
 		_jumpDecay =(_action == Message::GO_DOWN ? 400 : 570);
 		_turnSpeed= 0.005f/7; 
+		
 		sleepComponents();		//Desactivación de componentes
 		std::cout<<"AI::StateMachine::ChangeRing"<<std::endl;
 		CMessageBoolUShort *message = new CMessageBoolUShort();
@@ -39,7 +43,7 @@ namespace AI
 		message->setAction(Message::JUMP);				
 		message->setUShort(Logic::JUMP);
 		message->setBool(false);
-		_entity->emitMessage(message);		
+		_entity->emitMessage(message);	
 		turn();
 		return SUSPENDED;
 	}
@@ -49,15 +53,14 @@ namespace AI
 	{
 		std::cout<<"AI::StateMachine::ChangeRing-OnStop"<<std::endl;
 		awakeComponents();
+		if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+			_entity->getComponent<CPhysicalCharacter>()->enableCollisions();
 	}
 
 
 	CLatentAction::LAStatus CLA_ChangeRing::OnRun() 
 	{
-		if (this->getStatus()!=SUCCESS && this->getStatus()!=FAIL)
-			return RUNNING;
-		else 
-			return this->getStatus();
+		return RUNNING;
 	}
 
 
@@ -88,7 +91,8 @@ namespace AI
 	//PeP
 	void CLA_ChangeRing::tick(unsigned int msecs) 
 	{	
-		
+		CLatentAction::tick();
+
 		if (_turning)
 		{	
 			if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::RIGHT || _entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
@@ -101,7 +105,6 @@ namespace AI
 					float tickRotation = Math::PI * _turnSpeed * msecs;
 					_entity->yaw(tickRotation);
 					_acumRotation += tickRotation;
-					_mySense=Logic::LogicalPosition::RIGHT;
 					if (_acumRotation >= Math::PI/2)
 					{
 						_entity->yaw(-(_acumRotation - Math::PI/2));
@@ -116,7 +119,6 @@ namespace AI
 					float tickRotation = Math::PI * _turnSpeed * msecs;
 					_entity->yaw(-tickRotation);
 					_acumRotation += tickRotation;
-					_mySense=Logic::LogicalPosition::LEFT;
 					if (_acumRotation >= Math::PI/2)
 					{
 						_entity->yaw(_acumRotation - Math::PI/2);
@@ -126,121 +128,125 @@ namespace AI
 					}
 				}
 			
-			else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LOOKING_CENTER)
-			{
-				if (_targetSense == Logic::LogicalPosition::RIGHT)
-				{   
+				else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LOOKING_CENTER)
+				{
+					if (_targetSense == Logic::LogicalPosition::RIGHT)
+					{   
 					
-					float tickRotation = Math::PI * _turnSpeed* msecs; 
-					_entity->yaw(-tickRotation);
-					_acumRotation += tickRotation;
-					if (_acumRotation >= Math::PI/2)
+						float tickRotation = Math::PI * _turnSpeed* msecs; 
+						_entity->yaw(-tickRotation);
+						_acumRotation += tickRotation;
+						if (_acumRotation >= Math::PI/2)
+						{
+							_entity->yaw(_acumRotation - Math::PI/2);
+							_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::RIGHT);
+							_targetSense = Logic::LogicalPosition::UNDEFINED;
+							_acumRotation = 0;						
+							if (_changeDone)
+								finish(true);
+						}
+					}
+
+					else if (_targetSense == Logic::LogicalPosition::LEFT)
 					{
-						_entity->yaw(_acumRotation - Math::PI/2);
-						_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::RIGHT);
-						_targetSense = Logic::LogicalPosition::UNDEFINED;
-						_acumRotation = 0;						
-						if (_changeDone)
-							finish(true);
+						float tickRotation = Math::PI *_turnSpeed* msecs;
+						_entity->yaw(tickRotation);
+						_acumRotation += tickRotation;
+						if (_acumRotation >= Math::PI/2)
+						{
+							_entity->yaw(-(_acumRotation - Math::PI/2));
+							_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LEFT);
+							_targetSense = Logic::LogicalPosition::UNDEFINED;
+							_acumRotation = 0;
+							if (_changeDone)
+								finish(true);
+						}
+					}
+					else 
+					{
+						_turning=false;
+						jump();
+						if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+							_entity->getComponent<CPhysicalCharacter>()->disableCollisions();
 					}
 				}
-				else if (_targetSense == Logic::LogicalPosition::LEFT)
-				{
-					float tickRotation = Math::PI *_turnSpeed* msecs;
-					_entity->yaw(tickRotation);
-					_acumRotation += tickRotation;
-					if (_acumRotation >= Math::PI/2)
-					{
-						_entity->yaw(-(_acumRotation - Math::PI/2));
-						_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LEFT);
-						_targetSense = Logic::LogicalPosition::UNDEFINED;
-						_acumRotation = 0;
-						if (_changeDone)
-							finish(true);
-					}
-				}
-				else 
-				{
-					_turning=false;
-					jump();
-					if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
-						_entity->getComponent<CPhysicalCharacter>()->disableCollisions();
-				}
 			}
-		}
-		else
-		{
-			if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::RIGHT)
+
+			else
 			{
-				float tickRotation = Math::PI * _turnSpeed * msecs;
-				_entity->yaw(-tickRotation);
-				_acumRotation += tickRotation;
-				_mySense=Logic::LogicalPosition::RIGHT;
-				if (_acumRotation >= Math::PI/2)
+				if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::RIGHT)
 				{
-					_entity->yaw(+(_acumRotation - Math::PI/2));
-					_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LOOKING_CENTER);
-					_targetSense = Logic::LogicalPosition::UNDEFINED;
-					_acumRotation = 0;
-					
-				}
-			}
-			else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
-			{
-				float tickRotation = Math::PI * _turnSpeed * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
-				_entity->yaw(+tickRotation);
-				_acumRotation += tickRotation;
-				_mySense=Logic::LogicalPosition::LEFT;
-				if (_acumRotation >= Math::PI/2)
-				{
-					_entity->yaw(-(_acumRotation - Math::PI/2));
-					_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LOOKING_CENTER);
-					_targetSense = Logic::LogicalPosition::UNDEFINED;
-					_acumRotation = 0;
-				}
-			}
-			
-			else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LOOKING_CENTER)
-			{
-				if (_targetSense == Logic::LogicalPosition::RIGHT)
-				{   					
-					float tickRotation = Math::PI * _turnSpeed* msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
-					_entity->yaw(+tickRotation);
-					_acumRotation += tickRotation;
-					if (_acumRotation >= Math::PI/2)
-					{
-						_entity->yaw(-(_acumRotation - Math::PI/2));
-						_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::RIGHT);
-						_targetSense = Logic::LogicalPosition::UNDEFINED;
-						_acumRotation = 0;
-						if (_changeDone)
-							finish(true);
-					}
-				}
-				else if (_targetSense == Logic::LogicalPosition::LEFT)
-				{
-					float tickRotation = Math::PI *_turnSpeed* msecs;
+					float tickRotation = Math::PI * _turnSpeed * msecs;
 					_entity->yaw(-tickRotation);
 					_acumRotation += tickRotation;
 					if (_acumRotation >= Math::PI/2)
 					{
 						_entity->yaw(+(_acumRotation - Math::PI/2));
-						_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LEFT);
+						_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LOOKING_CENTER);
 						_targetSense = Logic::LogicalPosition::UNDEFINED;
 						_acumRotation = 0;
-						if (_changeDone)
-							finish(true);
+					
 					}
 				}
-				else 
+
+				else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
 				{
-					_turning=false;
-					jump();
-					if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
-						_entity->getComponent<CPhysicalCharacter>()->disableCollisions();
+					float tickRotation = Math::PI * _turnSpeed * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+					_entity->yaw(+tickRotation);
+					_acumRotation += tickRotation;
+					if (_acumRotation >= Math::PI/2)
+					{
+						_entity->yaw(-(_acumRotation - Math::PI/2));
+						_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LOOKING_CENTER);
+						_targetSense = Logic::LogicalPosition::UNDEFINED;
+						_acumRotation = 0;
+					}
 				}
-			}
-		}//else
+			
+				else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LOOKING_CENTER)
+				{
+					if (_targetSense == Logic::LogicalPosition::RIGHT)
+					{   					
+						float tickRotation = Math::PI * _turnSpeed* msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
+						_entity->yaw(+tickRotation);
+						_acumRotation += tickRotation;
+						if (_acumRotation >= Math::PI/2)
+						{
+							_entity->yaw(-(_acumRotation - Math::PI/2));
+							_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::RIGHT);
+							_targetSense = Logic::LogicalPosition::UNDEFINED;
+							_acumRotation = 0;
+							if (_changeDone)
+								finish(true);
+						}
+					}
+
+					else if (_targetSense == Logic::LogicalPosition::LEFT)
+					{
+						float tickRotation = Math::PI *_turnSpeed* msecs;
+						_entity->yaw(-tickRotation);
+						_acumRotation += tickRotation;
+						if (_acumRotation >= Math::PI/2)
+						{
+							_entity->yaw(+(_acumRotation - Math::PI/2));
+							_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LEFT);
+							_targetSense = Logic::LogicalPosition::UNDEFINED;
+							_acumRotation = 0;
+							if (_changeDone)
+								finish(true);
+						}
+					}
+
+					else 
+					{
+						_turning=false;
+						jump();
+						if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+							_entity->getComponent<CPhysicalCharacter>()->disableCollisions();
+					}
+				}
+			}//else
+
 		}//turning
 
 		if (_jumping)
@@ -248,15 +254,16 @@ namespace AI
 			//si estamos en trayectoria descendente activamos salida del salto
 			Logic::Ring ring = _entity->getLogicalPosition()->getRing();
 			
-			if (ring != _initialRing)
+			if (ring != _initialRing && _entity->getLogicalPosition()->getHeight() < 50)
 			{
 				_changeDone=true;
-			}
-			
-			if (_changeDone && _entity->getLogicalPosition()->getHeight() + 3 * _jumpSpeed * msecs * 0.001 <= 0) 
-			{
 				if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
 					_entity->getComponent<CPhysicalCharacter>()->enableCollisions();
+			}
+			
+			if (_changeDone && _entity->getLogicalPosition()->getHeight() +  _jumpSpeed * msecs * 0.001 <= 0) 
+			{
+
 				_jumping=false;
 				_targetSense=_mySense;
 				_jumpSpeed=_initialJumpSpeed;
@@ -275,7 +282,6 @@ namespace AI
 			}
 		}
 
-		CLatentAction::tick();//no olvideis llamar al tick de CLatentAction
 	}
 
 	void CLA_ChangeRing::sleepComponents()

@@ -31,7 +31,12 @@ namespace AI
 		
 		@param time Tiempo de espera
 		*/
-		CLA_ChangeRing(CEntity* entity, Message::TActionType action) : CLatentAction(),_jumping(false), _maxHeightReached(false), _targetSense(Logic::LogicalPosition::UNDEFINED), _acumRotation(0),_turning(false), _turnSpeed(0) {_action=action; this->setEntity(entity);};
+		CLA_ChangeRing(CEntity* entity, Message::TActionType action) : CLatentAction(),_jumping(false), _turning(false), _maxHeightReached(false), 
+				_targetSense(Logic::LogicalPosition::UNDEFINED), _acumRotation(0), _turnSpeed(0) 
+		{
+			_action=action; 
+			this->setEntity(entity);
+		};
 		/**
 		Destructor
 		*/
@@ -119,6 +124,7 @@ namespace AI
 		void turn();
 	protected:
 		
+		bool _turning;
 		bool _jumping;
 
 		float _jumpSpeed;
@@ -132,8 +138,6 @@ namespace AI
 		Logic::Sense _targetSense;
 
 		float _acumRotation;
-		
-		bool _turning;
 
 		bool _changeDone;
 

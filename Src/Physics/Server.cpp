@@ -105,14 +105,14 @@ namespace Physics {
 		TICK
 	***********/
 
-	void CServer::tick(unsigned int msecs) 
+	void CServer::tick(float secs) 
 	{
 		TScenes::const_iterator it = _scenes.begin();
 		TScenes::const_iterator end = _scenes.end();
 
 		for (; it != end; ++it)
 			if(it->second != _dummyScene)
-				it->second->tick(msecs);
+				it->second->tick(secs);
 	} // tick
 
 	

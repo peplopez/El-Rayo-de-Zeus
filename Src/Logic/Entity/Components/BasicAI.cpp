@@ -105,7 +105,7 @@ namespace Logic
 			
 		return (message->getType() == Message::TRIGGER && 
 			(message->getAction() == Message::TRIGGER_ENTER||
-			message->getAction() == Message::TRIGGER_EXIT) || message->getType() == Message::ALTAR_ACTIVATED ||  message->getAction() == Message::COVER) || (message->getType()==Message::ANIMATION_FINISHED 
+			message->getAction() == Message::TRIGGER_EXIT) || message->getType() == Message::ALTAR_SWITCHED ||  message->getAction() == Message::COVER) || (message->getType()==Message::ANIMATION_FINISHED 
 			||message->getType()==Message::COLLISION);
 	}
 		
@@ -132,7 +132,7 @@ namespace Logic
 					}
 					break;
 				}
-				case Message::ALTAR_ACTIVATED:
+				case Message::ALTAR_SWITCHED:
 				{	//este if es para saber si yo soy el que estaba activando el altar que se ha activado
 					if (!_agresivo)
 					if(_entity->getComponent<CAltarStateSwitcher>()->getTarget() == _entity->getMap()->getEntityByName(static_cast<CMessageString*>(message)->getString()))
@@ -202,7 +202,7 @@ namespace Logic
 			{
 				if (_waiting==false)
 				{
-					_reloj->addTimeObserver(_entity->getEntityID(),this,2500);		
+					_reloj->addTimeObserver(this, 2500);		
 					_waiting=true;
 				}
 				//en el mismo anillo

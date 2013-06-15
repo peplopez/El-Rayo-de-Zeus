@@ -197,10 +197,8 @@ namespace AI
 		}
 
 		CConditionMessageAction(Logic::Message::TMessageType messageType, Logic::Message::TActionType actionType) : 
-			_received(false), _messageType(messageType), _actionType(actionType), _initialStatus(true), _enabled(true)
+			_received(false), _messageType(messageType), _actionType(actionType), _initialStatus(true), _enabled(true), _messageTypeToActivate(Message::UNASSIGNED)
 		{
-			_messageTypeToActivate=Message::ALTAR_ACTIVATED; //por ejemplo, este no se usa
-			//_actionTypeToActivate=actionTypeToActivate;
 		}
 		/**
 		En el check sólo tenemos que comprobar el flag _received. Este flag
@@ -237,7 +235,7 @@ namespace AI
 			// La condición debe aceptar mensajes del tipo indicado en _messageType
 			if (_enabled)
 			{	
-				return (message->getType() == _messageType && message->getAction()==_actionType);
+				return (message->getType() == _messageType && message->getAction() == _actionType);
 			}
 			else
 			{	//return 

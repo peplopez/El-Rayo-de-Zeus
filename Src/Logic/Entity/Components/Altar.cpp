@@ -29,8 +29,12 @@ capacidad de un Character de activar/desactivar altares
 #include "Logic/RingInfo.h"
 #include "Logic/BaseInfo.h"
 #include "Logic/AltarInfo.h"
+#include "Logic/PlayerInfo.h"
 #include "Application/BaseApplication.h"
 #include "../../../Application/GameState.h"
+
+
+
 
 #define DEBUG 1
 #if DEBUG
@@ -78,48 +82,30 @@ namespace Logic
 
 	bool CAltar::activate()
 	{
-			//poner el submaterial de los altares desactivados de inicio
-			_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
+		//poner el submaterial de los altares desactivados de inicio
+		_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
 		
-			if (_on)
-				{
-					LOG(_entity->getName() << ": activado")
-					CMessageUIntString *m = new CMessageUIntString();	
-					m->setType(Message::SET_SUBENTITY_MATERIAL);
-					m->setString(_activatedMaterial);
-					m->setUInt(0);
-					_entity->emitMessage(m,this);
-					//_gameStatus->getPlayer(_entity->getLogicalPosition()->getBase())->increaseAltarsActivated();
-				
-				if (_player!=NULL)		
-					{
-					//aviso a _gameStatus
-					//de momento no, lo haré de otra manera, en AltarStateSwitcher
-					//	_altarInfo->setPlayer(_player);
+		if (_on)
+		{
+			LOG(_entity->getName() << ": activado")
+			CMessageUIntString *m = new CMessageUIntString();	
+			m->setType(Message::SET_SUBENTITY_MATERIAL);
+			m->setString(_activatedMaterial);
+			m->setUInt(0);
+			_entity->emitMessage(m,this);
+			_gameStatus->getPlayer(_entity->getLogicalPosition()->getBase())->increaseAltarsActivated();
+		}
+		else 
+		{
+			LOG(_entity->getName() << ": desactivado")
+			CMessageUIntString *m = new CMessageUIntString();	
+			m->setType(Message::SET_SUBENTITY_MATERIAL);
+			m->setString(_unactivatedMaterial);
+			m->setUInt(0);
+			_entity->emitMessage(m,this);
 
-						CMessageString *m2 = new CMessageString();	
-						m2->setType(Message::ALTAR_ACTIVATED);
-						m2->setString(_entity->getName());
-						_player->emitMessage(m2,this);
-					}
-				}
-				else 
-				{
-					LOG(_entity->getName() << ": desactivado")
-					CMessageUIntString *m = new CMessageUIntString();	
-					m->setType(Message::SET_SUBENTITY_MATERIAL);
-					m->setString(_unactivatedMaterial);
-					m->setUInt(0);
-					_entity->emitMessage(m,this);
-					if (_player!=NULL)
-					{
-						CMessageString *m2 = new CMessageString();	
-						m2->setType(Message::ALTAR_ACTIVATED);
-						m2->setString(_entity->getName());
-						_player->emitMessage(m2,this);
-					}
-				}
-				_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
+		}
+			_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
 		_acumTime = _switchingTime;
 
 		return true;
@@ -166,15 +152,6 @@ namespace Logic
 		LOG(_entity->getName() << ": cambiando de estado")	
 		_switchingState = true;
 		_revertingState = false;
-		if (_player)
-		{
-		
-			CMessage *m2 = new CMessage();
-			m2->setType(Message::ALTAR_MS_ORDER);
-			m2->setAction(Message::SWITCH_ALTAR);
-			_player->emitMessage(m2);
-		}
-
 	}
 
 	//---------------------------------------------------------
@@ -186,16 +163,6 @@ namespace Logic
 			LOG(_entity->getName() << ": volviendo al estado original")
 			_switchingState = false;
 			_revertingState = true;
-			if (_player)
-			{
-		
-				CMessage *m2 = new CMessage();
-				m2->setType(Message::ALTAR_MS_ORDER);
-				m2->setAction(Message::STOP_SWITCH);
-				_player->emitMessage(m2);
-			}
-
-
 		}
 	}
 	
@@ -212,54 +179,50 @@ namespace Logic
 			{
 				
 				_on = !_on;
-				/* avisamos a continuación al _gameStatus*/
 					
 				if (_on)
 				{
 					LOG(_entity->getName() << ": activado")
+					_gameStatus->getPlayer(_entity->getOriginBase())->increaseAltarsActivated();
 					CMessageUIntString *m = new CMessageUIntString();	
 					m->setType(Message::SET_SUBENTITY_MATERIAL);
 					m->setString(_activatedMaterial);
 					m->setUInt(0);
-					_entity->emitMessage(m,this);
-					//_gameStatus->getPlayer(_entity->getLogicalPosition()->getBase())->increaseAltarsActivated();
-				
-				if (_player!=NULL)		
+					_entity->emitMessage(m,this);				
+					if (_player != 0)		
 					{
-					//aviso a _gameStatus
-					//de momento no, lo haré de otra manera, en AltarStateSwitcher
-					//	_altarInfo->setPlayer(_player);
 
 						CMessageString *m2 = new CMessageString();	
-						m2->setType(Message::ALTAR_ACTIVATED);
-
+						m2->setType(Message::ALTAR_SWITCHED);
 						m2->setString(_entity->getName());
-						_player->emitMessage(m2,this);
-						stopSwitchingState();//para la máquina de estados que salga del estado.
+						_player->emitMessage(m2);
+						
 					}
 				}
 				else 
 				{
 					LOG(_entity->getName() << ": desactivado")
+					_gameStatus->getPlayer(_entity->getOriginBase())->decreaseAltarsActivated();
 					CMessageUIntString *m = new CMessageUIntString();	
 					m->setType(Message::SET_SUBENTITY_MATERIAL);
 					m->setString(_unactivatedMaterial);
 					m->setUInt(0);
 					_entity->emitMessage(m,this);
-					if (_player!=NULL)
+					if (_player != 0)
 					{
 						CMessageString *m2 = new CMessageString();	
-						m2->setType(Message::ALTAR_ACTIVATED);
+						m2->setType(Message::ALTAR_SWITCHED);
 						m2->setString(_entity->getName());
-						_player->emitMessage(m2,this);
-						stopSwitchingState();
+						_player->emitMessage(m2);
 					}
 				}
+
 				_switchingState = false;
 				_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
 				_acumTime = _switchingTime;
 			}
 		}
+
 		if (_revertingState)
 		{
 			_acumTime += msecs;

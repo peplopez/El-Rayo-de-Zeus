@@ -49,9 +49,12 @@ namespace Logic
 	{
 		NONE,
 		IDLE,
+		WALK,
 		RUN,
 		DEATH,
 		JUMP,
+		JUMP_DOWN,
+		ALERT,
 		DAMAGE,
 		ACTIVATE_ALTAR,
 		COVER_WITH_WEAPON,
@@ -70,7 +73,8 @@ namespace Logic
 		ANIMATION_END=1,
 		COMBO_TRACK=2,
 		DAMAGE_TRACK=3,
-		COVER_MOMENT=4
+		COVER_MOMENT=4,
+		ACTIVATION_MOMENT=5
 	};
 	
 

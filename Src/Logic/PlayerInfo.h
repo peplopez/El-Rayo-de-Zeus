@@ -85,6 +85,7 @@ namespace Logic
 		unsigned int getBasesActivated() { return _basesActivated;	}
 		
 		void increaseAltarsActivated();
+		void decreaseAltarsActivated();
 
 		unsigned int getAltarsActivated()
 		{

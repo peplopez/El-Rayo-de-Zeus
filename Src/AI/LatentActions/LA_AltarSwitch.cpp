@@ -1,14 +1,17 @@
 #include "LA_AltarSwitch.h"
 #include "../../Logic/Entity/Components/AnimatedGraphics.h"
+
 #include "Application/BaseApplication.h"
 
 #include "../../Logic/Entity/Components/Combat.h"
+#include "../../Logic/Entity/Components/BaseTraveler.h"
 
 #include "../StateMachines/StateMachine.h"
 
 #include "Logic/Entity/Messages/MessageBoolUShort.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
 #include "Logic/Entity/Messages/MessageString.h"
+
 namespace AI
 {
 
@@ -31,6 +34,8 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_AltarSwitch::OnStart()
 	{
+		
+
 		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
 		message->setUShort(Logic::ACTIVATE_ALTAR);
@@ -52,11 +57,6 @@ namespace AI
 	*/
 	void CLA_AltarSwitch::OnStop()
 	{
-		CMessageBoolUShort *message = new CMessageBoolUShort(); //anulado
-		message->setType(Message::SET_ANIMATION);		
-		message->setUShort(Logic::IDLE);
-		message->setBool(true);
-		//_entity->emitMessage(message);
 	}
 
 	/**
@@ -69,7 +69,7 @@ namespace AI
 	@return Estado de la acción tras la ejecución del método;
 	permite indicar si la acción ha terminado o se ha suspendido.
 	*/
-		CLatentAction::LAStatus CLA_AltarSwitch::OnRun() 
+	CLatentAction::LAStatus CLA_AltarSwitch::OnRun() 
 	{
 
 		return RUNNING;
@@ -85,7 +85,7 @@ namespace AI
 	@note <b>Importante:</b> el Abort <em>no</em> provoca la ejecución
 	de OnStop().
 	*/
-		CLatentAction::LAStatus  CLA_AltarSwitch::OnAbort() 
+	CLatentAction::LAStatus  CLA_AltarSwitch::OnAbort() 
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
 		return FAIL;
@@ -103,7 +103,8 @@ namespace AI
 	bool CLA_AltarSwitch::accept(const CMessage *message)
 	{		
 		// La acción no acepta mensajes
-		return false;
+		return message->getType() == Message::ALTAR_MS_ORDER &&
+				message->getAction() == Message::FINISH_SUCCESS;
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
@@ -111,14 +112,25 @@ namespace AI
 
 	@param msg Mensaje recibido.
 	*/
-	void CLA_AltarSwitch::process(CMessage *message){}
+	void CLA_AltarSwitch::process(CMessage *message)
+	{
+		finish(true);
+	}
 	
 	void CLA_AltarSwitch::tick(unsigned int msecs) 
 	{		
 		CLatentAction::tick();
 	}
 
-	void CLA_AltarSwitch::sleepComponents(){}
+	void CLA_AltarSwitch::sleepComponents()
+	{
 
-	void CLA_AltarSwitch::awakeComponents(){}
+	
+	}
+
+	void CLA_AltarSwitch::awakeComponents()
+	{
+
+	
+	}
 } //namespace LOGIC

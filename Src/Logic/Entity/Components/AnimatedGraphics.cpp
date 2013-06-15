@@ -82,10 +82,10 @@ namespace Logic
 				// Paramos todas las animaciones antes de poner una nueva.
 				// Un control más sofisticado debería permitir interpolación
 				// de animaciones. Galeon no lo plantea.
-				_graphicalEntity->stopAllAnimations();
+				_graphicalEntity->stopAnimation();
 				Logic::AnimationName name=static_cast<Logic::AnimationName>(rxMsg->getUShort());
 				std::string animString = _animSet->getAnimation(name);
-				if (_graphicalEntity->setAnimation(animString, 0, rxMsg ->getBool(),_animSet->getEventChain(name)))
+				if (_graphicalEntity->setAnimation(animString, 0, rxMsg->getBool(), _animSet->getEventChain(name)))
 					_currentLogicAnimation=name; //Tengo actualizada mi animación lógica actual
 				else
 					_currentLogicAnimation=Logic::AnimationName::NONE; //Tengo actualizada mi animación lógica actual
@@ -184,7 +184,6 @@ namespace Logic
 		if (entityInfo->hasAttribute("animCombo3"))
 			_animSet->addAnimation(Logic::COMBO3,entityInfo->getStringAttribute("animCombo3"));
 
-
 		if (entityInfo->hasAttribute("event_CT_Attack1"))
 			_animSet->addEventTime(Logic::ATTACK1, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack1"));
 		if (entityInfo->hasAttribute("event_CT_Attack2"))
@@ -198,10 +197,22 @@ namespace Logic
 			_animSet->addEventTime(Logic::ATTACK2, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack2"));
 		if (entityInfo->hasAttribute("event_DT_Attack3"))
 			_animSet->addEventTime(Logic::ATTACK3, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack3"));
+		if (entityInfo->hasAttribute("event_DT_Attack4")) //CORREGIR QUE FALLARÁ
+			_animSet->addEventTime(Logic::ATTACK3, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack4"));
 		if (entityInfo->hasAttribute("event_DT_Cover"))
 			_animSet->addEventTime(Logic::COVER_WITH_SHIELD, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
 		if (entityInfo->hasAttribute("event_DT_Cover"))
 			_animSet->addEventTime(Logic::COVER_WITH_WEAPON, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
+
+		//especificos de cancerbero
+		if (entityInfo->hasAttribute("animJumpDown"))
+			_animSet->addAnimation(Logic::JUMP_DOWN,entityInfo->getStringAttribute("animJumpDown"));
+		if (entityInfo->hasAttribute("animAlert"))
+			_animSet->addAnimation(Logic::ALERT,entityInfo->getStringAttribute("animAlert"));
+		if (entityInfo->hasAttribute("animWalk"))
+			_animSet->addAnimation(Logic::WALK,entityInfo->getStringAttribute("animWalk"));
+			
+
 		return true;
 	} // initializeAnimSet
 	
@@ -240,7 +251,7 @@ namespace Logic
 		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
 		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
 
-		if (_currentLogicAnimation==Logic::COVER_WITH_SHIELD || _currentLogicAnimation==Logic::COVER_WITH_WEAPON)
+		if (_currentLogicAnimation == Logic::COVER_WITH_SHIELD || _currentLogicAnimation == Logic::COVER_WITH_WEAPON)
 		{
 			_graphicalEntity->pauseAnimation(track.second);
 		}
@@ -248,7 +259,7 @@ namespace Logic
 		{
 			CMessageUShort *msg = new CMessageUShort();
 			msg->setUShort(_currentLogicAnimation);
-			switch (track.first)
+			switch (static_cast<Logic::Tracks>(track.first))
 			{
 			case Logic::DAMAGE_TRACK:				
 				msg->setType(Message::DAMAGE_MOMENT);	

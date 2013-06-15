@@ -16,6 +16,8 @@ Contiene la declaración de la clase que representa una entidad gráfica.
 #ifndef __Graphics_Entity_H
 #define __Graphics_Entity_H
 
+#pragma warning(disable: 4482)
+
 #include "Graphics\SceneElement.h"
 
 #include <stack>

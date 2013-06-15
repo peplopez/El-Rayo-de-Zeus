@@ -69,6 +69,10 @@ namespace Logic
 		*/
 		virtual void process(CMessage *message);
 
+		AI::CLatentAction* getCurrentAction() {return _currentAction;};
+
+		AI::CStateMachine<AI::CLatentAction> * getCurrentStateMachine() {return _currentStateMachine;}
+		
 	private:
 		/**
 		Almacena la máquina de estado que se está ejecutando

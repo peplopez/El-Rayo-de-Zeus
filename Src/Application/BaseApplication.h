@@ -174,7 +174,7 @@ namespace Application
 
 		@return Tiempo que la aplicación lleva activa.
 		*/
-		unsigned int getAppTime();
+		unsigned long getAppTime();
 
 		// Métodos de CKeyboardListener
 		

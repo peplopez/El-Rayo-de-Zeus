@@ -16,6 +16,8 @@ Contiene la deficion de la clase que maneja las posiciones lógicas
 #ifndef __Logic_LogicalPosition_H
 #define __Logic_LogicalPosition_H
 
+#pragma warning(disable: 4482)
+
 #include <string>
 
 #include "BaseSubsystems/Math.h"

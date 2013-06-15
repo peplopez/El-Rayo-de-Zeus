@@ -56,8 +56,8 @@ namespace Logic
 		
 			if (_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->areAllAltarsActivated())
 			{
-				_reloj->addTimeObserver(_entity->getEntityID(),this,5000);
-				_reloj->addTimeObserver(-_entity->getEntityID(),this,5500);
+				_reloj->addTimeObserver(this, 5000);
+				_reloj->addTimeObserver(this, 5500);
 				if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
 					_entity->getComponent<CPhysicalCharacter>()->sleep();
 			}
@@ -117,22 +117,16 @@ namespace Logic
 		
 	void CDestruction::tick(unsigned int msecs)
 	{
-		IComponent::tick(msecs);//esto está HACKEADO para que se destruya por el momento solo la base 1
-		//if (_entity->getLogicalPosition()->getBase()==1/* && _entity->getLogicalPosition()->getBase()->isDestroying()*/) // si es en la que estoy probando
-		//{
-			//if (_gameStatus->getBase(1)->areAllAltarsActivated() && !_destroying)
-		if (_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->areAllAltarsActivated() && !_destroying)
-			{
-				destroy();
-				_reloj->addTimeObserver(_entity->getEntityID(),this,5000);
-				_reloj->addTimeObserver(-_entity->getEntityID(),this,5500);
-				
-					/*if (_entity->getComponent<CAvatarController>()!=NULL)
-						_entity->getComponent<CAvatarController>()->sleep();*/
-			}
-		//}
+		IComponent::tick(msecs);
 
-	
+		if (_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->areAllAltarsActivated() && !_destroying)
+		{
+				destroy();
+				_reloj->addTimeObserver(this, 5000);
+				_reloj->addTimeObserver(this, 5500);
+				
+		}
+
 		if (_destroying)
 		{
 			if (_step>=1)
@@ -140,7 +134,7 @@ namespace Logic
 				
 			if (msecs>100) msecs=80;
 
-			_destroyingSpeed-= 0.0002f * msecs;   //gravedad 0.0003f
+			_destroyingSpeed-= 0.0002f * msecs;  
 			float tickHeight = _destroyingSpeed * msecs;
 
 			if (_entity->getType()!="World"){

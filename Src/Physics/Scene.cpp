@@ -89,9 +89,8 @@ namespace Physics
 	
 	//--------------------------------------------------------
 	 
-	void CScene::tick(unsigned int msecs)
+	void CScene::tick(float timeStep)
 	{	
-		float32 timeStep = msecs * 0.001f;
 		int32 velocityIterations = 6;
 		int32 positionIterations = 3;
 //#ifdef _DEBUG

@@ -20,6 +20,8 @@ de todo el juego.
 #include "Clock.h"
 #include "Graphics/Server.h"
 
+#include "TimeConstants.h"
+
 #include <assert.h>
 
 #define DEBUG 1
@@ -153,7 +155,7 @@ namespace Application {
 		// empezar, para que el primer frame tenga un tiempo
 		// de frame razonable.
 		_clock->updateTime();
-		unsigned long accumulator1 = 0;
+		unsigned int accumulator1 = 0;
 
 
 		// Ejecución del bucle principal. Simplemente miramos si
@@ -168,27 +170,27 @@ namespace Application {
 			_clock->updateTime();
 			
 			accumulator1 += _clock->getLastFrameDuration();
-			if (accumulator1 > 200)
-				accumulator1 = 20;
+			if (accumulator1 > TIMESTEP_USECS * 20) //si vamos con un retraso superior a 20 ticks, reseteamos
+				accumulator1 = TIMESTEP_USECS;
 	
 			
 			//FIXED UPDATE
 			//LOG(accumulator);
-			while (accumulator1 >= 20)
+			while (accumulator1 >= TIMESTEP_USECS)
 			{	
-				tick(20);
-				accumulator1 -= 20;
+				tick(TIMESTEP_MSECS);
+				accumulator1 -= TIMESTEP_USECS;
 			}
 			//LOG(_clock->getLastFrameDuration());
 			GUI::CInputManager::getSingletonPtr()->tick();
-			Graphics::CServer::getSingletonPtr()->tick(_clock->getLastFrameDuration() * 0.001f);
+			Graphics::CServer::getSingletonPtr()->tick(_clock->getLastFrameDuration() * 0.000001f);
 		}
 
 	} // run
 
 	//--------------------------------------------------------
 
-	unsigned int CBaseApplication::getAppTime() 
+	unsigned long CBaseApplication::getAppTime() 
 	{
 		return _clock->getTime();
 
@@ -294,14 +296,17 @@ namespace Application {
 		if (!_clock->_timeObservers.empty())
 		{
 			IClock::TTimeObserverList::const_iterator it = _clock->_timeObservers.begin();
-			for(; it != _clock->_timeObservers.end(); it++)
+			IClock::TTimeObserverList::const_iterator end = _clock->_timeObservers.end();
+			while(it != end)
 			{
-				if (!_clock->_timeObservers.empty())
-				if (_clock->getTime()>=(*it).second.second)
+				if (_clock->getTime() >= it->second)
 				{
-					(*it).second.first->timeArrived();
-					_clock->removeTimeObserver((*it).first);
-					break;
+					it->first->timeArrived();
+					_clock->_timeObservers.erase(it++);
+				}
+				else
+				{
+					++it;
 				}
 			}
 		}
