@@ -49,7 +49,7 @@ namespace AI
 	*/
 	void CLA_Cover::OnStop()
 	{
-
+		awakeComponents();
 	}
 
 	/**
@@ -126,13 +126,17 @@ namespace AI
 	void CLA_Cover::sleepComponents()
 	{
 		if (_entity->getComponent<CAvatarController>()!=NULL)
-				_entity->getComponent<CAvatarController>()->sleep();		
+				_entity->getComponent<CAvatarController>()->sleep();	
+		if (_entity->getComponent<CJump>()!=NULL)
+				_entity->getComponent<CJump>()->sleep();		
 	}
 
 	void CLA_Cover::awakeComponents()
 	{ 
 		if (_entity->getComponent<CAvatarController>()!=NULL)
 				_entity->getComponent<CAvatarController>()->awake();
+		if (_entity->getComponent<CJump>()!=NULL)
+				_entity->getComponent<CJump>()->awake();	
 		if (_entity->getComponent<CCombat>()!=NULL)
 				_entity->getComponent<CCombat>()->setCovering(false);		
 	}
