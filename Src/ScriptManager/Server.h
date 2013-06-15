@@ -50,8 +50,6 @@ namespace ScriptManager
 		*/
 		static CServer* getSingletonPtr() {return _instance;}
 
-		//static CServer &getSingleton() { return *_instance; }
-
 		/**
 		Inicializa la instancia
 

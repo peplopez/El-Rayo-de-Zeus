@@ -187,6 +187,10 @@ namespace Logic
 
 					if(message->getAction() == Message::DISPLAY_SHOP)
 						displayShop();
+					if(message->getAction() == Message::ACTIVATE_SHOP)
+						activateControl();
+					if(message->getAction() == Message::DEACTIVATE_SHOP)
+						deactivateControl();
 			}
 
 	} // process

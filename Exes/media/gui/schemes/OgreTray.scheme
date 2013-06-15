@@ -34,6 +34,7 @@
 	<FalagardMapping WindowType="OgreTray/TitleInit"            TargetType="DefaultWindow"          Renderer="Falagard/Default"             LookNFeel="OgreTray/MiniTrayInit" />	
     <FalagardMapping WindowType="OgreTray/CaptionedStaticText"  TargetType="DefaultWindow"          Renderer="Falagard/StaticText"          LookNFeel="OgreTray/CaptionedStaticText" />
     <FalagardMapping WindowType="OgreTray/ProgressBar"          TargetType="CEGUI/ProgressBar"      Renderer="Falagard/ProgressBar"         LookNFeel="OgreTray/ProgressBar" />
+	<FalagardMapping WindowType="OgreTray/ProgressBarLife"      TargetType="CEGUI/ProgressBar"      Renderer="Falagard/ProgressBar"         LookNFeel="OgreTray/ProgressBarLife" />
     <FalagardMapping WindowType="OgreTray/Editbox"              TargetType="CEGUI/Editbox"          Renderer="Falagard/Editbox"             LookNFeel="OgreTray/Editbox" />
     <FalagardMapping WindowType="OgreTray/MultiLineEditbox"     TargetType="CEGUI/MultiLineEditbox" Renderer="Falagard/MultiLineEditbox"    LookNFeel="OgreTray/MultiLineEditbox" />
     <FalagardMapping WindowType="OgreTray/Listbox"              TargetType="CEGUI/Listbox"          Renderer="Falagard/Listbox"             LookNFeel="OgreTray/Listbox" />

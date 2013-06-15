@@ -99,6 +99,18 @@ namespace AI
 			_scene->deactivateCompositor("BW"); //desactivo el compositor blanco y negro
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud"); //muestro el HUD
 			//ScriptManager::CServer::getSingletonPtr()->executeProcedure("showShop"); //muestro el SHOP
+
+			//PT. In case we were in Shop when we died (PlayerController and CameraController are deactivated
+			//and when we Respawn we lost Player Controls.
+
+			//Send msg
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::SHOP);
+			m->setAction(Logic::Message::DEACTIVATE_SHOP);
+			_entity->emitMessage(m);
+
+
+			//respawn player
 			respawn();
 
 		}

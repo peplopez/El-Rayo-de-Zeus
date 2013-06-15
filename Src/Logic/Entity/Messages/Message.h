@@ -108,7 +108,9 @@ namespace Logic
 			DAMAGE				= 0x36,
 			DESTROY				= 0x37,
 			UPDATE_HUD_LIFE		= 0x38,
-			DISPLAY_SHOP		= 0x39
+			DISPLAY_SHOP		= 0x39,
+			ACTIVATE_SHOP		= 0x40,
+			DEACTIVATE_SHOP		= 0x41
 		};
 	}
 

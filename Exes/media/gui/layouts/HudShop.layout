@@ -30,11 +30,12 @@
 			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.07,0},{0,230},{0.3,0}}" />
 		</Window>	
 		
-		<Window Type="OgreTray/ProgressBar" Name="Root/Hud/Life" >
+		<Window Type="OgreTray/ProgressBarLife" Name="Root/Hud/Life" >
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 			<Property Name="CurrentProgress" Value="1" />		
 			<Property Name="AlwaysOnTop" Value="True" />
-			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.305,0},{0,230},{0.35,0}}" />
+			<!-- <Property Name="UnifiedAreaRect" Value="{{0,110},{0.305,0},{0,230},{0.35,0}}" /> -->
+			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.305,0},{0,230},{0.45,0}}" />
 		</Window>
 		
 		<Window Type="OgreTray/StaticImage" Name="Root/Hud/RayoBase" >
