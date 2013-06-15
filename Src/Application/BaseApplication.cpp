@@ -170,8 +170,8 @@ namespace Application {
 			_clock->updateTime();
 			
 			accumulator1 += _clock->getLastFrameDuration();
-			//if (accumulator1 > TIMESTEP_USECS * 10) //si vamos con un retraso superior a 10 ticks, reseteamos
-			//	accumulator1 = TIMESTEP_USECS;
+			if (accumulator1 > TIMESTEP_USECS * 20) //si vamos con un retraso superior a 20 ticks, reseteamos
+				accumulator1 = TIMESTEP_USECS;
 	
 			
 			//FIXED UPDATE

@@ -138,7 +138,7 @@ namespace Logic
 	{
 		IComponent::tick(msecs);
 	
-		if(!_target || (msecs > 1000))
+		if(!_target)
 			return;
 		
 

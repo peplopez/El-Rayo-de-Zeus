@@ -33,7 +33,9 @@ namespace Logic
 			return false;				
 		
 		if(entityInfo->hasAttribute("angularSpeed"))
-			_angularSpeed=entityInfo->getFloatAttribute("angularSpeed");
+			_angularSpeed = entityInfo->getFloatAttribute("angularSpeed");
+		if(entityInfo->hasAttribute("turnSpeedFactor"))
+			_turnSpeedFactor = entityInfo->getFloatAttribute("turnSpeedFactor");
 
 		return true;
 
@@ -83,17 +85,11 @@ namespace Logic
 	void CAvatarController::process(CMessage *message)
 	{
 		if(message->getAction() == Message::WALK_LEFT)
-		{
-				walkLeft();
-		}
+			walkLeft();
 		else if(message->getAction() == Message::WALK_RIGHT)
-		{	
-				walkRight();
-		}
+			walkRight();
 		else if(message->getAction() == Message::WALK_STOP)
-		{
-				stopMovement();
-		}
+			stopMovement();
 	} // process
 	
 	//---------------------------------------------------------
@@ -125,6 +121,79 @@ namespace Logic
 		m->setAction(Logic::Message::WALK_STOP);
 
 	}
+
+	//---------------------------------------------------------
+
+	void CAvatarController::emitAngularSpeed(Logic::Sense sense)
+	{
+		Logic::CMessageFloat *m = new Logic::CMessageFloat();
+			m->setType(Logic::Message::AVATAR_MOVE);
+
+		switch (sense)
+		{
+		case Logic::Sense::RIGHT: 
+			m->setAction(Logic::Message::WALK_RIGHT);
+			m->setFloat(-_angularSpeed);
+			break;
+		case Logic::Sense::LEFT: 
+			m->setAction(Logic::Message::WALK_LEFT);
+			m->setFloat(_angularSpeed);
+			break;
+		}
+
+		_entity->emitMessage(m);
+
+	}
+
+	//---------------------------------------------------------
+
+	void CAvatarController::estimateRotation(Logic::Sense sense)
+	{
+		_targetSense = sense;
+		if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
+			_totalYaw = Math::PI * 0.5f;
+		else
+			_totalYaw = Math::PI;
+	}
+
+	//---------------------------------------------------------
+
+	void CAvatarController::rotate(Logic::Sense sense, unsigned int msecs)
+	{
+
+		float tickRotation = Math::PI * _turnSpeedFactor * msecs;
+		
+		switch (sense)
+		{
+		case Logic::Sense::RIGHT:
+
+			_entity->yaw(-tickRotation);
+			_acumRotation += tickRotation;
+			if (_acumRotation >= _totalYaw)
+			{
+				_entity->yaw(_acumRotation - _totalYaw);
+				_entity->getLogicalPosition()->setSense(Logic::Sense::RIGHT);
+				_targetSense = Logic::LogicalPosition::UNDEFINED;
+				_acumRotation = 0.0f;
+			}
+			break;
+
+		case Logic::Sense::LEFT:
+
+			_entity->yaw(tickRotation);
+			_acumRotation += tickRotation;
+			if (_acumRotation >= _totalYaw)
+			{
+				_entity->yaw(-(_acumRotation - _totalYaw));
+				_entity->getLogicalPosition()->setSense(Logic::Sense::LEFT);
+				_targetSense = Logic::LogicalPosition::UNDEFINED;
+				_acumRotation = 0.0f;
+			}
+			break;
+		}
+
+	}
+
 	//---------------------------------------------------------
 
 	void CAvatarController::tick(unsigned int msecs)
@@ -132,73 +201,31 @@ namespace Logic
 		IComponent::tick(msecs);
 
 		
-		//si estamos andado hacia la derecha y no está girando
-		if(_walkingRight && _targetSense == Logic::LogicalPosition::UNDEFINED)
+		//si está andado hacia la derecha y no está rotando sobre si mismo
+		if(_walkingRight && _targetSense == Logic::Sense::UNDEFINED)
 		{		
-			if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::RIGHT)
-			{
-				Logic::CMessageFloat *m = new Logic::CMessageFloat();
-				m->setType(Logic::Message::AVATAR_MOVE);
-				m->setAction(Logic::Message::WALK_RIGHT);
-				m->setFloat(-_angularSpeed);
-				_entity->emitMessage(m);
-			}
-			//rotar hacia derecha
-			else
-			{
-				_targetSense = Logic::LogicalPosition::RIGHT;
-			}
+			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT)
+				emitAngularSpeed(Logic::Sense::RIGHT);	
+			else //rotar hacia derecha
+				estimateRotation(Logic::LogicalPosition::RIGHT);
 		}
-		//si estamos andado hacia la hacia la izquierda y no está rotando
-		else if (_walkingLeft && _targetSense == Logic::LogicalPosition::UNDEFINED)
+		//si está andado hacia la derecha y no está rotando sobre si mismo
+		else if (_walkingLeft && _targetSense == Logic::Sense::UNDEFINED)
 		{
-			if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
-			{
-				Logic::CMessageFloat *m = new Logic::CMessageFloat();
-				m->setType(Logic::Message::AVATAR_MOVE);
-				m->setAction(Logic::Message::WALK_LEFT);
-				m->setFloat(_angularSpeed);
-				_entity->emitMessage(m);
-			}
-			//rotar hacia izquierda
-			else
-			{
-				_targetSense = Logic::LogicalPosition::LEFT;
-			}
+			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT)
+				emitAngularSpeed(Logic::Sense::LEFT);	
+			else //rotar hacia izquierda
+				estimateRotation(Logic::LogicalPosition::LEFT);
 		}
 		//rotacion a derechas
-		else if (_targetSense == Logic::LogicalPosition::RIGHT)
+		else if (_targetSense == Logic::Sense::RIGHT)
 		{
-			float totalYaw = Math::PI;
-			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
-				totalYaw = Math::PI * 0.5f;
-			float tickRotation = Math::PI * 0.005f * msecs; //0.005hack, a susituir por turnSpeed dirigida por datos
-			_entity->yaw(-tickRotation);
-			_acumRotation += tickRotation;
-			if (_acumRotation >= totalYaw)
-			{
-				_entity->yaw(_acumRotation - totalYaw);
-				_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::RIGHT);
-				_targetSense = Logic::LogicalPosition::UNDEFINED;
-				_acumRotation = 0;
-			}
+			rotate(Logic::Sense::RIGHT, msecs);
 		}
 		//rotacion a izquierdas
-		else if (_targetSense == Logic::LogicalPosition::LEFT)
+		else if (_targetSense == Logic::Sense::LEFT)
 		{
-			float totalYaw = Math::PI;
-			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
-				totalYaw = Math::PI * 0.5f;
-			float tickRotation = Math::PI * 0.005f * msecs;
-			_entity->yaw(tickRotation);
-			_acumRotation += tickRotation;
-			if (_acumRotation >= totalYaw)
-			{
-				_entity->yaw(-(_acumRotation - totalYaw));
-				_entity->getLogicalPosition()->setSense(Logic::LogicalPosition::LEFT);
-				_targetSense = Logic::LogicalPosition::UNDEFINED;
-				_acumRotation = 0;
-			}
+			rotate(Logic::Sense::LEFT, msecs);
 		}	
 
 	} // tick

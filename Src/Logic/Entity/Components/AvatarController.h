@@ -14,6 +14,8 @@ de la entidad.
 #ifndef __Logic_AvatarController_H
 #define __Logic_AvatarController_H
 
+#pragma warning(disable: 4482)
+
 #include "Logic/Entity/Component.h"
 #include "Logic/Entity/LogicalPosition.h"
 
@@ -49,7 +51,8 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAvatarController() : IComponent(GetAltTypeIdOf(CAvatarController)), _angularSpeed(0.00625f), _targetSense(Logic::LogicalPosition::UNDEFINED), _walkingRight(false), _walkingLeft(false), _acumRotation(0){}
+		CAvatarController() : IComponent(GetAltTypeIdOf(CAvatarController)), _angularSpeed(0), _turnSpeedFactor(0), _totalYaw(0),
+				_targetSense(Logic::LogicalPosition::UNDEFINED), _walkingRight(false), _walkingLeft(false), _acumRotation(0){}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -123,7 +126,6 @@ namespace Logic
 		*/
 		virtual void process(CMessage *message);
 
-
 		/**
 		Provoca que la entidad avance a la RIGHT.
 		*/
@@ -139,6 +141,8 @@ namespace Logic
 		*/
 		void stopMovement();
 
+		/**
+		*/
 		bool isWalkingRight() {return _walkingRight;}
 
 		bool isWalkingLeft() {return _walkingLeft;}
@@ -162,13 +166,36 @@ namespace Logic
 		Logic::Sense _targetSense;
 
 		/**
+		*/
+		float _totalYaw;
+
+		/**
 		Atributo que indica la magnitud de velocidad de la entidad.
 		*/
 		float _angularSpeed;
+
+		/**
+		Factor que se aplica a la velocidad de giro por defecto
+		*/
+		float _turnSpeedFactor;
 		
 		/**
 		*/
 		float _acumRotation;
+		
+		/**
+		*/
+		void emitAngularSpeed(Logic::Sense sense);
+
+		/**
+		*/
+		void estimateRotation(Logic::Sense sense);
+
+		/**
+		*/
+		void rotate(Logic::Sense sense, unsigned int msecs);
+
+	
 
 	}; // class CAvatarController
 
