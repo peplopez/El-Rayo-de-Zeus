@@ -35,7 +35,13 @@ de una escena.
 #include "GlowMaterialListener.h"
 #include "SceneElement.h"
 
-
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "GRAPHICS::SCENE>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 namespace Graphics 
 {
@@ -298,42 +304,58 @@ namespace Graphics
 	//-------------------------------------------------------------------------------------
 
 	// HACK FRS Esto hay que migrarlo a LOGIC -> map? y usar los valores correctos
+	// TODO FRS Habría que tener en cuenta colisiones con planos superiores (por fuerzas no gravitatorias?)
 	bool CScene::_hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, 
 		const Ogre::Vector3 &direction, float length, SContactReport &contactReport)
 	{
-			
-		static const Ogre::Plane RING_PLANES[] = { 
-			Ogre::Plane(	Vector3::UNIT_Y,  100), 
-			Ogre::Plane(	Vector3::UNIT_Y,    0), 	
-			Ogre::Plane(	Vector3::UNIT_Y, -100)
-		};
-		static const int RADIUS_SQR_MIN[] = {1500, 3364, 1500}; // Probando con radios 73 y 58  +-20 de anchura
-		static const int RADIUS_SQR_MAX[] = {6000, 10000, 6000}; // TODO CServer::getSingletonPtr()->getRingRadio(ring)
-		
+		//LOG("Particle Position = " << start.x << " , " << start.y << " , " << start.z)
 
+		// CONSTANTS
+		static const int RING_HEIGHT = 50;
+		static const int RING_HEIGHT_OFFSET = 1.4;
+		static const Ogre::Plane RING_PLANES[] = { 
+			Ogre::Plane(	Vector3::UNIT_Y,  RING_HEIGHT + RING_HEIGHT_OFFSET), 
+			Ogre::Plane(	Vector3::UNIT_Y,			    RING_HEIGHT_OFFSET), 	
+			Ogre::Plane(	Vector3::UNIT_Y, -RING_HEIGHT + RING_HEIGHT_OFFSET)
+		};
+		
+		//TODO CServer::getSingletonPtr()->getRingRadio(ring)
+		static const int RING_WIDTH = 50; // TODO FRS Si los anillos están escalados, hay que hacer 3 versiones
+		static const int RING_RAD[] = {58, 73, 58};
+		static const int RING_RAD_SQR[] = { RING_RAD[0] * RING_RAD[0], 
+											RING_RAD[1] * RING_RAD[1],
+											RING_RAD[2] * RING_RAD[2]}; 
+		static const int RAD_SQR_MIN[] = { 
+			(RING_RAD[0] - RING_WIDTH/2) * (RING_RAD[0] - RING_WIDTH/2),
+			(RING_RAD[1] - RING_WIDTH/2) * (RING_RAD[1] - RING_WIDTH/2), 
+			(RING_RAD[2] - RING_WIDTH/2) * (RING_RAD[2] - RING_WIDTH/2)}; 
+		static const int RAD_SQR_MAX[] = {
+			(RING_RAD[0] + RING_WIDTH/2) * (RING_RAD[0] + RING_WIDTH/2),
+			(RING_RAD[1] + RING_WIDTH/2) * (RING_RAD[1] + RING_WIDTH/2), 
+			(RING_RAD[2] + RING_WIDTH/2) * (RING_RAD[2] + RING_WIDTH/2)}; 
+
+		int ringIndex = 0;
+		for(; ringIndex < 3 && start.y < -RING_PLANES[ringIndex].d; ++ringIndex); // d = -height
+			if(ringIndex == 3)
+				return false; // Por debajo del anillo inferior -> Imposible ninguna colisión por efecto gravitatorio
+				
 		// CHECK RING INTERSECT
 		Ray	traceRay(start, direction);
-		std::pair<bool, Ogre::Real> result;
-		int ringIndex = 0;			
-			do{	
-				result = traceRay.intersects( RING_PLANES[ringIndex] ); 
-			} while(!result.first && ++ringIndex < 3);
+		std::pair<bool, Ogre::Real> result = traceRay.intersects( RING_PLANES[ringIndex] ); 
 
+		if (result.first) { // Correcting Result 
 
-		// RESULT CORRECTION
-		if (result.first) 
-		{
 			contactReport.m_Point = traceRay.getPoint(result.second);
 			float contactSqrDist =	contactReport.m_Point.x * contactReport.m_Point.x +
-									contactReport.m_Point.y * contactReport.m_Point.y;
+									contactReport.m_Point.z * contactReport.m_Point.z;
 			
 			// stay on our "visible" ring
-			if (contactSqrDist > RADIUS_SQR_MIN[ringIndex] && contactSqrDist < RADIUS_SQR_MAX[ringIndex]) {						
+			if (contactSqrDist > RAD_SQR_MIN[ringIndex] && contactSqrDist < RAD_SQR_MAX[ringIndex]) {						
 				contactReport.m_Time = result.second;
-				contactReport.m_Normal = RING_PLANES[ringIndex].normal;
-			
-			} else
+				contactReport.m_Normal = RING_PLANES[ringIndex].normal;			
+			} else {
 				result.first = false;
+			}
 		}
 
 		return result.first;
@@ -364,7 +386,7 @@ namespace Graphics
 			view.setHHFXScene(*_hhfxScene);
 			view.setViewMatrix(worldTransforms);
 			view.setSceneManager(*_sceneMgr);
-			view.setUsePostFX(true);
+			view.setUsePostFX(true); // FRS no se si sirve realmente para nada
 
 		_hhfxScene->Render(view, camPos);
 
