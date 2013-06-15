@@ -119,7 +119,11 @@
     <ClInclude Include="..\..\Src\AI\Perception\SightSensor.h" />
     <ClInclude Include="..\..\Src\AI\Server.h" />
     <ClInclude Include="..\..\Src\AI\StateMachines\Condition.h" />
+    <ClInclude Include="..\..\Src\AI\StateMachines\SM_Cancerbero.h" />
+    <ClInclude Include="..\..\Src\AI\StateMachines\SM_Hercules.h" />
+    <ClInclude Include="..\..\Src\AI\StateMachines\SM_Sinbad.h" />
     <ClInclude Include="..\..\Src\AI\StateMachines\StateMachine.h" />
+    <ClInclude Include="..\..\Src\AI\StateMachines\StateMachineFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseSubsystems\BaseSubsystems.vcxproj">

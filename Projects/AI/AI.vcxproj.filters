@@ -163,5 +163,17 @@
     <ClInclude Include="..\..\Src\AI\LatentActions\LA_AltarSwitch.h">
       <Filter>Decision\LatentActions\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\AI\StateMachines\SM_Hercules.h">
+      <Filter>Decision\StateMachines\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\StateMachines\SM_Sinbad.h">
+      <Filter>Decision\StateMachines\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\StateMachines\SM_Cancerbero.h">
+      <Filter>Decision\StateMachines\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\StateMachines\StateMachineFactory.h">
+      <Filter>Decision\StateMachines\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
