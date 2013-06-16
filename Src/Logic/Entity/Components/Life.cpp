@@ -92,18 +92,15 @@ namespace Logic
 		if (entityInfo->hasAttribute("audio") )
 			_audio = entityInfo->getStringAttribute("audio");
 
-
+		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
 		//Si la entidad no es el PLAYER le creamos el Billboard
 
 		if(!_entity->isPlayer())
 		{
 			// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
-			std::stringstream ssAux; // FRS Importante añadir ID para evitar entidades gráficas con = nombre
-				ssAux << _entity->getName() << _entity->getEntityID();
-				std::string	parentName = ssAux.str();
 
 			_lifeBarBB = new Graphics::CBillboard( 
-				parentName,// nombre de la entidad gráfica de ref
+				_entity->getGraphicalName(),// nombre de la entidad gráfica de ref
 				Vector3(0, lifeBarPosition, 0), 
 				lifeBarWidth, lifeBarHeight, "lifeBar"
 			);  		

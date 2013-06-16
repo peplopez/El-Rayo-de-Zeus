@@ -33,10 +33,8 @@ capacidad de un Character de activar/desactivar altares
 #include "Application/BaseApplication.h"
 #include "../../../Application/GameState.h"
 
+#define DEBUG 0
 
-
-
-#define DEBUG 1
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "LOGIC::ALTAR>> " << msg << std::endl;
@@ -188,8 +186,15 @@ namespace Logic
 					m->setType(Message::SET_SUBENTITY_MATERIAL);
 					m->setString(_activatedMaterial);
 					m->setUInt(0);
-					_entity->emitMessage(m,this);				
-					if (_player != 0)		
+					_entity->emitMessage(m,this);		
+
+/////////////////////////////////// HACK TEST FRS Para probar FX
+					CMessage *txMsg = new CMessage();	
+						txMsg->setType(Message::FX_START);		
+						_entity->emitMessage(txMsg,this);
+//////////////////////////////////////////////////////////////////
+		
+					if (!_player)
 					{
 
 						CMessageString *m2 = new CMessageString();	
@@ -213,8 +218,15 @@ namespace Logic
 						CMessageString *m2 = new CMessageString();	
 						m2->setType(Message::ALTAR_SWITCHED);
 						m2->setString(_entity->getName());
-						_player->emitMessage(m2);
+						_player->emitMessage(m2); // FRS te lo envías incluido a ti mismo, seguro?
 					}
+
+
+///////////// HACK TEST FRS Para probar FX -> Aunque poco se puede probar ya que no tenemos esa funcionalidad impl. :S
+		CMessage *txMsg = new CMessage();	
+			txMsg->setType(Message::FX_STOP);
+			_entity->emitMessage(txMsg,this);
+////////////////////
 				}
 
 				_switchingState = false;
@@ -229,9 +241,9 @@ namespace Logic
 			if (_acumTime >= _switchingTime)
 			{
 				if (_on)
-					LOG(_entity->getName() << ": activado")
+					LOG(_entity->getName() << ": activado");
 				else 
-					LOG(_entity->getName() << ": desactivado")
+					LOG(_entity->getName() << ": desactivado");
 
 				_revertingState = false;
 				_acumTime = _switchingTime;

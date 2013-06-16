@@ -13,22 +13,26 @@ de juego. Es una colección de componentes.
 
 #include "Entity.h"
 
+#include <assert.h>
+
+#include <GUI/Server.h>
+#include <GUI/PlayerController.h>
+#include <GUI/CameraController.h>
+
+#include <Logic/Entity/Messages/Message.h>
+#include <Logic/Entity/Messages/MessageTF.h>
+#include <Logic/Entity/Messages/MessageBoolTF.h>
+#include <Logic/Maps/Map.h>
+#include <Logic/Server.h>
+
+#include <Map/MapEntity.h>
+
 // Componentes
 #include "Component.h"
 
-#include "Logic/Server.h"
-#include "Logic/Maps/Map.h"
-#include "Map/MapEntity.h"
 
-#include "GUI/Server.h"
-#include "GUI/PlayerController.h"
-#include "GUI/CameraController.h"
 #include "GUI/HudController.h" //PT
 #include "GUI/ShopController.h" //PT
-
-#include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageTF.h"
-#include "Logic/Entity/Messages/MessageBoolTF.h"
 
 namespace Logic 
 {
@@ -44,7 +48,6 @@ namespace Logic
 	CEntity::~CEntity()
 	{
 		assert(!_map && "¡¡Antes de destruir la entidad debe desacoplarse del mapa!!");
-
 		destroyAllComponents();
 
 	} // ~CEntity
@@ -58,11 +61,19 @@ namespace Logic
 		_type = entityInfo->getType();
 		_logicInput = false;
 		_offsetHeight  = 0;
+
 		Vector3 position = Vector3::ZERO;	
 		_pos = new CLogicalPosition();
-		if(entityInfo->hasAttribute("name"))
+
+		assert(entityInfo->hasAttribute("name")) ;
 			_name = entityInfo->getStringAttribute("name");	
 
+		// FRS GRAPHICAL NAME = name + ID => para evitar entidades gráficas con = nombre
+		std::stringstream ssAux; 
+			ssAux << _name << _entityID;
+			_graphicalName = ssAux.str();
+		
+		// TODO FRS Este parámetro no es necesario -> se puede deducir del siguiente if
 		if(entityInfo->hasAttribute("logicInput"))
 			_logicInput = entityInfo->getBoolAttribute("logicInput");
 
@@ -161,50 +172,36 @@ namespace Logic
 
 		// Inicializamos los componentes
 		bool correct = true;
-		TComponentMap::const_iterator it; // TODO FRS acceso secuencial mejor con vector TComponentList::const_iterator it;		
-			for( it = _components.begin(); it != _components.end() && correct; ++it )
-				//PT. comento todo esto, y solo dejo la linea que se necesita
-				
-				//if (this->getEntityID() == 46)
-			 //       correct = it->second->spawn(this,map,entityInfo) && correct;
-				//else
-				//	correct = it->second->spawn(this,map,entityInfo) && correct;
-				//// correct = (*it)->spawn(this,map,entityInfo) && correct;
-
-				correct = it->second->spawn(this,map,entityInfo) && correct;
+		TComponentVector::const_iterator it = _compoList.begin(); 	
+		TComponentVector::const_iterator end = _compoList.end(); 
+			for( ; it != end && correct; ++it )				
+				correct = (*it)->spawn(this,map,entityInfo) && correct;
 
 		return correct;
-
 	} // spawn
 
 	//---------------------------------------------------------
 
 	bool CEntity::activate() 
 	{
-		if ( this->getType() == "Camera" )
-		{
-			//CServer::getSingletonPtr()->setPlayer(this);
+		if ( this->getType() == "Camera" )				
 			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);
-		}
-
+		
 		if(_isPlayer) {
 			CServer::getSingletonPtr()->setPlayer(this);
 			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);		
 		}
 
-		// Activamos los componentes
-		TComponentMap::const_iterator it;
-		// TODO TComponentList::const_iterator it;
-
+		// ACTIVACIÓN
 		// Solo si se activan todos los componentes correctamente nos
 		// consideraremos activados.
 		_activated = true;
-			for( it = _components.begin(); it != _components.end(); ++it )
-				_activated = it->second->activate() && _activated;
-				//_activated = (*it)->activate() && _activated;
+		TComponentVector::const_iterator it = _compoList.begin(); 	
+		TComponentVector::const_iterator end = _compoList.end(); 
+			for(; it != end; ++it )
+				_activated = (*it)->activate() && _activated;
 
 		return _activated;
-
 	} // activate
 
 	//---------------------------------------------------------
@@ -222,12 +219,11 @@ namespace Logic
 			GUI::CServer::getSingletonPtr()->getCameraController()->removeControlledCamera(this);
 		}
 
-		TComponentMap::const_iterator it; // TODO TComponentList::const_iterator it;
-
 		// Desactivamos los componentes
-		for( it = _components.begin(); it != _components.end(); ++it )
-			it->second->deactivate();
-			// TODO (*it)->deactivate();
+		TComponentVector::const_iterator it = _compoList.begin(); 	
+		TComponentVector::const_iterator end = _compoList.end(); 
+			for(; it != end; ++it )
+				(*it)->deactivate();
 
 		_activated = false;
 
@@ -260,13 +256,10 @@ namespace Logic
 	 {		 
 		float offset=0;// se trata de un offset de radio, no de altura
 
-		if (this->getType().compare("Altar")==0)
-		{
+		if (_type == "Altar")		
 			offset=-12;
-		}
 
 		return (Math::fromCylindricalToCartesian( grados, CServer::getSingletonPtr()->getRingRadio(ring) + offset, CServer::getSingletonPtr()->getRingPosition(ring).y + altura + _offsetHeight));
-	 
 	 }
 
 	
@@ -282,68 +275,60 @@ namespace Logic
 	//---------------------------------------------------------
 	
 	 void CEntity::tick(unsigned int msecs) 
-	{
-		TComponentMap::const_iterator it;
-		//TODO TComponentList::const_iterator it;
-		for( it = _components.begin(); it != _components.end(); ++it )
-			if ( it->second->isAwake() )
-				it->second->tick(msecs);
-			// TODO (*it)->tick(msecs);
-
+	{		
+		TComponentVector::const_iterator it = _compoList.begin(); 	
+		TComponentVector::const_iterator end = _compoList.end(); 
+			for(; it != end; ++it )
+				if ( (*it)->isAwake() )
+					(*it)->tick(msecs);
 	} // tick
 
 	//---------------------------------------------------------
 
 	void CEntity::addComponent(IComponent* component)
 	{
-		_components[component->getComponentId()] = component;
+		assert( !_compoTable[component->getComponentId()] && "Componente cargado por segunda vez en la misma entidad!");
+		_compoTable[component->getComponentId()] = component;
+		_compoList.push_back(component);	
 		component->setEntity(this);
 	} // addComponent
 
 	//---------------------------------------------------------
 
-	// TODO FRS Búsqueda por [getComponentID()] que pa eso tenemos maps amoshombreiya!
+	
 	bool CEntity::removeComponent(IComponent* component)
-	{
-		TComponentMap::const_iterator it = _components.begin();
+	{	
+		if( !_compoTable[component->getComponentId()] )
+			return false;
 
-		bool removed = false;
-		// Buscamos el componente hasta el final, por si aparecía
-		// más de una vez... (no tendría mucho sentido, pero por si
-		// acaso).
-		while (it != _components.end()) 
-		{
-			if (it->second == component)
-			{
-				it = _components.erase(it);
-				removed = true;
-			}
-			else
-				++it;
-		}
-		if (removed)
-			component->setEntity(0);
-		return removed;
+		_compoTable.erase(component->getComponentId()); // erase by key
+		_compoList.erase( std::remove(_compoList.begin(), _compoList.end(), component), _compoList.end() ); // TODO FRS Revisar
+		/* FRS std::remove doesn't actually erase the element from the container, 
+		but it does return the new end iterator which can be passed to container_type::erase to do the REAL 
+		removal of the extra elements that are now at the end of the container
+		Because vectors use an array as their underlying storage, erasing elements in positions
+		other than the vector end causes the container to relocate all the elements after the segment erased
+		to their new positions. This is generally an inefficient operation compared to the one performed for the 
+		same operation by other kinds of sequence containers (such as list or forward_list).
+			FRS Asumimos que en pocas ocasiones se ejecutará esta operación 
+		*/	
 
+		component->setEntity(0);
+
+		return true;
 	} // removeComponent
 
 	//---------------------------------------------------------
 
 	void CEntity::destroyAllComponents()
 	{		
-		TComponentMap::const_iterator it = _components.begin();
-		while (it != _components.end()) {
-		     delete it->second;
-			_components.erase(it++);			
-		}		
-		// TODO FRS si compaginamos vector + map (busquedas) esto seria mejor secuencialmente
-	//	while(!_components.empty())
-	//	{
-	//		c = _components.back();
-	//		_components.pop_back();
-	//		delete c;
-	//	}
+		TComponentVector::const_iterator it = _compoList.begin(); 	
+		TComponentVector::const_iterator end = _compoList.end(); 
+			for(; it != end; ++it ) 
+				 delete (*it);
 
+		_compoList.clear();
+		_compoTable.clear();		
 	} // destroyAllComponents
 
 	//---------------------------------------------------------
@@ -361,28 +346,53 @@ namespace Logic
 			CMessageTF *maux = static_cast<CMessageTF*>(message);
 			_transform = maux->getTransform();
 		}
-
-		TComponentMap::const_iterator it;
-		// TODO TComponentList::const_iterator it;
-
+		
 		message->grab();
+
 		// Para saber si alguien quiso el mensaje.
 		bool anyReceiver = false;
-		for( it = _components.begin(); it != _components.end(); ++it )
-		{
-			// Al emisor no se le envia el mensaje.
-			if( emitter != it->second )
-				anyReceiver = it->second->set(message) || anyReceiver;
-		// TODO	if( emitter != (*it) )
-		//		anyReceiver = (*it)->set(message) || anyReceiver;
-		}
+		TComponentVector::const_iterator it = _compoList.begin(); 	
+		TComponentVector::const_iterator end = _compoList.end(); 
+			for(; it != end; ++it ) // Al emisor no se le envia el mensaje.				
+				if(*it != emitter)
+					anyReceiver = (*it)->set(message) || anyReceiver;			
 
 		message->release();
-		return anyReceiver;
 
+		return anyReceiver;
 	} // emitMessage
 
 	//---------------------------------------------------------
+
+	void CEntity::detachFromMap()
+	{
+		_map->removeEntity(this);
+
+		TComponentVector::const_iterator it = _compoList.begin(); 	
+		TComponentVector::const_iterator end = _compoList.end(); 
+		for (; it != end; ++it) {
+		     (*it)->detachFromMap();		
+		}		
+	}
+
+	//---------------------------------------------------------
+
+	void CEntity::attachToMap(CMap *map)
+	{
+		map->addEntity(this);
+
+		TComponentVector::const_iterator it = _compoList.begin(); 	
+		TComponentVector::const_iterator end = _compoList.end(); 
+		for (; it != end; ++it) {
+		     (*it)->attachToMap(map);		
+		}		
+	}
+	
+
+
+	/*********************
+		GET's & SET's
+	********************/
 
 	void CEntity::setTransform(const Matrix4& transform) 
 	{
@@ -562,29 +572,5 @@ namespace Logic
 
 	} // pitch
 
-	//---------------------------------------------------------
 
-	void CEntity::detachFromMap()
-	{
-		_map->removeEntity(this);
-
-		TComponentMap::const_iterator it = _components.begin();
-		TComponentMap::const_iterator end = _components.end();
-		for (; it != end; ++it) {
-		     it->second->detachFromMap();		
-		}		
-	}
-
-	//---------------------------------------------------------
-
-	void CEntity::attachToMap(CMap *map)
-	{
-		map->addEntity(this);
-
-		TComponentMap::const_iterator it = _components.begin();
-		TComponentMap::const_iterator end = _components.end();
-		for (; it != end; ++it) {
-		     it->second->attachToMap(map);		
-		}		
-	}
 } // namespace Logic

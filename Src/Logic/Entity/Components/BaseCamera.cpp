@@ -62,9 +62,9 @@ namespace Logic
 
 	bool CBaseCamera::activate()
 	{		
-		_graphicsCamera->setTargetCameraPosition(Vector3::ZERO);
+		_graphicsCamera->setTargetPosition(Vector3::ZERO);
 		_currentPos = Math::fromCylindricalToCartesian(0, _radius, _height);// Esto lo ponemos así de momento para que salga desde arriba la camara.
-		_graphicsCamera->setCameraPosition(_currentPos);
+		_graphicsCamera->setPosition(_currentPos);
 		_distance=7;
 		return true;
 	} // activate
@@ -107,8 +107,8 @@ namespace Logic
 
 		_currentPos  = Math::fromCylindricalToCartesian(_degree, _radius+_distance, _height);
 
-		_graphicsCamera->setCameraPosition(_currentPos);
-		_graphicsCamera->setTargetCameraPosition(Vector3::ZERO);
+		_graphicsCamera->setPosition(_currentPos);
+		_graphicsCamera->setTargetPosition(Vector3::ZERO);
 		
 		
 	} // tick

@@ -38,21 +38,24 @@ namespace Logic
 
 		if( entityInfo->hasAttribute("modelOnHand") )
 			_modelOnHand = entityInfo->getStringAttribute("modelOnHand");
-
+	
+		_type = _entity->getName().substr(0, _entity->getName().length() - 1); 
+			
 		return true;		
 	} // spawn
 
 
 	//---------------------------------------------------------
-	bool CItem::accept(const CMessage *message) {
+	bool CItem::accept(const CMessage *message)
+	{
 		return	message->getType() == Logic::Message::TRIGGER &&
 				message->getAction() == Logic::Message::TRIGGER_ENTER;
 	} // accept
 
 	//---------------------------------------------------------
 
-	void CItem::process(CMessage *message){
-
+	void CItem::process(CMessage *message)
+	{
 		CMessageUInt* rxMsg = static_cast<CMessageUInt*>(message);
 		CEntity* otherEntity = _entity->getMap()
 			->getEntityByID( rxMsg->getUInt() );
@@ -60,28 +63,33 @@ namespace Logic
 		// FRS Sólo cogen items los players
 		if(otherEntity->getType() == "Player" || otherEntity->getType() == "OtherPlayer") {	
 			
-			// UNDONE FRS No queremos una animacion al coger PU's
-			//GET OBJECT ANIM
-			//CMessageBoolString *txMsg2 = new CMessageBoolString();
-			//	txMsg2->setType(TMessageType::SET_ANIMATION); 
-			//	txMsg2->setBool(false);
-			//	txMsg2->setString("GetObject");
-			//	otherEntity->emitMessage(txMsg2); // TODO FRS falta desactivar INPUT => migrar esto a FSM de animaciones
-
 			// ATTACH TO HAND
 			if( _modelOnHand.length() > 0 ) {
-				CMessageString *txMsg3 = new CMessageString();
-					txMsg3->setType(TMessageType::ATTACH); 
-					txMsg3->setAction(TActionType::ATTACH_TO_HAND);
-					txMsg3->setString(_modelOnHand);
-					otherEntity->emitMessage(txMsg3);
+				CMessageString *txMsg = new CMessageString();
+					txMsg->setType(TMessageType::ATTACH); 
+					txMsg->setAction(TActionType::ATTACH_TO_HAND);
+					txMsg->setString(_modelOnHand);
+					otherEntity->emitMessage(txMsg);
 			}
 
-			// ITEM DEATH
-			//CMessage *txMsg1 = new CMessage();
-			//	txMsg1->setType(TMessageType::DEAD); // Si alguien nos coge, morimos
-			//	_entity->emitMessage(txMsg1, this);
+///////////// HACK TEST FRS Para probar FX			
+			if( _type == "puPandora" ) {
+				CMessage *txMsg = new CMessage();	
+					txMsg->setType(Message::FX_START);
+					txMsg->setAction(Message::FX_BLAST_SMALL);
+					otherEntity->emitMessage(txMsg,this);
+			
+			} else if ( _type == "puApple" ) {
+				CMessage *txMsg = new CMessage();	
+					txMsg->setType(Message::FX_START);
+					txMsg->setAction(Message::FX_TRAILS);
+					otherEntity->emitMessage(txMsg,this);
+			}
+////////////////////
 
+
+
+			// ITEM DEATH
 			//FRS Sin CDeath habrá que hacer el deferred delete directamente
 			CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
 
@@ -92,6 +100,24 @@ namespace Logic
 
 	} // process
 
+
+	//---------------------------------------------------------
+
+	void CItem::tick(unsigned int msecs)
+	{
+		IComponent::tick(msecs);
+
+///////////// HACK TEST FRS Para probar FX -> La gracia sería ponérselo al modelOnHand
+		if( _type == "puPoison" && (_timer_sparks -= msecs) <= 0	) {
+			_timer_sparks = _PERIOD_SPARKS;
+			CMessage *txMsg = new CMessage();	
+				txMsg->setType(Message::FX_START);
+				txMsg->setAction(Message::FX_SPARKS);
+				_entity->emitMessage(txMsg,this);
+		}
+////////////////////////////////////////////
+
+	}
 
 } // namespace Logic
 

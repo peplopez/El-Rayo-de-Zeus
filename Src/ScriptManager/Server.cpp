@@ -10,16 +10,16 @@ la gestión de los scripts del juego.
 @date Marzo, 2013
 */
 
+
 #include "Server.h"
+
 #include <cassert>
 #include <stdio.h>
 #include <iostream>
 #include <sstream>
 #include <string> //PT
 
-//PT
-#include "ScriptManager\Classes\LUA_EntityFunctions.h"
-#include "Logic\GameStatus.h"
+#include "./Classes/LUA_EntityFunctions.h"
 
 //Como LUA esta compilado en C puro y duro. (se necesita incluirla con extern "C")
 extern "C" {

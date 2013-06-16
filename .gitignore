@@ -81,6 +81,14 @@ DocumentacionDoxygen/
 ###############
 /dependencies/bin/Debug/*
 /dependencies/bin/Release/*
+
+/dependencies/boost/bin.v2
+/dependencies/boost/lib
+/dependencies/boost/tools/build/v2/engine/bin.ntx86
+/dependencies/boost/tools/build/v2/engine/bootstrap
+
+/dependencies/BoostBuild
+
 /dependencies/CEGUI/bin/*
 /dependencies/CEGUI/cegui/include/config.h
 /dependencies/CEGUI/lib/*
@@ -111,73 +119,67 @@ DocumentacionDoxygen/
 /dependencies/lua/vcproject/Debug/
 /dependencies/lua/vcproject/Release/
 
-/dependencies/luabind/bin/msvc-9.0/
+/dependencies/luabind/bin
 
+# PT: cambiar *.2010..... por *.user es mejor -> FRS en realidad todos los *.user ya se ignoran segun la tabla inicial.
 
-# PT: cambiar *.2010..... por *.user es mejor.
-/dependencies/Ogre/build/
+/dependencies/Ogre/build
+
 /dependencies/OgreDependencies/Debug/
 /dependencies/OgreDependencies/Release/
-/dependencies/OgreDependencies/Cg-2.2/Debug/
-/dependencies/OgreDependencies/Cg-2.2/Release/
-/dependencies/OgreDependencies/Cg-2.2/Cg.2010.vcxproj.user
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/FreeImageLib/Debug/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/FreeImageLib/Release/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/FreeImageLib/*.2010.vcxproj.user
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibJPEG/Debug/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibJPEG/Release/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibJPEG/*.2010.vcxproj.user
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibMNG/Debug/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibMNG/Release/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibMNG/*.2010.vcxproj.user
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibOpenJPEG/Debug/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibOpenJPEG/Release/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibOpenJPEG/*.2010.vcxproj.user
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibPNG/Debug/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibPNG/Release/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibPNG/*.2010.vcxproj.user
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibRawLite/Debug/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibRawLite/Release/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibRawLite/*.2010.vcxproj.user
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibTIFF/Debug/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibTIFF/Release/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibTIFF/*.2010.vcxproj.user
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/OpenEXR/Debug/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/OpenEXR/Release/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/OpenEXR/*.2010.vcxproj.user
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/ZLib/Debug/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/ZLib/Release/
-/dependencies/OgreDependencies/FreeImage-3.13.1/Source/ZLib/*.2010.vcxproj.user
-/dependencies/OgreDependencies/freetype-2.3.11/builds/win32/vc2005/*.2010.vcxproj.user
-/dependencies/OgreDependencies/freetype-2.3.11/objs/
-/dependencies/OgreDependencies/ois-1.4.0/dll/
-/dependencies/OgreDependencies/ois-1.4.0/Win32/*.2010.vcxproj.user
-/dependencies/OgreDependencies/zlib-1.2.3/projects/visualc6/Win32_LIB_Debug/
-/dependencies/OgreDependencies/zlib-1.2.3/projects/visualc6/Win32_LIB_Release/
-/dependencies/OgreDependencies/zlib-1.2.3/projects/visualc6/*.2010.vcxproj.user
+
+/dependencies/OgreDependencies/Cg-2.2/Debug
+/dependencies/OgreDependencies/Cg-2.2/Release
+
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/FreeImageLib/Debug
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/FreeImageLib/Release
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibJPEG/Debug
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibJPEG/Release
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibMNG/Debug
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibMNG/Release
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibOpenJPEG/Debug
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibOpenJPEG/Release
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibPNG/Debug
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibPNG/Release
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibRawLite/Debug
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibRawLite/Release
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibTIFF/Debug
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/LibTIFF/Release
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/OpenEXR/Debug
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/OpenEXR/Release
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/ZLib/Debug
+/dependencies/OgreDependencies/FreeImage-3.13.1/Source/ZLib/Release
+/dependencies/OgreDependencies/freetype-2.3.11/objs
+
+/dependencies/OgreDependencies/ois-1.4.0/dll
+
+/dependencies/OgreDependencies/zlib-1.2.3/projects/visualc6/Win32_LIB_Debug
+/dependencies/OgreDependencies/zlib-1.2.3/projects/visualc6/Win32_LIB_Release
 /dependencies/OgreDependencies/zlib-1.2.3/win32/zlib1.res
-/dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Debug/
-/dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Release/
-/dependencies/OgreDependencies/zziplib-0.13.57/msvc8/*.2010.vcxproj.user
+/dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Debug
+/dependencies/OgreDependencies/zziplib-0.13.57/msvc8/Release
+
 
 
 #EXCEPTIONS #
 #############
 
-!/Exes/resources.cfg
-!/Exes/controls.cfg
-
 !/dependencies/bin/*/fmodex.dll
+!/dependencies/bin/*/Plugin_HellHeavenFX_v1-7-4*.dll
 !/dependencies/CEGUI/projects/premake/ScriptingModules/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++bin/premake.lua
 !/dependencies/include/enet/
 !/dependencies/include/fmod/
+!/dependencies/include/hhfx/
 !/dependencies/lib/*/enet.lib
 !/dependencies/lib/*/fmodex_vc.lib
-!/dependencies/luabind/bjam.exe
 
-!/Projects/Application/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir.
+!/Exes/controls.cfg
+!/Exes/plugins*.cfg
+!/Exes/resources.cfg
+
+!/Projects/Application/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir -> FRS pero es más facil hacer un reset changes que andar poniendo el outDir -> FRS Ya no se borra el .user con el ant clean :)
 !/Projects/Configure/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir.
 
 

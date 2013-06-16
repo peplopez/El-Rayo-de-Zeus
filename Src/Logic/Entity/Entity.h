@@ -229,6 +229,13 @@ namespace Logic
 		const std::string &getName() const { return _name; }
 
 		/**
+		Devuelve el nombre gráfico de la entidad (name + ID)
+
+		@return Nombre de la entidad gráfica asociada
+		*/
+		const std::string &getGraphicalName() const { return _graphicalName; };
+
+		/**
 		Devuelve la escala inicial de la entidad.
 
 		@return Escala inicial de la entidad.
@@ -404,15 +411,13 @@ namespace Logic
 		template <typename T>
 		T* getComponent()
 		{
-			std::map<altTypeId, IComponent*>::const_iterator it;
-
-			it=_components.find(TAltTypeIdGenerator<T>::GetAltTypeId());
-
-			if (it != _components.end())
-				return static_cast<T*>(it->second);
-
-			std::cerr << "id no encontrado" << std::endl;
-			return NULL;	
+			IComponent* component = _compoTable[ TAltTypeIdGenerator<T>::GetAltTypeId() ];
+				if (component)			
+					return static_cast<T*>(component);
+				else {
+					std::cerr << "id no encontrado" << std::endl; // FRS A lo mejor sería mejor directamente un assert
+					return NULL;	
+				}
 		}
 
 		
@@ -425,15 +430,8 @@ namespace Logic
 
 		template <typename T>
 		bool hasComponent()
-		{
-			std::map<altTypeId, IComponent*>::const_iterator it;
-
-			it=_components.find(TAltTypeIdGenerator<T>::GetAltTypeId());
-
-			if (it != _components.end())
-				return true;
-			else
-				return false;
+		{			
+			return _compoTable[ TAltTypeIdGenerator<T>::GetAltTypeId() ] != 0;
 		}
 		
 		/**
@@ -475,13 +473,13 @@ namespace Logic
 		Tipo para la lista de componetes.
 		*/
 		typedef std::map<altTypeId, IComponent*> TComponentMap;
-		// TODO FRS typedef std::list<IComponent*> TComponentList;
+		typedef std::vector<IComponent*>		TComponentVector;
 
 		/**
 		Lista de los componentes de la entidad.
 		*/
-		TComponentMap _components;
-		//TODO FRS TComponentList _components;
+		TComponentMap		_compoTable;
+		TComponentVector	_compoList;
 
 		/**
 		Indica si la entidad está activa.
@@ -503,6 +501,11 @@ namespace Logic
 		Nombre de la entidad.
 		*/
 		std::string _name;
+
+		/**
+		Nombre gráfico de la entidad (name + id)
+		*/
+		std::string _graphicalName;
 
 		/**
 		Mapa lógico donde está la entidad.

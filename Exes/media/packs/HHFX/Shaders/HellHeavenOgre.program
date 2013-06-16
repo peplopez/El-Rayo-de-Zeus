@@ -1,0 +1,339 @@
+// ===============================================================
+// post effect BlackAndWhite
+
+vertex_program HellHeavenOgre/Program/HLSLBlackAndWhiteVS hlsl
+{
+	source HellHeavenOgrePostEffect.hlsl
+	entry_point mainBlackAndWhiteVS
+	target vs_2_0
+
+	default_params
+	{
+		param_named_auto	uWorldViewProj		worldviewproj_matrix
+	}
+}
+
+vertex_program HellHeavenOgre/Program/GLSLBlackAndWhiteVS glsl
+{
+	source HellHeavenOgrePostEffect.glsl
+	entry_point mainBlackAndWhiteVS
+	target vs_2_0
+
+	default_params
+	{
+		param_named_auto	uWorldViewProj		worldviewproj_matrix
+	}
+}
+
+vertex_program HellHeavenOgre/Program/BlackAndWhiteVS unified
+{
+	delegate HellHeavenOgre/Program/HLSLBlackAndWhiteVS
+	delegate HellHeavenOgre/Program/GLSLBlackAndWhiteVS
+}
+
+// ===============================================================
+
+fragment_program HellHeavenOgre/Program/HLSLBlackAndWhitePS hlsl
+{
+	source HellHeavenOgrePostEffect.hlsl
+	entry_point mainBlackAndWhitePS
+	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/Program/GLSLBlackAndWhitePS glsl
+{
+	source HellHeavenOgrePostEffect.glsl
+	entry_point mainBlackAndWhitePS
+	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/Program/BlackAndWhitePS unified
+{
+	delegate HellHeavenOgre/Program/HLSLBlackAndWhitePS
+	delegate HellHeavenOgre/Program/GLSLBlackAndWhitePS
+}
+
+// ===============================================================
+// post effect Distortion
+
+vertex_program HellHeavenOgre/Program/HLSLDistortionVS hlsl
+{
+	source HellHeavenOgrePostEffect.hlsl
+	entry_point mainDistortionVS
+	target vs_2_0
+
+	default_params
+	{
+		param_named_auto	uWorldViewProj		worldviewproj_matrix
+	}
+}
+
+vertex_program HellHeavenOgre/Program/GLSLDistortionVS glsl
+{
+	source HellHeavenOgrePostEffect.glsl
+	entry_point mainDistortionVS
+	target vs_2_0
+
+	default_params
+	{
+		param_named_auto	uWorldViewProj		worldviewproj_matrix
+	}
+}
+
+vertex_program HellHeavenOgre/Program/DistortionVS unified
+{
+	delegate HellHeavenOgre/Program/HLSLDistortionVS
+	delegate HellHeavenOgre/Program/GLSLDistortionVS
+}
+
+// ===============================================================
+
+fragment_program HellHeavenOgre/Program/HLSLDistortionPS hlsl
+{
+	source HellHeavenOgrePostEffect.hlsl
+	entry_point mainDistortionPS
+	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/Program/GLSLDistortionPS glsl
+{
+	source HellHeavenOgrePostEffect.glsl
+	entry_point mainDistortionPS
+	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/Program/DistortionPS unified
+{
+	delegate HellHeavenOgre/Program/HLSLDistortionPS
+	delegate HellHeavenOgre/Program/GLSLDistortionPS
+}
+
+// ===============================================================
+
+vertex_program HellHeavenOgre/HLSLPointVS hlsl
+{
+	source HellHeavenOgre.hlsl
+	entry_point mainPointVS
+	target vs_2_0
+
+	default_params
+	{
+		param_named_auto	g_WorldViewProj		worldviewproj_matrix
+	}
+}
+
+vertex_program HellHeavenOgre/GLSLPointVS glsl
+{
+	source HellHeavenOgre.glsl
+	entry_point mainPointVS
+	target vs_2_0
+}
+
+vertex_program HellHeavenOgre/PointVS unified
+{
+	delegate HellHeavenOgre/HLSLPointVS
+	delegate HellHeavenOgre/GLSLPointVS
+}
+
+// ===============================================================
+
+fragment_program HellHeavenOgre/HLSLPointPS hlsl
+{
+	source HellHeavenOgre.hlsl
+	entry_point mainPointPS
+	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/GLSLPointPS glsl
+{
+	source HellHeavenOgre.glsl
+	entry_point mainPointPS
+	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/PointPS unified
+{
+	delegate HellHeavenOgre/HLSLPointPS
+	delegate HellHeavenOgre/GLSLPointPS
+}
+
+// ===============================================================
+
+vertex_program HellHeavenOgre/HLSLSolidVS hlsl
+{
+	source HellHeavenOgre.hlsl
+	entry_point mainSolidVS
+	target vs_2_0
+
+	default_params
+	{
+		param_named_auto	g_WorldViewProj		worldviewproj_matrix
+	}
+}
+
+vertex_program HellHeavenOgre/GLSLSolidVS glsl
+{
+	source HellHeavenOgre.glsl
+	entry_point mainSolidVS
+	target vs_2_0
+}
+
+vertex_program HellHeavenOgre/SolidVS unified
+{
+	delegate HellHeavenOgre/HLSLSolidVS
+	delegate HellHeavenOgre/GLSLSolidVS
+}
+
+// ===============================================================
+
+fragment_program HellHeavenOgre/HLSLSolidPS hlsl
+{
+	source HellHeavenOgre.hlsl
+	entry_point mainSolidPS
+	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/GLSLSolidPS glsl
+{
+	source HellHeavenOgre.glsl
+	entry_point mainSolidPS
+	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/SolidPS unified
+{
+	delegate HellHeavenOgre/HLSLSolidPS
+	delegate HellHeavenOgre/GLSLSolidPS
+}
+
+// ===============================================================
+
+vertex_program HellHeavenOgre/HLSLTexturedVS hlsl
+{
+	source HellHeavenOgre.hlsl
+	entry_point mainTexturedVS
+	target vs_2_0
+
+	default_params
+	{
+		param_named_auto	g_WorldViewProj		worldviewproj_matrix
+	}
+}
+
+vertex_program HellHeavenOgre/GLSLTexturedVS glsl
+{
+	source HellHeavenOgre.glsl
+	entry_point mainTexturedVS
+	target vs_2_0
+
+	default_params
+	{
+		param_named_auto	g_WorldViewProj		worldviewproj_matrix
+	}
+}
+
+vertex_program HellHeavenOgre/TexturedVS unified
+{
+	delegate HellHeavenOgre/HLSLTexturedVS
+	delegate HellHeavenOgre/GLSLTexturedVS
+}
+
+// ===============================================================
+
+fragment_program HellHeavenOgre/HLSLTexturedPS hlsl
+{
+	source HellHeavenOgre.hlsl
+	entry_point mainTexturedPS
+	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/GLSLTexturedPS glsl
+{
+	source HellHeavenOgre.glsl
+	entry_point mainTexturedPS
+//	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/TexturedPS unified
+{
+	delegate HellHeavenOgre/HLSLTexturedPS
+	delegate HellHeavenOgre/GLSLTexturedPS
+}
+
+// ===============================================================
+
+fragment_program HellHeavenOgre/HLSLTexturedPSAlphaWeight hlsl
+{
+	source HellHeavenOgre.hlsl
+	entry_point mainTexturedPSAlphaWeight
+	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/GLSLTexturedPSAlphaWeight glsl
+{
+	source HellHeavenOgre.glsl
+	entry_point mainTexturedPSAlphaWeight
+	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/TexturedPSAlphaWeight unified
+{
+	delegate HellHeavenOgre/HLSLTexturedPSAlphaWeight
+	delegate HellHeavenOgre/GLSLTexturedPSAlphaWeight
+}
+
+// ===============================================================
+
+fragment_program HellHeavenOgre/HLSLTexturedDistordPS hlsl
+{
+	source HellHeavenOgre.hlsl
+	entry_point mainTexturedDistordPS
+	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/GLSLTexturedDistordPS glsl
+{
+	source HellHeavenOgre.glsl
+	entry_point mainTexturedDistordPS
+	target ps_2_0
+}
+
+fragment_program HellHeavenOgre/TexturedDistordPS unified
+{
+	delegate HellHeavenOgre/HLSLTexturedDistordPS
+	delegate HellHeavenOgre/GLSLTexturedDistordPS
+}
+
+// ===============================================================
+
+vertex_program HellHeavenOgre/LightingTexturedVS hlsl
+{
+	source HellHeavenOgre.hlsl
+	entry_point mainLightingTexturedVS
+	target vs_3_0
+	preprocessor_defines LIGHT_NUMBER=1
+
+	default_params
+	{
+		param_named_auto 	g_WorldViewProj		worldviewproj_matrix
+		param_named_auto 	g_World				world_matrix
+		param_named_auto 	g_CameraPos			camera_position
+		param_named_auto 	g_LightPos			light_position_array		1
+	}
+}
+
+fragment_program HellHeavenOgre/LightingTexturedPS hlsl
+{
+	source HellHeavenOgre.hlsl
+	entry_point mainLightingTexturedPS
+	target ps_3_0
+	preprocessor_defines LIGHT_NUMBER=1
+
+	default_params
+	{
+		// 0 is the nearest light
+		param_named_auto 	g_AmbiantColor		ambient_light_colour		0
+		param_named_auto 	g_DiffuseColor		light_diffuse_colour_array	1
+		param_named_auto 	g_SpecularColor 	light_specular_colour_array	1
+	}
+}

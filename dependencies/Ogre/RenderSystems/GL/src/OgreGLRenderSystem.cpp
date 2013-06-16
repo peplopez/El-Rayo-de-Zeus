@@ -4,7 +4,7 @@ This source file is part of OGRE
 (Object-oriented Graphics Rendering Engine)
 For the latest info, see http://www.ogre3d.org
 
-Copyright (c) 2000-2009 Torus Knot Software Ltd
+Copyright (c) 2000-2011 Torus Knot Software Ltd
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -450,8 +450,8 @@ namespace Ogre {
 			rsc->setGeometryProgramConstantBoolCount(0);
 			rsc->setGeometryProgramConstantIntCount(0);
 
-			GLint floatConstantCount;
-			glGetProgramivARB(GL_GEOMETRY_PROGRAM_NV, GL_MAX_PROGRAM_LOCAL_PARAMETERS_ARB, &floatConstantCount);
+			GLint floatConstantCount = 0;
+            glGetIntegerv(GL_MAX_GEOMETRY_UNIFORM_COMPONENTS_EXT, &floatConstantCount);
 			rsc->setGeometryProgramConstantFloatCount(floatConstantCount);
 
 			GLint maxOutputVertices;
@@ -2270,7 +2270,9 @@ namespace Ogre {
 		}
 		else
 		{
-			glDisable(GL_STENCIL_TEST_TWO_SIDE_EXT);
+            if(!GLEW_VERSION_2_0)
+                glDisable(GL_STENCIL_TEST_TWO_SIDE_EXT);
+
 			flip = false;
 			glStencilMask(mask);
 			glStencilFunc(convertCompareFunction(func), refValue, mask);

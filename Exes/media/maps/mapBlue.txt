@@ -30,14 +30,7 @@ Map ={
 		type = "PointLight",
 		position = {0, 100, 0},
 	},
-	
-		
-	puApple1 = {
-		type = "PUApple",
-		base=2,
-		ring=0,
-		degrees=0,
-	},
+
 	
 	puThrone1 = {
 		type = "PUThrone",
@@ -71,7 +64,7 @@ Map ={
 		physicHalfWidth = 190,
 		physicHalfHeight = 1,
 		physicBodyOffset = -1.9,
-	},
+		fxScript0="Rain",	},
 	
 	CenterRing = {
 		type = "World",
@@ -88,7 +81,7 @@ Map ={
 	UpperRing = {
 		type = "World",
 		base=2,
-		ring=2,
+		ring=2,		
 		model = "upper_ring.mesh",
 		physicType = "static",
 		shape="box",
@@ -101,14 +94,14 @@ Map ={
 		type = "AltarBlue",
 		degrees=60,
 		ring=0,
-		base=2,	
+		base=2,			
 	},
 	
 	Altar2 = {
 		type = "AltarBlue",
 		degrees=180,
 		ring=0,
-		base=2,		
+		base=2,						
 	},
 	
 	Altar3 = {
@@ -116,6 +109,7 @@ Map ={
 		degrees=300,
 		ring=0,
 		base=2,		
+			
 	},
 	
 	Altar4 = {
@@ -123,6 +117,7 @@ Map ={
 		degrees=36,
 		ring=1,
 		base=2,		
+		
 	},
 	
 	Altar5 = {
