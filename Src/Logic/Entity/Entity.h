@@ -409,11 +409,31 @@ namespace Logic
 			it=_components.find(TAltTypeIdGenerator<T>::GetAltTypeId());
 
 			if (it != _components.end())
-			{
 				return static_cast<T*>(it->second);
-			}
+
 			std::cerr << "id no encontrado" << std::endl;
 			return NULL;	
+		}
+
+		
+		/**
+		Add - ESC
+		Template que permite saber si una entidad tiene componente del tipo indicado.
+
+		Hace uso de de un mecanismo RTTI propio para ello
+		*/
+
+		template <typename T>
+		bool hasComponent()
+		{
+			std::map<altTypeId, IComponent*>::const_iterator it;
+
+			it=_components.find(TAltTypeIdGenerator<T>::GetAltTypeId());
+
+			if (it != _components.end())
+				return true;
+			else
+				return false;
 		}
 		
 		/**

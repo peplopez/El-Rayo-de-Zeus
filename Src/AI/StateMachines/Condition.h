@@ -145,13 +145,11 @@ namespace AI
 
 		bool check(CLatentAction* currentNode, CEntity* entity)
 		{
-			if (entity->getComponent<CAvatarController>()!=NULL)
-			{
+			if (entity->hasComponent<CAvatarController>())
 				if (_sense==Logic::LogicalPosition::LEFT)
 					return entity->getComponent<CAvatarController>()->isWalkingLeft();
 				else
 					return entity->getComponent<CAvatarController>()->isWalkingRight(); 
-			}
 			return false;
 		}
 
@@ -165,7 +163,7 @@ namespace AI
 	public:
 		bool check(CLatentAction* currentNode, CEntity* entity)
 		{
-			if  (entity->getComponent<CJump>()!=NULL)			
+			if  (entity->hasComponent<CJump>())			
 				return !entity->getComponent<CJump>()->isJumping();
 			return false;
 		}

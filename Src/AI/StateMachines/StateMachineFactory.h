@@ -10,6 +10,13 @@ Cancerbero.
 
 */
 
+
+#pragma once
+
+#ifndef __AI_SM_Factory
+#define __AI_SM_Factory
+
+
 #include "Logic/Entity/Entity.h"
 #include "Condition.h"
 #include "StateMachine.h"
@@ -17,11 +24,6 @@ Cancerbero.
 #include "SM_Hercules.h"
 #include "SM_Cancerbero.h"
 #include "SM_Sinbad.h"
-
-#pragma once
-
-#ifndef __AI_SM_Factory
-#define __AI_SM_Factory
 
 using namespace Logic;
 

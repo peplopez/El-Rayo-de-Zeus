@@ -125,19 +125,19 @@ namespace AI
 
 	void CLA_Cover::sleepComponents()
 	{
-		if (_entity->getComponent<CAvatarController>()!=NULL)
+		if (_entity->hasComponent<CAvatarController>())
 				_entity->getComponent<CAvatarController>()->sleep();	
-		if (_entity->getComponent<CJump>()!=NULL)
+		if (_entity->hasComponent<CJump>())
 				_entity->getComponent<CJump>()->sleep();		
 	}
 
 	void CLA_Cover::awakeComponents()
 	{ 
-		if (_entity->getComponent<CAvatarController>()!=NULL)
+		if (_entity->hasComponent<CAvatarController>())
 				_entity->getComponent<CAvatarController>()->awake();
-		if (_entity->getComponent<CJump>()!=NULL)
+		if (_entity->hasComponent<CJump>())
 				_entity->getComponent<CJump>()->awake();	
-		if (_entity->getComponent<CCombat>()!=NULL)
+		if (_entity->hasComponent<CCombat>())
 				_entity->getComponent<CCombat>()->setCovering(false);		
 	}
 

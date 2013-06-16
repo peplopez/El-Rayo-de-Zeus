@@ -112,11 +112,9 @@ namespace AI
 	CLatentAction::LAStatus CLA_ChangeBase::OnAbort() 
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
-		{	
+		if (_entity->hasComponent<CBaseTraveler>())
 			_entity->getComponent<CBaseTraveler>()->resetChangingBase();			
-			//_entity->getComponent<CBaseTraveler>()->resetChangingRing();
-		}
+
 		return FAIL;
 	}
 	/**
@@ -231,18 +229,18 @@ namespace AI
 
 	void CLA_ChangeBase::sleepComponents()
 	{
-		if (_entity->getComponent<CAvatarController>()!=NULL)
+		if (_entity->hasComponent<CAvatarController>())
 			_entity->getComponent<CAvatarController>()->sleep();
-		if (_entity->getComponent<CJump>()!=NULL)
+		if (_entity->hasComponent<CJump>())
 			_entity->getComponent<CJump>()->sleep();
 	}
 
 
 	void CLA_ChangeBase::awakeComponents()
 	{
-		if (_entity->getComponent<CAvatarController>()!=NULL)
+		if (_entity->hasComponent<CAvatarController>())
 			_entity->getComponent<CAvatarController>()->awake();
-		if (_entity->getComponent<CJump>()!=NULL)
+		if (_entity->hasComponent<CJump>())
 			_entity->getComponent<CJump>()->awake();
 
 	}

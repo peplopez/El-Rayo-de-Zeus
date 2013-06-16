@@ -41,7 +41,7 @@ namespace Logic
 	int CPlayerInfo::getLife()
 	{
 		if (_player)
-			if (_player->getComponent<CLife>()!=NULL)
+			if (_player->hasComponent<CLife>())
 				return _player->getComponent<CLife>()->getLife();
 		return NULL;
 	}
@@ -49,7 +49,7 @@ namespace Logic
 	int CPlayerInfo::getLifeMax()
 	{
 		if (_player)
-			if (_player->getComponent<CLife>()!=NULL)
+			if (_player->hasComponent<CLife>())
 				return _player->getComponent<CLife>()->getLifeMax();
 		return NULL;
 	}

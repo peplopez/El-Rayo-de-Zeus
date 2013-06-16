@@ -9,15 +9,17 @@ que es una maquina de estados para un personaje provisional en el juego
 
 */
 
-#include "Logic/Entity/Entity.h"
-#include "Condition.h"
-#include "StateMachine.h"
-#include "../LatentActions/LatentAction.h"
 
 #pragma once
 
 #ifndef __AI_SM_Hercules_H
 #define __AI_SM_Hercules_H
+
+
+#include "Logic/Entity/Entity.h"
+#include "Condition.h"
+#include "StateMachine.h"
+#include "../LatentActions/LatentAction.h"
 
 using namespace Logic;
 namespace AI

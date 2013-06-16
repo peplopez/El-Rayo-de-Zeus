@@ -200,7 +200,7 @@ namespace Logic
 						float limiteDerecho=(*it)->getLogicalPosition()->getDegree()+5;
 					//	if (_entity->getLogicalPosition()->getDegree()<grado) limiteIzquierdo =_entity->getLogicalPosition()->getDegree();
 					//	else if (_entity->getLogicalPosition()->getDegree()>grado) limiteDerecho =_entity->getLogicalPosition()->getDegree();
-						if ((*it)->getComponent<CCombat>()!=NULL)
+						if ((*it)->hasComponent<CCombat>())
 						if (grado>limiteIzquierdo && grado<limiteDerecho 
 							|| (grado>=limiteIzquierdo && grado>=limiteDerecho &&  _entity->getLogicalPosition()->getDegree()<=limiteIzquierdo && _entity->getLogicalPosition()->getDegree()<=limiteDerecho) 
 							||  (grado<=limiteIzquierdo && grado<=limiteDerecho &&  _entity->getLogicalPosition()->getDegree()>=limiteIzquierdo && _entity->getLogicalPosition()->getDegree()>=limiteDerecho) 
@@ -208,7 +208,7 @@ namespace Logic
 						{
 							if (!soloInfo)
 							{				
-								if ((*it)->getComponent<CCombat>()!=NULL)
+								if ((*it)->hasComponent<CCombat>())
 								if ((*it)->getComponent<CCombat>()->_covering==true && (*it)->getLogicalPosition()->getSense()!=_entity->getLogicalPosition()->getSense())
 								{
 									Logic::CMessage *m = new Logic::CMessage();

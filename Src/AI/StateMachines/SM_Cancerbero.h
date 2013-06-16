@@ -10,15 +10,17 @@ Cancerbero.
 
 */
 
-#include "Logic/Entity/Entity.h"
-#include "Condition.h"
-#include "StateMachine.h"
-#include "../LatentActions/LatentAction.h"
+
 
 #pragma once
 
 #ifndef __AI_SM_Cancerbero_H
 #define __AI_SM_Cancerbero_H
+
+#include "Logic/Entity/Entity.h"
+#include "Condition.h"
+#include "StateMachine.h"
+#include "../LatentActions/LatentAction.h"
 
 using namespace Logic;
 

@@ -107,13 +107,14 @@ namespace Logic
 		case Message::CONTROL:
 
 			if(message->getAction() == Message::SWITCH_ALTAR)
-				{
-				if (_entity->getComponent<CStateMachineExecutor>()!=NULL)
-				{//comprobaci�n de que estemos en el estado inicial (que es idle) para poder activar un altar. Si no se ignora la pulsaci�n de la tecla F	
+			{
+				if (_entity->hasComponent<CStateMachineExecutor>())
+					//comprobaci�n de que estemos en el estado inicial (que es idle) para poder activar un altar. Si no se ignora la pulsaci�n de la tecla F	
 					//esto es necesario porque controlamos así que intentemos activar desde un estado que no sea idle.
-					if (_entity->getComponent<CStateMachineExecutor>()->getCurrentStateMachine()->getCurrentNode()==_entity->getComponent<CStateMachineExecutor>()->getCurrentStateMachine()->getInitialNode())
+					if (_entity->getComponent<CStateMachineExecutor>()->getCurrentStateMachine()->getCurrentNode() 
+										== _entity->getComponent<CStateMachineExecutor>()->getCurrentStateMachine()->getInitialNode())
 						startSwitchingState();
-				}
+				
 			}
 			else if(message->getAction() == Message::WALK_RIGHT ||
 					message->getAction() == Message::WALK_LEFT ||
@@ -141,7 +142,7 @@ namespace Logic
 		
 		if (_switchingAllowed && !_switchingState)
 		{
-			if (_entity->getComponent<CAvatarController>()!=NULL)
+			if (_entity->hasComponent<CAvatarController>())
 			{
 				_entity->getComponent<CAvatarController>()->stopMovement();
 				_entity->getComponent<CAvatarController>()->sleep();
@@ -199,10 +200,10 @@ namespace Logic
 		
 			if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::RIGHT)
 			{
-				if (_entity->getComponent<CAvatarController>()!=NULL)
+				if (_entity->hasComponent<CAvatarController>())
 					_entity->getComponent<CAvatarController>()->sleep();
 				
-				if (_entity->getComponent<CJump>()!=NULL)
+				if (_entity->hasComponent<CJump>())
 					_entity->getComponent<CJump>()->sleep();
 
 				float tickRotation = Math::PI * 0.005f * msecs;
@@ -220,9 +221,9 @@ namespace Logic
 			}
 			else if (_entity->getLogicalPosition()->getSense() == Logic::LogicalPosition::LEFT)
 			{
-				if (_entity->getComponent<CAvatarController>()!=NULL)
+				if (_entity->hasComponent<CAvatarController>())
 					_entity->getComponent<CAvatarController>()->sleep();		
-				if (_entity->getComponent<CJump>()!=NULL)
+				if (_entity->hasComponent<CJump>())
 					_entity->getComponent<CJump>()->sleep();
 
 				float tickRotation = Math::PI * 0.005f * msecs; 
@@ -235,7 +236,6 @@ namespace Logic
 					_targetSense = Logic::LogicalPosition::UNDEFINED;
 					_acumRotation = 0;
 					_entity->getComponent<CAvatarController>()->awake();
-				
 					_entity->getComponent<CJump>()->awake();
 				}
 			}

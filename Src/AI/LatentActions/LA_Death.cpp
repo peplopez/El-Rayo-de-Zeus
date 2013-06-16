@@ -234,39 +234,37 @@ namespace AI
 
 	void CLA_Death::sleepComponents()
 	{
-		if (_entity->getComponent<CCombat>()!=NULL)
+		if (_entity->hasComponent<CCombat>())
 			_entity->getComponent<CCombat>()->resetAttackFlags();
-		if (_entity->getComponent<CAvatarController>()!=NULL)
+		if (_entity->hasComponent<CAvatarController>())
 			_entity->getComponent<CAvatarController>()->sleep();
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
+		if (_entity->hasComponent<CBaseTraveler>())
 			_entity->getComponent<CBaseTraveler>()->sleep();
-		if (_entity->getComponent<CPhysicalCharacter>() != 0)
+		if (_entity->hasComponent<CPhysicalCharacter>())
 			_entity->getComponent<CPhysicalCharacter>()->sleep();
-		if (_entity->getComponent<CJump>() != 0)
-			_entity->getComponent<Logic::CJump>()->sleep();
+		if (_entity->hasComponent<CJump>())
+			_entity->getComponent<CJump>()->sleep();
 	}
 
 	void CLA_Death::awakeComponents()
 	{
-		if (_entity->getComponent<CCombat>()!=NULL)
+		if (_entity->hasComponent<CCombat>())
 			_entity->getComponent<CCombat>()->resetAttackFlags();
-		if (_entity->getComponent<CAvatarController>()!=NULL)
+		if (_entity->hasComponent<CAvatarController>())
 			_entity->getComponent<CAvatarController>()->awake();
-		if (_entity->getComponent<CJump>()!=NULL)
-			_entity->getComponent<Logic::CJump>()->awake();
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
+		if (_entity->hasComponent<CJump>())
+			_entity->getComponent<CJump>()->awake();
+		if (_entity->hasComponent<CBaseTraveler>())
 			_entity->getComponent<CBaseTraveler>()->awake();
-		if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+		if (_entity->hasComponent<CPhysicalCharacter>())
 			_entity->getComponent<CPhysicalCharacter>()->awake();
 	}
 
 	void CLA_Death::respawn()
 	{
 			//PT Respawneo en la base Origen
-			if (_entity->getComponent<CBaseTraveler>()!=NULL)
-			{	
+			if (_entity->hasComponent<CBaseTraveler>())	
 				_entity->getComponent<CBaseTraveler>()->respawnInBaseOrigin();
-			}
 
 			//PT mando mensaje al componente LIFE para restaurar la vida al máximo
 			CMessageBoolUShort *message = new CMessageBoolUShort();
