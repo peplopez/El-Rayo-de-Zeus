@@ -72,7 +72,7 @@ namespace Logic
 					otherEntity->emitMessage(txMsg);
 			}
 
-///////////// HACK TEST FRS Para probar FX			
+///////////// HACK TEST FRS Para probar FX -> Esto lo suyo sería hacerlo en cada uno de los hijos de Item			
 			if( _type == "puPandora" ) {
 				CMessage *txMsg = new CMessage();	
 					txMsg->setType(Message::FX_START);
@@ -83,6 +83,12 @@ namespace Logic
 				CMessage *txMsg = new CMessage();	
 					txMsg->setType(Message::FX_START);
 					txMsg->setAction(Message::FX_TRAILS);
+					otherEntity->emitMessage(txMsg,this);
+
+			} else if ( _type == "puThrone" ) {
+				CMessage *txMsg = new CMessage();	
+					txMsg->setType(Message::FX_START);
+					txMsg->setAction(Message::FX_FLAME_THROWER);
 					otherEntity->emitMessage(txMsg,this);
 			}
 ////////////////////

@@ -21,7 +21,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Maps/Map.h"
 
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "LOGIC::FX>> " << msg << std::endl;

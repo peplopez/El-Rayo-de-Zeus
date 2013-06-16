@@ -318,31 +318,32 @@ namespace Graphics
 	bool CScene::_hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, 
 		const Ogre::Vector3 &direction, float length, SContactReport &contactReport)
 	{
-		//LOG("Particle Position = " << start.x << " , " << start.y << " , " << start.z)
+		LOG("Particle Position = " << start.x << " , " << start.y << " , " << start.z)
 
-		// CONSTANTS
-		static const int RING_HEIGHT = 50;
-		static const int RING_HEIGHT_OFFSET = 1.4;
+		// CONSTANTS    					//TODO CServer::getSingletonPtr()->getRingRadio(ring)trasnslate		
+		static const int RING_HEIGHT = 100;
+		static const int RING_HEIGHT_OFFSET = 2;
+		static const int RING_RAD[]		= {58, 73, 58};
+		static const int RING_WIDTH[]	= {50, 70, 50};
+		static const int	RING_WIDTH_INT[] = {   RING_WIDTH[0] / 3,    RING_WIDTH[1] / 4,	0.4* RING_WIDTH[2]};
+		static const int	RING_WIDTH_EXT[] = {2* RING_WIDTH[0] / 3, 3* RING_WIDTH[1] / 4, 0.6* RING_WIDTH[2]};
+
 		static const Ogre::Plane RING_PLANES[] = { 
 			Ogre::Plane(	Vector3::UNIT_Y,  RING_HEIGHT + RING_HEIGHT_OFFSET), 
 			Ogre::Plane(	Vector3::UNIT_Y,			    RING_HEIGHT_OFFSET), 	
 			Ogre::Plane(	Vector3::UNIT_Y, -RING_HEIGHT + RING_HEIGHT_OFFSET)
 		};
-		
-		//TODO CServer::getSingletonPtr()->getRingRadio(ring)
-		static const int RING_WIDTH = 50; // TODO FRS Si los anillos están escalados, hay que hacer 3 versiones
-		static const int RING_RAD[] = {58, 73, 58};
 		static const int RING_RAD_SQR[] = { RING_RAD[0] * RING_RAD[0], 
 											RING_RAD[1] * RING_RAD[1],
 											RING_RAD[2] * RING_RAD[2]}; 
 		static const int RAD_SQR_MIN[] = { 
-			(RING_RAD[0] - RING_WIDTH/2) * (RING_RAD[0] - RING_WIDTH/2),
-			(RING_RAD[1] - RING_WIDTH/2) * (RING_RAD[1] - RING_WIDTH/2), 
-			(RING_RAD[2] - RING_WIDTH/2) * (RING_RAD[2] - RING_WIDTH/2)}; 
+			pow( (float) RING_RAD[0] - RING_WIDTH_INT[0], 2),
+			pow( (float) RING_RAD[1] - RING_WIDTH_INT[1], 2),
+			pow( (float) RING_RAD[2] - RING_WIDTH_INT[2], 2)}; 
 		static const int RAD_SQR_MAX[] = {
-			(RING_RAD[0] + RING_WIDTH/2) * (RING_RAD[0] + RING_WIDTH/2),
-			(RING_RAD[1] + RING_WIDTH/2) * (RING_RAD[1] + RING_WIDTH/2), 
-			(RING_RAD[2] + RING_WIDTH/2) * (RING_RAD[2] + RING_WIDTH/2)}; 
+			pow( (float) RING_RAD[0] + RING_WIDTH_EXT[0], 2),
+			pow( (float) RING_RAD[1] + RING_WIDTH_EXT[1], 2), 
+			pow( (float) RING_RAD[2] + RING_WIDTH_EXT[2], 2)}; 
 
 		int ringIndex = 0;
 		for(; ringIndex < 3 && start.y < -RING_PLANES[ringIndex].d; ++ringIndex); // d = -height
