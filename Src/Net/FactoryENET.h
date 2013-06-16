@@ -16,9 +16,9 @@
 #define __Net_FactoryENET_H
 
 
-#include "Net/Factory.h"
-#include "Net/ServerENET.h"
-#include "Net/ClientENET.h"
+#include "Factory.h"
+#include "ServerENET.h"
+#include "ClientENET.h"
 
 namespace Net {
 

@@ -16,9 +16,10 @@
 #define __Net_ServerENET_H
 
 
+#include <enet/enet.h>
+
 #include "Server.h"
 
-#include "Enet/enet.h"
 
 namespace Net {
 

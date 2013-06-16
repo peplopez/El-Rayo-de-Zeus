@@ -62,7 +62,7 @@ namespace Graphics
 		// PT: si la escena tiene un billboardset con el nombre de
 		// la entidad de referencia  + "_billboard" se elimina ese billboardset		
 		if(_bbSet)	{ //se elimina ese billboardset
-			getSceneMgr()->destroyBillboardSet( _parentName + "_billboard");
+			getSceneMgr()->destroyBillboardSet(_bbSet);
 			_bbSet = 0;
 		}
 
@@ -77,6 +77,7 @@ namespace Graphics
 	***********************/
 
 	bool CBillboard::isVisible() const {
+		assert(_loaded && "Imprescindible haber cargado el billboard en escena primero");
 		return _bbSet->isVisible();
 	}
 

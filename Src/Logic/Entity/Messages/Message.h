@@ -68,8 +68,9 @@ namespace Logic
 			DELETE_PHYSICAL_ENTITY  = 0x34,	//mensaje de eliminacion de la entidad fisica
 			SHOP				    = 0x35,
 			ALTAR_MS_ORDER 		    = 0x36,
-			RESUME_ANIMATION		= 0x37
-		};
+			RESUME_ANIMATION		= 0x37,
+			FX_START,
+			FX_STOP		};
 
 		enum TActionType : unsigned char
 		{
@@ -111,7 +112,18 @@ namespace Logic
 			DISPLAY_SHOP		= 0x39,
 			ACTIVATE_SHOP		= 0x40,
 			DEACTIVATE_SHOP		= 0x41,
-			FINISH_SUCCESS		= 0x42
+			FINISH_SUCCESS		= 0x42,	
+			FX_BLAST,
+			FX_BLAST_SMALL,
+			FX_CIRCLES,
+			FX_ELECTRIC_ORB,
+			FX_FLAME_THROWER,
+			FX_RAIN,
+			FX_SMOKE,
+			FX_BURN,
+			FX_BURN_SMALL,
+			FX_SPARKS,
+			FX_TRAILS
 		};
 	}
 

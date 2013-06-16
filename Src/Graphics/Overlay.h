@@ -16,6 +16,7 @@ Contiene la declaración de la clase que maneja el Overlay.
 #ifndef __Graphics_Overlay_H
 #define __Graphics_Overlay_H
 
+
 #include <OgreOverlay.h>
 #include <OgreOverlayElement.h> // FRS Necesario para el enum de MetricsMode
 
@@ -52,7 +53,7 @@ namespace Graphics
 
 		enum MetricsMode { 
 			PIXELS = Ogre::GMM_PIXELS,		// medidas en pixeles 
-			RELATIVE = Ogre::GMM_RELATIVE // (la otra opcion es proporciones de pantalla 0 -> 1)
+			RELATIVES = Ogre::GMM_RELATIVE // (la otra opcion es proporciones de pantalla 0 -> 1)
 		};
 			
 		/**

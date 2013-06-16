@@ -15,10 +15,10 @@
 #ifndef __Net_ClientENET_H
 #define __Net_ClientENET_H
 
+#include <Enet/Enet.h>
 
+#include "Client.h"
 
-#include "Net/Client.h"
-#include "Enet/Enet.h"
 
 namespace Net {
 

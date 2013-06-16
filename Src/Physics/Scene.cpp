@@ -19,11 +19,9 @@
 #include "Physics/ContactListener.h"
 #include <Physics\DebugDraw\OgreB2DebugDraw.h>
 
-
 #include <Box2D\Dynamics\b2World.h>
 #include <Box2D\Common\b2Math.h>
 #include <Box2D\Common\b2Settings.h>
-
 
 #include "Graphics\Server.h"
 #include "Graphics\Scene.h"
@@ -54,7 +52,7 @@ namespace Physics
 		{
 //#ifdef _DEBUG
 			_debugDraw = new OgreB2DebugDraw(Graphics::CServer::getSingletonPtr()->getScene(name)->getSceneMgr(), "debugDraw") ;
-			_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(name)->getCamera()->getCameraNode());
+			_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(name)->getCamera()->getNode());
 			_debugDraw->SetFlags(b2Draw::e_shapeBit);
 			_world->SetDebugDraw(_debugDraw);
 //#endif		

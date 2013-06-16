@@ -9,19 +9,18 @@ la gestión de la red del juego.
 @author David Llansó
 @date Diciembre, 2010
 */
-
 #include "Manager.h"
 
-#include "Logic/Entity/Entity.h"
-#include "Logic/Maps/Map.h"
-#include "Logic/Server.h"
-
-#include "Net/Buffer.h"
-#include "Net/FactoryENET.h"
-#include "Net/IObserver.h"
-
-
 #include <cassert>
+
+#include <Logic/Entity/Entity.h>
+#include <Logic/Maps/Map.h>
+#include <Logic/Server.h>
+
+#include "Buffer.h"
+#include "FactoryENET.h"
+#include "IObserver.h"
+
 
 #define DEBUG 0
 #if DEBUG

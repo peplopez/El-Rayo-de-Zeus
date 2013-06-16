@@ -19,9 +19,9 @@ la gestión del audio en el juego.
 #include <fmod.hpp>
 #include <fmod_errors.h>
 
-#include "BaseSubsystems/Math.h"
+#include <BaseSubsystems\Math.h>
 
-using namespace FMOD;
+using namespace FMOD; 
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Logic 

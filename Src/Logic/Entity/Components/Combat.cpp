@@ -13,19 +13,20 @@ angular de entidades.
 
 #include "Combat.h"
 
-#include "Logic/Entity/Components/AnimatedGraphics.h"
+#include <Application/BaseApplication.h> // HACK FRS Que tendremos que evitar en algún momento
+#include <Logic/Entity/Entity.h>
+#include <Logic/Entity/Messages/Message.h>
+#include <Logic/Entity/Messages/MessageAudio.h>
+#include <Logic/Entity/Messages/MessageFloat.h>
+#include <Logic/Entity/Messages/MessageBoolUShort.h>
+#include <Logic/Entity/Messages/MessageUShort.h>
+#include <Logic/Entity/Messages/MessageUInt.h>
+#include <Logic/Entity/Messages/MessageString.h>
+#include <Logic/Maps/Map.h>
+#include <Map/MapEntity.h>
 
-#include "Logic/Entity/Entity.h"
-#include "Map/MapEntity.h"
-#include "Logic/Maps/Map.h"
-#include "Application/BaseApplication.h"
+#include "AnimatedGraphics.h"
 
-#include "Logic/Entity/Messages/Message.h"
-#include "Logic/Entity/Messages/MessageFloat.h"
-#include "Logic/Entity/Messages/MessageBoolUShort.h"
-#include "Logic/Entity/Messages/MessageUShort.h"
-#include "Logic/Entity/Messages/MessageUInt.h"
-#include "Logic/Entity/Messages/MessageAudio.h"
 
 //declaración de la clase
 namespace Logic 
@@ -64,10 +65,6 @@ namespace Logic
 
 		return true;
 	}		
-
-	void CCombat::deactivate()
-	{
-	}
 	
 	bool CCombat::accept(const CMessage *message)
 	{//aviso de que tanto accept como process son un poco hack, pero es es solo hasta tener un componente NPCCONTROLLER
@@ -76,14 +73,25 @@ namespace Logic
 				(message->getAction() == Message::LIGHT_ATTACK || 
 				message->getAction() == Message::HEAVY_ATTACK || 
 				message->getAction() == Message::COVER) || 
-				(message->getType()==Message::ANIMATION_FINISHED || message->getType()==Message::DAMAGE_MOMENT));
+				(message->getType()==Message::ANIMATION_FINISHED || message->getType()==Message::DAMAGE_MOMENT)) ||
+				message->getType() == Message::ATTACH; // HACK FRS FX Test
 
 	}
-		
+	
+
+	
 	void CCombat::process(CMessage *message)
 	{
 		switch(message->getType())
 		{
+
+/////////// HACK FRS FX TEST //////////////
+		case Message::ATTACH:
+			_isModeBomb = message->getAction() == Message::ATTACH_TO_HAND &&
+				static_cast<CMessageString*>(message)->getString() == "puPoisonOnHand2.0.mesh";				
+			break;
+////////////////////////////////////
+
 		case Message::CONTROL:
 			{			
 				if(message->getAction() == Message::LIGHT_ATTACK)
@@ -94,6 +102,8 @@ namespace Logic
 					 cover();
 				break;
 			}
+
+		// TODO FRS Cuando un case se alarga tanto -> función handler especifica
 		case Message::ANIMATION_FINISHED:
 			{
 				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
@@ -153,6 +163,14 @@ namespace Logic
 		 //muint->setAction(Message::DAMAGE);
 		 //muint->setUInt(_lifeModifierLightAttack);
 		 //_entity->emitMessage(muint);
+///////////// HACK TEST FRS Para probar FX
+		if(_isModeBomb) {
+			CMessage *txMsg = new CMessage();	
+				txMsg->setType(Message::FX_START);
+				txMsg->setAction(Message::FX_BLAST);
+				_entity->emitMessage(txMsg,this);
+		}
+////////////////////
 
 		_attackPower = _lifeModifierLightAttack;
 

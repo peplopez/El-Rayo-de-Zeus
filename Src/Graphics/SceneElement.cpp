@@ -71,7 +71,8 @@ namespace Graphics
 		
 	void CSceneElement::unload()
 	{
-		if(_node)	{ // desacoplamos el elemento de su nodo			
+		if(_node)	{ // desacoplamos el elemento de su nodo	
+			assert(_scene && "¡¡El elemento grafico debe estar asociada a una escena!!");
 			_node->detachAllObjects();
 			_scene->getSceneMgr()->destroySceneNode(_node); // y lo liberamos
 			_node = 0;

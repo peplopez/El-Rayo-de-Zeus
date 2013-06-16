@@ -4,7 +4,7 @@ This source file is part of OGRE
 (Object-oriented Graphics Rendering Engine)
 For the latest info, see http://www.ogre3d.org
 
-Copyright (c) 2000-2009 Torus Knot Software Ltd
+Copyright (c) 2000-2011 Torus Knot Software Ltd
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -700,7 +700,19 @@ namespace Ogre
 
 		mResourceManager->lockDeviceAccess();
 
-		mDeviceManager->linkRenderWindow(renderWindow);
+        try
+        {
+		    mDeviceManager->linkRenderWindow(renderWindow);
+        }
+        catch (const Ogre::RenderingAPIException&)
+        {
+            // after catching the exception, clean up
+            mResourceManager->unlockDeviceAccess();
+            renderWindow->destroy();
+
+            // re-throw
+            throw;
+        }
 
 		mResourceManager->unlockDeviceAccess();
 	
@@ -835,10 +847,6 @@ namespace Ogre
 			if ((rkCurCaps.TextureOpCaps & D3DTEXOPCAPS_DOTPRODUCT3) == 0)
 				rsc->unsetCapability(RSC_DOT3);
 
-			// Check cube map support.
-			if ((rkCurCaps.TextureOpCaps & D3DPTEXTURECAPS_CUBEMAP) == 0)
-				rsc->unsetCapability(RSC_CUBEMAPPING);
-			
 			// Scissor test
 			if ((rkCurCaps.RasterCaps & D3DPRASTERCAPS_SCISSORTEST) == 0)
 				rsc->unsetCapability(RSC_SCISSOR_TEST);
@@ -861,6 +869,10 @@ namespace Ogre
 			if ((rkCurCaps.DeclTypes & D3DDTCAPS_UBYTE4) == 0)			
 				rsc->unsetCapability(RSC_VERTEX_FORMAT_UBYTE4);	
 
+			// Check cube map support.
+			if ((rkCurCaps.TextureCaps & D3DPTEXTURECAPS_CUBEMAP) == 0)
+				rsc->unsetCapability(RSC_CUBEMAPPING);
+			
 			// 3D textures?
 			if ((rkCurCaps.TextureCaps & D3DPTEXTURECAPS_VOLUMEMAP) == 0)			
 				rsc->unsetCapability(RSC_TEXTURE_3D);			
@@ -1096,6 +1108,17 @@ namespace Ogre
 			}			
 		}
 
+		// In case we didn't found any vertex shader support
+		// try the IDirect3DDevice9 caps instead of the IDirect3D9
+		// software vertex processing is reported there
+		if (major == 0 && minor == 0)
+		{
+			IDirect3DDevice9* lpD3DDevice9 = getActiveD3D9Device();
+			D3DCAPS9 d3dDeviceCaps9;
+			lpD3DDevice9->GetDeviceCaps(&d3dDeviceCaps9);
+			major = static_cast<ushort>((d3dDeviceCaps9.VertexShaderVersion & 0x0000FF00) >> 8);
+			minor = static_cast<ushort>(d3dDeviceCaps9.VertexShaderVersion & 0x000000FF);
+		}
 		
 		bool vs2x = false;
 		bool vs2a = false;

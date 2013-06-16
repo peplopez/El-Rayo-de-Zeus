@@ -163,12 +163,12 @@ namespace Graphics
 		/**	
 		Controla todos los elementos Ogre de una escena.
 		*/
-		CScene *_scene;
+		CScene* _scene;
 
 		/**
 		Nodo que contiene el elemento de escena
 		*/
-		Ogre::SceneNode *_node;
+		Ogre::SceneNode* _node;
 
 		/**
 		Escala del nodo de escena
