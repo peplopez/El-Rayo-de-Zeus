@@ -38,8 +38,8 @@ namespace AI
 
 		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
-		message->setUShort(Logic::ACTIVATE_ALTAR);
-		message->setBool(true);
+		message->setUShort(Logic::SWITCH_ALTAR);
+		message->setBool(false);
 		_entity->emitMessage(message);
 		
 		if (_entity->hasComponent<CCombat>())

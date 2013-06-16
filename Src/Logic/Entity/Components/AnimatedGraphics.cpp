@@ -166,7 +166,7 @@ namespace Logic
 		if (entityInfo->hasAttribute("animDamage"))
 			_animSet->addAnimation(Logic::DAMAGE,entityInfo->getStringAttribute("animDamage"));
 		if (entityInfo->hasAttribute("animActivateAltar"))
-			_animSet->addAnimation(Logic::ACTIVATE_ALTAR,entityInfo->getStringAttribute("animActivateAltar"));
+			_animSet->addAnimation(Logic::SWITCH_ALTAR,entityInfo->getStringAttribute("animActivateAltar"));
 		if (entityInfo->hasAttribute("animCoverWithWeapon"))
 			_animSet->addAnimation(Logic::COVER_WITH_WEAPON,entityInfo->getStringAttribute("animCoverWithWeapon"));
 		if (entityInfo->hasAttribute("animCoverWithShield"))
@@ -203,7 +203,8 @@ namespace Logic
 			_animSet->addEventTime(Logic::COVER_WITH_SHIELD, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
 		if (entityInfo->hasAttribute("event_DT_Cover"))
 			_animSet->addEventTime(Logic::COVER_WITH_WEAPON, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
-
+		if (entityInfo->hasAttribute("event_DT_ActivateAltar"))
+			_animSet->addEventTime(Logic::SWITCH_ALTAR, Logic::SWITCH_MOMENT, entityInfo->getFloatAttribute("event_DT_ActivateAltar"));
 		//especificos de cancerbero
 		if (entityInfo->hasAttribute("animJumpDown"))
 			_animSet->addAnimation(Logic::JUMP_DOWN,entityInfo->getStringAttribute("animJumpDown"));
@@ -251,7 +252,7 @@ namespace Logic
 		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
 		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
 
-		if (_currentLogicAnimation == Logic::COVER_WITH_SHIELD || _currentLogicAnimation == Logic::COVER_WITH_WEAPON)
+		if (_currentLogicAnimation == Logic::COVER_WITH_SHIELD || _currentLogicAnimation == Logic::COVER_WITH_WEAPON || _currentLogicAnimation == Logic::SWITCH_ALTAR)
 		{
 			_graphicalEntity->pauseAnimation(track.second);
 		}
