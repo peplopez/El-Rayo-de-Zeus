@@ -1,23 +1,21 @@
 /**
-@file CLA_Attack.h
+@file CLA_Run.h
 
 En este fichero se implementan algunas acciones 
 latentes básicas.
 
 @author Jose Luis Löpez
 @date Marzo 2013
-*/
 
+*/
 #pragma once
 
-#ifndef __AI_ATTACKLatentActions_H
-#define __AI_ATTACKLatentActions_H
+#ifndef __AI_WALKLatentActions_H
+#define __AI_WALKLatentActions_H
 
 #include "LatentAction.h"
-#include "Logic/Entity/Messages/Message.h"
 
 #include "Logic/Entity/Entity.h"
-
 
 using namespace Logic;
 
@@ -27,7 +25,7 @@ namespace AI
 	/**
 	Esta acción espera durante un periodo de tiempo indicado en el constructor.
 	*/
-	class CLA_Attack : public CLatentAction
+	class CLA_Walk : public CLatentAction
 	{
 	public:
 		/**
@@ -35,12 +33,11 @@ namespace AI
 		
 		@param time Tiempo de espera
 		*/
-		CLA_Attack(CEntity* entity,unsigned short initialCombatState, Message::TActionType action) : CLatentAction(),
-			_animationSetedByMe(0), _initialCombatState(initialCombatState), _action(action) {this->setEntity(entity);}
+		CLA_Walk(CEntity* entity, Sense sentido) : CLatentAction() {this->setEntity(entity); _sense=sentido;};
 		/**
 		Destructor
 		*/
-		~CLA_Attack() {};
+		~CLA_Walk() {};
 
 		/**
 		Método invocado al principio de la ejecución de la acción,
@@ -118,14 +115,11 @@ namespace AI
 
 		virtual void awakeComponents();
 
-	protected:
-		
-		unsigned short _animationSetedByMe;
-		unsigned short _initialCombatState;
 
-		Message::TActionType _action;
+	protected:
+		Sense _sense;
 	};
 
 } //namespace AI 
 
-#endif // __LOGIC_IDLELatentActions_H
+#endif // __LOGIC_WALKLatentActions_H

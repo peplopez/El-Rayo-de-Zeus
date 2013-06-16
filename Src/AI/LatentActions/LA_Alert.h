@@ -1,23 +1,22 @@
 /**
-@file CLA_Attack.h
+@file CLA_Alert.h
 
 En este fichero se implementan algunas acciones 
 latentes básicas.
 
-@author Jose Luis Löpez
-@date Marzo 2013
+@author Jose Luis López
+@date Junio 2013
+
 */
 
 #pragma once
 
-#ifndef __AI_ATTACKLatentActions_H
-#define __AI_ATTACKLatentActions_H
+#ifndef __AI_Alert_H
+#define __AI_Alert_H
 
 #include "LatentAction.h"
-#include "Logic/Entity/Messages/Message.h"
 
 #include "Logic/Entity/Entity.h"
-
 
 using namespace Logic;
 
@@ -27,7 +26,7 @@ namespace AI
 	/**
 	Esta acción espera durante un periodo de tiempo indicado en el constructor.
 	*/
-	class CLA_Attack : public CLatentAction
+	class CLA_Alert : public CLatentAction
 	{
 	public:
 		/**
@@ -35,12 +34,13 @@ namespace AI
 		
 		@param time Tiempo de espera
 		*/
-		CLA_Attack(CEntity* entity,unsigned short initialCombatState, Message::TActionType action) : CLatentAction(),
-			_animationSetedByMe(0), _initialCombatState(initialCombatState), _action(action) {this->setEntity(entity);}
+		CLA_Alert(CEntity* entity) : CLatentAction() {this->setEntity(entity);};
+
+		CLA_Alert(CEntity* entity, std::string anim) : CLatentAction() {this->setEntity(entity); this->setStartingAnimation(anim);};
 		/**
 		Destructor
 		*/
-		~CLA_Attack() {};
+		~CLA_Alert() {};
 
 		/**
 		Método invocado al principio de la ejecución de la acción,
@@ -114,18 +114,14 @@ namespace AI
 		*/
 		virtual void tick(unsigned int msecs);
 		
+
 		virtual void sleepComponents();
 
 		virtual void awakeComponents();
-
 	protected:
 		
-		unsigned short _animationSetedByMe;
-		unsigned short _initialCombatState;
-
-		Message::TActionType _action;
 	};
 
 } //namespace AI 
 
-#endif // __LOGIC_IDLELatentActions_H
+#endif // __AI_Alert_H

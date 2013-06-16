@@ -26,6 +26,10 @@ de ejemplo.
 
 #include "../LatentActions/LAIdle.h"
 #include "../LatentActions/LA_Attack.h"
+#include "../LatentActions/LA_AttackCreature.h"
+#include "../LatentActions/LA_Alert.h"
+#include "../LatentActions/LA_Walk.h"
+
 #include "../LatentActions/LA_Run.h"
 #include "../LatentActions/LA_Jump.h"
 #include "../LatentActions/LA_ChangeBase.h"

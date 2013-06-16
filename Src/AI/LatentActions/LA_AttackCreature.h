@@ -1,17 +1,21 @@
 /**
-@file CLA_Attack.h
+@file CLA_AttackCreature.h
 
-En este fichero se implementan algunas acciones 
-latentes básicas.
+En este fichero se implementan la acción latente de ataque para criaturas.
+Se podría haber hecho en LA_Attack que usan los heroes. Pero ese fichero ya
+lleva demasiada lógica, mejor no complicarla teniendo en cuenta lógica para
+tantas criaturas diferentes que puede haber. Además que ese estado se basa
+en enlace de combos y las criaturas, al menos de momento, no entienden de 
+combos según el documento de diseño.
 
 @author Jose Luis Löpez
-@date Marzo 2013
+@date Junio 2013
 */
 
 #pragma once
 
-#ifndef __AI_ATTACKLatentActions_H
-#define __AI_ATTACKLatentActions_H
+#ifndef __AI_AttackCreatureLatentActions_H
+#define __AI_AttackCreatureLatentActions_H
 
 #include "LatentAction.h"
 #include "Logic/Entity/Messages/Message.h"
@@ -27,7 +31,7 @@ namespace AI
 	/**
 	Esta acción espera durante un periodo de tiempo indicado en el constructor.
 	*/
-	class CLA_Attack : public CLatentAction
+	class CLA_AttackCreature : public CLatentAction
 	{
 	public:
 		/**
@@ -35,12 +39,12 @@ namespace AI
 		
 		@param time Tiempo de espera
 		*/
-		CLA_Attack(CEntity* entity,unsigned short initialCombatState, Message::TActionType action) : CLatentAction(),
+		CLA_AttackCreature(CEntity* entity,unsigned short initialCombatState, Message::TActionType action) : CLatentAction(),
 			_animationSetedByMe(0), _initialCombatState(initialCombatState), _action(action) {this->setEntity(entity);}
 		/**
 		Destructor
 		*/
-		~CLA_Attack() {};
+		~CLA_AttackCreature() {};
 
 		/**
 		Método invocado al principio de la ejecución de la acción,
@@ -128,4 +132,4 @@ namespace AI
 
 } //namespace AI 
 
-#endif // __LOGIC_IDLELatentActions_H
+#endif // __AI_AttackCreatureLatentActions_H

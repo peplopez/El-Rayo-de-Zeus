@@ -98,6 +98,15 @@
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_AltarSwitch.cpp">
       <Filter>Decision\LatentActions\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Alert.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_AttackCreature.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Walk.cpp">
+      <Filter>Decision\LatentActions\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\AI\Server.h">
@@ -174,6 +183,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Src\AI\StateMachines\StateMachineFactory.h">
       <Filter>Decision\StateMachines\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Alert.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_AttackCreature.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Walk.h">
+      <Filter>Decision\LatentActions\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

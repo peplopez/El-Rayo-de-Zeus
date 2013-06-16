@@ -34,6 +34,9 @@ namespace Logic
 		
 		if(entityInfo->hasAttribute("angularSpeed"))
 			_angularSpeed = entityInfo->getFloatAttribute("angularSpeed");
+		//if(entityInfo->hasAttribute("wanderAngularSpeed"))
+			//_angularSpeed = entityInfo->getFloatAttribute("wanderAngularSpeed");
+
 		if(entityInfo->hasAttribute("turnSpeedFactor"))
 			_turnSpeedFactor = entityInfo->getFloatAttribute("turnSpeedFactor");
 
@@ -127,17 +130,20 @@ namespace Logic
 	void CAvatarController::emitAngularSpeed(Logic::Sense sense)
 	{
 		Logic::CMessageFloat *m = new Logic::CMessageFloat();
-			m->setType(Logic::Message::AVATAR_MOVE);
+		m->setType(Logic::Message::AVATAR_MOVE);
+
+		 //si la maquina de estados dice que wander es true (es decir estamos andando y no corriendo) reducimos la velocidad aquí.
+		float tempAngularSpeed=_wander?_angularSpeed/2:_angularSpeed;
 
 		switch (sense)
 		{
 		case Logic::Sense::RIGHT: 
-			m->setAction(Logic::Message::WALK_RIGHT);
-			m->setFloat(-_angularSpeed);
+			m->setAction(Logic::Message::WALK_RIGHT);			
+			m->setFloat(-tempAngularSpeed);
 			break;
 		case Logic::Sense::LEFT: 
 			m->setAction(Logic::Message::WALK_LEFT);
-			m->setFloat(_angularSpeed);
+			m->setFloat(tempAngularSpeed);
 			break;
 		}
 

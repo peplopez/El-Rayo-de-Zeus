@@ -52,7 +52,7 @@ namespace Logic
 		defecto.
 		*/
 		CAvatarController() : IComponent(GetAltTypeIdOf(CAvatarController)), _angularSpeed(0), _turnSpeedFactor(0), _totalYaw(0),
-				_targetSense(Logic::LogicalPosition::UNDEFINED), _walkingRight(false), _walkingLeft(false), _acumRotation(0){}
+				_targetSense(Logic::LogicalPosition::UNDEFINED), _walkingRight(false), _walkingLeft(false), _acumRotation(0), _wander(false){}
 		
 		/**
 		Inicialización del componente, utilizando la información extraída de
@@ -147,7 +147,7 @@ namespace Logic
 
 		bool isWalkingLeft() {return _walkingLeft;}
 
-		
+		void setWander(bool wander) {_wander=wander;}
 
 	protected:
 
@@ -194,8 +194,12 @@ namespace Logic
 		/**
 		*/
 		void rotate(Logic::Sense sense, unsigned int msecs);
-
-	
+		
+		/**
+		Variable que establece si tiene un comportamiento de estar vagando. Lo usa cancerbero, que tiene posibilidad de andar o correr.
+		En estos casos cambia la velocidad
+		*/
+		bool _wander;
 
 	}; // class CAvatarController
 
