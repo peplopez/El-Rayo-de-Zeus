@@ -38,10 +38,7 @@ Map = {
 		behavior="Hercules",
 		hero="Hercules",
 		initialMaterial="SpartanBodyTatoo",
-		audio="media\\audio\\QUEJIDO1.wav",
-		fxScript0 = "Blast",	
-		fxScript1 = "FlameThrower",
-		fxPos1 = {0,10,0},
+		audio="media\\audio\\QUEJIDO1.wav",		
 	},
 	
 	AltarRed = {
@@ -54,6 +51,8 @@ Map = {
 		physicWidth = 2.5,
 		physicHeight = 7.5,
 		physicTrigger = true,
+		fxScript0 = "ElectricOrb",	
+		fxPos0 = {0,5,0},
 	},
 
 	AltarBlue = {
@@ -67,6 +66,8 @@ Map = {
 		physicWidth = 2.5,
 		physicHeight = 7.5,
 		physicTrigger = true,
+		fxScript0 = "BurnHit_Small",	
+		fxPos0 = {0,5,0},
 	},
 	
 	AltarGreen = {
@@ -80,6 +81,8 @@ Map = {
 		physicWidth = 2.5,
 		physicHeight = 7.5,
 		physicTrigger = true,
+		fxScript0 = "TorchFire",	
+		fxPos0 = {0,5,0},
 	},
 
 	AltarYellow = {
@@ -93,6 +96,8 @@ Map = {
 		physicWidth = 2.5,
 		physicHeight = 7.5,
 		physicTrigger = true,
+		fxScript0 = "Smoke",	
+		fxPos0 = {0,5,0},
 	},
 		
 	PointLight = {
@@ -302,6 +307,8 @@ Map = {
 		orbitalOffset = 0.013,
 		orbitalSpeed = 0.004,
 		orbitalRotationSpeed = 0.001,	
+		fxScript0 = "Sparks",
+		fxPos0 = {0,10,0},
 	},
 	PUHourglass = {
 		type = "PowerUp",

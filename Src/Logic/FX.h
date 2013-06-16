@@ -64,15 +64,17 @@ namespace Logic
 			static TActionToHfxMap _ACTION_TO_HFX;
 				static TActionToHfxMap _initActionToHfxMap() {
 					TActionToHfxMap map;
-						map[Message::TActionType::FX_BLAST]			="Blast";
-						map[Message::TActionType::FX_CIRCLES]		="Circles";
-						map[Message::TActionType::FX_ELECTRIC_ORB]	="ElectricOrb";
-						map[Message::TActionType::FX_FLAME_THROWER]	="FlameThrower";
-						map[Message::TActionType::FX_RAIN]			="Rain";
-						map[Message::TActionType::FX_SMOKE]			="Smoke";
-						map[Message::TActionType::FX_SMOKE_BURN]	="BurnHit";
-						map[Message::TActionType::FX_SPARKS]		="Sparks";
-						map[Message::TActionType::FX_TRAILS]		="Trails";
+						map[Message::TActionType::FX_BLAST]				="Blast";
+						map[Message::TActionType::FX_BLAST_SMALL]		="Blast_Small";
+						map[Message::TActionType::FX_CIRCLES]			="Circles";
+						map[Message::TActionType::FX_ELECTRIC_ORB]		="ElectricOrb";
+						map[Message::TActionType::FX_FLAME_THROWER]		="FlameThrower";
+						map[Message::TActionType::FX_RAIN]				="Rain";
+						map[Message::TActionType::FX_SMOKE]				="Smoke";
+						map[Message::TActionType::FX_BURN]				="BurnHit";
+						map[Message::TActionType::FX_BURN_SMALL]		="BurnHit_Small";
+						map[Message::TActionType::FX_SPARKS]			="Sparks";
+						map[Message::TActionType::FX_TRAILS]			="Trails";
 
 					// TODO añadir on demand...
 					return map;

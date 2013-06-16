@@ -91,17 +91,15 @@ namespace Graphics
 
 		// create a light under the ElectricOrb effect
 		// UNDONE FRS
-		// if ( strstr(obj->GetPath(), "ElectricOrb.hfx") )
-		//{
-		//	IHHFXOgre* fx = static_cast<IHHFXOgre*>(obj);
-		//	const Vector3& fxPosition = fx->getParentSceneNode()->getPosition();
-
-		//	Ogre::Light* pointLight = getSceneMgr()->createLight("pointLight" + Ogre::StringConverter::toString((unsigned int)(obj)));
-		//	pointLight->setType(Ogre::Light::LT_POINT);
-		//	pointLight->setPosition(fxPosition + Vector3::UNIT_Y * 0.8f);
-		//	pointLight->setDiffuseColour(0.1f, 0.1f, 1.0f);
-		//	pointLight->setSpecularColour(0.8f, 0.8f, 1.0f);
-		//}
+		 if ( strstr(obj->GetPath(), "ElectricOrb.hfx") )
+		{
+			IHHFXOgre* fx = static_cast<IHHFXOgre*>(obj);	
+			Ogre::Light* pointLight = getSceneMgr()->createLight("pointLight" + Ogre::StringConverter::toString((unsigned int)(obj)));
+			pointLight->setType(Ogre::Light::LT_POINT);
+			pointLight->setPosition(fx->getParentSceneNode()->getPosition() + Vector3::UNIT_Y * 0.8f);
+			pointLight->setDiffuseColour(0.1f, 0.1f, 1.0f);
+			pointLight->setSpecularColour(0.8f, 0.8f, 1.0f);
+		}
 	}
 
 	//--------------------------------------------------------
@@ -112,15 +110,14 @@ namespace Graphics
 		assert( _movObj == static_cast<IHHFXOgre*>(obj)  
 			&& "Evento recibido para un MO distinto del wrappeado en este ParticleSystem");
 		
-		_movObj->detachFromParent();
-		getSceneMgr()->destroyMovableObject(_movObj); 
-		_movObj = 0;
-		
 		// destroy the light created under ElectricOrb
 		// UNDONE FRS
-		//if (strstr(obj->GetPath(), "ElectricOrb.hfx") != NULL)
-		//	getSceneMgr()->destroyLight("pointLight" + Ogre::StringConverter::toString((unsigned int)(obj)));
+		if (strstr(obj->GetPath(), "ElectricOrb.hfx") != NULL)
+			getSceneMgr()->destroyLight("pointLight" + Ogre::StringConverter::toString((unsigned int)(obj)));
 
+		_movObj->detachFromParent();
+		getSceneMgr()->destroyMovableObject(_movObj); 
+		_movObj = 0;	
 	}
 
 	
@@ -139,9 +136,14 @@ namespace Graphics
 		try{		
 			_hhfxScene = _scene->getHHFXScene();
 
-		    // create a node to attach the effect
-			_node = getSceneMgr()->getSceneNode( _parentName + "_node")
-								 ->createChildSceneNode(_relativePos); // TODO FRS añadir algún tipo de orientación inicial?
+			// Orientacion initial rotada 180 hacia -X (cara frontal de nuestras entidades)
+			Quaternion orientation; 
+				orientation.FromAngleAxis( Ogre::Radian( Math::PI ), Vector3::UNIT_Y);
+		    
+			// create a node to attach the effect
+			_node = getSceneMgr()->getSceneNode( _parentName + "_node") 
+				 ->createChildSceneNode(_relativePos, orientation); 
+						
 			_loaded = true;
 			
 		} catch(std::exception e){

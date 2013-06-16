@@ -61,24 +61,31 @@ namespace Logic
 		}
 		return true;
 	}		
-
-	void CAttack::deactivate()
-	{
-	}
 	
 	bool CAttack::accept(const CMessage *message)
 	{//aviso de que tanto accept como process son un poco hack, pero es es solo hasta tener un componente NPCCONTROLLER
 	//	return false;
-		return (message->getType() == Message::CONTROL && 
-			(message->getAction() == Message::LIGHT_ATTACK||
-			message->getAction() == Message::HEAVY_ATTACK) || message->getAction() == Message::COVER) || (message->getType()==Message::ANIMATION_FINISHED ||message->getType()==Message::ANIMATION_MOMENT);
+		return	message->getType() == Message::CONTROL ||
+				message->getType() == Message::ANIMATION_FINISHED || 
+				message->getType() == Message::ANIMATION_MOMENT ||
+				message->getType() == Message::ATTACH; // HACK FRS FX Test
 
 	}
-		
-	 void CAttack::process(CMessage *message)
-		 {
+	
+
+	
+	void CAttack::process(CMessage *message)
+	{
 		switch(message->getType())
 		{
+
+/////////// HACK FRS FX TEST //////////////
+		case Message::ATTACH:
+			_isModeBomb = message->getAction() == Message::ATTACH_TO_HAND &&
+				static_cast<CMessageString*>(message)->getString() == "puPoisonOnHand2.0.mesh";				
+			break;
+////////////////////////////////////
+
 		case Message::CONTROL:
 			{			
 				if(message->getAction() == Message::LIGHT_ATTACK)
@@ -89,6 +96,8 @@ namespace Logic
 					cover();
 				break;
 			}
+
+		// TODO FRS Cuando un case se alarga tanto -> función handler especifica
 		case Message::ANIMATION_FINISHED:
 			{
 				CMessageString* maux = static_cast<CMessageString*>(message);
@@ -158,9 +167,12 @@ namespace Logic
 		_lightAttack=true;
 
 ///////////// HACK TEST FRS Para probar FX
-		CMessage *txMsg = new CMessage();	
-			txMsg->setType(Message::FX_START);
-			_entity->emitMessage(txMsg,this);
+		if(_isModeBomb) {
+			CMessage *txMsg = new CMessage();	
+				txMsg->setType(Message::FX_START);
+				txMsg->setAction(Message::FX_BLAST);
+				_entity->emitMessage(txMsg,this);
+		}
 ////////////////////
 
 

@@ -35,7 +35,7 @@ de una escena.
 #include "GlowMaterialListener.h"
 #include "SceneElement.h"
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "GRAPHICS::SCENE>> " << msg << std::endl;
@@ -56,19 +56,15 @@ namespace Graphics
 		_camera = new CCamera(name,this);
 		_baseCamera = new CCamera("base" + name, this);
 
-		_hhfxSceneSetup(); // Init Hell Heaven FX Scene
+		_hhfxSceneInit(); // Init Hell Heaven FX Scene
 	} // CScene
 
 	//--------------------------------------------------------
 
 	CScene::~CScene() 
 	{
-		deactivate();		
-		
-		// Hell Heaven FX 
-		_hhfxScene->Clear(); // clear the scene before shutting down ogre since the hhfx ogre implementation holds some Ogre objects.
-		_hhfxCompositorUnload(); 
-
+		deactivate();	
+		_hhfxSceneDeinit(); // Hell Heaven FX		
 		_sceneMgr->destroyStaticGeometry(_staticGeometry);
 		delete _camera;
 		_root->destroySceneManager(_sceneMgr);
@@ -85,8 +81,8 @@ namespace Graphics
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
 						->addViewport(_camera->getCamera());
 
-		_camera->getCamera()->setAspectRatio(
-        Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
+		_camera->getCamera()->setAspectRatio( 
+			Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
 
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
 
@@ -135,14 +131,13 @@ namespace Graphics
 
 		_baseCamera->getCamera()->setAspectRatio(
         Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
-
 		
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
 
 		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
 			activateCompositor("Glow");
 
-		GlowMaterialListener *gml = new GlowMaterialListener();
+		GlowMaterialListener *gml = new GlowMaterialListener(); // FRS y este new? no se pierde en el limbo? WTF?
 		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
 
 		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
@@ -157,9 +152,9 @@ namespace Graphics
 	//--------------------------------------------------------
 
 	void CScene::deactivate()
-	{
+	{		
 		if(_viewport)
-		{
+		{			
 			BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->
 					removeViewport(_viewport->getZOrder());
 			_viewport = 0;
@@ -266,7 +261,9 @@ namespace Graphics
 		HELL HEAVEN FX
 	*********************/
 
-	void CScene::_hhfxSceneSetup() 
+	//------------ INIT & DEINIT -------------------------------------------------------------------------
+
+	void CScene::_hhfxSceneInit() 
 	{	
 		// retrieve the HellHeaven's scene from an empty fx. for each Ogre::SceneManager a HHFXScene is associated.
 		Ogre::MovableObject	*dummyMO = _sceneMgr->createMovableObject("HHFX");
@@ -281,6 +278,16 @@ namespace Graphics
 		_hhfxScene->SetWorldScale( HHFX_WORLD_SCALE ); 
 
 		_root->addFrameListener(this);
+	}
+
+	//-------------------------------------------------------------------------------------
+
+	void CScene::_hhfxSceneDeinit() 
+	{
+		// Hell Heaven FX 
+		_hhfxScene->Clear(); // clear the scene before shutting down ogre since the hhfx ogre implementation holds some Ogre objects.
+		_root->removeFrameListener(this); // FRS Nos borramos como oyentes de eventos de FrameRender de Ogre
+		//_hhfxCompositorUnload(); // UNDONE FRS Los compositors no se descargan de mem?		
 	}
 
 	//-------------------------------------------------------------------------------------
@@ -301,7 +308,10 @@ namespace Graphics
 		Ogre::CompositorManager::getSingleton().removeCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");	
 	}
 
-	//-------------------------------------------------------------------------------------
+
+
+
+	//----------- COLLISION CALLBACK --------------------------------------------------------------------------
 
 	// HACK FRS Esto hay que migrarlo a LOGIC -> map? y usar los valores correctos
 	// TODO FRS Habría que tener en cuenta colisiones con planos superiores (por fuerzas no gravitatorias?)

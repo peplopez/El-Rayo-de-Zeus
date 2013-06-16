@@ -51,6 +51,7 @@ Map ={
 		type = "World",
 		base=2,
 		ring=0,
+		fxScript0="Rain",
 	},
 	
 	CenterRing = {
@@ -62,7 +63,7 @@ Map ={
 	UpperRing = {
 		type = "World",
 		base=2,
-		ring=2,
+		ring=2,		
 	},
 	
 	Altar1 = {

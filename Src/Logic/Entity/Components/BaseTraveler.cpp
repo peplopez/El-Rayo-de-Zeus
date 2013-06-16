@@ -112,8 +112,17 @@ namespace Logic
 				if (_changeAllowed)
 				{
 					_changingBase=true;
-					_entity->getMap()->setVisible(); 
+					_entity->getMap()->setVisible();
+
+////////////////////// HACK TEST FRS Para probar FX					
+					CMessage *txMsg = new CMessage();	
+						txMsg->setType(Message::FX_START);
+						txMsg->setAction(Message::FX_CIRCLES);
+						_entity->emitMessage(txMsg,this);
+////////////////////////////////////////////////
+
 				}
+				// HACK de Hardcode (FRS)
 				if (_entity->getName()=="GemeloGreen" || _entity->getName()=="GemeloYellow" /*|| _entity->getName()=="GemeloBlue"*/) 
 				{
 					_changingBase=true;

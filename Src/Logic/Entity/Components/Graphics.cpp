@@ -39,7 +39,7 @@ namespace Logic
 
 	CGraphics::~CGraphics() 
 	{
-		if(_graphicalEntity){			
+		if(_graphicalEntity){				
 			_scene->remove(_graphicalEntity);
 			delete _graphicalEntity;
 		}

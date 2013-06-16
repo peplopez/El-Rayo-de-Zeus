@@ -330,7 +330,8 @@ namespace Graphics
 		
 	private:				
 		IHHFXScene *_hhfxScene;
-		void _hhfxSceneSetup();
+		void _hhfxSceneInit();
+		void _hhfxSceneDeinit();
 		void _hhfxCompositorLoad();
 		void _hhfxCompositorUnload();
 		static bool _hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, const Ogre::Vector3 &direction, float length, SContactReport &contactReport);

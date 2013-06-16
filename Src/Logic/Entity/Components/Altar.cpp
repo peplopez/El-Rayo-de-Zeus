@@ -210,7 +210,7 @@ namespace Logic
 				
 ///////////// HACK TEST FRS Para probar FX
 		CMessage *txMsg = new CMessage();	
-			txMsg->setType(Message::FX_START);			
+			txMsg->setType(Message::FX_START);		
 			_entity->emitMessage(txMsg,this);
 ////////////////////
 

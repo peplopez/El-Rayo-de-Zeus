@@ -114,6 +114,11 @@ namespace Logic
 
 		attachToMap(map); // Add PSs to Scene
 
+/////////////// HACK FRS RAIN
+		if(_entity->getType() == "World" && !_psTable.empty())
+			_psTable.begin()->second->start();
+////////////////////////////////////
+
 		return true;
 
 	} // spawn
@@ -132,17 +137,21 @@ namespace Logic
 	
 	void CFX::process(CMessage *message)
 	{
-		if(_psTable.empty())
-			return;
-
 		Graphics::CParticleSystem* ps = 
 			message->getAction() == Message::TActionType::UNDEF ?
-				_psTable.begin()->second :
-				_psTable[ _ACTION_TO_HFX[ message->getAction() ] ]; 
-				// Si no se especifica Action actuamos sobre el primer PS
+				_psTable.begin()->second :	// Si no se especifica Action actuamos sobre el primer PS
+				_psTable[ _ACTION_TO_HFX[ message->getAction() ] ]; 				
+						
+		// FRS Generamos el sistema, aunque sea en la posicion 0,0,0
+		if(!ps) {
+			std::string hfx = _ACTION_TO_HFX[ message->getAction() ];
+			ps = _psTable[hfx] = new Graphics::CParticleSystem( hfx, _entity->getGraphicalName() );
+			_graphicalScene->add(ps);
+		}
+		//assert(ps && "La entidad no usa el FX que especifica el ActionType recibido");		
 
-		assert(ps && "La entidad no usa el FX que especifica el ActionType recibido");
-		// TODO FRS Quizá habría que generar el sistema, aunque sea en la posicion 0,0,0
+		if(_psTable.empty())
+			return;
 
 		switch(message->getType())
 		{
