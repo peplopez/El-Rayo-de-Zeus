@@ -50,10 +50,10 @@ namespace Graphics
 	bool CAnimatedEntity::setAnimation(const std::string &anim, float moment, bool loop, std::vector<std::pair<unsigned short,float>>* eventChain)
 	{
 		assert(_entity && "La entidad no ha sido cargada en la escena");
-		_paused=false;
-		_ticksPaused=0;
-		_activeEventChain=eventChain;	
-		_index=0;
+		_paused = false;
+		_secsPaused = 0.0f;
+		_activeEventChain = eventChain;	
+		_index = 0;
 		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
 			return false;
 		
@@ -90,31 +90,61 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
-	bool CAnimatedEntity::pauseAnimation(float moment)
+	void CAnimatedEntity::setAnimationTime(float moment)
 	{
 		assert(_entity  && "La entidad no ha sido cargada en la escena");
-		_ticksPaused=0;
-		if (!_paused)
-		{
-			_paused=true;			
-		}else
-		{
-			_paused=false;
-			return false;
-		}
-		if(!_entity->getAllAnimationStates()->hasAnimationState(_currentAnimationName))
-			return false;
-		Ogre::AnimationState *animation = _entity->getAnimationState(_currentAnimationName);
-		//animation->setEnabled(false);
-		if( animation->hasEnded() )			// [f®§] Necesario para resetear animaciones finitas (loop = false).
-		animation->setTimePosition(moment);  // De lo contrario, no dejan de lanzar el evento finished a los observer
-	} // pauseAnimation
 
-	bool CAnimatedEntity::pauseAnimationXTicks(float moment, unsigned int ticks)
+		_currentAnimation->setTimePosition(moment);
+
+	} // 
+
+	//--------------------------------------------------------
+
+	void CAnimatedEntity::pauseAnimation(float moment)
 	{
-		_maxTicks=ticks;
-		pauseAnimation(moment);
-		return true;
+		assert(_entity  && "La entidad no ha sido cargada en la escena");
+
+		_pauseRequested = true;
+		_maxSecs = -1.0f;
+		_secsPaused = 0.0f;
+		_timeToPause = moment;
+
+	} //
+
+	//--------------------------------------------------------
+
+	void CAnimatedEntity::pauseAnimationXsecs(float moment, float secs)
+	{
+		assert(_entity  && "La entidad no ha sido cargada en la escena");
+
+		_pauseRequested = true;
+		_maxSecs = secs;
+		_secsPaused = 0.0f;
+		_timeToPause = moment;
+	}
+
+	//--------------------------------------------------------
+
+	void CAnimatedEntity::pauseAnimationXsecs(float secs)
+	{
+		assert(_entity  && "La entidad no ha sido cargada en la escena");
+
+		_paused = true;
+		_maxSecs = secs;
+		_secsPaused = 0.0f;
+		_timeToPause = 0;
+	}
+
+	//--------------------------------------------------------
+	
+	void CAnimatedEntity::resumeAnimation()
+	{
+		if (_paused)
+		{
+			_paused = false;
+			_secsPaused = 0.0f;
+			_maxSecs = 0.0f;
+		}
 	}
 
 	//--------------------------------------------------------
@@ -148,9 +178,20 @@ namespace Graphics
 	
 	void CAnimatedEntity::tick(float secs)
 	{
-		//PeP, este tick se ha quedado en los huesos, si hay aun ciertas cosas es por la funcionalidad de poder pausar una animación, cosa que se maneja en parte en el tick.
+		//PeP, este tick se ha quedado en los huesos, si hay aun ciertas cosas es por la funcionalidad de poder pausar una animación,
+		//cosa que se maneja en parte en el tick.
 		if(_currentAnimation)
 		{
+			if (_pauseRequested)
+				if (_currentAnimation->getTimePosition() + secs >= _timeToPause)
+				{
+					_currentAnimation->setTimePosition(_timeToPause);
+					_secsPaused = _currentAnimation->getTimePosition() + secs - _timeToPause;
+					_paused = true;
+					_pauseRequested = false;
+
+				}
+
 			if (_rewinding)
 			{
 				_currentAnimation->addTime(-secs);
@@ -161,17 +202,22 @@ namespace Graphics
 				}
 			}	
 			else
-				if (!_paused)
-					_currentAnimation->addTime(secs);
-				else
-					_ticksPaused++;
-			
-			if (_paused && _maxTicks>0 && _ticksPaused>_maxTicks)
 			{
-				_ticksPaused=0;
-				_maxTicks=0;
-				_paused=false;
+				if (_paused)
+				{
+					_secsPaused += secs;
+					if (_maxSecs > 0.0f && _secsPaused > _maxSecs)
+					{
+						_currentAnimation->addTime(_secsPaused - _maxSecs);
+						_paused = false;
+					}
+
+				}
+				else
+					_currentAnimation->addTime(secs);
 			}
+			
+
 			
 			if (_activeEventChain!=NULL)
 			{
@@ -180,14 +226,15 @@ namespace Graphics
 					while (_index < _activeEventChain->size() && _activeEventChain->at(_index).second < _currentAnimation->getTimePosition())
 					{
 						_observer->animationMomentReached(_activeEventChain->at(_index));
-						_index++;
+						++_index;
 					}
 				}			
-				// Comprobamos si la animaci?n ha terminado para avisar
 			}
+
 			if(_observer && _currentAnimation->hasEnded())
 			{
-				_observer->animationFinished(std::pair<unsigned short,float>(1,0)); //correspondiente a ANIMATION_END
+				if (!_paused)
+					_observer->animationFinished(std::pair<unsigned short,float>(1,0)); //correspondiente a ANIMATION_END
 			}
 		}
 

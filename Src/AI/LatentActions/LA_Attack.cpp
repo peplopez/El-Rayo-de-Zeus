@@ -127,7 +127,7 @@ namespace AI
 	bool CLA_Attack::accept(const CMessage *message)
 	{		
 		// la accion latente de ataque solo acepta mensajes de ataque en el momento que la oportunidad de combo está activada.
-		return 	(message->getType()==Message::ANIMATION_FINISHED);
+		return 	(message->getType() == Message::ANIMATION_FINISHED);
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la

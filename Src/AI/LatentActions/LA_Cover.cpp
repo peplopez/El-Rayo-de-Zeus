@@ -34,8 +34,7 @@ namespace AI
 		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
 		message->setUShort(Logic::COVER_WITH_SHIELD );
-		message->setAction(Message::UNDEF);
-		message->setBool(true);
+		message->setBool(false);
 		_entity->emitMessage(message);			
 		return SUSPENDED;
 	}
@@ -82,8 +81,7 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Cover::OnAbort() 
 	{
-		// Cuando se aborta se queda en estado terminado con fallo
-		std::cout<<"AI::StateMachine::CoverSALIENDO"<<std::endl;	
+		// Cuando se aborta se queda en estado terminado con fallo	
 		awakeComponents();
 		return FAIL;
 	}
@@ -99,14 +97,7 @@ namespace AI
 	*/
 	bool CLA_Cover::accept(const CMessage *message)
 	{		
-		return false; //en capitulos anteriores quise que reciviera mensajes, ya no. lo anulo.
-					//por otra parte sabed que al ser virtual puro me obliga a implementarlo aunque no haga nada.
-		/*return (_comboOportunity && (message->getType() == Message::CONTROL && 
-			(message->getAction() == Message::LIGHT_ATTACK||
-			message->getAction() == Message::HEAVY_ATTACK)))
-			||*/
-			/*(message->getType()==Message::ANIMATION_MOMENT) &&  _initialCombatState!=2)*/
-			/*(message->getType()==Message::CONTROL);*/
+		return false; 
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la

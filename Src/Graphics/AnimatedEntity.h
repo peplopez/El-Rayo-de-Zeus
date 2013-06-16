@@ -122,7 +122,8 @@ namespace Graphics
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
 		CAnimatedEntity(const std::string &name, const std::string &mesh):
-					CEntity(name,mesh), _currentAnimation(0), _currentAnimationName(""), _activeEventChain(0), _rewinding(false),_paused(false),_ticksPaused(0),_maxTicks(0),_index(0) {}
+					CEntity(name,mesh), _currentAnimation(0), _currentAnimationName(""), _activeEventChain(0), _rewinding(false), _paused(false), 
+						_pauseRequested(false), _timeToPause(0), _secsPaused(0), _maxSecs(-1), _index(0) {}
 
 		/**
 		Activa una animación a partir de su nombre.
@@ -160,10 +161,15 @@ namespace Graphics
 		
 		void rewind(const std::string &anim,const bool moment)	{_rewinding=true;} 
 
+		void setAnimationTime(float moment);
+		void pauseAnimation(float moment);
+		void pauseAnimationXsecs(float moment, float secs);	
+		void pauseAnimationXsecs(float secs);	
 
-		bool pauseAnimation(float moment);
+		void resumeAnimation();
+		void rewindAnimation();
 
-		bool pauseAnimationXTicks(float moment, unsigned int ticks);	
+		
 
 	private:
 
@@ -199,11 +205,15 @@ namespace Graphics
 		*/
 		void tick(float secs);
 
-		bool _paused;
-		
-		unsigned int _ticksPaused;
+		bool _pauseRequested;
 
-		unsigned int _maxTicks;
+		bool _paused;
+
+		float _timeToPause;
+		
+		float _secsPaused;
+
+		float _maxSecs;
 
 		std::vector<std::pair<unsigned short,float>>* _activeEventChain;
 
