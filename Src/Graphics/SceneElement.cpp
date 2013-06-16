@@ -76,8 +76,8 @@ namespace Graphics
 			_node->detachAllObjects();
 			_scene->getSceneMgr()->destroySceneNode(_node); // y lo liberamos
 			_node = 0;
-		}
-
+		}// create a node to attach the effect
+		
 		_loaded = false;
 	} // unload
 	

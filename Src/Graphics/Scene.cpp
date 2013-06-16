@@ -324,7 +324,7 @@ namespace Graphics
 		static const int RING_HEIGHT = 100;
 		static const int RING_HEIGHT_OFFSET = 2;
 		static const int RING_RAD[]		= {58, 73, 58};
-		static const int RING_WIDTH[]	= {50, 70, 50};
+		static const int RING_WIDTH[]	= {50, 75, 50};
 		static const int	RING_WIDTH_INT[] = {   RING_WIDTH[0] / 3,    RING_WIDTH[1] / 4,	0.4* RING_WIDTH[2]};
 		static const int	RING_WIDTH_EXT[] = {2* RING_WIDTH[0] / 3, 3* RING_WIDTH[1] / 4, 0.6* RING_WIDTH[2]};
 
