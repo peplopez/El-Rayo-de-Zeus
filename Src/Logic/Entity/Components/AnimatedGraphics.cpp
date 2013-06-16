@@ -116,13 +116,9 @@ namespace Logic
 		assert(_scene && "LOGIC::ANIMATED_GRAPHICS>> No existe escena gráfica!");
 		assert( _model.length() > 0  &&  "LOGIC::ANIMATED_GRAPHICS>> No existe modelo!");	
 
-		std::stringstream ssAux; // FRS Importante añadir ID para evitar entidades gráficas con = nombre
-			ssAux << _entity->getName() << _entity->getEntityID();
-			std::string	name = ssAux.str();
-
-		_graphicalEntity = new Graphics::CAnimatedEntity(name,_model);
-			if(!_scene->add(_graphicalEntity) )
-				return 0;
+		_graphicalEntity = new Graphics::CAnimatedEntity(_entity->getGraphicalName(),_model);
+		if(!_scene->add(_graphicalEntity) )
+			return 0;
 
 		// DEFAULT ANIMATION
 		if(entityInfo->hasAttribute("defaultAnimation")) { 
