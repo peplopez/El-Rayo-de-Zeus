@@ -35,7 +35,7 @@ gráfica de la entidad.
 #include "Logic/BaseInfo.h"
 #include "Logic/PlayerInfo.h"
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "LOGIC::BASE_TRAVELER>> " << msg << std::endl;
@@ -112,9 +112,17 @@ namespace Logic
 				if (_changeAllowed)
 				{
 					_changingBase=true;
-					_entity->getMap()->setVisible(); 
+					_entity->getMap()->setVisible();
+
+////////////////////// HACK TEST FRS Para probar FX					
+					CMessage *txMsg = new CMessage();	
+						txMsg->setType(Message::FX_START);
+						txMsg->setAction(Message::FX_CIRCLES);
+						_entity->emitMessage(txMsg,this);
+////////////////////////////////////////////////
+
 				}
-				if (_entity->getName()=="GemeloGreen" || _entity->getName()=="GemeloYellow" || _entity->getName()=="GemeloBlue") 
+				if (_entity->getName()=="GemeloGreen" || _entity->getName()=="GemeloYellow" || _entity->getName()=="GemeloBlue") // HACK de Hardcode (FRS)
 				{
 					_changingBase=true;
 					CMessageUShort *maux = static_cast<CMessageUShort*>(message);

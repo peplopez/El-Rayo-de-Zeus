@@ -58,7 +58,7 @@ namespace Logic
 			{
 				_reloj->addTimeObserver(this, 5000);
 				_reloj->addTimeObserver(this, 5500);
-				if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+				if (_entity->hasComponent<CPhysicalCharacter>())
 					_entity->getComponent<CPhysicalCharacter>()->sleep();
 			}
 		_step=0;
@@ -143,7 +143,7 @@ namespace Logic
 				_entity->setPosition(position);
 				if (_step==2)
 				{
-					if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+					if (_entity->hasComponent<CPhysicalCharacter>())
 						_entity->getComponent<CPhysicalCharacter>()->sleep();
 
 					_entity->roll(msecs*0.002);

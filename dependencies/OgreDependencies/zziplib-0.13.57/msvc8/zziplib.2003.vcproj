@@ -45,6 +45,7 @@ copy &quot;$(ProjectDir)..\zzip\zzip.h&quot; &quot;$(SolutionDir)..\include\zzip
 copy &quot;$(ProjectDir)..\zzip\types.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y
 copy &quot;$(ProjectDir)..\zzip\conf.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y
 copy &quot;$(ProjectDir)..\zzip\_msvc.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y
+copy &quot;$(ProjectDir)..\zzip\plugin.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y
 "/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -98,6 +99,7 @@ copy &quot;$(ProjectDir)..\zzip\zzip.h&quot; &quot;$(SolutionDir)..\include\zzip
 copy &quot;$(ProjectDir)..\zzip\types.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y
 copy &quot;$(ProjectDir)..\zzip\conf.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y
 copy &quot;$(ProjectDir)..\zzip\_msvc.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y
+copy &quot;$(ProjectDir)..\zzip\plugin.h&quot; &quot;$(SolutionDir)..\include\zzip&quot; /y
 "/>
 			<Tool
 				Name="VCPreBuildEventTool"/>

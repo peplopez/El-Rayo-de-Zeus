@@ -38,11 +38,11 @@ namespace AI
 
 		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
-		message->setUShort(Logic::ACTIVATE_ALTAR);
-		message->setBool(true);
+		message->setUShort(Logic::SWITCH_ALTAR);
+		message->setBool(false);
 		_entity->emitMessage(message);
 		
-		if (_entity->getComponent<CCombat>()!=NULL)
+		if (_entity->hasComponent<CCombat>())
 				_entity->getComponent<CCombat>()->setCovering(false);		
 
 		return SUSPENDED;
@@ -103,8 +103,9 @@ namespace AI
 	bool CLA_AltarSwitch::accept(const CMessage *message)
 	{		
 		// La acción no acepta mensajes
-		return message->getType() == Message::ALTAR_MS_ORDER &&
-				message->getAction() == Message::FINISH_SUCCESS;
+		return (message->getType() == Message::ALTAR_MS_ORDER &&
+				message->getAction() == Message::FINISH_SUCCESS) || 
+				(message->getType() == Message::ANIMATION_FINISHED);;
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
@@ -114,7 +115,18 @@ namespace AI
 	*/
 	void CLA_AltarSwitch::process(CMessage *message)
 	{
-		finish(true);
+		if (message->getType() == Message::ALTAR_MS_ORDER &&
+			message->getAction() == Message::FINISH_SUCCESS)
+		{
+			CMessage* txMsg = new CMessage();
+			txMsg->setType(Message::RESUME_ANIMATION);
+			_entity->emitMessage(txMsg);
+		}
+
+		else if (message->getType() == Message::ANIMATION_FINISHED)
+		{
+			finish(true);
+		}
 	}
 	
 	void CLA_AltarSwitch::tick(unsigned int msecs) 
@@ -124,13 +136,9 @@ namespace AI
 
 	void CLA_AltarSwitch::sleepComponents()
 	{
-
-	
 	}
 
 	void CLA_AltarSwitch::awakeComponents()
 	{
-
-	
 	}
 } //namespace LOGIC

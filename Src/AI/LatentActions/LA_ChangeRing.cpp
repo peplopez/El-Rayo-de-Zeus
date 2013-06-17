@@ -53,7 +53,7 @@ namespace AI
 	{
 		std::cout<<"AI::StateMachine::ChangeRing-OnStop"<<std::endl;
 		awakeComponents();
-		if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+		if (_entity->hasComponent<CPhysicalCharacter>())
 			_entity->getComponent<CPhysicalCharacter>()->enableCollisions();
 	}
 
@@ -166,7 +166,7 @@ namespace AI
 					{
 						_turning=false;
 						jump();
-						if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+						if (_entity->hasComponent<CPhysicalCharacter>())
 							_entity->getComponent<CPhysicalCharacter>()->disableCollisions();
 					}
 				}
@@ -241,7 +241,7 @@ namespace AI
 					{
 						_turning=false;
 						jump();
-						if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+						if (_entity->hasComponent<CPhysicalCharacter>())
 							_entity->getComponent<CPhysicalCharacter>()->disableCollisions();
 					}
 				}
@@ -257,7 +257,7 @@ namespace AI
 			if (ring != _initialRing && _entity->getLogicalPosition()->getHeight() < 50)
 			{
 				_changeDone=true;
-				if (_entity->getComponent<CPhysicalCharacter>()!=NULL)
+				if (_entity->hasComponent<CPhysicalCharacter>())
 					_entity->getComponent<CPhysicalCharacter>()->enableCollisions();
 			}
 			
@@ -286,18 +286,18 @@ namespace AI
 
 	void CLA_ChangeRing::sleepComponents()
 	{
-		if (_entity->getComponent<CAvatarController>()!=NULL)
+		if (_entity->hasComponent<CAvatarController>())
 			_entity->getComponent<CAvatarController>()->sleep();	
-		if (_entity->getComponent<CJump>()!=NULL)
+		if (_entity->hasComponent<CJump>())
 			_entity->getComponent<CJump>()->sleep();
 
 	}
 
 	void CLA_ChangeRing::awakeComponents()
 	{			
-		if (_entity->getComponent<CAvatarController>()!=NULL)
+		if (_entity->hasComponent<CAvatarController>())
 			_entity->getComponent<CAvatarController>()->awake();	
-		if (_entity->getComponent<CJump>()!=NULL)
+		if (_entity->hasComponent<CJump>())
 			_entity->getComponent<CJump>()->awake();
 	}	
 } //namespace LOGIC

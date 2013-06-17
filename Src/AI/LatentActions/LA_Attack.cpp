@@ -76,7 +76,7 @@ namespace AI
 	void CLA_Attack::OnStop()
 	{
 		awakeComponents();
-		if (_entity->getComponent<CCombat>()!=NULL)
+		if (_entity->hasComponent<CCombat>())
 			_entity->getComponent<CCombat>()->resetAttackFlags();
 	}
 
@@ -109,7 +109,7 @@ namespace AI
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
 		awakeComponents();
-		if (_entity->getComponent<CCombat>()!=NULL)
+		if (_entity->hasComponent<CCombat>())
 			_entity->getComponent<CCombat>()->resetAttackFlags();
 	
 		return FAIL;
@@ -127,7 +127,7 @@ namespace AI
 	bool CLA_Attack::accept(const CMessage *message)
 	{		
 		// la accion latente de ataque solo acepta mensajes de ataque en el momento que la oportunidad de combo está activada.
-		return 	(message->getType()==Message::ANIMATION_FINISHED);
+		return 	(message->getType() == Message::ANIMATION_FINISHED);
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
@@ -181,31 +181,31 @@ namespace AI
 
 	void CLA_Attack::sleepComponents()
 	{
-		if (_entity->getComponent<CCombat>()!=NULL)
+		if (_entity->hasComponent<CCombat>())
 			_entity->getComponent<CCombat>()->resetAttackFlags();
 
-		if (_entity->getComponent<CAvatarController>()!=NULL)
+		if (_entity->hasComponent<CAvatarController>())
 			_entity->getComponent<CAvatarController>()->sleep();
 
-		if (_entity->getComponent<CJump>()!=NULL)
+		if (_entity->hasComponent<CJump>())
 			_entity->getComponent<Logic::CJump>()->sleep();
 
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
+		if (_entity->hasComponent<CBaseTraveler>())
 			_entity->getComponent<CBaseTraveler>()->sleep();
 	}
 
 	void CLA_Attack::awakeComponents()
 	{
-		if (_entity->getComponent<CCombat>()!=NULL)
+		if (_entity->hasComponent<CCombat>())
 			_entity->getComponent<CCombat>()->resetAttackFlags();
 
-		if (_entity->getComponent<CAvatarController>()!=NULL)
+		if (_entity->hasComponent<CAvatarController>())
 			_entity->getComponent<CAvatarController>()->awake();
 
-		if (_entity->getComponent<CJump>()!=NULL)
+		if (_entity->hasComponent<CJump>())
 			_entity->getComponent<Logic::CJump>()->awake();
 
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
+		if (_entity->hasComponent<CBaseTraveler>())
 			_entity->getComponent<CBaseTraveler>()->awake();
 	}
 } //namespace LOGIC

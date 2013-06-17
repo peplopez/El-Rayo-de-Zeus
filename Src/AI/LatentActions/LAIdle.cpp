@@ -39,7 +39,7 @@ namespace AI
 		_entity->emitMessage(message);
 
 		
-		if (_entity->getComponent<CCombat>()!=NULL)
+		if (_entity->hasComponent<CCombat>())
 				_entity->getComponent<CCombat>()->setCovering(false);		
 
 		return SUSPENDED;

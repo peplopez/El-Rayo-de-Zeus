@@ -91,10 +91,8 @@ namespace AI
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
 		awakeComponents();
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
-		{
+		if (_entity->hasComponent<CBaseTraveler>())
 			_entity->getComponent<CBaseTraveler>()->resetChangingBase();		
-		}
 		return FAIL;
 	}
 	/**
@@ -130,13 +128,13 @@ namespace AI
 
 	void CLA_Jump::sleepComponents()
 	{
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
+		if (_entity->hasComponent<CBaseTraveler>())
 			_entity->getComponent<CBaseTraveler>()->sleep();
 	}
 
 	void CLA_Jump::awakeComponents()
 	{	
-		if (_entity->getComponent<CBaseTraveler>()!=NULL)
+		if (_entity->hasComponent<CBaseTraveler>())
 			_entity->getComponent<CBaseTraveler>()->awake();
 	}
 } //namespace LOGIC

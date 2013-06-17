@@ -51,7 +51,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../Src;../../dependencies/include/;../../dependencies/include/boost;../../dependencies/include/OIS;../../dependencies/include/OGRE;../../dependencies/include/cegui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Src;../../dependencies/include;../../dependencies/include/OIS;../../dependencies/include/OGRE;../../dependencies/include/cegui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -71,7 +71,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../Src;../../dependencies/include/;../../dependencies/include/boost;../../dependencies/include/OIS;../../dependencies/include/OGRE;../../dependencies/include/cegui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Src;../../dependencies/include;../../dependencies/include/OIS;../../dependencies/include/OGRE;../../dependencies/include/cegui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -102,12 +102,6 @@
     <ClInclude Include="..\..\Src\GUI\PlayerController.h" />
     <ClInclude Include="..\..\Src\GUI\Server.h" />
     <ClInclude Include="..\..\Src\GUI\ShopController.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BaseSubsystems\BaseSubsystems.vcxproj">
-      <Project>{9c5c21d7-f23c-409d-a332-7be5a325fd7a}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

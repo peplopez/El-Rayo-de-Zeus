@@ -18,11 +18,12 @@
 <target name="llamaBuilds"
         description="Invoca todos los build.xml de las librerias con un target dado">
 
-      <ant antfile="build.xml" target="${targetUsed}" dir="./lua"/>
-	  <ant antfile="build.xml" target="${targetUsed}" dir="./luabind"/>
-	  <ant antfile="build.xml" target="${targetUsed}" dir="./OgreDependencies"/> 
-      <ant antfile="build.xml" target="${targetUsed}" dir="./Ogre"/>
-      <ant antfile="build.xml" target="${targetUsed}" dir="./CEGUI"/>
+	<ant antfile="build.xml" target="${targetUsed}" dir="./boost"/> 
+    <ant antfile="build.xml" target="${targetUsed}" dir="./lua"/>
+	<ant antfile="build.xml" target="${targetUsed}" dir="./luabind"/>	  
+	<ant antfile="build.xml" target="${targetUsed}" dir="./OgreDependencies"/> 
+    <ant antfile="build.xml" target="${targetUsed}" dir="./Ogre"/>
+    <ant antfile="build.xml" target="${targetUsed}" dir="./CEGUI"/>
 
 
 </target>
@@ -49,72 +50,65 @@
   <!-- TARGETS DE LIMPIEZA -->
   <!-- =================== -->
 
-<target name="cleanDebugObj"
-        description="Elimina los ficheros intermedios de la compilacion en Debug">
+	<target name="clean"
+			description="Elimina los ficheros intermedios de la compilación, las bibliotecas resultantes de dependencies/lib, dependencies/bin y Exes (con los ejecutables generados) y los archivos de inclusión de dependencies/include"
+			depends="cleanDebug, cleanRelease">
 
-  <antcall target="llamaBuilds">
-    <param name="targetUsed" value="cleanDebug"/>
-  </antcall> 
+	  <antcall target="llamaBuilds">
+		<param name="targetUsed" value="clean"/>
+	  </antcall>
+	  
+	  <delete includeemptydirs="true" failonerror="false">
+		<fileset dir="${basedir}/include" excludes="enet/,fmod/,hhfx/"/>  
+		<fileset dir="${basedir}/../Exes" includes="*" excludes="*.cfg"/>  
+	  </delete>  
 
-</target>
+	</target>
+	
 
-<target name="cleanReleaseObj"
-        description="Elimina los ficheros intermedios de la compilacion en Release">
+	<target name="cleanDebug"
+			description="Elimina los ficheros intermedios de la compilacion en Debug y las bibliotecas resultantes de dependencies/lib/Debug, dependencies/bin/Debug y Exes"
+			depends="cleanDebugObj">
+		  <delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${basedir}/lib/Debug" excludes="fmodex_vc.lib, enet.lib"/>  
+			<fileset dir="${basedir}/bin/Debug" excludes="fmodex.dll, Plugin_HellHeavenFX_v1-7-4_d.dll"/> 
+			<fileset dir="${basedir}/../Exes" includes="*_d*" excludes="*.cfg"/>  
+		  </delete>  
+	</target>
 
-  <antcall target="llamaBuilds">
-    <param name="targetUsed" value="cleanRelease"/>
-  </antcall>
-
-</target>
-
-<target name="cleanObj"
-        description="Elimina los ficheros intermedios de la compilación"
-        depends="cleanDebugObj, cleanReleaseObj">
-
-  <antcall target="llamaBuilds">
-    <param name="targetUsed" value="clean"/>
-  </antcall>
-
-</target>
-
-<target name="cleanDebug"
-        description="Elimina los ficheros intermedios de la compilacion en Debug y las bibliotecas resultantes de dependencies/lib/Debug, dependencies/bin/Debug y Exes"
-        depends="cleanDebugObj">
-
-  <delete includeemptydirs="true" failonerror="false">
-    <fileset dir="${basedir}/lib/Debug" includes="*CEGUI*,cg.lib,FreeImaged.lib,freetype2311_d.lib,*Ogre*,*OIS*,Plugin_CgProgramManager_d.lib,Plugin_ParticleFX_d.lib,RenderSystem_Direct3D9_d.lib,RenderSystem_GL_d.lib,zlibd.lib,zziplibd.lib,lua51.lib,luabindd.lib,tolua++_d.lib"/>  
-    <fileset dir="${basedir}/bin/Debug" includes="*CEGUI*,cg.dll,*Ogre*,*OIS*,Plugin_CgProgramManager_d.dll,Plugin_ParticleFX_d.dll,RenderSystem_Direct3D9_d.dll,RenderSystem_GL_d.dll,SILLY_d.dll,plugins_d.cfg,dbghelp.dll,vld.ini,vld_x86.dll,lua51.dll,luabindd.dll,tolua++_d.dll"/> 
-    <fileset dir="${basedir}/../Exes" includes="*_d*"/>  
-  </delete>  
-
-</target>
-
-<target name="cleanRelease"
+	<target name="cleanRelease"
         description="Elimina los ficheros intermedios de la compilacion en Release y las bibliotecas resultantes de dependencies/lib/Release, dependencies/bin/Release y Exes"
         depends="cleanReleaseObj">
-
-  <delete includeemptydirs="true" failonerror="false">
-    <fileset dir="${basedir}/lib/Release" includes="*CEGUI*,cg.lib,FreeImage.lib,freetype2311.lib,*Ogre*,*OIS*,Plugin_CgProgramManager.lib,Plugin_ParticleFX.lib,RenderSystem_Direct3D9.lib,RenderSystem_GL.lib,zlib.lib,zziplib.lib,lua51.lib,luabind.lib,tolua++.lib"/>  
-    <fileset dir="${basedir}/bin/Release" includes="*CEGUI*,cg.dll,*Ogre*,*OIS*,Plugin_CgProgramManager.dll,Plugin_ParticleFX.dll,RenderSystem_Direct3D9.dll,RenderSystem_GL.dll,SILLY.dll,plugins.cfg,lua51.dll,luabind.dll,tolua++.dll"/>  
-    <fileset dir="${basedir}/../Exes" includes="*" excludes="*_d*,cg.dll,ogre.cfg,resources.cfg,controls.cfg"/>  
-  </delete>  
-
-</target>
-
-<target name="clean"
-        description="Elimina los ficheros intermedios de la compilación, las bibliotecas resultantes de dependencies/lib, dependencies/bin y Exes (con los ejecutables generados) y los archivos de inclusión de dependencies/include"
-        depends="cleanDebug, cleanRelease">
-
-  <antcall target="llamaBuilds">
-    <param name="targetUsed" value="clean"/>
-  </antcall>
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${basedir}/lib/Release" excludes="fmodex_vc.lib, enet.lib"/> 
+			<fileset dir="${basedir}/bin/Release" excludes="fmodex.dll, Plugin_HellHeavenFX_v1-7-4_r.dll, Plugin_HellHeavenFX_v1-7-4.dll"/>
+			<fileset dir="${basedir}/../Exes" includes="*" excludes="*_d*,cg.dll,*.cfg"/>  
+		</delete>  
+    </target>
   
-  <delete includeemptydirs="true" failonerror="false">
-    <fileset dir="${basedir}/include" includes="cegui/,cg/,freetype/,OGRE/,OIS/,zzip/,FreeImage.h,ft2build.h,vld*,zconf.h,zlib.h,lua/,luabind/"/>  
-    <fileset dir="${basedir}/../Exes" includes="*" excludes="resources.cfg, controls.cfg"/>	
-  </delete>  
+	<target name="cleanObj"
+        description="Elimina los ficheros intermedios de la compilación"
+        depends="cleanDebugObj, cleanReleaseObj">
+	  <antcall target="llamaBuilds">
+		<param name="targetUsed" value="clean"/>
+	  </antcall>
+	</target>
 
-</target>
+
+	<target name="cleanDebugObj"
+        description="Elimina los ficheros intermedios de la compilacion en Debug">
+	  <antcall target="llamaBuilds">
+		<param name="targetUsed" value="cleanDebug"/>
+	  </antcall> 
+	</target>
+
+	<target name="cleanReleaseObj"
+			description="Elimina los ficheros intermedios de la compilacion en Release">
+	  <antcall target="llamaBuilds">
+		<param name="targetUsed" value="cleanRelease"/>
+	  </antcall>
+	</target>
+
 
   <!-- ================================== -->
   <!-- TARGETS DE COMPILACION INCREMENTAL -->

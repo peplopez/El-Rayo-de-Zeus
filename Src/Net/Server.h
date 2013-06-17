@@ -15,10 +15,11 @@
 #ifndef __Net_Server_H
 #define __Net_Server_H
 
-
-#include "Net/Packet.h"
-#include "Net/Connection.h"
 #include <vector>
+
+#include "Packet.h"
+#include "Connection.h"
+
 
 namespace Net {
 /**

@@ -24,7 +24,7 @@ namespace Logic
 	bool CAltarInfo::isActivated()
 	{
 		if (_altar) //si hay un puntero valido a un altar
-			if (_altar->getComponent<CAltar>()!=NULL)
+			if (_altar->hasComponent<CAltar>())
 				_activated=_altar->getComponent<CAltar>()->isActivated();
 		return _activated;
 	}	

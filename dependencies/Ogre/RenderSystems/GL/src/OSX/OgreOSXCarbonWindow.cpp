@@ -4,7 +4,7 @@ This source file is part of OGRE
 (Object-oriented Graphics Rendering Engine)
 For the latest info, see http://www.ogre3d.org
 
-Copyright (c) 2000-2009 Torus Knot Software Ltd
+Copyright (c) 2000-2011 Torus Knot Software Ltd
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -98,6 +98,13 @@ namespace Ogre
                 fullScreen = StringConverter::parseBool( opt->second );
         }
         
+        mName = name;
+        mWidth = width;
+        mHeight = height;
+        mColourDepth = depth;
+        mFSAA = fsaa_samples;
+        mIsFullScreen = fullScreen;
+
         if(fullScreen)
         {
             setFullscreen(fullScreen, width, height);
@@ -134,15 +141,9 @@ namespace Ogre
             }
         }
         
-        mName = name;
-        mWidth = width;
-        mHeight = height;
-        mColourDepth = depth;
-        mFSAA = fsaa_samples;
         mActive = true;
         mClosed = false;
         mCreated = true;
-        mIsFullScreen = fullScreen;
     }
 
     void OSXCarbonWindow::createAGLContext(size_t fsaa_samples, int depth)

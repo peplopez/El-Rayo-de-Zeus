@@ -14,6 +14,8 @@ Contiene la declaración del componente que gestiona el combate entre entidades.
 
 #include "Logic/Entity/Component.h"
 #include "BaseSubsystems/Math.h"
+
+
 namespace Logic
 {
 	class CMessage;
@@ -45,7 +47,8 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CCombat() : IComponent(GetAltTypeIdOf(CCombat)),_attackPower(0),_lifeModifierLightAttack(0), _lifeModifierHeavyAttack(0),_covering(false){}
+		CCombat() : IComponent(GetAltTypeIdOf(CCombat)),
+			_attackPower(0),_lifeModifierLightAttack(0), _lifeModifierHeavyAttack(0),_covering(false), _isModeBomb(false){}
 		//CCombat() : IComponent(GetAltTypeIdOf(CCombat)),_attackPower(0),_lifeModifierLightAttack(-10), _lifeModifierHeavyAttack(-20),_covering(false){}
 
 		/**
@@ -83,7 +86,7 @@ namespace Logic
 		se deregistra así mismo en el controlador del GUI para dejar de
 		recibir las ordenes dadas a partir de los eventos de teclado y ratón.
 		*/
-		void deactivate();
+		void deactivate() {}
 
 		/**
 		Método llamado en cada frame que actualiza el estado del componente.
@@ -135,7 +138,8 @@ namespace Logic
 		void setCovering(bool covering)
 		{_covering=covering;}	
 
-protected:
+
+	private:
 
 		float _attackPower;
 
@@ -144,6 +148,7 @@ protected:
 		int _lifeModifierHeavyAttack;
 
 		bool _covering;
+		bool _isModeBomb; // HACK FRS para probar FX
 		
 		std::string _audioCubriendose;
 	}; // class CCombat

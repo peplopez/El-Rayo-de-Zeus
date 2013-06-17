@@ -119,9 +119,13 @@ Parametros:
 <target name="createSln">
 
    <mkdir dir="${basedir}/build"/>
+   
+   <delete file="${basedir}/build/CMakeCache.txt" failonerror="false"/>
+  
    <exec executable="${basedir}/../CMake/bin/cmake.exe"
 	 dir="${basedir}/build/">
-      <arg value="-DOGRE_DEPENDENCIES_DIR=..\.."/>
+	  <env key="BOOST_ROOT" value="${basedir}/../boost"/>
+      <arg value="-DOGRE_DEPENDENCIES_DIR=..\.."/>	
       <arg value="-DOGRE_BUILD_SAMPLES=FALSE"/>
       <arg value="-DOGRE_BUILD_TOOLS=FALSE"/>
       <arg value="-DOGRE_BUILD_COMPONENT_PAGING=FALSE"/>
@@ -181,8 +185,7 @@ Parametros:
 
    <copy todir="../bin/Debug">
       <fileset dir="./build/bin/debug" 
-               includes="*.dll,*.cfg"
-               excludes="resources_d.cfg,samples_d.cfg,quakemap_d.cfg"/>
+               includes="*.dll"/>
    </copy>
 
 </target>
@@ -195,8 +198,7 @@ Parametros:
 
    <copy todir="../bin/Release">
       <fileset dir="./build/bin/release"
-               includes="*.dll,*.cfg"
-               excludes="resources.cfg,samples.cfg,quakemap.cfg"/>
+               includes="*.dll"/>
    </copy>
 
 </target>
@@ -205,6 +207,11 @@ Parametros:
   <!-- TARGETS DE COMPILACION INCREMENTAL -->
   <!-- ================================== -->
 
+<!-- Objetivo que compila el proyecto (Debug+Release) de forma incremental. -->
+<target name="build"
+        description="Compilación (incremental) Debug y Release."
+        depends="debug, release"/>
+		
 <!-- Objetivo que compila el proyecto en modo Debug. -->
 <target name="debug" depends="createSln"
         description="Compilación (incremental) en modo Debug">
@@ -233,10 +240,6 @@ Parametros:
 
 </target>
 
-<!-- Objetivo que compila el proyecto (Debug+Release) de forma incremental. -->
-<target name="build"
-        description="Compilación (incremental) Debug y Release."
-        depends="debug, release"/>
 
   <!-- =============================== -->
   <!-- TARGETS DE COMPILACION COMPLETA -->

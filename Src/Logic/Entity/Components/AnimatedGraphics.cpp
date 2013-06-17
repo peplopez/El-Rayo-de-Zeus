@@ -63,7 +63,8 @@ namespace Logic
 			   message->getType() == Message::SET_ANIMATION ||
 			   message->getType() == Message::STOP_ANIMATION ||
 			   message->getType() == Message::REWIND_ANIMATION ||
-			   message->getType() == Message::SET_ANIMATION_WITH_TIME
+			   message->getType() == Message::SET_ANIMATION_WITH_TIME ||
+			   message->getType() == Message::RESUME_ANIMATION
 			   ;
 
 	} // accept
@@ -82,7 +83,7 @@ namespace Logic
 				// Paramos todas las animaciones antes de poner una nueva.
 				// Un control más sofisticado debería permitir interpolación
 				// de animaciones. Galeon no lo plantea.
-				_graphicalEntity->stopAnimation();
+				_graphicalEntity->stopAllAnimations();
 				Logic::AnimationName name=static_cast<Logic::AnimationName>(rxMsg->getUShort());
 				std::string animString = _animSet->getAnimation(name);
 				if (_graphicalEntity->setAnimation(animString, 0, rxMsg->getBool(), _animSet->getEventChain(name)))
@@ -110,11 +111,16 @@ namespace Logic
 				LOG("REWIND_ANIMATION: " << rxMsg->getString());
 			}	break;
 
+			case Message::RESUME_ANIMATION: {
+				_graphicalEntity->resumeAnimation();
+				LOG("RESUMING ANIMATION");
+			}	break;
+
 			case Message::SET_ANIMATION_WITH_TIME:	{  //Pep, de momento esto solo lo usa el salto, pero es un buen recurso.
 				CMessageBoolFloatString *rxMsg = static_cast<CMessageBoolFloatString*>(message);
 				// de animaciones. Galeon no lo plantea.
 				_graphicalEntity->stopAllAnimations();
-				_graphicalEntity->setAnimation(rxMsg ->getString(), rxMsg ->getFloat(), rxMsg ->getBool(), NULL);//REVISAR ESTE NULL
+				_graphicalEntity->setAnimation(rxMsg ->getString(), rxMsg->getFloat(), rxMsg->getBool(), NULL); //REVISAR ESTE NULL
 				
 				LOG("SET_ANIMATION_WITH_TIME: " << rxMsg->getString());
 			} break;
@@ -129,14 +135,10 @@ namespace Logic
 		assert(_scene && "LOGIC::ANIMATED_GRAPHICS>> No existe escena gráfica!");
 		assert( _model.length() > 0  &&  "LOGIC::ANIMATED_GRAPHICS>> No existe modelo!");	
 
-		std::stringstream ssAux; // FRS Importante añadir ID para evitar entidades gráficas con = nombre
-			ssAux << _entity->getName() << _entity->getEntityID();
-			std::string	name = ssAux.str();
+		_graphicalEntity = new Graphics::CAnimatedEntity(_entity->getGraphicalName(),_model);
+		if(!_scene->add(_graphicalEntity) )
+			return 0;
 
-		_graphicalEntity = new Graphics::CAnimatedEntity(name,_model);
-			if(!_scene->add(_graphicalEntity) )
-				return 0;
-		
 		// Cargando AnimSet de map
 		_animSet = new Graphics::CAnimSet();	
 		initializeAnimSet(entityInfo);
@@ -150,6 +152,8 @@ namespace Logic
 		_graphicalEntity->setObserver(this);
 		return _graphicalEntity;
 	} // createGraphicsEntity
+
+	//---------------------------------------------------------
 
 	bool CAnimatedGraphics::initializeAnimSet(const Map::CEntity *entityInfo)
 	{
@@ -166,7 +170,7 @@ namespace Logic
 		if (entityInfo->hasAttribute("animDamage"))
 			_animSet->addAnimation(Logic::DAMAGE,entityInfo->getStringAttribute("animDamage"));
 		if (entityInfo->hasAttribute("animActivateAltar"))
-			_animSet->addAnimation(Logic::ACTIVATE_ALTAR,entityInfo->getStringAttribute("animActivateAltar"));
+			_animSet->addAnimation(Logic::SWITCH_ALTAR,entityInfo->getStringAttribute("animActivateAltar"));
 		if (entityInfo->hasAttribute("animCoverWithWeapon"))
 			_animSet->addAnimation(Logic::COVER_WITH_WEAPON,entityInfo->getStringAttribute("animCoverWithWeapon"));
 		if (entityInfo->hasAttribute("animCoverWithShield"))
@@ -203,7 +207,8 @@ namespace Logic
 			_animSet->addEventTime(Logic::COVER_WITH_SHIELD, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
 		if (entityInfo->hasAttribute("event_DT_Cover"))
 			_animSet->addEventTime(Logic::COVER_WITH_WEAPON, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
-
+		if (entityInfo->hasAttribute("event_DT_ActivateAltar"))
+			_animSet->addEventTime(Logic::SWITCH_ALTAR, Logic::SWITCH_MOMENT, entityInfo->getFloatAttribute("event_DT_ActivateAltar"));
 		//especificos de cancerbero
 		if (entityInfo->hasAttribute("animJumpDown"))
 			_animSet->addAnimation(Logic::JUMP_DOWN,entityInfo->getStringAttribute("animJumpDown"));
@@ -223,35 +228,29 @@ namespace Logic
 		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
 		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
 
-		if (_currentLogicAnimation!=Logic::DEATH)
+		if (_currentLogicAnimation != Logic::DEATH)
 		{
 			// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
 			CMessageUShort *txMsg = new CMessageUShort();
 			txMsg->setType(Message::ANIMATION_FINISHED);
 			txMsg->setUShort(_currentLogicAnimation); //PeP: envio que se ha finalizado la animación que se está reproduciendo.
 			_entity->emitMessage(txMsg);
-		// Si acaba una animación y tenemos una por defecto la ponemos, pero la animación por defecto debe ser lógica, hay que cambiarlo, pronto estará
+			// Pep, si acaba una animación y tenemos una por defecto la ponemos, pero la animación por defecto debe ser lógica, hay que cambiarlo, pronto estará
 			if (_currentLogicAnimation != Logic::ATTACK1 && _currentLogicAnimation != Logic::ATTACK2)			
 			{
 				_graphicalEntity->stopAnimation();
 				_graphicalEntity->setAnimation(_defaultAnimation,0,true,NULL); //tenemos que cambiar defaultanimation por un enum Logico
 			}
-			else
-			{
-				if (_currentLogicAnimation == Logic::ATTACK1)						
-					_graphicalEntity->pauseAnimationXTicks(0.5833,10);//Pep, queda esto por ser dirigido por datos..., pronto lo haré
-			    if (_currentLogicAnimation == Logic::ATTACK2)			
-					_graphicalEntity->pauseAnimationXTicks(0.41,10);
-			}
 		}
 	}
-		
+	//---------------------------------------------------------
+
 	void CAnimatedGraphics::animationMomentReached(const std::pair<unsigned short,float> track)  //cambiar nombre de track por par u otra cosa
 	{
 		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
 		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
 
-		if (_currentLogicAnimation == Logic::COVER_WITH_SHIELD || _currentLogicAnimation == Logic::COVER_WITH_WEAPON)
+		if (_currentLogicAnimation == Logic::COVER_WITH_SHIELD || _currentLogicAnimation == Logic::COVER_WITH_WEAPON || _currentLogicAnimation == Logic::SWITCH_ALTAR)
 		{
 			_graphicalEntity->pauseAnimation(track.second);
 		}

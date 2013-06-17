@@ -39,7 +39,7 @@ namespace Logic
 
 	CGraphics::~CGraphics() 
 	{
-		if(_graphicalEntity){			
+		if(_graphicalEntity){				
 			_scene->remove(_graphicalEntity);
 			delete _graphicalEntity;
 		}
@@ -247,15 +247,12 @@ namespace Logic
 			if(entityInfo->hasAttribute("static"))
 				isStatic = entityInfo->getBoolAttribute("static");
 
-		std::stringstream ssAux; // FRS Importante añadir ID para evitar entidades gráficas con = nombre
-			ssAux << _entity->getName() << _entity->getEntityID();
-			std::string	name = ssAux.str();
-
-		Graphics::CEntity* graphicalEntity = new Graphics::CEntity(name, _model, isStatic);
-			if( _scene->add(graphicalEntity) )		
-				return graphicalEntity;
-			else
-				return 0;
+		Graphics::CEntity* graphicalEntity = 
+			new Graphics::CEntity(_entity->getGraphicalName(), _model, isStatic);
+		if( _scene->add(graphicalEntity) )		
+			return graphicalEntity;
+		else
+			return 0;
 		
 
 	} // createGraphicalEntity

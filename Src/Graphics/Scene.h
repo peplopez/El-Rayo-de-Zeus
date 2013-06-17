@@ -17,11 +17,15 @@ de una escena.
 #ifndef __Graphics_Scene_H
 #define __Graphics_Scene_H
 
-#include "BaseSubsystems/Math.h"
+#include <BaseSubsystems/Math.h>
+#include <OgreFrameListener.h>
 
 #include <list>
 
 // Predeclaración de clases para ahorrar tiempo de compilación
+class IHHFXScene;
+struct SContactReport;
+
 namespace Ogre 
 {
 	class Root;
@@ -87,8 +91,10 @@ namespace Graphics
 	@author David Llansó
 	@date Julio, 2010
 	*/
-	class CScene 
+	class CScene  :  public Ogre::FrameListener
 	{
+
+
 	public:
 
 		/**
@@ -99,6 +105,8 @@ namespace Graphics
 		CCamera *getCamera() {return _camera;}
 
 		CCamera *getBaseCamera() {return _baseCamera;}
+
+		
 
 		/**
 		Devuelve el nombre de la escena.
@@ -157,6 +165,8 @@ namespace Graphics
 		*/
 		void deactivateCompositor(std::string name);
 
+
+		
 	protected:
 
 		/**
@@ -168,8 +178,8 @@ namespace Graphics
 		friend class CCamera;
 		friend class CSceneElement;
 		friend class CLight;
-		friend class Logic::CDotSceneLoader;
-		friend class Physics::CScene;
+		friend class Logic::CDotSceneLoader; // HACK FRS Logic???
+		friend class Physics::CScene; // FRS esto tiene que ser asin?
 
 		/**
 		Nombre de la escena.
@@ -205,6 +215,8 @@ namespace Graphics
 		en la lógica del juego sería el mapa o nivel. 
 		*/
 		Ogre::SceneManager *_sceneMgr;
+
+	
 
 
 		/***************
@@ -304,6 +316,31 @@ namespace Graphics
 		*/
 		Ogre::StaticGeometry *getStaticGeometry() { return _staticGeometry; }
 		
+
+
+
+	/*********************
+		HELL HEAVENS FX
+	*********************/
+
+	public:		
+
+		// WARNING : if != 1.0, This scale must be taken into account when setting and getting arbitrary particle attributes !
+		static const float HHFX_WORLD_SCALE;
+
+		IHHFXScene*	getHHFXScene() const { assert(_hhfxScene); return _hhfxScene; }
+		
+		//	FRAME LISTENER 
+		bool frameStarted(const Ogre::FrameEvent& evt);
+		bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+		
+	private:				
+		IHHFXScene *_hhfxScene;
+		void _hhfxSceneInit();
+		void _hhfxSceneDeinit();
+		void _hhfxCompositorLoad();
+		void _hhfxCompositorUnload();
+		static bool _hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, const Ogre::Vector3 &direction, float length, SContactReport &contactReport);
 
 	}; // class CScene
 

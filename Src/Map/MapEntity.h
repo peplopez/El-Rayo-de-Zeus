@@ -13,7 +13,7 @@ del fichero del mapa.
 #ifndef __Map_Entity_H
 #define __Map_Entity_H
 
-#include "BaseSubsystems/Math.h"
+#include <BaseSubsystems/Math.h>
 #include <string>
 #include <map>
 

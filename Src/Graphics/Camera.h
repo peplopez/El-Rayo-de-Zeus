@@ -62,49 +62,55 @@ namespace Graphics
 		virtual ~CCamera();
 		
 
+		/*******************
+			GET's & SET's
+		*********************/
+
 		/**
 		Devuelve la posición de la cámara.
 
 		@return Referencia a la posición del nodo que contiene la cámara de Ogre.
 		*/
-		const Vector3 &getCameraPosition();
-		
-		/**
-		Devuelve la posición a la que apunta la cámara.
-
-		@return Referencia a la posición del nodo _targetCamera.
-		*/
-		const Vector3 &getTargetCameraPosition();
+		const Vector3 &getPosition() const;
 
 		/**
 		Devuelve la orientación de la cámara.
 
 		@return Referencia al quaternion del nodo que contiene la cámara de Ogre.
 		*/
-		const Quaternion &getCameraOrientation();
+		const Quaternion &getOrientation() const;
+		
+		/**
+		Devuelve la posición a la que apunta la cámara.
 
+		@return Referencia a la posición del nodo _targetCamera.
+		*/
+		const Vector3 &getTargetPosition() const;
+
+				/**
+		*/
+		Ogre::SceneNode* getNode() const {return _cameraNode;}
+
+		/**
+		*/
+		Ogre::Viewport* getViewport() const;
+
+		
 		/**
 		Cambia la posición de la cámara.
 
 		@param newPosition Nueva posición para el nodo que contiene la cámara 
 		de Ogre.
 		*/
-		void setCameraPosition(const Vector3 &newPosition);
+		void setPosition(const Vector3 &newPosition);
 
 		/**
 		Cambia la posición de la posición a la que apunta la cámara.
 
 		@param newPosition Nueva posición para el _targetNode.
 		*/
-		void setTargetCameraPosition(const Vector3 &newPosition);
+		void setTargetPosition(const Vector3 &newPosition);
 
-		/**
-		*/
-		Ogre::SceneNode* getCameraNode() {return _cameraNode;}
-
-		/**
-		*/
-		Ogre::Viewport* getViewport();
 
 	protected:
 		
@@ -112,14 +118,7 @@ namespace Graphics
 		Clase amiga. Solo la escena tiene acceso a la cámara de Ogre para
 		poder crear el viewport.
 		*/
-		friend class CScene;
-
-		/**
-		Devuelve la cámara de Ogre.
-
-		@return puntero a la cámara de Ogre.
-		*/
-		Ogre::Camera *getCamera() {return _camera;}
+		friend class CScene;	
 
 		/**
 		Nodo que contiene la cámara.
@@ -146,6 +145,14 @@ namespace Graphics
 		Nombre de la cámara.
 		*/
 		std::string _name;
+
+
+			/**
+		Devuelve la cámara de Ogre.
+
+		@return puntero a la cámara de Ogre.
+		*/
+		Ogre::Camera *getCamera() {return _camera;}
 
 	}; // class CCamera
 

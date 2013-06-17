@@ -13,8 +13,8 @@ ejecutar máquinas de estado de la clase CStateMachine.
 #define __Logic_StateMachineExecutor_H
 
 #include "Logic/Entity/Component.h"
-#include "AI/StateMachines/StateMachine.h"
 
+#include "AI/StateMachines/StateMachineFactory.h"
 namespace Logic
 {
 	/**
