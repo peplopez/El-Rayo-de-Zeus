@@ -54,6 +54,8 @@ namespace Graphics
 			// spawn a new effect at this location
 			Ogre::MovableObject	*mo = getSceneMgr()->createMovableObject("HHFX", &_hhfxParams);
 				assert(mo && "Error al crear ParticleSystem");	
+			
+
 
 			// set this class to listen to the ps, to be notified when it is destroyed.
 			_movObj = static_cast<IHHFXOgre*>(mo);
@@ -68,7 +70,7 @@ namespace Graphics
 	void CParticleSystem::stop()
 	{
 		if(_movObj) { // MO tiene que ser !NULL; lo contrario significa que no hay un FX en curso
-			_movObj->setVisible(false);
+			_node->setVisible(false);
 			//_movObj->StopFX();		
 		}
 	
@@ -139,11 +141,10 @@ namespace Graphics
 			// Orientacion initial rotada 180 hacia -X (cara frontal de nuestras entidades)
 			Quaternion orientation; 
 				orientation.FromAngleAxis( Ogre::Radian( Math::PI ), Vector3::UNIT_Y);
-		    
-			// create a node to attach the effect
+		   	
 			_node = getSceneMgr()->getSceneNode( _parentName + "_node") 
 				 ->createChildSceneNode(_relativePos, orientation); 
-						
+
 			_loaded = true;
 			
 		} catch(std::exception e){
