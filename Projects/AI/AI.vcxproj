@@ -82,8 +82,10 @@
   <ItemGroup>
     <ClCompile Include="..\..\Src\AI\LatentActions\LAIdle.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LatentAction.cpp" />
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Alert.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_AltarSwitch.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_Attack.cpp" />
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_AttackCreature.cpp" />
     <ClCompile Include="..\..\src\AI\LatentActions\LA_Beaten.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_ChangeBase.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_ChangeRing.cpp" />
@@ -91,6 +93,7 @@
     <ClCompile Include="..\..\src\AI\LatentActions\LA_Death.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_Jump.cpp" />
     <ClCompile Include="..\..\Src\AI\LatentActions\LA_Run.cpp" />
+    <ClCompile Include="..\..\Src\AI\LatentActions\LA_Walk.cpp" />
     <ClCompile Include="..\..\Src\AI\Perception\PerceptionEntity.cpp" />
     <ClCompile Include="..\..\Src\AI\Perception\PerceptionEntityFactory.cpp" />
     <ClCompile Include="..\..\Src\AI\Perception\PerceptionManager.cpp" />
@@ -98,7 +101,9 @@
     <ClCompile Include="..\..\Src\AI\Server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Alert.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LA_AltarSwitch.h" />
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_AttackCreature.h" />
     <ClInclude Include="..\..\src\AI\LatentActions\LA_Beaten.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LAIdle.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LatentAction.h" />
@@ -109,6 +114,7 @@
     <ClInclude Include="..\..\src\AI\LatentActions\LA_Death.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LA_Jump.h" />
     <ClInclude Include="..\..\Src\AI\LatentActions\LA_Run.h" />
+    <ClInclude Include="..\..\Src\AI\LatentActions\LA_Walk.h" />
     <ClInclude Include="..\..\Src\AI\Perception\PerceptionEntity.h" />
     <ClInclude Include="..\..\Src\AI\Perception\PerceptionEntityFactory.h" />
     <ClInclude Include="..\..\Src\AI\Perception\PerceptionListener.h" />

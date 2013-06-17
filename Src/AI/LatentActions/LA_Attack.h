@@ -1,5 +1,5 @@
 /**
-@file CLA_Idle.h
+@file CLA_Attack.h
 
 En este fichero se implementan algunas acciones 
 latentes básicas.
