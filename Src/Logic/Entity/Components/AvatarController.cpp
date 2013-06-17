@@ -158,6 +158,8 @@ namespace Logic
 		_targetSense = sense;
 		if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
 			_totalYaw = Math::PI * 0.5f;
+		else if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_OUTSIDE)
+			_totalYaw = -Math::PI * 0.5f;
 		else
 			_totalYaw = Math::PI;
 	}
@@ -213,7 +215,7 @@ namespace Logic
 			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT)
 				emitAngularSpeed(Logic::Sense::RIGHT);	
 			else //rotar hacia derecha
-				estimateRotation(Logic::LogicalPosition::RIGHT);
+				estimateRotation(Logic::Sense::RIGHT);
 		}
 		//si está andado hacia la derecha y no está rotando sobre si mismo
 		else if (_walkingLeft && _targetSense == Logic::Sense::UNDEFINED)
@@ -221,7 +223,7 @@ namespace Logic
 			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT)
 				emitAngularSpeed(Logic::Sense::LEFT);	
 			else //rotar hacia izquierda
-				estimateRotation(Logic::LogicalPosition::LEFT);
+				estimateRotation(Logic::Sense::LEFT);
 		}
 		//rotacion a derechas
 		else if (_targetSense == Logic::Sense::RIGHT)
