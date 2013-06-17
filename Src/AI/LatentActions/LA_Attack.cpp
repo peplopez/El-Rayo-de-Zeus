@@ -17,7 +17,7 @@ namespace AI
 
 
 //////////////////////////////
-//	Implementación de CLAIdle
+//	Implementación de CLA_Attack
 //////////////////////////////
 
 	/**
