@@ -34,7 +34,7 @@ namespace Logic {
 		
 
 	// ƒ®§ Creación de un mapa con nombre name (normalmente el propio filename). => Creación de escenas física y gráfica
-	CMap::CMap(const std::string &name) : _name(name), _isActive(false)
+	CMap::CMap(const std::string &name) : _name(name), _isActive(false), alied(0)
 	{
 		_graphicScene = Graphics::CServer::getSingletonPtr()->createScene(name);
 		_physicScene  = Physics::CServer::getSingletonPtr()->createScene(name); 
@@ -184,6 +184,40 @@ namespace Logic {
 
 	
 	} // createPlayer
+
+
+	//--------------------------------------------------------
+
+	//PT
+	void CMap::createAlied(std::string entityName, const std::string& type, const unsigned short base, const unsigned short ring, const unsigned short degrees, const unsigned short sense)
+	{
+
+		// [PT] Creamos un nuevo aliado. Deberíamos tener la info del aliado
+		// almacenada en aliedInfo así que solo habría que modificarle el
+		// "name". Luego se crea la entidad del aliado con la factoría de 
+		// entidades
+
+		std::ostringstream oss;
+		oss << entityName << alied;
+
+		Map::CEntity aliedInfo(oss.str());
+
+		aliedInfo.setType(type);
+
+		//Atributos
+		aliedInfo.setAttribute("nickname", nickname);
+		if(aliedInfo.length() > 0)
+			aliedInfo.setAttribute("model", model);
+		aliedInfo.setAttribute("isPlayer", isLocalPlayer? "true" : "false");
+		aliedInfo.setAttribute("initialMaterial1", color); //player color
+
+		CEntity* newAlied = CEntityFactory::getSingletonPtr()->createMergedEntity(&aliedInfo, this);
+
+		alied++;
+
+		//newAlied->setPosition(newAlied->getPosition() + (rand()%50-25) * Vector3(1, 0, 1) );
+
+	}
 
 	
 

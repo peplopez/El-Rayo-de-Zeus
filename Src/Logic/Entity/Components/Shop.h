@@ -30,6 +30,7 @@ namespace CEGUI
 	class WindowManager;
 	class FrameWindow;
 	class Rect;
+	class Tooltip;
 }
 
 namespace ScriptManager
@@ -57,7 +58,7 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		CShop() : IComponent(GetAltTypeIdOf(CShop)), _time(0), numBase(0), _winShop(0), _itemsWindow(0), _criaturesWindow(0), _comboWindow(0),
+		CShop() : IComponent(GetAltTypeIdOf(CShop)), _time(0), numBase(0), _winShop(0), _itemsWindow(0), _criaturesWindow(0), 
 		item1window(0), item2window(0), item3window(0), medusawindow(0), cancerberowindow(0), minotaurowindow(0) { }
 		
 		/** Destructor */
@@ -97,6 +98,8 @@ namespace Logic
 
 		bool handleClose(const CEGUI::EventArgs&e);
 
+		bool createAlied(const CEGUI::EventArgs&e);
+
 		void deactivateControl();
 		bool activateControl();
 		
@@ -113,7 +116,7 @@ namespace Logic
 		*/
 		Logic::CGameStatus* _gameStatus;
 
-		unsigned short numBase, player;
+		unsigned short numBase, player, pm;
 
 		//area for limiting mouse movements
 		CEGUI::Rect _area;
@@ -122,7 +125,7 @@ namespace Logic
 
 		CEGUI::Window* _itemsWindow;
 		CEGUI::Window* _criaturesWindow;
-		CEGUI::Window* _comboWindow;
+		/*CEGUI::Window* _comboWindow;*/
 
 		CEGUI::Window* item1window;
 		CEGUI::Window* item2window;

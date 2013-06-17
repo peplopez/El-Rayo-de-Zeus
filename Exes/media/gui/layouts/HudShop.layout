@@ -35,7 +35,8 @@
 			<Property Name="CurrentProgress" Value="1" />		
 			<Property Name="AlwaysOnTop" Value="True" />
 			<!-- <Property Name="UnifiedAreaRect" Value="{{0,110},{0.305,0},{0,230},{0.35,0}}" /> -->
-			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.305,0},{0,230},{0.45,0}}" />
+			<!-- <Property Name="UnifiedAreaRect" Value="{{0,110},{0.305,0},{0,230},{0.45,0}}" /> -->
+			<Property Name="UnifiedAreaRect" Value="{{0,110},{0,5},{0,230},{0,15}}" />
 		</Window>
 		
 		<Window Type="OgreTray/StaticImage" Name="Root/Hud/RayoBase" >
@@ -119,37 +120,35 @@
         <Property Name="DragMovingEnabled" Value="False" />
         <Property Name="CloseButtonEnabled" Value="True" />
 		<Property Name="Visible" Value="False" />
-		<Property Name="RollupEnabled" Value="False"/>
+		<!-- <Property Name="RollupEnabled" Value="False"/> -->
 		<Property Name="Alpha" Value="0.6" />
 		
         <Window Type="TaharezLook/TabControl" Name="Root/Shop/ControlPestanas" >
-            <Property Name="Tooltip" Value="This is the tab control" />
+            <!-- <Property Name="Tooltip" Value="This is the tab control" /> -->
             <Property Name="TabHeight" Value="{0,25.8886}" />
             <Property Name="AlwaysOnTop" Value="True" />
             <Property Name="TabPanePosition" Value="Top" />
             <Property Name="UnifiedAreaRect" Value="{{0.0242733,0},{-0.00190571,0},{1.00578,0},{0.982612,0}}" />
-            <Window Type="DefaultWindow" Name="Root/Shop/ControlPestanas/Items" >
-                <Property Name="Text" Value="Items" />
+            
+			
+			<Window Type="DefaultWindow" Name="Root/Shop/ControlPestanas/Upgrades" >
+                <Property Name="Text" Value="Upgrades" />
                 <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-<!--                 <Window Type="TaharezLook/StaticImage" Name="Root/Shop/ControlPestanas/Items/Imagen1bis" >
-                    <Property Name="Font" Value="DejaVuSans-10" />
-                    <Property Name="Text" Value="texto de la imagen1 sin alt" />
-                    <Property Name="Image" Value="set:BackgroundInit image:BackgroundInit" />
-                    <Property Name="Tooltip" Value="tooltip staticimage" />
-                    <Property Name="FrameEnabled" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-                </Window> -->
+				<!-- <Property Name="Tooltip" Value="This is the tooltip for Root/Shop/ControlPestanas/Upgrades" /> -->
             </Window>
-            <Window Type="DefaultWindow" Name="Root/Shop/ControlPestanas/Criatures" >
-                <Property Name="Text" Value="Criatures" />
+			
+			
+            <Window Type="DefaultWindow" Name="Root/Shop/ControlPestanas/Allies" >
+                <Property Name="Text" Value="Allies" />
                 <Property Name="Visible" Value="False" />
                 <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
             </Window>
-            <Window Type="DefaultWindow" Name="Root/Shop/ControlPestanas/Combos" >
+			
+			<!--  <Window Type="DefaultWindow" Name="Root/Shop/ControlPestanas/Combos" >
                 <Property Name="Text" Value="Combos" />
                 <Property Name="Visible" Value="False" />
                 <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
-            </Window>
+            </Window> -->
         </Window>
     </Window>
 	

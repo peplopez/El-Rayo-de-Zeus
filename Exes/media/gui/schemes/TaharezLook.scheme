@@ -4,6 +4,8 @@
 	<Font Filename="DejaVuSans-10.font" />
 	<LookNFeel Filename="TaharezLook.looknfeel" />
 	<WindowRendererSet Filename="CEGUIFalagardWRBase" />
+	
+	
 	<FalagardMapping WindowType="TaharezLook/Button"      TargetType="CEGUI/PushButton"  Renderer="Falagard/Button"       LookNFeel="TaharezLook/Button" />
 	<FalagardMapping WindowType="TaharezLook/Checkbox"    TargetType="CEGUI/Checkbox"    Renderer="Falagard/ToggleButton" LookNFeel="TaharezLook/Checkbox" />
 	<FalagardMapping WindowType="TaharezLook/ImageButton" TargetType="CEGUI/PushButton"  Renderer="Falagard/Button"       LookNFeel="TaharezLook/ImageButton" />
@@ -46,5 +48,5 @@
 	<FalagardMapping WindowType="TaharezLook/ItemListbox" TargetType="CEGUI/ItemListbox" Renderer="Falagard/ItemListbox" LookNFeel="TaharezLook/ItemListbox" />
 	<FalagardMapping WindowType="TaharezLook/ListboxItem" TargetType="CEGUI/ItemEntry"   Renderer="Falagard/ItemEntry"   LookNFeel="TaharezLook/ListboxItem" />
 	<FalagardMapping WindowType="TaharezLook/GroupBox" TargetType="CEGUI/GroupBox"   Renderer="Falagard/Default"   LookNFeel="TaharezLook/GroupBox" />
-      <FalagardMapping WindowType="TaharezLook/Tree" TargetType="CEGUI/Tree"   Renderer="Falagard/Tree"   LookNFeel="TaharezLook/Tree" />
+    <FalagardMapping WindowType="TaharezLook/Tree" TargetType="CEGUI/Tree"   Renderer="Falagard/Tree"   LookNFeel="TaharezLook/Tree" />
 </GUIScheme>

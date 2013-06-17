@@ -15,6 +15,7 @@ GUI.Schemes:create("TaharezLook.scheme")
 GUI.Schemes:create("OgreTray.scheme")
 
 -- Fonts Initialization
+GUI.Fonts:create("DejaVuSans-8.font")
 GUI.Fonts:create("DejaVuSans-10.font")
 GUI.Fonts:create("FairChar-30.font")
 GUI.Fonts:create("Diogenes-10.font")

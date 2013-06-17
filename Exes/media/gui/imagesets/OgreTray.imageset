@@ -210,7 +210,8 @@
     <Image Name="MiniTextBoxBRLife" XPos="242" YPos="161" Width="9" Height="9" />
     <Image Name="MiniTextBoxTLLife" XPos="225" YPos="144" Width="9" Height="9" />
     <Image Name="MiniTextBoxTRLife" XPos="242" YPos="144" Width="9" Height="9" /> -->
-	<Image Name="MiniTextBoxBLife" XPos="227" YPos="146" Width="22" Height="23" />
+	
+<!-- 	<Image Name="MiniTextBoxBLife" XPos="227" YPos="146" Width="22" Height="23" />
     <Image Name="MiniTextBoxLLife" XPos="227" YPos="146" Width="22" Height="23" />
     <Image Name="MiniTextBoxMLife" XPos="227" YPos="146" Width="22" Height="23" />
     <Image Name="MiniTextBoxRLife" XPos="227" YPos="146" Width="22" Height="23" />
@@ -218,7 +219,18 @@
     <Image Name="MiniTextBoxBLLife" XPos="227" YPos="146" Width="22" Height="23" />
     <Image Name="MiniTextBoxBRLife" XPos="227" YPos="146" Width="22" Height="23" />
     <Image Name="MiniTextBoxTLLife" XPos="227" YPos="146" Width="22" Height="23" />
-    <Image Name="MiniTextBoxTRLife" XPos="227" YPos="146" Width="22" Height="23" />
+    <Image Name="MiniTextBoxTRLife" XPos="227" YPos="146" Width="22" Height="23" /> -->
+	
+	<Image Name="MiniTextBoxBLife" XPos="227" YPos="146" Width="1" Height="1" />
+    <Image Name="MiniTextBoxLLife" XPos="227" YPos="146" Width="1" Height="1" />
+    <Image Name="MiniTextBoxMLife" XPos="227" YPos="146" Width="1" Height="1" />
+    <Image Name="MiniTextBoxRLife" XPos="227" YPos="146" Width="1" Height="1" />
+    <Image Name="MiniTextBoxTLife" XPos="227" YPos="146" Width="1" Height="1" />
+    <Image Name="MiniTextBoxBLLife" XPos="227" YPos="146" Width="1" Height="1" />
+    <Image Name="MiniTextBoxBRLife" XPos="227" YPos="146" Width="1" Height="1" />
+    <Image Name="MiniTextBoxTLLife" XPos="227" YPos="146" Width="1" Height="1" />
+    <Image Name="MiniTextBoxTRLife" XPos="227" YPos="146" Width="1" Height="1" />	
+	
 	<!-- End ProgressBar for Life Player Roja -->
 	
     <Image Name="MiniTextBoxOverB" XPos="145" YPos="52" Width="8" Height="9" />
@@ -242,14 +254,14 @@
     <Image Name="MiniTextBoxOverTLLife" XPos="225" YPos="172" Width="9" Height="9" />
     <Image Name="MiniTextBoxOverTRLife" XPos="153" YPos="172" Width="9" Height="9" />	 -->
 	
-    <Image Name="MiniTextBoxOverBLife" XPos="227" YPos="175" Width="22" Height="23" />
-    <Image Name="MiniTextBoxOverLLife" XPos="227" YPos="175" Width="22" Height="23" />
-    <Image Name="MiniTextBoxOverMLife" XPos="227" YPos="175" Width="22" Height="23" />
-    <Image Name="MiniTextBoxOverRLife" XPos="227" YPos="175" Width="22" Height="23" />
-    <Image Name="MiniTextBoxOverTLife" XPos="227" YPos="175" Width="22" Height="23" />
-    <Image Name="MiniTextBoxOverBLLife" XPos="227" YPos="175" Width="22" Height="23" />
-    <Image Name="MiniTextBoxOverBRLife" XPos="227" YPos="175" Width="22" Height="23" />
-    <Image Name="MiniTextBoxOverTLLife" XPos="227" YPos="175" Width="22" Height="23" />
-    <Image Name="MiniTextBoxOverTRLife" XPos="227" YPos="175" Width="22" Height="23" />		
+    <Image Name="MiniTextBoxOverBLife" XPos="227" YPos="175" Width="1" Height="1" />
+    <Image Name="MiniTextBoxOverLLife" XPos="227" YPos="175" Width="1" Height="1" />
+    <Image Name="MiniTextBoxOverMLife" XPos="227" YPos="175" Width="1" Height="1" />
+    <Image Name="MiniTextBoxOverRLife" XPos="227" YPos="175" Width="1" Height="1" />
+    <Image Name="MiniTextBoxOverTLife" XPos="227" YPos="175" Width="1" Height="1" />
+    <Image Name="MiniTextBoxOverBLLife" XPos="227" YPos="175" Width="1" Height="1" />
+    <Image Name="MiniTextBoxOverBRLife" XPos="227" YPos="175" Width="1" Height="1" />
+    <Image Name="MiniTextBoxOverTLLife" XPos="227" YPos="175" Width="1" Height="1" />
+    <Image Name="MiniTextBoxOverTRLife" XPos="227" YPos="175" Width="1" Height="1" />	
 	<!-- End ProgressBar for Life Player Verde -->
 </Imageset>

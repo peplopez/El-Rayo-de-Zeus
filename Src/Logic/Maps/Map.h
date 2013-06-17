@@ -219,6 +219,9 @@ namespace Logic
 		//void createPlayer(std::string entityName, bool isLocalPlayer, const std::string& model = "");
 		void createPlayer(std::string entityName, bool isLocalPlayer,const std::string& nickname = "", const std::string& model = "", const std::string& color = "");
 
+		//PT
+		void createAlied(std::string entityName, const std::string& type="", const unsigned short base=0U, const unsigned short ring=0U, const unsigned short degrees=0U, const unsigned short sense=0);
+
 
 		/*******************
 			GET's & SET's
@@ -227,6 +230,9 @@ namespace Logic
 
 
 	private:
+
+		//PT Contador para crear aliados y que no se repitan sus nombres al crearlos
+		unsigned short int alied;
 
 		/**
 		Tipo tabla de entidades de mapa.
