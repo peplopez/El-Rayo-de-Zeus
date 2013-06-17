@@ -197,19 +197,23 @@ namespace Logic {
 		// "name". Luego se crea la entidad del aliado con la factoría de 
 		// entidades
 
-		std::ostringstream oss;
-		oss << entityName << alied;
+		std::ostringstream eName, eBase, eRing, eDegrees, eSense;
+		eName << entityName << alied; //alied es un contador
 
-		Map::CEntity aliedInfo(oss.str());
+		eBase << base;
+		eRing << ring;
+		eDegrees << degrees;
+		eSense << sense;
+
+		Map::CEntity aliedInfo(eName.str());
 
 		aliedInfo.setType(type);
 
 		//Atributos
-		aliedInfo.setAttribute("nickname", nickname);
-		if(aliedInfo.length() > 0)
-			aliedInfo.setAttribute("model", model);
-		aliedInfo.setAttribute("isPlayer", isLocalPlayer? "true" : "false");
-		aliedInfo.setAttribute("initialMaterial1", color); //player color
+		aliedInfo.setAttribute("base", eBase.str());
+		aliedInfo.setAttribute("ring", eRing.str());
+		aliedInfo.setAttribute("sense", eSense.str());
+		aliedInfo.setAttribute("degrees", eDegrees.str());
 
 		CEntity* newAlied = CEntityFactory::getSingletonPtr()->createMergedEntity(&aliedInfo, this);
 

@@ -141,7 +141,7 @@ namespace Logic
 		medusawindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,10.0f) ) );
 		medusawindow->setVisible( true );
 		medusawindow->setInheritsAlpha(false);
-		medusawindow->subscribeEvent(CEGUI::FrameWindow::EventMouseButtonUp,
+		medusawindow->subscribeEvent(CEGUI::FrameWindow::EventMouseButtonDown,
 									 CEGUI::Event::Subscriber(&CShop::createAlied, this)
 									 );
 
