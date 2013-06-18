@@ -319,6 +319,7 @@ Map = {
 		event_DT_Attack1=0.45,
 		event_DT_Attack2=1.1,
 		event_DT_Attack3=1.9,		
+		event_DT_Attack4=2.5,	
 	},	
 	
 	

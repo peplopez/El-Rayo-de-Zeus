@@ -195,14 +195,7 @@ namespace Logic
 		if (entityInfo->hasAttribute("event_CT_Attack3"))
 			_animSet->addEventTime(Logic::ATTACK3, Logic::COMBO_TRACK, entityInfo->getFloatAttribute("event_CT_Attack3"));
 
-		if (entityInfo->hasAttribute("event_DT_Attack1"))
-			_animSet->addEventTime(Logic::ATTACK1, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack1"));
-		if (entityInfo->hasAttribute("event_DT_Attack2"))
-			_animSet->addEventTime(Logic::ATTACK2, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack2"));
-		if (entityInfo->hasAttribute("event_DT_Attack3"))
-			_animSet->addEventTime(Logic::ATTACK3, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack3"));
-		if (entityInfo->hasAttribute("event_DT_Attack4")) //CORREGIR QUE FALLARÁ
-			_animSet->addEventTime(Logic::ATTACK3, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack4"));
+		
 		if (entityInfo->hasAttribute("event_DT_Cover"))
 			_animSet->addEventTime(Logic::COVER_WITH_SHIELD, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
 		if (entityInfo->hasAttribute("event_DT_Cover"))
@@ -216,8 +209,27 @@ namespace Logic
 			_animSet->addAnimation(Logic::ALERT,entityInfo->getStringAttribute("animAlert"));
 		if (entityInfo->hasAttribute("animWalk"))
 			_animSet->addAnimation(Logic::WALK,entityInfo->getStringAttribute("animWalk"));
-			
-
+		
+		if (_entity->getType()=="Cancerbero")	//en el caso de cancerbero en un solo ataque tiene varios eventos Damage_track
+		{			
+			if (entityInfo->hasAttribute("event_DT_Attack1"))
+				_animSet->addEventTime(Logic::ATTACK1, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack1"));
+			if (entityInfo->hasAttribute("event_DT_Attack2"))
+				_animSet->addEventTime(Logic::ATTACK1, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack2"));
+			if (entityInfo->hasAttribute("event_DT_Attack3"))
+				_animSet->addEventTime(Logic::ATTACK1, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack3"));
+			if (entityInfo->hasAttribute("event_DT_Attack4")) //CORREGIR QUE FALLARÁ
+				_animSet->addEventTime(Logic::ATTACK1, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack4"));
+		}
+		else
+		{
+			if (entityInfo->hasAttribute("event_DT_Attack1"))
+				_animSet->addEventTime(Logic::ATTACK1, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack1"));
+			if (entityInfo->hasAttribute("event_DT_Attack2"))
+				_animSet->addEventTime(Logic::ATTACK2, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack2"));
+			if (entityInfo->hasAttribute("event_DT_Attack3"))
+				_animSet->addEventTime(Logic::ATTACK3, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack3"));
+		}		
 		return true;
 	} // initializeAnimSet
 	
