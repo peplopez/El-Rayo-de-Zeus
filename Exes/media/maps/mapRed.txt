@@ -18,14 +18,14 @@ Map ={
 		type = "BaseCamera1",
 	},
 	
-	pointLight1 = {
-		type = "PointLight",
-		position = {0, 100, 0},
+	Light1 = {
+		type = "WhitePLight",
+		position = {-200, 200, 0},
 	},
 	
-	pointLight2 = {
-		type = "PointLight",
-		position = {100, 20, 0},
+	Light2 = {
+		type = "WhitePLight",
+		position = {200, 200, 0},
 	},	
 			
 	puApple1 = {

@@ -139,13 +139,41 @@ Map = {
 		fxPos0 = {0,5,0},	
 	},
 		
-	PointLight = {
+	WhitePLight = {
 		type = "Light",
 		lightType = "point",
 		diffuseColour = {0.9, 0.9, 0.9},
 		specularColour = {0.9, 0.9, 0.9},
-		initialScale = 0.2,	
+		initialScale = 3,	
+		model = "puAppleOnHand2.0.mesh",
 	},	
+	
+	WhiteDLight = {
+		type = "Light",
+		lightType = "directional",
+		diffuseColour = {0.9, 0.9, 0.9},
+		specularColour = {0.9, 0.9, 0.9},
+		initialScale = 3,	
+		model = "puAppleOnHand2.0.mesh",
+	},
+	
+	OrangeDLight = {
+		type = "Light",
+		lightType = "directional",
+		diffuseColour = {0.9, 0.4, 0.0},
+		specularColour = {0.9, 0.4, 0.0},
+		initialScale = 3,	
+		model = "puAppleOnHand2.0.mesh",
+	},
+	
+	BlueDLight = {
+		type = "Light",
+		lightType = "directional",
+		diffuseColour = {0.2, 0.6, 0.9},
+		specularColour = {0.2, 0.6, 0.9},
+		initialScale = 3,	
+		model = "puAppleOnHand2.0.mesh",
+	},
 	
 	BaseCamera1 = {
 		type = "BaseCamera",

@@ -27,7 +27,7 @@ Map ={
 	},
 	
 	pointLight1 = {
-		type = "PointLight",
+		type = "WhitePLight",
 		position = {0, 100, 0},
 	},
 

@@ -127,7 +127,7 @@ namespace Graphics
 			IHHFXOgre* fx = static_cast<IHHFXOgre*>(obj);	
 			Ogre::Light* pointLight = getSceneMgr()->createLight("pointLight" + Ogre::StringConverter::toString((unsigned int)(obj)));
 			pointLight->setType(Ogre::Light::LT_POINT);
-			pointLight->setPosition(fx->getParentSceneNode()->getPosition() + Vector3::UNIT_Y * 0.8f);
+			pointLight->setPosition(fx->getParentSceneNode()->getPosition() + Vector3::UNIT_Y * 5.0f);
 			pointLight->setDiffuseColour(0.1f, 0.1f, 1.0f);
 			pointLight->setSpecularColour(0.8f, 0.8f, 1.0f);
 		}
