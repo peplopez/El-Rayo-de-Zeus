@@ -334,9 +334,11 @@ namespace Graphics
 		bool frameStarted(const Ogre::FrameEvent& evt);
 		bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 		
-	private:				
+	private:	
+
+		static const int _HHFX_UPDATE_TIME_MAX = 1000;
+		Ogre::Real _hhfxTimeSinceUpdate;
 		IHHFXScene *_hhfxScene;
-		Ogre::Real _timeSinceLastRender;
 
 		void _hhfxSceneInit();
 		void _hhfxSceneDeinit();

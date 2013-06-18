@@ -46,10 +46,10 @@ de una escena.
 namespace Graphics 
 {
 	// WARNING : if != 1.0, This scale must be taken into account when setting and getting arbitrary particle attributes !
-	const float CScene::HHFX_WORLD_SCALE = 5.0f;
+	const float CScene::HHFX_WORLD_SCALE = 8.0f;
 
 	CScene::CScene(const std::string& name) : _name(name), _viewport(0), 
-		_staticGeometry(0), _hhfxScene(0), _timeSinceLastRender(0)
+		_staticGeometry(0), _hhfxScene(0), _hhfxTimeSinceUpdate(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
@@ -273,6 +273,8 @@ namespace Graphics
 		HELL HEAVEN FX
 	*********************/
 
+	
+
 	//------------ INIT & DEINIT -------------------------------------------------------------------------
 
 	void CScene::_hhfxSceneInit() 
@@ -390,11 +392,11 @@ namespace Graphics
 
 	bool CScene::frameStarted(const Ogre::FrameEvent& evt)
 	{	
-		_timeSinceLastRender += evt.timeSinceLastFrame;
-		if(_viewport) {
-			_hhfxScene->Update(_timeSinceLastRender); // update the hhfx scene
-			_timeSinceLastRender = 0;
-
+		_hhfxTimeSinceUpdate += evt.timeSinceLastFrame;
+		if( (_viewport || _hhfxTimeSinceUpdate > _HHFX_UPDATE_TIME_MAX )  ) 
+		{
+			_hhfxScene->Update(_hhfxTimeSinceUpdate); // update the hhfx scene
+			_hhfxTimeSinceUpdate = 0;
 		} 
 		return true;
 	}
@@ -404,7 +406,7 @@ namespace Graphics
 	// FRS Return True to continue rendering, false to drop out of the rendering loop.
 	bool CScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	{	
-		if(!_viewport) // Si ningún viewport está pintando esta escena, no es necesario tratar de representar su HHFX.
+		if(!_viewport ||_hhfxTimeSinceUpdate) // Si no se acaba de hacer Update (time = 0) no renderizamos
 			return true;
 
 		// FRS Aplicamos transformaciones de la camara que esté renderizando actualmente el viewport: Camera o BaseCamera.
