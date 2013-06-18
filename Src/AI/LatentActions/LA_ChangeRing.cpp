@@ -3,6 +3,8 @@
 #include "../../Logic/Entity/Components/AvatarController.h"
 #include "../../Logic/Entity/Components/PhysicalCharacter.h"
 #include "../../Logic/Entity/Components/Jump.h"
+#include "../../Logic/Entity/Components/AltarStateSwitcher.h"
+
 #include "Application/BaseApplication.h"
 
 #include "../StateMachines/StateMachine.h"
@@ -25,9 +27,7 @@ namespace AI
 ////////////////////////////////
 
 	CLatentAction::LAStatus CLA_ChangeRing::OnStart()
-	{				
-		_mySense=_entity->getLogicalPosition()->getSense();
-		
+	{					
 		_changeDone = false;
 		_initialJumpSpeed = (_action == Message::GO_DOWN ? 100 : 410); //elocidad de salto inicial en caso de dejarse caer o saltar arriba
 		_initialRing = _entity->getLogicalPosition()->getRing();
@@ -81,12 +81,17 @@ namespace AI
 	
 	//---------------------------------------------------------
 
-	void CLA_ChangeRing::jump() 
+	void CLA_ChangeRing::jump(unsigned int msecs) 
 	{
-		if (!_jumping)
+		_jumpDelay -= msecs;
+		if (!_jumping && _jumpDelay < 0)
 		{
+			_turning = false;
 			_jumping = true;
 			_maxHeightReached = false;
+			if (_entity->hasComponent<CPhysicalCharacter>())
+				_entity->getComponent<CPhysicalCharacter>()->disableCollisions();
+
 		}
 	} // jump
 	
@@ -97,29 +102,29 @@ namespace AI
 					
 		if (!_turning)
 		{
-			if (_initialRing == Logic::Ring::CENTRAL_RING && 
-				(_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT || 
-					_entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT ||
-						_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_OUTSIDE))
+			if (_initialRing == Logic::Ring::CENTRAL_RING)
 			{
-				_targetSense = Logic::Sense::LOOKING_CENTER;
+				if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
+					_jumpDelay = 700;
+				else
+					_targetSense = Logic::Sense::LOOKING_CENTER;
 				if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_OUTSIDE)
 					_turnSpeedFactor *=2;
 			}
 			
-			else if ( (_initialRing == Logic::Ring::LOWER_RING || _initialRing == Logic::Ring::UPPER_RING) && 
-						(_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT || 
-							_entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT ||
-								_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER))
+			else if ( _initialRing == Logic::Ring::LOWER_RING || _initialRing == Logic::Ring::UPPER_RING)
 			{
-				_targetSense = Logic::Sense::LOOKING_OUTSIDE;
+				if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_OUTSIDE)
+					_jumpDelay = 700;
+				else
+					_targetSense = Logic::Sense::LOOKING_OUTSIDE;
 				if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
 					_turnSpeedFactor *=2;
 			}
 
 			_turning = true;
 		}
-	} // jump
+	} // turn
 
 	//---------------------------------------------------------
 
@@ -160,46 +165,25 @@ namespace AI
 			if (_initialRing == Logic::LogicalPosition::CENTRAL_RING)
 			{
 				if (_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT)
-				{
 					rotate(Math::PI * 0.5f, msecs);
-				}
 				else if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT)
-				{
 					rotate(-Math::PI * 0.5f, msecs);
-				}
 				else if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_OUTSIDE)
-				{
 					rotate(Math::PI, msecs);
-				}
 				else if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
-				{
-						_turning=false;
-						jump();
-						if (_entity->hasComponent<CPhysicalCharacter>())
-							_entity->getComponent<CPhysicalCharacter>()->disableCollisions();
-				}
+						jump(msecs);
 			}
 			else
 			{
 				if (_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT)
-				{
 					rotate(-Math::PI * 0.5f, msecs);
-				}
 				else if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT)
-				{
 					rotate(Math::PI * 0.5f, msecs);
-				}
 				else if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_CENTER)
-				{
 					rotate(Math::PI, msecs);
-				}
 				else if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_OUTSIDE)
-				{
-					_turning=false;
-					jump();
-					if (_entity->hasComponent<CPhysicalCharacter>())
-						_entity->getComponent<CPhysicalCharacter>()->disableCollisions();
-				}
+					jump(msecs);
+	
 			}//else
 
 		}//turning
@@ -223,7 +207,7 @@ namespace AI
 
 				_jumping = false;
 				_jumpSpeed = _initialJumpSpeed;
-				_turnSpeedFactor = 0.005f/7;
+				_jumpDelay = 0;
 				finish(true);
 			}
 		
@@ -236,10 +220,13 @@ namespace AI
 				m->setFloat(tickHeight);
 				_entity->emitMessage(m);
 				_jumpSpeed -= _jumpDecay * msecs * 0.001f; 
+
 			}
 		}
 
 	}
+
+	//---------------------------------------------------------
 
 	void CLA_ChangeRing::sleepComponents()
 	{
@@ -247,8 +234,11 @@ namespace AI
 			_entity->getComponent<CAvatarController>()->sleep();	
 		if (_entity->hasComponent<CJump>())
 			_entity->getComponent<CJump>()->sleep();
+	
 
 	}
+
+	//---------------------------------------------------------
 
 	void CLA_ChangeRing::awakeComponents()
 	{			
@@ -256,5 +246,7 @@ namespace AI
 			_entity->getComponent<CAvatarController>()->awake();	
 		if (_entity->hasComponent<CJump>())
 			_entity->getComponent<CJump>()->awake();
+
 	}	
+
 } //namespace LOGIC

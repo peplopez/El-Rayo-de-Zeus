@@ -39,7 +39,7 @@ namespace AI
 		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
 		message->setUShort(Logic::SWITCH_ALTAR);
-		message->setBool(false);
+		message->setBool(true);
 		_entity->emitMessage(message);
 		
 		if (_entity->hasComponent<CCombat>())
@@ -47,6 +47,8 @@ namespace AI
 
 		return SUSPENDED;
 	}
+
+	//---------------------------------------------------------
 
 	/**
 	Método invocado al final de la ejecución de la acción,
@@ -58,6 +60,8 @@ namespace AI
 	void CLA_AltarSwitch::OnStop()
 	{
 	}
+
+	//---------------------------------------------------------
 
 	/**
 	Método invocado cíclicamente para que se continúe con la
@@ -75,6 +79,8 @@ namespace AI
 		return RUNNING;
 	}
 
+	//---------------------------------------------------------
+
 	/**
 	Método invocado cuando la acción ha sido cancelada (el comportamiento
 	al que pertenece se ha abortado por cualquier razón).
@@ -90,6 +96,8 @@ namespace AI
 		// Cuando se aborta se queda en estado terminado con fallo
 		return FAIL;
 	}
+
+	//---------------------------------------------------------
 	/**
 	Devuelve true si a la acción le interesa el tipo de mensaje
 	enviado como parámetro.
@@ -104,9 +112,10 @@ namespace AI
 	{		
 		// La acción no acepta mensajes
 		return (message->getType() == Message::ALTAR_MS_ORDER &&
-				message->getAction() == Message::FINISH_SUCCESS) || 
-				(message->getType() == Message::ANIMATION_FINISHED);;
+				message->getAction() == Message::FINISH_SUCCESS);
+				
 	}
+	//---------------------------------------------------------
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
 	ejecución de la acción cuando se recibe el mensaje.
@@ -118,25 +127,23 @@ namespace AI
 		if (message->getType() == Message::ALTAR_MS_ORDER &&
 			message->getAction() == Message::FINISH_SUCCESS)
 		{
-			CMessage* txMsg = new CMessage();
-			txMsg->setType(Message::RESUME_ANIMATION);
-			_entity->emitMessage(txMsg);
-		}
-
-		else if (message->getType() == Message::ANIMATION_FINISHED)
-		{
 			finish(true);
 		}
 	}
+	//---------------------------------------------------------
 	
 	void CLA_AltarSwitch::tick(unsigned int msecs) 
 	{		
 		CLatentAction::tick();
 	}
 
+	//---------------------------------------------------------
+
 	void CLA_AltarSwitch::sleepComponents()
 	{
 	}
+
+	//---------------------------------------------------------
 
 	void CLA_AltarSwitch::awakeComponents()
 	{

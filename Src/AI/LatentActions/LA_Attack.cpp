@@ -35,6 +35,9 @@ namespace AI
 	CLatentAction::LAStatus CLA_Attack::OnStart()
 	{
 		
+		if (_entity->getLogicalPosition()->getSense() != Logic::Sense::LEFT &&
+				_entity->getLogicalPosition()->getSense() != Logic::Sense::RIGHT)
+			return FAIL;
 		//Desactivación de componentes
 		sleepComponents();
 
@@ -66,6 +69,8 @@ namespace AI
 		return SUSPENDED;
 	}
 
+	//---------------------------------------------------------
+
 	/**
 	Método invocado al final de la ejecución de la acción,
 	para que se realicen las tareas que son únicamente necesarias
@@ -79,6 +84,8 @@ namespace AI
 		if (_entity->hasComponent<CCombat>())
 			_entity->getComponent<CCombat>()->resetAttackFlags();
 	}
+
+	//---------------------------------------------------------
 
 	/**
 	Método invocado cíclicamente para que se continúe con la
@@ -95,6 +102,7 @@ namespace AI
 		return RUNNING;
 	}
 
+	//---------------------------------------------------------
 	/**
 	Método invocado cuando la acción ha sido cancelada (el comportamiento
 	al que pertenece se ha abortado por cualquier razón).
@@ -114,6 +122,8 @@ namespace AI
 	
 		return FAIL;
 	}
+
+	//---------------------------------------------------------
 	/**
 	Devuelve true si a la acción le interesa el tipo de mensaje
 	enviado como parámetro.
@@ -129,6 +139,8 @@ namespace AI
 		// la accion latente de ataque solo acepta mensajes de ataque en el momento que la oportunidad de combo está activada.
 		return 	(message->getType() == Message::ANIMATION_FINISHED);
 	}
+
+	//---------------------------------------------------------
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
 	ejecución de la acción cuando se recibe el mensaje.
@@ -174,10 +186,14 @@ namespace AI
 		}
 	}
 
+	//---------------------------------------------------------
+
 	void CLA_Attack::tick(unsigned int msecs) 
 	{
 		CLatentAction::tick();
 	}
+
+	//---------------------------------------------------------
 
 	void CLA_Attack::sleepComponents()
 	{
@@ -193,6 +209,8 @@ namespace AI
 		if (_entity->hasComponent<CBaseTraveler>())
 			_entity->getComponent<CBaseTraveler>()->sleep();
 	}
+
+	//---------------------------------------------------------
 
 	void CLA_Attack::awakeComponents()
 	{

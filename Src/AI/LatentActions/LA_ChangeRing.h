@@ -32,7 +32,7 @@ namespace AI
 		@param time Tiempo de espera
 		*/
 		CLA_ChangeRing(CEntity* entity, Message::TActionType action) : CLatentAction(),_jumping(false), _turning(false), _maxHeightReached(false), 
-				_targetSense(Logic::LogicalPosition::UNDEFINED), _acumRotation(0.0f), _turnSpeedFactor(0.0f) 
+				_targetSense(Logic::LogicalPosition::UNDEFINED), _acumRotation(0.0f), _turnSpeedFactor(0.0f), _jumpDelay(0.0f) 
 		{
 			_action=action; 
 			this->setEntity(entity);
@@ -119,7 +119,7 @@ namespace AI
 
 		virtual void awakeComponents();
 		
-		void jump();
+		void jump(unsigned int msecs);
 
 		void turn();
 
@@ -137,6 +137,8 @@ namespace AI
 
 		float _jumpDecay;
 
+		float _jumpDelay;
+
 		float _turnSpeedFactor;
 
 		bool _maxHeightReached;
@@ -146,8 +148,6 @@ namespace AI
 		float _acumRotation;
 
 		bool _changeDone;
-
-		Logic::Sense _mySense;
 
 		Message::TActionType _action;
 

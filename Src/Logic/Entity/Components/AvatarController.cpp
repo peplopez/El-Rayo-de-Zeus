@@ -162,6 +162,7 @@ namespace Logic
 			_totalYaw = -Math::PI * 0.5f;
 		else
 			_totalYaw = Math::PI;
+		_entity->getLogicalPosition()->setSense(Logic::Sense::UNDEFINED);
 	}
 
 	//---------------------------------------------------------

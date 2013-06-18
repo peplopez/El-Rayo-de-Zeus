@@ -31,18 +31,15 @@ namespace AI
 	{
 
 		CMessageBoolUShort *message = new CMessageBoolUShort();
-		message->setType(Message::SET_ANIMATION);
-		if (_sense==Logic::LogicalPosition::RIGHT)
-			message->setAction(Message::WALK_RIGHT);
-		else
-			message->setAction(Message::WALK_LEFT);				
+		message->setType(Message::SET_ANIMATION);			
 		message->setUShort( Logic::RUN );
 		message->setBool(true);
-		_entity->emitMessage(message);		
-	//	if (_entity->getType()=="Cancerbero")
-		//	int i=0;
+		_entity->emitMessage(message);	
+
 		return SUSPENDED;
 	}
+
+	//---------------------------------------------------------
 
 	/**
 	Método invocado al final de la ejecución de la acción,
@@ -54,6 +51,8 @@ namespace AI
 	void CLA_Run::OnStop()
 	{
 	}
+
+	//---------------------------------------------------------
 
 	/**
 	Método invocado cíclicamente para que se continúe con la
@@ -75,6 +74,8 @@ namespace AI
 		return RUNNING;
 	}
 
+	//---------------------------------------------------------
+
 	/**
 	Método invocado cuando la acción ha sido cancelada (el comportamiento
 	al que pertenece se ha abortado por cualquier razón).
@@ -90,6 +91,9 @@ namespace AI
 		// Cuando se aborta se queda en estado terminado con fallo
 		return FAIL;
 	}
+
+	//---------------------------------------------------------
+
 	/**
 	Devuelve true si a la acción le interesa el tipo de mensaje
 	enviado como parámetro.
@@ -104,6 +108,9 @@ namespace AI
 	{		
 		return false;
 	}
+
+	//---------------------------------------------------------
+
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
 	ejecución de la acción cuando se recibe el mensaje.
@@ -113,13 +120,20 @@ namespace AI
 	void CLA_Run::process(CMessage *message)
 	{
 	}
+
+	//---------------------------------------------------------
+
 	
 	void CLA_Run::tick(unsigned int msecs) 
 	{
 		CLatentAction::tick();
 	}
 
+	//---------------------------------------------------------
+
 	void CLA_Run::sleepComponents(){}
+
+	//---------------------------------------------------------
 
 	void CLA_Run::awakeComponents(){}
 } //namespace LOGIC

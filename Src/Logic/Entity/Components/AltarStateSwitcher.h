@@ -33,7 +33,8 @@ namespace Logic
 	public:
 
 
-		CAltarStateSwitcher() : IComponent(GetAltTypeIdOf(CAltarStateSwitcher)), _switchingState(false), _switchingAllowed(false), _target(NULL), _targetSense(Logic::LogicalPosition::UNDEFINED), _acumRotation(0) {}
+		CAltarStateSwitcher() : IComponent(GetAltTypeIdOf(CAltarStateSwitcher)), _switchingState(false), _switchingAllowed(false), _target(0), 
+							_targetSense(Logic::LogicalPosition::UNDEFINED), _acumRotation(0.0f), _turnSpeedFactor(0.0f) {}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
@@ -47,16 +48,11 @@ namespace Logic
 
 		virtual void process(CMessage *message);
 
-		
-		void allowSwitching();
-		void prohibitSwitching();
-		
+		void rotate(float yawAmount, unsigned int msecs);
 		void startSwitchingState();
 		void stopSwitchingState();
 
 		CEntity* getTarget(){return _target;};
-
-		void turnDone();
 
 	protected:
 
@@ -67,6 +63,10 @@ namespace Logic
 		/**
 		*/
 		bool _switchingAllowed;
+
+		/**
+		*/
+		float _turnSpeedFactor;
 
 		/**
 		*/

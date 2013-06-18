@@ -103,7 +103,8 @@ namespace Logic
 			_entity->emitMessage(m,this);
 
 		}
-			_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
+
+		_gameStatus->getBase(_entity->getLogicalPosition()->getBase())->updateAllAltarsInfo();
 		_acumTime = _switchingTime;
 
 		return true;
@@ -175,7 +176,15 @@ namespace Logic
 			_acumTime -= msecs;
 			if (_acumTime <= 0 )
 			{
-				
+				if (_player)
+				{
+
+					CMessageString *m = new CMessageString();	
+					m->setType(Message::ALTAR_SWITCHED);
+					m->setString(_entity->getName());
+					_player->emitMessage(m);		
+				}
+
 				_on = !_on;
 					
 				if (_on)
@@ -193,16 +202,6 @@ namespace Logic
 						txMsg->setType(Message::FX_START);		
 						_entity->emitMessage(txMsg,this);
 //////////////////////////////////////////////////////////////////
-		
-					if (!_player)
-					{
-
-						CMessageString *m2 = new CMessageString();	
-						m2->setType(Message::ALTAR_SWITCHED);
-						m2->setString(_entity->getName());
-						_player->emitMessage(m2);
-						
-					}
 				}
 				else 
 				{
@@ -213,13 +212,6 @@ namespace Logic
 					m->setString(_unactivatedMaterial);
 					m->setUInt(0);
 					_entity->emitMessage(m,this);
-					if (_player != 0)
-					{
-						CMessageString *m2 = new CMessageString();	
-						m2->setType(Message::ALTAR_SWITCHED);
-						m2->setString(_entity->getName());
-						_player->emitMessage(m2); // FRS te lo envías incluido a ti mismo, seguro?
-					}
 
 
 ///////////// HACK TEST FRS Para probar FX -> Aunque poco se puede probar ya que no tenemos esa funcionalidad impl. :S
