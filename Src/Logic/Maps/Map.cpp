@@ -209,6 +209,7 @@ namespace Logic {
 
 		aliedInfo.setType(type);
 
+
 		//Atributos
 		aliedInfo.setAttribute("base", eBase.str());
 		aliedInfo.setAttribute("ring", eRing.str());

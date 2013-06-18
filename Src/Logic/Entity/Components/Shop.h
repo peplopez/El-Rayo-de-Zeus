@@ -17,6 +17,9 @@
 #include "../../../../dependencies/include/cegui/CEGUIWindow.h"
 #include "../../../../dependencies/include/cegui/CEGUIRect.h"
 
+#include <sstream>     // std::ostringstream
+
+
 namespace Logic
 {
 	class CGameStatus;
@@ -134,6 +137,9 @@ namespace Logic
 		CEGUI::Window* medusawindow;
 		CEGUI::Window* cancerberowindow;
 		CEGUI::Window* minotaurowindow;
+
+		CEGUI::Window* grados;
+		std::ostringstream gradosstr;
 
 		 
 	}; // class CShop

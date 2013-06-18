@@ -1,0 +1,160 @@
+Map ={
+	
+	Camera = {
+		type = "PlayerCamera",
+	},
+	
+	SkySphere = {
+		type = "SkySphere",
+	},	
+	
+	BaseCamera1 = {
+		type = "BaseCamera1",
+	},
+	
+	pointLight1 = {
+		type = "PointLight",
+		position = {0, 100, 0},
+	},
+
+			
+	GemeloYellow = {
+		type = "OtherPlayer",
+		base=4,
+		ring=0,
+		degrees=50,
+		initialMaterial1="marineYellow",
+	},
+		
+	bioshockLOGICO99 = {
+		type = "Sinbad",
+		base=4,
+		ring=1,
+		degrees=300,		
+	},	
+	
+	peludo = {
+		type = "Spider",
+		base=4,
+		ring=1,
+		degrees=80,		
+	},
+
+	peluda = {
+		type = "Spider",
+		base=4,
+		ring=2,
+		degrees=70,		
+	},	
+	
+	LowerRing = {
+		type = "World",
+		base=4,
+		ring=0,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -1.9,
+	},
+	
+	CenterRing = {
+		type = "World",
+		base=4,
+		ring=1,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -1.9,
+	},
+	
+	UpperRing = {
+		type = "World",
+		base=4,
+		ring=2,
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -1.9,
+	},
+	
+	Altar1 = {
+		type = "AltarYellow",
+		degrees=60,
+		ring=0,
+		base=4,		
+	},
+	
+	Altar2 = {
+		type = "AltarYellow",
+		degrees=180,
+		ring=0,
+		base=4,				
+	},
+	
+	Altar3 = {
+		type = "AltarYellow",
+		degrees=300,
+		ring=0,
+		base=4,			
+	},
+	
+	Altar4 = {
+		type = "AltarYellow",
+		degrees=36,
+		ring=1,
+		base=4,	
+	},
+	
+	Altar5 = {
+		type = "AltarYellow",
+		degrees=108,
+		ring=1,
+		base=4,		
+	},
+	
+	Altar6 = {
+		type = "AltarYellow",
+		degrees=180,
+		ring=1,
+		base=4,		
+	},
+	
+	Altar7 = {
+		type = "AltarYellow",
+		degrees=252,
+		ring=1,
+		base=4,		
+	},
+	
+	Altar8 = {
+		type = "AltarYellow",
+		degrees=324,
+		ring=1,
+		base=4,		
+	},
+	
+	Altar9 = {
+		type = "AltarYellow",
+		degrees=60,
+		ring=2,
+		base=4,		
+	},
+	
+	Altar10 = {
+		type = "AltarYellow",
+		degrees=180,
+		ring=2,
+		base=4,		
+	},
+	
+	Altar11 = {
+		type = "AltarYellow",
+		degrees=300,
+		ring=2,
+		base=4,		
+	},				
+
+}

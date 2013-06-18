@@ -235,6 +235,14 @@
         </Window>		
     </Window> -->	<!-- fin ventana Carlos -->
 	
+
+    <Window Type="OgreTray/Title" Name="Root/Grados" >
+	    <Property Name="UnifiedAreaRect" Value="{{0.1,0},{0.8,0},{0.5,0},{0.95,0}}" />
+        <Property Name="Text" Value="" />
+        <Property Name="AlwaysOnTop" Value="True" />
+        <Property Name="Font" Value="DejaVuSans-10" />
+    </Window>	
+	
 	
 	</Window> <!-- fin de la ventana Root -->
 	

@@ -100,6 +100,10 @@ namespace Logic
 		item1window->setVisible( true );
 		item1window->setInheritsAlpha(false);
 
+		item1window->subscribeEvent(CEGUI::FrameWindow::EventMouseDoubleClick,
+									 CEGUI::Event::Subscriber(&CShop::createAlied, this)
+									 );
+
 		//se crea el tooltip
 		CEGUI::System::getSingleton().setDefaultTooltip((CEGUI::utf8*)"TaharezLook/Tooltip"); // Set the name of the default tooltip
 		CEGUI::Tooltip* tooltip = CEGUI::System::getSingleton().getDefaultTooltip();
@@ -141,7 +145,7 @@ namespace Logic
 		medusawindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,10.0f) ) );
 		medusawindow->setVisible( true );
 		medusawindow->setInheritsAlpha(false);
-		medusawindow->subscribeEvent(CEGUI::FrameWindow::EventMouseButtonDown,
+		medusawindow->subscribeEvent(CEGUI::FrameWindow::EventMouseClick,
 									 CEGUI::Event::Subscriber(&CShop::createAlied, this)
 									 );
 
@@ -161,6 +165,9 @@ namespace Logic
 		/*_comboWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/ControlPestanas/Combos");*/
 
 
+
+		//GRADOS
+		grados = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Grados");
 
 
 		return true;
@@ -216,6 +223,12 @@ namespace Logic
 
 		//Important, in order to tooltip can be shown
 		CEGUI::System::getSingleton().injectTimePulse(msecs*0.001f);
+
+		gradosstr.str("");
+
+		gradosstr << (unsigned short)_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getDegree();
+
+		grados->setText(gradosstr.str());
 		
 	}//tick
 
@@ -246,18 +259,44 @@ namespace Logic
 		//_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getDegree();
 		//_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getSense();
 
+		std::ostringstream basestring;
+		basestring << "map" << numBase;
+
+		unsigned short int ring = _gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getRing();
+		unsigned short int degree =_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getDegree();
+		unsigned short int sense = _gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getSense();
+
+		short int newdegree = degree;
+
+
+		if(sense==1) //seeing right
+			newdegree-= 10;
+		else //sense == 2 (seeing left)
+			newdegree+= 10;
+
+
+		if(newdegree<0)
+			newdegree = 360 + newdegree;
+		if(newdegree > 360)
+			newdegree = newdegree - 360;
+
+
+
+		
+
 		//Funcion para crear la entidad Aliada (en este caso Medusa)
 		//pero hay que ver como se le puede pasar el Tipo de Entidad a crear al metodo createAlied
 
 		//PARAMETROS
-		// nombreEntidad, Tipo de aliado, base, anillo, grados
-		Logic::CServer::getSingletonPtr()->getMap("mapRed")->createAlied(
+		// nombreEntidad, Tipo de aliado, base origen (porque siempre se creara la criatura en su
+		//base origen, no en el resto de bases), anillo, grados 
+		Logic::CServer::getSingletonPtr()->getMap(basestring.str())->createAlied(
 			"medusa",
 			"Medusa",
-			_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getBase(), 
-			_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getRing(),
-			_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getDegree(),
-			_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getSense() 
+			numBase, 
+			ring,
+			newdegree,
+			sense 
 		);
 
 
