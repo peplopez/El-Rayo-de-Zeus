@@ -24,7 +24,7 @@ Contiene la implementación de la clase que maneja el ParticleSystem.
 #include "Scene.h"
 #include "Server.h"
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "GRAPHICS::PARTICLE_SYSTEM>> " << msg << std::endl;
@@ -46,7 +46,10 @@ namespace Graphics
 	//--------------------------------------------------------
 	
 	void CParticleSystem::start()
-	{	
+	{			
+		// Orientacion initial rotada 180 hacia -X (cara frontal de nuestras entidades)
+		static const Quaternion ORIENTATION(Ogre::Radian( Math::PI ), Vector3::UNIT_Y);
+
 		if(_movObj) { // MO tiene que ser NULL; lo contrario significa que ya hay un FX en curso
 			_movObj->RunFX(); // TODO Verificar que se liberan bien... queremos acumular N veces el mismo efecto?
 
@@ -55,11 +58,15 @@ namespace Graphics
 			Ogre::MovableObject	*mo = getSceneMgr()->createMovableObject("HHFX", &_hhfxParams);
 				assert(mo && "Error al crear ParticleSystem");	
 			
-
+			_node = getSceneMgr()->getSceneNode( _parentName + "_node") 
+				 ->createChildSceneNode(_relativePos, ORIENTATION); 
 
 			// set this class to listen to the ps, to be notified when it is destroyed.
 			_movObj = static_cast<IHHFXOgre*>(mo);
 				_movObj->SetFXListener(this);
+#ifdef _DEBUG
+				_movObj->setDebugDisplayEnabled(true);
+#endif
 				_node->attachObject(_movObj);
 		}
 	}
@@ -69,10 +76,32 @@ namespace Graphics
 	// UNDONE FRS: No se puede usar el método StopFX => Inconsistencias y pescaillas que se muerden la cola con evento StoppedFX
 	void CParticleSystem::stop()
 	{
-		if(_movObj) { // MO tiene que ser !NULL; lo contrario significa que no hay un FX en curso
-			_node->setVisible(false);
-			//_movObj->StopFX();		
+		if(_movObj) {
+
+			// TODO FRS
+
+			//_movObj->setVisible(false);
+			//_movObj->detachFromParent();
+			//LOG("isAttached = "			<< _movObj->isAttached()			)
+			//LOG("IsFXActive = "			<< _movObj->IsFXActive()			)
+			//LOG("isInScene= "			<< _movObj->isInScene()			)
+			//LOG("isParentTagPoint = "	<< _movObj->isParentTagPoint()	)
+			//LOG("isVisible = "			<< _movObj->isVisible()			)
+
+			//_movObj->SetFXListener(0);
+
+			//_movObj->StopFX();
+			//static_cast<Ogre::MovableObject*>(_movObj)->detachFromParent();		
+			//getSceneMgr()->destroyMovableObject( static_cast<Ogre::MovableObject*>(_movObj) ); 
+			//getSceneMgr()->destroySceneNode(_node);		
+			//_movObj = 0;	
+			//_node = 0;
 		}
+
+			// FRS Opciones fallutas
+			//	_node->setVisible(false); 
+			//	_movObj->StopFX();		
+		
 	
 	}
 		
@@ -117,14 +146,16 @@ namespace Graphics
 		if (strstr(obj->GetPath(), "ElectricOrb.hfx") != NULL)
 			getSceneMgr()->destroyLight("pointLight" + Ogre::StringConverter::toString((unsigned int)(obj)));
 
-		_movObj->detachFromParent();
-		getSceneMgr()->destroyMovableObject(_movObj); 
-		_movObj = 0;	
+		if(_movObj) {
+			_movObj->detachFromParent();
+			getSceneMgr()->destroyMovableObject(_movObj); 
+			getSceneMgr()->destroySceneNode(_node);		
+			_movObj = 0;	
+			_node = 0;
+		}
 	}
 
 	
-
-
 
 
 	/**********************
@@ -137,14 +168,6 @@ namespace Graphics
 
 		try{		
 			_hhfxScene = _scene->getHHFXScene();
-
-			// Orientacion initial rotada 180 hacia -X (cara frontal de nuestras entidades)
-			Quaternion orientation; 
-				orientation.FromAngleAxis( Ogre::Radian( Math::PI ), Vector3::UNIT_Y);
-		   	
-			_node = getSceneMgr()->getSceneNode( _parentName + "_node") 
-				 ->createChildSceneNode(_relativePos, orientation); 
-
 			_loaded = true;
 			
 		} catch(std::exception e){

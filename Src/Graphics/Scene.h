@@ -336,6 +336,8 @@ namespace Graphics
 		
 	private:				
 		IHHFXScene *_hhfxScene;
+		Ogre::Real _timeSinceLastRender;
+
 		void _hhfxSceneInit();
 		void _hhfxSceneDeinit();
 		void _hhfxCompositorLoad();
