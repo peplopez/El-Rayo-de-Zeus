@@ -100,6 +100,7 @@ namespace Logic
 		item1window->setVisible( true );
 		item1window->setInheritsAlpha(false);
 
+
 		//se crea el tooltip
 		CEGUI::System::getSingleton().setDefaultTooltip((CEGUI::utf8*)"TaharezLook/Tooltip"); // Set the name of the default tooltip
 		CEGUI::Tooltip* tooltip = CEGUI::System::getSingleton().getDefaultTooltip();
@@ -141,14 +142,17 @@ namespace Logic
 		medusawindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,10.0f) ) );
 		medusawindow->setVisible( true );
 		medusawindow->setInheritsAlpha(false);
-		medusawindow->subscribeEvent(CEGUI::FrameWindow::EventMouseButtonDown,
-									 CEGUI::Event::Subscriber(&CShop::createAlied, this)
+		medusawindow->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::createMedusa, this)
 									 );
 
 		cancerberowindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "cancerbero.layout" );
 		_criaturesWindow->addChildWindow(cancerberowindow);
 		cancerberowindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,70.0f) ) );
 		cancerberowindow->setInheritsAlpha(false);
+		cancerberowindow->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::createCerberus, this)
+									 );
 
 		minotaurowindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "minotauro.layout" );
 		_criaturesWindow->addChildWindow(minotaurowindow);
@@ -161,6 +165,9 @@ namespace Logic
 		/*_comboWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/ControlPestanas/Combos");*/
 
 
+
+		//GRADOS
+		//grados = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Grados");
 
 
 		return true;
@@ -210,14 +217,23 @@ namespace Logic
 
 	} // process
 
+    //---------------------------------------------------------
 	void CShop::tick(unsigned int msecs)
 	{
 		IComponent::tick(msecs);
 
 		//Important, in order to tooltip can be shown
 		CEGUI::System::getSingleton().injectTimePulse(msecs*0.001f);
+
+		//Para mostrar por pantalla los grados en los que se encuentra el Player
+		//para poder calcular los grados donde debia estar la criatura seleccionada
+		//gradosstr.str("");
+		//gradosstr << (unsigned short)_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getDegree();
+		//grados->setText(gradosstr.str());
 		
 	}//tick
+
+    //---------------------------------------------------------
 
 	void CShop::displayShop()
 	{
@@ -229,6 +245,7 @@ namespace Logic
 			activateControl();
 
 	}
+    //---------------------------------------------------------
 
 	bool CShop::handleClose(const CEGUI::EventArgs&e)
 	{
@@ -236,33 +253,76 @@ namespace Logic
 		return true;
 	}
 
-	bool CShop::createAlied(const CEGUI::EventArgs&e)
+    //---------------------------------------------------------
+
+	void CShop::createAlly(const std::string &type)
 	{
 
-		//Recuperamos la base, anillo, grados y sentido de la entidad del Player
-		//para colocar el aliado delante de el.
-		//_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getBase();
-		//_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getRing();
-		//_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getDegree();
-		//_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getSense();
+			std::ostringstream basestring;
+			basestring << "map" << numBase;
 
-		//Funcion para crear la entidad Aliada (en este caso Medusa)
-		//pero hay que ver como se le puede pasar el Tipo de Entidad a crear al metodo createAlied
+			unsigned short int ring = _gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getRing();
+			unsigned short int degree =_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getDegree();
+			unsigned short int sense = _gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getSense();
 
-		//PARAMETROS
-		// nombreEntidad, Tipo de aliado, base, anillo, grados
-		Logic::CServer::getSingletonPtr()->getMap("mapRed")->createAlied(
-			"medusa",
-			"Medusa",
-			_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getBase(), 
-			_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getRing(),
-			_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getDegree(),
-			_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getSense() 
-		);
+			short int newdegree = degree;
+
+			if(sense==LogicalPosition::RIGHT) //seeing right
+				newdegree-= 10;
+			else if(LogicalPosition::LEFT) //seeing left
+				newdegree+= 10;
+
+			//correction in the degrees where ally appears
+			if(newdegree<0)
+				newdegree = 360 + newdegree;
+			if(newdegree > 360)
+				newdegree = newdegree - 360;
 
 
-		return true;
+			//Funcion para crear la entidad Aliada
+			//PARAMETROS
+			// nombreEntidad, Tipo de aliado, base origen (porque siempre se creara la criatura en su
+			//base origen, no en el resto de bases), anillo, grados 
+
+			Logic::CServer::getSingletonPtr()->getMap(basestring.str())->createAlly(
+				type,
+				type,
+				numBase, 
+				_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getRing(),
+				newdegree,
+				_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getSense() 
+			);
+
 	}
+    //---------------------------------------------------------
+
+	bool CShop::createCerberus(const CEGUI::EventArgs&e)
+	{
+
+		const CEGUI::MouseEventArgs& args = reinterpret_cast<const CEGUI::MouseEventArgs&>(e);
+		if (args.button == CEGUI::LeftButton)
+		{
+			createAlly("Cancerbero");
+			return true;
+		}
+		return false;
+	}
+
+    //---------------------------------------------------------
+
+	bool CShop::createMedusa(const CEGUI::EventArgs&e)
+	{
+
+		const CEGUI::MouseEventArgs& args = reinterpret_cast<const CEGUI::MouseEventArgs&>(e);
+		if (args.button == CEGUI::LeftButton)
+		{
+			createAlly("Medusa");
+			return true;
+		}
+		return false;
+	}
+	//---------------------------------------------------------
+	
 
 	bool CShop::activateControl()
 	{
@@ -276,6 +336,7 @@ namespace Logic
 
 		return true;
 	}
+    //---------------------------------------------------------
 
 	void CShop::deactivateControl()
 	{

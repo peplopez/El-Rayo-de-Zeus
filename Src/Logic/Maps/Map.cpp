@@ -189,7 +189,7 @@ namespace Logic {
 	//--------------------------------------------------------
 
 	//PT
-	void CMap::createAlied(std::string entityName, const std::string& type, const unsigned short base, const unsigned short ring, const unsigned short degrees, const unsigned short sense)
+	void CMap::createAlly(std::string entityName, const std::string& type, const unsigned short base, const unsigned short ring, const unsigned short degrees, const unsigned short sense)
 	{
 
 		// [PT] Creamos un nuevo aliado. Deberíamos tener la info del aliado
@@ -209,6 +209,7 @@ namespace Logic {
 
 		aliedInfo.setType(type);
 
+
 		//Atributos
 		aliedInfo.setAttribute("base", eBase.str());
 		aliedInfo.setAttribute("ring", eRing.str());
@@ -216,6 +217,9 @@ namespace Logic {
 		aliedInfo.setAttribute("degrees", eDegrees.str());
 
 		CEntity* newAlied = CEntityFactory::getSingletonPtr()->createMergedEntity(&aliedInfo, this);
+
+		//activate the new entity
+		newAlied->activate();
 
 		alied++;
 

@@ -220,7 +220,7 @@ namespace Logic
 		void createPlayer(std::string entityName, bool isLocalPlayer,const std::string& nickname = "", const std::string& model = "", const std::string& color = "");
 
 		//PT
-		void createAlied(std::string entityName, const std::string& type="", const unsigned short base=0U, const unsigned short ring=0U, const unsigned short degrees=0U, const unsigned short sense=0);
+		void createAlly(std::string entityName, const std::string& type="", const unsigned short base=0U, const unsigned short ring=0U, const unsigned short degrees=0U, const unsigned short sense=0);
 
 
 		/*******************
