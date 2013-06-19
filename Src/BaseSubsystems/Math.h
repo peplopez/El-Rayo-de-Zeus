@@ -83,6 +83,17 @@ typedef Ogre::Ray Ray;
 Namespace en el que ofrecemos alguna definición de constante
 matamática y métodos para convertir grados en radianes, etc.
 */
+
+struct Float4
+{
+	float x;
+	float y;
+	float z;
+	float w;
+
+	Float4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
+};
+
 namespace Math
 {
 	/***********

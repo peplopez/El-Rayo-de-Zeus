@@ -141,6 +141,16 @@ namespace Graphics
 			_light->setDirection(direction);
 
 	} // setDirection
+
+	//--------------------------------------------------------
+
+	void CLight::setAttenuation(float range, float constant, float linear, float cuadratic)
+	{
+		assert(_light && "La luz no ha sido cargada en la escena");
+		if(_light)
+			_light->setAttenuation(range, constant, linear, cuadratic);
+
+	} // setDirection
 	
 	//--------------------------------------------------------
 

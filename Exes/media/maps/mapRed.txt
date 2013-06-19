@@ -20,12 +20,15 @@ Map ={
 	
 	Light1 = {
 		type = "WhitePLight",
-		position = {-200, 200, 0},
+		position = {-100, 120, 0},
+		attenuation = "600, 1.0, 0.007, 0.0002",
 	},
+	
 	
 	Light2 = {
 		type = "WhitePLight",
-		position = {200, 200, 0},
+		position = {100, 20, 0},
+		attenuation = "600, 1.0, 0.007, 0.0002",
 	},	
 			
 	puApple1 = {

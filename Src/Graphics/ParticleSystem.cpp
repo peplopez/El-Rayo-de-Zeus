@@ -130,6 +130,7 @@ namespace Graphics
 			pointLight->setPosition(fx->getParentSceneNode()->getPosition() + Vector3::UNIT_Y * 5.0f);
 			pointLight->setDiffuseColour(0.1f, 0.1f, 1.0f);
 			pointLight->setSpecularColour(0.8f, 0.8f, 1.0f);
+			//pointLight->setAttenuation(32.0f, 1.0f, 0.14f, 0.07f);
 		}
 	}
 

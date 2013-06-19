@@ -104,6 +104,22 @@ namespace Map {
 
 	} // getVector3Attribute
 
+	
+	//--------------------------------------------------------
+	const Float4 CEntity::getFloat4Attribute(const std::string &attr) const
+	{
+		// Recuperamos la cadena  "x y z w"
+		std::string position = (*_attributes.find(attr)).second;
+		int space1 = position.find(' ');
+		float x = (float)atof(position.substr(0,space1).c_str());
+		int space2 = position.find(' ',space1+1);
+		float y = (float)atof(position.substr(space1+1,space2-(space1+1)).c_str());
+		int space3 = position.find(' ',space2+1);
+		float z = (float)atof(position.substr(space2+1,space3-(space2+1)).c_str());
+		float w = (float)atof(position.substr(space3+1,position.size()-(space3+1)).c_str());
+		return Float4(x,y,z,w);
+	} // getVector4Attribute
+
 	//--------------------------------------------------------
 
 	void CEntity::mergeWithArchetype(const CEntity& archetype)
