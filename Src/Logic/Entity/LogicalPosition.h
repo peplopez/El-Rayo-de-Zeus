@@ -45,10 +45,11 @@ namespace Logic
 		};
 		enum Sense : unsigned short
 		{ //Quizá mejor sentido angunos positivos/negativos?	
-			UNDEFINED=		0,
-			RIGHT=			1,
-			LEFT=			2,
-			LOOKING_CENTER= 3	
+			UNDEFINED=			0,
+			RIGHT=				1,
+			LEFT=				2,
+			LOOKING_CENTER=		3,
+			LOOKING_OUTSIDE=	4
 		};
 		
 

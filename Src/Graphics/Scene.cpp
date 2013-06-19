@@ -46,10 +46,10 @@ de una escena.
 namespace Graphics 
 {
 	// WARNING : if != 1.0, This scale must be taken into account when setting and getting arbitrary particle attributes !
-	const float CScene::HHFX_WORLD_SCALE = 5.0f;
+	const float CScene::HHFX_WORLD_SCALE = 8.0f;
 
 	CScene::CScene(const std::string& name) : _name(name), _viewport(0), 
-			_staticGeometry(0)
+		_staticGeometry(0), _hhfxScene(0), _hhfxTimeSinceUpdate(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
@@ -71,17 +71,66 @@ namespace Graphics
 			
 	} // ~CScene
 
+	
 	//--------------------------------------------------------
 
+	void CScene::activateCompositor(std::string name)
+	{	
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, true);
+	}	
+	//--------------------------------------------------------
+
+	void CScene::deactivateCompositor(std::string name)
+	{	
+		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, false);
+	}	
+	//--------------------------------------------------------
+
+	void CScene::activateBaseCam()
+	{
+		buildStaticGeometry(); // FRS Internamente sólo se ejecuta en el primer uso de la escena ->
+		// analizar si más conveniente hacerlo en un paso previo a los dos tipos de activate
+
+		// HACK en pruebas
+		_viewport = BaseSubsystems::CServer::getSingletonPtr()
+				->getRenderWindow()->addViewport(_baseCamera->getCamera());
+			_viewport->setBackgroundColour(Ogre::ColourValue::Black);
+		
+		_baseCamera->getCamera()->setAspectRatio(
+			Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
+
+		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
+			activateCompositor("Glow");
+
+		GlowMaterialListener *gml = new GlowMaterialListener(); // FRS y este new? no se pierde en el limbo? WTF?
+		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
+
+		// FRS esto también, quizá mejor en un paso previo, junto con todas las sentencias repetidas en los activates
+		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f)); 
+
+		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
+		//Sombras Chulas - Consumen mucho*/
+		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
+
+	}
+	
+	//--------------------------------------------------------
+
+
+
+	/******************
+		ICOMPONENT
+	******************/
+
+	// TODO FRS Este activate hay que repasarlo, está bien hacer todo esto en cada activate?
 	void CScene::activate()
 	{
 		buildStaticGeometry(); // FRS Se debe construir en cada activación?
 
 		// HACK en pruebas
-		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
-						->addViewport(_camera->getCamera());
+		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->addViewport(_camera->getCamera());
 
-		_camera->getCamera()->setAspectRatio( 
+		_camera->getCamera()->setAspectRatio( // FRS Esto hay que hacerlo en cada activate?
 			Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
 
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
@@ -101,7 +150,6 @@ namespace Graphics
 		//BWMaterialListener *bwml = new BWMaterialListener();
 		//Ogre::MaterialManager::getSingletonPtr()->addListener(bwml);
 
-
 		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
 
 		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
@@ -112,43 +160,7 @@ namespace Graphics
 
 	} // activate
 
-	//--------------------------------------------------------
-
-	void CScene::activateCompositor(std::string name)
-	{	
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, true);
-	}
-	void CScene::deactivateCompositor(std::string name)
-	{	
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, false);
-	}
-	void CScene::activateBaseCam()
-	{
-		buildStaticGeometry();
-		// HACK en pruebas
-		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()
-						->addViewport(_baseCamera->getCamera());
-
-		_baseCamera->getCamera()->setAspectRatio(
-        Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
-		
-		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
-
-		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
-			activateCompositor("Glow");
-
-		GlowMaterialListener *gml = new GlowMaterialListener(); // FRS y este new? no se pierde en el limbo? WTF?
-		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
-
-		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
-
-		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
-		//Sombras Chulas - Consumen mucho*/
-		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
-
-	}
-
-
+	
 	//--------------------------------------------------------
 
 	void CScene::deactivate()
@@ -261,6 +273,8 @@ namespace Graphics
 		HELL HEAVEN FX
 	*********************/
 
+	
+
 	//------------ INIT & DEINIT -------------------------------------------------------------------------
 
 	void CScene::_hhfxSceneInit() 
@@ -337,7 +351,7 @@ namespace Graphics
 											RING_RAD[1] * RING_RAD[1],
 											RING_RAD[2] * RING_RAD[2]}; 
 		static const int RAD_SQR_MIN[] = { 
-			pow( (float) RING_RAD[0] - RING_WIDTH_INT[0], 2),
+			pow( (float) RING_RAD[0] - RING_WIDTH_INT[0], 2), // TODO FRS posiblemente rinda más multiplicarlo por sí mismo explicitamente
 			pow( (float) RING_RAD[1] - RING_WIDTH_INT[1], 2),
 			pow( (float) RING_RAD[2] - RING_WIDTH_INT[2], 2)}; 
 		static const int RAD_SQR_MAX[] = {
@@ -354,20 +368,20 @@ namespace Graphics
 		Ray	traceRay(start, direction);
 		std::pair<bool, Ogre::Real> result = traceRay.intersects( RING_PLANES[ringIndex] ); 
 
-		if (result.first) { // Correcting Result 
+			if (result.first) { // Correcting Result 
 
-			contactReport.m_Point = traceRay.getPoint(result.second);
-			float contactSqrDist =	contactReport.m_Point.x * contactReport.m_Point.x +
-									contactReport.m_Point.z * contactReport.m_Point.z;
+				contactReport.m_Point = traceRay.getPoint(result.second);
+				float contactSqrDist =	contactReport.m_Point.x * contactReport.m_Point.x +
+										contactReport.m_Point.z * contactReport.m_Point.z;
 			
-			// stay on our "visible" ring
-			if (contactSqrDist > RAD_SQR_MIN[ringIndex] && contactSqrDist < RAD_SQR_MAX[ringIndex]) {						
-				contactReport.m_Time = result.second;
-				contactReport.m_Normal = RING_PLANES[ringIndex].normal;			
-			} else {
-				result.first = false;
+				// stay on our "visible" ring
+				if (contactSqrDist < RAD_SQR_MAX[ringIndex] && contactSqrDist > RAD_SQR_MIN[ringIndex]) {						
+					contactReport.m_Time = result.second;
+					contactReport.m_Normal = RING_PLANES[ringIndex].normal;			
+				} else {
+					result.first = false;
+				}
 			}
-		}
 
 		return result.first;
 	}
@@ -377,18 +391,28 @@ namespace Graphics
 	//-----------FRAME LISTENER IMPL--------------------------------------------------------------------------
 
 	bool CScene::frameStarted(const Ogre::FrameEvent& evt)
-	{
-		_hhfxScene->Update(evt.timeSinceLastFrame); // update the hhfx scene
+	{	
+		_hhfxTimeSinceUpdate += evt.timeSinceLastFrame;
+		if( (_viewport || _hhfxTimeSinceUpdate > _HHFX_UPDATE_TIME_MAX )  ) 
+		{
+			_hhfxScene->Update(_hhfxTimeSinceUpdate); // update the hhfx scene
+			_hhfxTimeSinceUpdate = 0;
+		} 
 		return true;
 	}
 
 	//-------------------------------------------------------------------------------------
 
+	// FRS Return True to continue rendering, false to drop out of the rendering loop.
 	bool CScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	{	
-		const Vector3& camPos = _camera->getPosition();
-		const Quaternion& camOri = _camera->getOrientation();
+		if(!_viewport ||_hhfxTimeSinceUpdate) // Si no se acaba de hacer Update (time = 0) no renderizamos
+			return true;
 
+		// FRS Aplicamos transformaciones de la camara que esté renderizando actualmente el viewport: Camera o BaseCamera.
+		const Vector3& camPos =		_viewport->getCamera()->getParentNode()->getPosition();	   // El nodo es el que contiene el transform
+		const Quaternion& camOri =	_viewport->getCamera()->getParentNode()->getOrientation(); // la camara mantiene pos = 0 (relativa al nodo)
+	
 		Matrix4 worldTransforms;
 			worldTransforms.makeTransform(camPos, Vector3::UNIT_SCALE, camOri);
 			worldTransforms = worldTransforms.transpose(); // FRS Transformación de cámara se aplica con la M transpuesta

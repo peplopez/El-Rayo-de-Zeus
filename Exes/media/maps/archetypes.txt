@@ -70,7 +70,6 @@ Map = {
 		event_CT_Attack2=0.2,
 		event_CT_Attack3=0.2,
 		event_DT_Cover=0.45,
-		event_DT_ActivateAltar=0.5,
 	},	
 
 	AltarRed = {
@@ -320,6 +319,7 @@ Map = {
 		event_DT_Attack1=0.45,
 		event_DT_Attack2=1.1,
 		event_DT_Attack3=1.9,		
+		event_DT_Attack4=2.5,	
 	},	
 	
 	
@@ -375,7 +375,6 @@ Map = {
 		event_CT_Attack2=0.2,
 		event_CT_Attack3=0.2,
 		event_DT_Cover=0.45,
-		event_DT_ActivateAltar=0.5,
 	},
 	
 	OtherPlayer = {
@@ -432,7 +431,6 @@ Map = {
 		event_CT_Attack2=0.2,
 		event_CT_Attack3=0.2,
 		event_DT_Cover=0.45,
-		event_DT_ActivateAltar=0.5,
 	},
 	
 	PUApple = {

@@ -80,6 +80,7 @@ class CSM_Hercules : public CStateMachine<CLatentAction>
 			this->addEdge(switchingAltar, idle, new CConditionMessageAction<CLatentAction>(Message::ALTAR_MS_ORDER,Message::STOP_SWITCH));
 			this->addEdge(switchingAltar, idle, new CConditionSuccess());
 
+
 			this->addEdge(l_run, idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_STOP));
 			this->addEdge(r_run, idle, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::WALK_STOP));
 			
