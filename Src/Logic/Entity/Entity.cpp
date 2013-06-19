@@ -149,9 +149,9 @@ namespace Logic
 				if (_type=="Medusa" || _type=="Spider" || _type=="Sinbad"|| _type=="Cancerbero")
 					this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));			
 			}
-			else
-				if (_type=="Medusa"|| _type=="Spider"|| _type=="Sinbad"|| _type=="Cancerbero")
-					this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
+			//else
+			//	if (_type=="Medusa"|| _type=="Spider"|| _type=="Sinbad"|| _type=="Cancerbero")
+			//		this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
 				
 		
 		}

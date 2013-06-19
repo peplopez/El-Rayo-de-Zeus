@@ -101,7 +101,11 @@ namespace Logic
 
 		bool handleClose(const CEGUI::EventArgs&e);
 
-		bool createAlied(const CEGUI::EventArgs&e);
+		void createAlly(const std::string &type);
+
+		//Functions for create allies
+		bool createCerberus(const CEGUI::EventArgs&e);
+		bool createMedusa(const CEGUI::EventArgs&e);
 
 		void deactivateControl();
 		bool activateControl();
@@ -138,8 +142,8 @@ namespace Logic
 		CEGUI::Window* cancerberowindow;
 		CEGUI::Window* minotaurowindow;
 
-		CEGUI::Window* grados;
-		std::ostringstream gradosstr;
+		//CEGUI::Window* grados;
+		//std::ostringstream gradosstr;
 
 		 
 	}; // class CShop

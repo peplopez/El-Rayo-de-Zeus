@@ -168,9 +168,6 @@ namespace Application {
 			//Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true, "Mono", "spartan2.4.mesh", "SpartanBodyWounds");
 			Logic::CServer::getSingletonPtr()->getMap("map1")->createPlayer("Mono", true, "Mono", "spartan2.4.mesh", "SpartanBodyWounds");
 
-			//Aqui se crea guay la medusa
-			Logic::CServer::getSingletonPtr()->getMap("map1")->createAlied("Medusa333","Medusa",1,1,180, 1);
-
 			break;
 
 		case GUI::Key::M:
