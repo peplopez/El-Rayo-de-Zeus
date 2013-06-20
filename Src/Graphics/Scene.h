@@ -336,8 +336,8 @@ namespace Graphics
 		
 	private:	
 
-		static const int _HHFX_UPDATE_TIME_MAX = 1000;
-		Ogre::Real _hhfxTimeSinceUpdate;
+		static const int _HHFX_UPDATE_TIME_MAX = 1;
+		Ogre::Real _hhfxTimeSinceUpdate; 
 		IHHFXScene *_hhfxScene;
 
 		void _hhfxSceneInit();

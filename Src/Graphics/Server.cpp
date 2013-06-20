@@ -266,17 +266,11 @@ namespace Graphics
 	{
 		_preloadHHFXTextures();
 
-		// set the default visibility flag for all the movable objects, because we will use posts effects that 
-		// needs to filter objects for rendering
+		// set the default visibility flag for all the movable objects, 
+		// because we will use posts effects that needs to filter objects for rendering
 		Ogre::MovableObject::setDefaultVisibilityFlags(1); 
-
-		// retrieve the HellHeaven's scene from an empty fx. for each Ogre::SceneManager a HHFXScene is associated.
-		Ogre::MovableObject	*dummyMO = _dummyScene->getSceneMgr()->createMovableObject("HHFX");
-			if (dummyMO) {	
-				_hhfxBase =  &static_cast<IHHFXOgre*>(dummyMO)->GetHHFXScene().GetHHFXBase();			
-				_dummyScene->getSceneMgr()->destroyMovableObject(dummyMO); // we got the hh scene, destroy the dummy effect
-			}
-			assert(_hhfxBase && "failed initialing HHFX !");
+		_hhfxBase =  &_dummyScene->getHHFXScene()->GetHHFXBase(); // Get HHFX Configuration
+		assert(_hhfxBase && "failed initialing HHFX !");
 							
 		// LOAD HFX PACK	
 		bool hhfxPackLoaded = _hhfxBase->LoadPack("media/packs/hhfx", true); 

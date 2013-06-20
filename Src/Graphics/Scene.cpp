@@ -286,12 +286,14 @@ namespace Graphics
 				_sceneMgr->destroyMovableObject(dummyMO); // we got the hh scene, destroy the dummy effect
 			}
 			assert(_hhfxScene && "failed creating HHFXScene !");	
-
-		// bind the collision callback 
-		_hhfxScene->SetCollisionCallback(this, &_hhfxCollisionCheck); 
-		_hhfxScene->SetWorldScale( HHFX_WORLD_SCALE ); 
-
-		_root->addFrameListener(this);
+			
+		// Solo si no somos dummy scene
+		if(_name != "dummy_scene") {
+			_hhfxScene->SetCollisionCallback(this, &_hhfxCollisionCheck);  		// bind the collision callback 
+			_hhfxScene->SetWorldScale( HHFX_WORLD_SCALE ); 
+			_root->addFrameListener(this);
+		}
+		
 	}
 
 	//-------------------------------------------------------------------------------------
@@ -332,7 +334,7 @@ namespace Graphics
 	bool CScene::_hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, 
 		const Ogre::Vector3 &direction, float length, SContactReport &contactReport)
 	{
-		LOG("Particle Position = " << start.x << " , " << start.y << " , " << start.z)
+	//	LOG("Particle Position = " << start.x << " , " << start.y << " , " << start.z)
 
 		// CONSTANTS    					//TODO CServer::getSingletonPtr()->getRingRadio(ring)trasnslate		
 		static const int RING_HEIGHT = 100;
@@ -390,11 +392,16 @@ namespace Graphics
 
 	//-----------FRAME LISTENER IMPL--------------------------------------------------------------------------
 
+	// TODO FRS _hhfxTimeSinceUpdate podría desbordarse si no hay particulas...
 	bool CScene::frameStarted(const Ogre::FrameEvent& evt)
 	{	
+		LOG("[HHFX] ParticleCount = " << _hhfxScene->GetParticleCount() )
+
 		_hhfxTimeSinceUpdate += evt.timeSinceLastFrame;
-		if( (_viewport || _hhfxTimeSinceUpdate > _HHFX_UPDATE_TIME_MAX )  ) 
+		if(_viewport || _hhfxTimeSinceUpdate > _HHFX_UPDATE_TIME_MAX)
+			// && _hhfxScene->GetParticleCount() )  UNDONE  siempre devuelve 0 WTF!
 		{
+			LOG("["<< _name <<"] Frame Started: Time Since Update = " << _hhfxTimeSinceUpdate)
 			_hhfxScene->Update(_hhfxTimeSinceUpdate); // update the hhfx scene
 			_hhfxTimeSinceUpdate = 0;
 		} 
@@ -406,12 +413,13 @@ namespace Graphics
 	// FRS Return True to continue rendering, false to drop out of the rendering loop.
 	bool CScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	{	
-		if(!_viewport ||_hhfxTimeSinceUpdate) // Si no se acaba de hacer Update (time = 0) no renderizamos
+		if(_hhfxTimeSinceUpdate) // Si no se acaba de hacer Update (time = 0) no renderizamos
 			return true;
 
-		// FRS Aplicamos transformaciones de la camara que esté renderizando actualmente el viewport: Camera o BaseCamera.
-		const Vector3& camPos =		_viewport->getCamera()->getParentNode()->getPosition();	   // El nodo es el que contiene el transform
-		const Quaternion& camOri =	_viewport->getCamera()->getParentNode()->getOrientation(); // la camara mantiene pos = 0 (relativa al nodo)
+		// Aplicamos transformaciones de la camara que esté renderizando actualmente el FX: Camera o BaseCamera.
+		Ogre::Camera* fxCamera = _viewport? _viewport->getCamera() : _camera->getCamera();
+		const Vector3& camPos =		fxCamera->getParentNode()->getPosition();	  // El nodo es el que contiene el transform
+		const Quaternion& camOri =	fxCamera->getParentNode()->getOrientation(); // la camara mantiene pos = 0 (relativa al nodo)
 	
 		Matrix4 worldTransforms;
 			worldTransforms.makeTransform(camPos, Vector3::UNIT_SCALE, camOri);
