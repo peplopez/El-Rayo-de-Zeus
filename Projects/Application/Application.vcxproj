@@ -138,10 +138,13 @@
     <ClInclude Include="..\..\Src\Application\NetMenuState.h" />
     <ClInclude Include="..\..\Src\Application\OgreClock.h" />
     <ClInclude Include="..\..\Src\Application\TimeConstants.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Galeon.ico" />
     <None Include="small.ico" />
+    <None Include="zeusthunderbolt.png" />
+    <None Include="ztb.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AI\AI.vcxproj">
@@ -216,6 +219,9 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Application.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

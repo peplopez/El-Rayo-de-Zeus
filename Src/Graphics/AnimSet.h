@@ -18,9 +18,6 @@ Contiene la declaración de la clase que reprenta una correspondencia entre nombr
 
 #include "Logic\Entity\Components\AnimatedGraphics.h"
 
-#include <map>
-#include <vector>
-#include <string>
 
 
 namespace Graphics 

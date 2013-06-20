@@ -24,6 +24,8 @@ pueden usar en otras ventanas
 */
 #define NON_EXCLUSIVE_MODE_IN_WINDOW_MODE
 
+#include <string>
+
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 
 {
@@ -362,6 +364,9 @@ namespace BaseSubsystems
 		Puntero al modulo de scripts de CEGUI para poder liberarlo a la salida.
 		*/
 		CEGUI::LuaScriptModule *_luaModule;
+
+		private:
+			static const std::string _WINDOW_TITLE;
 
 	}; // class CServer
 
