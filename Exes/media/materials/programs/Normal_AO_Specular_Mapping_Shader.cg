@@ -95,6 +95,7 @@ float4 diffuse_ps(
     // attenuation
     half ila = lightDist * lightDist; // quadratic falloff
     half la = 1.0 - ila;
+	la = max(la, 0);
  
     float4 normalTex = tex2D(normalMap, IN.uv);
  
