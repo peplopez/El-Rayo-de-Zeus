@@ -48,7 +48,9 @@ usados. La mayoría de ellos son parte de Ogre.
 #include <CEGUIScheme.h>
 
 // Para cerrar la aplicación si se cierra la ventana
-#include "Application/BaseApplication.h"
+#include <Application/BaseApplication.h>
+#include <resource.h>
+
 
 /**
 Si se define la siguiente directiva, en modo ventana se reenderiza aunque
@@ -523,9 +525,21 @@ namespace BaseSubsystems
 			_renderWindow->setDeactivateOnFocusChange(false);
 #endif
 
-			// Inicializa los recursos que deben haber sido cargados en
-			// setupResources()
-			Ogre::ResourceGroupManager::getSingletonPtr()->initialiseResourceGroup("General");
+			// FRS Establecemos el *.ico de ventana
+#if _WIN32			
+			HWND hwnd;
+			_renderWindow->getCustomAttribute("WINDOW", &hwnd);
+			 
+			HINSTANCE hinstance;
+			hinstance = GetModuleHandle(NULL);
+			HICON icon = LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ZTB));
+			
+			SendMessage(hwnd, WM_SETICON, ICON_BIG, LPARAM(icon));
+			SendMessage(hwnd, WM_SETICON, ICON_SMALL, LPARAM(icon));
+#endif
+
+			// Inicializa los recursos que deben haber sido cargados en setupResources()
+			Ogre::ResourceGroupManager::getSingletonPtr()->initialiseResourceGroup("General"); // FRS Solo se inicializa el grupo [General] ?
 		}
 		catch(Ogre::Exception e)
 		{
@@ -544,7 +558,7 @@ namespace BaseSubsystems
 		if(_renderWindow)
 		{
 			width = _renderWindow->getWidth();
-			height = _renderWindow->getHeight();
+			height = _renderWindow->getHeight(); 
 		}
 		else
 			width = height = -1;

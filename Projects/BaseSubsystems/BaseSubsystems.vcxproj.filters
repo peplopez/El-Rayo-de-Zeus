@@ -43,5 +43,14 @@
     <ClInclude Include="..\..\Src\BaseSubsystems\rapidxml.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BaseSubsystems.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Application\ztb.ico" />
   </ItemGroup>
 </Project>
