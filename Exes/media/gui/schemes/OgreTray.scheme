@@ -10,7 +10,6 @@
 	<Imageset Name="HudBaseLife" Filename="HudBaseLife.imageset" />
 	<Imageset Name="ShopItems" Filename="ShopItems.imageset" />
 	<Imageset Name="ShopCriatures" Filename="ShopCriatures.imageset" />
-	<!-- <Imageset Name="ShopCombos" Filename="ShopCombos.imageset" /> -->
 	
     <Font Filename="DejaVuSans-10.font" />
     <LookNFeel Filename="OgreTray.looknfeel" />

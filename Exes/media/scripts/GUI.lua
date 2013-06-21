@@ -22,6 +22,7 @@ GUI.Fonts:create("Diogenes-10.font")
 GUI.Fonts:create("Diogenes-14.font")
 GUI.Fonts:create("Diogenes-24.font")
 GUI.Fonts:create("Diogenes-24.font")
+GUI.Fonts:create("Cantoria-8.font")
 GUI.Fonts:create("Cantoria-10.font")
 GUI.Fonts:create("Cantoria-14.font")
 

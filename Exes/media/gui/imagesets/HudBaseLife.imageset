@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Imageset Name="HudBaseLife" Imagefile="../backgrounds/hud-baselife.png" NativeHorzRes="168" NativeVertRes="130" AutoScaled="true">
-	<Image Name="BaseLifeEntire" XPos="0.0" YPos="0.0" Width="54" Height="130" />
-	<Image Name="BaseLifeMedium" XPos="56.0" YPos="0.0" Width="54" Height="130" />
-	<Image Name="BaseLifeMinimum" XPos="112.0" YPos="0.0" Width="54" Height="130" />
+<Imageset Name="HudBaseLife" Imagefile="../backgrounds/hud-baselife.png" NativeHorzRes="390" NativeVertRes="390" AutoScaled="true">
+	<Image Name="BaseLifeEntire" XPos="0.0" YPos="0.0" Width="127" Height="127" />
+	<Image Name="BaseLifeAlmostEntire" XPos="131" YPos="0.0" Width="127" Height="127" />
+	<Image Name="BaseLifeAlmostEmpty" XPos="262" YPos="0.0" Width="127" Height="127" />
+	<Image Name="BaseLifeEmpty" XPos="0.0" YPos="135.0" Width="127" Height="127" />
+	<Image Name="BaseLifeDamage" XPos="135.0" YPos="135.0" Width="130" Height="130" />
+	<Image Name="BaseLifeSwordContainer" XPos="0.0" YPos="295.0" Width="390" Height="60" />
 </Imageset>

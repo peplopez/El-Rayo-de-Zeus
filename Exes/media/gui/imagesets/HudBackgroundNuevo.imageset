@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Imageset Name="HudBackgroundNuevo" Imagefile="../backgrounds/hud-fondo4.png" NativeHorzRes="504" NativeVertRes="193" AutoScaled="true">
+<!-- <Imageset Name="HudBackgroundNuevo" Imagefile="../backgrounds/hud-fondo4.png" NativeHorzRes="504" NativeVertRes="193" AutoScaled="true">
 	<Image Name="HudBackgroundNuevoImage" XPos="0.0" YPos="0.0" Width="504" Height="193" />
+</Imageset> -->
+<Imageset Name="HudBackgroundNuevo" Imagefile="../backgrounds/hud-fondo6.png" NativeHorzRes="600" NativeVertRes="300" AutoScaled="true">
+	<Image Name="HudBackgroundNuevoImage" XPos="0.0" YPos="0.0" Width="600" Height="300" />
 </Imageset>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Imageset Name="HudBaseLife" Imagefile="../backgrounds/hud-baselife.png" NativeHorzRes="168" NativeVertRes="130" AutoScaled="true">
+	<Image Name="BaseLifeEntire" XPos="0.0" YPos="0.0" Width="54" Height="130" />
+	<Image Name="BaseLifeMedium" XPos="56.0" YPos="0.0" Width="54" Height="130" />
+	<Image Name="BaseLifeMinimum" XPos="112.0" YPos="0.0" Width="54" Height="130" />
+</Imageset>

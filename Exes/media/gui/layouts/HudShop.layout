@@ -11,7 +11,8 @@
 		<Property Name="FrameEnabled" Value="false" />
 		<Property Name="BackgroundEnabled" Value="False" />
         <Property Name="AlwaysOnTop" Value="False" />
-		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,257},{0,96}}" /> <!-- 257 px de ancho, y 96 px de alto, la mitad que hud-fondo4.png-->
+		<!-- <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,257},{0,96}}" /> --> <!-- 257 px de ancho, y 96 px de alto, la mitad que hud-fondo4.png-->
+		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,300},{0,150}}" /> <!-- 300 px de ancho, y 150 px de alto, la mitad que hud-fondo6.png-->
 		<Property Name="Image" Value="set:HudBackgroundNuevo image:HudBackgroundNuevoImage" />
 		
 		<Window Type="OgreTray/StaticImage" Name="Root/Hud/Personaje" >
@@ -19,24 +20,31 @@
 			<Property Name="BackgroundEnabled" Value="False" />
 			<Property Name="AlwaysOnTop" Value="True" />
 			<Property Name="Image" Value="set:HudPersonaje image:PersonajeEspartano" />
-            <Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.065,0},{0.375,0},{0.9,0}}" />
+            <!-- <Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.065,0},{0.375,0},{0.9,0}}" /> --> <!-- hud-fondo4.png -->
+			<Property Name="UnifiedAreaRect" Value="{{0,35},{0,15},{0,115},{0,95}}" /> <!-- hud-fondo6.png -->
         </Window>	
 
 		<Window Type="OgreTray/TitleNickname" Name="Root/Hud/PlayerName" >
-			<Property Name="Font" Value="Diogenes-14" />
+			<Property Name="Font" Value="Cantoria-14" />
 			<Property Name="MaxTextLength" Value="10" />
 			<Property Name="Text" Value="" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.07,0},{0,230},{0.3,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,110},{0,5},{0,290},{0,25}}" />
 		</Window>	
+		
+		<Window Type="OgreTray/StaticImage" Name="Root/Hud/SwordLifeContainer" >
+			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="BackgroundEnabled" Value="False" />			
+			<Property Name="AlwaysOnTop" Value="True" />
+			<Property Name="Image" Value="set:HudBaseLife image:BaseLifeSwordContainer" />
+			<Property Name="UnifiedAreaRect" Value="{{0,1},{0,95},{0,215},{0,142}}" />		
+		</Window>		
 		
 		<Window Type="OgreTray/ProgressBarLife" Name="Root/Hud/Life" >
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 			<Property Name="CurrentProgress" Value="1" />		
 			<Property Name="AlwaysOnTop" Value="True" />
-			<!-- <Property Name="UnifiedAreaRect" Value="{{0,110},{0.305,0},{0,230},{0.35,0}}" /> -->
-			<!-- <Property Name="UnifiedAreaRect" Value="{{0,110},{0.305,0},{0,230},{0.45,0}}" /> -->
-			<Property Name="UnifiedAreaRect" Value="{{0,110},{0,5},{0,230},{0,15}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,58},{0,98},{0,215},{0,111}}" />
 		</Window>
 		
 		<Window Type="OgreTray/StaticImage" Name="Root/Hud/RayoBase" >
@@ -44,50 +52,60 @@
 			<Property Name="BackgroundEnabled" Value="False" />			
 			<Property Name="AlwaysOnTop" Value="False" />
 			<Property Name="Image" Value="set:HudBaseLife image:BaseLifeEntire" />
-            <Property Name="UnifiedAreaRect" Value="{{0.82,0},{0.28,0},{0.92,0},{0.94,0}}" />		
+            <!-- <Property Name="UnifiedAreaRect" Value="{{0.82,0},{0.28,0},{0.92,0},{0.94,0}}" /> -->
+			<Property Name="UnifiedAreaRect" Value="{{0.0,230},{0.0,40},{0.0,290},{0.0,100}}" />		
 		</Window>
 		
 		<Window Type="OgreTray/TitleEnemigos" Name="Root/Hud/TitleEnemigos" >
-			<Property Name="Font" Value="Diogenes-10" />
+			<Property Name="Font" Value="Cantoria-8" />
 			<Property Name="Text" Value="Enemies" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0,105},{0.31,0},{0,180},{0.48,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,120},{0,26},{0,215},{0,48}}" />
 		</Window>
 
 		<Window Type="OgreTray/NumEnemigos" Name="Root/Hud/NumEnemigos" >
-			<Property Name="Font" Value="Diogenes-10" />
+			<Property Name="Font" Value="Cantoria-8" />
 			<Property Name="Text" Value="0" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0,155},{0.31,0},{0,210},{0.48,0}}" />
+			<!-- <Property Name="UnifiedAreaRect" Value="{{0,155},{0.31,0},{0,210},{0.48,0}}" /> -->
+			<Property Name="UnifiedAreaRect" Value="{{0,220},{0,26},{0,230},{0,48}}" />
 		</Window>
 
 		<Window Type="OgreTray/TitlePuntosMerito" Name="Root/Hud/TitlePuntosMerito" >
-			<Property Name="Font" Value="Diogenes-10" />
+			<Property Name="Font" Value="Cantoria-8" />
 			<Property Name="Text" Value="P.M" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0,105},{0.5,0},{0,150},{0.7,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,125},{0,50},{0,170},{0,72}}" />
 		</Window>
 
 		<Window Type="OgreTray/PuntosMerito" Name="Root/Hud/PuntosMerito" >
-			<Property Name="Font" Value="Diogenes-10" />
+			<Property Name="Font" Value="Cantoria-8" />
 			<Property Name="Text" Value="355" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0,155},{0.5,0},{0,210},{0.7,0}}" />
+			<!-- <Property Name="UnifiedAreaRect" Value="{{0,155},{0.5,0},{0,210},{0.7,0}}" /> -->
+			<Property Name="UnifiedAreaRect" Value="{{0,165},{0,50},{0,230},{0,72}}" />
 		</Window>		
 		
-		<Window Type="OgreTray/StaticImage" Name="Root/Hud/Altares" >
+<!-- 		<Window Type="OgreTray/StaticImage" Name="Root/Hud/Altares" >
 			<Property Name="FrameEnabled" Value="false" />
 			<Property Name="BackgroundEnabled" Value="False" />			
 			<Property Name="AlwaysOnTop" Value="False" />
 			<Property Name="Image" Value="set:HudBackground image:Altares" />
             <Property Name="UnifiedAreaRect" Value="{{0,130},{0,68},{0,155},{0,96}}" />
+        </Window> -->
+		<Window Type="OgreTray/TitlePuntosMerito" Name="Root/Hud/Altares" >
+			<Property Name="Font" Value="Cantoria-8" />
+			<Property Name="Text" Value="Altares" />
+			<Property Name="AlwaysOnTop" Value="False" />
+			<Property Name="UnifiedAreaRect" Value="{{0,115},{0,74},{0,205},{0,96}}" />
         </Window>
+
 		
 		<Window Type="OgreTray/NumAltares" Name="Root/Hud/NumAltares" >
-			<Property Name="Font" Value="Diogenes-14" />
+			<Property Name="Font" Value="Cantoria-8" />
 			<Property Name="Text" Value="5/11" />
 			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="UnifiedAreaRect" Value="{{0,160},{0.7,0},{0,210},{1,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0,180},{0,74},{0,230},{0,96}}" />
 		</Window>		
 		
     </Window>

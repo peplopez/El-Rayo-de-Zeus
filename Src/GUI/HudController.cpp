@@ -75,6 +75,9 @@ namespace GUI {
 					ScriptManager::CServer::getSingletonPtr()->reloadScript("Hud");
 					ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadHud");
 					break;
+				case GUI::Key::I:
+					ScriptManager::CServer::getSingletonPtr()->executeProcedure("decrementBaseLife");
+					break;
 
 				default:
 					return false;
