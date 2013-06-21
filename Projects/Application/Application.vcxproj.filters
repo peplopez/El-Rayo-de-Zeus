@@ -110,6 +110,9 @@
     <ClInclude Include="..\..\Src\Application\TimeConstants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Galeon.ico">
@@ -118,5 +121,16 @@
     <None Include="small.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="zeusthunderbolt.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ztb.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Application.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

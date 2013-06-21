@@ -64,6 +64,16 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
+    <ResourceCompile>
+      <ResourceOutputFileName>
+      </ResourceOutputFileName>
+      <PreprocessorDefinitions>
+      </PreprocessorDefinitions>
+      <Culture>
+      </Culture>
+      <SuppressStartupBanner>
+      </SuppressStartupBanner>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -82,6 +92,16 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
+    <ResourceCompile>
+      <ResourceOutputFileName>
+      </ResourceOutputFileName>
+      <PreprocessorDefinitions>
+      </PreprocessorDefinitions>
+      <Culture>
+      </Culture>
+      <SuppressStartupBanner>
+      </SuppressStartupBanner>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Logic\AltarInfo.cpp" />

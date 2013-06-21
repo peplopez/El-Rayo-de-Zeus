@@ -59,6 +59,8 @@ la ventana esté en background (siempre que esté visible)
 namespace BaseSubsystems 
 {
 
+	const std::string CServer::_WINDOW_TITLE = "Zeus ThunderBolt";
+
 	/**
 	Clase auxiliar que hereda de Ogre y que sirve para modificar el 
 	comportamiento habitual de cierre de ventana. No queremos cerrarla
@@ -66,7 +68,6 @@ namespace BaseSubsystems
 	*/
 	class WindowEventListener : public Ogre::WindowEventListener
 	{
-	private:
 
 	public:
 		WindowEventListener()
@@ -510,7 +511,7 @@ namespace BaseSubsystems
 			// Inicializa el sistema de renderizado y crea la ventanapor defecto. 
 			// El true nos evita llamar a Root::createRenderWindow y se invoca 
 			// con los parámetros actuales del sistema de reenderizado.
-			_renderWindow = _root->initialise(true,"El Rayo de Zeus");
+			_renderWindow = _root->initialise(true, _WINDOW_TITLE);
 
 			// Añadimos un listener que gestiona el evento de cierre de la ventana.
 			_windowEventListener = new WindowEventListener();
