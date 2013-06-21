@@ -72,14 +72,19 @@ class CSM_Cancerbero : public CStateMachine<CLatentAction>
 			this->addEdge(r_walk, jumping, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::JUMP));
 			this->addEdge(l_run, jumping, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::JUMP));
 			this->addEdge(r_run, jumping, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::JUMP));
-			//this->addEdge(l_walk, changingRingDown, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_DOWN));
-			//this->addEdge(r_walk, changingRingUp, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_UP));
+			
+			this->addEdge(l_walk, changingRingDown, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_DOWN));
+			this->addEdge(r_walk, changingRingUp, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_UP));
 			this->addEdge(l_run, changingRingDown, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_DOWN));
 			this->addEdge(r_run, changingRingUp, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_UP));
 		
+			this->addEdge(r_walk, changingRingDown, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_DOWN));
+			this->addEdge(l_walk, changingRingUp, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_UP));
+			this->addEdge(r_run, changingRingDown, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_DOWN));
+			this->addEdge(l_run, changingRingUp, new CConditionMessageAction<CLatentAction>(Message::CONTROL,Message::GO_UP));
 			//está forzado a l_walk, de momento, antes solo se podia pasar a idle y era más facil, pero es lo que hay. El perro no tiene idle.
-			this->addEdge(changingRingUp, l_walk, new CConditionSuccess);
-			this->addEdge(changingRingDown, l_walk, new CConditionSuccess);
+			this->addEdge(changingRingUp, l_walk, new CConditionFinished);
+			this->addEdge(changingRingDown, l_walk, new CConditionFinished);
 
 			//creo que es innecesario, ya veremos			
 			//this->addEdge(jumping, idle, new CConditionFlagJumpingActivated());

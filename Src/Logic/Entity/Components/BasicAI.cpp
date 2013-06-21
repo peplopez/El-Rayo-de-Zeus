@@ -198,7 +198,7 @@ namespace Logic
 		IComponent::tick(msecs);
 		// (_entity->getName()!="locoCubriendose")
 		if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase()==_entity->getLogicalPosition()->getBase() || _entity->getType()!="OtherPlayer")
-			if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing() ||  _entity->getType()!="OtherPlayer")
+			if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing() ||  (_entity->getType()!="OtherPlayer" && _entity->getType()!="Cancerbero"))
 			{
 				if (_waiting==false)
 				{
