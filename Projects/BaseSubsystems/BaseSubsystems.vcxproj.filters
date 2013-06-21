@@ -47,10 +47,4 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="BaseSubsystems.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Application\ztb.ico" />
-  </ItemGroup>
 </Project>

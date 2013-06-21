@@ -141,12 +141,6 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Galeon.ico" />
-    <None Include="small.ico" />
-    <None Include="zeusthunderbolt.png" />
-    <None Include="ztb.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\AI\AI.vcxproj">
       <Project>{7bbe92ad-192a-42db-9b43-829ee3b07e81}</Project>
       <Private>true</Private>

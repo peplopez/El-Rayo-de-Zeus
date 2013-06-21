@@ -115,20 +115,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Galeon.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="small.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="zeusthunderbolt.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="ztb.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="Application.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>

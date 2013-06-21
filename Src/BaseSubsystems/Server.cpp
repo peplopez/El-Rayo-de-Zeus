@@ -49,7 +49,10 @@ usados. La mayoría de ellos son parte de Ogre.
 
 // Para cerrar la aplicación si se cierra la ventana
 #include <Application/BaseApplication.h>
-#include <resource.h>
+
+#if _WIN32	
+	#include <resource.h>
+#endif
 
 
 /**
@@ -514,6 +517,23 @@ namespace BaseSubsystems
 			// El true nos evita llamar a Root::createRenderWindow y se invoca 
 			// con los parámetros actuales del sistema de reenderizado.
 			_renderWindow = _root->initialise(true, _WINDOW_TITLE);
+			
+			// FRS Establecemos el *.ico de ventana y el cursor para modo windowed
+#if _WIN32		
+
+			HWND hwnd;
+				_renderWindow->getCustomAttribute("WINDOW", &hwnd);
+			HINSTANCE hInst = (HINSTANCE)GetModuleHandle(0);	
+			
+			HICON iconBig   = LoadIcon(hInst, MAKEINTRESOURCE(IDI_BIG));
+			HICON iconSmall = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALL));
+				SendMessage(hwnd, WM_SETICON, ICON_BIG,   LPARAM(iconBig));
+				SendMessage(hwnd, WM_SETICON, ICON_SMALL, LPARAM(iconSmall));
+
+			/*		TODO Cursor
+			SetClassLong (hwnd, GCL_HCURSOR, 
+               (LONG)LoadCursor (hInst, MAKEINTRESOURCE (IDI_BIG)));*/
+#endif
 
 			// Añadimos un listener que gestiona el evento de cierre de la ventana.
 			_windowEventListener = new WindowEventListener();
@@ -524,20 +544,6 @@ namespace BaseSubsystems
 			// para que la ventana se siga renderizando.
 			_renderWindow->setDeactivateOnFocusChange(false);
 #endif
-
-			// FRS Establecemos el *.ico de ventana
-#if _WIN32			
-			HWND hwnd;
-			_renderWindow->getCustomAttribute("WINDOW", &hwnd);
-			 
-			HINSTANCE hinstance;
-			hinstance = GetModuleHandle(NULL);
-			HICON icon = LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ZTB));
-			
-			SendMessage(hwnd, WM_SETICON, ICON_BIG, LPARAM(icon));
-			SendMessage(hwnd, WM_SETICON, ICON_SMALL, LPARAM(icon));
-#endif
-
 			// Inicializa los recursos que deben haber sido cargados en setupResources()
 			Ogre::ResourceGroupManager::getSingletonPtr()->initialiseResourceGroup("General"); // FRS Solo se inicializa el grupo [General] ?
 		}
