@@ -64,10 +64,12 @@ namespace Graphics
 
 		/*********************
 			HELL HEAVENS FX		
-		**********************/		
-		Ogre::NameValuePairList _hhfxParams; // effect's params
+		**********************/				
 		IHHFXOgre*				_movObj;	// Sistema de particulas (movable object)		
 		IHHFXScene*				_hhfxScene; // HHFX Scene
+		std::string				_hfx;
+		Ogre::NameValuePairList _hhfxParams; // effect's params
+		Ogre::Light*			_fxLight; // luz asociada al fx (si corresponde)
 	
 		//--------- IHHFX::IFXListener implementation -------------------
 		void				OnFXStarted(IHHFX *obj);

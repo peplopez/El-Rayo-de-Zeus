@@ -36,7 +36,7 @@ namespace Graphics
 {	
 
 	CParticleSystem::CParticleSystem(const std::string& hfx, const std::string& parentName, const Vector3& relativePos) :
-			_parentName(parentName), _relativePos(relativePos), _movObj(0), _hhfxScene(0) 
+			_hfx(hfx), _parentName(parentName), _relativePos(relativePos), _movObj(0), _hhfxScene(0), _fxLight(0)
 	{
 		_hhfxParams["pack"] =  Graphics::CServer::getSingletonPtr()->getHHFXBase()->GetHHFXPackExplorer().GetPack();
 		_hhfxParams["fx"]	=  Graphics::CServer::getSingletonPtr()->getHFXLongName(hfx);
@@ -46,10 +46,7 @@ namespace Graphics
 	//--------------------------------------------------------
 	
 	void CParticleSystem::start()
-	{			
-		// Orientacion initial rotada 180 hacia -X (cara frontal de nuestras entidades)
-		static const Quaternion ORIENTATION(Ogre::Radian( Math::PI ), Vector3::UNIT_Y);
-
+	{	
 		if(_movObj) { // MO tiene que ser NULL; lo contrario significa que ya hay un FX en curso
 			_movObj->RunFX(); // TODO Verificar que se liberan bien... queremos acumular N veces el mismo efecto?
 
@@ -57,16 +54,10 @@ namespace Graphics
 			// spawn a new effect at this location
 			Ogre::MovableObject	*mo = getSceneMgr()->createMovableObject("HHFX", &_hhfxParams);
 				assert(mo && "Error al crear ParticleSystem");	
-			
-			_node = getSceneMgr()->getSceneNode( _parentName + "_node") 
-				 ->createChildSceneNode(_relativePos, ORIENTATION); 
 
 			// set this class to listen to the ps, to be notified when it is destroyed.
 			_movObj = static_cast<IHHFXOgre*>(mo);
 				_movObj->SetFXListener(this);
-#ifdef _DEBUG
-				_movObj->setDebugDisplayEnabled(true);
-#endif
 				_node->attachObject(_movObj);
 		}
 	}
@@ -120,18 +111,8 @@ namespace Graphics
 		assert( _movObj == static_cast<IHHFXOgre*>(obj)  
 			&& "Evento recibido para un MO distinto del wrappeado en este ParticleSystem");
 
-		// create a light under the ElectricOrb effect
-		// UNDONE FRS
-		 if ( strstr(obj->GetPath(), "ElectricOrb.hfx") )
-		{
-			IHHFXOgre* fx = static_cast<IHHFXOgre*>(obj);	
-			Ogre::Light* pointLight = getSceneMgr()->createLight("pointLight" + Ogre::StringConverter::toString((unsigned int)(obj)));
-			pointLight->setType(Ogre::Light::LT_POINT);
-			pointLight->setPosition(fx->getParentSceneNode()->getPosition() + Vector3::UNIT_Y * 5.0f);
-			pointLight->setDiffuseColour(0.1f, 0.1f, 1.0f);
-			pointLight->setSpecularColour(0.8f, 0.8f, 1.0f);
-			pointLight->setAttenuation(160, 1.0, 0.027, 0.0028);
-		}
+		if(_fxLight) 
+			_fxLight->setVisible(true);
 	}
 
 	//--------------------------------------------------------
@@ -143,16 +124,13 @@ namespace Graphics
 			&& "Evento recibido para un MO distinto del wrappeado en este ParticleSystem");
 		
 		// destroy the light created under ElectricOrb
-		// UNDONE FRS
-		if (strstr(obj->GetPath(), "ElectricOrb.hfx") != NULL)
-			getSceneMgr()->destroyLight("pointLight" + Ogre::StringConverter::toString((unsigned int)(obj)));
+// UNDONE FRS -> ESC es es el apaño
+		//if(_fxLight) 
+		//	_fxLight->setVisible(false);		
 
 		if(_movObj) {
-			_movObj->detachFromParent();
-			getSceneMgr()->destroyMovableObject(_movObj); 
-			getSceneMgr()->destroySceneNode(_node);		
-			_movObj = 0;	
-			_node = 0;
+			getSceneMgr()->destroyMovableObject(_movObj); 		
+			_movObj = 0;			
 		}
 	}
 
@@ -165,10 +143,29 @@ namespace Graphics
 
 	bool CParticleSystem::load()
 	{
+		// Orientacion initial rotada 180 hacia -X (cara frontal de nuestras entidades)
+		static const Quaternion ORIENTATION(Ogre::Radian( Math::PI ), Vector3::UNIT_Y);
+
 		assert( getSceneMgr()->hasSceneNode( _parentName + "_node") );
 
 		try{		
 			_hhfxScene = _scene->getHHFXScene();
+
+			_node = getSceneMgr()->getSceneNode( _parentName + "_node") 
+				 ->createChildSceneNode(_relativePos, ORIENTATION);
+
+			// create a light under the ElectricOrb effect
+			if (_hfx == "ElectricOrb")  {			
+				_fxLight = getSceneMgr()->createLight();
+				_fxLight->setVisible(false);
+				_fxLight->setType(Ogre::Light::LT_POINT);	
+				_fxLight->setDiffuseColour(0.1f, 0.1f, 1.0f);
+				_fxLight->setSpecularColour(0.8f, 0.8f, 1.0f);
+				_fxLight->setAttenuation(160, 1.0, 0.027, 0.0028);		
+				_fxLight->setPosition(Vector3::UNIT_Y * 0.8f); 	// Segun HHFX sample para centrar la luz en la esfera (si worldScale = 1)
+				_node->attachObject(_fxLight);					
+			}
+
 			_loaded = true;
 			
 		} catch(std::exception e){
@@ -184,6 +181,10 @@ namespace Graphics
 	{	
 		CSceneElement::unload();	
 
+		if (_fxLight) {
+			getSceneMgr()->destroyLight(_fxLight);
+			_fxLight = 0;
+		}
 		if(_movObj)	{		
 			getSceneMgr()->destroyMovableObject(_movObj); 
 			_movObj = 0;
