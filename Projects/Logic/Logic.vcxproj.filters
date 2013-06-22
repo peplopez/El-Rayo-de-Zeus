@@ -186,7 +186,8 @@
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Light.cpp">
       <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>  </ItemGroup>
+    </ClCompile>
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedGraphics.h">
       <Filter>Entity\Components\Header Files</Filter>
@@ -382,9 +383,7 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Logic\FX.h">
       <Filter>Entity\Components\Header Files</Filter>
-    </ClInclude>  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Logic.rc" />
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header files">

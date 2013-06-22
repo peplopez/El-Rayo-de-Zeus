@@ -27,8 +27,7 @@ leaks. En función de la configuración y plataforma se usa un main o un WinMain.
 
 #endif // _DEBUG
 
-
-#include "Application/GaleonApplication.h"
+#include "GaleonApplication.h"
 
 #if (defined _DEBUG) || !(defined _WIN32)
 int main(int argc, char **argv) 
@@ -39,6 +38,7 @@ int main(int argc, char **argv)
 int WINAPI
 WinMain(HINSTANCE zhInstance, HINSTANCE prevInstance, LPSTR lpCmdLine, int nCmdShow) 
 {
+
 #endif // (defined _DEBUG) || !(defined _WIN32)
 
 	// Aqui llegamos a lo que verdaderamente importa. Lanzamos la aplicación.

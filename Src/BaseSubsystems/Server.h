@@ -26,6 +26,7 @@ pueden usar en otras ventanas
 
 #include <string>
 
+
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Ogre 
 {
@@ -154,6 +155,8 @@ namespace BaseSubsystems
 		Si no hay ventana devuelve -1.
 		*/
 		void getWindowExtents(unsigned int &width, unsigned int &height);
+
+		bool isWindowedMode();
 		
 		/**
 		Devuelve el identificador de la ventana de reenderizado sobre

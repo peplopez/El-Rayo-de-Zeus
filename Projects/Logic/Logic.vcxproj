@@ -233,9 +233,6 @@
     <ClInclude Include="..\..\Src\Logic\RingInfo.h" />
     <ClInclude Include="..\..\Src\Logic\Server.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Logic.rc" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
