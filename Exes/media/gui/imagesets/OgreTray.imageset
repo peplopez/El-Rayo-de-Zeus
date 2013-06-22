@@ -264,4 +264,12 @@
     <Image Name="MiniTextBoxOverTLLife" XPos="227" YPos="175" Width="1" Height="1" />
     <Image Name="MiniTextBoxOverTRLife" XPos="227" YPos="175" Width="1" Height="1" />	
 	<!-- End ProgressBar for Life Player Verde -->
+	
+	<!-- Fondo items in the shop -->
+	<Image Name="ItemTrayL" XPos="24" YPos="246" Width="2" Height="1" />
+	<Image Name="ItemTrayT" XPos="27" YPos="246" Width="2" Height="1" />
+	<Image Name="ItemTrayR" XPos="106" YPos="246" Width="2" Height="1" />
+	<Image Name="ItemTrayB" XPos="27" YPos="252" Width="2" Height="1" />
+    <Image Name="ItemTrayM" XPos="40" YPos="246" Width="60" Height="8" />
+	<!-- Fin Fondo items in the shop -->	
 </Imageset>

@@ -107,6 +107,11 @@ namespace Logic
 			return _meritPoints;
 		}
 
+		void setMeritPoints(unsigned short mpoints)
+		{
+			_meritPoints=mpoints;
+		}
+
 		unsigned int getMyDeaths()
 		{
 			return _myDeaths;

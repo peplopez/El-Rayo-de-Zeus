@@ -170,9 +170,11 @@ namespace Application {
 
 			break;
 
-		case GUI::Key::M:
-			_app->setState("netmenu");
-			break;
+		// PT. Lo comento porque si en el nombre del Jugador pones una M, te dirige
+		// al estado del menu de red.
+		//case GUI::Key::M:
+		//	_app->setState("netmenu");
+		//	break;
 
 		//case GUI::Key::R:
 		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadMenuSingle");

@@ -101,7 +101,7 @@ namespace Logic
 
 		bool handleClose(const CEGUI::EventArgs&e);
 
-		void createAlly(const std::string &type);
+		void createAlly(const std::string &type, const unsigned int cost);
 
 		//Functions for create allies
 		bool createCerberus(const CEGUI::EventArgs&e);

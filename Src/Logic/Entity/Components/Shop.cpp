@@ -96,7 +96,8 @@ namespace Logic
 
 		item1window = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item1.layout" );
 		_itemsWindow->addChildWindow(item1window);
-		item1window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,60.0f) ) );
+		//position x, and position y where windows it is shown
+		item1window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,5.0f) ) );
 		item1window->setVisible( true );
 		item1window->setInheritsAlpha(false);
 
@@ -123,12 +124,12 @@ namespace Logic
 
 		item2window = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item2.layout" );
 		_itemsWindow->addChildWindow(item2window);
-		item2window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,110.0f) ) );
+		item2window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,49.0f) ) );
 		item2window->setInheritsAlpha(false);
 
 		item3window = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item3.layout" );
 		_itemsWindow->addChildWindow(item3window);
-		item3window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,170.0f) ) );
+		item3window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,93.0f) ) );
 		item3window->setInheritsAlpha(false);
 
 
@@ -230,6 +231,16 @@ namespace Logic
 		//gradosstr.str("");
 		//gradosstr << (unsigned short)_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getDegree();
 		//grados->setText(gradosstr.str());
+
+		_time += msecs;
+
+		//se recupera la informacion de Logic::CGameStatus cada medio segundo para actualizar el HUD
+		if(_time >= 500)
+		{
+			_time = 0;
+			//Merite Points
+			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showPMSHop",_gameStatus->getPlayer(player)->getMeritPoints());
+		}
 		
 	}//tick
 
@@ -255,8 +266,12 @@ namespace Logic
 
     //---------------------------------------------------------
 
-	void CShop::createAlly(const std::string &type)
+	void CShop::createAlly(const std::string &type, const unsigned int cost)
 	{
+		pm = _gameStatus->getPlayer(player)->getMeritPoints();
+
+		if(pm >= cost)
+		{
 
 			std::ostringstream basestring;
 			basestring << "map" << numBase;
@@ -293,6 +308,9 @@ namespace Logic
 				_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getSense() 
 			);
 
+			_gameStatus->getPlayer(player)->setMeritPoints(pm-cost);
+		}
+
 	}
     //---------------------------------------------------------
 
@@ -302,7 +320,7 @@ namespace Logic
 		const CEGUI::MouseEventArgs& args = reinterpret_cast<const CEGUI::MouseEventArgs&>(e);
 		if (args.button == CEGUI::LeftButton)
 		{
-			createAlly("Cancerbero");
+			createAlly("Cancerbero", 500);
 			return true;
 		}
 		return false;
@@ -316,7 +334,7 @@ namespace Logic
 		const CEGUI::MouseEventArgs& args = reinterpret_cast<const CEGUI::MouseEventArgs&>(e);
 		if (args.button == CEGUI::LeftButton)
 		{
-			createAlly("Medusa");
+			createAlly("Medusa", 300);
 			return true;
 		}
 		return false;

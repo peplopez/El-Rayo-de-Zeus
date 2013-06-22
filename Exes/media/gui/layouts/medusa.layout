@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <GUILayout>
-<Window Type="TaharezLook/ImageButton" Name="btnMedusa">
-	<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
-	<Property Name="UnifiedSize" Value="{{0,70},{0,50}}" />
-	
-	<!-- Here we choose what images to take. set:THEButton means they are stored -->
-	<!-- in the imageset named THEButton and image:btnNormal specifies wich image it is. -->
-	<Property Name="NormalImage"     Value="set:ShopCriatures image:medusaNormal" />
-	<Property Name="HoverImage"      Value="set:ShopCriatures image:medusaHover"  />
-	<Property Name="PushedImage"     Value="set:ShopCriatures image:medusaPushed" />
-	<Property Name="DisabledImage"   Value="set:ShopCriatures image:medusaDisabl" />
-	
-	<Property Name="Tooltip" Value="Medusa tooltip" />
+<Window Type="DefaultWindow" Name="Medusa">
+	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+
+	<Window Type="TaharezLook/ImageButton" Name="Medusa/btnMedusa">
+		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
+		<Property Name="UnifiedSize" Value="{{0,70},{0,50}}" />
+		
+		<!-- Here we choose what images to take. set:THEButton means they are stored -->
+		<!-- in the imageset named THEButton and image:btnNormal specifies wich image it is. -->
+		<Property Name="NormalImage"     Value="set:ShopCriatures image:medusaNormal" />
+		<Property Name="HoverImage"      Value="set:ShopCriatures image:medusaHover"  />
+		<Property Name="PushedImage"     Value="set:ShopCriatures image:medusaPushed" />
+		<Property Name="DisabledImage"   Value="set:ShopCriatures image:medusaDisabl" />
+		
+		<Property Name="Tooltip" Value="Medusa tooltip" />
+		
+	</Window>
+
+	<Window Type="OgreTray/TitlePMInShop" Name="Medusa/costMedusa">
+		<Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" />
+		<Property Name="Text" Value="300" />
+		<Property Name="AlwaysOnTop" Value="True" />
+		<Property Name="Font" Value="DejaVuSans-6bold" />	
+	</Window>
 	
 </Window>
+	
 </GUILayout>

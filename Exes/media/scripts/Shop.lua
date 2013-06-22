@@ -16,6 +16,16 @@ function initShop()
 		
 		shop = GUI.Windows:getWindow("Root/Shop")
 		
+		pestanas = GUI.Windows:getWindow("Root/Shop/ControlPestanas")
+		upgrades = GUI.Windows:getWindow("Root/Shop/ControlPestanas/Upgrades")
+		allies = GUI.Windows:getWindow("Root/Shop/ControlPestanas/Allies")
+		
+		pmShop = GUI.Windows:getWindow("Root/Shop/PM")
+		
+		--descriptionItem = GUI.Windows:getWindow("Root/Shop/ControlPestanas/Upgrades/Item1/Description")
+		
+		--costItem = GUI.Windows:getWindow("Root/Shop/ControlPestanas/Upgrades/Item1/costItem1")
+		
 		--area = shop:getInnerRectClipper() -- area es una variable de tipo Rect
 
 		--tabControlWindow = shop:getChild("Shop/TabControl")
@@ -72,10 +82,20 @@ function changeShopVisibility()
 		end
 end
 
+function showPMSHop(pm)
+	pmShop:setText(pm)
+end
 
 function reloadShop()
 	if shop ~= nil then
-		shop:setProperty("UnifiedAreaRect","{{0.8,0},{0.1,0},{1,0},{0.9,0}}")
+		shop:setProperty("UnifiedAreaRect","{{0.727354,0},{0.00944353,0},{0.997086,0},{0.982883,0}}")
+		--descriptionItem:setProperty("Font","DejaVuSans-6bold")
+		--costItem:setProperty("Font","DejaVuSans-6bold")
+		
+		--pestanas:setProperty("UnifiedAreaRect","{{0.0242733,0},{-0.00190571,0},{1.00578,0},{0.882612,0}}")
+		pestanas:setProperty("UnifiedAreaRect","{{0.01,0},{0,0},{0.99,0},{0.9,0}}")
+		upgrades:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0.99,0},{0.8,0}}")
+		allies:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0.99,0},{0.8,0}}")
 		
 		--TitlePuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0,105},{0.5,0},{0,150},{0.7,0}}")
 		--PuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0,150},{0.5,0},{0,210},{0.7,0}}")

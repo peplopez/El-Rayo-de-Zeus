@@ -8,7 +8,8 @@ material lifeBar
 			
 			texture_unit
 			{
-				texture VerdeRojo.png
+				//texture VerdeRojo.png
+				texture medidor_vida.png
 			}
 		}
 	}

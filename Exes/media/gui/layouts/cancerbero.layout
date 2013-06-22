@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <GUILayout>
-<Window Type="TaharezLook/ImageButton" Name="btnCancerbero">
-	<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
-	<Property Name="UnifiedSize" Value="{{0,70},{0,50}}" />
-
-	<!-- Here we choose what images to take. set:THEButton means they are stored -->
-	<!-- in the imageset named THEButton and image:btnNormal specifies wich image it is. -->
-	<Property Name="NormalImage"     Value="set:ShopCriatures image:cancerberoNormal" />
-	<Property Name="HoverImage"      Value="set:ShopCriatures image:cancerberoHover"  />
-	<Property Name="PushedImage"     Value="set:ShopCriatures image:cancerberoPushed" />
-	<Property Name="DisabledImage"   Value="set:ShopCriatures image:cancerberoDisabl" />
+<Window Type="DefaultWindow" Name="Cerberus">
+	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
 	
-	<Property Name="Tooltip" Value="Cancerbero tooltip" />
-	<!-- Now the button would be ready, but without caption ... So we add a caption. -->
+	<Window Type="TaharezLook/ImageButton" Name="Cerberus/btnCerberus">
+		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
+		<Property Name="UnifiedSize" Value="{{0,70},{0,50}}" />
+
+		<!-- Here we choose what images to take. set:THEButton means they are stored -->
+		<!-- in the imageset named THEButton and image:btnNormal specifies wich image it is. -->
+		<Property Name="NormalImage"     Value="set:ShopCriatures image:cancerberoNormal" />
+		<Property Name="HoverImage"      Value="set:ShopCriatures image:cancerberoHover"  />
+		<Property Name="PushedImage"     Value="set:ShopCriatures image:cancerberoPushed" />
+		<Property Name="DisabledImage"   Value="set:ShopCriatures image:cancerberoDisabl" />
+		
+		<Property Name="Tooltip" Value="Cerberus tooltip" />
+		<!-- Now the button would be ready, but without caption ... So we add a caption. -->
+	</Window>
+
+
+	<Window Type="OgreTray/TitlePMInShop" Name="Cerberus/costCerberus">
+		<Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" />
+		<Property Name="Text" Value="500" />
+		<Property Name="AlwaysOnTop" Value="True" />
+		<Property Name="Font" Value="DejaVuSans-6bold" />	
+	</Window>
+	
 </Window>
+
 </GUILayout>
