@@ -274,7 +274,8 @@ namespace Logic
 		{
 
 			std::ostringstream basestring;
-			basestring << "map" << numBase;
+			//basestring << "map" << numBase;
+			basestring << "mapRed";
 
 			unsigned short int ring = _gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getRing();
 			unsigned short int degree =_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getDegree();

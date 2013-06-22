@@ -228,8 +228,8 @@ namespace Application {
 				// Llamamos al método de creación del jugador. 
 				// Al estar en el estado MenuSingleState el jugador es Single Player (Monojugador)
 
-				//Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer(playerNick, true, playerNick, playerModel, playerColor);
-				Logic::CServer::getSingletonPtr()->getMap("map1")->createPlayer(playerNick, true, playerNick, playerModel, playerColor);
+				Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer(playerNick, true, playerNick, playerModel, playerColor);
+				//Logic::CServer::getSingletonPtr()->getMap("map1")->createPlayer(playerNick, true, playerNick, playerModel, playerColor);
 				//PT. si se le intenta pasar otro modelo da un error en getBones porque no encuentra el hueso "paracasco"
 				//para que funcione medusa, bigdday etc, hay que quitar el casco y el escudo y los accesorios al espartano
 				//en el archetypes. de esa manera no da error.
@@ -292,12 +292,12 @@ namespace Application {
 			if (!Logic::CServer::getSingletonPtr()->setRingPositions())//[ƒ®§] Esto no deberia ejecutarse como parte del loadLevel...?
 				return false;
 
-			//_mapsToLoad.push_back("mapRed");
-			//_mapsToLoad.push_back("mapBlue");
-			//_mapsToLoad.push_back("mapGreen");
-			//_mapsToLoad.push_back("mapYellow");
+			_mapsToLoad.push_back("mapRed");
+			_mapsToLoad.push_back("mapBlue");
+			_mapsToLoad.push_back("mapGreen");
+			_mapsToLoad.push_back("mapYellow");
 
-			_mapsToLoad.push_back("map1");
+			//_mapsToLoad.push_back("map1");
 			//_mapsToLoad.push_back("map2");
 			//_mapsToLoad.push_back("map3");
 			//_mapsToLoad.push_back("map4");
