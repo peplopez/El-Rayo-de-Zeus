@@ -525,14 +525,18 @@ namespace BaseSubsystems
 				_renderWindow->getCustomAttribute("WINDOW", &hwnd);
 			HINSTANCE hInst = (HINSTANCE)GetModuleHandle(0);	
 			
-			HICON iconBig   = LoadIcon(hInst, MAKEINTRESOURCE(IDI_BIG));
-			HICON iconSmall = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALL));
-				SendMessage(hwnd, WM_SETICON, ICON_BIG,   LPARAM(iconBig));
-				SendMessage(hwnd, WM_SETICON, ICON_SMALL, LPARAM(iconSmall));
-
-			/*		TODO Cursor
+			SetClassLong (hwnd, GCL_HICON, 
+				(LONG)LoadIcon(hInst, MAKEINTRESOURCE(IDI_BIG)));
+			SetClassLong (hwnd, GCL_HICONSM, 
+				(LONG)LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALL)));
 			SetClassLong (hwnd, GCL_HCURSOR, 
-               (LONG)LoadCursor (hInst, MAKEINTRESOURCE (IDI_BIG)));*/
+				(LONG)LoadCursor(hInst, MAKEINTRESOURCE (IDC_CURSOR)));			
+
+			// UNDONE FRS Tambien se podría haber usado WM_SETICON
+			// La diferencia reside en que SetClassLong establece el ID para todas las instancias de la clase Hwnd
+			// Y SendMessage tan sólo cambia en un momento dado la instancia concreta hwnd.
+			//	SendMessage(hwnd, WM_SETICON, ICON_BIG,   LPARAM(iconBig));
+			//	SendMessage(hwnd, WM_SETICON, ICON_SMALL, LPARAM(iconSmall));
 #endif
 
 			// Añadimos un listener que gestiona el evento de cierre de la ventana.
@@ -570,6 +574,17 @@ namespace BaseSubsystems
 			width = height = -1;
 
 	} // getWindowExtents
+
+
+	//--------------------------------------------------------
+
+
+	bool CServer::isWindowedMode() 
+	{ 
+		assert(_renderWindow && "¡No hay ventana de renderizado!"); 
+		return _renderWindow? !_renderWindow->isFullScreen() : true;
+	} 
+
 
 	//--------------------------------------------------------
 

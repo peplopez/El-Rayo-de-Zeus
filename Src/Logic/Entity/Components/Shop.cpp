@@ -13,6 +13,8 @@ Contiene la implementación del componente que controla el Shop mediante CEGUI.
 #include "Shop.h"
 
 //Inclusion de los mensajes
+#include <BaseSubsystems/Server.h> // FRS Los archivos no locales es mejor importarlso con < > (como todos los que tienes a continuacion)
+
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
@@ -180,19 +182,17 @@ namespace Logic
 
 	void CShop::process(CMessage *message)
 	{
+		switch(message->getType())
+		{
+			case Message::SHOP:
 
-			switch(message->getType())
-			{
-				case Message::SHOP:
-
-					if(message->getAction() == Message::DISPLAY_SHOP)
-						displayShop();
-					if(message->getAction() == Message::ACTIVATE_SHOP)
-						activateControl();
-					if(message->getAction() == Message::DEACTIVATE_SHOP)
-						deactivateControl();
-			}
-
+				if(message->getAction() == Message::DISPLAY_SHOP)
+					displayShop();
+				if(message->getAction() == Message::ACTIVATE_SHOP)
+					activateControl();
+				if(message->getAction() == Message::DEACTIVATE_SHOP)
+					deactivateControl();
+		}
 	} // process
 
 	void CShop::tick(unsigned int msecs)
@@ -231,7 +231,13 @@ namespace Logic
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showShop");
 
 		//PT para limitar el uso del raton en la ventana de la tienda del Olimpo
-		//CEGUI::MouseCursor::getSingletonPtr()->setConstraintArea(&_area);
+		//CEGUI::MouseCursor::getSingletonPtr()->setConstraintArea(&_area);	
+
+		// HACK FRS Windowed? -> Desactivar el cursor de CEGUI y superponer el de WIN32
+#if _WIN32	
+		if(BaseSubsystems::CServer::getSingletonPtr()->isWindowedMode() )
+			CEGUI::MouseCursor::getSingletonPtr()->setVisible(false);
+#endif
 
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
 		GUI::CServer::getSingletonPtr()->getCameraController()->deactivate();

@@ -100,6 +100,12 @@ namespace GUI {
 		//Todo ello se hace en la carga del script. ScriptManager::CServer::loadScript()
 		ScriptManager::CServer::getSingletonPtr()->loadExeScript("GUI");
 
+		// HACK FRS Windowed? -> Desactivar el cursor de CEGUI y superponer el de WIN32
+#if _WIN32		
+		if(BaseSubsystems::CServer::getSingletonPtr()->isWindowedMode() )
+			_GUISystem->setDefaultMouseCursor(0);
+#endif
+
 
 #ifndef NON_EXCLUSIVE_MODE_IN_WINDOW_MODE 
 		// Establecemos cual será el puntero del ratón.

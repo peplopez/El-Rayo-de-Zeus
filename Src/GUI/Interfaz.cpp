@@ -11,7 +11,7 @@ la gestión de la interfaz HUD y SHOP
 */
 
 #include "Interfaz.h"
-#include "BaseSubsystems/Server.h"
+
 
 #include <cassert>
 #include <CEGUISystem.h>
@@ -19,8 +19,11 @@ la gestión de la interfaz HUD y SHOP
 #include <CEGUIWindow.h>
 #include <CEGUISchemeManager.h>
 #include <CEGUIFontManager.h>
+
+#include <BaseSubsystems/Server.h>
 #include <ScriptingModules\LuaScriptModule\CEGUILua.h> //PT
-#include "ScriptManager\Server.h" //PT
+#include <ScriptManager\Server.h> //PT
+
 
 namespace GUI {
 
@@ -88,13 +91,6 @@ namespace GUI {
 		//Todo ello se hace en la carga del script. ScriptManager::CServer::loadScript()
 		ScriptManager::CServer::getSingletonPtr()->loadExeScript("GUI");
 
-
-#ifndef NON_EXCLUSIVE_MODE_IN_WINDOW_MODE 
-		// Establecemos cual será el puntero del ratón.
-		_GUISystem->setDefaultMouseCursor("OgreTrayImages","MouseArrow");
-#endif	
-
-
 		return true;
 
 	} // open
@@ -109,8 +105,8 @@ namespace GUI {
 	//--------------------------------------------------------
 
 	void CInterfaz::setText(const std::string& msg) {
-			_hudWindow->setText(msg.c_str());
-			_shopWindow->setText(msg.c_str());
+		_hudWindow->setText(msg.c_str());
+		_shopWindow->setText(msg.c_str());
 	}
 
 } // namespace GUI
