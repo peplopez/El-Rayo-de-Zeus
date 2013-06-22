@@ -94,7 +94,7 @@ namespace Logic
 		//_area.d_bottom = _area.d_bottom - 10;
 
 		//ITEMS
-		_itemsWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/ControlPestanas/Upgrades");
+		_itemsWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/TabControl/Upgrades");
 
 		item1window = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item1.layout" );
 		_itemsWindow->addChildWindow(item1window);
@@ -137,7 +137,7 @@ namespace Logic
 
 		//CRIATURES
 
-		_criaturesWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/ControlPestanas/Allies");
+		_criaturesWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/TabControl/Allies");
 
 		//The windows that are being loading are Taharez/ImageButtons
 		medusawindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "medusa.layout" );
@@ -165,7 +165,7 @@ namespace Logic
 
 
 		//COMBOS
-		/*_comboWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/ControlPestanas/Combos");*/
+		/*_comboWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/TabControl/Combos");*/
 
 
 

@@ -140,20 +140,20 @@
 		<Property Name="Visible" Value="False" />
 		<Property Name="Alpha" Value="1.0" />
 		
-        <Window Type="TaharezLook/TabControl" Name="Root/Shop/ControlPestanas" >
+        <Window Type="TaharezLook/TabControl" Name="Root/Shop/TabControl" >
             <Property Name="TabHeight" Value="{0,25.8886}" />
             <Property Name="AlwaysOnTop" Value="True" />
             <Property Name="TabPanePosition" Value="Top" />
             <Property Name="UnifiedAreaRect" Value="{{0.01,0},{0,0},{0.99,0},{0.9,0}}" />
             
 			
-			<Window Type="DefaultWindow" Name="Root/Shop/ControlPestanas/Upgrades" >
+			<Window Type="DefaultWindow" Name="Root/Shop/TabControl/Upgrades" >
                 <Property Name="Text" Value="Upgrades" />
                 <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.99,0},{0.8,0}}" />
             </Window>
 			
 			
-            <Window Type="DefaultWindow" Name="Root/Shop/ControlPestanas/Allies" >
+            <Window Type="DefaultWindow" Name="Root/Shop/TabControl/Allies" >
                 <Property Name="Text" Value="Allies" />
                 <Property Name="Visible" Value="False" />
                 <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.99,0},{0.8,0}}" />

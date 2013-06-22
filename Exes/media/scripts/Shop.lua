@@ -16,15 +16,15 @@ function initShop()
 		
 		shop = GUI.Windows:getWindow("Root/Shop")
 		
-		pestanas = GUI.Windows:getWindow("Root/Shop/ControlPestanas")
-		upgrades = GUI.Windows:getWindow("Root/Shop/ControlPestanas/Upgrades")
-		allies = GUI.Windows:getWindow("Root/Shop/ControlPestanas/Allies")
+		pestanas = GUI.Windows:getWindow("Root/Shop/TabControl")
+		upgrades = GUI.Windows:getWindow("Root/Shop/TabControl/Upgrades")
+		allies = GUI.Windows:getWindow("Root/Shop/TabControl/Allies")
 		
 		pmShop = GUI.Windows:getWindow("Root/Shop/PM")
 		
-		--descriptionItem = GUI.Windows:getWindow("Root/Shop/ControlPestanas/Upgrades/Item1/Description")
+		--descriptionItem = GUI.Windows:getWindow("Root/Shop/TabControl/Upgrades/Item1/Description")
 		
-		--costItem = GUI.Windows:getWindow("Root/Shop/ControlPestanas/Upgrades/Item1/costItem1")
+		--costItem = GUI.Windows:getWindow("Root/Shop/TabControl/Upgrades/Item1/costItem1")
 		
 		--area = shop:getInnerRectClipper() -- area es una variable de tipo Rect
 

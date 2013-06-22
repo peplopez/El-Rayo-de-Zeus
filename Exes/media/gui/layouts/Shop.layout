@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<GUILayout >
+<!-- <GUILayout >
     <Window Type="TaharezLook/FrameWindow" Name="Shop" >
         <Property Name="Text" Value="Olimpo Shop" />
         <Property Name="AlwaysOnTop" Value="True" />
@@ -40,4 +40,4 @@
             </Window>
         </Window>
     </Window>
-</GUILayout>
+</GUILayout> -->
