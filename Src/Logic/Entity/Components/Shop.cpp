@@ -142,7 +142,7 @@ namespace Logic
 		//The windows that are being loading are Taharez/ImageButtons
 		medusawindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "medusa.layout" );
 		_criaturesWindow->addChildWindow(medusawindow);
-		medusawindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,10.0f) ) );
+		//medusawindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,10.0f) ) );
 		medusawindow->setVisible( true );
 		medusawindow->setInheritsAlpha(false);
 		medusawindow->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
@@ -151,7 +151,7 @@ namespace Logic
 
 		cancerberowindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "cancerbero.layout" );
 		_criaturesWindow->addChildWindow(cancerberowindow);
-		cancerberowindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,70.0f) ) );
+		//cancerberowindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,70.0f) ) );
 		cancerberowindow->setInheritsAlpha(false);
 		cancerberowindow->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
 									 CEGUI::Event::Subscriber(&CShop::createCerberus, this)
@@ -159,7 +159,7 @@ namespace Logic
 
 		minotaurowindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "minotauro.layout" );
 		_criaturesWindow->addChildWindow(minotaurowindow);
-		minotaurowindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,130.0f) ) );
+		//minotaurowindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,130.0f) ) );
 		minotaurowindow->setInheritsAlpha(false);
 
 

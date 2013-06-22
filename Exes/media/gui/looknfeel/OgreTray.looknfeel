@@ -96,6 +96,7 @@
 :::: Frame Window
 -->
     <WidgetLook name="OgreTray/FrameWindow">
+		<PropertyDefinition name="BackgroundColours" initialValue="tl:FFFFFFFF tr:FFFFFFFF bl:FFFFFFFF br:FFFFFFFF" redrawOnWrite="true" /> <!-- nuevo -->
         <PropertyLinkDefinition name="CaptionColour" widget="__auto_titlebar__" targetProperty="CaptionColour" initialValue="FFe5ffb2" />
         <PropertyLinkDefinition name="CaptionFont" widget="__auto_titlebar__" targetProperty="Font" />
         <Property name="NSSizingCursorImage" value="set:OgreTrayImages image:MouseArrow" />

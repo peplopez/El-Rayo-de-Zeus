@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <GUILayout>
+
 <Window Type="DefaultWindow" Name="Medusa">
-	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,50}}" />
+	<Property Name="FrameEnabled" Value="false" />
 
 	<Window Type="TaharezLook/ImageButton" Name="Medusa/btnMedusa">
 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
@@ -24,7 +26,6 @@
 		<Property Name="AlwaysOnTop" Value="True" />
 		<Property Name="Font" Value="DejaVuSans-6bold" />	
 	</Window>
-	
 </Window>
 	
 </GUILayout>

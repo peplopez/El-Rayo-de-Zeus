@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <GUILayout>
-<Window Type="TaharezLook/ImageButton" Name="btnMinotauro">
-	<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
-	<Property Name="UnifiedSize" Value="{{0,70},{0,50}}" />
+
+<Window Type="DefaultWindow" Name="Minotauro">
+	<!-- <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" /> -->
+	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,110},{1,0},{0,160}}" />
+	<Property Name="FrameEnabled" Value="false" />	
 	
-	<!-- Here we choose what images to take. set:THEButton means they are stored -->
-	<!-- in the imageset named THEButton and image:btnNormal specifies wich image it is. -->
-	<Property Name="NormalImage"     Value="set:ShopCriatures image:minotauroNormal" />
-	<Property Name="HoverImage"      Value="set:ShopCriatures image:minotauroHover"  />
-	<Property Name="PushedImage"     Value="set:ShopCriatures image:minotauroPushed" />
-	<Property Name="DisabledImage"   Value="set:ShopCriatures image:minotauroDisabl" />
+	<Window Type="TaharezLook/ImageButton" Name="Minotauro/btnMinotauro">
+		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
+		<Property Name="UnifiedSize" Value="{{0,70},{0,50}}" />
+		
+		<!-- Here we choose what images to take. set:THEButton means they are stored -->
+		<!-- in the imageset named THEButton and image:btnNormal specifies wich image it is. -->
+		<Property Name="NormalImage"     Value="set:ShopCriatures image:minotauroNormal" />
+		<Property Name="HoverImage"      Value="set:ShopCriatures image:minotauroHover"  />
+		<Property Name="PushedImage"     Value="set:ShopCriatures image:minotauroPushed" />
+		<Property Name="DisabledImage"   Value="set:ShopCriatures image:minotauroDisabl" />
+		
+		<Property Name="Tooltip" Value="Minotauro tooltip" />
+		<!-- Now the button would be ready, but without caption ... So we add a caption. -->
+	</Window>
 	
-	<Property Name="Tooltip" Value="Minotauro tooltip" />
-	<!-- Now the button would be ready, but without caption ... So we add a caption. -->
+	<Window Type="OgreTray/TitlePMInShop" Name="Minotauro/costMinotauro">
+		<Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" />
+		<Property Name="Text" Value="500" />
+		<Property Name="AlwaysOnTop" Value="True" />
+		<Property Name="Font" Value="DejaVuSans-6bold" />	
+	</Window>
 </Window>
+	
 </GUILayout>
