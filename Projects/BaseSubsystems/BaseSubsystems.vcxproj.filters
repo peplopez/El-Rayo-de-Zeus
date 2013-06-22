@@ -43,5 +43,8 @@
     <ClInclude Include="..\..\Src\BaseSubsystems\rapidxml.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
