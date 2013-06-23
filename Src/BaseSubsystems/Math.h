@@ -174,7 +174,7 @@ namespace Math
 	@param degree Ángulo en grados.
 	@return Ángulo en radianes.
 	*/
-	inline float fromDegreesToRadians(float degrees) {return degrees*_deg2Rad;}
+	inline float fromDegreesToRadians(float degrees) {return degrees * _deg2Rad;}
 
 	/**
 	Transforma radianes en grados.
@@ -182,7 +182,7 @@ namespace Math
 	@param radian Ángulo en radianes.
 	@return Ángulo en grados.
 	*/
-	inline float fromRadiansToDegrees(float radians) {return radians*_rad2Deg;}
+	inline float fromRadiansToDegrees(float radians) {return radians * _rad2Deg;}
 	
 	/**
 	Crea un vector unitario de dirección a partir de un angulo de

@@ -86,6 +86,10 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Logic\AltarInfo.cpp" />
     <ClCompile Include="..\..\Src\Logic\BaseInfo.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\AnimatedAltar.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloatString.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFloatString.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFloatUShort.cpp" />
     <ClCompile Include="..\..\src\Logic\FX.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Audio.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Destruction.cpp" />
@@ -93,7 +97,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\FloatingMovement.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Script.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Shop.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Messages\CMessageBoolFloatString.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageAudio.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolUShort.cpp" />
     <ClCompile Include="..\..\Src\Logic\GameStatus.cpp" />
@@ -149,6 +152,9 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\Logic\AltarInfo.h" />
     <ClInclude Include="..\..\Src\Logic\BaseInfo.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedAltar.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFloatString.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFloatUShort.h" />
     <ClInclude Include="..\..\src\Logic\FX.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Audio.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Destruction.h" />

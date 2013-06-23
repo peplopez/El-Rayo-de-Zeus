@@ -23,6 +23,7 @@ gráfica de una entidad estática.
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageBoolUShort.h"
 #include "Logic/Entity/Messages/MessageUShort.h"
+#include "Logic/Entity/Messages/MessageFloatUShort.h"
 #include "Logic/Entity/Messages/MessageBoolFloatString.h"
 #include "Logic/Entity/Messages/MessageString.h"
 
@@ -64,6 +65,7 @@ namespace Logic
 			   message->getType() == Message::STOP_ANIMATION ||
 			   message->getType() == Message::REWIND_ANIMATION ||
 			   message->getType() == Message::SET_ANIMATION_WITH_TIME ||
+			   message->getType() == Message::SET_ANIMATION_WITH_PAUSE ||
 			   message->getType() == Message::RESUME_ANIMATION
 			   ;
 
@@ -116,13 +118,26 @@ namespace Logic
 				LOG("RESUMING ANIMATION");
 			}	break;
 
-			case Message::SET_ANIMATION_WITH_TIME:	{  //Pep, de momento esto solo lo usa el salto, pero es un buen recurso.
-				CMessageBoolFloatString *rxMsg = static_cast<CMessageBoolFloatString*>(message);
-				// de animaciones. Galeon no lo plantea.
+			case Message::SET_ANIMATION_WITH_TIME:	{  //Pep, de momento esto solo lo usa el salto, pero es un buen recurso. // de animaciones. Galeon no lo plantea.
+				CMessageFloatUShort *rxMsg = static_cast<CMessageFloatUShort*>(message);
 				_graphicalEntity->stopAllAnimations();
-				_graphicalEntity->setAnimation(rxMsg ->getString(), rxMsg->getFloat(), rxMsg->getBool(), NULL); //REVISAR ESTE NULL
-				
+				Logic::AnimationName name = static_cast<Logic::AnimationName>(rxMsg->getUShort());
+				std::string animString = _animSet->getAnimation(name);
+				_graphicalEntity->setAnimation(animString, rxMsg->getFloat(), false, 0); //REVISAR ESTE NULL
+				_currentLogicAnimation=name;
 				LOG("SET_ANIMATION_WITH_TIME: " << rxMsg->getString());
+
+			} break;
+
+			case Message::SET_ANIMATION_WITH_PAUSE:	{  
+				CMessageFloatUShort *rxMsg = static_cast<CMessageFloatUShort*>(message);
+				_graphicalEntity->stopAllAnimations();
+				Logic::AnimationName name = static_cast<Logic::AnimationName>(rxMsg->getUShort());
+				std::string animString = _animSet->getAnimation(name);
+				_graphicalEntity->setAnimation(animString, 0, false, 0); //REVISAR ESTE NULL
+				_graphicalEntity->pauseAnimation(rxMsg->getFloat());
+				_currentLogicAnimation=name;
+				LOG("SET_ANIMATION_WITH_PAUSE: " << rxMsg->getString());
 			} break;
 		}
 

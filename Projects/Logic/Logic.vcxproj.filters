@@ -166,9 +166,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\DotSceneLoader.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Messages\CMessageBoolFloatString.cpp">
-      <Filter>Entity\Messages\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Light.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
@@ -186,7 +183,20 @@
     </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Light.cpp">
       <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>  </ItemGroup>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\AnimatedAltar.cpp">
+      <Filter>Entity\Components\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFloatString.cpp">
+      <Filter>Entity\Messages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFloatUShort.cpp">
+      <Filter>Entity\Messages\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloatString.cpp">
+      <Filter>Entity\Messages\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedGraphics.h">
       <Filter>Entity\Components\Header Files</Filter>
@@ -382,7 +392,17 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Logic\FX.h">
       <Filter>Entity\Components\Header Files</Filter>
-    </ClInclude>  </ItemGroup>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedAltar.h">
+      <Filter>Entity\Components\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFloatString.h">
+      <Filter>Entity\Messages\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFloatUShort.h">
+      <Filter>Entity\Messages\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Logic.rc" />
   </ItemGroup>

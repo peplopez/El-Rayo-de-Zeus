@@ -70,6 +70,21 @@ Map = {
 		event_CT_Attack2=0.2,
 		event_CT_Attack3=0.2,
 		event_DT_Cover=0.45,
+	},
+
+	AltarZeus = {
+		type = "AnimatedAltar",
+		model = "altarZeus.mesh",
+		initialScale = 0.17,
+		logicInput = true,
+		physicType = "static",
+		physicTrigger = true,
+		shape = "box",
+		physicHalfWidth = 4,
+		physicHalfHeight = 4,		
+		fxScript0 = "ElectricOrb",	
+		fxPos0 = {0,5,0},	
+		animActivateAltar="switch",
 	},	
 
 	AltarRed = {
