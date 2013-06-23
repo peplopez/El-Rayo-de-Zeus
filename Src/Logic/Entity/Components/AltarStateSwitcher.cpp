@@ -97,7 +97,7 @@ namespace Logic
 			{
 
 				CEntity *auxTarget = _entity->getMap()->getEntityByID(static_cast<CMessageUInt*>(message)->getUInt());
-				if(auxTarget && auxTarget->getType() == "Altar" || auxTarget->getType() == "AnimatedAltar")
+				if(auxTarget && (auxTarget->getType() == "Altar" || auxTarget->getType() == "AnimatedAltar") )
 				{	
 					if(_switchingState)
 						stopSwitchingState();
