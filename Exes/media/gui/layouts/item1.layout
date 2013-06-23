@@ -5,8 +5,8 @@
  <Window Type="OgreTray/StaticImageItem" Name="Item1" >
      <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,44}}" /> <!-- todo el ancho, alto 44px -->
 	 <Property Name="Image" Value="set:FondoItem image:fondo" />
-	 <Property Name="FrameEnabled" Value="True" />
-	 <Property Name="BackgroundEnabled" Value="False" />	 
+<!-- 	 <Property Name="FrameEnabled" Value="True" />
+	 <Property Name="BackgroundEnabled" Value="False" /> -->	 
 	 		
 	<Window Type="TaharezLook/ImageButton" Name="Item1/btnItem1">
 		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,45},{0,40}}" />

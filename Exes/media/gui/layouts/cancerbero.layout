@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <GUILayout>
 <Window Type="DefaultWindow" Name="Cerberus">
-	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,55},{1,0},{0,105}}" />
-	<Property Name="FrameEnabled" Value="false" />
-	<!-- <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" /> -->
+	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,50}}" />
+	<!-- <Property Name="FrameEnabled" Value="False" /> -->
 	
 	<Window Type="TaharezLook/ImageButton" Name="Cerberus/btnCerberus">
 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
 		<Property Name="UnifiedSize" Value="{{0,70},{0,50}}" />
+		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,70},{0,50}}" />
 
 		<!-- Here we choose what images to take. set:THEButton means they are stored -->
 		<!-- in the imageset named THEButton and image:btnNormal specifies wich image it is. -->

@@ -31,6 +31,9 @@ Contiene la implementación del estado de menú.
 //PT se incluye el servidor de scripts de LUA
 #include "ScriptManager\Server.h"
 
+//PT
+#include <BaseSubsystems/Server.h>
+
 namespace Application {
 
 	CMenuState::~CMenuState() 
@@ -99,6 +102,13 @@ namespace Application {
 
 		// Activamos la ventana que nos muestra el menú y activamos el ratón desde LUA
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showMenu");
+
+		// In case we come back from game to MenuState
+		// HACK FRS Windowed? -> Desactivar el cursor de CEGUI y superponer el de WIN32
+		#if _WIN32	
+				if(BaseSubsystems::CServer::getSingletonPtr()->isWindowedMode() )
+					CEGUI::MouseCursor::getSingletonPtr()->hide();
+		#endif
 
 	} // activate
 

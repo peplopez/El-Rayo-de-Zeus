@@ -88,7 +88,8 @@ end
 
 function reloadShop()
 	if shop ~= nil then
-		shop:setProperty("UnifiedAreaRect","{{0.727354,0},{0.00944353,0},{0.997086,0},{0.982883,0}}")
+		--shop:setProperty("UnifiedAreaRect","{{0.727354,0},{0.00944353,0},{0.997086,0},{0.982883,0}}")
+		shop:setProperty("UnifiedAreaRect","{{0,-200},{0,10},{0,-600},{0.98,0}}")
 		--descriptionItem:setProperty("Font","DejaVuSans-6bold")
 		--costItem:setProperty("Font","DejaVuSans-6bold")
 		

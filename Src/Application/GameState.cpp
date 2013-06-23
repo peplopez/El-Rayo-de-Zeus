@@ -40,6 +40,9 @@ Contiene la implementación del estado de juego.
 //PT se incluye el servidor de scripts de LUA
 #include "ScriptManager\Server.h"
 
+//PT
+#include <BaseSubsystems/Server.h>
+
 namespace Application {
 
 	// ƒ®§ Al inicializar la app
@@ -126,7 +129,9 @@ namespace Application {
 
 		//Raton rayo en el juego
 		CEGUI::System::getSingletonPtr()->setDefaultMouseCursor("OgreTrayImages","MouseArrow");
-		//CEGUI::MouseCursor::getSingletonPtr()->show();
+
+		//PT Hide mousecursor when enter playing game
+		CEGUI::MouseCursor::getSingletonPtr()->hide();
 
 
 	} // activate
@@ -152,6 +157,13 @@ namespace Application {
 		
 		// Desactivamos el mapa de la partida (incluye la desactivacion de la escenas)
 		Logic::CServer::getSingletonPtr()->deactivateAllMaps();
+
+		//PT si no estamos en ventana completa, entonces utilizamos el raton de Windows y no el de CEGUI
+		#if _WIN32	
+				if(BaseSubsystems::CServer::getSingletonPtr()->isWindowedMode() )
+					//CEGUI::MouseCursor::getSingletonPtr()->setVisible(false); //FER
+					CEGUI::MouseCursor::getSingletonPtr()->hide();				//PT
+		#endif
 		
 		CApplicationState::deactivate();
 

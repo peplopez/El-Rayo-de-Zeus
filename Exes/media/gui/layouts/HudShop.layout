@@ -26,7 +26,7 @@
 
 		<Window Type="OgreTray/TitleNickname" Name="Root/Hud/PlayerName" >
 			<Property Name="Font" Value="Cantoria-14" />
-			<Property Name="MaxTextLength" Value="10" />
+			<!-- <Property Name="MaxTextLength" Value="10" /> -->
 			<Property Name="Text" Value="" />
 			<Property Name="AlwaysOnTop" Value="False" />
 			<Property Name="UnifiedAreaRect" Value="{{0,110},{0,5},{0,290},{0,25}}" />

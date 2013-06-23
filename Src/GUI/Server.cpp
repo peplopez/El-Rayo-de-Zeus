@@ -99,7 +99,7 @@ namespace GUI {
 		//van a estar en media/scripts . Tampoco hace falta pasarle la extension .lua.
 		//Todo ello se hace en la carga del script. ScriptManager::CServer::loadScript()
 		ScriptManager::CServer::getSingletonPtr()->loadExeScript("GUI");
-
+		//_GUISystem->setDefaultMouseCursor(0)
 		// HACK FRS Windowed? -> Desactivar el cursor de CEGUI y superponer el de WIN32
 #if _WIN32		
 		if(BaseSubsystems::CServer::getSingletonPtr()->isWindowedMode() )

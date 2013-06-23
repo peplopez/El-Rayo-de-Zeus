@@ -13,7 +13,7 @@ Contiene la implementación del componente que controla el Shop mediante CEGUI.
 #include "Shop.h"
 
 //Inclusion de los mensajes
-#include <BaseSubsystems/Server.h> // FRS Los archivos no locales es mejor importarlso con < > (como todos los que tienes a continuacion)
+#include <BaseSubsystems/Server.h> // FRS Los archivos no locales es mejor importarlos con < > (como todos los que tienes a continuacion)
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
@@ -53,7 +53,7 @@ namespace Logic
 		item3window->destroy();
 
 		medusawindow->destroy();
-		cancerberowindow->destroy();
+		cerberuswindow->destroy();
 		minotaurowindow->destroy();
 	} // destructor
 
@@ -102,6 +102,12 @@ namespace Logic
 		item1window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,5.0f) ) );
 		item1window->setVisible( true );
 		item1window->setInheritsAlpha(false);
+		//item1window->subscribeEvent(CEGUI::DefaultWindow::EventMouseButtonUp,
+		//							 CEGUI::Event::Subscriber(&CShop::createMedusa, this)
+		//							 );
+		item1window->getChild("Item1/btnItem1")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::createMedusa, this)
+									 );
 
 
 		//se crea el tooltip
@@ -128,6 +134,12 @@ namespace Logic
 		_itemsWindow->addChildWindow(item2window);
 		item2window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,49.0f) ) );
 		item2window->setInheritsAlpha(false);
+		//item2window->subscribeEvent(CEGUI::DefaultWindow::EventMouseButtonUp,
+		//							 CEGUI::Event::Subscriber(&CShop::createCerberus, this)
+		//							 );
+		item2window->getChild("Item2/btnItem2")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::createCerberus, this)
+									 );
 
 		item3window = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item3.layout" );
 		_itemsWindow->addChildWindow(item3window);
@@ -142,24 +154,30 @@ namespace Logic
 		//The windows that are being loading are Taharez/ImageButtons
 		medusawindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "medusa.layout" );
 		_criaturesWindow->addChildWindow(medusawindow);
-		//medusawindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,10.0f) ) );
+		medusawindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,10.0f) ) );
 		medusawindow->setVisible( true );
 		medusawindow->setInheritsAlpha(false);
-		medusawindow->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+		//medusawindow->subscribeEvent(CEGUI::FrameWindow::EventMouseButtonUp,
+		//							 CEGUI::Event::Subscriber(&CShop::createMedusa, this)
+		//							 );
+		medusawindow->getChild("Medusa/btnMedusa")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
 									 CEGUI::Event::Subscriber(&CShop::createMedusa, this)
 									 );
 
-		cancerberowindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "cancerbero.layout" );
-		_criaturesWindow->addChildWindow(cancerberowindow);
-		//cancerberowindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,70.0f) ) );
-		cancerberowindow->setInheritsAlpha(false);
-		cancerberowindow->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+		cerberuswindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "cancerbero.layout" );
+		_criaturesWindow->addChildWindow(cerberuswindow);
+		cerberuswindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,70.0f) ) );
+		cerberuswindow->setInheritsAlpha(false);
+		//cerberuswindow->subscribeEvent(CEGUI::DefaultWindow::EventMouseButtonUp,
+		//							 CEGUI::Event::Subscriber(&CShop::createCerberus, this)
+		//							 );
+		cerberuswindow->getChild("Cerberus/btnCerberus")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
 									 CEGUI::Event::Subscriber(&CShop::createCerberus, this)
 									 );
 
 		minotaurowindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "minotauro.layout" );
 		_criaturesWindow->addChildWindow(minotaurowindow);
-		//minotaurowindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,130.0f) ) );
+		minotaurowindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,130.0f) ) );
 		minotaurowindow->setInheritsAlpha(false);
 
 
@@ -351,10 +369,11 @@ namespace Logic
 		//CEGUI::MouseCursor::getSingletonPtr()->setConstraintArea(&_area);	
 
 		// HACK FRS Windowed? -> Desactivar el cursor de CEGUI y superponer el de WIN32
-#if _WIN32	
-		if(BaseSubsystems::CServer::getSingletonPtr()->isWindowedMode() )
-			CEGUI::MouseCursor::getSingletonPtr()->setVisible(false);
-#endif
+		#if _WIN32	
+				if(BaseSubsystems::CServer::getSingletonPtr()->isWindowedMode() )
+					//CEGUI::MouseCursor::getSingletonPtr()->setVisible(false); //FER
+					CEGUI::MouseCursor::getSingletonPtr()->hide();				//PT
+		#endif
 
 		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
 		GUI::CServer::getSingletonPtr()->getCameraController()->deactivate();

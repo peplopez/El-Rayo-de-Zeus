@@ -18,7 +18,7 @@
 
 		<Window Type="OgreTray/TitleNickname" Name="Hud/PlayerName" >
 			<Property Name="Font" Value="Diogenes-14" />
-			<Property Name="MaxTextLength" Value="10" />
+			<!-- <Property Name="MaxTextLength" Value="10" /> -->
 			<Property Name="Text" Value="" />
 			<Property Name="AlwaysOnTop" Value="False" />
 			<Property Name="UnifiedAreaRect" Value="{{0,110},{0.07,0},{0,230},{0.3,0}}" />

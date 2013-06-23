@@ -36,6 +36,11 @@ Contiene la implementación del estado de menú de opciones de Single Player.
 #include <cegui\elements\CEGUIProgressBar.h>
 #include <Graphics\Server.h>
 
+//PT
+#include <BaseSubsystems/Server.h>
+
+
+
 namespace Application {
 
 	CMenuSingleState::~CMenuSingleState() 
@@ -112,9 +117,18 @@ namespace Application {
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showMenuSingle");
 
 		// In case we come back from game to MenuSingleState
+		// HACK FRS Windowed? -> Desactivar el cursor de CEGUI y superponer el de WIN32
+		#if _WIN32	
+				if(BaseSubsystems::CServer::getSingletonPtr()->isWindowedMode() )
+					CEGUI::MouseCursor::getSingletonPtr()->hide();
+		#endif
+
+		// In case we come back from game to MenuSingleState
 		CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/TextoProgreso")->setText("");
 		_hbar->setVisible(false);
 		_hbar->setProgress(0.0f);
+
+
 		
 
 	} // activate
@@ -165,8 +179,8 @@ namespace Application {
 
 			// Creacion del Jugador:  Llamamos al método de creación del jugador. Deberemos decidir
 			// si el jugador es el jugador local. Al ser el monojugador lo es.
-			//Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true, "Mono", "spartan2.4.mesh", "SpartanBodyWounds");
-			Logic::CServer::getSingletonPtr()->getMap("map1")->createPlayer("Mono", true, "Mono", "spartan2.4.mesh", "SpartanBodyWounds");
+			Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true, "Mono", "spartan2.4.mesh", "SpartanBodyWounds");
+			//Logic::CServer::getSingletonPtr()->getMap("map1")->createPlayer("Mono", true, "Mono", "spartan2.4.mesh", "SpartanBodyWounds");
 
 			break;
 
@@ -293,9 +307,9 @@ namespace Application {
 				return false;
 
 			_mapsToLoad.push_back("mapRed");
-			_mapsToLoad.push_back("mapBlue");
-			_mapsToLoad.push_back("mapGreen");
-			_mapsToLoad.push_back("mapYellow");
+			//_mapsToLoad.push_back("mapBlue");
+			//_mapsToLoad.push_back("mapGreen");
+			//_mapsToLoad.push_back("mapYellow");
 
 			//_mapsToLoad.push_back("map1");
 			//_mapsToLoad.push_back("map2");

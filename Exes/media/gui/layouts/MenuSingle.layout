@@ -4,7 +4,7 @@
     <Window Type="DefaultWindow" Name="MenuSingle" >
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
         <Window Type="OgreTray/StaticImage" Name="MenuSingle/BackGround" >
-			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="FrameEnabled" Value="False" />
 			<Property Name="BackgroundEnabled" Value="False" />		
 			<Property Name="Image" Value="set:BackgroundInit image:BackgroundInit" />			
             <Property Name="AlwaysOnTop" Value="False" />
@@ -64,7 +64,8 @@
 		<Window Type="OgreTray/ProgressBar" Name="MenuSingle/Progreso" >
 			<Property Name="StepSize" Value="0.1" />		
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-			<Property Name="CurrentProgress" Value="0" />	
+			<Property Name="CurrentProgress" Value="0" />
+			<Property Name="AlwaysOnTop" Value="True" />
 			<Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.78,0},{0.95,0},{0.8,0}}" />
         </Window>
 		

@@ -185,7 +185,7 @@ namespace Application
 		CEGUI::Combobox* _cbColor;
 
 		//PT Barra de Progreso
-		CEGUI::ProgressBar * _hbar;
+		CEGUI::ProgressBar* _hbar;
 
 		std::string playerNick;
 		int playerModelID;
