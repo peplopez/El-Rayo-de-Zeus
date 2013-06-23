@@ -64,7 +64,7 @@ la ventana esté en background (siempre que esté visible)
 namespace BaseSubsystems 
 {
 
-	const std::string CServer::_WINDOW_TITLE = "Zeus ThunderBolt";
+	const std::string CServer::_WINDOW_TITLE = "Zeus Thunderbolt";
 
 	/**
 	Clase auxiliar que hereda de Ogre y que sirve para modificar el 
