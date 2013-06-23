@@ -299,6 +299,11 @@ namespace Logic
 			unsigned short int degree =_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getDegree();
 			unsigned short int sense = _gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getSense();
 
+			//correct sense if player is looking in another direction that LEFT or RIGHT
+			if(sense!=LogicalPosition::Sense::LEFT && sense!=LogicalPosition::Sense::RIGHT)
+				sense = LogicalPosition::Sense::LEFT;
+
+
 			short int newdegree = degree;
 
 			if(sense==LogicalPosition::RIGHT) //seeing right
@@ -324,7 +329,7 @@ namespace Logic
 				numBase, 
 				_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getRing(),
 				newdegree,
-				_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getSense() 
+				sense 
 			);
 
 			_gameStatus->getPlayer(player)->setMeritPoints(pm-cost);
