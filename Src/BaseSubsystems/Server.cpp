@@ -525,13 +525,16 @@ namespace BaseSubsystems
 				_renderWindow->getCustomAttribute("WINDOW", &hwnd);
 			HINSTANCE hInst = (HINSTANCE)GetModuleHandle(0);	
 			
-			SetClassLong (hwnd, GCL_HICON, 
-				(LONG)LoadIcon(hInst, MAKEINTRESOURCE(IDI_BIG)));
-			SetClassLong (hwnd, GCL_HICONSM, 
-				(LONG)LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALL)));
-			SetClassLong (hwnd, GCL_HCURSOR, 
-				(LONG)LoadCursor(hInst, MAKEINTRESOURCE (IDC_CURSOR)));			
-
+			SetClassLong( hwnd, GCL_HICON, 
+				(LONG) LoadIcon(hInst, MAKEINTRESOURCE(IDI_BIG) ) );
+			SetClassLong( hwnd, GCL_HICONSM, 
+				(LONG) LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALL) ) );
+			SetClassLong( hwnd, GCL_HCURSOR, 
+				(LONG) LoadCursor(hInst, MAKEINTRESOURCE (IDC_CURSOR)) );	
+			
+			// UNDONE FRS Mejor un menu interno con CEGUI que un menu de WIN
+			// SetMenu(hwnd, LoadMenu(hInst, MAKEINTRESOURCE(IDC_ZTB) ));
+			
 			// UNDONE FRS Tambien se podría haber usado WM_SETICON
 			// La diferencia reside en que SetClassLong establece el ID para todas las instancias de la clase Hwnd
 			// Y SendMessage tan sólo cambia en un momento dado la instancia concreta hwnd.
