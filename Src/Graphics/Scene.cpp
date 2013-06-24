@@ -46,7 +46,7 @@ de una escena.
 namespace Graphics 
 {
 	// WARNING : if != 1.0, This scale must be taken into account when setting and getting arbitrary particle attributes !
-	const float CScene::HHFX_WORLD_SCALE = 5.0f;
+	const float CScene::HHFX_WORLD_SCALE = 8.0f;
 
 	CScene::CScene(const std::string& name) : _name(name), _viewport(0), 
 		_staticGeometry(0), _hhfxScene(0), _timeSinceLastRender(0)
