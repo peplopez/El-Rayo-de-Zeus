@@ -9,6 +9,7 @@
 #define __Lens_H__
 
 #include "OgrePrerequisites.h"
+#include "OgreMath.h"
 
 class Lens {
 public:

@@ -5,8 +5,9 @@
 //
 // Author: Ryan Booker (eyevee99)
 
-#include "stdafx.h"
+
 #include "Lens.h"
+
 
 using namespace Ogre;
 

@@ -56,6 +56,8 @@ namespace Logic
 	class CDotSceneLoader;
 };
 
+class DepthOfFieldEffect;
+
 namespace Graphics 
 {
 	/**
@@ -344,6 +346,7 @@ namespace Graphics
 		void _hhfxCompositorUnload();
 		static bool _hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, const Ogre::Vector3 &direction, float length, SContactReport &contactReport);
 
+		DepthOfFieldEffect* _dofEffect;
 	}; // class CScene
 
 } // namespace Graphics

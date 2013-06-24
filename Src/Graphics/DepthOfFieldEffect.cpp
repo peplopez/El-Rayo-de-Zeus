@@ -3,11 +3,9 @@
 //
 // This code is in the public domain. You may do whatever you want with it.
 
-#include "stdafx.h"
 #include "DepthOfFieldEffect.h"
-#include "Utils.h"
-#include "CameraManager.h"
-#include "StereoManager.h"
+#include "Ogre.h"
+#include "Lens.h"
 
 using namespace Ogre;
 

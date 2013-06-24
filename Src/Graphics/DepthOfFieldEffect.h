@@ -6,7 +6,11 @@
 #ifndef __DepthOfFieldEffect_H__
 #define __DepthOfFieldEffect_H__
 
-#include "Prerequisites.h"
+#include "OgrePrerequisites.h"
+#include "OgreCompositorInstance.h"
+#include "OgreRenderTargetListener.h"
+#include "OgreFrameListener.h"
+#include "OgreRenderQueue.h"
 
 class DepthOfFieldEffect : public Ogre::CompositorInstance::Listener,
 						   public Ogre::RenderTargetListener,

@@ -34,6 +34,7 @@ de una escena.
 #include "Entity.h"
 #include "GlowMaterialListener.h"
 #include "SceneElement.h"
+#include "DepthOfFieldEffect.h"
 
 #define DEBUG 0
 #if DEBUG
@@ -49,7 +50,7 @@ namespace Graphics
 	const float CScene::HHFX_WORLD_SCALE = 5.0f;
 
 	CScene::CScene(const std::string& name) : _name(name), _viewport(0), 
-		_staticGeometry(0), _hhfxScene(0), _timeSinceLastRender(0)
+		_staticGeometry(0), _hhfxScene(0), _timeSinceLastRender(0), _dofEffect(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
@@ -99,14 +100,16 @@ namespace Graphics
 		_baseCamera->getCamera()->setAspectRatio(
 			Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
 
-		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
-			activateCompositor("Glow");
+		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
 
-		GlowMaterialListener *gml = new GlowMaterialListener(); // FRS y este new? no se pierde en el limbo? WTF?
-		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
+		/*Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
+			activateCompositor("Glow");*/
+
+		//GlowMaterialListener *gml = new GlowMaterialListener(); // FRS y este new? no se pierde en el limbo? WTF?
+		//Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
 
 		// FRS esto también, quizá mejor en un paso previo, junto con todas las sentencias repetidas en los activates
-		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f)); 
+		 
 
 		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
 		//Sombras Chulas - Consumen mucho*/
@@ -135,18 +138,24 @@ namespace Graphics
 
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
 
-		Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
+		_dofEffect = new DepthOfFieldEffect(_viewport);
+		_dofEffect->setEnabled(true);
+		_dofEffect->setFocalDepths(
+        10.0f, 400, 600);
+
+
+		/*Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
 			comp->setEnabled(true);
 
 		GlowMaterialListener *gml = new GlowMaterialListener();
-		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
+		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);*/
 
 		/* PRUEBAS PEP */
-		comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
+		Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
 			comp->setEnabled(false);
 
-		comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
-			comp->setEnabled(false);
+		/*comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
+			comp->setEnabled(false);*/
 		//BWMaterialListener *bwml = new BWMaterialListener();
 		//Ogre::MaterialManager::getSingletonPtr()->addListener(bwml);
 
@@ -157,6 +166,7 @@ namespace Graphics
 		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
 		_hhfxCompositorLoad(); // Hell Heaven FX 
+		
 
 	} // activate
 
@@ -170,6 +180,8 @@ namespace Graphics
 			BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->
 					removeViewport(_viewport->getZOrder());
 			_viewport = 0;
+
+			//delete _dofEffect;
 		}
 	} // deactivate
 	
