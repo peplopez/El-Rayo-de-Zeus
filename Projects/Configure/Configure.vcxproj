@@ -98,6 +98,15 @@
   <ItemGroup>
     <ClCompile Include="..\..\Src\Configure\Configure.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Configure.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="exe.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
