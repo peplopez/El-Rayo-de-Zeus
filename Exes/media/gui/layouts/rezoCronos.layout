@@ -23,7 +23,8 @@
 	</Window>
 
 	<Window Type="OgreTray/TitleInShop" Name="rezoCronos/description">
-		<Property Name="UnifiedAreaRect" Value="{{0,46},{0,0},{0,146},{0,44}}" />
+		<!-- <Property Name="UnifiedAreaRect" Value="{{0,46},{0,0},{0,146},{0,44}}" /> -->
+		<Property Name="UnifiedAreaRect" Value="{{0,50},{0,0},{0.8,0},{0,44}}" />
 		<Property Name="Text" Value="Rezo Cronos" />
 		<Property Name="AlwaysOnTop" Value="True" />
 		<Property Name="Font" Value="DejaVuSans-6bold" />	
@@ -35,7 +36,8 @@
 	</Window>
 
 	<Window Type="OgreTray/TitlePMInShop" Name="rezoCronos/cost">
-		<Property Name="UnifiedAreaRect" Value="{{0,151},{0,0},{0,185},{0,44}}" />
+		<!-- <Property Name="UnifiedAreaRect" Value="{{0,151},{0,0},{0,185},{0,44}}" /> -->
+		<Property Name="UnifiedAreaRect" Value="{{0.82,0},{0,0},{0.95,0},{0,44}}" />
 		<Property Name="Text" Value="300" />
 		<Property Name="AlwaysOnTop" Value="True" />
 		<Property Name="Font" Value="DejaVuSans-6bold" />	
