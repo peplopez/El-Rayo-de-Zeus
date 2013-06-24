@@ -5,11 +5,12 @@ material lifeBar
 		pass
 		{	
 			emissive 0.7 0.7 0.7 1.0
+			scene_blend alpha_blend
 			
 			texture_unit
 			{
-				texture VerdeRojo.png
-				//texture medidor_vida.png
+				//texture VerdeRojo.png
+				texture medidor_vida.png
 			}
 		}
 	}
