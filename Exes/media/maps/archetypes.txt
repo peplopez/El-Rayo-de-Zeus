@@ -81,10 +81,13 @@ Map = {
 		physicTrigger = true,
 		shape = "box",
 		physicHalfWidth = 4,
-		physicHalfHeight = 4,		
-		fxScript0 = "ElectricOrb",	
-		fxPos0 = {0,5,0},	
+		physicHalfHeight = 4,	
 		animActivateAltar="switch",
+		fxScript0 = "ElectricOrbRed",
+		fxLooped0 = true,		
+		fxPos0 = {0,10,0},
+		fxDiffuse0 = {1,0.1,0.1},
+		fxSpecular0 = {1,0.8,0.8},	
 	},	
 
 	AltarRed = {
@@ -98,9 +101,7 @@ Map = {
 		physicTrigger = true,
 		shape = "box",
 		physicHalfWidth = 4,
-		physicHalfHeight = 4,		
-		fxScript0 = "ElectricOrb",	
-		fxPos0 = {0,5,0},	
+		physicHalfHeight = 4,	
 	},
 
 	AltarBlue = {
@@ -115,9 +116,12 @@ Map = {
 		physicTrigger = true,
 		shape = "box",
 		physicHalfWidth = 4,
-		physicHalfHeight = 4,	
-		fxScript0 = "BurnHit_Small",	
-		fxPos0 = {0,5,0},
+		physicHalfHeight = 4,
+		fxScript0 = "ElectricOrbBlue",
+		fxLooped0 = true,		
+		fxPos0 = {0,10,0},
+		fxDiffuse0 = {0.1,0.1,1},
+		fxSpecular0 = {0.1,0.8,1},	
 	},
 	
 	AltarGreen = {

@@ -44,6 +44,18 @@ namespace Logic
 		return true;		
 	} // spawn
 
+	//---------------------------------------------------------
+
+	bool CItem::activate()
+	{		
+		if( _type == "puPoison") {		
+			CMessage *txMsg = new CMessage();	
+				txMsg->setType(Message::FX_START);
+				txMsg->setAction(Message::FX_SPARKS);
+				_entity->emitMessage(txMsg,this);
+		}
+		return true;
+	}
 
 	//---------------------------------------------------------
 	bool CItem::accept(const CMessage *message)
@@ -107,23 +119,7 @@ namespace Logic
 	} // process
 
 
-	//---------------------------------------------------------
 
-	void CItem::tick(unsigned int msecs)
-	{
-		IComponent::tick(msecs);
-
-///////////// HACK TEST FRS Para probar FX -> La gracia sería ponérselo al modelOnHand
-		if( _type == "puPoison" && (_timer_sparks -= msecs) <= 0	) {
-			_timer_sparks = _PERIOD_SPARKS;
-			CMessage *txMsg = new CMessage();	
-				txMsg->setType(Message::FX_START);
-				txMsg->setAction(Message::FX_SPARKS);
-				_entity->emitMessage(txMsg,this);
-		}
-////////////////////////////////////////////
-
-	}
 
 } // namespace Logic
 

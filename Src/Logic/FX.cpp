@@ -44,8 +44,8 @@ namespace Logic
 
 		if(!_psTable.empty())
 		{			
-			TParticleTable::const_iterator it = _psTable.begin();
-			TParticleTable::const_iterator end   = _psTable.end();
+			TParticleTable::const_iterator it	= _psTable.begin();
+			TParticleTable::const_iterator end  = _psTable.end();
 				for(; it != end; ++it) {
 					_graphicalScene->remove( it->second );				
 					delete it->second;
@@ -61,8 +61,8 @@ namespace Logic
 	{
 		if(!_psTable.empty())
 		{			
-			TParticleTable::const_iterator it = _psTable.begin();
-			TParticleTable::const_iterator end   = _psTable.end();
+			TParticleTable::const_iterator it	= _psTable.begin();
+			TParticleTable::const_iterator end  = _psTable.end();
 				for(; it != end; ++it) 
 					_graphicalScene->remove( it->second);
 		}
@@ -92,24 +92,44 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 		
-		std::string varScript("fxScript0");
-		std::string varPos("fxPos0");
+		std::string varScript(	"fxScript0");		
+		std::string varLooped(	"fxLooped0");
+		std::string varPos(		"fxPos0");
+		std::string varDiffuse(	"fxDiffuse0");
+	    std::string varSpecular("fxSpecular0");
 
 		// READ FXs & CREATE PSs
 		for(int i = 0; i < _MAX_FX ; ++i) {	// 10 FXs maximo por entidad deberia ser suficente
 
 			if( !entityInfo->hasAttribute( varScript ) )
 				break;
-			
 			std::string hfx = entityInfo->getStringAttribute( varScript );	
-				if( entityInfo->hasAttribute( varPos ) ) 
-					_psTable[hfx] = new Graphics::CParticleSystem( hfx, _entity->getGraphicalName(), 
-										entityInfo->getVector3Attribute( varPos ) );					
-				else
-					_psTable[hfx] = new Graphics::CParticleSystem( hfx, _entity->getGraphicalName() );	
 
-			++varScript[ varScript.length() - 1];
-			++varPos   [ varPos.length()    - 1];
+			bool isLooped = false;
+				if( entityInfo->hasAttribute( varLooped ) ) 
+					isLooped = entityInfo->getBoolAttribute( varLooped );
+
+			Vector3 relativePos(Vector3::ZERO);
+				if( entityInfo->hasAttribute( varPos ) ) 
+					relativePos = entityInfo->getVector3Attribute( varPos );
+
+			Vector3 lightDiffuse(Vector3::ZERO);
+				if( entityInfo->hasAttribute( varDiffuse ) ) 
+					lightDiffuse = entityInfo->getVector3Attribute( varDiffuse );
+
+			Vector3 lightSpecular(Vector3::ZERO);
+				if( entityInfo->hasAttribute( varSpecular ) ) 
+					lightSpecular = entityInfo->getVector3Attribute( varSpecular );
+			
+			_psTable[hfx] = new Graphics::CParticleSystem(
+								hfx, _entity->getGraphicalName(), isLooped,
+								relativePos, lightDiffuse, lightSpecular );	
+
+			++varScript		[ varScript.length()	- 1];
+			++varLooped		[ varLooped.length()	- 1];
+			++varPos		[ varPos.length()		- 1];
+			++varDiffuse	[ varDiffuse.length()	- 1];
+			++varSpecular   [ varSpecular.length()	- 1];
 		}
 
 		attachToMap(map); // Add PSs to Scene
@@ -137,22 +157,26 @@ namespace Logic
 	
 	void CFX::process(CMessage *message)
 	{
-		Graphics::CParticleSystem* ps = 
-			message->getAction() == Message::TActionType::UNDEF ?
-				_psTable.begin()->second :	// Si no se especifica Action actuamos sobre el primer PS
-				_psTable[ _ACTION_TO_HFX[ message->getAction() ] ]; 				
-						
-		// FRS Generamos el sistema, aunque sea en la posicion 0,0,0
-		if(!ps) {
+		Graphics::CParticleSystem* ps = 0;
+
+		if(	message->getAction() != Message::TActionType::UNDEF ) {
+
 			std::string hfx = _ACTION_TO_HFX[ message->getAction() ];
-			ps = _psTable[hfx] = new Graphics::CParticleSystem( hfx, _entity->getGraphicalName() );
-			_graphicalScene->add(ps);
-		}
-		//assert(ps && "La entidad no usa el FX que especifica el ActionType recibido");		
+			assert(hfx.length() && "Action recibido no se corresponde con ningun recurso HFX");
 
-		if(_psTable.empty())
-			return;
+			ps = _psTable[hfx];							
+				if(!ps) {		// FRS Si no esta en psTable, generamos el sistema en la posicion 0,0,0				
+					ps = _psTable[hfx] = new Graphics::CParticleSystem( hfx, _entity->getGraphicalName() );
+					_graphicalScene->add(ps);
+				}
 
+		} else if( !_psTable.empty() ) {
+			ps = _psTable.begin()->second;	// Si no se especifica Action actuamos sobre el primer PS	
+			
+		} else { 
+			return; // Action UNDEF + _psTable.empty() -> No podemos hacer nada
+		}	
+	
 		switch(message->getType())
 		{
 			case Message::FX_START:	

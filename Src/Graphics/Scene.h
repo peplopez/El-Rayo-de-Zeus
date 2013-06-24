@@ -114,28 +114,7 @@ namespace Graphics
 		@return Nombre de la escena.
 		*/
 		const std::string& getName() {return _name;}
-
-		/**
-		Añade una entidad gráfica a la escena.
-		<p>
-		@remarks La escena NO se hace responsable de destruir la
-		entidad.
-
-		@param entity Entidad gráfica que se quiere añadir a la escena.
-		@return Cierto si la entidad se añadió y cargó correctamente.
-		*/
-		bool add(CEntity* entity);
-
-		/**
-		Elimina una entidad gráfica de la escena. 
-		<p>
-		@remarks Este método NO destruye la entidad, ésta solo deja de
-		ser parte de la escena.
-
-		@param entity Entidad gráfica que se quiere eliminar de la escena.
-		*/
-		void remove(CEntity* entity);
-	
+			
 		/**
 		*/
 		bool add(CLight* light);
@@ -147,12 +126,28 @@ namespace Graphics
 
 		//---------- GENERIC SCENE ELEMENTS (p.e. billboards)-----------
 
+		/**
+		Añade un gráfico a la escena.
+		<p>
+		@remarks La escena NO se hace responsable de destruir la
+		entidad.
+
+		@param entity Entidad gráfica que se quiere añadir a la escena.
+		@return Cierto si la entidad se añadió y cargó correctamente.
+		*/
 		bool add(CSceneElement* sceneElement);
+
+		/**
+		Elimina un gráfico de la escena. 
+		<p>
+		@remarks Este método NO destruye la entidad, ésta solo deja de
+		ser parte de la escena.
+
+		@param entity Entidad gráfica que se quiere eliminar de la escena.
+		*/
 		void remove(CSceneElement* sceneElement);
 
-		// PARTICLES
-		void createParticleSystem(const std::string& templateName, const std::string& parentEntity); // pos relativa a otra entidad
-		void createParticleSystem(const std::string& templateName, const Vector3& position); // pos absoluta
+
 		
 		/**PeP
 		Activar compositor, pensado para el de blanco y negro. También RadialBlur
@@ -224,9 +219,9 @@ namespace Graphics
 		******************/
 		
 		/**
-		Tipos para la lista de entidades.
+		Tipos para la lista de elementos.
 		*/
-		typedef std::list<CEntity*> TEntities;
+		typedef std::list<CSceneElement*> TSceneElements;
 	
 		/**
 		Tipos para la lista de luces.
@@ -235,14 +230,14 @@ namespace Graphics
 
 
 		/**
-		Lista de entidades dinámicas.
+		Lista de elementos dinámicos.
 		*/
-		TEntities _dynamicEntities; // FRS Necesario para ejecutarles el tick
+		TSceneElements _dynamicElements; // FRS Necesario para ejecutarles el tick
 
 		/**
-		Lista de entidades estáticas.
+		Lista de elementos estáticos.
 		*/
-		TEntities _staticEntities; // FRS Necesario para aglomerar geom estática
+		TSceneElements _staticElements; // FRS Necesario para aglomerar geom estática
 			
 		
 		/** 

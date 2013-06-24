@@ -383,8 +383,7 @@ CParticleSystemFactory	$LOCAL$/Resource
 CActionFactoryParticleSpawnerBase	$LOCAL$/Leaders
 {
 	EditorInfosPosition = int2(568, 185);
-	Infinite = true;
-	DurationInSeconds = 2.0000000e+000;
+	DurationInSeconds = 10.0000000e+000;
 	SpawnCount = 4.0000000e+000;
 	Descriptor = "$LOCAL$/CParticleDescriptor_00002CD6";
 }

@@ -32,6 +32,12 @@ namespace Graphics
 
 namespace Graphics 
 {
+	enum TGraphicalType : unsigned char {
+		NONE,
+		STATIC,
+		DYNAMIC	
+	};
+
 	/**
 	Contiene la declaración de la clase base de cualquier elemento de escena.
 
@@ -51,7 +57,8 @@ namespace Graphics
 		@param name Nombre de la entidad.
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
-		CSceneElement::CSceneElement() : _node(0), _scale(Vector3::UNIT_SCALE), _scene(0), _loaded(false) {} 
+		CSceneElement::CSceneElement() : _node(0), _scale(Vector3::UNIT_SCALE), 
+			_scene(0), _loaded(false), _type(TGraphicalType::NONE) {} 
 
 		/**
 		Destructor de la aplicación.
@@ -86,6 +93,11 @@ namespace Graphics
 			GET's & SET's
 		********************/
 	
+		TGraphicalType const getType(){ return _type; }
+		bool isStatic() const {  return	_type == TGraphicalType::STATIC; }		
+		bool isDynamic() const { return _type == TGraphicalType::DYNAMIC; }		
+		
+
 		/**
 		 Devuelve el valor de la propiedad visible.
 		 La propiedad indica si el elemento debe dibujarse o no,
@@ -180,6 +192,7 @@ namespace Graphics
 		*/
 		bool _loaded;
 
+		TGraphicalType _type;
 		
 
 		Ogre::SceneManager* CSceneElement::getSceneMgr();
@@ -223,7 +236,7 @@ namespace Graphics
 
 		@param secs Número de mili segundos transcurridos desde la última llamada.
 		*/
-		virtual void tick(float msecs) {}
+		virtual void tick(float secs) {}
 
 		
 

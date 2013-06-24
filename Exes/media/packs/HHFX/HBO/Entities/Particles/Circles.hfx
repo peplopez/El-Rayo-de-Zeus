@@ -127,8 +127,7 @@ CActionFactoryParticleSpawnerBase	$LOCAL$/CActionFactoryParticleSpawnerBase_0FDF
 {
 	EditorInfosPosition = int2(-58, 339);
 	EditorInfosIsBlockMinimized = 0;
-	Infinite = true;
-	DurationInSeconds = 1.0000000e+004;
+	DurationInSeconds = 5.0;
 	SpawnCount = 1.5000000e+002;
 	Descriptor = "$LOCAL$/CParticleDescriptor_75E6151F";
 }

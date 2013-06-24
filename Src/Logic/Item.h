@@ -36,21 +36,15 @@ namespace Logic
 		DEC_FACTORY(CItem);
 	public:
 
-		CItem() : IComponent(GetAltTypeIdOf(CItem)), _modelOnHand(""), _type(""), _timer_sparks(_PERIOD_SPARKS) {}
+		CItem() : IComponent(GetAltTypeIdOf(CItem)), _modelOnHand(""), _type("") {}
 
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
-
+		bool activate();
 		bool accept(const CMessage *message);
 		void process(CMessage *message);
-		void tick(unsigned int msecs);
-
+		
 
 	private:
-
-	///////////// HACK TEST FRS Para probar FX -> La idea sería editarlo para que fuera infinito
-		static const int _PERIOD_SPARKS = 400; //  in msecs
-		int _timer_sparks;
-	/////////////////////////////////////////////////////
 
 		std::string _modelOnHand;
 		std::string _type;

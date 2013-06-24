@@ -149,7 +149,7 @@ CParticleStreamFunctionSampleArray	$LOCAL$/CParticleStreamFunctionSampleArray_75
 }
 CActionFactoryParticleSpawnerBase	$LOCAL$/Main_Lot
 {
-	DurationInSeconds = 2.0000000e+001;
+	DurationInSeconds = 10.0;
 	SpawnCount = 1.0000000e+001;
 	SpawnCountRelativeRandomDeviation = 9.6650624e-001;
 	Descriptor = "$LOCAL$/CParticleDescriptor_11D3CC4E";
