@@ -1,0 +1,85 @@
+
+// Anti Flicking blur effect
+compositor "DoF_Compositor1"
+{
+  technique
+  {
+      // Temporary textures
+      texture scene 0 0 PF_X8R8G8B8
+      texture blur target_width_scaled 0.5 target_height_scaled 0.5 PF_X8R8G8B8
+     
+      target scene
+      {
+        // Render output from previous compositor (or original scene)
+        input previous
+      }
+     
+      target blur
+      {
+        input none
+        pass render_quad
+        {
+          material DoF_Gaussian3x3
+          input 0 scene
+          identifier 0
+        }
+      }
+     
+     
+      target_output
+      {
+        // Blur horizontally
+        //input none
+        pass render_quad
+        {
+          material DoF_DepthOfField1
+          input 0 scene
+          input 2 blur
+          identifier 1
+        }
+      }
+     
+  }
+}
+
+compositor "DoF_Compositor2"
+{
+  technique
+  {
+      // Temporary textures
+      texture scene 0 0 PF_X8R8G8B8
+      texture blur target_width_scaled 0.5 target_height_scaled 0.5 PF_X8R8G8B8
+     
+      target scene
+      {
+        // Render output from previous compositor (or original scene)
+        input previous
+      }
+     
+      target blur
+      {
+        input none
+        pass render_quad
+        {
+          material DoF_Gaussian3x3
+          input 0 scene
+          identifier 0
+        }
+      }
+     
+     
+      target_output
+      {
+        // Blur horizontally
+        //input none
+        pass render_quad
+        {
+          material DoF_DepthOfField2
+          input 0 scene
+          input 2 blur
+          identifier 1
+        }
+      }
+     
+  }
+}
