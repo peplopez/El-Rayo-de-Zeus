@@ -8,7 +8,6 @@
 	<Imageset Name="HudBackgroundNuevo" Filename="HudBackgroundNuevo.imageset" />
 	<Imageset Name="HudPersonaje" Filename="HudPersonaje.imageset" />
 	<Imageset Name="HudBaseLife" Filename="HudBaseLife.imageset" />
-	<Imageset Name="ShopItems" Filename="ShopItems.imageset" />
 	<Imageset Name="ShopIcons" Filename="ShopIcons.imageset" />
 	<Imageset Name="FondoItem" Filename="FondoItem.imageset" />
 	
