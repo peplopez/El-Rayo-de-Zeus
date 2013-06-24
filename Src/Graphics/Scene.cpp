@@ -135,18 +135,18 @@ namespace Graphics
 
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
 
-		Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
+		/*Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
 			comp->setEnabled(true);
 
 		GlowMaterialListener *gml = new GlowMaterialListener();
-		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
+		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);*/
 
 		/* PRUEBAS PEP */
-		comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
+		Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
 			comp->setEnabled(false);
 
-		comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
-			comp->setEnabled(false);
+		/*comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
+			comp->setEnabled(false);*/
 		//BWMaterialListener *bwml = new BWMaterialListener();
 		//Ogre::MaterialManager::getSingletonPtr()->addListener(bwml);
 
