@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <GUILayout>
-
-<Window Type="DefaultWindow" Name="Minotauro">
+<Window Type="DefaultWindow" Name="Cerberus">
 	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,50}}" />
-	<Property Name="FrameEnabled" Value="False" />	
+	<!-- <Property Name="FrameEnabled" Value="False" /> -->
 	
-	<Window Type="TaharezLook/ImageButton" Name="Minotauro/btn">
+	<Window Type="TaharezLook/ImageButton" Name="Cerberus/btn">
 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
 		<Property Name="UnifiedSize" Value="{{0,70},{0,50}}" />
 		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,70},{0,50}}" />
-		
+
 		<!-- Here we choose what images to take. set:THEButton means they are stored -->
 		<!-- in the imageset named THEButton and image:btnNormal specifies wich image it is. -->
-		<Property Name="NormalImage"     Value="set:ShopIcons image:minotauroNormal" />
-		<Property Name="HoverImage"      Value="set:ShopIcons image:minotauroHover"  />
-		<Property Name="PushedImage"     Value="set:ShopIcons image:minotauroPushed" />
-		<Property Name="DisabledImage"   Value="set:ShopIcons image:minotauroDisabl" />
+		<Property Name="NormalImage"     Value="set:ShopIcons image:cerberusNormal" />
+		<Property Name="HoverImage"      Value="set:ShopIcons image:cerberusHover"  />
+		<Property Name="PushedImage"     Value="set:ShopIcons image:cerberusPushed" />
+		<Property Name="DisabledImage"   Value="set:ShopIcons image:cerberusDisabl" />
 		
-		<Property Name="Tooltip" Value="Minotauro tooltip" />
+		<Property Name="Tooltip" Value="Cerberus tooltip" />
 		<!-- Now the button would be ready, but without caption ... So we add a caption. -->
 	</Window>
-	
-	<Window Type="OgreTray/TitlePMInShop" Name="Minotauro/cost">
+
+
+	<Window Type="OgreTray/TitlePMInShop" Name="Cerberus/cost">
 		<Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" />
 		<Property Name="Text" Value="500" />
 		<Property Name="AlwaysOnTop" Value="True" />
 		<Property Name="Font" Value="DejaVuSans-6bold" />	
 	</Window>
-</Window>
 	
+</Window>
+
 </GUILayout>

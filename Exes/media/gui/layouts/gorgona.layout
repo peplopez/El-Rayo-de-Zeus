@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <GUILayout>
 
-<Window Type="DefaultWindow" Name="Medusa">
+<Window Type="DefaultWindow" Name="Gorgona">
 	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,50}}" />
 	<!-- <Property Name="FrameEnabled" Value="False" /> -->
 
-	<Window Type="TaharezLook/ImageButton" Name="Medusa/btnMedusa">
+	<Window Type="TaharezLook/ImageButton" Name="Gorgona/btn">
 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
 		<Property Name="UnifiedSize" Value="{{0,70},{0,50}}" />
 		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,70},{0,50}}" />
 
-		<Property Name="NormalImage"     Value="set:ShopCriatures image:medusaNormal" />
-		<Property Name="HoverImage"      Value="set:ShopCriatures image:medusaHover"  />
-		<Property Name="PushedImage"     Value="set:ShopCriatures image:medusaPushed" />
-		<Property Name="DisabledImage"   Value="set:ShopCriatures image:medusaDisabl" />
+		<Property Name="NormalImage"     Value="set:ShopIcons image:gorgonaNormal" />
+		<Property Name="HoverImage"      Value="set:ShopIcons image:gorgonaHover"  />
+		<Property Name="PushedImage"     Value="set:ShopIcons image:gorgonaPushed" />
+		<Property Name="DisabledImage"   Value="set:ShopIcons image:gorgonaDisabl" />
 		
-		<Property Name="Tooltip" Value="Medusa tooltip" />
+		<Property Name="Tooltip" Value="Gorgona tooltip" />
 		
 	</Window>
 
-	<Window Type="OgreTray/TitlePMInShop" Name="Medusa/costMedusa">
+	<Window Type="OgreTray/TitlePMInShop" Name="Gorgona/cost">
 		<!-- <Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" /> -->
 		<Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" />
 		<Property Name="Text" Value="300" />

@@ -48,13 +48,28 @@ namespace Logic
 		
 	CShop::~CShop() {
 
-		item1window->destroy();
-		item2window->destroy();
-		item3window->destroy();
+		//UPGRADES
+		tercerComboWindow->destroy();
+		rezoHadesWindow->destroy();
+		rezoTiqueWindow->destroy();
+		rezoArtemisaWindow->destroy();
+		rezoZeusWindow->destroy();
+		rezoCronosWindow->destroy();
+		rezoAresWindow->destroy();
+		rezoAteneaWindow->destroy();
+		fortalecerBaseWindow->destroy();
+		debilitarBasesWindow->destroy();
+		sacrificioWindow->destroy();
+		sacrificioDefinitivoWindow->destroy();
 
-		medusawindow->destroy();
-		cerberuswindow->destroy();
+		//ALLIES AND CRIATURES
+		gorgonawindow->destroy();
+		helenatroyawindow->destroy();
+		centaurowindow->destroy();
 		minotaurowindow->destroy();
+		cerberuswindow->destroy();
+		ciclopewindow->destroy();
+
 	} // destructor
 
 	//---------------------------------------------------------
@@ -93,24 +108,24 @@ namespace Logic
 		//_area.d_top = _area.d_top - 18; //para que se pueda pulsar sobre el TitleBar
 		//_area.d_bottom = _area.d_bottom - 10;
 
-		//ITEMS
-		_itemsWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/TabControl/Upgrades");
+		float posicionVertical = 0.0f;
+		//posicionVertical+=5.0f;
 
-		item1window = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item1.layout" );
-		_itemsWindow->addChildWindow(item1window);
+
+		//UPGRADES TAB
+		_upgradesWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/TabControl/Upgrades");
+
+		tercerComboWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "tercerCombo.layout" );
+		_upgradesWindow->addChildWindow(tercerComboWindow);
 		//position x, and position y where windows it is shown
-		item1window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,5.0f) ) );
-		item1window->setVisible( true );
-		item1window->setInheritsAlpha(false);
-		//item1window->subscribeEvent(CEGUI::DefaultWindow::EventMouseButtonUp,
-		//							 CEGUI::Event::Subscriber(&CShop::createMedusa, this)
-		//							 );
-		item1window->getChild("Item1/btnItem1")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
-									 CEGUI::Event::Subscriber(&CShop::createMedusa, this)
+		tercerComboWindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,posicionVertical) ) );
+		tercerComboWindow->setVisible( true );
+		tercerComboWindow->setInheritsAlpha(false);
+		tercerComboWindow->getChild("tercerCombo/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::activateThirdCombo, this)
 									 );
 
-
-		//se crea el tooltip
+		//Tooltip is created
 		CEGUI::System::getSingleton().setDefaultTooltip((CEGUI::utf8*)"TaharezLook/Tooltip"); // Set the name of the default tooltip
 		CEGUI::Tooltip* tooltip = CEGUI::System::getSingleton().getDefaultTooltip();
 		tooltip->setHoverTime(0.2f); // Display the tooltip after the mouse has been hovering over the widget for half a second
@@ -130,63 +145,190 @@ namespace Logic
 		//tooltip->setPosition(vector);
 
 
-		item2window = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item2.layout" );
-		_itemsWindow->addChildWindow(item2window);
-		item2window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,49.0f) ) );
-		item2window->setInheritsAlpha(false);
-		//item2window->subscribeEvent(CEGUI::DefaultWindow::EventMouseButtonUp,
-		//							 CEGUI::Event::Subscriber(&CShop::createCerberus, this)
-		//							 );
-		item2window->getChild("Item2/btnItem2")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
-									 CEGUI::Event::Subscriber(&CShop::createCerberus, this)
+		posicionVertical+=44.0f;
+		rezoHadesWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "rezoHades.layout" );
+		_upgradesWindow->addChildWindow(rezoHadesWindow);
+		rezoHadesWindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,posicionVertical) ) );
+		rezoHadesWindow->setInheritsAlpha(false);
+		rezoHadesWindow->getChild("rezoHades/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::rezoHades, this)
 									 );
 
-		item3window = CEGUI::WindowManager::getSingleton().loadWindowLayout( "item3.layout" );
-		_itemsWindow->addChildWindow(item3window);
-		item3window->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,93.0f) ) );
-		item3window->setInheritsAlpha(false);
-
-
-		//CRIATURES
-
-		_criaturesWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/TabControl/Allies");
-
-		//The windows that are being loading are Taharez/ImageButtons
-		medusawindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "medusa.layout" );
-		_criaturesWindow->addChildWindow(medusawindow);
-		medusawindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,10.0f) ) );
-		medusawindow->setVisible( true );
-		medusawindow->setInheritsAlpha(false);
-		//medusawindow->subscribeEvent(CEGUI::FrameWindow::EventMouseButtonUp,
-		//							 CEGUI::Event::Subscriber(&CShop::createMedusa, this)
-		//							 );
-		medusawindow->getChild("Medusa/btnMedusa")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
-									 CEGUI::Event::Subscriber(&CShop::createMedusa, this)
+		posicionVertical+=44.0f;
+		rezoTiqueWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "rezoTique.layout" );
+		_upgradesWindow->addChildWindow(rezoTiqueWindow);
+		rezoTiqueWindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,posicionVertical) ) );
+		rezoTiqueWindow->setInheritsAlpha(false);
+		rezoTiqueWindow->getChild("rezoTique/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::rezoTique, this)
 									 );
 
-		cerberuswindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "cancerbero.layout" );
-		_criaturesWindow->addChildWindow(cerberuswindow);
-		cerberuswindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,70.0f) ) );
+		posicionVertical+=44.0f;
+		rezoArtemisaWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "rezoArtemisa.layout" );
+		_upgradesWindow->addChildWindow(rezoArtemisaWindow);
+		rezoArtemisaWindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,posicionVertical) ) );
+		rezoArtemisaWindow->setInheritsAlpha(false);
+		rezoArtemisaWindow->getChild("rezoArtemisa/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::rezoArtemisa, this)
+									 );
+
+		posicionVertical+=44.0f;
+		rezoZeusWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "rezoZeus.layout" );
+		_upgradesWindow->addChildWindow(rezoZeusWindow);
+		rezoZeusWindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,posicionVertical) ) );
+		rezoZeusWindow->setInheritsAlpha(false);
+		rezoZeusWindow->getChild("rezoZeus/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::rezoZeus, this)
+									 );
+
+		posicionVertical+=44.0f;
+		rezoCronosWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "rezoCronos.layout" );
+		_upgradesWindow->addChildWindow(rezoCronosWindow);
+		rezoCronosWindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,posicionVertical) ) );
+		rezoCronosWindow->setInheritsAlpha(false);
+		rezoCronosWindow->getChild("rezoCronos/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::rezoCronos, this)
+									 );
+
+		posicionVertical+=44.0f;
+		rezoAresWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "rezoAres.layout" );
+		_upgradesWindow->addChildWindow(rezoAresWindow);
+		rezoAresWindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,posicionVertical) ) );
+		rezoAresWindow->setInheritsAlpha(false);
+		rezoAresWindow->getChild("rezoAres/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::rezoAres, this)
+									 );
+
+		posicionVertical+=44.0f;
+		rezoAteneaWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "rezoAtenea.layout" );
+		_upgradesWindow->addChildWindow(rezoAteneaWindow);
+		rezoAteneaWindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,posicionVertical) ) );
+		rezoAteneaWindow->setInheritsAlpha(false);
+		rezoAteneaWindow->getChild("rezoAtenea/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::rezoAtenea, this)
+									 );
+
+		posicionVertical+=44.0f;
+		fortalecerBaseWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "fortalecerBase.layout" );
+		_upgradesWindow->addChildWindow(fortalecerBaseWindow);
+		fortalecerBaseWindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,posicionVertical) ) );
+		fortalecerBaseWindow->setInheritsAlpha(false);
+		fortalecerBaseWindow->getChild("fortalecerBase/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::fortalecerBase, this)
+									 );
+
+		posicionVertical+=44.0f;
+		debilitarBasesWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "debilitarBases.layout" );
+		_upgradesWindow->addChildWindow(debilitarBasesWindow);
+		debilitarBasesWindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,posicionVertical) ) );
+		debilitarBasesWindow->setInheritsAlpha(false);
+		debilitarBasesWindow->getChild("debilitarBases/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::debilitarBases, this)
+									 );
+
+		posicionVertical+=44.0f;
+		sacrificioWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "sacrificio.layout" );
+		_upgradesWindow->addChildWindow(sacrificioWindow);
+		sacrificioWindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,posicionVertical) ) );
+		sacrificioWindow->setInheritsAlpha(false);
+		sacrificioWindow->getChild("sacrificio/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::sacrificio, this)
+									 );
+
+		posicionVertical+=44.0f;
+		sacrificioDefinitivoWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "sacrificioDefinitivo.layout" );
+		_upgradesWindow->addChildWindow(sacrificioDefinitivoWindow);
+		sacrificioDefinitivoWindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,5.0f), CEGUI::UDim(0,posicionVertical) ) );
+		sacrificioDefinitivoWindow->setInheritsAlpha(false);
+		sacrificioDefinitivoWindow->getChild("sacrificioDefinitivo/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::sacrificioDefinitivo, this)
+									 );
+
+
+		//CRIATURES OR ALLIES TAB
+		_alliesWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/TabControl/Allies");
+
+		posicionVertical=10.0f;
+
+		gorgonawindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "gorgona.layout" );
+		_alliesWindow->addChildWindow(gorgonawindow);
+		gorgonawindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,posicionVertical) ) );
+		gorgonawindow->setVisible( true );
+		gorgonawindow->setInheritsAlpha(false);
+		//gorgonawindow->subscribeEvent(CEGUI::FrameWindow::EventMouseButtonUp,
+		//							 CEGUI::Event::Subscriber(&CShop::createGorgona, this)
+		//							 );
+		gorgonawindow->getChild("Gorgona/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::createGorgona, this)
+									 );
+
+		posicionVertical+=60.0f;
+		helenatroyawindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "helenaTroya.layout" );
+		_alliesWindow->addChildWindow(helenatroyawindow);
+		helenatroyawindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,posicionVertical) ) );
+		helenatroyawindow->setVisible( true );
+		helenatroyawindow->setInheritsAlpha(false);
+		//helenatroyawindow->subscribeEvent(CEGUI::FrameWindow::EventMouseButtonUp,
+		//							 CEGUI::Event::Subscriber(&CShop::createHelenaTroya, this)
+		//							 );
+		helenatroyawindow->getChild("HelenaTroya/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::createHelenaTroya, this)
+									 );
+
+		posicionVertical+=60.0f;
+		centaurowindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "centauro.layout" );
+		_alliesWindow->addChildWindow(centaurowindow);
+		centaurowindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,posicionVertical) ) );
+		centaurowindow->setVisible( true );
+		centaurowindow->setInheritsAlpha(false);
+		//centaurowindow->subscribeEvent(CEGUI::FrameWindow::EventMouseButtonUp,
+		//							 CEGUI::Event::Subscriber(&CShop::createCentauro, this)
+		//							 );
+		centaurowindow->getChild("Centauro/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::createCentauro, this)
+									 );
+
+		posicionVertical+=60.0f;
+		minotaurowindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "minotauro.layout" );
+		_alliesWindow->addChildWindow(minotaurowindow);
+		minotaurowindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,posicionVertical) ) );
+		minotaurowindow->setVisible( true );
+		minotaurowindow->setInheritsAlpha(false);
+		//minotaurowindow->subscribeEvent(CEGUI::FrameWindow::EventMouseButtonUp,
+		//							 CEGUI::Event::Subscriber(&CShop::createMinotauro, this)
+		//							 );
+		minotaurowindow->getChild("Minotauro/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::createMinotauro, this)
+									 );
+
+
+		posicionVertical+=60.0f;
+		cerberuswindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "cerberus.layout" );
+		_alliesWindow->addChildWindow(cerberuswindow);
+		cerberuswindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,posicionVertical) ) );
 		cerberuswindow->setInheritsAlpha(false);
 		//cerberuswindow->subscribeEvent(CEGUI::DefaultWindow::EventMouseButtonUp,
 		//							 CEGUI::Event::Subscriber(&CShop::createCerberus, this)
 		//							 );
-		cerberuswindow->getChild("Cerberus/btnCerberus")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+		cerberuswindow->getChild("Cerberus/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
 									 CEGUI::Event::Subscriber(&CShop::createCerberus, this)
 									 );
 
-		minotaurowindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "minotauro.layout" );
-		_criaturesWindow->addChildWindow(minotaurowindow);
-		minotaurowindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,130.0f) ) );
-		minotaurowindow->setInheritsAlpha(false);
-
+		posicionVertical+=60.0f;
+		ciclopewindow = CEGUI::WindowManager::getSingleton().loadWindowLayout( "ciclope.layout" );
+		_alliesWindow->addChildWindow(ciclopewindow);
+		ciclopewindow->setPosition( CEGUI::UVector2( CEGUI::UDim(0,10.0f), CEGUI::UDim(0,posicionVertical) ) );
+		ciclopewindow->setInheritsAlpha(false);
+		//ciclopewindow->subscribeEvent(CEGUI::DefaultWindow::EventMouseButtonUp,
+		//							 CEGUI::Event::Subscriber(&CShop::createCiclope, this)
+		//							 );
+		ciclopewindow->getChild("Ciclope/btn")->subscribeEvent(CEGUI::ButtonBase::EventMouseButtonUp,
+									 CEGUI::Event::Subscriber(&CShop::createCiclope, this)
+									 );
 
 
 		//COMBOS
 		/*_comboWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Shop/TabControl/Combos");*/
-
-
-
 		//GRADOS
 		//grados = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root/Grados");
 
@@ -252,7 +394,7 @@ namespace Logic
 
 		_time += msecs;
 
-		//se recupera la informacion de Logic::CGameStatus cada medio segundo para actualizar el HUD
+		//se recupera la informacion de Logic::CGameStatus cada medio segundo para actualizar la tienda
 		if(_time >= 500)
 		{
 			_time = 0;
@@ -282,6 +424,46 @@ namespace Logic
 		return true;
 	}
 
+
+	//---------------------------------------------------------
+	
+
+	bool CShop::activateControl()
+	{
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showShop");
+
+		//PT para limitar el uso del raton en la ventana de la tienda del Olimpo
+		//CEGUI::MouseCursor::getSingletonPtr()->setConstraintArea(&_area);	
+
+		// HACK FRS Windowed? -> Desactivar el cursor de CEGUI y superponer el de WIN32
+		#if _WIN32	
+				if(BaseSubsystems::CServer::getSingletonPtr()->isWindowedMode() )
+					//CEGUI::MouseCursor::getSingletonPtr()->setVisible(false); //FER
+					CEGUI::MouseCursor::getSingletonPtr()->hide();				//PT
+		#endif
+
+		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
+		GUI::CServer::getSingletonPtr()->getCameraController()->deactivate();
+
+		return true;
+	}
+    //---------------------------------------------------------
+
+	void CShop::deactivateControl()
+	{
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideShop");
+
+		GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
+		GUI::CServer::getSingletonPtr()->getCameraController()->activate();
+
+	}
+
+	//---------------------------------------------------------
+
+
+
+	//---------------------------------------------------------
+	//-------- FUNCTIONS HANDLED BY ALLIES ICONS  -------------
     //---------------------------------------------------------
 
 	void CShop::createAlly(const std::string &type, const unsigned int cost)
@@ -338,6 +520,55 @@ namespace Logic
 	}
     //---------------------------------------------------------
 
+
+	bool CShop::createGorgona(const CEGUI::EventArgs&e)
+	{
+
+		const CEGUI::MouseEventArgs& args = reinterpret_cast<const CEGUI::MouseEventArgs&>(e);
+		if (args.button == CEGUI::LeftButton)
+		{
+			createAlly("Medusa", 300);
+			return true;
+		}
+		return false;
+	}
+
+	bool CShop::createHelenaTroya(const CEGUI::EventArgs&e)
+	{
+
+		const CEGUI::MouseEventArgs& args = reinterpret_cast<const CEGUI::MouseEventArgs&>(e);
+		if (args.button == CEGUI::LeftButton)
+		{
+			createAlly("Medusa", 300);
+			return true;
+		}
+		return false;
+	}
+
+	bool CShop::createCentauro(const CEGUI::EventArgs&e)
+	{
+
+		const CEGUI::MouseEventArgs& args = reinterpret_cast<const CEGUI::MouseEventArgs&>(e);
+		if (args.button == CEGUI::LeftButton)
+		{
+			createAlly("Medusa", 300);
+			return true;
+		}
+		return false;
+	}
+
+	bool CShop::createMinotauro(const CEGUI::EventArgs&e)
+	{
+
+		const CEGUI::MouseEventArgs& args = reinterpret_cast<const CEGUI::MouseEventArgs&>(e);
+		if (args.button == CEGUI::LeftButton)
+		{
+			createAlly("Medusa", 300);
+			return true;
+		}
+		return false;
+	}
+
 	bool CShop::createCerberus(const CEGUI::EventArgs&e)
 	{
 
@@ -350,9 +581,9 @@ namespace Logic
 		return false;
 	}
 
-    //---------------------------------------------------------
 
-	bool CShop::createMedusa(const CEGUI::EventArgs&e)
+
+	bool CShop::createCiclope(const CEGUI::EventArgs&e)
 	{
 
 		const CEGUI::MouseEventArgs& args = reinterpret_cast<const CEGUI::MouseEventArgs&>(e);
@@ -363,38 +594,72 @@ namespace Logic
 		}
 		return false;
 	}
+
+
 	//---------------------------------------------------------
-	
-
-	bool CShop::activateControl()
-	{
-		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showShop");
-
-		//PT para limitar el uso del raton en la ventana de la tienda del Olimpo
-		//CEGUI::MouseCursor::getSingletonPtr()->setConstraintArea(&_area);	
-
-		// HACK FRS Windowed? -> Desactivar el cursor de CEGUI y superponer el de WIN32
-		#if _WIN32	
-				if(BaseSubsystems::CServer::getSingletonPtr()->isWindowedMode() )
-					//CEGUI::MouseCursor::getSingletonPtr()->setVisible(false); //FER
-					CEGUI::MouseCursor::getSingletonPtr()->hide();				//PT
-		#endif
-
-		GUI::CServer::getSingletonPtr()->getPlayerController()->deactivate();
-		GUI::CServer::getSingletonPtr()->getCameraController()->deactivate();
-
-		return true;
-	}
+	//-------- FUNCTIONS HANDLED BY UPGRADES ICONS  -----------
     //---------------------------------------------------------
 
-	void CShop::deactivateControl()
+	bool CShop::activateThirdCombo(const CEGUI::EventArgs&e)
 	{
-		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideShop");
-
-		GUI::CServer::getSingletonPtr()->getPlayerController()->activate();
-		GUI::CServer::getSingletonPtr()->getCameraController()->activate();
-
+		return true;
 	}
+
+	bool CShop::rezoHades(const CEGUI::EventArgs&e)
+	{
+		return true;
+	}
+
+	bool CShop::rezoTique(const CEGUI::EventArgs&e)
+	{
+		return true;
+	}
+
+	bool CShop::rezoArtemisa(const CEGUI::EventArgs&e)
+	{
+		return true;
+	}
+
+	bool CShop::rezoZeus(const CEGUI::EventArgs&e)
+	{
+		return true;
+	}
+
+	bool CShop::rezoCronos(const CEGUI::EventArgs&e)
+	{
+		return true;
+	}
+
+	bool CShop::rezoAres(const CEGUI::EventArgs&e)
+	{
+		return true;
+	}
+
+	bool CShop::rezoAtenea(const CEGUI::EventArgs&e)
+	{
+		return true;
+	}
+
+	bool CShop::fortalecerBase(const CEGUI::EventArgs&e)
+	{
+		return true;
+	}
+
+	bool CShop::debilitarBases(const CEGUI::EventArgs&e)
+	{
+		return true;
+	}
+
+	bool CShop::sacrificio(const CEGUI::EventArgs&e)
+	{
+		return true;
+	}
+
+	bool CShop::sacrificioDefinitivo(const CEGUI::EventArgs&e)
+	{
+		return true;
+	}
+
 
 
 } // namespace Logic

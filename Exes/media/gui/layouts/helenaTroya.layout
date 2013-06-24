@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<GUILayout>
+
+<Window Type="DefaultWindow" Name="HelenaTroya">
+	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,50}}" />
+	<!-- <Property Name="FrameEnabled" Value="False" /> -->
+
+	<Window Type="TaharezLook/ImageButton" Name="HelenaTroya/btn">
+		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
+		<Property Name="UnifiedSize" Value="{{0,70},{0,50}}" />
+		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,70},{0,50}}" />
+
+		<Property Name="NormalImage"     Value="set:ShopIcons image:helenatroyaNormal" />
+		<Property Name="HoverImage"      Value="set:ShopIcons image:helenatroyaHover"  />
+		<Property Name="PushedImage"     Value="set:ShopIcons image:helenatroyaPushed" />
+		<Property Name="DisabledImage"   Value="set:ShopIcons image:helenatroyaDisabl" />
+		
+		<Property Name="Tooltip" Value="HelenaTroya tooltip" />
+		
+	</Window>
+
+	<Window Type="OgreTray/TitlePMInShop" Name="HelenaTroya/cost">
+		<!-- <Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" /> -->
+		<Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" />
+		<Property Name="Text" Value="300" />
+		<Property Name="AlwaysOnTop" Value="True" />
+		<Property Name="Font" Value="DejaVuSans-6bold" />	
+	</Window>
+</Window>
+
+</GUILayout>

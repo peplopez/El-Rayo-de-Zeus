@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<GUILayout>
+
+ <!-- <Window Type="DefaultWindow" Name="rezoArtemisa" > -->
+ <Window Type="OgreTray/StaticImageItem" Name="rezoArtemisa" >
+     <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,44}}" /> <!-- todo el ancho, alto 44px -->
+	 <Property Name="Image" Value="set:FondoItem image:fondo" />
+	 <Property Name="FrameEnabled" Value="True" />
+	 <Property Name="BackgroundEnabled" Value="False" />	 
+	 		
+	<Window Type="TaharezLook/ImageButton" Name="rezoArtemisa/btn">
+		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0,45},{0,40}}" />
+		<Property Name="UnifiedPosition" Value="{{0,0},{0,4}}" />
+		<Property Name="UnifiedSize" Value="{{0,40},{0,40}}" />
+		
+		<!-- Here we choose what images to take. set:THEButton means they are stored -->
+		<!-- in the imageset named THEButton and image:btnNormal specifies wich image it is. -->
+		<Property Name="NormalImage"     Value="set:ShopIcons image:rezoArtemisaNormal" />
+		<Property Name="HoverImage"      Value="set:ShopIcons image:rezoArtemisaHover"  />
+		<Property Name="PushedImage"     Value="set:ShopIcons image:rezoArtemisaPushed" />
+		<Property Name="DisabledImage"   Value="set:ShopIcons image:rezoArtemisaDisabl" />
+		
+	</Window>
+
+	<Window Type="OgreTray/TitleInShop" Name="rezoArtemisa/description">
+		<Property Name="UnifiedAreaRect" Value="{{0,46},{0,0},{0,146},{0,44}}" />
+		<Property Name="Text" Value="Rezo Artemisa" />
+		<Property Name="AlwaysOnTop" Value="True" />
+		<Property Name="Font" Value="DejaVuSans-6bold" />	
+		<Property Name="Tooltip" >
+			Es un 50% mas barato invocar criaturas.
+		</Property>
+	
+	</Window>
+
+	<Window Type="OgreTray/TitlePMInShop" Name="rezoArtemisa/cost">
+		<Property Name="UnifiedAreaRect" Value="{{0,151},{0,0},{0,185},{0,44}}" />
+		<Property Name="Text" Value="300" />
+		<Property Name="AlwaysOnTop" Value="True" />
+		<Property Name="Font" Value="DejaVuSans-6bold" />	
+	</Window>
+
+
+</Window>
+
+</GUILayout>

@@ -61,8 +61,11 @@ namespace Logic
 		/**
 		Constructor por defecto; en la clase base no hace nada.
 		*/
-		CShop() : IComponent(GetAltTypeIdOf(CShop)), _time(0), numBase(0), _winShop(0), _itemsWindow(0), _criaturesWindow(0), 
-		item1window(0), item2window(0), item3window(0), medusawindow(0), cerberuswindow(0), minotaurowindow(0) { }
+		CShop() : IComponent(GetAltTypeIdOf(CShop)), _time(0), numBase(0), _winShop(0), _upgradesWindow(0), _alliesWindow(0), 
+		tercerComboWindow(0), rezoHadesWindow(0), rezoTiqueWindow(0), rezoArtemisaWindow(0), rezoZeusWindow(0), 
+		rezoCronosWindow(0), rezoAresWindow(0), rezoAteneaWindow(0), fortalecerBaseWindow(0), debilitarBasesWindow(0),
+		sacrificioWindow(0), sacrificioDefinitivoWindow(0),
+		gorgonawindow(0), helenatroyawindow(0), centaurowindow(0), minotaurowindow(0), cerberuswindow(0), ciclopewindow(0) { }
 		
 		/** Destructor */
 		CShop::~CShop();
@@ -100,16 +103,34 @@ namespace Logic
 		void displayShop();
 
 		bool handleClose(const CEGUI::EventArgs&e);
+		
+		void deactivateControl();
 
-		void createAlly(const std::string &type, const unsigned int cost);
+		bool activateControl();
+
 
 		//Functions for create allies
+		void createAlly(const std::string &type, const unsigned int cost);
+		bool createGorgona(const CEGUI::EventArgs&e);
+		bool createHelenaTroya(const CEGUI::EventArgs&e);
+		bool createCentauro(const CEGUI::EventArgs&e);
+		bool createMinotauro(const CEGUI::EventArgs&e);
 		bool createCerberus(const CEGUI::EventArgs&e);
-		bool createMedusa(const CEGUI::EventArgs&e);
+		bool createCiclope(const CEGUI::EventArgs&e);
 
-		void deactivateControl();
-		bool activateControl();
-		
+		//Functions for upgrades
+		bool activateThirdCombo(const CEGUI::EventArgs&e);
+		bool rezoHades(const CEGUI::EventArgs&e);
+		bool rezoTique(const CEGUI::EventArgs&e);
+		bool rezoArtemisa(const CEGUI::EventArgs&e);
+		bool rezoZeus(const CEGUI::EventArgs&e);
+		bool rezoCronos(const CEGUI::EventArgs&e);
+		bool rezoAres(const CEGUI::EventArgs&e);
+		bool rezoAtenea(const CEGUI::EventArgs&e);
+		bool fortalecerBase(const CEGUI::EventArgs&e);
+		bool debilitarBases(const CEGUI::EventArgs&e);
+		bool sacrificio(const CEGUI::EventArgs&e);
+		bool sacrificioDefinitivo(const CEGUI::EventArgs&e);
 
 	protected:
 
@@ -128,19 +149,32 @@ namespace Logic
 		//area for limiting mouse movements
 		CEGUI::Rect _area;
 
+		//MAIN SHOP WINDOW and TAB WINDOWS INSIDE
 		CEGUI::FrameWindow* _winShop;
+		CEGUI::Window* _upgradesWindow;
+		CEGUI::Window* _alliesWindow;
 
-		CEGUI::Window* _itemsWindow;
-		CEGUI::Window* _criaturesWindow;
-		/*CEGUI::Window* _comboWindow;*/
+		//UPGRADES
+		CEGUI::Window* tercerComboWindow;
+		CEGUI::Window* rezoHadesWindow;
+		CEGUI::Window* rezoTiqueWindow;
+		CEGUI::Window* rezoArtemisaWindow;
+		CEGUI::Window* rezoZeusWindow;
+		CEGUI::Window* rezoCronosWindow;
+		CEGUI::Window* rezoAresWindow;
+		CEGUI::Window* rezoAteneaWindow;
+		CEGUI::Window* fortalecerBaseWindow;
+		CEGUI::Window* debilitarBasesWindow;
+		CEGUI::Window* sacrificioWindow;
+		CEGUI::Window* sacrificioDefinitivoWindow;
 
-		CEGUI::Window* item1window;
-		CEGUI::Window* item2window;
-		CEGUI::Window* item3window;
-
-		CEGUI::Window* medusawindow;
-		CEGUI::Window* cerberuswindow;
+		//ALLIES AND CRIATURES
+		CEGUI::Window* gorgonawindow;
+		CEGUI::Window* helenatroyawindow;
+		CEGUI::Window* centaurowindow;
 		CEGUI::Window* minotaurowindow;
+		CEGUI::Window* cerberuswindow;
+		CEGUI::Window* ciclopewindow;
 
 		//CEGUI::Window* grados;
 		//std::ostringstream gradosstr;

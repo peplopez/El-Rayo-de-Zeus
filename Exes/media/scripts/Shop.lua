@@ -20,6 +20,7 @@ function initShop()
 		upgrades = GUI.Windows:getWindow("Root/Shop/TabControl/Upgrades")
 		allies = GUI.Windows:getWindow("Root/Shop/TabControl/Allies")
 		
+		pmTitleShop = GUI.Windows:getWindow("Root/Shop/TitlePM")
 		pmShop = GUI.Windows:getWindow("Root/Shop/PM")
 		
 		--descriptionItem = GUI.Windows:getWindow("Root/Shop/TabControl/Upgrades/Item1/Description")
@@ -88,15 +89,18 @@ end
 
 function reloadShop()
 	if shop ~= nil then
-		--shop:setProperty("UnifiedAreaRect","{{0.727354,0},{0.00944353,0},{0.997086,0},{0.982883,0}}")
-		shop:setProperty("UnifiedAreaRect","{{0,-200},{0,10},{0,-600},{0.98,0}}")
+		shop:setProperty("UnifiedAreaRect","{{0.727354,0},{0,0},{0.997086,0},{1,0}}")
+		--shop:setProperty("UnifiedAreaRect","{{0,-200},{0,10},{0,-600},{0.98,0}}")
 		--descriptionItem:setProperty("Font","DejaVuSans-6bold")
 		--costItem:setProperty("Font","DejaVuSans-6bold")
 		
 		--pestanas:setProperty("UnifiedAreaRect","{{0.0242733,0},{-0.00190571,0},{1.00578,0},{0.882612,0}}")
-		pestanas:setProperty("UnifiedAreaRect","{{0.01,0},{0,0},{0.99,0},{0.9,0}}")
-		upgrades:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0.99,0},{0.8,0}}")
-		allies:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0.99,0},{0.8,0}}")
+		pestanas:setProperty("UnifiedAreaRect","{{0.01,0},{0,0},{0.99,0},{0.955,0}}")
+		upgrades:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0.99,0},{1,0}}")
+		allies:setProperty("UnifiedAreaRect","{{0,0},{0,0},{0.99,0},{1,0}}")
+		
+		pmTitleShop:setProperty("UnifiedAreaRect","{{0,5},{0.95,0},{0,65},{1,0}}")
+		pmShop:setProperty("UnifiedAreaRect","{{0,70},{0.95,0},{0.98,0},{1,0}}")
 		
 		--TitlePuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0,105},{0.5,0},{0,150},{0.7,0}}")
 		--PuntosMeritoWindow:setProperty("UnifiedAreaRect","{{0,150},{0.5,0},{0,210},{0.7,0}}")

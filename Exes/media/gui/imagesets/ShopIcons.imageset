@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="ShopIcons" Imagefile="iconStore.png" >
+
+    <!-- ALIADOS -->
+	<Image Name="gorgonaNormal" XPos="1" YPos="900"  Width="210" Height="150" />
+	<Image Name="gorgonaHover"  XPos="230" YPos="900"  Width="210" Height="150" />
+	<Image Name="gorgonaPushed" XPos="459" YPos="900"  Width="210" Height="150" />
+	<Image Name="gorgonaDisabl" XPos="688" YPos="900"  Width="210" Height="150" />
+	
+	<Image Name="helenatroyaNormal" XPos="1" YPos="1080"  Width="210" Height="150" />
+	<Image Name="helenatroyaHover"  XPos="230" YPos="1080"  Width="210" Height="150" />
+	<Image Name="helenatroyaPushed" XPos="459" YPos="1080"  Width="210" Height="150" />
+	<Image Name="helenatroyaDisabl" XPos="688" YPos="1080"  Width="210" Height="150" />	
+	
+	<Image Name="centauroNormal" XPos="1" YPos="360"  Width="210" Height="150" />
+	<Image Name="centauroHover"  XPos="230" YPos="360"  Width="210" Height="150" />
+	<Image Name="centauroPushed" XPos="459" YPos="360"  Width="210" Height="150" />
+	<Image Name="centauroDisabl" XPos="688" YPos="360"  Width="210" Height="150" />	
+	
+	<Image Name="minotauroNormal" XPos="0" YPos="1260"  Width="210" Height="150" />
+	<Image Name="minotauroHover"  XPos="230" YPos="1260"  Width="210" Height="150" />
+	<Image Name="minotauroPushed" XPos="459" YPos="1260"  Width="210" Height="150" />
+	<Image Name="minotauroDisabl" XPos="688" YPos="1260"  Width="210" Height="150" />		
+
+	<Image Name="cerberusNormal" XPos="1" YPos="540"  Width="210" Height="150" />
+	<Image Name="cerberusHover"  XPos="230" YPos="540"  Width="210" Height="150" />
+	<Image Name="cerberusPushed" XPos="459" YPos="540"  Width="210" Height="150" />
+	<Image Name="cerberusDisabl" XPos="688" YPos="540"  Width="210" Height="150" />
+	
+	<Image Name="ciclopeNormal" XPos="1" YPos="720"  Width="210" Height="150" />
+	<Image Name="ciclopeHover"  XPos="230" YPos="720"  Width="210" Height="150" />
+	<Image Name="ciclopePushed" XPos="459" YPos="720"  Width="210" Height="150" />
+	<Image Name="ciclopeDisabl" XPos="688" YPos="720"  Width="210" Height="150" />	
+	
+	
+	<!-- UPGRADES -->	
+	<Image Name="tercerComboNormal" XPos="0" YPos="2373"  Width="63" Height="63" />
+	<Image Name="tercerComboHover"  XPos="75" YPos="2373"  Width="63" Height="63" />
+	<Image Name="tercerComboPushed" XPos="150" YPos="2373"  Width="63" Height="63" />
+	<Image Name="tercerComboDisabl" XPos="225" YPos="2373"  Width="63" Height="63" />
+	
+	<Image Name="rezoHadesNormal" XPos="0" YPos="1425"  Width="63" Height="63" />
+	<Image Name="rezoHadesHover"  XPos="75" YPos="1425"  Width="63" Height="63" />
+	<Image Name="rezoHadesPushed" XPos="150" YPos="1425"  Width="63" Height="63" />
+	<Image Name="rezoHadesDisabl" XPos="225" YPos="1425"  Width="63" Height="63" />
+
+	<Image Name="rezoTiqueNormal" XPos="0" YPos="1504"  Width="63" Height="63" />
+	<Image Name="rezoTiqueHover"  XPos="75" YPos="1504"  Width="63" Height="63" />
+	<Image Name="rezoTiquePushed" XPos="150" YPos="1504"  Width="63" Height="63" />
+	<Image Name="rezoTiqueDisabl" XPos="225" YPos="1504"  Width="63" Height="63" />
+	
+	<Image Name="rezoArtemisaNormal" XPos="0" YPos="1583"  Width="63" Height="63" />
+	<Image Name="rezoArtemisaHover"  XPos="75" YPos="1583"  Width="63" Height="63" />
+	<Image Name="rezoArtemisaPushed" XPos="150" YPos="1583"  Width="63" Height="63" />
+	<Image Name="rezoArtemisaDisabl" XPos="225" YPos="1583"  Width="63" Height="63" />
+
+	<Image Name="rezoZeusNormal" XPos="0" YPos="1662"  Width="63" Height="63" />
+	<Image Name="rezoZeusHover"  XPos="75" YPos="1662"  Width="63" Height="63" />
+	<Image Name="rezoZeusPushed" XPos="150" YPos="1662"  Width="63" Height="63" />
+	<Image Name="rezoZeusDisabl" XPos="225" YPos="1662"  Width="63" Height="63" />
+	
+	<Image Name="rezoCronosNormal" XPos="0" YPos="1741"  Width="63" Height="63" />
+	<Image Name="rezoCronosHover"  XPos="75" YPos="1741"  Width="63" Height="63" />
+	<Image Name="rezoCronosPushed" XPos="150" YPos="1741"  Width="63" Height="63" />
+	<Image Name="rezoCronosDisabl" XPos="225" YPos="1741"  Width="63" Height="63" />
+
+	<Image Name="rezoAresNormal" XPos="0" YPos="1820"  Width="63" Height="63" />
+	<Image Name="rezoAresHover"  XPos="75" YPos="1820"  Width="63" Height="63" />
+	<Image Name="rezoAresPushed" XPos="150" YPos="1820"  Width="63" Height="63" />
+	<Image Name="rezoAresDisabl" XPos="225" YPos="1820"  Width="63" Height="63" />
+	
+	<Image Name="rezoAteneaNormal" XPos="0" YPos="1899"  Width="63" Height="63" />
+	<Image Name="rezoAteneaHover"  XPos="75" YPos="1899"  Width="63" Height="63" />
+	<Image Name="rezoAteneaPushed" XPos="150" YPos="1899"  Width="63" Height="63" />
+	<Image Name="rezoAteneaDisabl" XPos="225" YPos="1899"  Width="63" Height="63" />
+	
+	<Image Name="fortalecerBaseNormal" XPos="0" YPos="1978"  Width="63" Height="63" />
+	<Image Name="fortalecerBaseHover"  XPos="75" YPos="1978"  Width="63" Height="63" />
+	<Image Name="fortalecerBasePushed" XPos="150" YPos="1978"  Width="63" Height="63" />
+	<Image Name="fortalecerBaseDisabl" XPos="225" YPos="1978"  Width="63" Height="63" />
+
+	<Image Name="debilitarBasesNormal" XPos="0" YPos="2057"  Width="63" Height="63" />
+	<Image Name="debilitarBasesHover"  XPos="75" YPos="2057"  Width="63" Height="63" />
+	<Image Name="debilitarBasesPushed" XPos="150" YPos="2057"  Width="63" Height="63" />
+	<Image Name="debilitarBasesDisabl" XPos="225" YPos="2057"  Width="63" Height="63" />
+	
+	<Image Name="sacrificioNormal" XPos="0" YPos="2136"  Width="63" Height="63" />
+	<Image Name="sacrificioHover"  XPos="75" YPos="2136"  Width="63" Height="63" />
+	<Image Name="sacrificioPushed" XPos="150" YPos="2136"  Width="63" Height="63" />
+	<Image Name="sacrificioDisabl" XPos="225" YPos="2136"  Width="63" Height="63" />
+
+	<Image Name="sacrificioDefinitivoNormal" XPos="0" YPos="2215"  Width="63" Height="63" />
+	<Image Name="sacrificioDefinitivoHover"  XPos="75" YPos="2215"  Width="63" Height="63" />
+	<Image Name="sacrificioDefinitivoPushed" XPos="150" YPos="2215"  Width="63" Height="63" />
+	<Image Name="sacrificioDefinitivoDisabl" XPos="225" YPos="2215"  Width="63" Height="63" />
+
+
+</Imageset>
