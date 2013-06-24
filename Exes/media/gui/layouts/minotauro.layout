@@ -24,7 +24,8 @@
 	</Window>
 	
 	<Window Type="OgreTray/TitleInShop" Name="Minotauro/description">
-		<Property Name="UnifiedAreaRect" Value="{{0,76},{0,0},{0,160},{0,50}}" />
+		<!-- <Property Name="UnifiedAreaRect" Value="{{0,76},{0,0},{0,160},{0,50}}" /> -->
+		<Property Name="UnifiedAreaRect" Value="{{0,76},{0,0},{0.8,0},{0,50}}" />
 		<Property Name="Text" Value="Minotauro" />
 		<Property Name="AlwaysOnTop" Value="True" />
 		<Property Name="Font" Value="DejaVuSans-6bold" />	
@@ -37,7 +38,8 @@
 	</Window>	
 	
 	<Window Type="OgreTray/TitlePMInShop" Name="Minotauro/cost">
-		<Property Name="UnifiedAreaRect" Value="{{0,165},{0,0},{0,185},{0,50}}" />
+		<!-- <Property Name="UnifiedAreaRect" Value="{{0,165},{0,0},{0,185},{0,50}}" /> -->
+		<Property Name="UnifiedAreaRect" Value="{{0.82,0},{0,0},{0.95,0},{0,50}}" />
 		<Property Name="Text" Value="500" />
 		<Property Name="AlwaysOnTop" Value="True" />
 		<Property Name="Font" Value="DejaVuSans-6bold" />	
