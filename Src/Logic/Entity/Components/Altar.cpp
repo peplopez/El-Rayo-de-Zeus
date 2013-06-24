@@ -86,11 +86,17 @@ namespace Logic
 		if (_on)
 		{
 			LOG(_entity->getName() << ": activado")
-			CMessageUIntString *m = new CMessageUIntString();	
-			m->setType(Message::SET_SUBENTITY_MATERIAL);
-			m->setString(_activatedMaterial);
-			m->setUInt(0);
-			_entity->emitMessage(m,this);
+				CMessageUIntString *m = new CMessageUIntString();	
+				m->setType(Message::SET_SUBENTITY_MATERIAL);
+				m->setString(_activatedMaterial);
+				m->setUInt(0);
+				_entity->emitMessage(m,this);
+
+			CMessage *txMsg = new CMessage();	
+				txMsg->setType(Message::FX_START);		
+				_entity->emitMessage(txMsg,this);
+
+
 			_gameStatus->getPlayer(_entity->getLogicalPosition()->getBase())->increaseAltarsActivated();
 		}
 		else 
