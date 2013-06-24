@@ -84,10 +84,16 @@ namespace Logic
 		{
 			LOG(_entity->getName() << ": activado")
  			CMessageFloatUShort *m = new CMessageFloatUShort();	
-			m->setType(Message::SET_ANIMATION_WITH_PAUSE);
-			m->setUShort(Logic::AnimationName::SWITCH_ALTAR);
-			m->setFloat(1.5f);
-			_entity->emitMessage(m,this);
+				m->setType(Message::SET_ANIMATION_WITH_PAUSE);
+				m->setUShort(Logic::AnimationName::SWITCH_ALTAR);
+				m->setFloat(1.5f);
+				_entity->emitMessage(m,this);
+			
+
+			CMessage *txMsg = new CMessage();	
+				txMsg->setType(Message::FX_START);		
+				_entity->emitMessage(txMsg,this);
+
 			_gameStatus->getPlayer(_entity->getLogicalPosition()->getBase())->increaseAltarsActivated();
 		}
 
