@@ -123,7 +123,7 @@ namespace Graphics
 		*/
 		CAnimatedEntity(const std::string &name, const std::string &mesh):
 					CEntity(name,mesh), _currentAnimation(0), _currentAnimationName(""), _activeEventChain(0), _rewinding(false), _paused(false), 
-						_pauseRequested(false), _timeToPause(0), _secsPaused(0), _maxSecs(-1), _index(0) {}
+						_pauseRequested(false), _timeToPause(0), _index(0) {}
 
 		/**
 		Activa una animación a partir de su nombre.
@@ -162,11 +162,10 @@ namespace Graphics
 		void rewind(const std::string &anim,const bool moment)	{_rewinding=true;} 
 
 		void setAnimationTime(float moment);
+		
 		void pauseAnimation(float moment);
-		void pauseAnimationXsecs(float moment, float secs);	
-		void pauseAnimationXsecs(float secs);	
-
 		void resumeAnimation();
+
 		void rewindAnimation();
 
 		
@@ -210,10 +209,6 @@ namespace Graphics
 		bool _paused;
 
 		float _timeToPause;
-		
-		float _secsPaused;
-
-		float _maxSecs;
 
 		std::vector<std::pair<unsigned short,float>>* _activeEventChain;
 

@@ -38,9 +38,10 @@ namespace Graphics
 		/**
 		Constructor de la clase.		
 		*/		
-		// TODO FRS parametrizar o hacer enum de hfx
-		CParticleSystem(const std::string& hfx, const std::string& parentName, const Vector3& relativePos = Vector3::ZERO);
-		
+		CParticleSystem(const std::string& hfx, const std::string& parentName, bool isLooped = false,
+			const Vector3& relativePos = Vector3::ZERO, 
+			const Vector3& lightDiffuse = Vector3::ZERO, const Vector3& lightSpecular = Vector3::ZERO);
+
 
 		/*****************
 			GET's & SET'S
@@ -59,15 +60,29 @@ namespace Graphics
 
 		//-------- SceneElement implementation --------------
 		bool				load(); 
-		void				unload();
+		void				unload();	
+		void				tick(float secs);
+	
 
 
 		/*********************
 			HELL HEAVENS FX		
-		**********************/		
-		Ogre::NameValuePairList _hhfxParams; // effect's params
+		**********************/				
+		
 		IHHFXOgre*				_movObj;	// Sistema de particulas (movable object)		
 		IHHFXScene*				_hhfxScene; // HHFX Scene
+		std::string				_hfx;
+		Ogre::NameValuePairList _hhfxParams; // effect's params
+
+		//------------------ FX LIGHT --------------------------------
+		Ogre::Light*			_fxLight; // luz asociada al fx (si corresponde)
+		Vector3					_lightDiffuse;
+		Vector3					_lightSpecular;
+		
+		//----------------- LOOPING -----------------------
+		bool					_isLooped;
+		bool					_isLooping; // _isLooped + started (!stopped)
+		bool					_loopRestart;	
 	
 		//--------- IHHFX::IFXListener implementation -------------------
 		void				OnFXStarted(IHHFX *obj);

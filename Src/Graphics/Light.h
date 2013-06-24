@@ -68,6 +68,10 @@ namespace Graphics
 		/**
 		*/
 		void setSpecularColour(float r, float g, float b);
+
+		/**
+		*/
+		void setAttenuation(float range, float constant, float linear, float cuadratic);
 		
 		/**
 		*/

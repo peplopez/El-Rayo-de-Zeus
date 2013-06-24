@@ -67,6 +67,7 @@ namespace Logic
 	protected:
 		
 		friend class CAltar;
+		friend class CAnimatedAltar;
 		/**
 			Crea los altares
 		*/

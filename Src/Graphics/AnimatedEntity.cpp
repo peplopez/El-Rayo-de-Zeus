@@ -51,7 +51,6 @@ namespace Graphics
 	{
 		assert(_entity && "La entidad no ha sido cargada en la escena");
 		_paused = false;
-		_secsPaused = 0.0f;
 		_activeEventChain = eventChain;	
 		_index = 0;
 		if(!_entity->getAllAnimationStates()->hasAnimationState(anim))
@@ -105,46 +104,17 @@ namespace Graphics
 		assert(_entity  && "La entidad no ha sido cargada en la escena");
 
 		_pauseRequested = true;
-		_maxSecs = -1.0f;
-		_secsPaused = 0.0f;
 		_timeToPause = moment;
 
 	} //
-
-	//--------------------------------------------------------
-
-	void CAnimatedEntity::pauseAnimationXsecs(float moment, float secs)
-	{
-		assert(_entity  && "La entidad no ha sido cargada en la escena");
-
-		_pauseRequested = true;
-		_maxSecs = secs;
-		_secsPaused = 0.0f;
-		_timeToPause = moment;
-	}
-
-	//--------------------------------------------------------
-
-	void CAnimatedEntity::pauseAnimationXsecs(float secs)
-	{
-		assert(_entity  && "La entidad no ha sido cargada en la escena");
-
-		_paused = true;
-		_maxSecs = secs;
-		_secsPaused = 0.0f;
-		_timeToPause = 0;
-	}
 
 	//--------------------------------------------------------
 	
 	void CAnimatedEntity::resumeAnimation()
 	{
 		if (_paused)
-		{
 			_paused = false;
-			_secsPaused = 0.0f;
-			_maxSecs = 0.0f;
-		}
+
 	}
 
 	//--------------------------------------------------------
@@ -170,6 +140,7 @@ namespace Graphics
 
 			// Si había animación activa ya no lo está.
 			_currentAnimation = 0;
+
 		}
 
 	} // stopAllAnimations
@@ -186,16 +157,14 @@ namespace Graphics
 				if (_currentAnimation->getTimePosition() + secs >= _timeToPause)
 				{
 					_currentAnimation->setTimePosition(_timeToPause);
-					_secsPaused = _currentAnimation->getTimePosition() + secs - _timeToPause;
 					_paused = true;
 					_pauseRequested = false;
-
 				}
 
 			if (_rewinding)
 			{
 				_currentAnimation->addTime(-secs);
-				if (_currentAnimation->getTimePosition()<=0)
+				if (_currentAnimation->getTimePosition() <= 0)
 				{
 					_observer->animationFinished(std::pair<unsigned short,float>(0,0)); //correspondiente a ANIMATION_END
 					_rewinding=false;
@@ -203,23 +172,11 @@ namespace Graphics
 			}	
 			else
 			{
-				if (_paused)
-				{
-					_secsPaused += secs;
-					if (_maxSecs > 0.0f && _secsPaused > _maxSecs)
-					{
-						_currentAnimation->addTime(_secsPaused - _maxSecs);
-						_paused = false;
-					}
-
-				}
-				else
+				if (!_paused)
 					_currentAnimation->addTime(secs);
 			}
-			
-
-			
-			if (_activeEventChain!=NULL)
+				
+			if (_activeEventChain != NULL)
 			{
 				if(_observer && !_activeEventChain->empty())
 				{

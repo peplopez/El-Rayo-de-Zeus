@@ -18,13 +18,14 @@ Map ={
 		type = "BaseCamera1",
 	},
 	
-	pointLight1 = {
-		type = "PointLight",
-		position = {0, 100, 0},
+	Light1 = {
+		type = "WhitePLight",
+		position = {-100, 120, 0},
 	},
 	
-	pointLight2 = {
-		type = "PointLight",
+	
+	Light2 = {
+		type = "WhitePLight",
 		position = {100, 20, 0},
 	},	
 			
@@ -56,28 +57,6 @@ Map ={
 		degrees=180,
 	},
 		
-	medusa1 = {
-		type = "Medusa",
-		base=1,
-		ring=1,
-		degrees=300,		
-	},	
-	
-	peludo9 = {
-		type = "Cancerbero",
-		base=1,
-		ring=1,
-		degrees=80,		
-	},
-
-	peluda23 = {
-		type = "Cancerbero",
-		base=1,
-		ring=2,
-		degrees=70,		
-	},	
-	
-
 	LowerRing = {
 		type = "World",
 		base=1,
@@ -115,14 +94,14 @@ Map ={
 	},
 	
 	Altar1 = {
-		type = "AltarRed",
+		type = "AltarZeus",
 		degrees=30,
 		ring=0,
 		base=1,		
 	},
 	
 	Altar2 = {
-		type = "AltarRed",
+		type = "AltarZeus",
 		degrees=150,
 		ring=0,
 		base=1,	
@@ -130,63 +109,63 @@ Map ={
 	},
 	
 	Altar3 = {
-		type = "AltarRed",
+		type = "AltarZeus",
 		degrees=270,
 		ring=0,
 		base=1,
 	},
 	
 	Altar4 = {
-		type = "AltarRed",
+		type = "AltarZeus",
 		degrees=6,
 		ring=1,
 		base=1,	
 	},
 	
 	Altar5 = {
-		type = "AltarRed",
+		type = "AltarZeus",
 		degrees=78,
 		ring=1,
 		base=1,
 	},
 	
 	Altar6 = {
-		type = "AltarRed",
+		type = "AltarZeus",
 		degrees=150,
 		ring=1,
 		base=1,	
 	},
 	
 	Altar7 = {
-		type = "AltarRed",
+		type = "AltarZeus",
 		degrees=222,
 		ring=1,
 		base=1,			
 	},
 	
 	Altar8 = {
-		type = "AltarRed",
+		type = "AltarZeus",
 		degrees=294,
 		ring=1,
 		base=1,		
 	},
 	
 	Altar9 = {
-		type = "AltarRed",
+		type = "AltarZeus",
 		degrees=30,
 		ring=2,
 		base=1,		
 	},
 	
 	Altar10 = {
-		type = "AltarRed",
+		type = "AltarZeus",
 		degrees=150,
 		ring=2,
 		base=1,		
 	},
 	
 	Altar11 = {
-		type = "AltarRed",
+		type = "AltarZeus",
 		degrees=270,
 		ring=2,
 		base=1,		

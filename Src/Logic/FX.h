@@ -67,7 +67,8 @@ namespace Logic
 						map[Message::TActionType::FX_BLAST]				="Blast";
 						map[Message::TActionType::FX_BLAST_SMALL]		="Blast_Small";
 						map[Message::TActionType::FX_CIRCLES]			="Circles";
-						map[Message::TActionType::FX_ELECTRIC_ORB]		="ElectricOrb";
+						map[Message::TActionType::FX_ELECTRIC_ORB_RED]	="ElectricOrbRed";
+						map[Message::TActionType::FX_ELECTRIC_ORB_BLUE]	="ElectricOrbBlue";
 						map[Message::TActionType::FX_FLAME_THROWER]		="FlameThrower";
 						map[Message::TActionType::FX_RAIN]				="Rain";
 						map[Message::TActionType::FX_SMOKE]				="Smoke";

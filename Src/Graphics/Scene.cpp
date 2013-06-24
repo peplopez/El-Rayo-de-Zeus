@@ -135,18 +135,18 @@ namespace Graphics
 
 		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
 
-		Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
+		/*Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
 			comp->setEnabled(true);
 
 		GlowMaterialListener *gml = new GlowMaterialListener();
-		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
+		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);*/
 
 		/* PRUEBAS PEP */
-		comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
+		Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
 			comp->setEnabled(false);
 
-		comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
-			comp->setEnabled(false);
+		/*comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
+			comp->setEnabled(false);*/
 		//BWMaterialListener *bwml = new BWMaterialListener();
 		//Ogre::MaterialManager::getSingletonPtr()->addListener(bwml);
 
@@ -179,9 +179,9 @@ namespace Graphics
 	// Y en concreto, sólo implementa el tick el CAnimatedEntity : CEntity
 	void CScene::tick(float secs)
 	{	
-		TEntities::const_iterator it = _dynamicEntities.begin();
-		TEntities::const_iterator end = _dynamicEntities.end();
-		for(; it != end; it++)
+		TSceneElements::const_iterator it = _dynamicElements.begin();
+		TSceneElements::const_iterator end = _dynamicElements.end();
+		for(; it != end; ++it)
 			(*it)->tick(secs);
 
 	} // tick
@@ -192,51 +192,55 @@ namespace Graphics
 		SCENE ELEMENTS
 	************************/
 
-	//---------- GENERIC SCENE ELEMENTS (p.e. billboards, particles, etc)-----------
+	//---------- GENERIC SCENE ELEMENTS (p.e. billboards, particles, entities etc)-----------
 
-	bool CScene::add(CSceneElement* sceneElement) {		return sceneElement->attachToScene(this);	}
-	void CScene::remove(CSceneElement* sceneElement) {	sceneElement->detachFromScene();			} 
+	bool CScene::add(CSceneElement* sceneElement) {	
 
-
-	//---------- ENTITIES -------------------------
-
-	bool CScene::add(CEntity* entity)
-	{
-		if(!entity->attachToScene(this))
+		if(!sceneElement->attachToScene(this))
 			return false;
-
-		else {
-			entity->isStatic() ?
-				_staticEntities.push_back(entity) :
-				_dynamicEntities.push_back(entity);
-
-			return true;
+		
+		switch( sceneElement->getType() )
+		{
+		case TGraphicalType::STATIC:
+			_staticElements.push_back(sceneElement);
+			break;
+		case TGraphicalType::DYNAMIC:
+			_dynamicElements.push_back(sceneElement);
+			break;
 		}
-	} // addEntity
+		return true;
 
-	//--------------------------------------------------------
+	}// addSceneElement
 
-	void CScene::remove(CEntity* entity)
-	{
-		entity->detachFromScene();
+	//----------------------------------------------------------
 
-		entity->isStatic() ?		
-			_staticEntities.remove(entity) :
-			_dynamicEntities.remove(entity);
+	void CScene::remove(CSceneElement* sceneElement) {	
 
-	} // addEntity
+		sceneElement->detachFromScene();		
+
+		switch( sceneElement->getType() )
+		{
+		case TGraphicalType::STATIC:
+			_staticElements.remove(sceneElement);
+			break;
+		case TGraphicalType::DYNAMIC:
+			_dynamicElements.remove(sceneElement);
+			break;
+		}	
+	} // removeSceneElement
+
 
 	//--------------------------------------------------------
 
 	void CScene::buildStaticGeometry()
 	{
-		if(!_staticGeometry && !_staticEntities.empty())
+		if(!_staticGeometry && !_staticElements.empty())
 		{
 			_staticGeometry = 
 					_sceneMgr->createStaticGeometry("static");
 
-			TEntities::const_iterator it = _staticEntities.begin();
-			TEntities::const_iterator end = _staticEntities.end();
+			TSceneElements::const_iterator it = _staticElements.begin();
+			TSceneElements::const_iterator end = _staticElements.end();
 				for(; it != end; it++)
 					(*it)->addToStaticGeometry();
 

@@ -35,9 +35,15 @@ Contiene la implementación de la clase que maneja el ParticleSystem.
 namespace Graphics 
 {	
 
-	CParticleSystem::CParticleSystem(const std::string& hfx, const std::string& parentName, const Vector3& relativePos) :
-			_parentName(parentName), _relativePos(relativePos), _movObj(0), _hhfxScene(0) 
+	CParticleSystem::CParticleSystem(const std::string& hfx, const std::string& parentName, bool isLooped, 
+		const Vector3& relativePos, const Vector3& lightDiffuse, const Vector3& lightSpecular) :
+		_hfx(hfx), _parentName(parentName), _relativePos(relativePos), 
+		_fxLight(0), _lightDiffuse(lightDiffuse), _lightSpecular(lightSpecular), 
+		_isLooped(isLooped), _isLooping(false), _loopRestart(false),
+		_movObj(0), _hhfxScene(0)
 	{
+		_type = _isLooped? TGraphicalType::DYNAMIC : TGraphicalType::NONE;
+
 		_hhfxParams["pack"] =  Graphics::CServer::getSingletonPtr()->getHHFXBase()->GetHHFXPackExplorer().GetPack();
 		_hhfxParams["fx"]	=  Graphics::CServer::getSingletonPtr()->getHFXLongName(hfx);
 		_hhfxParams["run"]	=  "yes";	// Por defecto: ejecución inmediata al crear el MO
@@ -46,28 +52,18 @@ namespace Graphics
 	//--------------------------------------------------------
 	
 	void CParticleSystem::start()
-	{			
-		// Orientacion initial rotada 180 hacia -X (cara frontal de nuestras entidades)
-		static const Quaternion ORIENTATION(Ogre::Radian( Math::PI ), Vector3::UNIT_Y);
-
-		if(_movObj) { // MO tiene que ser NULL; lo contrario significa que ya hay un FX en curso
-			_movObj->RunFX(); // TODO Verificar que se liberan bien... queremos acumular N veces el mismo efecto?
-
-		} else {
+	{	
+		if(!_movObj) {
 			// spawn a new effect at this location
 			Ogre::MovableObject	*mo = getSceneMgr()->createMovableObject("HHFX", &_hhfxParams);
 				assert(mo && "Error al crear ParticleSystem");	
-			
-			_node = getSceneMgr()->getSceneNode( _parentName + "_node") 
-				 ->createChildSceneNode(_relativePos, ORIENTATION); 
 
 			// set this class to listen to the ps, to be notified when it is destroyed.
 			_movObj = static_cast<IHHFXOgre*>(mo);
 				_movObj->SetFXListener(this);
-#ifdef _DEBUG
-				_movObj->setDebugDisplayEnabled(true);
-#endif
 				_node->attachObject(_movObj);
+
+			_isLooping = _isLooped;
 		}
 	}
 
@@ -76,38 +72,10 @@ namespace Graphics
 	// UNDONE FRS: No se puede usar el método StopFX => Inconsistencias y pescaillas que se muerden la cola con evento StoppedFX
 	void CParticleSystem::stop()
 	{
-		if(_movObj) {
-
-			// TODO FRS
-
-			//_movObj->setVisible(false);
-			//_movObj->detachFromParent();
-			//LOG("isAttached = "			<< _movObj->isAttached()			)
-			//LOG("IsFXActive = "			<< _movObj->IsFXActive()			)
-			//LOG("isInScene= "			<< _movObj->isInScene()			)
-			//LOG("isParentTagPoint = "	<< _movObj->isParentTagPoint()	)
-			//LOG("isVisible = "			<< _movObj->isVisible()			)
-
-			//_movObj->SetFXListener(0);
-
-			//_movObj->StopFX();
-			//static_cast<Ogre::MovableObject*>(_movObj)->detachFromParent();		
-			//getSceneMgr()->destroyMovableObject( static_cast<Ogre::MovableObject*>(_movObj) ); 
-			//getSceneMgr()->destroySceneNode(_node);		
-			//_movObj = 0;	
-			//_node = 0;
-		}
-
-			// FRS Opciones fallutas
-			//	_node->setVisible(false); 
-			//	_movObj->StopFX();		
-		
-	
+		if(_movObj) {	
+			_isLooping = false;		
+		}	
 	}
-		
-	
-
-
 
 
 	/**********************
@@ -120,17 +88,8 @@ namespace Graphics
 		assert( _movObj == static_cast<IHHFXOgre*>(obj)  
 			&& "Evento recibido para un MO distinto del wrappeado en este ParticleSystem");
 
-		// create a light under the ElectricOrb effect
-		// UNDONE FRS
-		 if ( strstr(obj->GetPath(), "ElectricOrb.hfx") )
-		{
-			IHHFXOgre* fx = static_cast<IHHFXOgre*>(obj);	
-			Ogre::Light* pointLight = getSceneMgr()->createLight("pointLight" + Ogre::StringConverter::toString((unsigned int)(obj)));
-			pointLight->setType(Ogre::Light::LT_POINT);
-			pointLight->setPosition(fx->getParentSceneNode()->getPosition() + Vector3::UNIT_Y * 0.8f);
-			pointLight->setDiffuseColour(0.1f, 0.1f, 1.0f);
-			pointLight->setSpecularColour(0.8f, 0.8f, 1.0f);
-		}
+		if(_fxLight) 
+			_fxLight->setVisible(true);
 	}
 
 	//--------------------------------------------------------
@@ -140,19 +99,14 @@ namespace Graphics
 	{		
 		assert( _movObj == static_cast<IHHFXOgre*>(obj)  
 			&& "Evento recibido para un MO distinto del wrappeado en este ParticleSystem");
-		
-		// destroy the light created under ElectricOrb
-		// UNDONE FRS
-		if (strstr(obj->GetPath(), "ElectricOrb.hfx") != NULL)
-			getSceneMgr()->destroyLight("pointLight" + Ogre::StringConverter::toString((unsigned int)(obj)));
+			
+		getSceneMgr()->destroyMovableObject(_movObj); 		
+		_movObj = 0;
 
-		if(_movObj) {
-			_movObj->detachFromParent();
-			getSceneMgr()->destroyMovableObject(_movObj); 
-			getSceneMgr()->destroySceneNode(_node);		
-			_movObj = 0;	
-			_node = 0;
-		}
+		if(_isLooping) 
+			_loopRestart = true;
+		else if(_fxLight)
+			_fxLight->setVisible(false); // destroy the light created under ElectricOrb		
 	}
 
 	
@@ -164,10 +118,29 @@ namespace Graphics
 
 	bool CParticleSystem::load()
 	{
+		// Orientacion initial rotada 180 hacia -X (cara frontal de nuestras entidades)
+		static const Quaternion ORIENTATION(Ogre::Radian( Math::PI ), Vector3::UNIT_Y);
+
 		assert( getSceneMgr()->hasSceneNode( _parentName + "_node") );
 
 		try{		
 			_hhfxScene = _scene->getHHFXScene();
+
+			_node = getSceneMgr()->getSceneNode( _parentName + "_node") 
+				 ->createChildSceneNode(_relativePos, ORIENTATION);
+
+			// create a light if defined
+			if ( _lightDiffuse + _lightSpecular != Vector3::ZERO)  {			
+				_fxLight = getSceneMgr()->createLight();
+				_fxLight->setVisible(false);
+				_fxLight->setType(Ogre::Light::LT_POINT);	
+				_fxLight->setDiffuseColour( _lightDiffuse .x, _lightDiffuse .y, _lightDiffuse .z);
+				_fxLight->setSpecularColour(_lightSpecular .x, _lightSpecular .y, _lightSpecular .z);
+				_fxLight->setAttenuation(160, 1.0, 0.027, 0.0028);		
+				_fxLight->setPosition(Vector3::UNIT_Y * 0.8f); 	// Segun HHFX sample para centrar la luz en la esfera (si worldScale = 1)
+				_node->attachObject(_fxLight);					
+			}
+
 			_loaded = true;
 			
 		} catch(std::exception e){
@@ -183,11 +156,25 @@ namespace Graphics
 	{	
 		CSceneElement::unload();	
 
+		if (_fxLight) {
+			getSceneMgr()->destroyLight(_fxLight);
+			_fxLight = 0;
+		}
 		if(_movObj)	{		
 			getSceneMgr()->destroyMovableObject(_movObj); 
 			_movObj = 0;
 		}
 	} // unload
+
+	//--------------------------------------------------------
+	
+	void CParticleSystem::tick(float secs)
+	{
+		if(_loopRestart){			
+			start();
+			_loopRestart = false;
+		}
+	} // ticks
 
 	
 

@@ -124,6 +124,20 @@ namespace Map
 		*/
 		const Vector3 getVector3Attribute(const std::string &attr) const;
 
+		
+		/**
+		Recupera un atributo previamente añadido de tipo posición. Si no existe 
+		salta una excepción. Las posiciones deben tener el formato "(x,y,z,w)".
+
+		@param attr Nombre del atributo a recuperar.
+		@param x Valor del float x.
+		@param y Valor del float y.
+		@param z Valor del float z.
+		@param w Valor del float w.
+		*/
+
+		const Float4 getFloat4Attribute(const std::string &attr) const;
+
 		/**
 		Devuelve un string con el tipo de la entidad.
 

@@ -4,6 +4,7 @@ Scene CDotSceneLoader
 Camera CCamera
 BaseCamera CBaseCamera
 Altar CGraphics CPhysics CAltar CDestruction CFX
+AnimatedAltar CAnimatedGraphics CPhysics CAnimatedAltar CDestruction CFX
 Entity CGraphics
 Player CAnimatedGraphics CFX CAvatarController CJump CBaseTraveler CCombat CStateMachineExecutor CHud CLife CShop CPhysicalCharacter CAltarStateSwitcher CAudio CDestruction
 Medusa CAnimatedGraphics CAvatarController CCombat CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CBasicAI CDestruction
@@ -12,4 +13,4 @@ Sinbad CAnimatedGraphics CAvatarController CCombat CStateMachineExecutor CPhysic
 Cancerbero CAnimatedGraphics CFX CAvatarController CJump CCombat CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CBasicAI CDestruction
 OtherPlayer CAnimatedGraphics CFX CAvatarController CBaseTraveler CCombat CStateMachineExecutor CPhysicalCharacter CLifeModifier  CLife CAltarStateSwitcher CBasicAI CDestruction CAudio 
 PowerUp CGraphics CFX CPhysics CFloatingMovement CItem CLifeModifier CDestruction
-Light CLight
+Light CLight CGraphics

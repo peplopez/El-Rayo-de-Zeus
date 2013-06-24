@@ -88,7 +88,7 @@ namespace Logic
 			_pos->setSense(static_cast<Logic::Sense>(entityInfo->getIntAttribute("sense")));
 		else
 			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna por defecto dirección LEFT
-			_pos->setSense(Logic::LogicalPosition::LEFT);
+			_pos->setSense(Logic::Sense::LOOKING_OUTSIDE);
 
 
 		//PT
@@ -142,13 +142,14 @@ namespace Logic
 			_transform.setTrans(position);
 			
 			setYaw(Math::fromDegreesToRadians(-_pos->getDegree()));
+			if (_type=="AnimatedAltar")
+				this->setYaw(Math::fromDegreesToRadians(360 - _pos->getDegree() + 90));
 			
 			//  UNDONE FRS: Con el modelo spartan.mesh bien orientado este HACK ya no es necesario
-			if (_pos->getSense()==LogicalPosition::RIGHT)
-			{
+			if (_pos->getSense()==Logic::Sense::RIGHT)
 				if (_type=="Medusa" || _type=="Spider" || _type=="Sinbad"|| _type=="Cancerbero")
 					this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));			
-			}
+			//else if (_type=="Medusa"|| _type=="Spider"|| _type=="Sinbad"|| _type=="Cancerbero")
 			//else
 			//	if (_type=="Medusa"|| _type=="Spider"|| _type=="Sinbad"|| _type=="Cancerbero")
 			//		this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
@@ -256,8 +257,8 @@ namespace Logic
 	 {		 
 		float offset=0;// se trata de un offset de radio, no de altura
 
-		if (_type == "Altar")		
-			offset=-12;
+		if (_type == "Altar" || _type == "AnimatedAltar")		
+			offset=-13;
 
 		return (Math::fromCylindricalToCartesian( grados, CServer::getSingletonPtr()->getRingRadio(ring) + offset, CServer::getSingletonPtr()->getRingPosition(ring).y + altura + _offsetHeight));
 	 }

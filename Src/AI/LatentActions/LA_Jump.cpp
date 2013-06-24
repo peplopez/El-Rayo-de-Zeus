@@ -6,7 +6,7 @@
 
 #include "../StateMachines/StateMachine.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
-#include "Logic/Entity/Messages/MessageBoolFloatString.h"
+#include "Logic/Entity/Messages/MessageFloatUShort.h"
 
 namespace AI
 {
@@ -34,12 +34,10 @@ namespace AI
 		sleepComponents();
 		std::cout<<"AI::StateMachine::Jumping"<<std::endl;
 		
-		CMessageBoolFloatString *message = new CMessageBoolFloatString();
+		CMessageFloatUShort *message = new CMessageFloatUShort();
 		message->setType(Message::SET_ANIMATION_WITH_TIME);
-		message->setAction(Message::JUMP);				
-		message->setString("jump"); //HACK TEMPORAL
+		message->setUShort(Logic::AnimationName::JUMP);
 		message->setFloat(0.6);
-		message->setBool(false);
 		_entity->emitMessage(message);		
 
 		return SUSPENDED;

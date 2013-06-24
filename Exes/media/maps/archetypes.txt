@@ -70,6 +70,24 @@ Map = {
 		event_CT_Attack2=0.2,
 		event_CT_Attack3=0.2,
 		event_DT_Cover=0.45,
+	},
+
+	AltarZeus = {
+		type = "AnimatedAltar",
+		model = "altarZeus.mesh",
+		initialScale = 0.17,
+		logicInput = true,
+		physicType = "static",
+		physicTrigger = true,
+		shape = "box",
+		physicHalfWidth = 4,
+		physicHalfHeight = 4,	
+		animActivateAltar="switch",
+		fxScript0 = "ElectricOrbRed",
+		fxLooped0 = true,		
+		fxPos0 = {28,130,30},
+		fxDiffuse0 = {1,0.1,0.1},
+		fxSpecular0 = {1,0.8,0.8},	
 	},	
 
 	AltarRed = {
@@ -83,9 +101,7 @@ Map = {
 		physicTrigger = true,
 		shape = "box",
 		physicHalfWidth = 4,
-		physicHalfHeight = 4,		
-		fxScript0 = "ElectricOrb",	
-		fxPos0 = {0,5,0},	
+		physicHalfHeight = 4,	
 	},
 
 	AltarBlue = {
@@ -100,9 +116,12 @@ Map = {
 		physicTrigger = true,
 		shape = "box",
 		physicHalfWidth = 4,
-		physicHalfHeight = 4,	
-		fxScript0 = "BurnHit_Small",	
+		physicHalfHeight = 4,
+		fxScript0 = "ElectricOrbBlue",
+		fxLooped0 = true,		
 		fxPos0 = {0,5,0},
+		fxDiffuse0 = {0.1,0.1,1},
+		fxSpecular0 = {0.1,0.8,1},	
 	},
 	
 	AltarGreen = {
@@ -139,13 +158,32 @@ Map = {
 		fxPos0 = {0,5,0},	
 	},
 		
-	PointLight = {
+	WhitePLight = {
 		type = "Light",
 		lightType = "point",
 		diffuseColour = {0.9, 0.9, 0.9},
 		specularColour = {0.9, 0.9, 0.9},
-		initialScale = 0.2,	
+		initialScale = 3,	
+		model = "puAppleOnHand2.0.mesh",
 	},	
+	
+	OrangePLight = {
+		type = "Light",
+		lightType = "point",
+		diffuseColour = {0.9, 0.4, 0.0},
+		specularColour = {0.9, 0.4, 0.0},
+		initialScale = 3,	
+		model = "puAppleOnHand2.0.mesh",
+	},
+	
+	BluePLight = {
+		type = "point",
+		lightType = "directional",
+		diffuseColour = {0.2, 0.6, 0.9},
+		specularColour = {0.2, 0.6, 0.9},
+		initialScale = 3,	
+		model = "puAppleOnHand2.0.mesh",
+	},
 	
 	BaseCamera1 = {
 		type = "BaseCamera",
@@ -493,7 +531,8 @@ Map = {
 		orbitalSpeed = 0.004,
 		orbitalRotationSpeed = 0.001,	
 		fxScript0 = "Sparks",
-		fxPos0 = {0,10,0},
+		fxLooped0 = true,
+		fxPos0 = {0.5,11,0},
 	},
 	
 	PUHourglass = {

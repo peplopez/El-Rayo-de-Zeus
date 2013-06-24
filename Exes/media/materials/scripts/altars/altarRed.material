@@ -1,0 +1,73 @@
+material Materialunti
+{
+	technique
+	{
+		pass
+		{
+			diffuse 0.5 0.5 0.5
+			ambient 0.1 0.2 0.3
+			specular 0.8 0.8 0.8 68
+			
+			texture_unit
+			{
+				texture altar_tex.png
+				colour_op modulate
+			}
+		}
+	}
+}
+
+material Material.001
+{
+	technique
+	{
+
+		pass
+		{
+			
+			 ambient 0.3 0.1 0.1 1
+			 diffuse 0.8 0.05 0.05 1
+
+			texture_unit Diffuse
+			{
+				texture RustySteel.jpg
+			}
+			
+			texture_unit Environment
+			{
+				texture spheremap.png
+				colour_op_ex add src_texture src_current
+				colour_op_multipass_fallback one one
+				env_map spherical
+			}
+		}
+	}
+}
+
+material redActivated
+{
+	technique
+	{
+		scheme glow
+		pass
+		{
+			
+			 ambient 0.3 0.1 0.1 1
+			 diffuse 0.8 0.05 0.05 1
+
+			texture_unit Diffuse
+			{
+				texture RustySteel.jpg
+			}
+			
+			texture_unit Environment
+			{
+				texture spheremap.png
+				colour_op_ex add src_texture src_current
+				colour_op_multipass_fallback one one
+				env_map spherical
+			}
+		}
+	}
+}
+

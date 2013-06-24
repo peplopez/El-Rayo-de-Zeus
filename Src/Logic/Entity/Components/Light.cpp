@@ -111,6 +111,13 @@ namespace Logic
 			light->setDirection(direction);
 		}
 
+		if(entityInfo->hasAttribute("attenuation"))
+		{
+			Float4 att = entityInfo->getFloat4Attribute("attenuation");
+			light->setAttenuation(att.x, att.y, att.z, att.w);
+		}
+
+
 		
 
 		return light;

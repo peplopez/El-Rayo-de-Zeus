@@ -83,7 +83,11 @@ namespace Graphics
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
 		CEntity::CEntity(const std::string &name, const std::string &mesh, bool isStatic = false)
-		: _name(name), _mesh(mesh), _entity(0), _isStatic(isStatic) {} 
+			: _name(name), _mesh(mesh), _entity(0) 
+		{
+			_type = isStatic? TGraphicalType::STATIC : TGraphicalType::DYNAMIC;
+		}  
+		// FRS Entidades o son dinamicas o son estáticas
 
 
 		/************
@@ -118,8 +122,6 @@ namespace Graphics
 		 para ser reenderizada).
 		*/
 		bool isVisible() const;
-
-		bool isStatic() const { return _isStatic; }		
 
 		/**
 		*/
@@ -204,10 +206,6 @@ namespace Graphics
 		typedef std::map<std::string, TAttachedMeshNames> TBoneObjectNamesTable;
 			TBoneObjectNamesTable _boneObjectsNameTable;
 		
-		bool _isStatic;
-
-		
-
 
 		void attach(const std::string &toBone, const std::string &mesh, bool permanently = false);
 		void detach(const std::string &fromBone);	
