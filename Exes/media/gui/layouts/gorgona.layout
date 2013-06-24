@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <GUILayout>
 
-<Window Type="DefaultWindow" Name="Gorgona">
+<Window Type="OgreTray/StaticImageItem" Name="Gorgona">
 	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,50}}" />
-	<!-- <Property Name="FrameEnabled" Value="False" /> -->
+	<Property Name="Image" Value="set:FondoItem image:fondo" />
+	<Property Name="FrameEnabled" Value="True" />
+	<Property Name="BackgroundEnabled" Value="False" />	
 
 	<Window Type="TaharezLook/ImageButton" Name="Gorgona/btn">
 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
@@ -15,13 +17,26 @@
 		<Property Name="PushedImage"     Value="set:ShopIcons image:gorgonaPushed" />
 		<Property Name="DisabledImage"   Value="set:ShopIcons image:gorgonaDisabl" />
 		
-		<Property Name="Tooltip" Value="Gorgona tooltip" />
+		<!-- <Property Name="Tooltip" Value="Gorgona tooltip" /> -->
 		
 	</Window>
+	
+	<Window Type="OgreTray/TitleInShop" Name="Gorgona/description">
+		<Property Name="UnifiedAreaRect" Value="{{0,76},{0,0},{0,160},{0,50}}" />
+		<Property Name="Text" Value="Gorgona" />
+		<Property Name="AlwaysOnTop" Value="True" />
+		<Property Name="Font" Value="DejaVuSans-6bold" />	
+		<Property Name="Tooltip" >
+			Petrifica al enemigo durante 2 segundos y sigue su 
+			recorrido en el anillo. Su linea de vision solo es frontal.
+			Mejora: Aumenta su rango de vision.
+		</Property>
+	
+	</Window>	
 
 	<Window Type="OgreTray/TitlePMInShop" Name="Gorgona/cost">
 		<!-- <Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" /> -->
-		<Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" />
+		<Property Name="UnifiedAreaRect" Value="{{0,165},{0,0},{0,185},{0,50}}" />
 		<Property Name="Text" Value="300" />
 		<Property Name="AlwaysOnTop" Value="True" />
 		<Property Name="Font" Value="DejaVuSans-6bold" />	

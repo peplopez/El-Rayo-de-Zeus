@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <GUILayout>
 
-<Window Type="DefaultWindow" Name="Ciclope">
+<Window Type="OgreTray/StaticImageItem" Name="Ciclope">
 	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,50}}" />
-	<Property Name="FrameEnabled" Value="False" />	
+	<Property Name="Image" Value="set:FondoItem image:fondo" />
+	<Property Name="FrameEnabled" Value="True" />
+	<Property Name="BackgroundEnabled" Value="False" />	
 	
 	<Window Type="TaharezLook/ImageButton" Name="Ciclope/btn">
 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
@@ -17,12 +19,25 @@
 		<Property Name="PushedImage"     Value="set:ShopIcons image:ciclopePushed" />
 		<Property Name="DisabledImage"   Value="set:ShopIcons image:ciclopeDisabl" />
 		
-		<Property Name="Tooltip" Value="Ciclope tooltip" />
+		<!-- <Property Name="Tooltip" Value="Ciclope tooltip" /> -->
 		<!-- Now the button would be ready, but without caption ... So we add a caption. -->
 	</Window>
 	
+	<Window Type="OgreTray/TitleInShop" Name="Ciclope/description">
+		<Property Name="UnifiedAreaRect" Value="{{0,76},{0,0},{0,160},{0,50}}" />
+		<Property Name="Text" Value="Ciclope" />
+		<Property Name="AlwaysOnTop" Value="True" />
+		<Property Name="Font" Value="DejaVuSans-6bold" />	
+		<Property Name="Tooltip" >
+			Se coloca estaticamente en una posicion, desde la que puede atacar con un garrote. 
+			Mejora: Su rango de vision aumenta y es capaz de lanzar rocas a enemigos 
+			en otros anillos si estan dentro de su rango de vision.
+		</Property>
+	
+	</Window>	
+	
 	<Window Type="OgreTray/TitlePMInShop" Name="Ciclope/cost">
-		<Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" />
+		<Property Name="UnifiedAreaRect" Value="{{0,165},{0,0},{0,185},{0,50}}" />
 		<Property Name="Text" Value="500" />
 		<Property Name="AlwaysOnTop" Value="True" />
 		<Property Name="Font" Value="DejaVuSans-6bold" />	

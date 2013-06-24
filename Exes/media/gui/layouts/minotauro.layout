@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <GUILayout>
 
-<Window Type="DefaultWindow" Name="Minotauro">
+<Window Type="OgreTray/StaticImageItem" Name="Minotauro">
 	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,50}}" />
-	<Property Name="FrameEnabled" Value="False" />	
+	<Property Name="Image" Value="set:FondoItem image:fondo" />
+	<Property Name="FrameEnabled" Value="True" />
+	<Property Name="BackgroundEnabled" Value="False" />		
 	
 	<Window Type="TaharezLook/ImageButton" Name="Minotauro/btn">
 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
@@ -17,12 +19,25 @@
 		<Property Name="PushedImage"     Value="set:ShopIcons image:minotauroPushed" />
 		<Property Name="DisabledImage"   Value="set:ShopIcons image:minotauroDisabl" />
 		
-		<Property Name="Tooltip" Value="Minotauro tooltip" />
+		<!-- <Property Name="Tooltip" Value="Minotauro tooltip" /> -->
 		<!-- Now the button would be ready, but without caption ... So we add a caption. -->
 	</Window>
 	
+	<Window Type="OgreTray/TitleInShop" Name="Minotauro/description">
+		<Property Name="UnifiedAreaRect" Value="{{0,76},{0,0},{0,160},{0,50}}" />
+		<Property Name="Text" Value="Minotauro" />
+		<Property Name="AlwaysOnTop" Value="True" />
+		<Property Name="Font" Value="DejaVuSans-6bold" />	
+		<Property Name="Tooltip" >
+			Si localiza a un enemigo, le persigue y ataca embistiendolo.
+			Mejora: Su ataque lanza al enemigo a otro anillo de la misma base
+			de forma aleatoria.
+		</Property>
+	
+	</Window>	
+	
 	<Window Type="OgreTray/TitlePMInShop" Name="Minotauro/cost">
-		<Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" />
+		<Property Name="UnifiedAreaRect" Value="{{0,165},{0,0},{0,185},{0,50}}" />
 		<Property Name="Text" Value="500" />
 		<Property Name="AlwaysOnTop" Value="True" />
 		<Property Name="Font" Value="DejaVuSans-6bold" />	

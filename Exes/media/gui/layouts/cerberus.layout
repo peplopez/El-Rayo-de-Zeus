@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <GUILayout>
-<Window Type="DefaultWindow" Name="Cerberus">
+<Window Type="OgreTray/StaticImageItem" Name="Cerberus">
 	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,50}}" />
-	<!-- <Property Name="FrameEnabled" Value="False" /> -->
+	<Property Name="Image" Value="set:FondoItem image:fondo" />
+	<Property Name="FrameEnabled" Value="True" />
+	<Property Name="BackgroundEnabled" Value="False" />	
 	
 	<Window Type="TaharezLook/ImageButton" Name="Cerberus/btn">
 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
@@ -16,13 +18,31 @@
 		<Property Name="PushedImage"     Value="set:ShopIcons image:cerberusPushed" />
 		<Property Name="DisabledImage"   Value="set:ShopIcons image:cerberusDisabl" />
 		
-		<Property Name="Tooltip" Value="Cerberus tooltip" />
+		<!-- <Property Name="Tooltip" Value="Cerberus tooltip" /> -->
 		<!-- Now the button would be ready, but without caption ... So we add a caption. -->
 	</Window>
+	
+	<Window Type="OgreTray/TitleInShop" Name="Cerberus/description">
+		<Property Name="UnifiedAreaRect" Value="{{0,76},{0,0},{0,160},{0,50}}" />
+		<Property Name="Text" Value="Cancerbero" />
+		<Property Name="AlwaysOnTop" Value="True" />
+		<Property Name="Font" Value="DejaVuSans-6bold" />	
+		<Property Name="Tooltip" >
+			Es la unica criatura capaz de incumplir varias normas: 
+			- Puede cambiar de anillo de forma impredecible.
+			- Puede moverse a un anillo en el que ya haya 3 criaturas.
+			- Solo puede haber un Cancerbero en cada base. 
+			Si localiza a un enemigo, le persigue y le ataca mordiendolo. 
+			Si el enemigo perseguido cambia de anillo, el Cancerbero pierde su pista.
+			Mejora: Sabe donde se encuentran los enemigos que hay en su base 
+			y va a atacar al mas cercano.
+		</Property>
+	
+	</Window>	
 
 
 	<Window Type="OgreTray/TitlePMInShop" Name="Cerberus/cost">
-		<Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" />
+		<Property Name="UnifiedAreaRect" Value="{{0,165},{0,0},{0,185},{0,50}}" />
 		<Property Name="Text" Value="500" />
 		<Property Name="AlwaysOnTop" Value="True" />
 		<Property Name="Font" Value="DejaVuSans-6bold" />	

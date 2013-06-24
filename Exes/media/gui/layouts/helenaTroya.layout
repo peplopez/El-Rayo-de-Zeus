@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <GUILayout>
 
-<Window Type="DefaultWindow" Name="HelenaTroya">
+<Window Type="OgreTray/StaticImageItem" Name="HelenaTroya">
 	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{0,50}}" />
-	<!-- <Property Name="FrameEnabled" Value="False" /> -->
+	<Property Name="Image" Value="set:FondoItem image:fondo" />
+	<Property Name="FrameEnabled" Value="True" />
+	<Property Name="BackgroundEnabled" Value="False" />	
 
 	<Window Type="TaharezLook/ImageButton" Name="HelenaTroya/btn">
 		<Property Name="UnifiedPosition" Value="{{0,0},{0,0}}" />
@@ -15,13 +17,27 @@
 		<Property Name="PushedImage"     Value="set:ShopIcons image:helenatroyaPushed" />
 		<Property Name="DisabledImage"   Value="set:ShopIcons image:helenatroyaDisabl" />
 		
-		<Property Name="Tooltip" Value="HelenaTroya tooltip" />
+		<!-- <Property Name="Tooltip" Value="HelenaTroya tooltip" /> -->
 		
 	</Window>
+	
+	<Window Type="OgreTray/TitleInShop" Name="HelenaTroya/description">
+		<Property Name="UnifiedAreaRect" Value="{{0,76},{0,0},{0,160},{0,50}}" />
+		<Property Name="Text" Value="Helena de Troya" />
+		<Property Name="AlwaysOnTop" Value="True" />
+		<Property Name="Font" Value="DejaVuSans-6bold" />	
+		<Property Name="Tooltip" >
+			Si el enemigo esta dentro del rango de Helena, 
+			deja de hacer lo que estaba haciendo y le sigue 
+			con la mirada hasta que Helena pasa de largo.
+			Mejora: Aumenta su rango de vision.
+		</Property>
+	
+	</Window>	
 
 	<Window Type="OgreTray/TitlePMInShop" Name="HelenaTroya/cost">
 		<!-- <Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" /> -->
-		<Property Name="UnifiedAreaRect" Value="{{0,80},{0,0},{0,185},{0,50}}" />
+		<Property Name="UnifiedAreaRect" Value="{{0,165},{0,0},{0,185},{0,50}}" />
 		<Property Name="Text" Value="300" />
 		<Property Name="AlwaysOnTop" Value="True" />
 		<Property Name="Font" Value="DejaVuSans-6bold" />	
