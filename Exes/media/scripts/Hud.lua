@@ -4,7 +4,7 @@
 
 numberAltarsActivated = 0
 numberEnemiesInBase = 0
-PM = 100
+PM = 0
 lifeBase = lifeBaseMax
 
 --Funcion de inicializacion/carga de un layout y sus ventanas y subventanas
