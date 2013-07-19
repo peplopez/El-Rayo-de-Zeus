@@ -94,7 +94,7 @@ namespace Logic
 		Constructor por defecto; inicializa los atributos a su valor por 
 		defecto.
 		*/
-		CAnimatedGraphics() : CGraphics(GetAltTypeIdOf(CAnimatedGraphics)), _graphicalEntity(0), _animSet(0),
+		CAnimatedGraphics() : CGraphics(GetAltTypeIdOf(CAnimatedGraphics)), _graphicalEntity(0), _animSet(0), _deathAllocation(false),
 				_defaultAnimation("") {}
 
 		/**
@@ -129,7 +129,8 @@ namespace Logic
 
 		void animationMomentReached(const std::pair<unsigned short,float> track);
 	
-	
+				
+		
 	protected:
 		/**
 		Entidad gráfica.
@@ -168,6 +169,11 @@ namespace Logic
 		*/
 		bool initializeAnimSet(const Map::CEntity *entityInfo);
 
+		/**
+		Variable que dice si una entidad ha muerto y ya se ha puesto, si es necesario, una posición nueva del cadaver (para que por ejemplo no se quede flotando en el aire)
+		*/
+		bool _deathAllocation;
+	
 	}; // class CAnimatedGraphics
 
 	REG_FACTORY(CAnimatedGraphics);

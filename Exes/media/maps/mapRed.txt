@@ -57,6 +57,24 @@ Map ={
 		degrees=180,
 	},
 		
+	Cancerbero1 = {
+		type = "Cancerbero",
+		model = "CanCerbero.mesh",		
+		base=1,
+		ring=0,		
+		degrees=20,
+		sense=1,
+		behavior="Cancerbero",		
+	},	
+		Cancerbero2 = {
+		type = "Cancerbero",
+		model = "CanCerbero.mesh",		
+		base=1,
+		ring=0,		
+		degrees=-20,
+		sense=1,
+		behavior="Cancerbero",		
+	},	
 	LowerRing = {
 		type = "World",
 		base=1,

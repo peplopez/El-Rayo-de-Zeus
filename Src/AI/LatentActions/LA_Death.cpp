@@ -45,6 +45,8 @@ namespace AI
 		_endingTime = currentTime + _time * 1000000;
 
 		//init Respawn Layout and functions
+		if (_entity->getType()=="Cancerbero")
+			_entity->setOffsetHeight(-6);
 		if (_entity->isPlayer()){
 
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideHud"); //oculto el HUD
@@ -55,7 +57,7 @@ namespace AI
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showRespawn");
 		}
 
-		sleepComponents();
+		
 		std::cout<<"AI::StateMachine::WTF-I am Death!!"<<std::endl;
 		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
@@ -63,6 +65,7 @@ namespace AI
 		message->setAction(Message::WALK_STOP);
 		message->setBool(false);
 		_entity->emitMessage(message);
+			//sleepComponents();
 		std::string _audio = "media\\audio\\fallecimiento.wav";
 		Logic::CMessageAudio *maudio=new Logic::CMessageAudio();		
 		maudio->setType(Message::AUDIO);			
@@ -218,6 +221,7 @@ namespace AI
 				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
 				if (maux->getUShort()==Logic::DEATH)
 				{
+					sleepComponents();
 				//		finish(true);
 					//el finish es para cambiar a otro estado, pero de momento este el estado en el que quiero que permanezca. Otro posible estado sería desapareciendo quiza...
 				}
