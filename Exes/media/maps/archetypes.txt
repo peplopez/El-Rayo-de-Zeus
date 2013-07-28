@@ -72,7 +72,7 @@ Map = {
 		event_DT_Cover=0.45,
 	},
 
-	AltarZeus = {
+	AltarRed = {
 		type = "AnimatedAltar",
 		model = "altarZeus.mesh",
 		initialScale = 0.17,
@@ -89,8 +89,26 @@ Map = {
 		fxDiffuse0 = {1,0.1,0.1},
 		fxSpecular0 = {1,0.8,0.8},	
 	},	
+	
+	AltarBlue = {
+		type = "AnimatedAltar",
+		model = "altarZeus.mesh",
+		initialScale = 0.17,
+		logicInput = true,
+		physicType = "static",
+		physicTrigger = true,
+		shape = "box",
+		physicHalfWidth = 4,
+		physicHalfHeight = 4,	
+		animActivateAltar="switch",
+		fxScript0 = "ElectricOrbBlue",
+		fxLooped0 = true,		
+		fxPos0 = {28,130,30},
+		fxDiffuse0 = {0.1,0.1,1},
+		fxSpecular0 = {0.1,0.8,1},	
+	},	
 
-	AltarRed = {
+	AltarRedOld = {
 		type = "Altar",
 		model = "altar.mesh",
 		activatedMaterial = "redActivated",
@@ -104,7 +122,7 @@ Map = {
 		physicHalfHeight = 4,	
 	},
 
-	AltarBlue = {
+	AltarBlueOld = {
 		type = "Altar",
 		model = "altar.mesh",
 		submaterial0 = "blueUnactivated",
