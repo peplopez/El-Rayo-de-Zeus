@@ -45,8 +45,8 @@ namespace AI
 		_endingTime = currentTime + _time * 1000000;
 
 		//init Respawn Layout and functions
-		if (_entity->getType()=="Cancerbero")
-			_entity->setOffsetHeight(-6);
+	//	if (_entity->getType()=="Cancerbero")
+		//	_entity->setOffsetHeight(-6);
 		if (_entity->isPlayer()){
 
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideHud"); //oculto el HUD
