@@ -13,10 +13,6 @@ Map ={
 		type = "BaseCamera1",
 	},
 	
-	SkySphere = {
-		type = "SkySphere",
-		material = "skyHades",
-	},
 	
 	GemeloBlue = {
 		type = "OtherPlayer",

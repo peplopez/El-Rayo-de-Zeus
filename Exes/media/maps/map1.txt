@@ -8,11 +8,7 @@ Map ={
 	Camera = {
 		type = "PlayerCamera",
 	},
-	
-	SkySphere = {
-		type = "SkySphere",
-	},
-		
+			
 			
 	BaseCamera1 = {
 		type = "BaseCamera1",
@@ -36,8 +32,9 @@ Map ={
 		degrees=20,
 		sense=1,
 		behavior="Cancerbero",		
-	},	
-		Cancerbero2 = {
+	},
+	
+	Cancerbero2 = {
 		type = "Cancerbero",
 		model = "CanCerbero.mesh",		
 		base=1,

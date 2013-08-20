@@ -12,12 +12,7 @@ Map ={
 	BaseCamera1 = {
 		type = "BaseCamera1",
 	},
-	
-	SkySphere = {
-		type = "SkySphere",
-		material = "skyHades",
-	},
-	
+		
 	pointLight1 = {
 		type = "WhitePLight",
 		position = {0, 100, 0},
