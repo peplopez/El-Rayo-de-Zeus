@@ -109,8 +109,6 @@ Map ={
 		physicHalfWidth = 190,
 		physicHalfHeight = 1,
 		physicBodyOffset = -1.9,
-		fxScript0="Rain",
-		fxPos0={0,100,0},
 	},
 	
 	Altar1 = {
