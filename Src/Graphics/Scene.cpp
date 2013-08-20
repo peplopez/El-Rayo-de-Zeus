@@ -98,12 +98,14 @@ namespace Graphics
 		
 		_baseCamera->getCamera()->setAspectRatio(
 			Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
-
+		
+		/*
 		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
 			activateCompositor("Glow");
 
 		GlowMaterialListener *gml = new GlowMaterialListener(); // FRS y este new? no se pierde en el limbo? WTF?
 		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
+		*/
 
 		// FRS esto también, quizá mejor en un paso previo, junto con todas las sentencias repetidas en los activates
 		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f)); 
