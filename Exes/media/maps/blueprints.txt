@@ -13,4 +13,4 @@ Sinbad CAnimatedGraphics CAvatarController CCombat CStateMachineExecutor CPhysic
 Cancerbero CAnimatedGraphics CFX CAvatarController CJump CCombat CStateMachineExecutor CPhysicalCharacter CLifeModifier CLife CAudio CBasicAI CDestruction
 OtherPlayer CAnimatedGraphics CFX CAvatarController CBaseTraveler CCombat CStateMachineExecutor CPhysicalCharacter CLifeModifier  CLife CAltarStateSwitcher CBasicAI CDestruction CAudio 
 PowerUp CGraphics CFX CPhysics CFloatingMovement CItem CLifeModifier CDestruction
-Light CLight CGraphics
+Light CLight

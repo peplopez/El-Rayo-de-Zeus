@@ -57,6 +57,24 @@ Map ={
 		degrees=180,
 	},
 		
+	Cancerbero1 = {
+		type = "Cancerbero",
+		model = "CanCerbero.mesh",		
+		base=1,
+		ring=0,		
+		degrees=20,
+		sense=1,
+		behavior="Cancerbero",		
+	},	
+		Cancerbero2 = {
+		type = "Cancerbero",
+		model = "CanCerbero.mesh",		
+		base=1,
+		ring=0,		
+		degrees=-20,
+		sense=1,
+		behavior="Cancerbero",		
+	},	
 	LowerRing = {
 		type = "World",
 		base=1,
@@ -94,14 +112,14 @@ Map ={
 	},
 	
 	Altar1 = {
-		type = "AltarZeus",
+		type = "AltarRed",
 		degrees=30,
 		ring=0,
 		base=1,		
 	},
 	
 	Altar2 = {
-		type = "AltarZeus",
+		type = "AltarRed",
 		degrees=150,
 		ring=0,
 		base=1,	
@@ -109,63 +127,63 @@ Map ={
 	},
 	
 	Altar3 = {
-		type = "AltarZeus",
+		type = "AltarRed",
 		degrees=270,
 		ring=0,
 		base=1,
 	},
 	
 	Altar4 = {
-		type = "AltarZeus",
+		type = "AltarRed",
 		degrees=6,
 		ring=1,
 		base=1,	
 	},
 	
 	Altar5 = {
-		type = "AltarZeus",
+		type = "AltarRed",
 		degrees=78,
 		ring=1,
 		base=1,
 	},
 	
 	Altar6 = {
-		type = "AltarZeus",
+		type = "AltarRed",
 		degrees=150,
 		ring=1,
 		base=1,	
 	},
 	
 	Altar7 = {
-		type = "AltarZeus",
+		type = "AltarRed",
 		degrees=222,
 		ring=1,
 		base=1,			
 	},
 	
 	Altar8 = {
-		type = "AltarZeus",
+		type = "AltarRed",
 		degrees=294,
 		ring=1,
 		base=1,		
 	},
 	
 	Altar9 = {
-		type = "AltarZeus",
+		type = "AltarRed",
 		degrees=30,
 		ring=2,
 		base=1,		
 	},
 	
 	Altar10 = {
-		type = "AltarZeus",
+		type = "AltarRed",
 		degrees=150,
 		ring=2,
 		base=1,		
 	},
 	
 	Altar11 = {
-		type = "AltarZeus",
+		type = "AltarRed",
 		degrees=270,
 		ring=2,
 		base=1,		

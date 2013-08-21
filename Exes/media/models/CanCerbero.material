@@ -1,0 +1,30 @@
+
+material Cancerbero
+{
+	technique Cancerbero_material
+	{
+		pass Cancerbero_Pass1
+		{
+			ambient 0.698039 0.698039 0.698039 1
+			diffuse 0.698039 0.698039 0.698039 1
+			specular 0.898039 0.898039 0.898039 1 20
+			emissive 0.639216 0.639216 0.639216 1
+
+			texture_unit Cancerbero_Difusse
+			{
+				texture texture_cancerbero_diffuse.tga
+				filtering linear linear linear
+			}
+
+			texture_unit Cancerbero_Specular
+			{
+				texture texture_cancerbero_specular.tga
+				filtering linear linear linear
+			}
+		}
+
+	}
+
+}
+
+

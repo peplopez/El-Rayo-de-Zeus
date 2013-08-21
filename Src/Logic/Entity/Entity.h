@@ -371,6 +371,7 @@ namespace Logic
 
 		void pitch(float pitch); 
 
+		void setOffsetHeight(float height) {_offsetHeight=height;}
 
 		/**
 		Vira la entidad. Avisa a los componentes del cambio.

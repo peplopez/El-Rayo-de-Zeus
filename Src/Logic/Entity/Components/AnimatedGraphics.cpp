@@ -255,13 +255,15 @@ namespace Logic
 		assert(_animSet && "LOGIC::ANIMATED_GRAPHICS>> No existe animSet");
 		assert(_currentLogicAnimation!=NONE && "LOGIC::ANIMATED_GRAPHICS>> No tenemos animación Lógica activa.");
 
-		if (_currentLogicAnimation != Logic::DEATH)
-		{
-			// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
+		// [ƒ®§] Ejemplo de gestión de eventos de animación -> En este caso se avisa de que animación ha finalizado (necesario en CDeath)
 			CMessageUShort *txMsg = new CMessageUShort();
 			txMsg->setType(Message::ANIMATION_FINISHED);
 			txMsg->setUShort(_currentLogicAnimation); //PeP: envio que se ha finalizado la animación que se está reproduciendo.
 			_entity->emitMessage(txMsg);
+
+		if (_currentLogicAnimation != Logic::DEATH)
+		{
+			
 			// Pep, si acaba una animación y tenemos una por defecto la ponemos, pero la animación por defecto debe ser lógica, hay que cambiarlo, pronto estará
 			if (_currentLogicAnimation != Logic::ATTACK1 && _currentLogicAnimation != Logic::ATTACK2)			
 			{
@@ -269,6 +271,7 @@ namespace Logic
 				_graphicalEntity->setAnimation(_defaultAnimation,0,true,NULL); //tenemos que cambiar defaultanimation por un enum Logico
 			}
 		}
+		
 	}
 	//---------------------------------------------------------
 

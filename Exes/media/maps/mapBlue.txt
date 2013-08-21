@@ -23,6 +23,29 @@ Map ={
 		position = {0, 100, 0},
 	},
 
+	GemeloBlue = {
+		type = "OtherPlayer",
+		base=2,
+		ring=1,
+		degrees=120,
+		initialMaterial1="marineBlue",
+	},
+	
+	GemeloGreen = {
+		type = "OtherPlayer",
+		base=2,
+		ring=1,
+		degrees=120,
+		initialMaterial1="marineGreen",
+	},
+	
+	GemeloYellow = {
+		type = "OtherPlayer",
+		base=2,
+		ring=1,
+		degrees=120,
+		initialMaterial1="marineYellow",
+	},
 	
 	puThrone1 = {
 		type = "PUThrone",
@@ -55,8 +78,8 @@ Map ={
 		shape="box",
 		physicHalfWidth = 190,
 		physicHalfHeight = 1,
-		physicBodyOffset = -1.9,
-		fxScript0="Rain",	},
+		physicBodyOffset = -1.9,		
+	},
 	
 	CenterRing = {
 		type = "World",
@@ -100,16 +123,14 @@ Map ={
 		type = "AltarBlue",
 		degrees=300,
 		ring=0,
-		base=2,		
-			
+		base=2,					
 	},
 	
 	Altar4 = {
 		type = "AltarBlue",
 		degrees=36,
 		ring=1,
-		base=2,		
-		
+		base=2,				
 	},
 	
 	Altar5 = {

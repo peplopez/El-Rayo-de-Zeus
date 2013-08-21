@@ -132,6 +132,8 @@ namespace Graphics
 		*/
 		void setPosition(const Vector3& position);
 
+		Vector3 getPosition();
+
 		/**
 		Cambia la orientación del elemento.
 		@param orientation Referencia a la matriz de rotación con la que debe orientarse el elemento.

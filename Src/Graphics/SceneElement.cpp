@@ -138,6 +138,14 @@ namespace Graphics
 
 	} // setPosition
 
+	Vector3 CSceneElement::getPosition()
+	{
+		assert(_node && "El elemento no ha sido cargado en la escena");
+		if(_node)
+			return _node->getPosition();
+		return Vector3(0,0,0);
+	} // setPosition
+
 	//------------------------------------------------------------------
 	
 	void CSceneElement::setOrientation(const Matrix3 &orientation)
