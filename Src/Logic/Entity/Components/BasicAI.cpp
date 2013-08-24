@@ -110,7 +110,7 @@ namespace Logic
 	}
 		
 	 void CBasicAI::process(CMessage *message)
-		 {
+	 {
 		switch(message->getType())
 		{
 			case Message::TRIGGER:
@@ -127,8 +127,7 @@ namespace Logic
 						m2->setType(Logic::Message::CONTROL);
 						m2->setAction(Logic::Message::SWITCH_ALTAR);
 						m2->setUInt(_entity->getEntityID());
-						_entity->emitMessage(m2);
-						
+						_entity->emitMessage(m2);						
 					}
 					break;
 				}
@@ -167,7 +166,7 @@ namespace Logic
 				case Message::COLLISION:
 				{
 					int accion=rand()%2;
-					if (accion==0)
+					if (true) // hack porque quiero probar una cosa
 					{	
 						Logic::CMessage *m = new Logic::CMessage();
 						m->setType(Logic::Message::CONTROL);
@@ -179,8 +178,7 @@ namespace Logic
 						Logic::CMessage *m4 = new Logic::CMessage();
 						m4->setType(Logic::Message::CONTROL);
 						m4->setAction(Logic::Message::WALK_STOP);
-						_entity->emitMessage(m4);
-						
+						_entity->emitMessage(m4);						
 					}
 					break;
 				}
