@@ -57,6 +57,7 @@ namespace Graphics
 		_baseCamera = new CCamera("base" + name, this);
 
 		_hhfxSceneInit(); // Init Hell Heaven FX Scene
+
 	} // CScene
 
 	//--------------------------------------------------------
@@ -76,13 +77,17 @@ namespace Graphics
 
 	void CScene::activateCompositor(std::string name)
 	{	
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, true);
+		//Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, true);
+		if(name=="BW")
+			_hhfxCompositorBWLoad();
 	}	
 	//--------------------------------------------------------
 
 	void CScene::deactivateCompositor(std::string name)
 	{	
-		Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, false);
+		//Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, false);
+		if(name=="BW")
+			_hhfxCompositorBWUnload();
 	}	
 	//--------------------------------------------------------
 
@@ -98,7 +103,8 @@ namespace Graphics
 		
 		_baseCamera->getCamera()->setAspectRatio(
 			Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
-		
+
+	
 		/* Glow compositor - ya no lo usamos
 		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
 			activateCompositor("Glow");
@@ -145,7 +151,7 @@ namespace Graphics
 
 		/* PRUEBAS PEP */
 		Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
-			comp->setEnabled(false);
+		comp->setEnabled(false);
 
 		/*comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
 			comp->setEnabled(false);*/
@@ -321,6 +327,25 @@ namespace Graphics
 			assert(comp && "[HHFX ERROR] Cannot load compositor Distortion !" );
 			comp->setEnabled(true);
 	}
+
+	//-------------------------------------------------------------------------------------
+
+	//PT
+	void CScene::_hhfxCompositorBWLoad() 
+	{
+		Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingleton().addCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/BlackAndWhite");
+			assert(comp && "[HHFX ERROR] Cannot load compositor Black And White !" );
+			comp->setEnabled(true);
+	}
+
+	//-------------------------------------------------------------------------------------
+
+	void CScene::_hhfxCompositorBWUnload() 
+	{
+		Ogre::CompositorManager::getSingleton().removeCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/BlackAndWhite");	
+	}
+
+	//FIN PT
 
 	//-------------------------------------------------------------------------------------
 

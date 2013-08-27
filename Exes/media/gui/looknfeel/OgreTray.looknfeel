@@ -1693,6 +1693,8 @@
                 <HorzFormat type="WordWrapCentreAligned" />
             </TextComponent>
         </ImagerySection>
+		
+		<!-- Boton de al lado del desplegable en modo normal -->
         <ImagerySection name="normal">
             <FrameComponent>
                 <Area>
@@ -1715,6 +1717,7 @@
             </FrameComponent>
         </ImagerySection>
 		
+		<!-- Boton de al lado del desplegable en modo el raton sobre el (hover) -->
         <ImagerySection name="hover">
             <FrameComponent>
                 <Area>
@@ -1737,25 +1740,32 @@
             </FrameComponent>
         </ImagerySection>
 		
+		<!-- Area de texto del desplegable. Cuando se pulsa el boton del desplegable -->
         <ImagerySection name="pushed">
             <FrameComponent>
+
                 <Area>
                     <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
                     <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
                     <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
                     <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
                 </Area>
+				
                 <Image type="TopLeftCorner" imageset="OgreTrayImages" image="ButtonDownTL" />
                 <Image type="TopRightCorner" imageset="OgreTrayImages" image="ButtonDownTR" />
                 <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="ButtonDownBL" />
                 <Image type="BottomRightCorner" imageset="OgreTrayImages" image="ButtonDownBR" />
+				
                 <Image type="LeftEdge" imageset="OgreTrayImages" image="ButtonDownL" />
                 <Image type="TopEdge" imageset="OgreTrayImages" image="ButtonDownT" />
                 <Image type="RightEdge" imageset="OgreTrayImages" image="ButtonDownR" />
                 <Image type="BottomEdge" imageset="OgreTrayImages" image="ButtonDownB" />
+				
                 <Image type="Background" imageset="OgreTrayImages" image="ButtonDownM" />
             </FrameComponent>
         </ImagerySection>
+		
+		
         <StateImagery name="Normal">
             <Layer>
                 <Section section="normal" />
@@ -1764,6 +1774,7 @@
                 </Section>
             </Layer>
         </StateImagery>
+		
         <StateImagery name="Hover">
             <Layer>
                 <Section section="hover" />
@@ -1772,6 +1783,7 @@
                 </Section>
             </Layer>
         </StateImagery>
+		
         <StateImagery name="Pushed">
             <Layer>
                 <Section section="pushed" />
@@ -1780,6 +1792,7 @@
                 </Section>
             </Layer>
         </StateImagery>
+		
         <StateImagery name="PushedOff">
             <Layer>
                 <Section section="hover" />
@@ -1788,6 +1801,7 @@
                 </Section>
             </Layer>
         </StateImagery>
+		
         <StateImagery name="Disabled">
             <Layer>
                 <Section section="normal" />
@@ -1796,6 +1810,7 @@
                 </Section>
             </Layer>
         </StateImagery>
+		
     </WidgetLook>	
 
 <!--
@@ -2496,7 +2511,7 @@
         </Child>
 		
         <Child  type="OgreTray/ComboDropList" nameSuffix="__auto_droplist__">
-            <Area>
+			<Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="TopEdge" ><WidgetDim widget="__auto_editbox__" dimension="BottomEdge" /></Dim>
                 <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>

@@ -338,7 +338,9 @@ namespace Graphics
 		void _hhfxSceneInit();
 		void _hhfxSceneDeinit();
 		void _hhfxCompositorLoad();
+		void _hhfxCompositorBWLoad(); //PT
 		void _hhfxCompositorUnload();
+		void _hhfxCompositorBWUnload(); //PT
 		static bool _hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, const Ogre::Vector3 &direction, float length, SContactReport &contactReport);
 
 	}; // class CScene

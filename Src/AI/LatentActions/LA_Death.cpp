@@ -19,7 +19,6 @@
 #include "ScriptManager\Server.h"
 #include "Logic/Maps/EntityFactory.h"
 
-
 namespace AI
 {
 //////////////////////////////
@@ -45,8 +44,11 @@ namespace AI
 		_endingTime = currentTime + _time * 1000000;
 
 		//init Respawn Layout and functions
-	//	if (_entity->getType()=="Cancerbero")
+
+		//Recolocation of Cancerbero model, because when it died made it over the floor
+		//	if (_entity->getType()=="Cancerbero")
 		//	_entity->setOffsetHeight(-6);
+
 		if (_entity->isPlayer()){
 
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideHud"); //oculto el HUD
@@ -55,9 +57,10 @@ namespace AI
 			ScriptManager::CServer::getSingletonPtr()->loadExeScript("RespawnPlayer");
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("initRespawn");
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showRespawn");
+
 		}
 
-		
+		//message to changing to death model
 		std::cout<<"AI::StateMachine::WTF-I am Death!!"<<std::endl;
 		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
@@ -65,7 +68,10 @@ namespace AI
 		message->setAction(Message::WALK_STOP);
 		message->setBool(false);
 		_entity->emitMessage(message);
+
 			//sleepComponents();
+
+		//message to hearing death sound
 		std::string _audio = "media\\audio\\fallecimiento.wav";
 		Logic::CMessageAudio *maudio=new Logic::CMessageAudio();		
 		maudio->setType(Message::AUDIO);			
@@ -77,6 +83,8 @@ namespace AI
 		_entity->emitMessage(maudio);
 		
 		_scene=_entity->getMap()->getGraphicScene();
+
+		//for showing a black and white screen when player is death
 		if (_entity->isPlayer())
 			_scene->activateCompositor("BW");
 

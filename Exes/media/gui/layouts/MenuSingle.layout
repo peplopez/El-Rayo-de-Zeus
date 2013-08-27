@@ -27,7 +27,6 @@
 		<Window Type="OgreTray/Editbox" Name="MenuSingle/NickBox" >
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="" />
-			<!-- <Property Name="MaxTextLength" Value="10" /> -->
             <Property Name="AlwaysOnTop" Value="True" />
             <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.5,0},{0.95,0},{0.55,0}}" />
         </Window>
