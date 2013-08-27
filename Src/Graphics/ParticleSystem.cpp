@@ -128,7 +128,7 @@ namespace Graphics
 
 			_node = getSceneMgr()->getSceneNode( _parentName + "_node") 
 				 ->createChildSceneNode(_relativePos, ORIENTATION);
-
+			/*
 			// create a light if defined
 			if ( _lightDiffuse + _lightSpecular != Vector3::ZERO)  {			
 				_fxLight = getSceneMgr()->createLight();
@@ -140,6 +140,7 @@ namespace Graphics
 				_fxLight->setPosition(Vector3::UNIT_Y * 0.8f); 	// Segun HHFX sample para centrar la luz en la esfera (si worldScale = 1)
 				_node->attachObject(_fxLight);					
 			}
+			*/
 
 			_loaded = true;
 			
