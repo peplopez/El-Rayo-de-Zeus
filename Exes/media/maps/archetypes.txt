@@ -436,9 +436,7 @@ Map = {
 	
 	NPCAtalanta = {
 		type = "NPC",
-		model = "Atalanta.mesh",
-		modelHelmet = "Atalanta_hair.mesh",
-		modelWeapon = "Atalanta_arc.mesh",
+		model = "Atalanta2.1.mesh",
 		initialScale = 6,
 		logicInput=true,
 		sense=2,

@@ -59,26 +59,13 @@ Map ={
 		base=1,
 		ring=0,
 		degrees=0,
-	},
-	puAshes1 = {
-		type = "PUAshes",
-		base=1,
-		ring=0,
-		degrees=90,
 	},	
 	puPoison1 = {
 		type = "PUPoison",
 		base=1,
 		ring=2,
 		degrees=180,
-	},
-	puCauldron1 = {
-		type = "PUCauldron",
-		base=1,
-		ring=2,
-		degrees=270,
-	},
-	
+	},	
 	
 	LowerRing = {
 		type = "World",
