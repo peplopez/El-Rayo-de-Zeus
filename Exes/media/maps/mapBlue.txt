@@ -21,8 +21,7 @@ Map ={
 	pointLight1 = {
 		type = "WhitePLight",
 		position = {0, 100, 0},
-	},
-	
+	},	
 
 	GemeloBlue = {
 		type = "NPCSpartan",
