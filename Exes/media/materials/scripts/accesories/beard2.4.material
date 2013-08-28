@@ -1,0 +1,23 @@
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+material SpartanFur : base_material
+{
+	set_texture_alias diffuseMap 	beard_DF.tga
+    set_texture_alias normalMap 	beard_NM.tga
+    set_texture_alias specMap 		beard_SPC.tga
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "0 0 0"
+    set $shininess "0" 
+}
+
+material SpartanFur2 : base_material
+{
+	set_texture_alias diffuseMap 	beard_DF.tga
+    set_texture_alias normalMap 	beard_NM.tga
+    set_texture_alias specMap 		beard_SPC.tga
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "0 0 0"
+    set $shininess "0" 
+}

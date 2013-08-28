@@ -75,10 +75,7 @@ namespace Logic
 				message->getAction() == Message::COVER) || 
 				(message->getType()==Message::ANIMATION_FINISHED || message->getType()==Message::DAMAGE_MOMENT)) ||
 				message->getType() == Message::ATTACH; // HACK FRS FX Test
-
 	}
-	
-
 	
 	void CCombat::process(CMessage *message)
 	{

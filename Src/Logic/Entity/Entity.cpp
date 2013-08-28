@@ -125,16 +125,9 @@ namespace Logic
 		if(entityInfo->hasAttribute("ring"))
 			_pos->setRing(static_cast<Ring>(entityInfo->getIntAttribute("ring")));
 		else			
-			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna el anillo central para que 
-			//pese a todo no pete.
-			_pos->setRing(Logic::LogicalPosition::CENTRAL_RING);  
-
-		// UNDONE ƒ®§ Este height ya se inicializa a 0 en el ctor por defecto de TLogicalPosition
-		//_pos->_height = 0;
-
-		// UNDONE ƒ®§: Esta información de física es necesaria para alguien más?
-		//if(entityInfo->hasAttribute("angularBox"))					
-		//	_angularBox = entityInfo->getFloatAttribute("angularBox");
+			//situación anómala, se lanzaría una excepción o trazas por consola. 
+			//Se le asigna el anillo central para que pese a todo no pete.
+			_pos->setRing(Logic::LogicalPosition::CENTRAL_RING); 
 
 		if (_logicInput)
 		{
@@ -142,22 +135,17 @@ namespace Logic
 			_transform.setTrans(position);
 			
 			setYaw(Math::fromDegreesToRadians(-_pos->getDegree()));
-			if (_type=="AnimatedAltar")
-				this->setYaw(Math::fromDegreesToRadians(360 - _pos->getDegree() + 90));
-			
-			//  UNDONE FRS: Con el modelo spartan.mesh bien orientado este HACK ya no es necesario
-			if (_pos->getSense()==Logic::Sense::RIGHT)
-				if (_type=="Medusa" || _type=="Spider" || _type=="Sinbad"|| _type=="Cancerbero")
-					this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));			
-			//else if (_type=="Medusa"|| _type=="Spider"|| _type=="Sinbad"|| _type=="Cancerbero")
-			//else
-			//	if (_type=="Medusa"|| _type=="Spider"|| _type=="Sinbad"|| _type=="Cancerbero")
-			//		this->setYaw(Math::fromDegreesToRadians(360-_pos->getDegree()+180));
-				
-		
-		}
-		else //logicInput=false
-		{
+
+		//HACK FRS: Todas estas reorientaciones habría que evitarlas
+			if (_type=="AltarAnimated")
+				setYaw( Math::fromDegreesToRadians( 90 - _pos->getDegree() ) );
+			else if ( (_type == "Creature" || _type == "Cerberus") 
+				      && _pos->getSense() == Logic::Sense::RIGHT)
+				setYaw( Math::fromDegreesToRadians( 180 - _pos->getDegree() ) );	
+		////
+		} 
+		else //logicInput=false	
+		{ 	
 			position = CServer::getSingletonPtr()->getRingPosition(_pos->getRing());						
 			_transform.setTrans(position);
 		}
@@ -257,7 +245,8 @@ namespace Logic
 	 {		 
 		float offset=0;// se trata de un offset de radio, no de altura
 
-		if (_type == "Altar" || _type == "AnimatedAltar")		
+		// HACK
+		if (_type == "Altar" || _type == "AltarAnimated")		
 			offset=-13;
 
 		return (Math::fromCylindricalToCartesian( grados, CServer::getSingletonPtr()->getRingRadio(ring) + offset, CServer::getSingletonPtr()->getRingPosition(ring).y + altura + _offsetHeight));

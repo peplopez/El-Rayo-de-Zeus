@@ -6,7 +6,6 @@ latentes básicas.
 
 @author Jose Luis López
 @date Junio 2013
-
 */
 
 #pragma once
@@ -22,7 +21,6 @@ using namespace Logic;
 
 namespace AI 
 {
-
 	/**
 	Esta acción espera durante un periodo de tiempo indicado en el constructor.
 	*/

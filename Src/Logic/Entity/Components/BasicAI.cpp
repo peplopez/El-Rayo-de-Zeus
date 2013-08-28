@@ -49,10 +49,6 @@ namespace Logic
 		_gameStatus=CGameStatus::getSingletonPtr();
 		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
 	
-		/*if(entityInfo->hasAttribute("attackPower"))
-			_attackPower = entityInfo->getFloatAttribute("attackPower");
-		if (_entity->getType()=="OtherPlayer")
-			cover();*/
 		return true;
 	}
 
@@ -110,7 +106,7 @@ namespace Logic
 	}
 		
 	 void CBasicAI::process(CMessage *message)
-		 {
+	 {
 		switch(message->getType())
 		{
 			case Message::TRIGGER:
@@ -127,8 +123,7 @@ namespace Logic
 						m2->setType(Logic::Message::CONTROL);
 						m2->setAction(Logic::Message::SWITCH_ALTAR);
 						m2->setUInt(_entity->getEntityID());
-						_entity->emitMessage(m2);
-						
+						_entity->emitMessage(m2);						
 					}
 					break;
 				}
@@ -167,7 +162,7 @@ namespace Logic
 				case Message::COLLISION:
 				{
 					int accion=rand()%2;
-					if (accion==0)
+					if (true) // hack porque quiero probar una cosa
 					{	
 						Logic::CMessage *m = new Logic::CMessage();
 						m->setType(Logic::Message::CONTROL);
@@ -179,8 +174,7 @@ namespace Logic
 						Logic::CMessage *m4 = new Logic::CMessage();
 						m4->setType(Logic::Message::CONTROL);
 						m4->setAction(Logic::Message::WALK_STOP);
-						_entity->emitMessage(m4);
-						
+						_entity->emitMessage(m4);						
 					}
 					break;
 				}
@@ -196,9 +190,10 @@ namespace Logic
 			_agresivo=false;*/
 		
 		IComponent::tick(msecs);
-		// (_entity->getName()!="locoCubriendose")
-		if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase()==_entity->getLogicalPosition()->getBase() || _entity->getType()!="OtherPlayer")
-			if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing() ||  (_entity->getType()!="OtherPlayer" && _entity->getType()!="Cancerbero"))
+		
+		// TODO FRS Este tipo de comprobaciones de nombre a pelo son un error. Hay que especializar: BasicAINPC / BasicAICerberus
+		if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase()==_entity->getLogicalPosition()->getBase() || _entity->getType() != "NPC")
+			if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing() ||  (_entity->getType() != "NPC" && _entity->getType()!="Cerberus"))
 			{
 				if (_waiting==false)
 				{
