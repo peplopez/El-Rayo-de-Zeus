@@ -49,10 +49,6 @@ namespace Logic
 		_gameStatus=CGameStatus::getSingletonPtr();
 		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
 	
-		/*if(entityInfo->hasAttribute("attackPower"))
-			_attackPower = entityInfo->getFloatAttribute("attackPower");
-		if (_entity->getType()=="OtherPlayer")
-			cover();*/
 		return true;
 	}
 
@@ -194,9 +190,10 @@ namespace Logic
 			_agresivo=false;*/
 		
 		IComponent::tick(msecs);
-		// (_entity->getName()!="locoCubriendose")
-		if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase()==_entity->getLogicalPosition()->getBase() || _entity->getType()!="OtherPlayer")
-			if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing() ||  (_entity->getType()!="OtherPlayer" && _entity->getType()!="Cancerbero"))
+		
+		// TODO FRS Este tipo de comprobaciones de nombre a pelo son un error. Hay que especializar: BasicAINPC / BasicAICerberus
+		if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getBase()==_entity->getLogicalPosition()->getBase() || _entity->getType() != "NPC")
+			if (CServer::getSingletonPtr()->getPlayer()->getLogicalPosition()->getRing()==_entity->getLogicalPosition()->getRing() ||  (_entity->getType() != "NPC" && _entity->getType()!="Cerberus"))
 			{
 				if (_waiting==false)
 				{

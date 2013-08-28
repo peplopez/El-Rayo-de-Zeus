@@ -45,8 +45,6 @@ namespace AI
 		_endingTime = currentTime + _time * 1000000;
 
 		//init Respawn Layout and functions
-	//	if (_entity->getType()=="Cancerbero")
-		//	_entity->setOffsetHeight(-6);
 		if (_entity->isPlayer()){
 
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideHud"); //oculto el HUD
@@ -118,7 +116,7 @@ namespace AI
 
 		}
 
-		if(_entity->getType()=="OtherPlayer")
+		if(_entity->getType()=="NPC")
 			respawn();
 
 		awakeComponents();
@@ -164,7 +162,7 @@ namespace AI
 				return RUNNING;
 			}
 		}
-		else if(_entity->getType()=="OtherPlayer")
+		else if(_entity->getType()=="NPC")
 		{
 			if(Application::CBaseApplication::getSingletonPtr()->getAppTime() > _endingTime)
 				return SUCCESS;

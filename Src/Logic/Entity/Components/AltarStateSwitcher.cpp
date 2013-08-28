@@ -87,7 +87,7 @@ namespace Logic
 			if(message->getAction() == Message::TRIGGER_ENTER) 
 			{
 				CEntity *auxTarget = _entity->getMap()->getEntityByID(static_cast<CMessageUInt*>(message)->getUInt());
-				if(auxTarget->getType() == "Altar" || auxTarget->getType() == "AnimatedAltar")
+				if(auxTarget->getType() == "Altar" || auxTarget->getType() == "AltarAnimated")
 				{
 					_switchingAllowed = true;
 					_target = auxTarget;
@@ -95,9 +95,8 @@ namespace Logic
 			}
 			else if(message->getAction() == Message::TRIGGER_EXIT)
 			{
-
 				CEntity *auxTarget = _entity->getMap()->getEntityByID(static_cast<CMessageUInt*>(message)->getUInt());
-				if(auxTarget && (auxTarget->getType() == "Altar" || auxTarget->getType() == "AnimatedAltar") )
+				if(auxTarget && (auxTarget->getType() == "Altar" || auxTarget->getType() == "AltarAnimated") )
 				{	
 					if(_switchingState)
 						stopSwitchingState();

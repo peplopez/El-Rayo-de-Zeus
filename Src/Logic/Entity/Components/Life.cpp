@@ -180,7 +180,7 @@ namespace Logic
 
 			// PT Cuando la entidad pierde toda su vida, se elimina la entidad 
 			// (tanto grafica como fisicamente)
-			if(!_entity->isPlayer() && _entity->getType()!="OtherPlayer")
+			if( !_entity->isPlayer() && _entity->getType() != "NPC")
 			{
 				if(_lifeBarBB!=NULL)
 				{
@@ -216,7 +216,6 @@ namespace Logic
 
 			// LIFEBAR CONTROL
 			float ratio = float (_life) / float (_LIFE_MAX);
-
 
 			//Si la entidad no es el player actualizamos su billboard
 			if(!_entity->isPlayer())

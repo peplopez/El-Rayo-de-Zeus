@@ -73,7 +73,7 @@ Map = {
 	},
 
 	AltarRed = {
-		type = "AnimatedAltar",
+		type = "AltarAnimated",
 		model = "altarZeus.mesh",
 		initialScale = 0.17,
 		logicInput = true,
@@ -91,7 +91,7 @@ Map = {
 	},	
 	
 	AltarBlue = {
-		type = "AnimatedAltar",
+		type = "AltarAnimated",
 		model = "altarZeus.mesh",
 		initialScale = 0.17,
 		logicInput = true,
@@ -203,8 +203,8 @@ Map = {
 		model = "puAppleOnHand2.0.mesh",
 	},
 	
-	BaseCamera1 = {
-		type = "BaseCamera",
+	BaseCamera = {
+		type = "CameraBase",
 		radius = 500,
 		height = 100,
 		angularspeed = 20,
@@ -222,7 +222,7 @@ Map = {
 	},
 	
 	Sinbad = {
-		type = "Sinbad",
+		type = "Creature",
 		model = "sinbad.mesh",
 		initialScale = 2.0,
 		logicInput = true,		
@@ -264,7 +264,7 @@ Map = {
 	},
 	
 	Medusa = {
-		type = "Medusa",
+		type = "Creature",
 		model = "medusa.mesh",
 		defaultAnimation = "idle",
 		scaleFactor = 1,
@@ -314,7 +314,7 @@ Map = {
 	},
 	
 	Spider = {
-		type = "Spider",
+		type = "Creature",
 		model = "spider.mesh",		
 		logicInput = true,
 		base=1,
@@ -338,8 +338,8 @@ Map = {
 		audio="media\\audio\\QUEJIDO1.wav",
 	},
 	
-	Cancerbero = {
-		type = "Cancerbero",
+	Cerberus = {
+		type = "Cerberus",
 		model = "CanCerbero.mesh",
 		initialScale = 1.0,
 		logicInput = true,
@@ -376,65 +376,10 @@ Map = {
 		event_DT_Attack2=1.1,
 		event_DT_Attack3=1.9,		
 		event_DT_Attack4=2.5,	
-	},	
-	
-	
-	Espartano = {
-		type = "OtherPlayer",
-		model = "spartan2.4.mesh",
-        modelWeapon = "katana1.9.mesh",
-		modelFacial = "beard2.4.mesh",
-		logicInput=true,
-		sense=2,
-		lifeMax = 100,
-		physicType = "dynamic",
-		shape="capsule",
-		physicRadius = 3.5,
-		physicHalfWidth = 2.5,
-		physicHalfHeight = 4,
-		density = 0.7,
-		friction = 0,
-		restitution = 0,		
-		lifeBarPosition = 23.0,
-		lifeBarWidth = 15.0,
-		lifeBarHeight = 1.5,	
-		lifeBase = 3,		
-		angularSpeed = 42.5,
-		turnSpeedFactor = 0.005,
-		defaultAnimation = "idle",
-		logicInput=true,
-		behavior="Hercules",
-		hero="Hercules",
-		audio="media\\audio\\QUEJIDO1.wav",
-		audioCubriendose="media\\audio\\Sword_scrape2.wav",
-	    initialMaterial0="SpartanBodyTatooWounds",
-		jumpSpeed=220,
-		jumpDecay=700,
-		animIdle="idle",
-		animRun="run",
-		animDeath="die",
-		animJump="jump",
-		animDamage="damage",
-		animActivateAltar="activate",
-		animCoverWithWeapon="cover",
-		animCoverWithShield="shieldcover",
-		animAttack1="attack1",
-		animAttack2="attack2",
-		animAttack3="attack3",
-		animCombo1="combo1",
-		animCombo2="combo2",
-		animCombo3="combo3",
-		event_DT_Attack1=0.35,
-		event_DT_Attack2=0.3,
-		event_DT_Attack3=0.3,
-		event_CT_Attack1=0.2,
-		event_CT_Attack2=0.2,
-		event_CT_Attack3=0.2,
-		event_DT_Cover=0.45,
-	},
-	
-	OtherPlayer = {
-		type = "OtherPlayer",
+	},		
+
+	NPCSpartan = {
+		type = "NPC",
 		model = "spartan2.4.mesh",
 		modelHelmet = "helmet2.3.mesh",
 		modelWeapon = "katana1.9.mesh",
@@ -489,8 +434,8 @@ Map = {
 		event_DT_Cover=0.45,
 	},
 	
-	Atalanta = {
-		type = "Atalanta",
+	NPCAtalanta = {
+		type = "NPC",
 		model = "Atalanta.mesh",
 		modelHelmet = "Atalanta_hair.mesh",
 		modelWeapon = "Atalanta_arc.mesh",
@@ -561,11 +506,11 @@ Map = {
 		orbitalRotationSpeed = 0.001,	
 	},
 	
-	PUThrone = {
+	PUCauldron = {	
 		type = "PowerUp",
-		model = "puThrone2.0.mesh",	
+		model = "puCauldron2.0.mesh",		
 		logicInput=true,
-		lifeModifier=-10,
+		lifeModifier=10,
 		physicType = "static",
 		shape="box",		
 		physicHalfWidth = 2.5,
@@ -573,7 +518,22 @@ Map = {
 		physicTrigger = true,
 		orbitalOffset = 0.013,
 		orbitalSpeed = 0.004,
-		orbitalRotationSpeed = 0.001,		
+		orbitalRotationSpeed = 0.001,
+	},	
+	
+	PUHourglass = {
+		type = "PowerUp",
+		model = "puHourglass2.0.mesh",
+		logicInput=true,
+		lifeModifier=10,
+		physicType = "static",
+		shape="box",		
+		physicHalfWidth = 2.5,
+		physicHalfHeight = 2.5,
+		physicTrigger = true,
+		orbitalOffset = 0.013,
+		orbitalSpeed = 0.004,
+		orbitalRotationSpeed = 0.001,
 	},
 	
 	PUPandora = {
@@ -590,6 +550,20 @@ Map = {
 		orbitalOffset = 0.013,
 		orbitalSpeed = 0.004,
 		orbitalRotationSpeed = 0.001,
+	},
+	
+	PUPhoenix = {
+		type = "PowerUp",
+		model = "puAshes2.0.mesh",
+		logicInput=true,	
+		physicType = "static",
+		shape="box",		
+		physicHalfWidth = 2.5,
+		physicHalfHeight = 2.5,
+		physicTrigger = true,
+		orbitalOffset = 0.013,
+		orbitalSpeed = 0.004,
+		orbitalRotationSpeed = 0.001,	
 	},
 	
 	PUPoison = {
@@ -610,11 +584,11 @@ Map = {
 		fxPos0 = {0.5,11,0},
 	},
 	
-	PUHourglass = {
+	PUThrone = {
 		type = "PowerUp",
-		model = "puHourglass2.0.mesh",
+		model = "puThrone2.0.mesh",	
 		logicInput=true,
-		lifeModifier=10,
+		lifeModifier=-10,
 		physicType = "static",
 		shape="box",		
 		physicHalfWidth = 2.5,
@@ -622,8 +596,10 @@ Map = {
 		physicTrigger = true,
 		orbitalOffset = 0.013,
 		orbitalSpeed = 0.004,
-		orbitalRotationSpeed = 0.001,
+		orbitalRotationSpeed = 0.001,		
 	},
+	
+	
 	
 	SkySphere = {
 		type = "Sky",
