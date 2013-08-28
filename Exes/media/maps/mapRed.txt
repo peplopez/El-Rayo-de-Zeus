@@ -56,20 +56,32 @@ Map ={
 	puAshes1 = {
 		type = "PUAshes",
 		base=1,
-		ring=0,
+		ring=2,
 		degrees=90,
 	},	
 	puPoison1 = {
 		type = "PUPoison",
 		base=1,
-		ring=2,
-		degrees=180,
+		ring=1,
+		degrees=10,
 	},
 	puCauldron1 = {
 		type = "PUCauldron",
 		base=1,
-		ring=2,
-		degrees=270,
+		ring=0,
+		degrees=20,
+	},
+	puCauldron2 = {
+		type = "PUCauldron",
+		base=1,
+		ring=0,
+		degrees=40,
+	},
+	puCauldron3 = {
+		type = "PUCauldron",
+		base=1,
+		ring=0,
+		degrees=50,
 	},
 	
 	
