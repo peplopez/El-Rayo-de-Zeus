@@ -1,0 +1,45 @@
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+material Atalanta_body : base_material
+{
+	set_texture_alias diffuseMap 	Atalanta_body_diffuse.tga    
+    set_texture_alias specMap 		Atalanta_body_Specular.tga
+	set_texture_alias normalMap 	Atalanta_body_NORM.tga
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "20" 
+}
+
+material Atalanta_hair : base_material
+{
+	set_texture_alias diffuseMap 	Atalanta_hair_diffuse.tga    
+    set_texture_alias specMap 		Atalanta_hair_Specular.tga
+	set_texture_alias normalMap 	Atalanta_hair_NORM.tga
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "20" 
+}
+
+material Atalanta_armband : base_material
+{
+	set_texture_alias diffuseMap 	Atalanta_armband_diffuse.tga    
+    set_texture_alias specMap 		Atalanta_armband_Specular.tga
+	set_texture_alias normalMap 	Atalanta_armband_NORM.tga
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "20" 
+}
+
+material Atalanta_armor : base_material
+{
+	set_texture_alias diffuseMap 	Atalanta_armor_diffuse.tga    
+    set_texture_alias specMap 		Atalanta_armor_Specular.tga
+	set_texture_alias normalMap 	Atalanta_armor_NORM.tga
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "20" 
+}
