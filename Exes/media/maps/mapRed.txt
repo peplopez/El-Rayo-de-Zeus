@@ -4,61 +4,31 @@ Map ={
 		type = "Scene",
 		sceneFile = "spartanScenario.scene",
 	},
+	SkySphere = {
+		type = "SkySphere",
+	},
+	
 	
 	Camera = {
 		type = "PlayerCamera",
 	},
-	
-	SkySphere = {
-		type = "SkySphere",
-	},
-		
-			
 	BaseCamera1 = {
-		type = "BaseCamera1",
+		type = "BaseCamera",
 	},
+	
 	
 	Light1 = {
 		type = "WhitePLight",
 		position = {-100, 120, 0},
 	},
-	
-	
 	Light2 = {
 		type = "WhitePLight",
 		position = {100, 20, 0},
 	},	
 			
-	puApple1 = {
-		type = "PUApple",
-		base=1,
-		ring=0,
-		degrees=0,
-	},
-	
-	puThrone1 = {
-		type = "PUThrone",
-		base=1,
-		ring=0,
-		degrees=120,
-	},
-	
-	puPandora1 = {
-		type = "PUPandora",
-		base=1,
-		ring=2,
-		degrees=0,
-	},
-	
-	puPoison1 = {
-		type = "PUPoison",
-		base=1,
-		ring=1,
-		degrees=180,
-	},
 		
 	Cancerbero1 = {
-		type = "Cancerbero",
+		type = "Cerberus",
 		model = "CanCerbero.mesh",		
 		base=1,
 		ring=0,		
@@ -66,8 +36,8 @@ Map ={
 		sense=1,
 		behavior="Cancerbero",		
 	},	
-		Cancerbero2 = {
-		type = "Cancerbero",
+	Cancerbero2 = {
+		type = "Cerberus",
 		model = "CanCerbero.mesh",		
 		base=1,
 		ring=0,		
@@ -75,6 +45,21 @@ Map ={
 		sense=1,
 		behavior="Cancerbero",		
 	},	
+
+	
+	puHourglass1 = {
+		type = "PUHourglass",
+		base=1,
+		ring=0,
+		degrees=0,
+	},
+	puPoison1 = {
+		type = "PUPoison",
+		base=1,
+		ring=1,
+		degrees=10,
+	},	
+	
 	LowerRing = {
 		type = "World",
 		base=1,
@@ -85,8 +70,7 @@ Map ={
 		physicHalfWidth = 190,
 		physicHalfHeight = 1,
 		physicBodyOffset = -1.9,
-	},
-	
+	},	
 	CenterRing = {
 		type = "World",
 		base=1,
@@ -97,8 +81,7 @@ Map ={
 		physicHalfWidth = 190,
 		physicHalfHeight = 1,
 		physicBodyOffset = -1.9,
-	},
-	
+	},	
 	UpperRing = {
 		type = "World",
 		base=1,
@@ -110,78 +93,69 @@ Map ={
 		physicHalfHeight = 1,
 		physicBodyOffset = -1.9,
 	},
+
 	
 	Altar1 = {
 		type = "AltarRed",
 		degrees=30,
 		ring=0,
 		base=1,		
-	},
-	
+	},	
 	Altar2 = {
 		type = "AltarRed",
 		degrees=150,
 		ring=0,
 		base=1,	
 
-	},
-	
+	},	
 	Altar3 = {
 		type = "AltarRed",
 		degrees=270,
 		ring=0,
 		base=1,
-	},
-	
+	},	
 	Altar4 = {
 		type = "AltarRed",
 		degrees=6,
 		ring=1,
 		base=1,	
-	},
-	
+	},	
 	Altar5 = {
 		type = "AltarRed",
 		degrees=78,
 		ring=1,
 		base=1,
-	},
-	
+	},	
 	Altar6 = {
 		type = "AltarRed",
 		degrees=150,
 		ring=1,
 		base=1,	
-	},
-	
+	},	
 	Altar7 = {
 		type = "AltarRed",
 		degrees=222,
 		ring=1,
 		base=1,			
-	},
-	
+	},	
 	Altar8 = {
 		type = "AltarRed",
 		degrees=294,
 		ring=1,
 		base=1,		
-	},
-	
+	},	
 	Altar9 = {
 		type = "AltarRed",
 		degrees=30,
 		ring=2,
 		base=1,		
-	},
-	
+	},	
 	Altar10 = {
 		type = "AltarRed",
 		degrees=150,
 		ring=2,
 		base=1,		
-	},
-	
+	},	
 	Altar11 = {
 		type = "AltarRed",
 		degrees=270,

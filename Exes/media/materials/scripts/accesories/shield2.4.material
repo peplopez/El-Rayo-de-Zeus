@@ -1,0 +1,23 @@
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+material SpartanShield : base_material
+{
+	set_texture_alias diffuseMap shield_DF.tga
+    set_texture_alias normalMap shield_NM.tga
+    set_texture_alias specMap shield_SPC.tga
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.816 0.722 0.537"
+    set $shininess "100" 
+}
+
+material SpartanShield2 : base_material
+{
+	set_texture_alias diffuseMap shield_DF.tga
+    set_texture_alias normalMap shield_NM.tga
+    set_texture_alias specMap shield_SPC.tga
+
+    set $diffuseCol "1 1 1"
+    set $specularCol "0.816 0.722 0.537"
+    set $shininess "100" 
+}

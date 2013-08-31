@@ -48,10 +48,6 @@ namespace AI
 
 		//init Respawn Layout and functions
 
-		//Recolocation of Cancerbero model, because when it died made it over the floor
-		//	if (_entity->getType()=="Cancerbero")
-		//	_entity->setOffsetHeight(-6);
-
 		if (_entity->isPlayer()){
 
 			std::cout<<"AI::StateMachine::WTF-I am death!! - I AM PLAYER " << std::endl;
@@ -133,7 +129,7 @@ namespace AI
 
 		}
 
-		if(_entity->getType()=="OtherPlayer")
+		if(_entity->getType()=="NPC")
 			respawn();
 
 		awakeComponents();
@@ -179,7 +175,7 @@ namespace AI
 				return RUNNING;
 			}
 		}
-		else if(_entity->getType()=="OtherPlayer")
+		else if(_entity->getType()=="NPC")
 		{
 			if(Application::CBaseApplication::getSingletonPtr()->getAppTime() > _endingTime)
 				return SUCCESS;

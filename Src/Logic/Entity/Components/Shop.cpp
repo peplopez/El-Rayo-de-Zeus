@@ -575,7 +575,7 @@ namespace Logic
 		const CEGUI::MouseEventArgs& args = reinterpret_cast<const CEGUI::MouseEventArgs&>(e);
 		if (args.button == CEGUI::LeftButton)
 		{
-			createAlly("Cancerbero", 500);
+			createAlly("Cerberus", 500);
 			return true;
 		}
 		return false;

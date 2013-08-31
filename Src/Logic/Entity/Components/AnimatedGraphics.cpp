@@ -217,6 +217,13 @@ namespace Logic
 			_animSet->addEventTime(Logic::COVER_WITH_WEAPON, Logic::COVER_MOMENT, entityInfo->getFloatAttribute("event_DT_Cover"));
 		if (entityInfo->hasAttribute("event_DT_ActivateAltar"))
 			_animSet->addEventTime(Logic::SWITCH_ALTAR, Logic::SWITCH_MOMENT, entityInfo->getFloatAttribute("event_DT_ActivateAltar"));
+		
+
+	// TODO FRS ¿Y no sería mejor hacer una herencia/especialización "AnimatedGraphicsCerberus" 
+	// para no andar con estas comprobaciones/excepciones? Depender de los nombres de los blueprints
+	// es un riesgo (p.e. si queremos renombrar "Cancerbero" a "Cerberus"). Es mejor guardar la 
+	// funcionalidad específica en un componente heredado y asignarlo al blueprint que nos apetezca.
+	//		
 		//especificos de cancerbero
 		if (entityInfo->hasAttribute("animJumpDown"))
 			_animSet->addAnimation(Logic::JUMP_DOWN,entityInfo->getStringAttribute("animJumpDown"));
@@ -224,8 +231,8 @@ namespace Logic
 			_animSet->addAnimation(Logic::ALERT,entityInfo->getStringAttribute("animAlert"));
 		if (entityInfo->hasAttribute("animWalk"))
 			_animSet->addAnimation(Logic::WALK,entityInfo->getStringAttribute("animWalk"));
-		
-		if (_entity->getType()=="Cancerbero")	//en el caso de cancerbero en un solo ataque tiene varios eventos Damage_track
+			
+		if (_entity->getType()=="Cerberus")	//en el caso de cancerbero en un solo ataque tiene varios eventos Damage_track
 		{			
 			if (entityInfo->hasAttribute("event_DT_Attack1"))
 				_animSet->addEventTime(Logic::ATTACK1, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack1"));
@@ -244,7 +251,10 @@ namespace Logic
 				_animSet->addEventTime(Logic::ATTACK2, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack2"));
 			if (entityInfo->hasAttribute("event_DT_Attack3"))
 				_animSet->addEventTime(Logic::ATTACK3, Logic::DAMAGE_TRACK, entityInfo->getFloatAttribute("event_DT_Attack3"));
-		}		
+		}	
+	//
+	/////////
+
 		return true;
 	} // initializeAnimSet
 	

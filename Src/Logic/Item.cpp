@@ -73,7 +73,9 @@ namespace Logic
 			->getEntityByID( rxMsg->getUInt() );
 
 		// FRS Sólo cogen items los players
-		if(otherEntity->getType() == "Player" || otherEntity->getType() == "OtherPlayer") {	
+		// TODO FRS Hay que especializar el componente para player y otherPlayer o
+		// barajar la opción de renombrarlo como CItemManager y que se use desde Player y OtherPlayer
+		if(otherEntity->getType() == "Player" || otherEntity->getType() == "NPC") {	
 			
 			// ATTACH TO HAND
 			if( _modelOnHand.length() > 0 ) {

@@ -1,0 +1,26 @@
+material csm_template
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref csm_vs
+            {
+            }
+
+            fragment_program_ref csm_ps
+            {
+            }
+
+            texture_unit diffuse_map
+            {
+                texture rockwall_d.tga
+            }
+
+            texture_unit csm_map
+            {
+                texture rockwall_csm.png
+            }
+        }
+    }
+}

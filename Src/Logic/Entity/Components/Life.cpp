@@ -186,7 +186,7 @@ namespace Logic
 
 			// PT. When NO PLAYER entity lose all its life
 			// entity is deleted graphically as phisically
-			if(!_entity->isPlayer() && _entity->getType()!="OtherPlayer")
+			if( !_entity->isPlayer() && _entity->getType() != "NPC")
 			{
 				if(_lifeBarBB!=NULL)
 				{
@@ -216,7 +216,6 @@ namespace Logic
 			float flifeMax = float (_LIFE_MAX);
 			//float ratio = float (_life) / float (_LIFE_MAX);
 			float ratio = flife / flifeMax;
-
 			if(_entity->isPlayer()){
 				std::cout<<" ----------- RATIO --------------- " << std::endl;
 				std::cout<<" _life =  "<< _life << " flife = " << flife << std::endl;
