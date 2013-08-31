@@ -120,9 +120,13 @@ namespace Logic
 			_graphicalEntity->attach( Graphics::TAttachPoint::FACE, 
 				entityInfo->getStringAttribute("modelFacial") );
 
-		if(entityInfo->hasAttribute("modelWeapon"))
+		if(entityInfo->hasAttribute("modelWeaponR"))
 			_graphicalEntity->attach( Graphics::TAttachPoint::HAND_R, 
-				entityInfo->getStringAttribute("modelWeapon") );
+				entityInfo->getStringAttribute("modelWeaponR") );
+
+		if(entityInfo->hasAttribute("modelWeaponL"))
+			_graphicalEntity->attach( Graphics::TAttachPoint::HAND_L, 
+				entityInfo->getStringAttribute("modelWeaponL") );
 
 		if(entityInfo->hasAttribute("modelShield"))
 			_graphicalEntity->attach( Graphics::TAttachPoint::ARM_L, 

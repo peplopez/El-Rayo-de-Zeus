@@ -27,6 +27,15 @@ Map ={
 	},	
 			
 		
+	Atalanta1 = {
+		type = "NPCAtalanta",
+		base=1,
+		ring=1,
+		degrees=120,
+		initialMaterial1="marineBlue",
+	},
+	
+	
 	Cancerbero1 = {
 		type = "Cerberus",
 		model = "CanCerbero.mesh",		
@@ -45,13 +54,6 @@ Map ={
 		sense=1,
 		behavior="Cancerbero",		
 	},	
-	Atalanta = {
-		type = "NPCAtalanta",
-		base=1,
-		ring=1,
-		degrees=120,
-		initialMaterial1="marineBlue",
-	},
 	
 	
 	puHourglass1 = {
