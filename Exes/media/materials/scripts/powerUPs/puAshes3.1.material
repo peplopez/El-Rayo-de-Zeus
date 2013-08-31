@@ -1,23 +1,21 @@
 import base_material from "Normal_AO_Specular_Mapping_Shader.material"
 
-material AshesMaterial : base_material
+material ashes : base_material
 {
 	set_texture_alias diffuseMap 	texture_ashes.tga
 	set_texture_alias specMap 		texture_ashes_specular.tga
     
     set $diffuseCol  "1 1 1"
     set $specularCol "1 1 1"
-    set $shininess "10" 
+    set $shininess "20" 
 }
 
-material UrnMaterial : base_material
+material Urn : base_material
 {
 	set_texture_alias diffuseMap 	texture_urn.tga
 	set_texture_alias specMap 		texture_urn_specular.tga
     
     set $diffuseCol  "1 1 1"
     set $specularCol "1 1 1"
-    set $shininess "10" 
+    set $shininess "20" 
 }
-
-

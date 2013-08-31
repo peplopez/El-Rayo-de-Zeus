@@ -71,19 +71,13 @@ Map ={
 		ring=0,
 		degrees=20,
 	},
-	puCauldron2 = {
-		type = "PUCauldron",
+	phoenix1 = {
+		type = "Phoenix",
 		base=1,
-		ring=0,
-		degrees=40,
+		ring=1,
+		degrees=180,
+		height=10,
 	},
-	puCauldron3 = {
-		type = "PUCauldron",
-		base=1,
-		ring=0,
-		degrees=50,
-	},
-	
 	
 	LowerRing = {
 		type = "World",
