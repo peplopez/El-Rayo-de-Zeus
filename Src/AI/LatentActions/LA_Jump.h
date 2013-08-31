@@ -116,6 +116,13 @@ namespace AI
 
 		virtual void awakeComponents();
 
+		//PT
+	protected:
+		/**
+		Tiempo en el que se termina la acción
+		*/
+		unsigned long _endingTime;
+
 	};
 } //namespace AI 
 

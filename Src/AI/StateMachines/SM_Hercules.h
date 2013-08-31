@@ -130,6 +130,38 @@ class CSM_Hercules : public CStateMachine<CLatentAction>
 			this->addEdge(damaged, idle,  new CConditionSuccess());  // es un exito que no me hayan dado de nuevo mientras me estaban dando. Vuelvo a Idle, estado desde el cual me puedo cubrir o contraatacar
 			this->addEdge(damaged, damaged,  new CConditionMessageAction<CLatentAction>(Message::LIFE_MODIFIER,Message::DAMAGE));  //si mientras estoy en estado de daño me vuelven a dar vuelvo a poner la animación de daño, vuelvo al principio del estado en el que estoy
 			this->addEdge(damaged, dead,  new CConditionMessageAction<CLatentAction>(Message::DEAD,Message::DAMAGE));  //si mientras estoy en estado de daño me vuelven a dar vuelvo a poner la animación de daño, vuelvo al principio del estado en el que estoy
+			
+			// PT Desde mi punto de vista, desde cualquier estado, 
+			// si le llega un mensaje de tipo muerte y action damage
+			// el player debe morir porque eso significaria que su vida es <= 0
+
+			/*estados
+			l_run
+			r_run
+			jumping
+			idle
+			changingRingUp
+			changingRingDown
+			changingBase
+			switchingAltar
+			l_attack0
+			l_attack1
+			h_attack2
+			*/
+			this->addEdge(l_run, dead, new CConditionMessageAction<CLatentAction>(Message::DEAD,Message::DAMAGE));
+			this->addEdge(r_run, dead, new CConditionMessageAction<CLatentAction>(Message::DEAD,Message::DAMAGE));
+			this->addEdge(jumping, dead, new CConditionMessageAction<CLatentAction>(Message::DEAD,Message::DAMAGE));
+			this->addEdge(idle, dead, new CConditionMessageAction<CLatentAction>(Message::DEAD,Message::DAMAGE));
+			this->addEdge(changingRingUp, dead, new CConditionMessageAction<CLatentAction>(Message::DEAD,Message::DAMAGE));
+			this->addEdge(changingRingDown, dead, new CConditionMessageAction<CLatentAction>(Message::DEAD,Message::DAMAGE));
+			this->addEdge(changingBase, dead, new CConditionMessageAction<CLatentAction>(Message::DEAD,Message::DAMAGE));
+			this->addEdge(switchingAltar, dead, new CConditionMessageAction<CLatentAction>(Message::DEAD,Message::DAMAGE));
+			this->addEdge(l_attack0, dead, new CConditionMessageAction<CLatentAction>(Message::DEAD,Message::DAMAGE));
+			this->addEdge(l_attack1, dead, new CConditionMessageAction<CLatentAction>(Message::DEAD,Message::DAMAGE));
+			this->addEdge(h_attack2, dead, new CConditionMessageAction<CLatentAction>(Message::DEAD,Message::DAMAGE));
+
+			//Fin PT
+
 			this->addEdge(dead, idle,  new CConditionSuccess());
 
 			// Por último hay que decir cuál es el nodo inicial.

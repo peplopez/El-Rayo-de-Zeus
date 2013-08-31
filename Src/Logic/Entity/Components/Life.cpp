@@ -93,7 +93,8 @@ namespace Logic
 			_audio = entityInfo->getStringAttribute("audio");
 
 		// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
-		//Si la entidad no es el PLAYER le creamos el Billboard
+		//Si la entidad no es el PLAYER le creamos el Billboard (para el player su vida se visualiza
+		//en el hud)
 
 		if(!_entity->isPlayer())
 		{
@@ -131,19 +132,9 @@ namespace Logic
 			{
 				CMessageUInt *Msg = static_cast<CMessageUInt*>(message);
 
-				//if (message->getAction()==TActionType::DAMAGE)
-				//	modifyLife(-10);
-				//else
-				//	modifyLife(10);
-
-				//PT Me da igual que la action sea DAMAGE o HEAL, lo importante es que sea LIFE_MODIFIER el tipo
-				// ya que luego en el entero del mensaje me vendrá el numero a modificar en negativo o positivo
-				//En Msg->getUint viene el modificador entero.
-
-				//if (message->getAction()==TActionType::DAMAGE)
-				//	_lifemodificator = -Msg->getUInt();
-				//else
-				//	_lifemodificator = Msg->getUInt();
+				// PT. It doesnt care if action is DAMAGE or HEAL, important thing is that message type is LIFE_MODIFIER
+				// because the integer that comes inside the message will be positive or negative
+				// In Msg->getUint comes the integer modificator
 
 				_lifemodificator = Msg->getUInt();
 				modifyLife(_lifemodificator); 
@@ -166,20 +157,35 @@ namespace Logic
 
 	void CLife::modifyLife(int lifeModifier) {
 
+		if(_entity->isPlayer()){
+			std::cout<<"----CLife::modifyLife ---- "<<  std::endl;
+			std::cout<<" _life = "<< _life << std::endl;
+			std::cout<<" lifeModifier = "<< lifeModifier << std::endl;
+		}
+
 		_life += lifeModifier;
 
 		Math::Clamp( _life, 0, _LIFE_MAX); // Disminuir/ aumentar la vida de la entidad
-			
+
+		if(_entity->isPlayer()){
+			std::cout<<" _life after modifying =  "<< _life << std::endl;
+			std::cout<<"----End CLife::modifyLife ---- "<<  std::endl;
+		}
+
 		// DIES
 		if(_life <= 0) {
+
+			if(_entity->isPlayer()){
+				std::cout<<" BUCLE IF: _life <= 0 y se manda mensaje de TIPO DEAD y ACTION DAMAGE"<<  std::endl;
+			}
 
 			CMessage *msg = new CMessage();
 			msg->setType(Logic::Message::DEAD);
 			msg->setAction(Logic::Message::DAMAGE); // HACK PeP para que funcione máquina estados
 			_entity->emitMessage(msg, this);
 
-			// PT Cuando la entidad pierde toda su vida, se elimina la entidad 
-			// (tanto grafica como fisicamente)
+			// PT. When NO PLAYER entity lose all its life
+			// entity is deleted graphically as phisically
 			if(!_entity->isPlayer() && _entity->getType()!="OtherPlayer")
 			{
 				if(_lifeBarBB!=NULL)
@@ -187,15 +193,6 @@ namespace Logic
 					_graphicalScene->remove(_lifeBarBB);
 					_lifeBarBB = NULL;
 				}
-
-				// PT. Estoy intentando eliminar la entidad cuando no es
-				// de tipo Player. 
-				// Lo comento porque peta en OgreRoot.cpp -> 
-				// bool Root::renderOneFrame(Real timeSinceLastFrame) 
-				// -> evt.timeSinceLastEvent = calculateEventTime(now, FETT_ANY);
-				//CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
-				//_lifeBarBB = NULL;
-
 			}
 		// DAMAGE / HEAL 
 		} else if(lifeModifier) { // Solo animaciones
@@ -207,7 +204,7 @@ namespace Logic
 			maudio->setPosition(_entity->getPosition());
 			maudio->setNotIfPlay(false);
 			maudio->setIsPlayer(false);
-// TODO
+			// TODO
 			lifeModifier < 0 ?	maudio->setPath(_audio): //Poner el sonido de herido. 
 								maudio->setPath(_audio); // Poner el sonido de curacion
 
@@ -215,10 +212,20 @@ namespace Logic
 		}		
 
 			// LIFEBAR CONTROL
-			float ratio = float (_life) / float (_LIFE_MAX);
+			float flife = float (_life);
+			float flifeMax = float (_LIFE_MAX);
+			//float ratio = float (_life) / float (_LIFE_MAX);
+			float ratio = flife / flifeMax;
 
+			if(_entity->isPlayer()){
+				std::cout<<" ----------- RATIO --------------- " << std::endl;
+				std::cout<<" _life =  "<< _life << " flife = " << flife << std::endl;
+				std::cout<<" _LIFE_MAX =  "<< _LIFE_MAX << " flifeMax = " << flifeMax << std::endl;
+				std::cout<<" ratio =  "<< ratio <<  std::endl;
+				std::cout<<" ----------- END RATIO --------------- " << std::endl;
+			}
 
-			//Si la entidad no es el player actualizamos su billboard
+			//If NOT Player, its billboard is updated 
 			if(!_entity->isPlayer())
 			{
 				//Si la entidad tiene su _lifeBar distinto de NULL actualizamos las coordenadas UV, sino NO.
@@ -232,8 +239,9 @@ namespace Logic
 					);
 				}
 			}
-			else // if entity is Player then we update its HUD progressbar, sending a message
+			else // if IS Player then we update its HUD progressbar, sending a message
 			{
+				std::cout<<" UPDATE HUD PLAYER WITH RATIO =  " << ratio << std::endl;
 				CMessageFloat *message = new CMessageFloat();
 				message->setType(Logic::Message::HUD);
 				message->setAction(Logic::Message::UPDATE_HUD_LIFE);
@@ -241,7 +249,6 @@ namespace Logic
 				_entity->emitMessage(message);
 
 			}
-
 
 	} // modifyLife
 

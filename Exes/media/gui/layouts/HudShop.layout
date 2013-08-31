@@ -2,7 +2,7 @@
 
 <GUILayout >
 
-	<!-- Ventana Root -->
+	<!-- ROOT WINDOW -->
     <Window Type="DefaultWindow" Name="Root" >
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
 	
@@ -47,6 +47,14 @@
 			<Property Name="UnifiedAreaRect" Value="{{0,58},{0,98},{0,215},{0,111}}" />
 		</Window>
 		
+		<!-- VIDA EN FORMA NUMERICA -->
+<!-- 		<Window Type="OgreTray/NumAltares" Name="Root/Hud/LifeText" >
+			<Property Name="Font" Value="Cantoria-10" />
+			<Property Name="Text" Value="100" />
+			<Property Name="AlwaysOnTop" Value="True" />
+			<Property Name="UnifiedAreaRect" Value="{{0,150},{0,102},{0,215},{0,108}}" />
+		</Window> -->			
+		
 		<Window Type="OgreTray/StaticImage" Name="Root/Hud/RayoBase" >
 			<Property Name="FrameEnabled" Value="false" />
 			<Property Name="BackgroundEnabled" Value="False" />			
@@ -86,13 +94,6 @@
 			<Property Name="UnifiedAreaRect" Value="{{0,165},{0,50},{0,230},{0,72}}" />
 		</Window>		
 		
-<!-- 		<Window Type="OgreTray/StaticImage" Name="Root/Hud/Altares" >
-			<Property Name="FrameEnabled" Value="false" />
-			<Property Name="BackgroundEnabled" Value="False" />			
-			<Property Name="AlwaysOnTop" Value="False" />
-			<Property Name="Image" Value="set:HudBackground image:Altares" />
-            <Property Name="UnifiedAreaRect" Value="{{0,130},{0,68},{0,155},{0,96}}" />
-        </Window> -->
 		<Window Type="OgreTray/TitlePuntosMerito" Name="Root/Hud/Altares" >
 			<Property Name="Font" Value="Cantoria-8" />
 			<Property Name="Text" Value="Altares" />
@@ -106,28 +107,12 @@
 			<Property Name="Text" Value="5/11" />
 			<Property Name="AlwaysOnTop" Value="False" />
 			<Property Name="UnifiedAreaRect" Value="{{0,180},{0,74},{0,230},{0,96}}" />
-		</Window>		
+		</Window>	
+
 		
     </Window>
 	
-	
-	<!-- SHOP WINDOW-->
-<!--     <Window Type="OgreTray/FrameWindow" Name="Root/Shop" >
-        <Property Name="Text" Value="Olimpo Shop" />
-		<Property Name="Tooltip" Value="This is Olimpo Shop where you can buy items, criatures and powers with your merite points." />
-	    <Property Name="Font" Value="DejaVuSans-10" />
-        <Property Name="TitlebarEnabled" Value="True" />
-        <Property Name="UnifiedAreaRect" Value="{{0.5,0},{0.1,0},{1,0},{0.9,0}}" />
-		
-       <Window Type="OgreTray/TabControl" Name="Root/Shop/TabControl" >
-            <Property Name="Tooltip" Value="tab control" />
-            <Property Name="TabHeight" Value="{0,-1}" />
-            <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-            <Property Name="TabPanePosition" Value="Bottom" />
-            <Property Name="UnifiedAreaRect" Value="{{0,10},{0,10},{1,-10},{1,-10}}" />
-        </Window>		
-    </Window> -->
-	
+	<!-- SHOP WINDOW -->
     <Window Type="TaharezLook/FrameWindow" Name="Root/Shop" >
         <Property Name="Text" Value="Olimpo Shop" />
         <Property Name="AlwaysOnTop" Value="True" />
@@ -179,90 +164,7 @@
     </Window>
 	
 	
-	<!-- Tienda Olimpo Carlos -->
-<!--     <Window Type="TaharezLook/FrameWindow" Name="Root/Shop">
-        <Property Name="Text" Value="Olimpo Shop" />
-		<Property Name="TitlebarEnabled" Value="True" />
-		<Property Name="UnifiedAreaRect" Value="{{0.5,0},{0.02,0},{0.99,0},{0.9,0}}" />
-		<Property Name="Alpha" Value="0.5" />
-		<Property Name="SizingEnabled" Value="False" />
-		<Property Name="Visible" Value="False" />
-		<Property Name="DragMovingEnabled" Value="False" />
-		
-        <Window Type="TaharezLook/Button" Name="Root/Shop/Pagar">
-            <Property Name="Text" Value="Pagar" />
-            <Property Name="UnifiedAreaRect" Value="{{0.51,0},{0.74,0},{0.65,0},{0.79,0}}" />
-            <Property Name="Tooltip" Value="Pagar un producto" />
-        </Window>
-		
-		<Window Type="TaharezLook/Button" Name="Root/Shop/SelTodos">
-            <Property Name="Text" Value="Sel Todos" />
-            <Property Name="UnifiedAreaRect" Value="{{0.51,0},{0.82,0},{0.65,0},{0.87,0}}" />
-            <Property Name="Tooltip" Value="Seleccionar todos los productos" />
-        </Window>
-		
-		
-		<Window Type="TaharezLook/Listbox" Name="Root/Shop/ListaProductos">
-		    <Property Name="MultiSelect" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.04,0},{0.07,0},{0.39,0},{0.73,0}}" />
-            <Property Name="Tooltip" Value="Lista de productos de la tienda" />
-        </Window>
-		
-		
-		<Window Type="TaharezLook/StaticText" Name="Root/Shop/TextInfo" >
-                <Property Name="Text" Value="Informacion del producto seleccionado:" />
-                <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
-                <Property Name="VertFormatting" Value="TopAligned" />
-                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.04,0},{0.73,0},{0.39,0},{0.94,0}}" />
-        </Window>
-		
-		<Window Type="TaharezLook/StaticImage" Name="Root/Shop/ImageInfo" >
-                <Property Name="Image" Value="set:BackgroundImageInfo image:full_image" />
-                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.67,0},{0.07,0},{0.97,0},{0.73,0}}" />
-        </Window>
-		
-		<Window Type="TaharezLook/Listbox" Name="Root/Shop/CarroProductos">
-			<Property Name="InheritsAlpha" Value="False" />
-		    <Property Name="MultiSelect" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.475,0},{0.07,0},{0.67,0},{0.675,0}}" />
-            <Property Name="Tooltip" Value="El carro con los productos seleccionados" />
-        </Window>
-		
-		<Window Type="TaharezLook/Button" Name="Root/Shop/Anadir">
-            <Property Name="Text" Value="&gt;" />
-            <Property Name="UnifiedAreaRect" Value="{{0.40,0},{0.25,0},{0.46,0},{0.30,0}}" />
-            <Property Name="Tooltip" Value="Anadir productos al carro" />
-        </Window>		
-		
-		
-		
-		<Window Type="TaharezLook/Button" Name="Root/Shop/Devolver">
-            <Property Name="Text" Value="&lt;" />
-            <Property Name="UnifiedAreaRect" Value="{{0.40,0},{0.35,0},{0.46,0},{0.40,0}}" />
-            <Property Name="Tooltip" Value="Devolver productos del carro" />
-        </Window>
-		
-		<Window Type="TaharezLook/StaticText" Name="Root/Shop/Precio" >
-                <Property Name="Text" Value="0.0" />
-                <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
-                <Property Name="VertFormatting" Value="TopAligned" />
-                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.58,0},{0.675,0},{0.67,0},{0.73,0}}" />
-        </Window>
-		
-		<Window Type="TaharezLook/StaticText" Name="Root/Shop/MiDinero" >
-                <Property Name="Text" Value="1000" />
-                <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
-                <Property Name="VertFormatting" Value="TopAligned" />
-                <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
-                <Property Name="UnifiedAreaRect" Value="{{0.70,0},{0.915,0},{0.78,0},{0.97,0}}" />
-        </Window>		
-    </Window> -->	<!-- fin ventana Carlos -->
-	
-	
-	</Window> <!-- fin de la ventana Root -->
+	</Window> <!-- WINDOW ROOT END -->
 	
 	
 </GUILayout>

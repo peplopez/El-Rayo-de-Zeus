@@ -187,10 +187,10 @@ namespace Application {
 		case GUI::Key::RETURN:
 			doStart();
 			break;
-		case GUI::Key::R:
-			ScriptManager::CServer::getSingletonPtr()->reloadScript("NetLobbyClient");
-			ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadNetLobbyClient");
-			break;
+		//case GUI::Key::R:
+		//	ScriptManager::CServer::getSingletonPtr()->reloadScript("NetLobbyClient");
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadNetLobbyClient");
+		//	break;
 		default:
 			return false;
 		}

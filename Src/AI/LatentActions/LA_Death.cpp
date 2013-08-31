@@ -39,6 +39,9 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Death::OnStart()
 	{
+
+		std::cout<<"AI::StateMachine::WTF-I am death!! - "<< _entity->getName() << " - " << std::endl;
+
 		//PT
 		unsigned int currentTime = Application::CBaseApplication::getSingletonPtr()->getAppTime();
 		_endingTime = currentTime + _time * 1000000;
@@ -51,6 +54,7 @@ namespace AI
 
 		if (_entity->isPlayer()){
 
+			std::cout<<"AI::StateMachine::WTF-I am death!! - I AM PLAYER " << std::endl;
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideHud"); //oculto el HUD
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideShop"); //oculto el SHOP
 
@@ -61,13 +65,15 @@ namespace AI
 		}
 
 		//message to changing to death model
-		std::cout<<"AI::StateMachine::WTF-I am Death!!"<<std::endl;
+
+		std::cout<<"AI::StateMachine::WTF-I am death!! - CHANGING TO DEATH MODEL " << std::endl;
 		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
 		message->setUShort(Logic::DEATH);
 		message->setAction(Message::WALK_STOP);
 		message->setBool(false);
 		_entity->emitMessage(message);
+		std::cout<<"AI::StateMachine::WTF-I am death!! - SENDING MESSAGE TO CHANGING TO DEATH MODEL " << std::endl;
 
 			//sleepComponents();
 
@@ -106,6 +112,7 @@ namespace AI
 		//PT
 		if (_entity->isPlayer())
 		{
+			std::cout<<"AI::StateMachine::OnStop - "<< _entity->getName() << " - " << std::endl;
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideRespawn"); //escondo la pantalla de respawn
 			_scene->deactivateCompositor("BW"); //desactivo el compositor blanco y negro
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud"); //muestro el HUD

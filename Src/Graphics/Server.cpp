@@ -306,7 +306,7 @@ namespace Graphics
 			std::string texName = strVectorPtr->at(i);
 
 			try
-			{
+			{	
 				LOG("[HHFX] Trying to load " << texName << " as texture...");
 
 				// should load all the textures with gamma correction 
@@ -334,7 +334,6 @@ namespace Graphics
 				continue;
 			}
 		}
-
 		LOG("[HHFX] ---------- done ----------");
 	}
 

@@ -73,10 +73,10 @@ namespace GUI {
 					_controlledShop->emitMessage(m);
 					break;
 
-				case GUI::Key::R:
-					ScriptManager::CServer::getSingletonPtr()->reloadScript("Shop");
-					ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadShop");
-					break;
+				//case GUI::Key::R:
+				//	ScriptManager::CServer::getSingletonPtr()->reloadScript("Shop");
+				//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadShop");
+				//	break;
 
 				default:
 					return false;
