@@ -49,11 +49,8 @@ namespace Logic {
 	{
 		deactivate();
 		destroyAllEntities();
-		if(Graphics::CServer::getSingletonPtr())
-			Graphics::CServer::getSingletonPtr()->removeScene(_graphicScene);
-		if(Physics::CServer::getSingletonPtr() )
-			Physics::CServer::getSingletonPtr()->removeScene(_physicScene);
-
+		Graphics::CServer::getSingletonPtr()->removeScene(_graphicScene);
+		Physics::CServer::getSingletonPtr()->removeScene(_physicScene);
 	} // ~CMap
 
 	//--------------------------------------------------------
@@ -62,10 +59,7 @@ namespace Logic {
 	{			
 		if(_isActive)
 			return true;
-
-		//Graphics::CServer::getSingletonPtr()->setActiveScene(_graphicScene);	
-		//Physics::CServer::getSingletonPtr()->setActiveScene(_physicScene);	
-
+		
 		// Activamos todas las entidades registradas en el mapa.
 		_isActive = true;
 		TEntityList::const_iterator it = _entityList.begin();
@@ -91,7 +85,7 @@ namespace Logic {
 					(*it)->deactivate();
 
 		Graphics::CServer::getSingletonPtr()->setActiveScene(0);
-		Physics::CServer::getSingletonPtr()->setActiveScene(0);
+		Physics::CServer::getSingletonPtr()->setActiveScene(0); // FRS Y dónde se está activando?
 
 		_isActive = false;
 	} // getEntity
@@ -100,16 +94,18 @@ namespace Logic {
 
 	void CMap::setVisible()
 	{
-		Graphics::CServer::getSingletonPtr()->setActiveScene(this->getGraphicScene());
+		Graphics::CServer::getSingletonPtr()->setActiveScene( this->_graphicScene );
 	}
 
 	//---------------------------------------------------------
 
 	void CMap::activateBaseCam()
 	{
-		Graphics::CServer::getSingletonPtr()->activateBaseCam(this->getGraphicScene());
+		Graphics::CServer::getSingletonPtr()->activateBaseCam( this->_graphicScene );
 	}
+	
 	//---------------------------------------------------------
+
 	void CMap::tick(unsigned int msecs) 
 	{
 		TEntityList::const_iterator it = _entityList.begin();
@@ -138,8 +134,7 @@ namespace Logic {
 		Map::CMapParser::TEntityList entityList = 
 			Map::CMapParser::getSingletonPtr()->getEntityList();
 
-		CEntityFactory* entityFactory = CEntityFactory::getSingletonPtr();
-		
+		CEntityFactory* entityFactory = CEntityFactory::getSingletonPtr();		
 		
 		// Creamos todas las entidades lógicas.
 		Map::CMapParser::TEntityList::const_iterator it = entityList.begin();
@@ -148,7 +143,6 @@ namespace Logic {
 				CEntity *entity = entityFactory->createMergedEntity((*it),map); // La propia factoría se encarga de añadir la entidad al mapa.
 				assert(entity && "No se pudo crear una entidad del mapa");
 			}
-
 
 		return map;
 

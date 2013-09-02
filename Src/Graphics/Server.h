@@ -81,7 +81,7 @@ namespace Graphics
 
 		@return Puntero al servidor gráfico.
 		*/
-		static Graphics::CServer *getSingletonPtr() { return _instance; }
+		static Graphics::CServer *getSingletonPtr() { assert(_instance && "Servidor Grafico no inicializado"); return _instance; }
 		/**
 		Inicializa el servidor gráfico. Dependiendo de la configuración (release
 		o debug), utiliza pantalla completa o no.
@@ -296,7 +296,7 @@ namespace Graphics
 	private:			
 
 		IHHFXBase* _hhfxBase;
-		void _initHHFX();
+		void _initHHFX(CScene*);
 		void _preloadHHFXTextures();	
 
 	}; // class CServer

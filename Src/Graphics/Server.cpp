@@ -100,9 +100,10 @@ namespace Graphics
 
 		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.		
 				
-		_initHHFX(); // Hell Heaven FX
-		
 		setActiveScene(_dummyScene); // Por defecto la escena activa es la dummy
+
+		_initHHFX(_dummyScene); // Hell Heaven FX: requiere dummyScene
+
 		return true;
 	} // open
 
@@ -127,20 +128,12 @@ namespace Graphics
 
 	//--------------------------------------------------------
 	
-
-	//typedef std::pair<std::string,CScene*> TStringScenePar;
-
+	
 	CScene* CServer::createScene(const std::string& name)
-	{
-		assert(_instance && "GRAPHICS::SERVER>> Servidor no inicializado");			
+	{				
 		assert(_scenes.find(name) == _scenes.end() && "Ya se ha creado una escena con este nombre.");
 
 		CScene *scene = new CScene(name);
-
-		// UNDONE FRS Es mejor insertar pares que la inserción normal por índice?
-		//TStringScenePar ssp(name,scene);
-		//_scenes.insert(ssp);
-
 		_scenes[name] =  scene;
 		return scene;
 	} // createScene
@@ -149,8 +142,6 @@ namespace Graphics
 
 	void CServer::removeScene(CScene* scene)
 	{
-		assert(_instance && "GRAPHICS::SERVER>> Servidor no inicializado");	
-
 		if(_activeScene == scene) // Si borramos la escena activa tenemos que quitarla.
 			_activeScene = 0;
 		_scenes.erase(scene->getName());
@@ -262,14 +253,16 @@ namespace Graphics
 		HELL HEAVEN FX
 	********************/
 
-	void CServer::_initHHFX() 
+	void CServer::_initHHFX(CScene* dummyScene) 
 	{
+		assert(dummyScene && "Necesario inicializar primero dummyScene");
+
 		_preloadHHFXTextures();
 
 		// set the default visibility flag for all the movable objects, 
 		// because we will use posts effects that needs to filter objects for rendering
 		Ogre::MovableObject::setDefaultVisibilityFlags(1); 
-		_hhfxBase =  &_dummyScene->getHHFXScene()->GetHHFXBase(); // Get HHFX Configuration
+		_hhfxBase =  &dummyScene->getHHFXScene()->GetHHFXBase(); // Get HHFX Configuration
 		assert(_hhfxBase && "failed initialing HHFX !");
 							
 		// LOAD HFX PACK	
@@ -309,25 +302,22 @@ namespace Graphics
 			{	
 				LOG("[HHFX] Trying to load " << texName << " as texture...");
 
+				// FRS Esto por qué?
 				// should load all the textures with gamma correction 
 				// except the ones used for distortion post effect
 				if (!texName.compare("ParticleDeformBlur_01.dds") ||
 					!texName.compare("RainDeform_01.dds") ||
-					!texName.compare("RainDropsDeform_01.dds"))
-				{
+					!texName.compare("RainDropsDeform_01.dds"))				
 					Ogre::TexturePtr pTex = Ogre::TextureManager::getSingleton().load(
-																			texName, resourceGroup,
-																			Ogre::TEX_TYPE_2D, Ogre::MIP_DEFAULT,
-																			1.0f, false, Ogre::PF_UNKNOWN, false);
-				}
+						texName, resourceGroup,
+						Ogre::TEX_TYPE_2D, Ogre::MIP_DEFAULT,
+						1.0f, false, Ogre::PF_UNKNOWN, false);				
 				else
-				{
-					// gamma corrected
-					Ogre::TexturePtr pTex = Ogre::TextureManager::getSingleton().load(
-																			texName, resourceGroup,
-																			Ogre::TEX_TYPE_2D, Ogre::MIP_DEFAULT,
-																			1.0f, false, Ogre::PF_A8R8G8B8, true);
-				}
+					Ogre::TexturePtr pTex = Ogre::TextureManager::getSingleton().load( // gamma corrected
+						texName, resourceGroup,
+						Ogre::TEX_TYPE_2D, Ogre::MIP_DEFAULT,
+						1.0f, false, Ogre::PF_A8R8G8B8, true);
+				
 			}
 			catch (Ogre::Exception e) // texture not loaded because it surely is not one
 			{

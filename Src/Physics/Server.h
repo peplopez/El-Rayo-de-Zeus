@@ -48,7 +48,7 @@ namespace Physics {
 
 		@return Puntero al servidor físico.
 		*/
-		static CServer *getSingletonPtr() { return _instance; }
+		static CServer *getSingletonPtr() { assert(_instance && "Servidor fisico no inicializado"); return _instance; }
 		
 		/**
 		Inicializa el servidor físico. Esta operación sólo es necesario realizarla
