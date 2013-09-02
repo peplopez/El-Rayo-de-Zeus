@@ -51,8 +51,8 @@ namespace Logic
 #ifdef _DEBUG
 
 #else		
-		Graphics::DotSceneLoader loader;
-		loader.parseDotScene(_sceneFile, "General", _scene->getSceneMgr());
+		//Graphics::DotSceneLoader loader;
+		//loader.parseDotScene(_sceneFile, "General", _scene->getSceneMgr());
 #endif
 		return true;
 

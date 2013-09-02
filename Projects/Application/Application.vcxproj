@@ -70,7 +70,7 @@
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>enet.lib;ws2_32.lib;Winmm.lib;OgreMain_d.lib;OIS_d.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;fmodex_vc.lib;%(AdditionalDependencies);lua51.lib;luabindd.lib;CEGUILuaScriptModule_d.lib;tolua++_d.lib;opengl32.lib;glu32.lib</AdditionalDependencies>
+      <AdditionalDependencies>enet.lib;ws2_32.lib;Winmm.lib;OgreMain_d.lib;OIS_d.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;fmodex_vc.lib;%(AdditionalDependencies);lua51.lib;luabindd.lib;CEGUILuaScriptModule_d.lib;tolua++_d.lib;opengl32.lib;glu32.lib;SkyX_d.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>..\..\dependencies\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -95,7 +95,7 @@
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>enet.lib;lua51.lib;luabind.lib;ws2_32.lib;Winmm.lib;OgreMain.lib;OIS.lib;CEGUIBase.lib;CEGUIOgreRenderer.lib;tolua++.lib;CEGUILuaScriptModule.lib;fmodex_vc.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>enet.lib;lua51.lib;luabind.lib;ws2_32.lib;Winmm.lib;OgreMain.lib;OIS.lib;CEGUIBase.lib;CEGUIOgreRenderer.lib;tolua++.lib;CEGUILuaScriptModule.lib;fmodex_vc.lib;opengl32.lib;glu32.lib;SkyX.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>..\..\dependencies\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>

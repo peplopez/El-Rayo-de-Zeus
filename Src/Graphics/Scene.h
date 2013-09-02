@@ -19,6 +19,7 @@ de una escena.
 
 #include <BaseSubsystems/Math.h>
 #include <OgreFrameListener.h>
+#include "SkyXSettings.h"
 
 #include <list>
 
@@ -55,6 +56,12 @@ namespace Logic
 {
 	class CDotSceneLoader;
 };
+
+namespace SkyX
+{
+	class SkyX;
+	class BasicController;
+}
 
 namespace Graphics 
 {
@@ -340,6 +347,18 @@ namespace Graphics
 		void _hhfxCompositorLoad();
 		void _hhfxCompositorUnload();
 		static bool _hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, const Ogre::Vector3 &direction, float length, SContactReport &contactReport);
+
+	/*********************
+			SkyX
+	*********************/
+	private:
+
+		SkyX::SkyX* _skyX;
+		SkyX::BasicController* _skyXBasicController;
+		static SkyXSettings _skyXPresets[];
+
+		void setSkyXPreset(const SkyXSettings& preset);
+
 
 	}; // class CScene
 
