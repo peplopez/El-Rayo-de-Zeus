@@ -98,7 +98,7 @@ namespace Audio
 		_system->set3DSettings(_doppler,1.0f,_rolloff);
 
 		//Cargamos la banda sonora del juego
-		playLoopSound("media/audio/Lightning_Theme.mp3", "theme");
+		//playLoopSound("media/audio/Lightning_Theme.mp3", "theme");
 
 		return true;
 

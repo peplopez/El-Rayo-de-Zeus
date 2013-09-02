@@ -354,6 +354,8 @@ namespace Logic {
 	Vector3 TRingPositions::_center;
 	Vector3 TRingPositions::_down;
 
+	//---------------------------------------------------------
+
 	bool CServer::setRingPositions()
 	{
 		//inicializamos la estructura de posiciones de los anillos

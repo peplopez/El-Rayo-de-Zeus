@@ -71,11 +71,13 @@ namespace Logic
 				aux[ruta.size()]=0;
 				memcpy(aux,ruta.c_str(),ruta.size());
 				//Si es local el sonido será stereo
+				/*
 				if(localPlayer)
 					Audio::CServer::getSingletonPtr()->playSound(aux,id,notIfPlay);
 				//En otro caso se trata de un sonido con posición 3D
 				else
 					Audio::CServer::getSingletonPtr()->playSound3D(aux,id,position,notIfPlay);
+				*/
 			}
 			break;
 

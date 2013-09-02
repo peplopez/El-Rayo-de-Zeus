@@ -177,7 +177,7 @@ namespace Graphics
 
 		_hhfxCompositorLoad(); // Hell Heaven FX 
 		if(_name != "dummy_scene") 
-			setSkyXPreset(_skyXPresets[1]);
+			setSkyXPreset(_skyXPresets[3]);
 
 	} // activate
 
