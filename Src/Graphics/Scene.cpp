@@ -80,6 +80,8 @@ namespace Graphics
 		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
 		_buildStaticGeometry();		
 		_hhfxInit(); // Init Hell Heaven FX Scene
+		_camera->getCamera()->setAutoAspectRatio(true);
+		_baseCamera->getCamera()->setAutoAspectRatio(true);
 		_isInit = true;		
 	} // init
 
@@ -103,12 +105,8 @@ namespace Graphics
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()
 					->getRenderWindow()->addViewport(_camera->getCamera());
 			_viewport->setBackgroundColour(Ogre::ColourValue::Black);
-
-		_camera->getCamera()->setAspectRatio( 
-			Ogre::Real( _viewport->getActualWidth()  ) / 
-			Ogre::Real( _viewport->getActualHeight() ) );
-				
-		_compositorReload();
+			
+		_compositorReload(); // Recargar todos los compositors para el nuevo viewport
 	} // activate
 
 
@@ -122,12 +120,8 @@ namespace Graphics
 					->getRenderWindow()->addViewport(_baseCamera->getCamera());
 			_viewport->setBackgroundColour(Ogre::ColourValue::Black);
 
-		_baseCamera->getCamera()->setAspectRatio( 
-			Ogre::Real( _viewport->getActualWidth()  ) / 
-			Ogre::Real( _viewport->getActualHeight() ) );
-
 		// TODO FRS Barajar si queremos estos compositors en la baseCam
-		// TODO Meter compositors
+		_compositorReload(); // Recargar todos los compositors para el nuevo viewport
 	}
 	
 	//--------------------------------------------------------
@@ -154,12 +148,13 @@ namespace Graphics
 			(*it)->tick(secs);
 	} // tick
 
-	
-	void CScene::_compositorReload(){		
-		_compositorAdd("BW");
-		// HACK compositorEnable("BW"); // testing
-		//_hhfxCompositorReload(); // UNDONE FRS: Parece que no encuentra este compositor ahora. Hell Heaven FX  
-	}
+	//--------------------------------------------------------
+
+	void CScene::_compositorReload()
+	{		
+		_compositorAdd("BW");		
+		//_hhfxCompositorReload(); // UNDONE FRS: Parece que no encuentra este compositor ahora. Hell Heaven FX  	
+	} // compositorReload
 
 
 
@@ -301,49 +296,28 @@ namespace Graphics
 	{	
 		_hhfxScene->Clear(); // clear the scene before shutting down ogre since the hhfx ogre implementation holds some Ogre objects.
 		_root->removeFrameListener(this); // FRS Nos borramos como oyentes de eventos de FrameRender de Ogre
-		//_hhfxCompositorUnload(); // UNDONE FRS Los compositors no se descargan de mem?	
+		//_hhfxCompositorUnload(); // UNDONE FRS Compositors se descargan auto
+
 	} // _hhfxSceneDeinit
 
 	//-------------------------------------------------------------------------------------
 
-	void CScene::_hhfxCompositorReload() 
-	{
-				Ogre::CompositorInstance*	comp = Ogre::CompositorManager::getSingleton().addCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");
-			assert(comp && "[HHFX ERROR] Cannot load compositor Distortion !" );
-			comp->setEnabled(true);
-		// adding compositor for post fx
-		/*_compositorAdd("HellHeavenOgre/Compositor/Distortion");
-		compositorEnable("HellHeavenOgre/Compositor/Distortion");*/
+	void CScene::_hhfxCompositorReload() // adding compositors for post fx
+	{		
+		_compositorAdd("HellHeavenOgre/Compositor/Distortion");
+		compositorEnable("HellHeavenOgre/Compositor/Distortion"); // TODO FRS dejarlo enabled o solo cuando necesario?
 	}
 
 	//-------------------------------------------------------------------------------------
 
-	//PT
-	void CScene::_hhfxCompositorBWLoad() 
-	{
-		Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingleton().addCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/BlackAndWhite");
-			assert(comp && "[HHFX ERROR] Cannot load compositor Black And White !" );
-			comp->setEnabled(true);
-	}
 
-	//-------------------------------------------------------------------------------------
-
-	void CScene::_hhfxCompositorBWUnload() 
-	{
-		Ogre::CompositorManager::getSingleton().removeCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/BlackAndWhite");	
-	}
-
-	//FIN PT
-
-	//-------------------------------------------------------------------------------------
-
-	void CScene::_hhfxCompositorUnload() 
-	{
-		// remove our compositor
-		Ogre::CompositorManager::getSingleton().removeCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");	
-	}
-
-
+	// UNDONE FRS Ogre elimina auto los compositors
+	//void CScene::_hhfxCompositorUnload() 
+	//{
+	//	// remove our compositor
+	//	Ogre::CompositorManager::getSingleton().removeCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");	
+	//}
+	
 
 
 	//----------- COLLISION CALLBACK --------------------------------------------------------------------------

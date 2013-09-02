@@ -233,6 +233,8 @@ namespace Graphics
 
 	void CServer::tick(float secs) 
 	{
+		// TODO FRS Lo ideal sería ejecutar el tick de todas las escenas (considerar todas como activas)
+		// y diferenciar tan sólo una como visible, para que sólo se renderice ese viewport.
 		if(_activeScene != _dummyScene)
 			_activeScene->tick(secs);
 		if(_root)
