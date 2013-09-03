@@ -42,6 +42,15 @@ namespace GUI
 	@author David Llansó
 	@date Agosto, 2010
 	*/
+
+	enum keyType {
+		notManaged,
+		movement,
+		action,
+		base,
+		extra
+	};
+
 	class CPlayerController : public CKeyboardListener, public CMouseListener, public CJoystickListener
 	{
 	public:
@@ -157,7 +166,7 @@ namespace GUI
 		int fromPOVToBaseNumber(const CJoystickState *joystickState);
 		int fromKeyToBaseNumber(TKey key);
 
-		int getKeyType(const TKey &key);
+		keyType getKeyType(const TKey &key);
 
 
 	protected:
