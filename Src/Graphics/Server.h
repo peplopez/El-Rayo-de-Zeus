@@ -213,7 +213,7 @@ namespace Graphics
 		*/
 		static CServer *_instance;
 
-			/**
+		/**
 		Mapa de escenas. Se asocia una escena con su nombre.
 		*/
 		TScenes _scenes;

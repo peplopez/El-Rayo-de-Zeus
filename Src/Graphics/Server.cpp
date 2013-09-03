@@ -235,8 +235,15 @@ namespace Graphics
 	{
 		// TODO FRS Lo ideal sería ejecutar el tick de todas las escenas (considerar todas como activas)
 		// y diferenciar tan sólo una como visible, para que sólo se renderice ese viewport.
-		if(_activeScene != _dummyScene)
-			_activeScene->tick(secs);
+		
+		//Ejecutamos el tick grafico en todas las escenas
+		TScenes::const_iterator it = _scenes.begin();
+		TScenes::const_iterator end = _scenes.end();
+		for (; it != end ; ++it)
+		{
+			if(it->second != _dummyScene)
+				it->second->tick(secs);
+		}
 		if(_root)
 		{
 			// Actualizamos todas las ventanas de reenderizado.
