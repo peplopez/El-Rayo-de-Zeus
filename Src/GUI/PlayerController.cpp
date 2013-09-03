@@ -62,7 +62,7 @@ namespace GUI {
 	} // deactivate
 
 	//--------------------------------------------------------
-	int CPlayerController::getKeyType(const TKey &key)
+	keyType CPlayerController::getKeyType(const TKey &key)
 	{
 		switch (key.keyId)
 		{
@@ -70,11 +70,11 @@ namespace GUI {
 		case GUI::Key::S:
 		case GUI::Key::A:
 		case GUI::Key::D:
-			return 0; //movement
+			return movement; //movement
 		case GUI::Key::SPACE:
 		case GUI::Key::F:
 		case GUI::Key::LSHIFT:
-			return 1; //actions
+			return action; //actions
 		case GUI::Key::NUMBER1:
 		case GUI::Key::NUMBER2:
 		case GUI::Key::NUMBER3:
@@ -83,12 +83,12 @@ namespace GUI {
 		case GUI::Key::NUMBER6:
 		case GUI::Key::NUMBER7:
 		case GUI::Key::NUMBER8:
-			return 2;//bases
+			return base;//bases
 		case GUI::Key::V:
 		case GUI::Key::F2:
-			return 3;//extras
+			return extra;//extras
 		default:
-			return -1;//tecla no procesada por el PlayerController
+			return notManaged;//tecla no procesada por el PlayerController
 		}
 
 	}
@@ -100,22 +100,22 @@ namespace GUI {
 		// TODO Preguntar al CServer quién es el player si es null y dejarlo guardado
 		if(_controlledAvatar)
 		{
-			int keyType = getKeyType(key);
+			keyType typeOfKey = getKeyType(key);
 
-			switch (keyType)
+			switch (typeOfKey)
 			{
-			case 0:
+			case movement:
 				processMovement(key);
 				break;
-			case 1:
+			case action:
 				processAction(key);
 				break;
-			case 2:
+			case base:
 				showBase(fromKeyToBaseNumber(key));
 				break;
-			case 3:
+			case extra:
 				processExtra(key);
-			case -1:
+			case notManaged:
 				return false;
 			}
 		}
@@ -127,81 +127,96 @@ namespace GUI {
 	
 	void CPlayerController::processMovement(TKey key)
 	{
-		Logic::CMessage *m = new Logic::CMessage();
-			m->setType(Logic::Message::CONTROL);
 
-	
 		switch(key.keyId)
 		{
-		case GUI::Key::W: //subir anillo superior
+		case GUI::Key::W: { //subir anillo superior
 			if (_controlledAvatar->getLogicalPosition()->getRing() == Logic::LogicalPosition::UPPER_RING)
-			{
-				delete m;
 				return;
-			}
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
 			m->setAction(Logic::Message::GO_UP);
+			_controlledAvatar->emitMessage(m);
 			break;
+			}
 			
-		case GUI::Key::S: //bajar anillo inferior
+		case GUI::Key::S: {//bajar anillo inferior
 			if (_controlledAvatar->getLogicalPosition()->getRing() == Logic::LogicalPosition::LOWER_RING)
-			{
-				delete m;
-				return;
-			}			
-			m->setAction(Logic::Message::GO_DOWN); 
+				return;	
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);	
+			m->setAction(Logic::Message::GO_DOWN);
+			_controlledAvatar->emitMessage(m);
 			break;
+			}
 
-		case GUI::Key::A:
+		case GUI::Key::A: {
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
 			m->setAction(Logic::Message::WALK_LEFT);
+			_controlledAvatar->emitMessage(m);
 			break;
+			}
 
-		case GUI::Key::D:
-			m->setAction(Logic::Message::WALK_RIGHT);	
+		case GUI::Key::D: {
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
+			m->setAction(Logic::Message::WALK_RIGHT);
+			_controlledAvatar->emitMessage(m);
 			break;
+			}
 		}
-
-		_controlledAvatar->emitMessage(m);
 	}
 
 	//--------------------------------------------------------
 	
 	void CPlayerController::processAction(TKey key)
 	{
-		Logic::CMessage *m = new Logic::CMessage();
-			m->setType(Logic::Message::CONTROL);
+		
 		switch(key.keyId)
 		{
-		case GUI::Key::SPACE:
+		case GUI::Key::SPACE: {
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
 			if (_changeBaseAllowed)
 				m->setAction(Logic::Message::CHANGE_BASE);
 			else
-				m->setAction(Logic::Message::JUMP); 	
+				m->setAction(Logic::Message::JUMP); 
+			_controlledAvatar->emitMessage(m);
 			break;
-		case GUI::Key::F:
+			}
+		case GUI::Key::F: {
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
 			m->setAction(Logic::Message::SWITCH_ALTAR);
+			_controlledAvatar->emitMessage(m);
 			break;
-		case GUI::Key::LSHIFT:
+			}
+		case GUI::Key::LSHIFT: {
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
 			m->setAction(Logic::Message::COVER);
+			_controlledAvatar->emitMessage(m);
 			break;
+			}
 		}
-
-		_controlledAvatar->emitMessage(m);
 	}
 
 	//--------------------------------------------------------
 	
 	void CPlayerController::processExtra(TKey key)
 	{
-		Logic::CMessage *m = new Logic::CMessage();
-			m->setType(Logic::Message::HUD);
+
 		switch(key.keyId)
 		{
-		case GUI::Key::V:
+		case GUI::Key::V: {
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::HUD);
 			m->setAction(Logic::Message::DISPLAY_HUD);
 			_controlledAvatar->emitMessage(m);
 			break;
+			}
 		case GUI::Key::F2:
-			delete m;
 			Physics::CServer::getSingletonPtr()->SwitchDebugDraw();
 			break;
 		}
@@ -214,17 +229,24 @@ namespace GUI {
 	{
 		if(_controlledAvatar)
 		{
-			Logic::CMessage *m = new Logic::CMessage();
-			m->setType(Logic::Message::CONTROL);
+
 			switch(key.keyId)
 			{
 			case GUI::Key::A:
-			case GUI::Key::D:
+			case GUI::Key::D: {
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
 				m->setAction(Logic::Message::WALK_STOP);
+				_controlledAvatar->emitMessage(m);
 				break;
-			case GUI::Key::LSHIFT:
+				}
+			case GUI::Key::LSHIFT: {
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
 				m->setAction(Logic::Message::NO_COVER);
+				_controlledAvatar->emitMessage(m);
 				break;
+				}
 			case GUI::Key::NUMBER1:
 			case GUI::Key::NUMBER2:
 			case GUI::Key::NUMBER3:
@@ -232,16 +254,17 @@ namespace GUI {
 			case GUI::Key::NUMBER5:
 			case GUI::Key::NUMBER6:
 			case GUI::Key::NUMBER7:
-			case GUI::Key::NUMBER8:
+			case GUI::Key::NUMBER8: {
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
 				m->setAction(Logic::Message::GOBACK_TO_BASE);
+				_controlledAvatar->emitMessage(m);
 				_changeBaseAllowed = false;
 				break;
+				}
 			default:
-				delete m;
 				return false;
 			}
-
-			_controlledAvatar->emitMessage(m);
 		}
 		return true;
 
@@ -261,23 +284,26 @@ namespace GUI {
 	{
 		if(_controlledAvatar)
 		{
-			Logic::CMessage *m = new Logic::CMessage();
-
-				m->setType(Logic::Message::CONTROL);
 			switch(mouseState.button)
 			{
-			case GUI::Button::LEFT:				
-				m->setAction(Logic::Message::LIGHT_ATTACK);						
+			case GUI::Button::LEFT:	{
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
+				m->setAction(Logic::Message::LIGHT_ATTACK);
+				_controlledAvatar->emitMessage(m);
 				break;
-			case GUI::Button::RIGHT:				
+				}
+			case GUI::Button::RIGHT:
+				{
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
 				m->setAction(Logic::Message::HEAVY_ATTACK);
-				break;			
+				_controlledAvatar->emitMessage(m);
+				break;
+				}
 			default:
-				delete m;
-				return true;
+				return false;
 			}
-			_controlledAvatar->emitMessage(m);
-
 		}
 
 		return true;
@@ -314,8 +340,7 @@ namespace GUI {
 					m->setType(Logic::Message::CONTROL);
 					m->setAction(Logic::Message::WALK_LEFT);
 					_controlledAvatar->emitMessage(m);
-				}
-					
+				}	
 				else if (abs(joystickState->_axes[TJoyAxis::MOVEXAXIS].abs) < 10000)
 				{
 					Logic::CMessage *m = new Logic::CMessage();
@@ -323,12 +348,6 @@ namespace GUI {
 					m->setAction(Logic::Message::WALK_STOP);
 					_controlledAvatar->emitMessage(m);
 				}
-
-				else
-				{
-					return true;
-				}
-
 				break;
 
 			case TJoyAxis::MOVEYAXIS:
@@ -336,36 +355,28 @@ namespace GUI {
 				if (joystickState->_axes[TJoyAxis::MOVEYAXIS].abs > 20000)
 				{
 					if (_controlledAvatar->getLogicalPosition()->getRing() == Logic::LogicalPosition::LOWER_RING)
-					{
 						return true;	
-					}
 					Logic::CMessage *m = new Logic::CMessage();
 					m->setType(Logic::Message::CONTROL);
 					m->setAction(Logic::Message::GO_DOWN);
 					_controlledAvatar->emitMessage(m);
 				}
-
 				else if (joystickState->_axes[TJoyAxis::MOVEYAXIS].abs < -20000)
 				{
 					if (_controlledAvatar->getLogicalPosition()->getRing() == Logic::LogicalPosition::UPPER_RING)
-					{
 						return true;	
-					}
 					Logic::CMessage *m = new Logic::CMessage();
 					m->setType(Logic::Message::CONTROL);
 					m->setAction(Logic::Message::GO_UP);
 					_controlledAvatar->emitMessage(m);
 				}
-				
-				else 
-				{
-					return true;
-				}
-	
 				break;
+			
+			default: 
+				return false;
 			}
-
 		}
+
 		return true;
 	}
 
@@ -375,44 +386,59 @@ namespace GUI {
 	{
 		if (_controlledAvatar)
 		{
-			Logic::CMessage *m = new Logic::CMessage();
-				m->setType(Logic::Message::CONTROL);
-
 			switch (button)
 			{
-			case Joystick::Button::ATTACK1:
+			case Joystick::Button::ATTACK1: {
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
 				m->setAction(Logic::Message::LIGHT_ATTACK);
+				_controlledAvatar->emitMessage(m);
 				break;
+				}
 
-			case Joystick::Button::ATTACK2:
+			case Joystick::Button::ATTACK2: {
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
 				m->setAction(Logic::Message::HEAVY_ATTACK);
+				_controlledAvatar->emitMessage(m);
 				break;
+				}
 
 			case Joystick::Button::JUMP:
+				{
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
 				if (_changeBaseAllowed)
 					m->setAction(Logic::Message::CHANGE_BASE);
 				else
 					m->setAction(Logic::Message::JUMP);
+				_controlledAvatar->emitMessage(m);
 				break;
+				}
 
-			case Joystick::Button::ACTIVATE:
+			case Joystick::Button::ACTIVATE: {			
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
 				m->setAction(Logic::Message::SWITCH_ALTAR);
+				_controlledAvatar->emitMessage(m);
 				break;
+				}
 
-			case Joystick::Button::COVER:
+			case Joystick::Button::COVER: {
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
 				m->setAction(Logic::Message::COVER);
+				_controlledAvatar->emitMessage(m);
 				break;
+				}
 
-			case Joystick::Button::MODIFIER:
+			case Joystick::Button::MODIFIER: 
 				_joyModifierPressed = true;
-				delete m;
-				return true;
+
+			default:
+				return false;
 			}
-
-			_controlledAvatar->emitMessage(m);
-
 		}
-
 		return true;
 	}
 
@@ -422,26 +448,29 @@ namespace GUI {
 	{
 		if (_controlledAvatar)
 		{
-			Logic::CMessage *m = new Logic::CMessage();
-				m->setType(Logic::Message::CONTROL);
-
 			switch (button)
 			{
-			case Joystick::Button::COVER:
+			case Joystick::Button::COVER: {
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
 				m->setAction(Logic::Message::NO_COVER);
+				_controlledAvatar->emitMessage(m);
 				break;
+			}
 
-			case Joystick::Button::MODIFIER:
+			case Joystick::Button::MODIFIER: {
+				Logic::CMessage *m = new Logic::CMessage();
+				m->setType(Logic::Message::CONTROL);
 				_joyModifierPressed = false;
 				_changeBaseAllowed = false;
 				m->setAction(Logic::Message::GOBACK_TO_BASE);
+				_controlledAvatar->emitMessage(m);
 				break;
-			default:
-				delete m;
-				return true;
 			}
-
-			_controlledAvatar->emitMessage(m);
+			
+			default:
+				return false;
+			}
 		}
 		
 		return true;
@@ -465,47 +494,59 @@ namespace GUI {
 	//--------------------------------------------------------
 	void CPlayerController::processMovement(const CJoystickState *joystickState)
 	{
-		Logic::CMessage *m = new Logic::CMessage();
-		m->setType(Logic::Message::CONTROL);
+
 
 		switch (joystickState->_pov)
 		{
-		case Joystick::POV::CENTERED:
+		case Joystick::POV::CENTERED: {
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
 			m->setAction(Logic::Message::WALK_STOP);
+			_controlledAvatar->emitMessage(m);
 			break;
+			}
 
 		case Joystick::POV::WEST:
 		case Joystick::POV::NORTHWEST:
-		case Joystick::POV::SOUTHWEST:
+		case Joystick::POV::SOUTHWEST: {
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
 			m->setAction(Logic::Message::WALK_LEFT);
+			_controlledAvatar->emitMessage(m);
 			break;
+			}
 			
 		case Joystick::POV::EAST:
 		case Joystick::POV::NORTHEAST:
-		case Joystick::POV::SOUTHEAST:
+		case Joystick::POV::SOUTHEAST: {
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
 			m->setAction(Logic::Message::WALK_RIGHT);
+			_controlledAvatar->emitMessage(m);
 			break;
+			}
 
-		case Joystick::POV::NORTH:
+		case Joystick::POV::NORTH: {
 			if (_controlledAvatar->getLogicalPosition()->getRing() == Logic::LogicalPosition::UPPER_RING)
-			{
-				delete m;
 				return;	
-			}
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
 			m->setAction(Logic::Message::GO_UP);
+			_controlledAvatar->emitMessage(m);
 			break;
-
-		case Joystick::POV::SOUTH:
-			if (_controlledAvatar->getLogicalPosition()->getRing() == Logic::LogicalPosition::LOWER_RING)
-			{
-				delete m;
-				return;	
 			}
-			m->setAction(Logic::Message::GO_DOWN);
-			break;
-		}
 
-		_controlledAvatar->emitMessage(m);
+		case Joystick::POV::SOUTH: {
+			if (_controlledAvatar->getLogicalPosition()->getRing() == Logic::LogicalPosition::LOWER_RING)
+				return;	
+			Logic::CMessage *m = new Logic::CMessage();
+			m->setType(Logic::Message::CONTROL);
+			m->setAction(Logic::Message::GO_DOWN);
+			_controlledAvatar->emitMessage(m);
+			break;
+			}
+		}
+		
 
 	}
 
@@ -516,31 +557,30 @@ namespace GUI {
 		if (_controlledAvatar->getLogicalPosition()->getBase() == baseNumber)
 			return;
 
-		Logic::CMessageUShort *m = new Logic::CMessageUShort();
-			m->setType(Logic::Message::CONTROL);
-		Logic::CMessage *m2 = new Logic::CMessage();
-			m2->setType(Logic::Message::CONTROL);
 		_changeBaseAllowed = true;
 
 		switch (baseNumber)
 		{
-		case 0:
+		case 0: {
+			Logic::CMessageUShort *m = new Logic::CMessageUShort();
+			m->setType(Logic::Message::CONTROL);
 			_changeBaseAllowed = false;
 			m->setAction(Logic::Message::GOBACK_TO_BASE);
+			Logic::CMessage *m2 = new Logic::CMessage();
+			m2->setType(Logic::Message::CONTROL);
 			m2->setAction(Logic::Message::WALK_STOP);
 			_controlledAvatar->emitMessage(m2);
 			break;
-
-		default:
-			delete m2;
+			}
+		default: {
+			Logic::CMessageUShort *m = new Logic::CMessageUShort();
+			m->setType(Logic::Message::CONTROL);
 			m->setAction(Logic::Message::SHOW_BASE);
-			m->setUShort(baseNumber);								
+			m->setUShort(baseNumber);
+			_controlledAvatar->emitMessage(m);
 			break;
-			
+			}
 		}
-
-		_controlledAvatar->emitMessage(m);
-
 	}
 
 	//--------------------------------------------------------
@@ -614,7 +654,6 @@ namespace GUI {
 		}
 
 	}
-
 
 	
 } // namespace GUI
