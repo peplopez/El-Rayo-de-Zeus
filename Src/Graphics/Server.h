@@ -228,7 +228,6 @@ namespace Graphics
 		/**
 		Escena dummy que se crea automáticamente. Con ella permitimos que
 		siempre haya una escena para el dibujado del GUI.
-		FRS ??
 		*/
 		CScene* _dummyScene;
 

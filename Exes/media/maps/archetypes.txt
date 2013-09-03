@@ -70,6 +70,10 @@ Map = {
 		event_CT_Attack2=0.2,
 		event_CT_Attack3=0.2,
 		event_DT_Cover=0.45,
+		fxScript0 = "Blast",	
+		fxPos0 = {2.5,3,0},
+		fxCompoName0 = "Distortion",
+		fxCompoMsec0 = 3000,
 	},
 
 	AltarRed = {
@@ -431,7 +435,7 @@ Map = {
 		event_CT_Attack1=0.2,
 		event_CT_Attack2=0.2,
 		event_CT_Attack3=0.2,
-		event_DT_Cover=0.45,
+		event_DT_Cover=0.45,		
 	},
 	
 	NPCAtalanta = {
@@ -582,6 +586,7 @@ Map = {
 		fxScript0 = "Sparks",
 		fxLooped0 = true,
 		fxPos0 = {0.5,11,0},
+		fxAutoStart0 = true,
 	},
 	
 	PUThrone = {

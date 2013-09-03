@@ -88,7 +88,7 @@ namespace AI
 
 		//for showing a black and white screen when player is death
 		if (_entity->isPlayer())
-			_scene->compositorEnable("BW");
+			_scene->compositorEnable("B&W");
 
 		//PT
 		//return SUSPENDED;
@@ -110,7 +110,7 @@ namespace AI
 		{
 			std::cout<<"AI::StateMachine::OnStop - "<< _entity->getName() << " - " << std::endl;
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideRespawn"); //escondo la pantalla de respawn
-			_scene->compositorDisable("BW"); //desactivo el compositor blanco y negro
+			_scene->compositorDisable("B&W"); //desactivo el compositor blanco y negro
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud"); //muestro el HUD
 			//ScriptManager::CServer::getSingletonPtr()->executeProcedure("showShop"); //muestro el SHOP
 

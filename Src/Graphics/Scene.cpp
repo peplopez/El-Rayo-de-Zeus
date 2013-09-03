@@ -152,8 +152,11 @@ namespace Graphics
 
 	void CScene::_compositorReload()
 	{		
-		_compositorAdd("BW");		
-		//_hhfxCompositorReload(); // UNDONE FRS: Parece que no encuentra este compositor ahora. Hell Heaven FX  	
+		if(_name == "dummy_scene") //  No queremos compositors en la dummy
+			return;
+
+		_compositorAdd("B&W");		
+		_hhfxCompositorReload(); // UNDONE FRS: Parece que no encuentra este compositor ahora. Hell Heaven FX  	
 	} // compositorReload
 
 
@@ -303,9 +306,8 @@ namespace Graphics
 	//-------------------------------------------------------------------------------------
 
 	void CScene::_hhfxCompositorReload() // adding compositors for post fx
-	{		
-		_compositorAdd("HellHeavenOgre/Compositor/Distortion");
-		compositorEnable("HellHeavenOgre/Compositor/Distortion"); // TODO FRS dejarlo enabled o solo cuando necesario?
+	{	
+		_compositorAdd("Distortion");		
 	}
 
 	//-------------------------------------------------------------------------------------

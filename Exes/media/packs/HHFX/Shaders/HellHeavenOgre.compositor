@@ -1,5 +1,5 @@
 // Black and white effect
-compositor HellHeavenOgre/Compositor/BlackAndWhite
+compositor B&W
 {
 	technique
 	{
@@ -28,7 +28,7 @@ compositor HellHeavenOgre/Compositor/BlackAndWhite
 }
 
 // Distortion effect
-compositor HellHeavenOgre/Compositor/Distortion
+compositor Distortion
 {
 	technique
 	{
