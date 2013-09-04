@@ -4,7 +4,7 @@
     <Window Type="DefaultWindow" Name="NetLobbyClient" >
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
         <Window Type="OgreTray/StaticImage" Name="NetLobbyClient/BackGround" >
-			<Property Name="FrameEnabled" Value="false" />
+			<Property Name="FrameEnabled" Value="False" />
 			<Property Name="BackgroundEnabled" Value="False" />		
 			<Property Name="Image" Value="set:BackgroundInit image:BackgroundInit" />			
             <Property Name="AlwaysOnTop" Value="False" />
@@ -52,12 +52,12 @@
             <Property Name="UnifiedAreaRect" Value="{{0.6,1},{0.57,0},{0.69,0},{0.62,0}}" />
         </Window>		
 		
-		<Window Type="TaharezLook/Combobox" Name="NetLobbyClient/ModelBox" >
+		<Window Type="OgreTray/Combobox" Name="NetLobbyClient/ModelBox" >
 		        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.57,0},{0.95,0},{0.8,0}}" />
                 <Property Name="MaxEditTextLength" Value="1073741823" />
 				<Property Name="AlwaysOnTop" Value="True" />			
-        </Window>
+        </Window>		
 		
 		
 		 <Window Type="OgreTray/Title" Name="NetLobbyClient/ColorBoxLabel" >
@@ -67,12 +67,13 @@
             <Property Name="UnifiedAreaRect" Value="{{0.6,1},{0.64,0},{0.69,0},{0.69,0}}" />
         </Window>		
 		
-		<Window Type="TaharezLook/Combobox" Name="NetLobbyClient/ColorBox" >
+
+		<Window Type="OgreTray/Combobox" Name="NetLobbyClient/ColorBox" >
 		        <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
                 <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.64,0},{0.95,0},{0.85,0}}" />
                 <Property Name="MaxEditTextLength" Value="1073741823" />
 				<Property Name="AlwaysOnTop" Value="True" />
-        </Window>		
+        </Window>
 		
         <Window Type="OgreTray/Button" Name="NetLobbyClient/Connect" >
             <Property Name="Font" Value="DejaVuSans-10" />

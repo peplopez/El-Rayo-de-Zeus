@@ -4,13 +4,14 @@
     <Window Type="DefaultWindow" Name="NetLobbyServer" >
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
         <Window Type="OgreTray/StaticImage" Name="NetLobbyServer/BackGround" >
-            <Property Name="Font" Value="FairChar-30" />
-            <Property Name="Text" Value="Multiplayer" />
-            <Property Name="AlwaysOnTop" Value="False" />
+			<Property Name="FrameEnabled" Value="False" />
+			<Property Name="BackgroundEnabled" Value="False" />		
+			<Property Name="Image" Value="set:BackgroundInit image:BackgroundInit" />			
+            <Property Name="AlwaysOnTop" Value="False" />			
             <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
             <Window Type="OgreTray/Title" Name="NetLobbyServer/BackGround/" >
-                <Property Name="Font" Value="DejaVuSans-10" />
-                <Property Name="Text" Value="Wating for Clients" />
+                <Property Name="Font" Value="Diogenes-24" />
+                <Property Name="Text" Value="WAITING FOR CLIENTS" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="UnifiedAreaRect" Value="{{0.3,0},{0.2,0},{0.7,0},{0.3,0}}" />
             </Window>
@@ -20,7 +21,7 @@
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="Begin game" />
             <Property Name="AlwaysOnTop" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.5,0},{0.7,0},{0.9,0},{0.8,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.80,0},{0.9,0},{0.95,0},{0.95,0}}" />
         </Window>
 
 		 <Window Type="OgreTray/StaticText" Name="NetLobbyServer/Status" >

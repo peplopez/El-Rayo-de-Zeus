@@ -547,7 +547,8 @@
 -->
     <WidgetLook name="OgreTray/StaticText">
         <Property name="BackgroundEnabled" value="True" />
-        <Property name="FrameEnabled" value="True" />
+        <!--<Property name="FrameEnabled" value="True" />-->
+		<Property name="FrameEnabled" value="False" />
         <Property name="TextColours" value="tl:FF000000 tr:FF000000 bl:FF000000 br:FF000000" />
         <Property name="HorzFormatting" value="WordWrapLeftAligned" />
         <NamedArea name="WithFrameTextRenderArea">
