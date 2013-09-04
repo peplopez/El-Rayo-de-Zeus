@@ -85,7 +85,7 @@ namespace Logic
 /////////// HACK FRS FX TEST //////////////
 		case Message::ATTACH:
 			_isModeBomb = message->getAction() == Message::ATTACH_TO_HAND &&
-				static_cast<CMessageString*>(message)->getString() == "puPoisonOnHand2.0.mesh";				
+				static_cast<CMessageString*>(message)->getString().substr(0,14) == "puPoisonOnHand";				
 			break;
 ////////////////////////////////////
 
