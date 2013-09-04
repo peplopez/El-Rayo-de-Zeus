@@ -59,6 +59,13 @@ Map ={
 		ring=2,
 		degrees=90,
 	},	
+	phoenix1 = {
+		type = "Phoenix",
+		base=1,
+		ring=2,
+		degrees=90,
+		height=30,
+	},
 	puPoison1 = {
 		type = "PUPoison",
 		base=1,
@@ -71,13 +78,7 @@ Map ={
 		ring=0,
 		degrees=20,
 	},
-	phoenix1 = {
-		type = "Phoenix",
-		base=1,
-		ring=1,
-		degrees=180,
-		height=10,
-	},
+
 	
 	LowerRing = {
 		type = "World",
