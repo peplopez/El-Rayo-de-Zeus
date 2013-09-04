@@ -25,17 +25,15 @@ Map ={
 		type = "WhitePLight",
 		position = {100, 20, 0},
 	},	
-			
 		
-	Atalanta1 = {
-		type = "NPCAtalanta",
+	
+	NPCSpartan1 = {
+		type = "NPCSpartan",
 		base=1,
 		ring=1,
 		degrees=120,
-		initialMaterial1="marineBlue",
-	},
-	
-	
+		initialMaterial1="marineYellow",
+	},	
 	Cancerbero1 = {
 		type = "Cerberus",
 		model = "CanCerbero.mesh",		

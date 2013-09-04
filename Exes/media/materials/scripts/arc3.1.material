@@ -1,6 +1,6 @@
 import base_material from "Normal_AO_Specular_Mapping_Shader.material"
 
-material Atalanta_arc : base_material
+material arc : base_material
 {
 	set_texture_alias diffuseMap 	arc_diffuse.tga
     set_texture_alias specMap 		arc_Specular.tga
