@@ -92,11 +92,16 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 		
-		std::string varScript(	"fxScript0");		
-		std::string varLooped(	"fxLooped0");
-		std::string varPos(		"fxPos0");
-		std::string varDiffuse(	"fxDiffuse0");
-	    std::string varSpecular("fxSpecular0");
+		std::string varScript(		"fxScript0");		
+		std::string varLooped(		"fxLooped0");
+		std::string varPos(			"fxPos0");
+		std::string varCompoName(	"fxCompoName0");
+		std::string varCompoMsec(	"fxCompoMsec0");
+		std::string varDiffuse(		"fxDiffuse0");
+	    std::string varSpecular(	"fxSpecular0");
+		std::string varAuto(		"fxAutoStart0");
+
+		std::vector<std::string> autoHFXs; // vector de PS con autoStart
 
 		// READ FXs & CREATE PSs
 		for(int i = 0; i < _MAX_FX ; ++i) {	// 10 FXs maximo por entidad deberia ser suficente
@@ -105,42 +110,55 @@ namespace Logic
 				break;
 			std::string hfx = entityInfo->getStringAttribute( varScript );	
 
-			bool isLooped = false;
-				if( entityInfo->hasAttribute( varLooped ) ) 
-					isLooped = entityInfo->getBoolAttribute( varLooped );
-
 			Vector3 relativePos(Vector3::ZERO);
 				if( entityInfo->hasAttribute( varPos ) ) 
 					relativePos = entityInfo->getVector3Attribute( varPos );
 
-			Vector3 lightDiffuse(Vector3::ZERO);
-				if( entityInfo->hasAttribute( varDiffuse ) ) 
-					lightDiffuse = entityInfo->getVector3Attribute( varDiffuse );
+			bool isLooped = false;
+				if( entityInfo->hasAttribute( varLooped ) ) 
+					isLooped = entityInfo->getBoolAttribute( varLooped );
 
-			Vector3 lightSpecular(Vector3::ZERO);
+			std::string compoName = "";
+				if( entityInfo->hasAttribute( varCompoName ) )
+					compoName = entityInfo->getStringAttribute( varCompoName );	
+
+			int compoMsec = 0;
+				if( entityInfo->hasAttribute( varCompoMsec ) )
+					compoMsec = entityInfo->getIntAttribute( varCompoMsec );	
+		
+			Vector3 lightColorDiff(Vector3::ZERO);
+				if( entityInfo->hasAttribute( varDiffuse ) ) 
+					lightColorDiff = entityInfo->getVector3Attribute( varDiffuse );
+
+			Vector3 lightColorSpec(Vector3::ZERO);
 				if( entityInfo->hasAttribute( varSpecular ) ) 
-					lightSpecular = entityInfo->getVector3Attribute( varSpecular );
+					lightColorSpec = entityInfo->getVector3Attribute( varSpecular );
+			
+			if( entityInfo->hasAttribute( varAuto ) && entityInfo->getBoolAttribute( varAuto ) )
+				autoHFXs.push_back(hfx);
 			
 			_psTable[hfx] = new Graphics::CParticleSystem(
-								hfx, _entity->getGraphicalName(), isLooped,
-								relativePos, lightDiffuse, lightSpecular );	
+								hfx, _entity->getGraphicalName(), relativePos,
+								isLooped,  compoName, compoMsec,
+								lightColorDiff, lightColorSpec );	
 
 			++varScript		[ varScript.length()	- 1];
 			++varLooped		[ varLooped.length()	- 1];
 			++varPos		[ varPos.length()		- 1];
+			++varCompoName	[ varCompoName.length()	- 1];
+			++varCompoMsec	[ varCompoMsec.length()	- 1];
 			++varDiffuse	[ varDiffuse.length()	- 1];
 			++varSpecular   [ varSpecular.length()	- 1];
+			++varAuto		[ varAuto.length()		- 1];
 		}
 
 		attachToMap(map); // Add PSs to Scene
 
-/////////////// HACK FRS RAIN
-		if(_entity->getType() == "World" && !_psTable.empty())
-			_psTable.begin()->second->start();
-////////////////////////////////////
+		// Start automático de PSs con autoStart
+		for(int i = 0; i < autoHFXs.size(); ++i)
+			_psTable[ autoHFXs[i] ]->start();
 
 		return true;
-
 	} // spawn
 	
 	//---------------------------------------------------------
@@ -165,7 +183,7 @@ namespace Logic
 			assert(hfx.length() && "Action recibido no se corresponde con ningun recurso HFX");
 
 			ps = _psTable[hfx];							
-				if(!ps) {		// FRS Si no esta en psTable, generamos el sistema en la posicion 0,0,0				
+				if(!ps) {		// FRS Si existe el sistema de partículas, lo construimos en la posicion 0,0,0	
 					ps = _psTable[hfx] = new Graphics::CParticleSystem( hfx, _entity->getGraphicalName() );
 					_graphicalScene->add(ps);
 				}

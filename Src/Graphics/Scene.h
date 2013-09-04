@@ -19,6 +19,7 @@ de una escena.
 
 #include <BaseSubsystems/Math.h>
 #include <OgreFrameListener.h>
+#include <OgreCompositorManager.h>
 
 #include <list>
 
@@ -31,7 +32,7 @@ namespace Ogre
 	class Root;
 	class Viewport;
 	class SceneManager;
-	class StaticGeometry;	
+	class StaticGeometry;
 };
 
 
@@ -46,6 +47,7 @@ namespace Graphics
 	class CLight;
 };
 
+// FRS WTF?
 namespace Physics
 {
 	class CScene;
@@ -97,23 +99,7 @@ namespace Graphics
 
 	public:
 
-		/**
-		Devuelve la cámara de la escena.
-
-		@return Puntero a la cámara de la escena.
-		*/
-		CCamera *getCamera() {return _camera;}
-
-		CCamera *getBaseCamera() {return _baseCamera;}
-
-		
-
-		/**
-		Devuelve el nombre de la escena.
-
-		@return Nombre de la escena.
-		*/
-		const std::string& getName() {return _name;}
+	
 			
 		/**
 		*/
@@ -147,20 +133,6 @@ namespace Graphics
 		*/
 		void remove(CSceneElement* sceneElement);
 
-
-		
-		/**PeP
-		Activar compositor, pensado para el de blanco y negro. También RadialBlur
-		*/
-	
-		void activateCompositor(std::string name);
-
-		/**PeP
-		Desactivar compositor, pensado para el de blanco y negro sobre todo. También RadialBlur
-		*/
-		void deactivateCompositor(std::string name);
-
-
 		
 	protected:
 
@@ -174,7 +146,7 @@ namespace Graphics
 		friend class CSceneElement;
 		friend class CLight;
 		friend class Logic::CDotSceneLoader; // HACK FRS Logic???
-		friend class Physics::CScene; // FRS esto tiene que ser asin?
+		friend class Physics::CScene; // FRS Necesario para el pintado debug de la física
 
 		/**
 		Nombre de la escena.
@@ -289,6 +261,14 @@ namespace Graphics
 		*/
 		void tick(float secs);
 
+		
+
+	private:
+
+		bool _isInit;
+		void _init();
+		void _deinit();	
+
 		/**
 		Añade las entidades estáticas a la geometría estática del nivel
 		y la construlle. Si la geometría estática ya ha sido construida
@@ -297,8 +277,48 @@ namespace Graphics
 		@remarks Una vez construida la geometría estática no se pueden 
 		modificar los valores de las entidades estáticas.
 		*/
-		void buildStaticGeometry(); 
+		void _buildStaticGeometry(); 
 
+
+
+
+	/*******************
+		COMPOSITORS
+	*******************/
+	public:
+		void compositorAdd(const std::string &name) {	
+			assert(_viewport && "La escena no está activa");
+			Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, name); 
+			assert(comp && "Error al cargar compositor. Revisar que esta bien definido en los assets" );
+		}
+		void compositorEnable(const std::string &name) {	assert(_viewport && "La escena no está activa");
+			Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, true); }	
+		void compositorDisable(const std::string &name)	{	assert(_viewport && "La escena no está activa");
+			Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, false); }	
+
+	private:
+		void _compositorReload();		
+
+
+	/******************
+		GET's & SET's
+	********************/
+
+	public:
+		/**
+		Devuelve el nombre de la escena.
+		@return Nombre de la escena.
+		*/
+		const std::string& getName() {return _name;}
+
+		/**
+		Devuelve la cámara de la escena.
+		@return Puntero a la cámara de la escena.
+		*/
+		CCamera *getCamera() {return _camera;}
+		CCamera *getBaseCamera() {return _baseCamera;}
+
+	protected:
 		/**
 		Devuelve el gestor de la escena de Ogre
 		@return Puntero al gestor de la escena de Ogre.
@@ -310,7 +330,8 @@ namespace Graphics
 		@return Puntero a la geometría estática de la escena de Ogre.
 		*/
 		Ogre::StaticGeometry *getStaticGeometry() { return _staticGeometry; }
-		
+
+
 
 
 
@@ -323,7 +344,7 @@ namespace Graphics
 		// WARNING : if != 1.0, This scale must be taken into account when setting and getting arbitrary particle attributes !
 		static const float HHFX_WORLD_SCALE;
 
-		IHHFXScene*	getHHFXScene() const { assert(_hhfxScene); return _hhfxScene; }
+		IHHFXScene*	getHHFXScene() const { assert(_hhfxScene && "[HHFX] Escena no init"); return _hhfxScene; }
 		
 		//	FRAME LISTENER 
 		bool frameStarted(const Ogre::FrameEvent& evt);
@@ -331,16 +352,13 @@ namespace Graphics
 		
 	private:	
 
-		static const int _HHFX_UPDATE_TIME_MAX = 1;
+		static const int _HHFX_INACTIVE_UPDATE_PERIOD = 1; // in secs
 		Ogre::Real _hhfxTimeSinceUpdate; 
 		IHHFXScene *_hhfxScene;
 
-		void _hhfxSceneInit();
-		void _hhfxSceneDeinit();
-		void _hhfxCompositorLoad();
-		void _hhfxCompositorBWLoad(); //PT
-		void _hhfxCompositorUnload();
-		void _hhfxCompositorBWUnload(); //PT
+		IHHFXScene* _hhfxCreateScene(Ogre::SceneManager*);
+		void _hhfxInit();
+		void _hhfxDeinit();
 		static bool _hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, const Ogre::Vector3 &direction, float length, SContactReport &contactReport);
 
 	}; // class CScene

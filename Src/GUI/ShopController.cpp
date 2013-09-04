@@ -61,17 +61,17 @@ namespace GUI {
 	{
 		if(_controlledShop)
 		{
-			Logic::CMessage *m = new Logic::CMessage();
-			m->setType(Logic::Message::SHOP);
-
 			switch(key.keyId)
 			{
-				case GUI::Key::T:
+				case GUI::Key::T: {
 					//ScriptManager::CServer::getSingletonPtr()->reloadScript("Shop");
 					//ScriptManager::CServer::getSingletonPtr()->executeProcedure("changeShopVisibility");
+					Logic::CMessage *m = new Logic::CMessage();
+					m->setType(Logic::Message::SHOP);
 					m->setAction(Logic::Message::DISPLAY_SHOP); 
 					_controlledShop->emitMessage(m);
 					break;
+				}
 
 				//case GUI::Key::R:
 				//	ScriptManager::CServer::getSingletonPtr()->reloadScript("Shop");
@@ -81,9 +81,8 @@ namespace GUI {
 				default:
 					return false;
 			}
-			return true;
 		}
-		return false;
+		return true;
 
 	} // keyReleased
 

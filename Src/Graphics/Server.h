@@ -81,7 +81,7 @@ namespace Graphics
 
 		@return Puntero al servidor gráfico.
 		*/
-		static Graphics::CServer *getSingletonPtr() { return _instance; }
+		static Graphics::CServer *getSingletonPtr() { assert(_instance && "Servidor Grafico no inicializado"); return _instance; }
 		/**
 		Inicializa el servidor gráfico. Dependiendo de la configuración (release
 		o debug), utiliza pantalla completa o no.
@@ -213,7 +213,7 @@ namespace Graphics
 		*/
 		static CServer *_instance;
 
-			/**
+		/**
 		Mapa de escenas. Se asocia una escena con su nombre.
 		*/
 		TScenes _scenes;
@@ -228,7 +228,6 @@ namespace Graphics
 		/**
 		Escena dummy que se crea automáticamente. Con ella permitimos que
 		siempre haya una escena para el dibujado del GUI.
-		FRS ??
 		*/
 		CScene* _dummyScene;
 
@@ -296,7 +295,7 @@ namespace Graphics
 	private:			
 
 		IHHFXBase* _hhfxBase;
-		void _initHHFX();
+		void _initHHFX(CScene*);
 		void _preloadHHFXTextures();	
 
 	}; // class CServer

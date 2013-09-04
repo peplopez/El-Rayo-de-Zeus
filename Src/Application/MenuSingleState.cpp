@@ -277,32 +277,27 @@ namespace Application {
 
 	bool CMenuSingleState::loadGame()
 	{
-			_app->setState("game");
+			_app->setState("game"); // Acaba generando un GameState->activate()
 
 			//Se vuelve visible la barra de progreso
 			_hbar->setVisible(true);
 			
-			//[Гоз] CARGA de Blueprints, Arquetypes y Map adelantada
-			// Cargamos el archivo con las definiciones de las entidades del nivel.
-			
+			// FRS CARGA de Blueprints, Arquetypes y Map adelantada
+			// Cargamos el archivo con las definiciones de las entidades del nivel.			
 			if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
 				return false;
 
 			CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/TextoProgreso")->setText("Loading archetypes");
 			_hbar->setProgress(0.2f);
 
-			// Add - ESC
-			// Cargamos el archivo con las definiciones de los archetypes
-
+			// ESC Cargamos el archivo con las definiciones de los archetypes
 			if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes.txt"))
 				return false;
 
 			CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/TextoProgreso")->setText("Loading maps");
 			_hbar->setProgress(0.4f);
 			
-			// Add - JLS
-			// Cargamos los anillos a partir del nombre del mapa.
-
+			// JLS Cargamos los anillos a partir del nombre del mapa.
 			if (!Logic::CServer::getSingletonPtr()->setRingPositions())//[Гоз] Esto no deberia ejecutarse como parte del loadLevel...?
 				return false;
 

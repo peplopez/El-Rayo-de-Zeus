@@ -18,16 +18,14 @@ de una escena.
 
 #include <assert.h>
 
+#include <BaseSubsystems/Server.h>
 #include <HHFX/IHHFXPublic.h>
 #include <HHFX/RendererSubView.h>
-
 #include <OgreRenderWindow.h>
 #include <OgreRoot.h>
 #include <OgreSceneManager.h>
 #include <OgreStaticGeometry.h>
 #include <OgreViewport.h>
-
-#include <BaseSubsystems/Server.h>
 
 #include "Light.h"
 #include "Camera.h"
@@ -43,131 +41,88 @@ de una escena.
 #	define LOG(msg)
 #endif
 
+
+
+
 namespace Graphics 
 {
-	// WARNING : if != 1.0, This scale must be taken into account when setting and getting arbitrary particle attributes !
+	// HACK WARNING : if != 1.0 el rendimiento empeora -> rehacer scripts .hfx
+	// This scale must be taken into account when setting and getting arbitrary particle attributes !
 	const float CScene::HHFX_WORLD_SCALE = 8.0f;
 
-	CScene::CScene(const std::string& name) : _name(name), _viewport(0), 
+	CScene::CScene(const std::string& name) : _name(name), _isInit(false), _viewport(0), 
 		_staticGeometry(0), _hhfxScene(0), _hhfxTimeSinceUpdate(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
-		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);
+		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);	
 		_camera = new CCamera(name,this);
 		_baseCamera = new CCamera("base" + name, this);
-
-		_hhfxSceneInit(); // Init Hell Heaven FX Scene
-
+		_hhfxScene = _hhfxCreateScene(_sceneMgr);
 	} // CScene
 
 	//--------------------------------------------------------
 
 	CScene::~CScene() 
-	{
-		deactivate();	
-		_hhfxSceneDeinit(); // Hell Heaven FX		
-		_sceneMgr->destroyStaticGeometry(_staticGeometry);
-		delete _camera;
+	{		
+		deactivate();
+		if(_isInit) _deinit();
+		delete _baseCamera; // FRS andaba sin liberar
+		delete _camera;		
 		_root->destroySceneManager(_sceneMgr);
-			
 	} // ~CScene
-
 	
+
+	//--------------------------------------------------------
+	
+	// FRS parte del activate() que solo debe ejecutarse en la primera activación
+	void CScene::_init() {
+		assert(!_isInit && "Escena ya inicializada previamente");
+		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
+		_buildStaticGeometry();		
+		_hhfxInit(); // Init Hell Heaven FX Scene
+		_camera->getCamera()->setAutoAspectRatio(true);
+		_baseCamera->getCamera()->setAutoAspectRatio(true);
+		_isInit = true;		
+	} // init
+
 	//--------------------------------------------------------
 
-	void CScene::activateCompositor(std::string name)
-	{	
-		//Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, true);
-		if(name=="BW")
-			_hhfxCompositorBWLoad();
-	}	
+	void CScene::_deinit() {
+		assert(_isInit && "Escena no inicializada previamente");
+		_hhfxDeinit(); // Hell Heaven FX	
+		_sceneMgr->destroyStaticGeometry(_staticGeometry);
+		_isInit = false;
+	} // deinit
+
 	//--------------------------------------------------------
 
-	void CScene::deactivateCompositor(std::string name)
-	{	
-		//Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, false);
-		if(name=="BW")
-			_hhfxCompositorBWUnload();
-	}	
+	// FRS activate() se ejecuta después de cargar y activar todos los mapas.
+	// TODO FRS Este activate hay que repasarlo, está bien hacer todo esto en cada activate?
+	void CScene::activate()
+	{
+		if(!_isInit) _init();
+			
+		_viewport = BaseSubsystems::CServer::getSingletonPtr()
+					->getRenderWindow()->addViewport(_camera->getCamera());
+			_viewport->setBackgroundColour(Ogre::ColourValue::Black);
+			
+		_compositorReload(); // Recargar todos los compositors para el nuevo viewport
+	} // activate
+
+
 	//--------------------------------------------------------
 
 	void CScene::activateBaseCam()
 	{
-		buildStaticGeometry(); // FRS Internamente sólo se ejecuta en el primer uso de la escena ->
-		// analizar si más conveniente hacerlo en un paso previo a los dos tipos de activate
-
-		// HACK en pruebas
-		_viewport = BaseSubsystems::CServer::getSingletonPtr()
-				->getRenderWindow()->addViewport(_baseCamera->getCamera());
-			_viewport->setBackgroundColour(Ogre::ColourValue::Black);
+		if(!_isInit) _init();
 		
-		_baseCamera->getCamera()->setAspectRatio(
-			Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
+		_viewport = BaseSubsystems::CServer::getSingletonPtr()
+					->getRenderWindow()->addViewport(_baseCamera->getCamera());
+			_viewport->setBackgroundColour(Ogre::ColourValue::Black);
 
-	
-		/* Glow compositor - ya no lo usamos
-		Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
-			activateCompositor("Glow");
-
-		GlowMaterialListener *gml = new GlowMaterialListener(); // FRS y este new? no se pierde en el limbo? WTF?
-		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);
-		*/
-
-		// FRS esto también, quizá mejor en un paso previo, junto con todas las sentencias repetidas en los activates
-		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f)); 
-
-		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
-		//Sombras Chulas - Consumen mucho*/
-		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
-
+		// TODO FRS Barajar si queremos estos compositors en la baseCam
+		_compositorReload(); // Recargar todos los compositors para el nuevo viewport
 	}
-	
-	//--------------------------------------------------------
-
-
-
-	/******************
-		ICOMPONENT
-	******************/
-
-	// TODO FRS Este activate hay que repasarlo, está bien hacer todo esto en cada activate?
-	void CScene::activate()
-	{
-		buildStaticGeometry(); // FRS Se debe construir en cada activación?
-
-		// HACK en pruebas
-		_viewport = BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->addViewport(_camera->getCamera());
-
-		_camera->getCamera()->setAspectRatio( // FRS Esto hay que hacerlo en cada activate?
-			Ogre::Real(_viewport->getActualWidth()) / Ogre::Real(_viewport->getActualHeight()));
-
-		_viewport->setBackgroundColour(Ogre::ColourValue::Black);
-
-		/*Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "Glow");
-			comp->setEnabled(true);
-
-		GlowMaterialListener *gml = new GlowMaterialListener();
-		Ogre::MaterialManager::getSingletonPtr()->addListener(gml);*/
-
-		/* PRUEBAS PEP */
-		Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "BW");
-		comp->setEnabled(false);
-
-		/*comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, "RadialBlur");
-			comp->setEnabled(false);*/
-		//BWMaterialListener *bwml = new BWMaterialListener();
-		//Ogre::MaterialManager::getSingletonPtr()->addListener(bwml);
-
-		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
-
-		// FRS Lo suyo sería introducirlas mediante un CShadows o algo asin + attachToScene 
-		//Sombras Chulas - Consumen mucho*/
-		//_sceneMgr->setShadowTechnique(Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
-
-		_hhfxCompositorLoad(); // Hell Heaven FX 
-
-	} // activate
-
 	
 	//--------------------------------------------------------
 
@@ -191,14 +146,29 @@ namespace Graphics
 		TSceneElements::const_iterator end = _dynamicElements.end();
 		for(; it != end; ++it)
 			(*it)->tick(secs);
-
 	} // tick
+
+	//--------------------------------------------------------
+
+	void CScene::_compositorReload()
+	{		
+		if(_name == "dummy_scene") //  No queremos compositors en la dummy
+			return;
+
+		compositorAdd("B&W"); // FRS este hardcoding... si se pue hacer por el map.txt mejol...
+	} // compositorReload
+
+
+
+
+
 
 
 
 	/************************
 		SCENE ELEMENTS
 	************************/
+
 
 	//---------- GENERIC SCENE ELEMENTS (p.e. billboards, particles, entities etc)-----------
 
@@ -237,25 +207,6 @@ namespace Graphics
 		}	
 	} // removeSceneElement
 
-
-	//--------------------------------------------------------
-
-	void CScene::buildStaticGeometry()
-	{
-		if(!_staticGeometry && !_staticElements.empty())
-		{
-			_staticGeometry = 
-					_sceneMgr->createStaticGeometry("static");
-
-			TSceneElements::const_iterator it = _staticElements.begin();
-			TSceneElements::const_iterator end = _staticElements.end();
-				for(; it != end; it++)
-					(*it)->addToStaticGeometry();
-
-			_staticGeometry->build();
-		}
-
-	} // buildStaticGeometry
 	
 
 	//---------- LIGHTS -------------------------
@@ -278,6 +229,27 @@ namespace Graphics
 		_lights.remove(light);
 	} // removeBillboard
 
+	
+	//--------------------------------------------------------
+
+	void CScene::_buildStaticGeometry()
+	{
+		if(!_staticGeometry && !_staticElements.empty())
+		{
+			_staticGeometry = 
+				_sceneMgr->createStaticGeometry("static");
+
+			TSceneElements::const_iterator it = _staticElements.begin();
+			TSceneElements::const_iterator end = _staticElements.end();
+				for(; it != end; it++)
+					(*it)->addToStaticGeometry();
+
+			_staticGeometry->build();
+		}
+
+	} // buildStaticGeometry
+
+
 
 
 
@@ -285,77 +257,51 @@ namespace Graphics
 		HELL HEAVEN FX
 	*********************/
 
-	
 
 	//------------ INIT & DEINIT -------------------------------------------------------------------------
 
-	void CScene::_hhfxSceneInit() 
-	{	
+	IHHFXScene* CScene::_hhfxCreateScene(Ogre::SceneManager* sceneMgr) 
+	{
+		IHHFXScene* hhfxScene = 0;
+
 		// retrieve the HellHeaven's scene from an empty fx. for each Ogre::SceneManager a HHFXScene is associated.
-		Ogre::MovableObject	*dummyMO = _sceneMgr->createMovableObject("HHFX");
+		Ogre::MovableObject	*dummyMO = sceneMgr->createMovableObject("HHFX");
 			if (dummyMO) {	
-				_hhfxScene = &( static_cast<IHHFXOgre*>(dummyMO)->GetHHFXScene() );			
-				_sceneMgr->destroyMovableObject(dummyMO); // we got the hh scene, destroy the dummy effect
+				hhfxScene = &( static_cast<IHHFXOgre*>(dummyMO)->GetHHFXScene() );			
+				sceneMgr->destroyMovableObject(dummyMO); // we got the hh scene, destroy the dummy effect
 			}
-			assert(_hhfxScene && "failed creating HHFXScene !");	
-			
+
+		assert(hhfxScene && "failed creating HHFXScene !");	
+		return hhfxScene;
+	}
+
+	//-------------------------------------------------------------------------------------
+
+	void CScene::_hhfxInit() 
+	{	
+		assert(_hhfxScene && "[HHFX] Scene NULL!");
+
 		// Solo si no somos dummy scene
 		if(_name != "dummy_scene") {
 			_hhfxScene->SetCollisionCallback(this, &_hhfxCollisionCheck);  		// bind the collision callback 
 			_hhfxScene->SetWorldScale( HHFX_WORLD_SCALE ); 
-			_root->addFrameListener(this);
+			_root->addFrameListener(this); // FRS oyentes de eventos de FrameRender de Ogre
+			// FRS os mantenemos como oyentes aunque la escena no esté activa para que los FX sigan ejecutando el update 
+			// y así el regreso a la escena no muestre cambios bruscos.
 		}
 		
-	}
+	} // _hhfxInit
 
 	//-------------------------------------------------------------------------------------
 
-	void CScene::_hhfxSceneDeinit() 
-	{
-		// Hell Heaven FX 
+	void CScene::_hhfxDeinit() 
+	{	
 		_hhfxScene->Clear(); // clear the scene before shutting down ogre since the hhfx ogre implementation holds some Ogre objects.
 		_root->removeFrameListener(this); // FRS Nos borramos como oyentes de eventos de FrameRender de Ogre
-		//_hhfxCompositorUnload(); // UNDONE FRS Los compositors no se descargan de mem?		
-	}
+		//_hhfxCompositorUnload(); // UNDONE FRS Compositors se descargan auto
 
-	//-------------------------------------------------------------------------------------
-
-	void CScene::_hhfxCompositorLoad() 
-	{
-		// adding compositor for post fx
-		Ogre::CompositorInstance*	comp = Ogre::CompositorManager::getSingleton().addCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");
-			assert(comp && "[HHFX ERROR] Cannot load compositor Distortion !" );
-			comp->setEnabled(true);
-	}
-
-	//-------------------------------------------------------------------------------------
-
-	//PT
-	void CScene::_hhfxCompositorBWLoad() 
-	{
-		Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingleton().addCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/BlackAndWhite");
-			assert(comp && "[HHFX ERROR] Cannot load compositor Black And White !" );
-			comp->setEnabled(true);
-	}
-
-	//-------------------------------------------------------------------------------------
-
-	void CScene::_hhfxCompositorBWUnload() 
-	{
-		Ogre::CompositorManager::getSingleton().removeCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/BlackAndWhite");	
-	}
-
-	//FIN PT
-
-	//-------------------------------------------------------------------------------------
-
-	void CScene::_hhfxCompositorUnload() 
-	{
-		// remove our compositor
-		Ogre::CompositorManager::getSingleton().removeCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");	
-	}
-
-
+	} // _hhfxSceneDeinit
+	
 
 
 	//----------- COLLISION CALLBACK --------------------------------------------------------------------------
@@ -429,7 +375,7 @@ namespace Graphics
 		LOG("[HHFX] ParticleCount = " << _hhfxScene->GetParticleCount() )
 
 		_hhfxTimeSinceUpdate += evt.timeSinceLastFrame;
-		if(_viewport || _hhfxTimeSinceUpdate > _HHFX_UPDATE_TIME_MAX)
+		if(_viewport || _hhfxTimeSinceUpdate > _HHFX_INACTIVE_UPDATE_PERIOD)
 			// && _hhfxScene->GetParticleCount() )  UNDONE  siempre devuelve 0 WTF!
 		{
 			LOG("["<< _name <<"] Frame Started: Time Since Update = " << _hhfxTimeSinceUpdate)

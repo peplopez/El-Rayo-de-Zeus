@@ -78,6 +78,10 @@ Map = {
 		event_CT_Attack2=0.2,
 		event_CT_Attack3=0.2,
 		event_DT_Cover=0.45,
+		fxScript0 = "Blast",	
+		fxPos0 = {0, 10, 5},
+		fxCompoName0 = "Distortion",
+		fxCompoMsec0 = 3000,	
 	},		
 	NPCAtalanta = {
 		type = "NPC",
@@ -135,6 +139,10 @@ Map = {
 		event_CT_Attack2=0.2,
 		event_CT_Attack3=0.2,
 		event_DT_Cover=0.45,
+		fxScript0 = "Blast",	
+		fxPos0 = {10, 15, 20},
+		fxCompoName0 = "Distortion",
+		fxCompoMsec0 = 3000,
 	},
 	NPCSpartan = {
 		type = "NPC",
@@ -191,6 +199,10 @@ Map = {
 		event_CT_Attack2=0.2,
 		event_CT_Attack3=0.2,
 		event_DT_Cover=0.45,
+		fxScript0 = "Blast",	
+		fxPos0 = {200, 15, 100},
+		fxCompoName0 = "Distortion",
+		fxCompoMsec0 = 3000,
 	},	
 
 	AltarRed = {
@@ -530,6 +542,10 @@ Map = {
 		orbitalOffset = 0.013,
 		orbitalSpeed = 0.004,
 		orbitalRotationSpeed = 0.001,	
+		fxScript0 = "BurnHit_Small",
+		fxPos0 = {0, 15, 0},
+		fxLooped0 = true,
+		fxAutoStart0 = true,
 	},	
 	PUCauldron = {	
 		type = "PowerUp",
@@ -589,9 +605,11 @@ Map = {
 		orbitalSpeed = 0.004,
 		orbitalRotationSpeed = 0.001,	
 		fxScript0 = "Sparks",
-		fxLooped0 = true,
 		fxPos0 = {0.5,11,0},
-	},	
+		fxLooped0 = true,		
+		fxAutoStart0 = true,
+	},
+	
 	PUThrone = {
 		type = "PowerUp",
 		model = "puThrone3.1.mesh",	
@@ -610,9 +628,6 @@ Map = {
 		type = "EntityAnimated",
 		model = "phoenix2.1.mesh",
 		defaultAnimation = "fly",
-		logicInput=true,
-		fxScript0 = "FlameThrower",
-		fxLooped0 = true,
-		fxAutoStart0 = true,
+		logicInput=true,		
 	},	
 }
