@@ -32,6 +32,7 @@ namespace Graphics
 	class CEntity;
 	class CStaticEntity;
 	class CAnimatedEntity;
+	class CServer; //PT
 }
 
 namespace CEGUI
@@ -78,7 +79,8 @@ namespace Application
 		/** 
 		Constructor de la clase 
 		*/
-		CGameState(CBaseApplication *app) : CApplicationState(app), _scene(0) {}
+		//CGameState(CBaseApplication *app) : CApplicationState(app), _scene(0) {}
+		CGameState(CBaseApplication *app) : CApplicationState(app), _scene(0), _pause(0) {}
 
 		/** 
 		Destructor 
@@ -191,6 +193,14 @@ namespace Application
 		Graphics::CScene* _scene;
 
 		CEGUI::Window* _rootWindow;
+		
+		//PT
+		CEGUI::Window* _pauseWindow;
+
+	//PT
+	private:
+
+		bool _pause;
 	
 
 	}; // CGameState

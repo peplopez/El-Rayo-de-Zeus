@@ -3,7 +3,7 @@
 <GUILayout >
 
 	<!-- ROOT WINDOW -->
-    <Window Type="DefaultWindow" Name="Root" >
+<Window Type="DefaultWindow" Name="Root" >
         <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
 	
 	<!-- HUD WINDOW -->
@@ -163,8 +163,24 @@
 	
     </Window>
 	
+	<!-- PAUSE WINDOW -->
+	 <Window Type="OgreTray/StaticImage" Name="Root/Pause" >
+		<Property Name="FrameEnabled" Value="False" />
+		<Property Name="BackgroundEnabled" Value="False" />
+		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+		<Property Name="Visible" Value="False" />		
+		
+		<Window Type="OgreTray/TitleInit" Name="Root/Pause/Texto" >
+			<Property Name="Font" Value="Diogenes-24" />
+			<Property Name="Text" Value=" -- PAUSE --" />
+			<Property Name="AlwaysOnTop" Value="True" />
+			<Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.4,0},{0.8,0},{0.6,0}}" />
+		</Window>
+
+	</Window>	
 	
-	</Window> <!-- WINDOW ROOT END -->
+	
+</Window> <!-- WINDOW ROOT END -->
 	
 	
 </GUILayout>

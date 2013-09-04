@@ -29,6 +29,9 @@ Contiene la implementación del estado de juego.
 
 #include "Physics/Server.h"
 
+//PT 03-09-2013
+#include "AI/Server.h"
+
 #include "Logic/GameStatus.h"
 #include "Logic/BaseInfo.h"
 #include "Logic/RingInfo.h"
@@ -42,6 +45,9 @@ Contiene la implementación del estado de juego.
 
 //PT
 #include <BaseSubsystems/Server.h>
+
+//PT
+#include <Graphics\Server.h>
 
 namespace Application {
 
@@ -63,13 +69,17 @@ namespace Application {
 		// Hay que desacoplarlo utilizando un nuevo paquete donde se abstraiga
 		// el subsistema utilizado
 
-		// Cargamos la ventana del HUDSHOP del Jugador. (Contiene ventana HUD y ventana SHOP)
+		// Cargamos la ventana del HUDSHOP del Jugador. (Contiene ventana HUD y ventana SHOP y ventana PAUSE)
 		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("HudShop.layout");
 
 		_rootWindow = CEGUI::WindowManager::getSingletonPtr()->getWindow("Root");
 
 		//Se activa la ventana Padre
 		CEGUI::System::getSingletonPtr()->setGUISheet(_rootWindow);
+
+		_pauseWindow = _rootWindow->getChild("Root/Pause");
+
+
 
 		//inicialización del GameStatus:
 		// se supone que hemos elegido ya en este punto cuantos jugadores somos
@@ -79,6 +89,8 @@ namespace Application {
 			delete _gameStatus;
 			*/
 
+		//Loading of Pause Script
+		//ScriptManager::CServer::getSingletonPtr()->loadExeScript("Pause");
 
 		return true;
 	
@@ -133,7 +145,6 @@ namespace Application {
 		//PT Hide mousecursor when enter playing game
 		CEGUI::MouseCursor::getSingletonPtr()->hide();
 
-
 	} // activate
 
 	//--------------------------------------------------------
@@ -173,12 +184,20 @@ namespace Application {
 
 	void CGameState::tick(unsigned int msecs) 
 	{
-		CApplicationState::tick(msecs);
-		// FRS Los siguientes ticks no se colocan a nivel de C3DApplication::tick
-		// porque a diferencia de otros servers, sólo deben actualizarse durante el GameState)
-		
-		Physics::CServer::getSingletonPtr()->tick(TIMESTEP_SECS);// Simulación física 		
-		Logic::CServer::getSingletonPtr()->tick(msecs);// Actualizamos la lógica de juego.
+		if(_pause){
+			
+		}	
+		else{
+
+			CApplicationState::tick(msecs);
+			// FRS Los siguientes ticks no se colocan a nivel de C3DApplication::tick
+			// porque a diferencia de otros servers, sólo deben actualizarse durante el GameState)
+
+			Physics::CServer::getSingletonPtr()->tick(TIMESTEP_SECS);// Simulación física 
+			Logic::CServer::getSingletonPtr()->tick(msecs);// Actualizamos la lógica de juego.
+			
+		}
+
 
 	} // tick
 
@@ -198,10 +217,6 @@ namespace Application {
 	// TODO FRS de momento el ESC = salir de la partida, pero en un futuro podría ser = Pause... + New / Continue
 	bool CGameState::keyReleased(GUI::TKey key)
 	{
-		std::stringstream textAltaresActivated;
-		std::stringstream textNumberEnemies;
-		std::stringstream textPuntosMerito;
-
 		switch(key.keyId)
 		{
 		case GUI::Key::ESCAPE:
@@ -211,10 +226,33 @@ namespace Application {
 			_app->setState("menu");
 			break;
 
-		// TODO
 		case GUI::Key::PAUSE:
-			_app->setState("pause"); // TODO FRS no existe todavía el estado pause
+			_app->setState("pause"); 
 			break;
+
+		case GUI::Key::P:
+			//_app->setState("pause");
+			_pause = !_pause;
+
+			if(_pause)
+			{
+				//ScriptManager::CServer::getSingletonPtr()->executeProcedure("showPause");
+				//CEGUI::System::getSingletonPtr()->setGUISheet(_pauseWindow);
+				_pauseWindow->setVisible(true);
+				//_scene->activateCompositor("BW");
+				//_pauseWindow->activate();
+			}
+			else
+			{
+				//ScriptManager::CServer::getSingletonPtr()->executeProcedure("hidePause");
+				//_pauseWindow->deactivate();
+				_pauseWindow->setVisible(false);
+				//_scene->deactivateCompositor("BW");
+				
+			}
+
+			break;
+
 		default:
 			return false;
 		}

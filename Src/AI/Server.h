@@ -51,7 +51,10 @@ class CServer
 		@param secs Segundos desde que se reenderizó el último frame.
 		@return Valor booleano indicando si todo fue bien.
 		*/
-		bool tick(float secs);
+		//PT ¿porque se usa un float en vez de un unsigned int, y porque secs y no msecs?
+		//si al final este metodo tick en la AI esta declarado pero no implementado
+		//bool tick(float secs);
+		bool tick (unsigned int msecs);
 
 	private:
 		/**

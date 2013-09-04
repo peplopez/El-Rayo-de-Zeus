@@ -16,7 +16,7 @@ basadas en Ogre. Esta clase maneja la ejecución de todo el juego.
 */
 #include "GaleonApplication.h"
 
-#include "InitState.h" //PT
+#include "PauseState.h" //PT
 #include "ExitState.h"
 #include "MenuState.h"
 #include "MenuSingleState.h" //PT
@@ -52,13 +52,8 @@ namespace Application {
 		// CREACION DE ESTADOS. 
 		// La aplicación se hace responsable de destruirlos.
 
-
 		if(!addState("gameOver", new CGameOverState(this)))
 			return false;
-
-		//PT Añadido nuevo estado "inicio" (desde el que se pulsando sobre la pantalla se pasara al estado "menu")
-		//if(!addState("inicio", new CInitState(this)))
-		//	return false;
 
 		if(!addState("menu", new CMenuState(this)))
 			return false;
@@ -78,6 +73,11 @@ namespace Application {
 		if(!addState("exit", new CExitState(this)))
 			return false;
 
+		//PT estado de pausa en el juego SinglePlayer
+		if(!addState("pause", new CPauseState(this)))
+			return false;
+
+
 		// ESTADOS DE RED
 		if(!addState("netmenu", new CNetMenuState(this)))
 			return false;
@@ -89,12 +89,6 @@ namespace Application {
 		// ESTADO INICIAL
 		if(!setState("menu"))
 			return false;
-
-
-		//PT se sustituye el estado inicial menu, por el estado inicial inicio.
-		//if(!setState("inicio"))
-		//	return false;
-
 
 		return true;
 

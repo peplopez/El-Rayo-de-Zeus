@@ -113,13 +113,13 @@
     <ClCompile Include="..\..\Src\Application\GaleonApplication.cpp" />
     <ClCompile Include="..\..\Src\Application\GameOverState.cpp" />
     <ClCompile Include="..\..\Src\Application\GameState.cpp" />
-    <ClCompile Include="..\..\Src\Application\InitState.cpp" />
     <ClCompile Include="..\..\Src\Application\LobbyClientState.cpp" />
     <ClCompile Include="..\..\Src\Application\LobbyServerState.cpp" />
     <ClCompile Include="..\..\Src\Application\MenuSingleState.cpp" />
     <ClCompile Include="..\..\Src\Application\MenuState.cpp" />
     <ClCompile Include="..\..\Src\Application\NetMenuState.cpp" />
     <ClCompile Include="..\..\Src\Application\OgreClock.cpp" />
+    <ClCompile Include="..\..\Src\Application\PauseState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Application\3DApplication.h" />
@@ -131,13 +131,13 @@
     <ClInclude Include="..\..\Src\Application\GaleonApplication.h" />
     <ClInclude Include="..\..\Src\Application\GameOverState.h" />
     <ClInclude Include="..\..\Src\Application\GameState.h" />
-    <ClInclude Include="..\..\Src\Application\InitState.h" />
     <ClInclude Include="..\..\Src\Application\LobbyClientState.h" />
     <ClInclude Include="..\..\Src\Application\LobbyServerState.h" />
     <ClInclude Include="..\..\Src\Application\MenuSingleState.h" />
     <ClInclude Include="..\..\Src\Application\MenuState.h" />
     <ClInclude Include="..\..\Src\Application\NetMenuState.h" />
     <ClInclude Include="..\..\Src\Application\OgreClock.h" />
+    <ClInclude Include="..\..\Src\Application\PauseState.h" />
     <ClInclude Include="..\..\Src\Application\TimeConstants.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
