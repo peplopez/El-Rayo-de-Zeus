@@ -611,5 +611,8 @@ Map = {
 		model = "phoenix2.1.mesh",
 		defaultAnimation = "fly",
 		logicInput=true,
+		fxScript0 = "FlameThrower",
+		fxLooped0 = true,
+		fxAutoStart0 = true,
 	},	
 }
