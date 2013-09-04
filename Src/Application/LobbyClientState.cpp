@@ -44,7 +44,7 @@ Contiene la implementación del estado de lobby del cliente.
 #define DEBUG 0
 #if DEBUG
 #	include <iostream>
-#	define LOG(msg) std::cout << "APP::CLIENT>> " << msg << std::endl;
+#	define LOG(msg) std::cout << "APP::LOBBY_CLIENT>> " << msg << std::endl;
 #else
 #	define LOG(msg)
 #endif
