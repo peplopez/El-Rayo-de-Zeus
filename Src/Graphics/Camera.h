@@ -118,7 +118,8 @@ namespace Graphics
 		Clase amiga. Solo la escena tiene acceso a la cámara de Ogre para
 		poder crear el viewport.
 		*/
-		friend class CScene;	
+		friend class CScene;
+		friend class CServer;
 
 		/**
 		Nodo que contiene la cámara.
@@ -147,7 +148,7 @@ namespace Graphics
 		std::string _name;
 
 
-			/**
+		/**
 		Devuelve la cámara de Ogre.
 
 		@return puntero a la cámara de Ogre.

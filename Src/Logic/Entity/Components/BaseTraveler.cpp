@@ -112,7 +112,7 @@ namespace Logic
 				if (_changeAllowed)
 				{
 					_changingBase=true;
-					_entity->getMap()->setVisible();
+					_entity->getMap()->setPlayerCamVisible();
 
 ////////////////////// HACK TEST FRS Para probar FX					
 					CMessage *txMsg = new CMessage();	

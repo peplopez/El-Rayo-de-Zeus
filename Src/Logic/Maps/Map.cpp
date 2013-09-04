@@ -84,7 +84,7 @@ namespace Logic {
 				if((*it)->isActivated())
 					(*it)->deactivate();
 
-		Graphics::CServer::getSingletonPtr()->setActiveScene(0);
+		Graphics::CServer::getSingletonPtr()->setPlayerCamVisible(0);
 		Physics::CServer::getSingletonPtr()->setActiveScene(0); // FRS Y dónde se está activando?
 
 		_isActive = false;
@@ -92,16 +92,16 @@ namespace Logic {
 
 	//---------------------------------------------------------
 
-	void CMap::setVisible()
+	void CMap::setPlayerCamVisible()
 	{
-		Graphics::CServer::getSingletonPtr()->setActiveScene( this->_graphicScene );
+		Graphics::CServer::getSingletonPtr()->setPlayerCamVisible( this->_graphicScene );
 	}
 
 	//---------------------------------------------------------
 
-	void CMap::activateBaseCam()
+	void CMap::setBaseCamVisible()
 	{
-		Graphics::CServer::getSingletonPtr()->activateBaseCam( this->_graphicScene );
+		Graphics::CServer::getSingletonPtr()->setBaseCamVisible( this->_graphicScene );
 	}
 	
 	//---------------------------------------------------------

@@ -49,7 +49,7 @@ namespace Logic
 
 		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
 
-		_graphicsCamera = _entity->getMap()->getGraphicScene()->getCamera();
+		_graphicsCamera = _entity->getMap()->getGraphicScene()->getPlayerCamera();
 
 		if(!_graphicsCamera)
 			return false;

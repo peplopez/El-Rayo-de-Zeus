@@ -163,7 +163,7 @@ namespace Graphics
 		sofisticadas y más tipos de cámaras desde el punto de vista lógico,
 		ellas se encargarán de mover esta instancia.
 		*/
-		CCamera *_camera;
+		CCamera *_playerCamera;
 
 		/**
 		*/
@@ -240,11 +240,11 @@ namespace Graphics
 		Despierta la escena y crea un viewport que ocupa toda la
 		pantalla.
 		*/
-		void activate();
+		void setPlayerCamVisible();
 
 		/**
 		*/
-		void activateBaseCam();
+		void setBaseCamVisible();
 
 		/**
 		Duerme la escena y destruye su viewport para que no se siga 
@@ -316,7 +316,7 @@ namespace Graphics
 		Devuelve la cámara de la escena.
 		@return Puntero a la cámara de la escena.
 		*/
-		CCamera *getCamera() {return _camera;}
+		CCamera *getPlayerCamera() {return _playerCamera;}
 		CCamera *getBaseCamera() {return _baseCamera;}
 
 	protected:

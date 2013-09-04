@@ -96,11 +96,11 @@ namespace Logic
 
 		/**
 		*/
-		void setVisible();
+		void setPlayerCamVisible();
 
 		/**
 		*/
-		void activateBaseCam();
+		void setBaseCamVisible();
 
 		/**
 		Función llamada en cada frame para que se realicen las funciones

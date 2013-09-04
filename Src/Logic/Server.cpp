@@ -266,7 +266,7 @@ namespace Logic {
 		_gameNetMsgManager->activate();
 
 		
-		_player->getMap()->setVisible();
+		_player->getMap()->setPlayerCamVisible();
 
 		return activated;
 
@@ -327,7 +327,7 @@ namespace Logic {
 				(*entity)->activate();	
 
 				if ((*entity)->isPlayer())
-					(*entity)->getMap()->setVisible(); 
+					(*entity)->getMap()->setPlayerCamVisible(); 
 			}
 			it->second.clear();
 		}
@@ -338,14 +338,14 @@ namespace Logic {
 
 	void CServer::activateBaseCam(int targetMap)
 	{
-		_maps[ _mapNames[targetMap - 1] ]->activateBaseCam();
+		_maps[ _mapNames[targetMap - 1] ]->setBaseCamVisible();
 	}
 
 	//---------------------------------------------------------
 
 	void CServer::activatePlayerCam()
 	{
-		_player->getMap()->setVisible();
+		_player->getMap()->setPlayerCamVisible();
 	}
 
 	//---------------------------------------------------------

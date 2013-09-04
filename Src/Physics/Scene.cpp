@@ -52,7 +52,7 @@ namespace Physics
 		{
 //#ifdef _DEBUG
 			_debugDraw = new OgreB2DebugDraw(Graphics::CServer::getSingletonPtr()->getScene(name)->getSceneMgr(), "debugDraw") ;
-			_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(name)->getCamera()->getNode());
+			_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(name)->getPlayerCamera()->getNode());
 			_debugDraw->SetFlags(b2Draw::e_shapeBit);
 			_world->SetDebugDraw(_debugDraw);
 //#endif		
