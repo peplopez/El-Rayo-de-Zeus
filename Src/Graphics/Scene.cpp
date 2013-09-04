@@ -155,8 +155,7 @@ namespace Graphics
 		if(_name == "dummy_scene") //  No queremos compositors en la dummy
 			return;
 
-		_compositorAdd("B&W");		
-		_hhfxCompositorReload(); // UNDONE FRS: Parece que no encuentra este compositor ahora. Hell Heaven FX  	
+		compositorAdd("B&W"); // FRS este hardcoding... si se pue hacer por el map.txt mejol...
 	} // compositorReload
 
 
@@ -302,23 +301,6 @@ namespace Graphics
 		//_hhfxCompositorUnload(); // UNDONE FRS Compositors se descargan auto
 
 	} // _hhfxSceneDeinit
-
-	//-------------------------------------------------------------------------------------
-
-	void CScene::_hhfxCompositorReload() // adding compositors for post fx
-	{	
-		_compositorAdd("Distortion");		
-	}
-
-	//-------------------------------------------------------------------------------------
-
-
-	// UNDONE FRS Ogre elimina auto los compositors
-	//void CScene::_hhfxCompositorUnload() 
-	//{
-	//	// remove our compositor
-	//	Ogre::CompositorManager::getSingleton().removeCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");	
-	//}
 	
 
 

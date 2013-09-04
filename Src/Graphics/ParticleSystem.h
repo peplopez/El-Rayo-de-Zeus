@@ -60,14 +60,17 @@ namespace Graphics
 		Vector3 _relativePos;	// Pos relativa respecto al padre (particulas son hijas de otra entidad gráfica)
 								// Si no hay parentName -> relativePos = absolutePos (hijo de root)
 
+		//------------------ FX COMPOSITOR  --------------------------------
+		std::string		_compoName; // nombre del compositor, en caso de requerirlo el fx
+		int				_compoMsec; 
+		float			_compoTimer;
+		bool			_compoIsLoaded;		
+
 		//------------------ FX LIGHT --------------------------------
 		Ogre::Light*	_fxLight; // luz asociada al fx (si corresponde)
 		Vector3			_lightColorDiff;
 		Vector3			_lightColorSpec;
-		std::string		_compoName; // nombre del compositor, en caso de requerirlo el fx
-		int				_compoMsec; 
-		float			_compoTimer;
-		
+
 		//----------------- LOOPING -----------------------
 		bool			_isLooped;
 		bool			_isLooping; // _isLooped + started (!stopped)

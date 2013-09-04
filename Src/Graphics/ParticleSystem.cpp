@@ -45,7 +45,7 @@ namespace Graphics
 			_hfx(hfx), _parentName(parentName), _relativePos(relativePos), 
 			_fxLight(0), _lightColorDiff(lightColorDiff), _lightColorSpec(lightColorSpec), 
 			_isLooped(isLooped), _isLooping(false), _loopRestart(false),
-			_compoName(compoName), _compoMsec(compoMsec), _compoTimer(0),
+			_compoName(compoName), _compoMsec(compoMsec), _compoTimer(0), _compoIsLoaded(false),
 			_movObj(0), _hhfxScene(0)
 	{
 		_type = _isLooped || _compoMsec? TGraphicalType::DYNAMIC : TGraphicalType::NONE;
@@ -73,13 +73,20 @@ namespace Graphics
 				_movObj->SetFXListener(this);
 				_node->attachObject(_movObj);
 
+			// Adding compositors for post fx -> Sólo en el primer start: 
+			if( _compoName.length() && !_compoIsLoaded) { // en el load no se puede porque la scena no está activa todavía
+				_scene->compositorAdd(_compoName);
+				_compoIsLoaded = true;
+			}
+
 			_isLooping = _isLooped;
 		}
 	}
 
 	//--------------------------------------------------------
 
-	// UNDONE FRS: No se puede usar el método StopFX => Inconsistencias y pescaillas que se muerden la cola con evento StoppedFX
+	// UNDONE FRS: No se puede usar el método StopFX => 
+	// Inconsistencias y pescaillas que se muerden la cola con evento StoppedFX
 	void CParticleSystem::stop()
 	{
 		if(_movObj) 

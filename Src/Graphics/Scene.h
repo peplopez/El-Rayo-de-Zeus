@@ -286,19 +286,18 @@ namespace Graphics
 		COMPOSITORS
 	*******************/
 	public:
+		void compositorAdd(const std::string &name) {	
+			assert(_viewport && "La escena no está activa");
+			Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, name); 
+			assert(comp && "Error al cargar compositor. Revisar que esta bien definido en los assets" );
+		}
 		void compositorEnable(const std::string &name) {	assert(_viewport && "La escena no está activa");
 			Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, true); }	
 		void compositorDisable(const std::string &name)	{	assert(_viewport && "La escena no está activa");
 			Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, false); }	
 
 	private:
-		void _compositorReload();
-		void _compositorAdd(const std::string &name) {	
-			assert(_viewport && "La escena no está activa");
-			Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, name); 
-			assert(comp && "Error al cargar compositor. Revisar que esta bien definido en los assets" );
-		}
-		
+		void _compositorReload();		
 
 
 	/******************
@@ -360,7 +359,6 @@ namespace Graphics
 		IHHFXScene* _hhfxCreateScene(Ogre::SceneManager*);
 		void _hhfxInit();
 		void _hhfxDeinit();
-		void _hhfxCompositorReload();
 		static bool _hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, const Ogre::Vector3 &direction, float length, SContactReport &contactReport);
 
 	}; // class CScene
