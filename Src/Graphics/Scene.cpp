@@ -419,7 +419,7 @@ namespace Graphics
 	// FRS Return True to continue rendering, false to drop out of the rendering loop.
 	bool CScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	{	
-		if(!_viewport) // Si no se acaba de hacer Update (time = 0) no renderizamos
+		if(_hhfxTimeSinceUpdate) // Si no se acaba de hacer Update (time = 0) no renderizamos
 			return true;
 
 		// Aplicamos transformaciones de la camara que esté renderizando actualmente el FX: Camera o BaseCamera.
@@ -435,7 +435,7 @@ namespace Graphics
 			view.setHHFXScene(*_hhfxScene);
 			view.setViewMatrix(worldTransforms);
 			view.setSceneManager(*_sceneMgr);
-			view.setUsePostFX(true); // FRS no se si sirve realmente para nada...
+			view.setUsePostFX(true); // FRS no se si sirve realmente para nada
 
 		_hhfxScene->Render(view, camPos);
 
