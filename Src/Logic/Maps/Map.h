@@ -96,7 +96,7 @@ namespace Logic
 
 		/**
 		*/
-		void setVisible();
+		void activatePlayerCam();
 
 		/**
 		*/
@@ -208,7 +208,7 @@ namespace Logic
 
 		@return Escena con los actores físicos.
 		*/
-		Physics::CScene *getPhysicScene() {return _physicScene;}
+		Physics::CScene *getPhysicScene() {return _physicsScene;}
 		
 		/**
 		Crea un nuevo jugador y le porporciona un nombre determinado.
@@ -263,7 +263,7 @@ namespace Logic
 		/**
 		Escena física donde se encontrarán los actores físicos de las entidades.
 		*/
-		Physics::CScene* _physicScene;
+		Physics::CScene* _physicsScene;
 	}; // class CMap
 
 } // namespace Logic

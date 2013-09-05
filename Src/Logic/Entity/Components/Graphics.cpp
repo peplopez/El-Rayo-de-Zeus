@@ -120,9 +120,13 @@ namespace Logic
 			_graphicalEntity->attach( Graphics::TAttachPoint::FACE, 
 				entityInfo->getStringAttribute("modelFacial") );
 
-		if(entityInfo->hasAttribute("modelWeapon"))
+		if(entityInfo->hasAttribute("modelWeaponR"))
 			_graphicalEntity->attach( Graphics::TAttachPoint::HAND_R, 
-				entityInfo->getStringAttribute("modelWeapon") );
+				entityInfo->getStringAttribute("modelWeaponR") );
+
+		if(entityInfo->hasAttribute("modelWeaponL"))
+			_graphicalEntity->attach( Graphics::TAttachPoint::HAND_L, 
+				entityInfo->getStringAttribute("modelWeaponL") );
 
 		if(entityInfo->hasAttribute("modelShield"))
 			_graphicalEntity->attach( Graphics::TAttachPoint::ARM_L, 
@@ -194,7 +198,7 @@ namespace Logic
 					_graphicalEntity->attach( Graphics::TAttachPoint::HEAD, rxMsg->getString() );	
 					break;
 				case Message::ATTACH_TO_HAND:	
-					_graphicalEntity->attach( Graphics::TAttachPoint::HAND_R,	rxMsg->getString() );	
+					_graphicalEntity->attach( Graphics::TAttachPoint::HAND_R, rxMsg->getString() );	
 					break;
 				case Message::DETACH_FROM_HEAD:	
 					_graphicalEntity->detach( Graphics::TAttachPoint::HEAD );	
@@ -204,6 +208,7 @@ namespace Logic
 					break;
 			}
 		} break;
+
 		case Message::SET_SCALE:{
 				CMessageFloat *maux4 = static_cast<CMessageFloat*>(message);
 				

@@ -196,9 +196,18 @@ namespace Logic
 		*/
 		void moveDefferedEntities();
 
+		/**
+		*/
 		void activateBaseCam(const int targetMap);
-
+		
+		/**
+		*/
 		void activatePlayerCam();
+
+		/**
+		*/
+		void compositorEnable(const std::string &name);
+		void compositorDisable(const std::string &name);
 
 	protected:
 		/**

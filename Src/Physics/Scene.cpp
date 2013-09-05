@@ -43,38 +43,50 @@
 
 namespace Physics
 {
-	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0), _worldListener(0), _debugDrawEnabled(false)
+	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0), _worldListener(0), _debugDrawEnabled(false), _isInit(false)
 	{	
 		b2Vec2 gravity(0, -20);
 		_world = new b2World(gravity);
-
-		if (_name != "dummy_scene")
-		{
-//#ifdef _DEBUG
-			_debugDraw = new OgreB2DebugDraw(Graphics::CServer::getSingletonPtr()->getScene(name)->getSceneMgr(), "debugDraw") ;
-			_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(name)->getCamera()->getNode());
-			_debugDraw->SetFlags(b2Draw::e_shapeBit);
-			_world->SetDebugDraw(_debugDraw);
-//#endif		
-			_worldListener = new CContactListener();
-			_world->SetContactListener(_worldListener);
-
-			CreateWorldEdges();
-		}
+		_worldListener = new CContactListener();
+		_debugDraw = new OgreB2DebugDraw(Graphics::CServer::getSingletonPtr()->getScene(_name)->getSceneMgr(), "debugDraw") ;	
 	};
+
+	//--------------------------------------------------------
 
 	CScene::~CScene() 
 	{
-		delete _world;
-		deactivate();	
-
+		delete _worldListener;
+		deactivate();
+		delete _world;	
+		
 	} // ~CScene
 	
 	//--------------------------------------------------------
 
-	bool CScene::activate()
+	void CScene::_init() 
+	{
+//#ifdef _DEBUG
+		
+		_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(_name)->getPlayerCamera()->getNode());
+		_debugDraw->SetFlags(b2Draw::e_shapeBit);
+		_world->SetDebugDraw(_debugDraw);
+//#endif		
+		_world->SetContactListener(_worldListener);
+		CreateWorldEdges();	
+
+		_isInit = true;
+
+	} // _init
+
+	//--------------------------------------------------------
+	void CScene::_deinit()
 	{
 
+	}
+	//--------------------------------------------------------
+	bool CScene::activate()
+	{
+		if (!_isInit) _init();
 		return true;
 	} // activate
 
@@ -82,6 +94,7 @@ namespace Physics
 
 	bool CScene::deactivate()
 	{
+		if  (_isInit) _deinit();
 		return true;
 	} // deactivate
 	
@@ -186,10 +199,10 @@ namespace Physics
 	}
 
 	//--------------------------------------------------------
+
 	void CScene::switchDebugDraw()
 	{
 		_debugDrawEnabled = !_debugDrawEnabled;
 
 	}
-	
 } // namespace Physics

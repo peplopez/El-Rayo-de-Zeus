@@ -27,7 +27,7 @@ la ventana, etc.
 
 #include "Scene.h"
 #include "Overlay.h"
-
+#include "Camera.h"
 
 
 #define DEBUG 0
@@ -45,7 +45,7 @@ namespace Graphics
 	//--------------------------------------------------------
 
 
-	CServer::CServer() : _root(0), _renderWindow(0), _activeScene(0), _dummyScene(0)
+	CServer::CServer() : _root(0), _renderWindow(0), _visibleScene(0), _dummyScene(0)
 	{
 		assert(!_instance && "GRAPHICS::SERVER>> Segunda inicialización de Graphics::CServer no permitida!");
 		_instance = this;
@@ -98,11 +98,16 @@ namespace Graphics
 		
 		_overlayManager = Ogre::OverlayManager::getSingletonPtr();//PT. Se carga el manager de overlays
 
-		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.		
-				
-		_initHHFX(); // Hell Heaven FX
+		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.
 		
-		setActiveScene(_dummyScene); // Por defecto la escena activa es la dummy
+		_viewport = BaseSubsystems::CServer::getSingletonPtr()
+				->getRenderWindow()->addViewport(_dummyScene->getPlayerCamera()->getCamera());
+				
+
+		_initHHFX(_dummyScene); // Hell Heaven FX: requiere dummyScene
+		_compositorLoad();
+		
+
 		return true;
 	} // open
 
@@ -110,9 +115,9 @@ namespace Graphics
 
 	void CServer::close() 
 	{
-		if(_activeScene)		{
-			_activeScene->deactivate();
-			_activeScene = 0;
+		if(_visibleScene)		{
+			_visibleScene->deactivate();
+			_visibleScene = 0;
 		}
 
 		TScenes::const_iterator it = _scenes.begin();
@@ -123,24 +128,20 @@ namespace Graphics
 		// OVERLAYS
 		_overlayManager->destroyAll(); // destroys all overlays
 
+		BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->
+				removeViewport(_viewport->getZOrder());
+		_viewport = 0;
+
 	} // close
 
 	//--------------------------------------------------------
 	
-
-	//typedef std::pair<std::string,CScene*> TStringScenePar;
-
+	
 	CScene* CServer::createScene(const std::string& name)
-	{
-		assert(_instance && "GRAPHICS::SERVER>> Servidor no inicializado");			
+	{				
 		assert(_scenes.find(name) == _scenes.end() && "Ya se ha creado una escena con este nombre.");
 
 		CScene *scene = new CScene(name);
-
-		// UNDONE FRS Es mejor insertar pares que la inserción normal por índice?
-		//TStringScenePar ssp(name,scene);
-		//_scenes.insert(ssp);
-
 		_scenes[name] =  scene;
 		return scene;
 	} // createScene
@@ -149,10 +150,8 @@ namespace Graphics
 
 	void CServer::removeScene(CScene* scene)
 	{
-		assert(_instance && "GRAPHICS::SERVER>> Servidor no inicializado");	
-
-		if(_activeScene == scene) // Si borramos la escena activa tenemos que quitarla.
-			_activeScene = 0;
+		if(_visibleScene == scene) // Si borramos la escena activa tenemos que quitarla.
+			_visibleScene = 0;
 		_scenes.erase(scene->getName());
 		delete scene;
 
@@ -165,60 +164,62 @@ namespace Graphics
 		removeScene( _scenes[name] );
 	} // removeScene
 
-	
+	//--------------------------------------------------------
+
+	void CServer::activate(CScene* scene)
+	{
+		scene->activate();
+	} // activate
+
+	//--------------------------------------------------------
+
+	void CServer::deactivate(CScene* scene)
+	{
+		scene->deactivate();
+	} // deactivate
+
 	//--------------------------------------------------------
 
 	//TODO en red, el server tendrá activas > 1 -> activateScene
-	void CServer::setActiveScene(CScene* scene)
+	void CServer::activatePlayerCam(CScene* scene)
 	{
-		// En caso de que hubiese una escena activa la desactivamos.
-		if(_activeScene)
-			_activeScene->deactivate();
 
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
-			_activeScene = _dummyScene;
+			_visibleScene = _dummyScene;
 		else {
 			// Sanity check. Nos aseguramos de que la escena pertenezca 
 			// al servidor. Aunque nadie más puede crear escenas...
 			assert( _scenes[ scene->getName() ] == scene && 
 				"GRAPHICS::SERVER>> Esta escena no pertenece al servidor");
 
-			_activeScene = scene;
+			_visibleScene = scene;
 		}
 
-		_activeScene->activate(); 
+		_viewport->setCamera(_visibleScene->getPlayerCamera()->getCamera());
+		_resetCompositors();
+
 	} // setActiveScene
 
 	//--------------------------------------------------------
 	
 	void CServer::activateBaseCam(CScene* scene)
 	{
-		// En caso de que hubiese una escena activa la desactivamos.
-		if(_activeScene)
-			_activeScene->deactivate();
 
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
-			_activeScene = _dummyScene;
+			_visibleScene = _dummyScene;
 		else {
 			// Sanity check. Nos aseguramos de que la escena pertenezca 
 			// al servidor. Aunque nadie más puede crear escenas...
 			assert( _scenes[ scene->getName() ] == scene && 
 				"GRAPHICS::SERVER>> Esta escena no pertenece al servidor");
 
-			_activeScene = scene;
+			_visibleScene = scene;
 		}
 
-		_activeScene->activateBaseCam(); 
-	} // setActiveScene
-	//--------------------------------------------------------
+		_viewport->setCamera(_visibleScene->getBaseCamera()->getCamera());
+		_resetCompositors();
 
-	void CServer::setActiveScene(const std::string& name)
-	{
-		assert(_scenes.find(name) == _scenes.end() &&
-			"GRAPHICS::SERVER>> Esta escena no pertenece al servidor");
-		setActiveScene( _scenes[name] );
 	} // setActiveScene
-
 	//--------------------------------------------------------
 	
 	// TODO FRS Es necesario pasar a través del overlayManager
@@ -242,8 +243,17 @@ namespace Graphics
 
 	void CServer::tick(float secs) 
 	{
-		if(_activeScene != _dummyScene)
-			_activeScene->tick(secs);
+		// TODO FRS Lo ideal sería ejecutar el tick de todas las escenas (considerar todas como activas)
+		// y diferenciar tan sólo una como visible, para que sólo se renderice ese viewport.
+		
+		//Ejecutamos el tick grafico en todas las escenas
+		TScenes::const_iterator it = _scenes.begin();
+		TScenes::const_iterator end = _scenes.end();
+		for (; it != end ; ++it)
+		{
+			if(it->second != _dummyScene)
+				it->second->tick(secs);
+		}
 		if(_root)
 		{
 			// Actualizamos todas las ventanas de reenderizado.
@@ -262,14 +272,16 @@ namespace Graphics
 		HELL HEAVEN FX
 	********************/
 
-	void CServer::_initHHFX() 
+	void CServer::_initHHFX(CScene* dummyScene) 
 	{
+		assert(dummyScene && "Necesario inicializar primero dummyScene");
+
 		_preloadHHFXTextures();
 
 		// set the default visibility flag for all the movable objects, 
 		// because we will use posts effects that needs to filter objects for rendering
 		Ogre::MovableObject::setDefaultVisibilityFlags(1); 
-		_hhfxBase =  &_dummyScene->getHHFXScene()->GetHHFXBase(); // Get HHFX Configuration
+		_hhfxBase =  &dummyScene->getHHFXScene()->GetHHFXBase(); // Get HHFX Configuration
 		assert(_hhfxBase && "failed initialing HHFX !");
 							
 		// LOAD HFX PACK	
@@ -309,25 +321,22 @@ namespace Graphics
 			{	
 				LOG("[HHFX] Trying to load " << texName << " as texture...");
 
+				// FRS Esto por qué?
 				// should load all the textures with gamma correction 
 				// except the ones used for distortion post effect
 				if (!texName.compare("ParticleDeformBlur_01.dds") ||
 					!texName.compare("RainDeform_01.dds") ||
-					!texName.compare("RainDropsDeform_01.dds"))
-				{
+					!texName.compare("RainDropsDeform_01.dds"))				
 					Ogre::TexturePtr pTex = Ogre::TextureManager::getSingleton().load(
-																			texName, resourceGroup,
-																			Ogre::TEX_TYPE_2D, Ogre::MIP_DEFAULT,
-																			1.0f, false, Ogre::PF_UNKNOWN, false);
-				}
+						texName, resourceGroup,
+						Ogre::TEX_TYPE_2D, Ogre::MIP_DEFAULT,
+						1.0f, false, Ogre::PF_UNKNOWN, false);				
 				else
-				{
-					// gamma corrected
-					Ogre::TexturePtr pTex = Ogre::TextureManager::getSingleton().load(
-																			texName, resourceGroup,
-																			Ogre::TEX_TYPE_2D, Ogre::MIP_DEFAULT,
-																			1.0f, false, Ogre::PF_A8R8G8B8, true);
-				}
+					Ogre::TexturePtr pTex = Ogre::TextureManager::getSingleton().load( // gamma corrected
+						texName, resourceGroup,
+						Ogre::TEX_TYPE_2D, Ogre::MIP_DEFAULT,
+						1.0f, false, Ogre::PF_A8R8G8B8, true);
+				
 			}
 			catch (Ogre::Exception e) // texture not loaded because it surely is not one
 			{
@@ -337,7 +346,24 @@ namespace Graphics
 		LOG("[HHFX] ---------- done ----------");
 	}
 
+	//-------------------------------------------------------------------------------------
 
+	void CServer::_compositorLoad()
+	{	
+		//Este orden es importante, el bug de que no se viera el BW era porque se añadía antes que el distortion
+		_compositorAdd("Distortion");	
+		_compositorAdd("BW");			
+	} // compositorLoad
+
+	//-------------------------------------------------------------------------------------
+
+	void CServer::_resetCompositors()
+	{	
+		//Siempre que se cambia la cámara de un viewport hay que rehabilitar los compositors
+		//http://www.ogre3d.org/forums/viewtopic.php?f=4&t=53330
+		compositorDisable("BW");
+		_compositorReenable("Distortion");	
+	} // resetCompositors
 	
 
 } // namespace Graphics

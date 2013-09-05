@@ -25,7 +25,7 @@ namespace Physics {
 
 	//--------------------------------------------------------
 
-	CServer::CServer() :  _activeScene(0) 
+	CServer::CServer()
 	{
 		assert(!_instance && "PHYSICS::SERVER>> Segunda inicialización de Physics::CServer no permitida!");
 		_instance = this;
@@ -69,9 +69,6 @@ namespace Physics {
 
 	bool CServer::open()
 	{				
-		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.		
-		setActiveScene(_dummyScene); // Por defecto la escena activa es la dummy
-
 		return true;
 	} // open
 
@@ -79,10 +76,6 @@ namespace Physics {
 		
 	void CServer::close()  // FRS Se ejecuta justo antes de la delete de _instance
 	{
-		if(_activeScene){
-			_activeScene->deactivate();
-			_activeScene = 0;
-		}
 
 		TScenes::const_iterator it = _scenes.begin();
 		TScenes::const_iterator end = _scenes.end();
@@ -111,8 +104,7 @@ namespace Physics {
 		TScenes::const_iterator end = _scenes.end();
 
 		for (; it != end; ++it)
-			if(it->second != _dummyScene)
-				it->second->tick(secs);
+			it->second->tick(secs);
 	} // tick
 
 	
@@ -136,9 +128,6 @@ namespace Physics {
 	void CServer::removeScene(CScene* scene)
 	{
 		assert(_instance && "PHYSICS::SERVER>> Servidor no inicializado");
-		
-		if(_activeScene == scene) // Si borramos la escena activa tenemos que quitarla.
-			_activeScene = 0;
 		_scenes.erase( scene->getName() );
 		delete scene;
 
@@ -152,33 +141,36 @@ namespace Physics {
 	//--------------------------------------------------------
 	
 
-	void CServer::setActiveScene(CScene* scene)
+	void CServer::activate(CScene* scene)
 	{
-		// En caso de que hubiese una escena activa la desactivamos.
-		if(_activeScene)
-			_activeScene->deactivate();
-
-		if(!scene) // Si se añade NULL ponemos la escena dummy.		
-			_activeScene = _dummyScene;
-		else {
-			// Sanity check. Nos aseguramos de que la escena pertenezca 
-			// al servidor. Aunque nadie más puede crear escenas...
-			assert( _scenes[ scene->getName() ] == scene && 
+	
+		// Sanity check. Nos aseguramos de que la escena pertenezca 
+		// al servidor. Aunque nadie más puede crear escenas...
+		assert( _scenes[ scene->getName() ] == scene && 
 				"PHYSICS::SERVER>> Esta escena no pertenece al servidor");
-
-			_activeScene = scene;
-		}
-
-		_activeScene->activate(); 
-	} // setActiveScene
+		scene->activate(); 
+	} // activate
 	
 
-	void CServer::setActiveScene(const std::string& name)
+	void CServer::activate(const std::string& name)
 	{
 		assert(_scenes.find(name) == _scenes.end() &&
 			"PHYSICS::SERVER>> Esta escena no pertenece al servidor");
-		setActiveScene( _scenes[name] );
-	} // setActiveScene
+		activate( _scenes[name] );
+	} // activate
+
+	//--------------------------------------------------------
+	
+	void CServer::deactivate(CScene* scene)
+	{
+	
+		// Sanity check. Nos aseguramos de que la escena pertenezca 
+		// al servidor. Aunque nadie más puede crear escenas...
+		assert( _scenes[ scene->getName() ] == scene && 
+				"PHYSICS::SERVER>> Esta escena no pertenece al servidor");
+		scene->deactivate(); 
+	} // activate
+	
 
 	
 	/***********

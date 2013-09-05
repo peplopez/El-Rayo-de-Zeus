@@ -25,8 +25,15 @@ Map ={
 		type = "WhitePLight",
 		position = {100, 20, 0},
 	},	
-			
 		
+	
+	NPCSpartan1 = {
+		type = "NPCSpartan",
+		base=1,
+		ring=1,
+		degrees=120,
+		initialMaterial1="marineYellow",
+	},	
 	Cancerbero1 = {
 		type = "Cerberus",
 		model = "CanCerbero.mesh",		
@@ -45,7 +52,6 @@ Map ={
 		sense=1,
 		behavior="Cancerbero",		
 	},	
-
 	
 	puHourglass1 = {
 		type = "PUHourglass",
@@ -53,12 +59,32 @@ Map ={
 		ring=0,
 		degrees=0,
 	},
+	puAshes1 = {
+		type = "PUAshes",
+		base=1,
+		ring=2,
+		degrees=90,
+	},	
+	phoenix1 = {
+		type = "Phoenix",
+		base=1,
+		ring=2,
+		degrees=90,
+		height=30,
+	},
 	puPoison1 = {
 		type = "PUPoison",
 		base=1,
 		ring=1,
 		degrees=10,
-	},	
+	},
+	puCauldron1 = {
+		type = "PUCauldron",
+		base=1,
+		ring=0,
+		degrees=20,
+	},
+
 	
 	LowerRing = {
 		type = "World",

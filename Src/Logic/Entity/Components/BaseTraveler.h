@@ -108,10 +108,6 @@ namespace Logic
 
 		/**
 		*/
-		void showBase(unsigned short base);
-
-		/**
-		*/
 		void jumpToBase();
 
 		/**
@@ -121,7 +117,11 @@ namespace Logic
 
 		/**
 		*/
-		void returnToPlayerBase();
+		void activatePlayerCam();
+
+		/**
+		*/
+		void activateBaseCam(unsigned short base);
 
 
 	}; // class CBaseTraveler

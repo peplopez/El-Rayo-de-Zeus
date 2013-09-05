@@ -48,7 +48,7 @@ namespace Physics {
 
 		@return Puntero al servidor físico.
 		*/
-		static CServer *getSingletonPtr() { return _instance; }
+		static CServer *getSingletonPtr() { assert(_instance && "Servidor fisico no inicializado"); return _instance; }
 		
 		/**
 		Inicializa el servidor físico. Esta operación sólo es necesario realizarla
@@ -107,7 +107,7 @@ namespace Physics {
 
 		@param scene Escena que se desea poner como escena activa.
 		*/
-		void setActiveScene(CScene* scene);
+		void activate(CScene* scene);
 
 		/**
 		Establece una escena como escena activa. En caso de que 
@@ -117,14 +117,18 @@ namespace Physics {
 		@param name Nombre de la escena que se quiere poner como
 		escena activa.
 		*/
-		void setActiveScene(const std::string& name);
+		void activate(const std::string& name);
+
+		/*
+		*/
+		void deactivate(CScene* scene);
 
 
 
 		//------------------------------
 		// Gestión de entidades simples
 		//------------------------------
-// UNDONE FRS Cableado directamente el CPhysic con los actors
+		// UNDONE FRS Cableado directamente el CPhysic con los actors
 		//Physics::CActor* createActor(const Logic::TLogicalPosition &position, const float angularWidth, const float height, 
 		//								bool isTrigger, IObserver *component); 
 
@@ -144,19 +148,6 @@ namespace Physics {
 		*/
 		TScenes _scenes;
 
-			/**
-		Escena actual. Por simplificación asumimos que solo va a haber una
-		escena activa al mismo tiempo. El cambio de escena activa se realiza
-		a través de ésta clase.
-		*/
-		CScene* _activeScene;
-
-		/**
-		Escena dummy que se crea automáticamente. Con ella permitimos que
-		siempre haya una escena para el dibujado del GUI.
-		
-		*/
-		CScene* _dummyScene; // TODO FRS Copiado de Graphics::Server -> verdadera utilidad??
 
 		/**
 		Constructor de la clase.

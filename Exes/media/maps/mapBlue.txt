@@ -22,29 +22,13 @@ Map ={
 		type = "WhitePLight",
 		position = {0, 100, 0},
 	},	
-
-	GemeloBlue = {
-		type = "NPCSpartan",
-		base=2,
-		ring=1,
-		degrees=120,
-		initialMaterial1="marineBlue",
-	},	
-	GemeloGreen = {
-		type = "NPCSpartan",
-		base=2,
+	Atalanta1 = {
+		type = "NPCAtalanta",
+		base=1,
 		ring=1,
 		degrees=120,
 		initialMaterial1="marineGreen",
-	},	
-	GemeloYellow = {
-		type = "NPCSpartan",
-		base=2,
-		ring=1,
-		degrees=120,
-		initialMaterial1="marineYellow",
-	},	
-
+	},
 	medusa2 = {
 		type = "Medusa",
 		base=2,

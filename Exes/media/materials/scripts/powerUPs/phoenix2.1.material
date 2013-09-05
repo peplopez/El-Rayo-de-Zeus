@@ -1,0 +1,13 @@
+import base_material from "Normal_AO_Specular_Mapping_Shader.material"
+
+material Material#116 : base_material
+{
+	set_texture_alias diffuseMap 	texture_fire.tga
+	set_texture_alias specMap 		texture_fire_specular.tga
+    
+    set $diffuseCol  "1 1 1"
+    set $specularCol "1 1 1"
+    set $shininess "10" 
+}
+
+
