@@ -79,9 +79,7 @@ Map = {
 		event_CT_Attack3=0.2,
 		event_DT_Cover=0.45,
 		fxScript0 = "Blast",	
-		fxPos0 = {0, 10, 5},
-		fxCompoName0 = "Distortion",
-		fxCompoMsec0 = 3000,	
+		fxPos0 = {0, 10, 5},	
 	},		
 	NPCAtalanta = {
 		type = "NPC",
@@ -141,8 +139,6 @@ Map = {
 		event_DT_Cover=0.45,
 		fxScript0 = "Blast",	
 		fxPos0 = {10, 15, 20},
-		fxCompoName0 = "Distortion",
-		fxCompoMsec0 = 3000,
 	},
 	NPCSpartan = {
 		type = "NPC",
@@ -201,8 +197,6 @@ Map = {
 		event_DT_Cover=0.45,
 		fxScript0 = "Blast",	
 		fxPos0 = {200, 15, 100},
-		fxCompoName0 = "Distortion",
-		fxCompoMsec0 = 3000,
 	},	
 
 	AltarRed = {

@@ -19,7 +19,6 @@ de una escena.
 
 #include <BaseSubsystems/Math.h>
 #include <OgreFrameListener.h>
-#include <OgreCompositorManager.h>
 
 #include <list>
 
@@ -96,10 +95,7 @@ namespace Graphics
 	class CScene  :  public Ogre::FrameListener
 	{
 
-
 	public:
-
-	
 			
 		/**
 		*/
@@ -163,7 +159,7 @@ namespace Graphics
 		sofisticadas y más tipos de cámaras desde el punto de vista lógico,
 		ellas se encargarán de mover esta instancia.
 		*/
-		CCamera *_camera;
+		CCamera *_playerCamera;
 
 		/**
 		*/
@@ -237,18 +233,10 @@ namespace Graphics
 		virtual ~CScene();
 
 		/**
-		Despierta la escena y crea un viewport que ocupa toda la
-		pantalla.
 		*/
 		void activate();
 
 		/**
-		*/
-		void activateBaseCam();
-
-		/**
-		Duerme la escena y destruye su viewport para que no se siga 
-		reenderizando.
 		*/
 		void deactivate();
 		
@@ -262,7 +250,6 @@ namespace Graphics
 		void tick(float secs);
 
 		
-
 	private:
 
 		bool _isInit;
@@ -278,27 +265,7 @@ namespace Graphics
 		modificar los valores de las entidades estáticas.
 		*/
 		void _buildStaticGeometry(); 
-
-
-
-
-	/*******************
-		COMPOSITORS
-	*******************/
-	public:
-		void compositorAdd(const std::string &name) {	
-			assert(_viewport && "La escena no está activa");
-			Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, name); 
-			assert(comp && "Error al cargar compositor. Revisar que esta bien definido en los assets" );
-		}
-		void compositorEnable(const std::string &name) {	assert(_viewport && "La escena no está activa");
-			Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, true); }	
-		void compositorDisable(const std::string &name)	{	assert(_viewport && "La escena no está activa");
-			Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, false); }	
-
-	private:
-		void _compositorReload();		
-
+		
 
 	/******************
 		GET's & SET's
@@ -315,7 +282,7 @@ namespace Graphics
 		Devuelve la cámara de la escena.
 		@return Puntero a la cámara de la escena.
 		*/
-		CCamera *getCamera() {return _camera;}
+		CCamera *getPlayerCamera() {return _playerCamera;}
 		CCamera *getBaseCamera() {return _baseCamera;}
 
 	protected:

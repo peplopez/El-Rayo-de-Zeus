@@ -32,6 +32,7 @@ de una escena.
 #include "Entity.h"
 #include "GlowMaterialListener.h"
 #include "SceneElement.h"
+#include "Server.h"
 
 #define DEBUG 0
 #if DEBUG
@@ -55,9 +56,11 @@ namespace Graphics
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);	
-		_camera = new CCamera(name,this);
+		_playerCamera = new CCamera(name,this);
 		_baseCamera = new CCamera("base" + name, this);
 		_hhfxScene = _hhfxCreateScene(_sceneMgr);
+		_viewport = Graphics::CServer::getSingletonPtr()->getViewport(); //no hay que liberarlo en el destructor -> se encarga CServer
+				
 	} // CScene
 
 	//--------------------------------------------------------
@@ -67,7 +70,7 @@ namespace Graphics
 		deactivate();
 		if(_isInit) _deinit();
 		delete _baseCamera; // FRS andaba sin liberar
-		delete _camera;		
+		delete _playerCamera;		
 		_root->destroySceneManager(_sceneMgr);
 	} // ~CScene
 	
@@ -80,7 +83,7 @@ namespace Graphics
 		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
 		_buildStaticGeometry();		
 		_hhfxInit(); // Init Hell Heaven FX Scene
-		_camera->getCamera()->setAutoAspectRatio(true);
+		_playerCamera->getCamera()->setAutoAspectRatio(true);
 		_baseCamera->getCamera()->setAutoAspectRatio(true);
 		_isInit = true;		
 	} // init
@@ -96,44 +99,16 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
-	// FRS activate() se ejecuta después de cargar y activar todos los mapas.
-	// TODO FRS Este activate hay que repasarlo, está bien hacer todo esto en cada activate?
 	void CScene::activate()
-	{
+	{		
 		if(!_isInit) _init();
-			
-		_viewport = BaseSubsystems::CServer::getSingletonPtr()
-					->getRenderWindow()->addViewport(_camera->getCamera());
-			_viewport->setBackgroundColour(Ogre::ColourValue::Black);
-			
-		_compositorReload(); // Recargar todos los compositors para el nuevo viewport
 	} // activate
 
-
-	//--------------------------------------------------------
-
-	void CScene::activateBaseCam()
-	{
-		if(!_isInit) _init();
-		
-		_viewport = BaseSubsystems::CServer::getSingletonPtr()
-					->getRenderWindow()->addViewport(_baseCamera->getCamera());
-			_viewport->setBackgroundColour(Ogre::ColourValue::Black);
-
-		// TODO FRS Barajar si queremos estos compositors en la baseCam
-		_compositorReload(); // Recargar todos los compositors para el nuevo viewport
-	}
-	
 	//--------------------------------------------------------
 
 	void CScene::deactivate()
 	{		
-		if(_viewport)
-		{			
-			BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->
-					removeViewport(_viewport->getZOrder());
-			_viewport = 0;
-		}
+		if(_isInit) _deinit();
 	} // deactivate
 	
 	//--------------------------------------------------------
@@ -149,19 +124,6 @@ namespace Graphics
 	} // tick
 
 	//--------------------------------------------------------
-
-	void CScene::_compositorReload()
-	{		
-		if(_name == "dummy_scene") //  No queremos compositors en la dummy
-			return;
-
-		compositorAdd("B&W"); // FRS este hardcoding... si se pue hacer por el map.txt mejol...
-	} // compositorReload
-
-
-
-
-
 
 
 
@@ -251,8 +213,6 @@ namespace Graphics
 
 
 
-
-
 	/*********************
 		HELL HEAVEN FX
 	*********************/
@@ -298,10 +258,7 @@ namespace Graphics
 	{	
 		_hhfxScene->Clear(); // clear the scene before shutting down ogre since the hhfx ogre implementation holds some Ogre objects.
 		_root->removeFrameListener(this); // FRS Nos borramos como oyentes de eventos de FrameRender de Ogre
-		//_hhfxCompositorUnload(); // UNDONE FRS Compositors se descargan auto
-
 	} // _hhfxSceneDeinit
-	
 
 
 	//----------- COLLISION CALLBACK --------------------------------------------------------------------------
@@ -393,8 +350,8 @@ namespace Graphics
 		if(_hhfxTimeSinceUpdate) // Si no se acaba de hacer Update (time = 0) no renderizamos
 			return true;
 
-		// Aplicamos transformaciones de la camara que esté renderizando actualmente el FX: Camera o BaseCamera.
-		Ogre::Camera* fxCamera = _viewport? _viewport->getCamera() : _camera->getCamera();
+		// Aplicamos transformaciones de la camara que esté renderizando actualmente el FX: PlayerCamera o BaseCamera.
+		Ogre::Camera* fxCamera = _viewport->getCamera();
 		const Vector3& camPos =		fxCamera->getParentNode()->getPosition();	  // El nodo es el que contiene el transform
 		const Quaternion& camOri =	fxCamera->getParentNode()->getOrientation(); // la camara mantiene pos = 0 (relativa al nodo)
 	
