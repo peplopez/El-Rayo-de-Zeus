@@ -74,10 +74,14 @@ namespace Graphics
 				_node->attachObject(_movObj);
 
 			// Adding compositors for post fx -> Sólo en el primer start: 
+			/*ESC Esto no está bien -> estaríamos añadiendo el mismo compositor varias veces desde distintos 
+			particleSystems, y ahora es un metodo privado del Server
+			
 			if( _compoName.length() && !_compoIsLoaded) { // en el load no se puede porque la scena no está activa todavía
 				_scene->compositorAdd(_compoName);
 				_compoIsLoaded = true;
 			}
+			*/
 
 			_isLooping = _isLooped;
 		}
