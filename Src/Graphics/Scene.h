@@ -19,6 +19,7 @@ de una escena.
 
 #include <BaseSubsystems/Math.h>
 #include <OgreFrameListener.h>
+#include "SkyXSettings.h"
 
 #include <list>
 
@@ -300,8 +301,6 @@ namespace Graphics
 
 
 
-
-
 	/*********************
 		HELL HEAVENS FX
 	*********************/
@@ -327,6 +326,22 @@ namespace Graphics
 		void _hhfxInit();
 		void _hhfxDeinit();
 		static bool _hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, const Ogre::Vector3 &direction, float length, SContactReport &contactReport);
+
+
+	/*********************
+			SkyX
+	*********************/
+	
+	private:
+		
+		SkyX::SkyX* _skyX;
+		SkyX::BasicController* _skyXBasicController;
+		static SkyXSettings _skyXPresets[];
+
+		void _setSkyXPreset(const SkyXSettings& preset);
+		void _skyXInit();
+		void _skyXDeinit();
+
 
 	}; // class CScene
 

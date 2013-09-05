@@ -71,7 +71,7 @@
 			depends="cleanDebugObj">
 		  <delete includeemptydirs="true" failonerror="false">
 			<fileset dir="${basedir}/lib/Debug" excludes="fmodex_vc.lib, enet.lib"/>  
-			<fileset dir="${basedir}/bin/Debug" excludes="fmodex.dll, Plugin_HellHeavenFX_v1-7-4_d.dll"/> 
+			<fileset dir="${basedir}/bin/Debug" excludes="fmodex.dll, Plugin_HellHeavenFX_v1-7-4_d.dll, SkyX_d.dll"/> 
 			<fileset dir="${basedir}/../Exes" includes="*_d*" excludes="*.cfg"/>  
 		  </delete>  
 	</target>
@@ -81,7 +81,7 @@
         depends="cleanReleaseObj">
 		<delete includeemptydirs="true" failonerror="false">
 			<fileset dir="${basedir}/lib/Release" excludes="fmodex_vc.lib, enet.lib"/> 
-			<fileset dir="${basedir}/bin/Release" excludes="fmodex.dll, Plugin_HellHeavenFX_v1-7-4_r.dll, Plugin_HellHeavenFX_v1-7-4.dll"/>
+			<fileset dir="${basedir}/bin/Release" excludes="fmodex.dll, Plugin_HellHeavenFX_v1-7-4_r.dll, Plugin_HellHeavenFX_v1-7-4.dll, SkyX.dll"/>
 			<fileset dir="${basedir}/../Exes" includes="*" excludes="*_d*,cg.dll,*.cfg"/>  
 		</delete>  
     </target>
