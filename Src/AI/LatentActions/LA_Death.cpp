@@ -90,6 +90,9 @@ namespace AI
 		if (_entity->isPlayer())
 			_scene->activateCompositor("BW");
 
+		//PT se duermen los componentes al entrar en este estado
+		sleepComponents();
+
 		//PT
 		//return SUSPENDED;
 		return RUNNING;
@@ -232,7 +235,7 @@ namespace AI
 				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
 				if (maux->getUShort()==Logic::DEATH)
 				{
-					sleepComponents();
+					//sleepComponents(); //PT lo comento
 				//		finish(true);
 					//el finish es para cambiar a otro estado, pero de momento este el estado en el que quiero que permanezca. Otro posible estado sería desapareciendo quiza...
 				}
@@ -267,12 +270,12 @@ namespace AI
 			_entity->getComponent<CCombat>()->resetAttackFlags();
 		if (_entity->hasComponent<CAvatarController>())
 			_entity->getComponent<CAvatarController>()->awake();
-		if (_entity->hasComponent<CJump>())
-			_entity->getComponent<CJump>()->awake();
 		if (_entity->hasComponent<CBaseTraveler>())
 			_entity->getComponent<CBaseTraveler>()->awake();
 		if (_entity->hasComponent<CPhysicalCharacter>())
 			_entity->getComponent<CPhysicalCharacter>()->awake();
+		if (_entity->hasComponent<CJump>())
+			_entity->getComponent<CJump>()->awake();
 	}
 
 	void CLA_Death::respawn()
