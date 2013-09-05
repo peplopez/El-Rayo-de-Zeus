@@ -68,6 +68,7 @@ namespace Graphics
 	CScene::~CScene() 
 	{		
 		deactivate();
+		if(_isInit) _deinit();
 		delete _baseCamera; // FRS andaba sin liberar
 		delete _playerCamera;		
 		_root->destroySceneManager(_sceneMgr);
@@ -101,7 +102,7 @@ namespace Graphics
 	void CScene::activate()
 	{		
 		if(!_isInit) _init();
-	} // deactivate
+	} // activate
 
 	//--------------------------------------------------------
 

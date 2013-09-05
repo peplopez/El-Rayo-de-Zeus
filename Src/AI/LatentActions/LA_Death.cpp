@@ -83,7 +83,6 @@ namespace AI
 		maudio->setIsPlayer(false);
 		_entity->emitMessage(maudio);
 		
-		_entity->getMap()->getGraphicScene();
 
 		//for showing a black and white screen when player is death
 		if (_entity->isPlayer())
@@ -197,7 +196,6 @@ namespace AI
 	CLatentAction::LAStatus CLA_Death::OnAbort() 
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
-		awakeComponents();
 		return FAIL;
 	}
 	/**
