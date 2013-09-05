@@ -71,8 +71,6 @@ namespace AI
 		_entity->emitMessage(message);
 		std::cout<<"AI::StateMachine::WTF-I am death!! - SENDING MESSAGE TO CHANGING TO DEATH MODEL " << std::endl;
 
-			//sleepComponents();
-
 		//message to hearing death sound
 		std::string _audio = "media\\audio\\fallecimiento.wav";
 		Logic::CMessageAudio *maudio=new Logic::CMessageAudio();		
@@ -89,6 +87,9 @@ namespace AI
 		//for showing a black and white screen when player is death
 		if (_entity->isPlayer())
 			_scene->activateCompositor("BW");
+
+		//PT duermo sus componentes al iniciarse el estado de muerte
+		sleepComponents();
 
 		//PT
 		//return SUSPENDED;
@@ -232,7 +233,7 @@ namespace AI
 				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
 				if (maux->getUShort()==Logic::DEATH)
 				{
-					sleepComponents();
+					//sleepComponents(); //PT lo comento
 				//		finish(true);
 					//el finish es para cambiar a otro estado, pero de momento este el estado en el que quiero que permanezca. Otro posible estado sería desapareciendo quiza...
 				}
