@@ -38,9 +38,11 @@ namespace Graphics
 		/**
 		Constructor de la clase.		
 		*/		
-		CParticleSystem(const std::string& hfx, const std::string& parentName, bool isLooped = false,
+		CParticleSystem(
+			const std::string& hfx, const std::string& parentName = "root", 
 			const Vector3& relativePos = Vector3::ZERO, 
-			const Vector3& lightDiffuse = Vector3::ZERO, const Vector3& lightSpecular = Vector3::ZERO);
+			bool isLooped = false, const std::string& compoName = "", int compoMsecs = 0,
+			const Vector3& lightColorDiff = Vector3::ZERO, const Vector3& lightColorSpec = Vector3::ZERO);
 
 
 		/*****************
@@ -48,7 +50,7 @@ namespace Graphics
 		*******************/
 
 		bool isVisible() const;
-		void start(); // TODO Si solo tenemos start -> renombrar a RUN
+		void start(); 
 		void stop(); 	
 
 
@@ -56,12 +58,25 @@ namespace Graphics
 		
 		std::string _parentName;
 		Vector3 _relativePos;	// Pos relativa respecto al padre (particulas son hijas de otra entidad gráfica)
+								// Si no hay parentName -> relativePos = absolutePos (hijo de root)
+
+		//------------------ FX LIGHT --------------------------------
+		Ogre::Light*	_fxLight; // luz asociada al fx (si corresponde)
+		Vector3			_lightColorDiff;
+		Vector3			_lightColorSpec;
+		std::string		_compoName; // nombre del compositor, en caso de requerirlo el fx
+		int				_compoMsec; 
+		float			_compoTimer;
 		
+		//----------------- LOOPING -----------------------
+		bool			_isLooped;
+		bool			_isLooping; // _isLooped + started (!stopped)
+		bool			_loopRestart;	
 
 		//-------- SceneElement implementation --------------
-		bool				load(); 
-		void				unload();	
-		void				tick(float secs);
+		bool			load(); 
+		void			unload();	
+		void			tick(float secs);
 	
 
 
@@ -72,17 +87,7 @@ namespace Graphics
 		IHHFXOgre*				_movObj;	// Sistema de particulas (movable object)		
 		IHHFXScene*				_hhfxScene; // HHFX Scene
 		std::string				_hfx;
-		Ogre::NameValuePairList _hhfxParams; // effect's params
-
-		//------------------ FX LIGHT --------------------------------
-		Ogre::Light*			_fxLight; // luz asociada al fx (si corresponde)
-		Vector3					_lightDiffuse;
-		Vector3					_lightSpecular;
-		
-		//----------------- LOOPING -----------------------
-		bool					_isLooped;
-		bool					_isLooping; // _isLooped + started (!stopped)
-		bool					_loopRestart;	
+		Ogre::NameValuePairList _hhfxParams; // effect's params	
 	
 		//--------- IHHFX::IFXListener implementation -------------------
 		void				OnFXStarted(IHHFX *obj);

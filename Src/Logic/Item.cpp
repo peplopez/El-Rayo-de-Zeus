@@ -47,13 +47,7 @@ namespace Logic
 	//---------------------------------------------------------
 
 	bool CItem::activate()
-	{		
-		if( _type == "puPoison") {		
-			CMessage *txMsg = new CMessage();	
-				txMsg->setType(Message::FX_START);
-				txMsg->setAction(Message::FX_SPARKS);
-				_entity->emitMessage(txMsg,this);
-		}
+	{	
 		return true;
 	}
 

@@ -19,7 +19,6 @@ de una escena.
 
 #include <BaseSubsystems/Math.h>
 #include <OgreFrameListener.h>
-#include <OgreCompositorManager.h>
 
 #include <list>
 
@@ -96,10 +95,7 @@ namespace Graphics
 	class CScene  :  public Ogre::FrameListener
 	{
 
-
 	public:
-
-	
 			
 		/**
 		*/
@@ -237,18 +233,10 @@ namespace Graphics
 		virtual ~CScene();
 
 		/**
-		Despierta la escena y crea un viewport que ocupa toda la
-		pantalla.
 		*/
-		void setPlayerCamVisible();
+		void activate();
 
 		/**
-		*/
-		void setBaseCamVisible();
-
-		/**
-		Duerme la escena y destruye su viewport para que no se siga 
-		reenderizando.
 		*/
 		void deactivate();
 		
@@ -262,7 +250,6 @@ namespace Graphics
 		void tick(float secs);
 
 		
-
 	private:
 
 		bool _isInit;
@@ -278,28 +265,7 @@ namespace Graphics
 		modificar los valores de las entidades estáticas.
 		*/
 		void _buildStaticGeometry(); 
-
-
-
-
-	/*******************
-		COMPOSITORS
-	*******************/
-	public:
-		void compositorEnable(const std::string &name) {	assert(_viewport && "La escena no está activa");
-			Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, true); }	
-		void compositorDisable(const std::string &name)	{	assert(_viewport && "La escena no está activa");
-			Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, false); }	
-
-	private:
-		void _compositorReload();
-		void _compositorAdd(const std::string &name) {	
-			assert(_viewport && "La escena no está activa");
-			Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, name); 
-			assert(comp && "Error al cargar compositor. Revisar que esta bien definido en los assets" );
-		}
 		
-
 
 	/******************
 		GET's & SET's
@@ -360,7 +326,6 @@ namespace Graphics
 		IHHFXScene* _hhfxCreateScene(Ogre::SceneManager*);
 		void _hhfxInit();
 		void _hhfxDeinit();
-		void _hhfxCompositorReload();
 		static bool _hhfxCollisionCheck(void *arg, const Ogre::Vector3 &start, const Ogre::Vector3 &direction, float length, SContactReport &contactReport);
 
 	}; // class CScene

@@ -18,7 +18,7 @@ de una escena.
 
 #include <assert.h>
 
-#include <BaseSubsystems\Server.h>
+#include <BaseSubsystems/Server.h>
 #include <HHFX/IHHFXPublic.h>
 #include <HHFX/RendererSubView.h>
 #include <OgreRenderWindow.h>
@@ -68,7 +68,6 @@ namespace Graphics
 	CScene::~CScene() 
 	{		
 		deactivate();
-		if(_isInit) _deinit();
 		delete _baseCamera; // FRS andaba sin liberar
 		delete _playerCamera;		
 		_root->destroySceneManager(_sceneMgr);
@@ -99,35 +98,16 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
-	// FRS activate() se ejecuta después de cargar y activar todos los mapas.
-	// TODO FRS Este activate hay que repasarlo, está bien hacer todo esto en cada activate?
-	void CScene::setPlayerCamVisible()
-	{
+	void CScene::activate()
+	{		
 		if(!_isInit) _init();
-			
-		CServer::getSingletonPtr()->getViewport()->setCamera(_playerCamera->getCamera());
-			
-		//_compositorReload(); // Recargar todos los compositors para el nuevo viewport
-	} // activate
+	} // deactivate
 
-
-	//--------------------------------------------------------
-
-	void CScene::setBaseCamVisible()
-	{
-		if(!_isInit) _init();
-		
-		CServer::getSingletonPtr()->getViewport()->setCamera(_baseCamera->getCamera());
-
-		// TODO FRS Barajar si queremos estos compositors en la baseCam
-		//_compositorReload(); // Recargar todos los compositors para el nuevo viewport
-	}
-	
 	//--------------------------------------------------------
 
 	void CScene::deactivate()
 	{		
-
+		if(_isInit) _deinit();
 	} // deactivate
 	
 	//--------------------------------------------------------
@@ -143,15 +123,6 @@ namespace Graphics
 	} // tick
 
 	//--------------------------------------------------------
-
-	void CScene::_compositorReload()
-	{		
-		_compositorAdd("BW");		
-		_hhfxCompositorReload(); // UNDONE FRS: Parece que no encuentra este compositor ahora. Hell Heaven FX  	
-	} // compositorReload
-
-
-
 
 
 
@@ -241,8 +212,6 @@ namespace Graphics
 
 
 
-
-
 	/*********************
 		HELL HEAVEN FX
 	*********************/
@@ -288,28 +257,7 @@ namespace Graphics
 	{	
 		_hhfxScene->Clear(); // clear the scene before shutting down ogre since the hhfx ogre implementation holds some Ogre objects.
 		_root->removeFrameListener(this); // FRS Nos borramos como oyentes de eventos de FrameRender de Ogre
-		//_hhfxCompositorUnload(); // UNDONE FRS Compositors se descargan auto
-
 	} // _hhfxSceneDeinit
-
-	//-------------------------------------------------------------------------------------
-
-	void CScene::_hhfxCompositorReload() // adding compositors for post fx
-	{		
-		_compositorAdd("HellHeavenOgre/Compositor/Distortion");
-		compositorEnable("HellHeavenOgre/Compositor/Distortion"); // TODO FRS dejarlo enabled o solo cuando necesario?
-	}
-
-	//-------------------------------------------------------------------------------------
-
-
-	// UNDONE FRS Ogre elimina auto los compositors
-	//void CScene::_hhfxCompositorUnload() 
-	//{
-	//	// remove our compositor
-	//	Ogre::CompositorManager::getSingleton().removeCompositor(_camera->getViewport(), "HellHeavenOgre/Compositor/Distortion");	
-	//}
-	
 
 
 	//----------- COLLISION CALLBACK --------------------------------------------------------------------------

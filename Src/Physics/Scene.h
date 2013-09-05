@@ -61,7 +61,9 @@ namespace Physics
 		*/
 		friend class CServer;
 
-		/**	Constructor de la clase.	*/
+		/**	
+		Constructor de la clase.	
+		*/
 		CScene(const std::string& name);
 
 		/**
@@ -69,13 +71,24 @@ namespace Physics
 		*/
 		~CScene();
 
-		/**	Despierta la escena*/
+		/**
+		Inicializa la escena
+		*/
 		bool activate();
 
-		/**	Duerme la escena*/
+		/**
+		Deinicializa la escena
+		*/
 		bool deactivate();
+
+		/**
+		Tick en float para b2D
+		*/
 		void tick(float timeStep);
 
+		/**
+		Activa/Desactiva pintado de debug
+		*/
 		void switchDebugDraw();
 
 
@@ -91,7 +104,9 @@ namespace Physics
 
 	private:
 
-		/**	Nombre de la escena.*/
+		/**	
+		Nombre de la escena.
+		*/
 		std::string _name;
 
 		TActors _actors;
@@ -107,6 +122,10 @@ namespace Physics
 
 
 		void CreateWorldEdges();
+
+		bool _isInit;
+		void _init();
+		void _deinit();	
 
 
 	

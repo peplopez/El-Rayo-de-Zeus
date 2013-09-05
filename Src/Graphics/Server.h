@@ -19,6 +19,7 @@ la ventana, etc.
 
 #include <assert.h>
 #include <map>
+#include <OgreCompositorManager.h>
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 
@@ -163,17 +164,22 @@ namespace Graphics
 		void removeScene(const std::string& name);
 
 		/**
-		Establece una escena como escena activa. En caso de que 
-		hubiese otra escena activa este método la desactiva y establece
-		la nueva.
-
-		@param scene Escena que se desea poner como escena activa.
+		Inicializa la escena
 		*/
-		void setPlayerCamVisible(CScene* scene);
+		void activate(CScene* scene);
+
+		/**
+		Deinicializa la escena
+		*/
+		void deactivate(CScene* scene);
 
 		/**
 		*/
-		void setBaseCamVisible(CScene* scene);
+		void activatePlayerCam(CScene* scene);
+
+		/**
+		*/
+		void activateBaseCam(CScene* scene);
 
 		/**
 		Devuelve al manager de Overlays. 
@@ -201,6 +207,7 @@ namespace Graphics
 		*/
 		Ogre::Viewport* getViewport() { return _viewport; }
 
+
 	protected:
 
 		/**
@@ -223,7 +230,6 @@ namespace Graphics
 		/**
 		Escena dummy que se crea automáticamente. Con ella permitimos que
 		siempre haya una escena para el dibujado del GUI.
-		FRS ??
 		*/
 		CScene* _dummyScene;
 
@@ -298,6 +304,25 @@ namespace Graphics
 		IHHFXBase* _hhfxBase;
 		void _initHHFX(CScene*);
 		void _preloadHHFXTextures();	
+
+	/*******************
+		COMPOSITORS
+	*******************/
+	public:
+		void compositorEnable(const std::string &name) {	assert(_viewport && "La escena no está activa");
+			Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, true); }	
+		void compositorDisable(const std::string &name)	{	assert(_viewport && "La escena no está activa");
+			Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, false); }	
+	
+	private:
+		void _compositorReenable(const std::string &name) {	compositorDisable(name); compositorEnable(name); }
+		void _resetCompositors();
+		void _compositorLoad();
+		void _compositorAdd(const std::string &name) {	
+			assert(_viewport && "La escena no está activa");
+			Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, name); 
+			assert(comp && "Error al cargar compositor. Revisar que esta bien definido en los assets" );
+		}
 
 	}; // class CServer
 

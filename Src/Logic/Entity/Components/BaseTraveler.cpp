@@ -100,19 +100,19 @@ namespace Logic
 				CMessageUShort *maux = static_cast<CMessageUShort*>(message);
 				
 				if (_gameStatus->getNumBases() > maux->getUShort())
-					showBase(maux->getUShort());	
+					activateBaseCam(maux->getUShort());	
 				
 			}
  			if(message->getAction() == Message::GOBACK_TO_BASE)
 			{
-				CBaseTraveler::returnToPlayerBase();
+				activatePlayerCam();
 			}
 			if(message->getAction() == Message::CHANGE_BASE)// lo de _changeAllowed no funciona con los bots
 			{
 				if (_changeAllowed)
 				{
 					_changingBase=true;
-					_entity->getMap()->setPlayerCamVisible();
+					_entity->getMap()->activatePlayerCam();
 
 ////////////////////// HACK TEST FRS Para probar FX					
 					CMessage *txMsg = new CMessage();	
@@ -193,7 +193,7 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	void CBaseTraveler::showBase(unsigned short base)
+	void CBaseTraveler::activateBaseCam(unsigned short base)
 	{
 		_changeAllowed = true;
 		_baseToGo = base;
@@ -204,7 +204,7 @@ namespace Logic
 	}
 
 	//---------------------------------------------------------
-	void CBaseTraveler::returnToPlayerBase()
+	void CBaseTraveler::activatePlayerCam()
 	{
 		if (_changeAllowed)
 		{

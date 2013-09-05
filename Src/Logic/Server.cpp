@@ -143,6 +143,8 @@ namespace Logic {
 
 		if(_maps[filename] = CMap::createMapFromFile(filename))
 			return true;
+
+		return false;
 	} // loadLevel
 
 	//--------------------------------------------------------
@@ -266,7 +268,8 @@ namespace Logic {
 		_gameNetMsgManager->activate();
 
 		
-		_player->getMap()->setPlayerCamVisible();
+		_player->getMap()->activatePlayerCam();
+		
 
 		return activated;
 
@@ -327,7 +330,7 @@ namespace Logic {
 				(*entity)->activate();	
 
 				if ((*entity)->isPlayer())
-					(*entity)->getMap()->setPlayerCamVisible(); 
+					(*entity)->getMap()->activatePlayerCam(); 
 			}
 			it->second.clear();
 		}
@@ -338,14 +341,14 @@ namespace Logic {
 
 	void CServer::activateBaseCam(int targetMap)
 	{
-		_maps[ _mapNames[targetMap - 1] ]->setBaseCamVisible();
+		_maps[ _mapNames[targetMap - 1] ]->activateBaseCam();
 	}
 
 	//---------------------------------------------------------
 
 	void CServer::activatePlayerCam()
 	{
-		_player->getMap()->setPlayerCamVisible();
+		_player->getMap()->activatePlayerCam();
 	}
 
 	//---------------------------------------------------------
@@ -413,6 +416,20 @@ namespace Logic {
 			}
 
 	}
-	
+
+	//---------------------------------------------------------
+
+	void CServer::compositorEnable(const std::string &name)
+	{
+		Graphics::CServer::getSingletonPtr()->compositorEnable(name);
+	}
+
+	//---------------------------------------------------------
+
+	void CServer::compositorDisable(const std::string &name)
+	{
+		Graphics::CServer::getSingletonPtr()->compositorDisable(name);
+	}
+
 
 } // namespace Logic

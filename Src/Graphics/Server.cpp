@@ -105,6 +105,8 @@ namespace Graphics
 				
 
 		_initHHFX(_dummyScene); // Hell Heaven FX: requiere dummyScene
+		_compositorLoad();
+		
 
 		return true;
 	} // open
@@ -162,11 +164,24 @@ namespace Graphics
 		removeScene( _scenes[name] );
 	} // removeScene
 
-	
+	//--------------------------------------------------------
+
+	void CServer::activate(CScene* scene)
+	{
+		scene->activate();
+	} // activate
+
+	//--------------------------------------------------------
+
+	void CServer::deactivate(CScene* scene)
+	{
+		scene->deactivate();
+	} // deactivate
+
 	//--------------------------------------------------------
 
 	//TODO en red, el server tendrá activas > 1 -> activateScene
-	void CServer::setPlayerCamVisible(CScene* scene)
+	void CServer::activatePlayerCam(CScene* scene)
 	{
 
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
@@ -180,12 +195,14 @@ namespace Graphics
 			_visibleScene = scene;
 		}
 
-		_visibleScene->setPlayerCamVisible(); 
+		_viewport->setCamera(_visibleScene->getPlayerCamera()->getCamera());
+		_resetCompositors();
+
 	} // setActiveScene
 
 	//--------------------------------------------------------
 	
-	void CServer::setBaseCamVisible(CScene* scene)
+	void CServer::activateBaseCam(CScene* scene)
 	{
 
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
@@ -199,7 +216,9 @@ namespace Graphics
 			_visibleScene = scene;
 		}
 
-		_visibleScene->setBaseCamVisible(); 
+		_viewport->setCamera(_visibleScene->getBaseCamera()->getCamera());
+		_resetCompositors();
+
 	} // setActiveScene
 	//--------------------------------------------------------
 	
@@ -327,7 +346,24 @@ namespace Graphics
 		LOG("[HHFX] ---------- done ----------");
 	}
 
+	//-------------------------------------------------------------------------------------
 
+	void CServer::_compositorLoad()
+	{	
+		//Este orden es importante, el bug de que no se viera el BW era porque se añadía antes que el distortion
+		_compositorAdd("Distortion");	
+		_compositorAdd("BW");			
+	} // compositorLoad
+
+	//-------------------------------------------------------------------------------------
+
+	void CServer::_resetCompositors()
+	{	
+		//Siempre que se cambia la cámara de un viewport hay que rehabilitar los compositors
+		//http://www.ogre3d.org/forums/viewtopic.php?f=4&t=53330
+		compositorDisable("BW");
+		_compositorReenable("Distortion");	
+	} // resetCompositors
 	
 
 } // namespace Graphics

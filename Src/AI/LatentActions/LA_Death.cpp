@@ -1,7 +1,6 @@
 #include "LA_Death.h"
 
-#include "Graphics/Server.h"
-#include "Graphics/Scene.h"
+#include "Logic/Server.h"
 
 #include "../../Logic/Entity/Components/Combat.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
@@ -84,11 +83,11 @@ namespace AI
 		maudio->setIsPlayer(false);
 		_entity->emitMessage(maudio);
 		
-		_scene=_entity->getMap()->getGraphicScene();
+		_entity->getMap()->getGraphicScene();
 
 		//for showing a black and white screen when player is death
 		if (_entity->isPlayer())
-			_scene->compositorEnable("BW");
+			Logic::CServer::getSingletonPtr()->compositorEnable("BW");
 
 		//PT
 		//return SUSPENDED;
@@ -110,7 +109,7 @@ namespace AI
 		{
 			std::cout<<"AI::StateMachine::OnStop - "<< _entity->getName() << " - " << std::endl;
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideRespawn"); //escondo la pantalla de respawn
-			_scene->compositorDisable("BW"); //desactivo el compositor blanco y negro
+			Logic::CServer::getSingletonPtr()->compositorDisable("BW"); //desactivo el compositor blanco y negro
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud"); //muestro el HUD
 			//ScriptManager::CServer::getSingletonPtr()->executeProcedure("showShop"); //muestro el SHOP
 
@@ -182,10 +181,7 @@ namespace AI
 			else
 				return RUNNING;
 		}
-
 		return RUNNING;
-
-
 	}
 
 	/**
@@ -201,6 +197,7 @@ namespace AI
 	CLatentAction::LAStatus CLA_Death::OnAbort() 
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
+		awakeComponents();
 		return FAIL;
 	}
 	/**

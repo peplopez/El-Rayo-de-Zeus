@@ -21,8 +21,8 @@ Contiene la implementación de la clase que maneja el ParticleSystem.
 #include <OgreSceneManager.h>
 
 #include "Camera.h"
-#include "Scene.h"
 #include "Server.h"
+#include "Scene.h"
 
 #define DEBUG 1
 #if DEBUG
@@ -34,23 +34,33 @@ Contiene la implementación de la clase que maneja el ParticleSystem.
 
 namespace Graphics 
 {	
+	/*******************
+		CONSTRUCTORES
+	*******************/
 
-	CParticleSystem::CParticleSystem(const std::string& hfx, const std::string& parentName, bool isLooped, 
-		const Vector3& relativePos, const Vector3& lightDiffuse, const Vector3& lightSpecular) :
-		_hfx(hfx), _parentName(parentName), _relativePos(relativePos), 
-		_fxLight(0), _lightDiffuse(lightDiffuse), _lightSpecular(lightSpecular), 
-		_isLooped(isLooped), _isLooping(false), _loopRestart(false),
-		_movObj(0), _hhfxScene(0)
+	CParticleSystem::CParticleSystem(
+		const std::string& hfx, const std::string& parentName, const Vector3& relativePos, 
+		bool isLooped, const std::string& compoName, int compoMsec,
+		const Vector3& lightColorDiff, const Vector3& lightColorSpec) :
+			_hfx(hfx), _parentName(parentName), _relativePos(relativePos), 
+			_fxLight(0), _lightColorDiff(lightColorDiff), _lightColorSpec(lightColorSpec), 
+			_isLooped(isLooped), _isLooping(false), _loopRestart(false),
+			_compoName(compoName), _compoMsec(compoMsec), _compoTimer(0),
+			_movObj(0), _hhfxScene(0)
 	{
-		_type = _isLooped? TGraphicalType::DYNAMIC : TGraphicalType::NONE;
+		_type = _isLooped || _compoMsec? TGraphicalType::DYNAMIC : TGraphicalType::NONE;
 
 		_hhfxParams["pack"] =  Graphics::CServer::getSingletonPtr()->getHHFXBase()->GetHHFXPackExplorer().GetPack();
 		_hhfxParams["fx"]	=  Graphics::CServer::getSingletonPtr()->getHFXLongName(hfx);
 		_hhfxParams["run"]	=  "yes";	// Por defecto: ejecución inmediata al crear el MO
 	}
 
-	//--------------------------------------------------------
 	
+
+	/**************
+		FLUJO
+	****************/
+
 	void CParticleSystem::start()
 	{	
 		if(!_movObj) {
@@ -72,9 +82,8 @@ namespace Graphics
 	// UNDONE FRS: No se puede usar el método StopFX => Inconsistencias y pescaillas que se muerden la cola con evento StoppedFX
 	void CParticleSystem::stop()
 	{
-		if(_movObj) {	
-			_isLooping = false;		
-		}	
+		if(_movObj) 
+			_isLooping = false;				
 	}
 
 
@@ -82,19 +91,24 @@ namespace Graphics
 		HHFX LISTENER
 	***********************/
 
-	// TODO revisar
-	void CParticleSystem::OnFXStarted(IHHFX* obj)
+	// Comienzo de la emisión de partículas
+	void CParticleSystem::OnFXStarted(IHHFX* obj) 
 	{
 		assert( _movObj == static_cast<IHHFXOgre*>(obj)  
 			&& "Evento recibido para un MO distinto del wrappeado en este ParticleSystem");
 
 		if(_fxLight) 
 			_fxLight->setVisible(true);
+
+		if( _compoName.length() ) {
+			CServer::getSingletonPtr()->compositorEnable(_compoName);
+			_compoTimer = _compoMsec / 1000.0f;
+		}
 	}
 
 	//--------------------------------------------------------
-
-	// called when an effect stopped by itself or when the hhfx scene is cleared
+	// Fin de la emisión de partículas.
+	// Called when an effect stopped by itself or when the hhfx scene is cleared
 	void CParticleSystem::OnFXStopped(IHHFX* obj)
 	{		
 		assert( _movObj == static_cast<IHHFXOgre*>(obj)  
@@ -105,8 +119,9 @@ namespace Graphics
 
 		if(_isLooping) 
 			_loopRestart = true;
-		else if(_fxLight)
+		else if (_fxLight)
 			_fxLight->setVisible(false); // destroy the light created under ElectricOrb		
+		
 	}
 
 	
@@ -126,17 +141,23 @@ namespace Graphics
 		try{		
 			_hhfxScene = _scene->getHHFXScene();
 
-			_node = getSceneMgr()->getSceneNode( _parentName + "_node") 
-				 ->createChildSceneNode(_relativePos, ORIENTATION);
+			// Sin nodo padre -> relativePos = absolutePos (hijo de root)
+			if( _parentName == "root" || !getSceneMgr()->hasSceneNode( _parentName + "_node") )
+				_node = getSceneMgr()->getRootSceneNode()
+					->createChildSceneNode(_relativePos, ORIENTATION);
+
+			else // con nodo padre
+				_node = getSceneMgr()->getSceneNode( _parentName + "_node") 
+					->createChildSceneNode(_relativePos, ORIENTATION);
 
 			/* Quito la creación de luces dinámicas porque le está dando problemas a PeP de rendimiento
 			// create a light if defined
-			if ( _lightDiffuse + _lightSpecular != Vector3::ZERO)  {			
+			if ( _lightColorDiff + _lightColorSpec != Vector3::ZERO)  {			
 				_fxLight = getSceneMgr()->createLight();
 				_fxLight->setVisible(false);
 				_fxLight->setType(Ogre::Light::LT_POINT);	
-				_fxLight->setDiffuseColour( _lightDiffuse .x, _lightDiffuse .y, _lightDiffuse .z);
-				_fxLight->setSpecularColour(_lightSpecular .x, _lightSpecular .y, _lightSpecular .z);
+				_fxLight->setDiffuseColour( _lightColorDiff .x, _lightColorDiff .y, _lightColorDiff .z);
+				_fxLight->setSpecularColour(_lightColorSpec .x, _lightColorSpec .y, _lightColorSpec .z);
 				_fxLight->setAttenuation(160, 1.0, 0.027, 0.0028);		
 				_fxLight->setPosition(Vector3::UNIT_Y * 0.8f); 	// Segun HHFX sample para centrar la luz en la esfera (si worldScale = 1)
 				_node->attachObject(_fxLight);					
@@ -171,6 +192,9 @@ namespace Graphics
 	
 	void CParticleSystem::tick(float secs)
 	{
+		if(_compoTimer > 0 && (_compoTimer -= secs) <= 0) 
+			CServer::getSingletonPtr()->compositorDisable(_compoName);
+
 		if(_loopRestart){			
 			start();
 			_loopRestart = false;
