@@ -138,7 +138,7 @@ Map = {
 		event_CT_Attack3=0.2,
 		event_DT_Cover=0.45,
 		fxScript0 = "Blast",	
-		fxPos0 = {10, 15, 20},
+		fxPos0 = {0, 10, 5},
 	},
 	NPCSpartan = {
 		type = "NPC",
@@ -196,7 +196,7 @@ Map = {
 		event_CT_Attack3=0.2,
 		event_DT_Cover=0.45,
 		fxScript0 = "Blast",	
-		fxPos0 = {200, 15, 100},
+		fxPos0 = {0, 10, 5},
 	},	
 
 	AltarRed = {
