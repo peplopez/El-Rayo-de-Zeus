@@ -75,7 +75,7 @@
 				<Property Name="AlwaysOnTop" Value="True" />
         </Window>
 		
-        <Window Type="OgreTray/Button" Name="NetLobbyClient/Connect" >
+        <Window Type="OgreTray/ButtonNoTransp" Name="NetLobbyClient/Connect" >
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="Connect" />
             <Property Name="AlwaysOnTop" Value="True" />
@@ -89,7 +89,7 @@
             <Property Name="UnifiedAreaRect" Value="{{0.2,1},{0.7,0},{0.8,0},{0.8,0}}" />
         </Window>
 		
-        <Window Type="OgreTray/Button" Name="NetLobbyClient/Back" >
+        <Window Type="OgreTray/ButtonNoTransp" Name="NetLobbyClient/Back" >
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="Back" />
             <Property Name="AlwaysOnTop" Value="True" />
