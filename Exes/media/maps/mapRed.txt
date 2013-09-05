@@ -4,11 +4,7 @@ Map ={
 		type = "Scene",
 		sceneFile = "spartanScenario.scene",
 	},
-	SkySphere = {
-		type = "SkySphere",
-	},
-	
-	
+
 	Camera = {
 		type = "PlayerCamera",
 	},
