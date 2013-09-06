@@ -1,7 +1,6 @@
 #include "LA_Death.h"
 
-#include "Graphics/Server.h"
-#include "Graphics/Scene.h"
+#include "Logic/Server.h"
 
 #include "../../Logic/Entity/Components/Combat.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
@@ -84,11 +83,13 @@ namespace AI
 		maudio->setIsPlayer(false);
 		_entity->emitMessage(maudio);
 		
-		_scene=_entity->getMap()->getGraphicScene();
 
 		//for showing a black and white screen when player is death
 		if (_entity->isPlayer())
-			_scene->compositorEnable("B&W");
+			Logic::CServer::getSingletonPtr()->compositorEnable("BW");
+
+		//PT se duermen los componentes al entrar en este estado
+		sleepComponents();
 
 		//PT
 		//return SUSPENDED;
@@ -110,7 +111,7 @@ namespace AI
 		{
 			std::cout<<"AI::StateMachine::OnStop - "<< _entity->getName() << " - " << std::endl;
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideRespawn"); //escondo la pantalla de respawn
-			_scene->compositorDisable("B&W"); //desactivo el compositor blanco y negro
+			Logic::CServer::getSingletonPtr()->compositorDisable("BW"); //desactivo el compositor blanco y negro
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud"); //muestro el HUD
 			//ScriptManager::CServer::getSingletonPtr()->executeProcedure("showShop"); //muestro el SHOP
 
@@ -182,10 +183,7 @@ namespace AI
 			else
 				return RUNNING;
 		}
-
 		return RUNNING;
-
-
 	}
 
 	/**
@@ -232,7 +230,7 @@ namespace AI
 				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
 				if (maux->getUShort()==Logic::DEATH)
 				{
-					sleepComponents();
+					//sleepComponents(); //PT lo comento
 				//		finish(true);
 					//el finish es para cambiar a otro estado, pero de momento este el estado en el que quiero que permanezca. Otro posible estado sería desapareciendo quiza...
 				}
@@ -267,12 +265,12 @@ namespace AI
 			_entity->getComponent<CCombat>()->resetAttackFlags();
 		if (_entity->hasComponent<CAvatarController>())
 			_entity->getComponent<CAvatarController>()->awake();
-		if (_entity->hasComponent<CJump>())
-			_entity->getComponent<CJump>()->awake();
 		if (_entity->hasComponent<CBaseTraveler>())
 			_entity->getComponent<CBaseTraveler>()->awake();
 		if (_entity->hasComponent<CPhysicalCharacter>())
 			_entity->getComponent<CPhysicalCharacter>()->awake();
+		if (_entity->hasComponent<CJump>())
+			_entity->getComponent<CJump>()->awake();
 	}
 
 	void CLA_Death::respawn()

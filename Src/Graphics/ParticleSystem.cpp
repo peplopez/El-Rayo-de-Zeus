@@ -74,10 +74,14 @@ namespace Graphics
 				_node->attachObject(_movObj);
 
 			// Adding compositors for post fx -> Sólo en el primer start: 
+			/*ESC Esto no está bien -> estaríamos añadiendo el mismo compositor varias veces desde distintos 
+			particleSystems, y ahora es un metodo privado del Server
+			
 			if( _compoName.length() && !_compoIsLoaded) { // en el load no se puede porque la scena no está activa todavía
 				_scene->compositorAdd(_compoName);
 				_compoIsLoaded = true;
 			}
+			*/
 
 			_isLooping = _isLooped;
 		}
@@ -108,13 +112,12 @@ namespace Graphics
 			_fxLight->setVisible(true);
 
 		if( _compoName.length() ) {
-			_scene->compositorEnable(_compoName);
+			CServer::getSingletonPtr()->compositorEnable(_compoName);
 			_compoTimer = _compoMsec / 1000.0f;
 		}
 	}
 
 	//--------------------------------------------------------
-
 	// Fin de la emisión de partículas.
 	// Called when an effect stopped by itself or when the hhfx scene is cleared
 	void CParticleSystem::OnFXStopped(IHHFX* obj)
@@ -201,7 +204,7 @@ namespace Graphics
 	void CParticleSystem::tick(float secs)
 	{
 		if(_compoTimer > 0 && (_compoTimer -= secs) <= 0) 
-			_scene->compositorDisable(_compoName);
+			CServer::getSingletonPtr()->compositorDisable(_compoName);
 
 		if(_loopRestart){			
 			start();

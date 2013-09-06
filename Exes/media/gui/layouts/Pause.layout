@@ -1,0 +1,39 @@
+<!--  <Window Type="OgreTray/StaticImage" Name="Pause" >
+ 	<Property Name="FrameEnabled" Value="false" />
+	<Property Name="BackgroundEnabled" Value="False" />
+	<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+	
+    <Window Type="OgreTray/TitleInit" Name="Pause/Texto" >
+        <Property Name="Font" Value="Diogenes-24" />
+        <Property Name="Text" Value="PAUSE " />
+        <Property Name="AlwaysOnTop" Value="False" />
+        <Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.4,0},{0.8,0},{0.6,0}}" />
+    </Window>
+
+</Window> -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="DefaultWindow" Name="Pause" >
+        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Window Type="OgreTray/StaticImage" Name="Pause/BackGround" >
+            <Property Name="Font" Value="FairChar-30" />
+			<Property Name="Text" ></Property>
+			<Property Name="Image" Value="set:pauseImageset image:Background" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        </Window>
+		<Window Type="OgreTray/Button" Name="Pause/Exit" >
+            <Property Name="Font" Value="DejaVuSans-10" />
+            <Property Name="Text" Value="Exit" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.549219,0},{0.820414,0},{0.74375,0},{0.920414,0}}" />
+        </Window>
+        <Window Type="OgreTray/Button" Name="Pause/Resume" >
+            <Property Name="Font" Value="DejaVuSans-10" />
+            <Property Name="Text" Value="Resume Game" />
+            <Property Name="AlwaysOnTop" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0.260156,0},{0.820413,0},{0.454687,0},{0.920413,0}}" />
+        </Window>
+    </Window>
+</GUILayout>

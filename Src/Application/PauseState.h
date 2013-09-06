@@ -1,21 +1,21 @@
 //---------------------------------------------------------------------------
-// InitState.h
+// PauseState.h
 //---------------------------------------------------------------------------
 
 /**
-@file InitState.h
+@file PauseState.h
 
-Contiene la declaración del estado de menú.
+Contiene el estado de pausa del juego.
 
 @see Application::CApplicationState
-@see Application::CInitState
+@see Application::CPauseState
 
 @author Pablo Terrado
-@date Marzo, 2013
+@date Septiembre, 2013
 */
 
-#ifndef __Application_InitState_H
-#define __Application_InitState_H
+#ifndef __Application_PauseState_H
+#define __Application_PauseState_H
 
 #include "ApplicationState.h"
 
@@ -25,13 +25,25 @@ namespace Application
 	class CBaseApplication;
 }
 
-namespace CEGUI
+namespace Graphics 
 {
-	class EventArgs;
-	class Window;
+	class CScene;
+	class CCamera;
+	class CEntity;
+	class CStaticEntity;
+	class CAnimatedEntity;
 }
 
-//PT. Predeclaraciones de clase
+namespace CEGUI
+{
+	class Window;
+}
+namespace Logic
+{
+	class CGameStatus;
+}
+
+//PT
 namespace ScriptManager
 {
 	class Server;
@@ -40,34 +52,25 @@ namespace ScriptManager
 namespace Application 
 {
 	/**
-	Como su nombre indica, esta clase es la clase del menú
-	principal del juego. Es muy sencilla y lo único que hace es cargar
-	un layout de CEGUI al inicio y activarlo y desactivarlo cuando
-	se activa o desactiva el estado (haciéndo visible/invisible también
-	el puntero del ratón). También asocia los eventos de los botones 
-	del menú a las funciones C++ que se deben invocar cuando los botones
-	son pulsados.
-	<p>
-	Este estado es CEGUI dependiente, lo cual no es deseable, la aplicación
-	debería ser independiente de las tecnologías usadas.
-
+	Clase CPauseState; representa el estado de pausa del juego en modo Singleplayer
+	
 	@ingroup applicationGroup
 
 	@author Pablo Terrado
-	@date Marzo, 2013
+	@date Septiembre, 2013
 	*/
-	class CInitState : public CApplicationState 
+	class CPauseState : public CApplicationState 
 	{
 	public:
 		/** 
 		Constructor de la clase 
 		*/
-		CInitState(CBaseApplication *app) : CApplicationState(app){}
+		CPauseState(CBaseApplication *app) : CApplicationState(app), _scene(0) {}
 
 		/** 
 		Destructor 
 		*/
-		virtual ~CInitState();
+		virtual ~CPauseState() {}
 
 		/**
 		Función llamada cuando se crea el estado (se "engancha" en la
@@ -166,16 +169,19 @@ namespace Application
 		*/
 		virtual bool mouseReleased(const GUI::CMouseState &mouseState);
 
-	private:
+		//Logic::CPauseStatus* getPauseStatus(){return _PauseStatus;}
+	protected:
 
 		/**
-		Ventana CEGUI que muestra el menú.
+		Escena del estado.
 		*/
-		CEGUI::Window* _menuWindow;
-		
+		Graphics::CScene* _scene;
 
-	}; // CInitState
+		CEGUI::Window* _pauseWindow;
+	
+
+	}; // CPauseState
 
 } // namespace Application
 
-#endif //  __Application_InitState_H
+#endif //  __Application_PauseState_H

@@ -27,7 +27,7 @@ la ventana, etc.
 
 #include "Scene.h"
 #include "Overlay.h"
-
+#include "Camera.h"
 
 
 #define DEBUG 0
@@ -45,7 +45,7 @@ namespace Graphics
 	//--------------------------------------------------------
 
 
-	CServer::CServer() : _root(0), _renderWindow(0), _activeScene(0), _dummyScene(0)
+	CServer::CServer() : _root(0), _renderWindow(0), _visibleScene(0), _dummyScene(0)
 	{
 		assert(!_instance && "GRAPHICS::SERVER>> Segunda inicialización de Graphics::CServer no permitida!");
 		_instance = this;
@@ -98,11 +98,15 @@ namespace Graphics
 		
 		_overlayManager = Ogre::OverlayManager::getSingletonPtr();//PT. Se carga el manager de overlays
 
-		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.		
+		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.
+		
+		_viewport = BaseSubsystems::CServer::getSingletonPtr()
+				->getRenderWindow()->addViewport(_dummyScene->getPlayerCamera()->getCamera());
 				
-		setActiveScene(_dummyScene); // Por defecto la escena activa es la dummy
 
 		_initHHFX(_dummyScene); // Hell Heaven FX: requiere dummyScene
+		_compositorLoad();
+		
 
 		return true;
 	} // open
@@ -111,9 +115,9 @@ namespace Graphics
 
 	void CServer::close() 
 	{
-		if(_activeScene)		{
-			_activeScene->deactivate();
-			_activeScene = 0;
+		if(_visibleScene)		{
+			_visibleScene->deactivate();
+			_visibleScene = 0;
 		}
 
 		TScenes::const_iterator it = _scenes.begin();
@@ -123,6 +127,10 @@ namespace Graphics
 
 		// OVERLAYS
 		_overlayManager->destroyAll(); // destroys all overlays
+
+		BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->
+				removeViewport(_viewport->getZOrder());
+		_viewport = 0;
 
 	} // close
 
@@ -142,8 +150,8 @@ namespace Graphics
 
 	void CServer::removeScene(CScene* scene)
 	{
-		if(_activeScene == scene) // Si borramos la escena activa tenemos que quitarla.
-			_activeScene = 0;
+		if(_visibleScene == scene) // Si borramos la escena activa tenemos que quitarla.
+			_visibleScene = 0;
 		_scenes.erase(scene->getName());
 		delete scene;
 
@@ -156,60 +164,62 @@ namespace Graphics
 		removeScene( _scenes[name] );
 	} // removeScene
 
-	
+	//--------------------------------------------------------
+
+	void CServer::activate(CScene* scene)
+	{
+		scene->activate();
+	} // activate
+
+	//--------------------------------------------------------
+
+	void CServer::deactivate(CScene* scene)
+	{
+		scene->deactivate();
+	} // deactivate
+
 	//--------------------------------------------------------
 
 	//TODO en red, el server tendrá activas > 1 -> activateScene
-	void CServer::setActiveScene(CScene* scene)
+	void CServer::activatePlayerCam(CScene* scene)
 	{
-		// En caso de que hubiese una escena activa la desactivamos.
-		if(_activeScene)
-			_activeScene->deactivate();
 
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
-			_activeScene = _dummyScene;
+			_visibleScene = _dummyScene;
 		else {
 			// Sanity check. Nos aseguramos de que la escena pertenezca 
 			// al servidor. Aunque nadie más puede crear escenas...
 			assert( _scenes[ scene->getName() ] == scene && 
 				"GRAPHICS::SERVER>> Esta escena no pertenece al servidor");
 
-			_activeScene = scene;
+			_visibleScene = scene;
 		}
 
-		_activeScene->activate(); 
+		_viewport->setCamera(_visibleScene->getPlayerCamera()->getCamera());
+		_resetCompositors();
+
 	} // setActiveScene
 
 	//--------------------------------------------------------
 	
 	void CServer::activateBaseCam(CScene* scene)
 	{
-		// En caso de que hubiese una escena activa la desactivamos.
-		if(_activeScene)
-			_activeScene->deactivate();
 
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
-			_activeScene = _dummyScene;
+			_visibleScene = _dummyScene;
 		else {
 			// Sanity check. Nos aseguramos de que la escena pertenezca 
 			// al servidor. Aunque nadie más puede crear escenas...
 			assert( _scenes[ scene->getName() ] == scene && 
 				"GRAPHICS::SERVER>> Esta escena no pertenece al servidor");
 
-			_activeScene = scene;
+			_visibleScene = scene;
 		}
 
-		_activeScene->activateBaseCam(); 
-	} // setActiveScene
-	//--------------------------------------------------------
+		_viewport->setCamera(_visibleScene->getBaseCamera()->getCamera());
+		_resetCompositors();
 
-	void CServer::setActiveScene(const std::string& name)
-	{
-		assert(_scenes.find(name) == _scenes.end() &&
-			"GRAPHICS::SERVER>> Esta escena no pertenece al servidor");
-		setActiveScene( _scenes[name] );
 	} // setActiveScene
-
 	//--------------------------------------------------------
 	
 	// TODO FRS Es necesario pasar a través del overlayManager
@@ -336,7 +346,24 @@ namespace Graphics
 		LOG("[HHFX] ---------- done ----------");
 	}
 
+	//-------------------------------------------------------------------------------------
 
+	void CServer::_compositorLoad()
+	{	
+		//Este orden es importante, el bug de que no se viera el BW era porque se añadía antes que el distortion
+		_compositorAdd("Distortion");	
+		_compositorAdd("BW");			
+	} // compositorLoad
+
+	//-------------------------------------------------------------------------------------
+
+	void CServer::_resetCompositors()
+	{	
+		//Siempre que se cambia la cámara de un viewport hay que rehabilitar los compositors
+		//http://www.ogre3d.org/forums/viewtopic.php?f=4&t=53330
+		compositorDisable("BW");
+		_compositorReenable("Distortion");	
+	} // resetCompositors
 	
 
 } // namespace Graphics

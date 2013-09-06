@@ -21,6 +21,9 @@ de una escena.
 #include <BaseSubsystems/Server.h>
 #include <HHFX/IHHFXPublic.h>
 #include <HHFX/RendererSubView.h>
+
+#include <SkyX.h>
+
 #include <OgreRenderWindow.h>
 #include <OgreRoot.h>
 #include <OgreSceneManager.h>
@@ -30,8 +33,8 @@ de una escena.
 #include "Light.h"
 #include "Camera.h"
 #include "Entity.h"
-#include "GlowMaterialListener.h"
 #include "SceneElement.h"
+#include "Server.h"
 
 #define DEBUG 0
 #if DEBUG
@@ -51,13 +54,17 @@ namespace Graphics
 	const float CScene::HHFX_WORLD_SCALE = 8.0f;
 
 	CScene::CScene(const std::string& name) : _name(name), _isInit(false), _viewport(0), 
-		_staticGeometry(0), _hhfxScene(0), _hhfxTimeSinceUpdate(0)
+		_staticGeometry(0), _hhfxScene(0), _hhfxTimeSinceUpdate(0), _skyX(0), _skyXBasicController(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);	
-		_camera = new CCamera(name,this);
+		_playerCamera = new CCamera(name,this);
 		_baseCamera = new CCamera("base" + name, this);
 		_hhfxScene = _hhfxCreateScene(_sceneMgr);
+		_viewport = Graphics::CServer::getSingletonPtr()->getViewport(); //no hay que liberarlo en el destructor -> se encarga CServer
+		_skyXBasicController = new SkyX::BasicController();
+		_skyX = new SkyX::SkyX(_sceneMgr, _skyXBasicController);
+				
 	} // CScene
 
 	//--------------------------------------------------------
@@ -65,9 +72,8 @@ namespace Graphics
 	CScene::~CScene() 
 	{		
 		deactivate();
-		if(_isInit) _deinit();
 		delete _baseCamera; // FRS andaba sin liberar
-		delete _camera;		
+		delete _playerCamera;		
 		_root->destroySceneManager(_sceneMgr);
 	} // ~CScene
 	
@@ -80,7 +86,9 @@ namespace Graphics
 		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
 		_buildStaticGeometry();		
 		_hhfxInit(); // Init Hell Heaven FX Scene
-		_camera->getCamera()->setAutoAspectRatio(true);
+		_skyXInit(); // Init de SkyX
+		_setSkyXPreset(_skyXPresets[3]);
+		_playerCamera->getCamera()->setAutoAspectRatio(true);
 		_baseCamera->getCamera()->setAutoAspectRatio(true);
 		_isInit = true;		
 	} // init
@@ -89,6 +97,7 @@ namespace Graphics
 
 	void CScene::_deinit() {
 		assert(_isInit && "Escena no inicializada previamente");
+		_skyXDeinit();
 		_hhfxDeinit(); // Hell Heaven FX	
 		_sceneMgr->destroyStaticGeometry(_staticGeometry);
 		_isInit = false;
@@ -96,44 +105,16 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
-	// FRS activate() se ejecuta después de cargar y activar todos los mapas.
-	// TODO FRS Este activate hay que repasarlo, está bien hacer todo esto en cada activate?
 	void CScene::activate()
-	{
-		if(!_isInit) _init();
-			
-		_viewport = BaseSubsystems::CServer::getSingletonPtr()
-					->getRenderWindow()->addViewport(_camera->getCamera());
-			_viewport->setBackgroundColour(Ogre::ColourValue::Black);
-			
-		_compositorReload(); // Recargar todos los compositors para el nuevo viewport
+	{		
+		if(_name != "dummy_scene")  _init();
 	} // activate
 
-
-	//--------------------------------------------------------
-
-	void CScene::activateBaseCam()
-	{
-		if(!_isInit) _init();
-		
-		_viewport = BaseSubsystems::CServer::getSingletonPtr()
-					->getRenderWindow()->addViewport(_baseCamera->getCamera());
-			_viewport->setBackgroundColour(Ogre::ColourValue::Black);
-
-		// TODO FRS Barajar si queremos estos compositors en la baseCam
-		_compositorReload(); // Recargar todos los compositors para el nuevo viewport
-	}
-	
 	//--------------------------------------------------------
 
 	void CScene::deactivate()
 	{		
-		if(_viewport)
-		{			
-			BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->
-					removeViewport(_viewport->getZOrder());
-			_viewport = 0;
-		}
+		if(_isInit) _deinit();
 	} // deactivate
 	
 	//--------------------------------------------------------
@@ -149,19 +130,6 @@ namespace Graphics
 	} // tick
 
 	//--------------------------------------------------------
-
-	void CScene::_compositorReload()
-	{		
-		if(_name == "dummy_scene") //  No queremos compositors en la dummy
-			return;
-
-		compositorAdd("B&W"); // FRS este hardcoding... si se pue hacer por el map.txt mejol...
-	} // compositorReload
-
-
-
-
-
 
 
 
@@ -251,8 +219,6 @@ namespace Graphics
 
 
 
-
-
 	/*********************
 		HELL HEAVEN FX
 	*********************/
@@ -298,10 +264,7 @@ namespace Graphics
 	{	
 		_hhfxScene->Clear(); // clear the scene before shutting down ogre since the hhfx ogre implementation holds some Ogre objects.
 		_root->removeFrameListener(this); // FRS Nos borramos como oyentes de eventos de FrameRender de Ogre
-		//_hhfxCompositorUnload(); // UNDONE FRS Compositors se descargan auto
-
 	} // _hhfxSceneDeinit
-	
 
 
 	//----------- COLLISION CALLBACK --------------------------------------------------------------------------
@@ -393,8 +356,8 @@ namespace Graphics
 		if(_hhfxTimeSinceUpdate) // Si no se acaba de hacer Update (time = 0) no renderizamos
 			return true;
 
-		// Aplicamos transformaciones de la camara que esté renderizando actualmente el FX: Camera o BaseCamera.
-		Ogre::Camera* fxCamera = _viewport? _viewport->getCamera() : _camera->getCamera();
+		// Aplicamos transformaciones de la camara que esté renderizando actualmente el FX: PlayerCamera o BaseCamera.
+		Ogre::Camera* fxCamera = _viewport->getCamera();
 		const Vector3& camPos =		fxCamera->getParentNode()->getPosition();	  // El nodo es el que contiene el transform
 		const Quaternion& camOri =	fxCamera->getParentNode()->getOrientation(); // la camara mantiene pos = 0 (relativa al nodo)
 	
@@ -411,6 +374,108 @@ namespace Graphics
 		_hhfxScene->Render(view, camPos);
 
 		return  true;
+	}
+
+	/*********************
+			SkyX
+	*********************/
+
+	void CScene::_skyXInit()
+	{
+		_skyX->create();
+		_root->addFrameListener(_skyX);
+		BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->addListener(_skyX);
+		_skyX->getVCloudsManager()->getVClouds()->setDistanceFallingParams(Ogre::Vector2(2,-1));
+	}
+
+	//----------------------------------------------------------------------------------
+
+	void CScene::_skyXDeinit()
+	{
+		_root->removeFrameListener(_skyX);
+		BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->removeListener(_skyX);
+	}
+
+	//-------------------------------------------------------------------------------------
+	 
+		SkyXSettings CScene::_skyXPresets[6] = {
+			// Sunset
+			SkyXSettings(Ogre::Vector3(8.85f, 7.5f, 20.5f),  -0.08f, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0022f, 0.000675f, 30, Ogre::Vector3(0.57f, 0.52f, 0.44f), -0.991f, 3, 4), false, true, 300, false, Ogre::Radian(270), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0.35, 0.2, 0.92, 0.1), Ogre::Vector4(0.4, 0.7, 0, 0), Ogre::Vector2(0.8,1)),
+			// Clear
+			SkyXSettings(Ogre::Vector3(17.16f, 7.5f, 20.5f), 0, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0017f, 0.000675f, 30, Ogre::Vector3(0.57f, 0.54f, 0.44f), -0.991f, 2.5f, 4), false),
+			// Thunderstorm 1
+			SkyXSettings(Ogre::Vector3(12.23, 7.5f, 20.5f),  0, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.00545f, 0.000375f, 30, Ogre::Vector3(0.55f, 0.54f, 0.52f), -0.991f, 1, 4), false, true, 300, false, Ogre::Radian(0), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0.25, 0.4, 0.5, 0.1), Ogre::Vector4(0.45, 0.3, 0.6, 0.1), Ogre::Vector2(1,1), true, 0.5, Ogre::Vector3(1,0.976,0.92), 2),
+			// Thunderstorm 2
+			SkyXSettings(Ogre::Vector3(10.23, 7.5f, 20.5f),  0, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.00545f, 0.000375f, 30, Ogre::Vector3(0.55f, 0.54f, 0.52f), -0.991f, 0.5, 4), false, true, 300, false, Ogre::Radian(0), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0, 0.02, 0.34, 0.24), Ogre::Vector4(0.29, 0.3, 0.6, 1), Ogre::Vector2(1,1), true, 0.5, Ogre::Vector3(0.95,1,1), 2),
+			// Desert
+			SkyXSettings(Ogre::Vector3(7.59f, 7.5f, 20.5f), 0, -0.8f, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0072f, 0.000925f, 30, Ogre::Vector3(0.71f, 0.59f, 0.53f), -0.997f, 2.5f, 1), true),
+			// Night
+			SkyXSettings(Ogre::Vector3(21.5f, 7.5, 20.5), 0.03, -0.25, SkyX::AtmosphereManager::Options(), true)
+	};
+
+	//-------------------------------------------------------------------------------------
+
+	void CScene::_setSkyXPreset(const SkyXSettings& preset)
+	{
+		_skyX->setTimeMultiplier(preset.timeMultiplier);
+		_skyXBasicController->setTime(preset.time);
+		_skyXBasicController->setMoonPhase(preset.moonPhase);
+		_skyX->getAtmosphereManager()->setOptions(preset.atmosphereOpt);
+
+		// Layered clouds
+		if (preset.layeredClouds)
+		{
+			// Create layer cloud
+			if (_skyX->getCloudsManager()->getCloudLayers().empty())
+			{
+				_skyX->getCloudsManager()->add(SkyX::CloudLayer::Options(/* Default options */));
+			}
+		}
+		else
+		{
+			// Remove layer cloud
+			if (!_skyX->getCloudsManager()->getCloudLayers().empty())
+			{
+				_skyX->getCloudsManager()->removeAll();
+			}
+		}
+
+		_skyX->getVCloudsManager()->setWindSpeed(preset.vcWindSpeed);
+		_skyX->getVCloudsManager()->setAutoupdate(preset.vcAutoupdate);
+
+		SkyX::VClouds::VClouds* vclouds = _skyX->getVCloudsManager()->getVClouds();
+
+		vclouds->setWindDirection(preset.vcWindDir);
+		vclouds->setAmbientColor(preset.vcAmbientColor);
+		vclouds->setLightResponse(preset.vcLightResponse);
+		vclouds->setAmbientFactors(preset.vcAmbientFactors);
+		vclouds->setWheater(preset.vcWheater.x, preset.vcWheater.y, false);
+
+		if (preset.volumetricClouds)
+		{
+			// Create VClouds
+			if (!_skyX->getVCloudsManager()->isCreated())
+			{
+				// SkyX::MeshManager::getSkydomeRadius(...) works for both finite and infinite(=0) camera far clip distances
+				_skyX->getVCloudsManager()->create(_skyX->getMeshManager()->getSkydomeRadius(_viewport->getCamera()));
+			}
+		}
+		else
+		{
+			// Remove VClouds
+			if (_skyX->getVCloudsManager()->isCreated())
+			{
+				_skyX->getVCloudsManager()->remove();
+			}
+		}
+
+		vclouds->getLightningManager()->setEnabled(preset.vcLightnings);
+		vclouds->getLightningManager()->setAverageLightningApparitionTime(preset.vcLightningsAT);
+		vclouds->getLightningManager()->setLightningColor(preset.vcLightningsColor);
+		vclouds->getLightningManager()->setLightningTimeMultiplier(preset.vcLightningsTM);
+
+
+		_skyX->update(0);
 	}
 
 	

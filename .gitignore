@@ -165,20 +165,23 @@ DocumentacionDoxygen/
 
 !/dependencies/bin/*/fmodex.dll
 !/dependencies/bin/*/Plugin_HellHeavenFX_v1-7-4*.dll
+!/dependencies/bin/*/SkyX*.dll
 !/dependencies/CEGUI/projects/premake/ScriptingModules/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++bin/premake.lua
 !/dependencies/include/enet/
 !/dependencies/include/fmod/
 !/dependencies/include/hhfx/
+!/dependencies/include/SkyX/
 !/dependencies/lib/*/enet.lib
 !/dependencies/lib/*/fmodex_vc.lib
+!/dependencies/lib/*/SkyX*.lib
 
 !/Exes/controls.cfg
 !/Exes/plugins*.cfg
 !/Exes/resources.cfg
 
-!/Projects/Application/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir -> FRS pero es más facil hacer un reset changes que andar poniendo el outDir -> FRS Ya no se borra el .user con el ant clean :)
+!/Projects/Application/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir -> FRS pero es mÃ¡s facil hacer un reset changes que andar poniendo el outDir -> FRS Ya no se borra el .user con el ant clean :)
 !/Projects/Configure/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir.
 
 

@@ -75,7 +75,8 @@ namespace Application {
 		// Inicialización del servidor de física.
 		if (!Physics::CServer::Init())
 			return false;
-			// Inicialización del servidor de física.
+		
+		// Inicialización del servidor de audio.
 		if (!Audio::CServer::Init())
 			return false;
 

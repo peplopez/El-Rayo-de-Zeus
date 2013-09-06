@@ -19,6 +19,7 @@ la ventana, etc.
 
 #include <assert.h>
 #include <map>
+#include <OgreCompositorManager.h>
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 
@@ -30,6 +31,7 @@ namespace Ogre
 	class RenderWindow;
 	class Timer;
 	class OverlayManager;
+	class Viewport;
 }
 namespace Graphics 
 {
@@ -143,7 +145,7 @@ namespace Graphics
 
 		@return La escena activa.
 		*/
-		CScene* getActiveScene() {return _activeScene;}
+		CScene* getVisibleScene() {return _visibleScene;}
 
 		/**
 		Elimina la escena pasada por parámetro de la tabla de escenas
@@ -162,27 +164,22 @@ namespace Graphics
 		void removeScene(const std::string& name);
 
 		/**
-		Establece una escena como escena activa. En caso de que 
-		hubiese otra escena activa este método la desactiva y establece
-		la nueva.
-
-		@param scene Escena que se desea poner como escena activa.
+		Inicializa la escena
 		*/
-		void setActiveScene(CScene* scene);
+		void activate(CScene* scene);
+
+		/**
+		Deinicializa la escena
+		*/
+		void deactivate(CScene* scene);
+
+		/**
+		*/
+		void activatePlayerCam(CScene* scene);
 
 		/**
 		*/
 		void activateBaseCam(CScene* scene);
-
-		/**
-		Establece una escena como escena activa. En caso de que 
-		hubiese otra escena activa este método la desactiva y establece
-		la nueva.
-
-		@param name Nombre de la escena que se quiere poner como
-		escena activa.
-		*/
-		void setActiveScene(const std::string& name);
 
 		/**
 		Devuelve al manager de Overlays. 
@@ -206,6 +203,11 @@ namespace Graphics
 		*/
 		int getScreenHeight();
 
+		/**
+		*/
+		Ogre::Viewport* getViewport() { return _viewport; }
+
+
 	protected:
 
 		/**
@@ -223,7 +225,7 @@ namespace Graphics
 		escena activa al mismo tiempo. El cambio de escena activa se realiza
 		a través de ésta clase.
 		*/
-		CScene* _activeScene;
+		CScene* _visibleScene;
 
 		/**
 		Escena dummy que se crea automáticamente. Con ella permitimos que
@@ -240,6 +242,11 @@ namespace Graphics
 		Ventana de renderizado 
 		*/
 		Ogre::RenderWindow *_renderWindow;
+		
+		/**
+		Marco común de la ventana de renderizado para todas las escenas
+		*/
+		Ogre::Viewport *_viewport;
 
 		/**
 		Manager de los Overlays
@@ -297,6 +304,25 @@ namespace Graphics
 		IHHFXBase* _hhfxBase;
 		void _initHHFX(CScene*);
 		void _preloadHHFXTextures();	
+
+	/*******************
+		COMPOSITORS
+	*******************/
+	public:
+		void compositorEnable(const std::string &name) {	assert(_viewport && "La escena no está activa");
+			Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, true); }	
+		void compositorDisable(const std::string &name)	{	assert(_viewport && "La escena no está activa");
+			Ogre::CompositorManager::getSingletonPtr()->setCompositorEnabled(_viewport, name, false); }	
+	
+	private:
+		void _compositorReenable(const std::string &name) {	compositorDisable(name); compositorEnable(name); }
+		void _resetCompositors();
+		void _compositorLoad();
+		void _compositorAdd(const std::string &name) {	
+			assert(_viewport && "La escena no está activa");
+			Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, name); 
+			assert(comp && "Error al cargar compositor. Revisar que esta bien definido en los assets" );
+		}
 
 	}; // class CServer
 

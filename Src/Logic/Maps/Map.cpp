@@ -37,7 +37,7 @@ namespace Logic {
 	CMap::CMap(const std::string &name) : _name(name), _isActive(false), alied(0)
 	{
 		_graphicScene = Graphics::CServer::getSingletonPtr()->createScene(name);
-		_physicScene  = Physics::CServer::getSingletonPtr()->createScene(name); 
+		_physicsScene  = Physics::CServer::getSingletonPtr()->createScene(name); 
 		// ƒ®§ aunque se creen las escenas, la escena activa debe ser la dummy hasta la activación del map
 
 	} // CMap
@@ -50,7 +50,7 @@ namespace Logic {
 		deactivate();
 		destroyAllEntities();
 		Graphics::CServer::getSingletonPtr()->removeScene(_graphicScene);
-		Physics::CServer::getSingletonPtr()->removeScene(_physicScene);
+		Physics::CServer::getSingletonPtr()->removeScene(_physicsScene);
 	} // ~CMap
 
 	//--------------------------------------------------------
@@ -60,6 +60,7 @@ namespace Logic {
 		if(_isActive)
 			return true;
 		
+
 		// Activamos todas las entidades registradas en el mapa.
 		_isActive = true;
 		TEntityList::const_iterator it = _entityList.begin();
@@ -67,8 +68,14 @@ namespace Logic {
 			for(; it != end; ++it)
 				_isActive = (*it)->activate() && _isActive;
 
+		// Activamos la escena gráfica y física correspondiente a este mapa (_inits)
+		Graphics::CServer::getSingletonPtr()->activate(_graphicScene);
+		Physics::CServer::getSingletonPtr()->activate(_physicsScene);
+
+		
+
 		return _isActive;
-	} // getEntity
+	} // activate
 
 	//--------------------------------------------------------
 
@@ -84,17 +91,21 @@ namespace Logic {
 				if((*it)->isActivated())
 					(*it)->deactivate();
 
-		Graphics::CServer::getSingletonPtr()->setActiveScene(0);
-		Physics::CServer::getSingletonPtr()->setActiveScene(0); // FRS Y dónde se está activando?
+		//ponemos la dummyCamera
+		Graphics::CServer::getSingletonPtr()->activatePlayerCam(0); 
+
+		//deinicilizamos las escenas
+		Graphics::CServer::getSingletonPtr()->deactivate(_graphicScene);
+		Physics::CServer::getSingletonPtr()->deactivate(_physicsScene);
 
 		_isActive = false;
-	} // getEntity
+	} // deactivate
 
 	//---------------------------------------------------------
 
-	void CMap::setVisible()
+	void CMap::activatePlayerCam()
 	{
-		Graphics::CServer::getSingletonPtr()->setActiveScene( this->_graphicScene );
+		Graphics::CServer::getSingletonPtr()->activatePlayerCam( this->_graphicScene );
 	}
 
 	//---------------------------------------------------------
