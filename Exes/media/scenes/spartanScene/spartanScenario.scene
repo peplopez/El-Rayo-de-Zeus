@@ -89,30 +89,5 @@
                 </entity>
             </node>
         </node>
-        <node name="padreoceano">
-            <position x="0" y="0" z="0" />
-            <scale x="1" y="1" z="1" />
-            <rotation qx="0" qy="0" qz="0" qw="1" />
-            <node name="espumaoceano1">
-                <position x="0" y="0" z="0" />
-                <scale x="1" y="1" z="1" />
-                <rotation qx="0" qy="0" qz="0" qw="1" />
-                <entity name="espumaoceano1" castShadows="true" receiveShadows="true" meshFile="espumaoceano1.mesh">
-                    <subentities>
-                        <subentity index="0" materialName="espumaoceano" renderQueuePriority="1112397040" />
-                    </subentities>
-                </entity>
-            </node>
-            <node name="oceano1">
-                <position x="0" y="0" z="0" />
-                <scale x="1" y="1" z="1" />
-                <rotation qx="0" qy="0" qz="0" qw="1" />
-                <entity name="oceano1" castShadows="true" receiveShadows="true" meshFile="oceano1.mesh">
-                    <subentities>
-                        <subentity index="0" materialName="mar" renderQueuePriority="1112406224" />
-                    </subentities>
-                </entity>
-            </node>
-        </node>
     </nodes>
 </scene>

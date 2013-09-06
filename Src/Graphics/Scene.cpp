@@ -23,6 +23,10 @@ de una escena.
 #include <HHFX/RendererSubView.h>
 
 #include <SkyX.h>
+#include <Hydrax.h>
+#include <Hydrax\Noise\Perlin\Perlin.h>
+#include <Hydrax\Modules\ProjectedGrid\ProjectedGrid.h>
+
 
 #include <OgreRenderWindow.h>
 #include <OgreRoot.h>
@@ -54,7 +58,7 @@ namespace Graphics
 	const float CScene::HHFX_WORLD_SCALE = 8.0f;
 
 	CScene::CScene(const std::string& name) : _name(name), _isInit(false), _viewport(0), 
-		_staticGeometry(0), _hhfxScene(0), _hhfxTimeSinceUpdate(0), _skyX(0), _skyXBasicController(0)
+		_staticGeometry(0), _hhfxScene(0), _hhfxTimeSinceUpdate(0), _skyX(0), _skyXBasicController(0), _hydraX(0), _hydraXModule(0)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);	
@@ -64,6 +68,17 @@ namespace Graphics
 		_viewport = Graphics::CServer::getSingletonPtr()->getViewport(); //no hay que liberarlo en el destructor -> se encarga CServer
 		_skyXBasicController = new SkyX::BasicController();
 		_skyX = new SkyX::SkyX(_sceneMgr, _skyXBasicController);
+		_hydraX = new Hydrax::Hydrax(_sceneMgr, _playerCamera->getCamera(), _viewport);
+		_hydraXModule = new Hydrax::Module::ProjectedGrid(// Hydrax parent pointer
+													_hydraX,
+													// Noise module
+													new Hydrax::Noise::Perlin(/*Generic one*/),
+													// Base plane
+													Ogre::Plane(Ogre::Vector3(0,1,0), Ogre::Vector3(0,0,0)),
+													// Normal mode
+													Hydrax::MaterialManager::NM_VERTEX,
+													// Projected grid options
+													Hydrax::Module::ProjectedGrid::Options(/*264 /*Generic one*/));
 				
 	} // CScene
 
@@ -87,6 +102,7 @@ namespace Graphics
 		_buildStaticGeometry();		
 		_hhfxInit(); // Init Hell Heaven FX Scene
 		_skyXInit(); // Init de SkyX
+		_hydraXInit(); // Init de Hydrax
 		_setSkyXPreset(_skyXPresets[3]);
 		_playerCamera->getCamera()->setAutoAspectRatio(true);
 		_baseCamera->getCamera()->setAutoAspectRatio(true);
@@ -336,7 +352,7 @@ namespace Graphics
 	bool CScene::frameStarted(const Ogre::FrameEvent& evt)
 	{	
 		LOG("[HHFX] ParticleCount = " << _hhfxScene->GetParticleCount() )
-
+		_hydraX->update(evt.timeSinceLastFrame);
 		_hhfxTimeSinceUpdate += evt.timeSinceLastFrame;
 		if(_viewport || _hhfxTimeSinceUpdate > _HHFX_INACTIVE_UPDATE_PERIOD)
 			// && _hhfxScene->GetParticleCount() )  UNDONE  siempre devuelve 0 WTF!
@@ -478,6 +494,16 @@ namespace Graphics
 		_skyX->update(0);
 	}
 
+	/*********************
+			SkyX
+	*********************/
+
+	void CScene::_hydraXInit()
+	{
+		_hydraX->setModule(static_cast<Hydrax::Module::Module*>(_hydraXModule));
+		_hydraX->loadCfg("HydraxDemo.hdx");
+		_hydraX->create();
+	}
 	
 
 } // namespace Graphics

@@ -58,6 +58,15 @@ namespace Logic
 	class CDotSceneLoader;
 };
 
+namespace Hydrax
+{
+	class Hydrax;
+	namespace Module
+	{
+		class ProjectedGrid;
+	}
+};
+
 namespace Graphics 
 {
 	/**
@@ -341,6 +350,18 @@ namespace Graphics
 		void _setSkyXPreset(const SkyXSettings& preset);
 		void _skyXInit();
 		void _skyXDeinit();
+
+	/*********************
+			SkyX
+	*********************/
+
+	private:
+
+		Hydrax::Hydrax* _hydraX;
+		Hydrax::Module::ProjectedGrid* _hydraXModule;
+
+		void _hydraXInit();
+		void _hydraXDeinit();
 
 
 	}; // class CScene
