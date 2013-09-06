@@ -63,12 +63,12 @@ namespace Application
 		/** 
 		Constructor de la clase 
 		*/
-		CLobbyServerState(CBaseApplication *app);
+		CLobbyServerState(CBaseApplication *app) : CApplicationState(app),_waiting(true) {} 	
 
 		/** 
 		Destructor 
 		*/
-		virtual ~CLobbyServerState();
+		virtual ~CLobbyServerState() {}
 
 		/**
 		Función llamada cuando se crea el estado (se "engancha" en la
@@ -172,8 +172,8 @@ namespace Application
 			NET::IOBSERVER
 		******************/
 		virtual void dataPacketReceived(Net::CPacket* packet);
-		virtual void connexionPacketReceived(Net::CPacket* packet);
-		virtual void disconnexionPacketReceived(Net::CPacket* packet);
+		virtual void connectPacketReceived(Net::CPacket* packet);
+		virtual void disconnectPacketReceived(Net::CPacket* packet);
 
 
 	private:
@@ -181,12 +181,15 @@ namespace Application
 		// PLAYER INFO
 		unsigned int _nClients;
 		std::string _playerNicks[8]; // HACK fijamos num max de players a 8
-		std::string _playerModels[8]; // TODO quizá deberían ser enum para menos info por red en un futuro
+		std::string _playerModels[8]; // TODO deberían ser enum para menos info por red en un futuro
 
 		/**
 		Ventana CEGUI que muestra el menú.
 		*/
-		CEGUI::Window* _menuWindow;		
+		CEGUI::Window* _windowMenu;	
+		CEGUI::Window* _windowStatus;
+		CEGUI::Window* _windowStart;
+		CEGUI::Window* _windowBack;
 
 		//typedef std::list<Net::NetID> TNetIDList; UNDONE no es necesario una lista
 		typedef unsigned char TMask;
@@ -194,8 +197,8 @@ namespace Application
 		/**
 		lista donde almacenamos los clientes conectados
 		*/
-		//TNetIDList _clients; UNDONE
-		TMask _clients; // char máscara
+		//TNetIDList _maskClientIds; UNDONE
+		TMask _maskClientIds; // char máscara
 
 		/**
 		lista donde almacenamos los clientes que han cargado el mapa
@@ -222,20 +225,20 @@ namespace Application
 		Función que se quiere realizar cuando se pulse el botón start.
 		Simplemente cambia al estado de juego.
 		*/
-		bool startReleased(const CEGUI::EventArgs& e);
+		bool _startReleased(const CEGUI::EventArgs& e);
 
 		/**
 		Función que se quiere realizar cuando se pulse el botón back.
 		Simplemente cambia al estado de menu.
 		*/
-		bool backReleased(const CEGUI::EventArgs& e);
+		bool _backReleased(const CEGUI::EventArgs& e);
 
 		/**
 		* Función que ejecuta la acción start. 
 		Centraliza el código y será invocada cuando se pulse la tecla correspondiente o se
 		genere el evento de ratón
 		*/
-		void doStart();
+		void _doStart();
 
 	}; // CMenuState
 

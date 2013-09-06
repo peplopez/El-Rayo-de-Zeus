@@ -63,21 +63,18 @@ namespace Application
 	class CLobbyClientState : public CApplicationState, public Net::IObserver
 	{
 
-	protected:
-
-		typedef std::list<std::string> TMapNameList;
+	
 
 	public:
 		/** 
 		Constructor de la clase 
 		*/
-		CLobbyClientState(CBaseApplication *app) : CApplicationState(app)
-				{}
+		CLobbyClientState(CBaseApplication *app) : CApplicationState(app) {}
 
 		/** 
 		Destructor 
 		*/
-		virtual ~CLobbyClientState();
+		virtual ~CLobbyClientState() {}
 
 		/**
 		Función llamada cuando se crea el estado (se "engancha" en la
@@ -181,33 +178,33 @@ namespace Application
 			NET::IOBSERVER
 		******************/
 		virtual void dataPacketReceived(Net::CPacket* packet);	
-		virtual void connexionPacketReceived(Net::CPacket* packet) {};
-		virtual void disconnexionPacketReceived(Net::CPacket* packet){};
+		virtual void connectPacketReceived(Net::CPacket* packet) {};
+		virtual void disconnectPacketReceived(Net::CPacket* packet){};
 
 	private:
 
-		/**
-		Ventana CEGUI que muestra el menú.
-		*/
-		CEGUI::Window* _menuWindow; 
+		CEGUI::Window * _windowStatus;
+		CEGUI::Window * _windowConnect;
+		CEGUI::Window * _windowBack;
 
 		//PT combobox
 		CEGUI::Combobox* _cbModel;
 		CEGUI::Combobox* _cbColor;
 
+		typedef std::list<std::string> TMapNameList;
 		TMapNameList _mapsToLoad;
 		
 		/**
 		Función que se quiere realizar cuando se pulse el botón start.
 		Simplemente cambia al estado de juego.
 		*/
-		bool startReleased(const CEGUI::EventArgs& e);
+		bool _connectReleased(const CEGUI::EventArgs& e);
 
 		/**
 		Función que se quiere realizar cuando se pulse el botón back.
 		Simplemente cambia al estado de menu.
 		*/
-		bool backReleased(const CEGUI::EventArgs& e);
+		bool _backReleased(const CEGUI::EventArgs& e);
 
 
 		/**
@@ -215,7 +212,7 @@ namespace Application
 		Centraliza el código y será invocada cuando se pulse la tecla correspondiente o se
 		genere el evento de ratón
 		*/
-		void doStart();
+		void _connect();
 
 	}; // CMenuState
 

@@ -97,8 +97,8 @@ namespace Logic
 			NET::IOBSERVER
 		******************/
 		virtual void dataPacketReceived(Net::CPacket* packet);
-		virtual void connexionPacketReceived(Net::CPacket* packet) {};
-		virtual void disconnexionPacketReceived(Net::CPacket* packet) {};
+		virtual void connectPacketReceived(Net::CPacket* packet) {};
+		virtual void disconnectPacketReceived(Net::CPacket* packet) {};
 		
 
 	protected:

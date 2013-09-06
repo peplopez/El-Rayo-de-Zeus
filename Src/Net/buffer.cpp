@@ -26,6 +26,18 @@ namespace Net {
 		_delta = delta;
 	}
 
+	CBuffer::CBuffer(void* data, size_t dataLength, size_t initsize, size_t delta)
+	{
+		_current = _begin = new byte[initsize]; // posicion actual e inicial del buffer
+		_maxsize = initsize;
+		_size = 0;
+		_delta = delta;
+
+		this->write( data, dataLength);
+		this->reset();
+	}
+
+
 	CBuffer::~CBuffer()
 	{
 		delete[] _begin;
@@ -51,8 +63,8 @@ namespace Net {
 		while(_size + datalength >= _maxsize) // Mientras no quepa "data"
 			realloc();						 // Ampliamos n deltas de tamaño
 		memcpy(_current,data,datalength);
-		_current+=datalength;
-		_size+=datalength;
+		_current += datalength;
+		_size += datalength;
 	}
 
 	void CBuffer::read(void* data,size_t datalength)

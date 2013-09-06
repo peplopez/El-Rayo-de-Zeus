@@ -41,7 +41,7 @@ Contiene la implementación del estado de lobby del cliente.
 #include <CEGUIWindowRenderer.h>
 
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #	include <iostream>
 #	define LOG(msg) std::cout << "APP::LOBBY_CLIENT>> " << msg << std::endl;
@@ -50,243 +50,46 @@ Contiene la implementación del estado de lobby del cliente.
 #endif
 
 namespace Application {
-
-	CLobbyClientState::~CLobbyClientState() 
-	{
-	} // ~CLobbyClientState
-
-	//--------------------------------------------------------
-
-	bool CLobbyClientState::init() 
-	{
-	srand(time(0)); // HACK necesario subsistema random
-
-		CApplicationState::init();
-
-		// Cargamos la ventana que muestra el menú
-		//CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("NetLobbyClient.layout");
-		//_menuWindow = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient");
-
-		// Cargamos la ventana que muestra el menú con LUA
-		ScriptManager::CServer::getSingletonPtr()->loadExeScript("NetLobbyClient");
-		ScriptManager::CServer::getSingletonPtr()->executeProcedure("initNetLobbyClient");
-		
-		// Asociamos los botones del menú con las funciones que se deben ejecutar.
-		CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Connect")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, 
-				CEGUI::SubscriberSlot(&CLobbyClientState::startReleased, this));
-		
-		CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Back")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, 
-				CEGUI::SubscriberSlot(&CLobbyClientState::backReleased, this));
-
-			//Modelo .mesh o personaje
-		   _cbModel = static_cast<CEGUI::Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/ModelBox"));
-
-			// add items to the combobox list
-			_cbModel->addItem(new CEGUI::ListboxTextItem("Espartano",0));
-			_cbModel->addItem(new CEGUI::ListboxTextItem("Loco",1));
-			_cbModel->addItem(new CEGUI::ListboxTextItem("Marine",2));
-			_cbModel->addItem(new CEGUI::ListboxTextItem("Bioshock",3));
-			_cbModel->addItem(new CEGUI::ListboxTextItem("Medusa",4));
-
-
-			_cbModel->setReadOnly(true);
-
-			//Color
-			_cbColor = static_cast<CEGUI::Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/ColorBox"));
-			_cbColor->addItem(new CEGUI::ListboxTextItem("Rojo",10));
-			_cbColor->addItem(new CEGUI::ListboxTextItem("Verde",11));
-			_cbColor->addItem(new CEGUI::ListboxTextItem("Amarillo",12));
-			_cbColor->addItem(new CEGUI::ListboxTextItem("Azul",13));
-
-			_cbColor->setReadOnly(true);
-
 	
-		return true;
-
-	} // init
-
-	//--------------------------------------------------------
-
-	void CLobbyClientState::release() 
-	{
-		CApplicationState::release();
-
-	} // release
-
-	//--------------------------------------------------------
-
-	void CLobbyClientState::activate() 
-	{
-		CApplicationState::activate();
-
-		// Activamos la ventana que nos muestra el menú y activamos el ratón.
-		/*CEGUI::System::getSingletonPtr()->setGUISheet(_menuWindow);
-		_menuWindow->setVisible(true);
-		_menuWindow->activate();
-		CEGUI::MouseCursor::getSingleton().show();
-		*/
-
-		// Activamos la ventana que nos muestra el menú y activamos el ratón desde LUA
-		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showNetLobbyClient");
-
-		// NET
-		Net::CManager::getSingletonPtr()->addObserver(this); // Se registra como IObserver
-		Net::CManager::getSingletonPtr()->activateAsClient(); //  Activar la red como tipo Client
-
-	} // activate
-
-	//--------------------------------------------------------
-
-	void CLobbyClientState::deactivate() 
+	void CLobbyClientState::_connect()
 	{	
-		Net::CManager::getSingletonPtr()->removeObserver(this);
-
-		// Desactivamos la ventana GUI con el menú y el ratón.
-		/*CEGUI::MouseCursor::getSingleton().hide();
-		_menuWindow->deactivate();
-		_menuWindow->setVisible(false);
-		*/
-
-		// Desactivamos la ventana que nos muestra el menú y desactivamos el ratón desde LUA
-		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideNetLobbyClient");
-
-		CApplicationState::deactivate();
-
-
-	} // deactivate
-
-	//--------------------------------------------------------
-
-	void CLobbyClientState::tick(unsigned int msecs) 
-	{
-		CApplicationState::tick(msecs);
-
-	} // tick
-
-	//--------------------------------------------------------
-
-	
-	bool CLobbyClientState::keyPressed(GUI::TKey key)
-	{
-	   return false;
-
-	} // keyPressed
-
-	//--------------------------------------------------------
-
-	bool CLobbyClientState::keyReleased(GUI::TKey key)
-	{
-		switch(key.keyId)
-		{
-		case GUI::Key::ESCAPE:
-			Net::CManager::getSingletonPtr()->deactivateNetwork();
-			_app->setState("netmenu");
-			break;
-		case GUI::Key::RETURN:
-			doStart();
-			break;
-		//case GUI::Key::R:
-		//	ScriptManager::CServer::getSingletonPtr()->reloadScript("NetLobbyClient");
-		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadNetLobbyClient");
-		//	break;
-		default:
-			return false;
-		}
-		return true;
-
-	} // keyReleased
-
-	//--------------------------------------------------------
-	
-	bool CLobbyClientState::mouseMoved(const GUI::CMouseState &mouseState)
-	{
-		return false;
-
-	} // mouseMoved
-
-	//--------------------------------------------------------
-		
-	bool CLobbyClientState::mousePressed(const GUI::CMouseState &mouseState)
-	{
-		//CEGUI::System::getSingleton().injectMouseButtonDown(mouseState.);
-		return false;
-
-	} // mousePressed
-
-	//--------------------------------------------------------
-
-
-	bool CLobbyClientState::mouseReleased(const GUI::CMouseState &mouseState)
-	{
-		return false;
-
-	} // mouseReleased
-			
-	//--------------------------------------------------------
-		
-	bool CLobbyClientState::startReleased(const CEGUI::EventArgs& e)
-	{
-		doStart();
-		return true;
-	} // startReleased
-			
-	//--------------------------------------------------------
-
-	bool CLobbyClientState::backReleased(const CEGUI::EventArgs& e)
-	{
-		Net::CManager::getSingletonPtr()->deactivateNetwork(); // NET: deactivate
-		_app->setState("netmenu");
-		return true;
-
-	} // backReleased
-			
-	//--------------------------------------------------------
-
-	void CLobbyClientState::doStart()
-	{
-		// Deshabilitamos el botón de Start
-		CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Connect")->setEnabled(false);
-		
-		// Actualizamos el status
-		CEGUI::Window * status = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Status");
-		status->setText("Status: Connecting...");
+		_windowStatus->setText("Connecting...");
 
 		// Obtenemos la ip desde el Editbox
 		CEGUI::String ip = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/IPBox")->getText();
-
 		
 		// NET: Conectamos
+		if( Net::CManager::getSingletonPtr()->clientConnectToServer( (char*)ip.c_str(), Net::SERVER_PORT, 1) ) {
+			_windowStatus->setText("Connected to server. Waiting to start game...");// Actualizamos el status			
+			_windowConnect->setEnabled(false); // Deshabilitamos el botón de Start
 
-		Net::CManager::getSingletonPtr()->connectTo((char*)ip.c_str(),1234,1);
+		} else {
+			_windowStatus->setText("Server not responding or full. Re-check IP.");
+		}
 
-		// Actualizamos el status
-		status->setText("Status: Connected to server. Waiting to start game...");
-
-		//tickNet is in charge of receiving the message and change the state
-
+		//Net tick is in charge of receiving the message and change the state
 	} // doStart
+
 
 
 	/**********************
 		NET: IOBSERVER
 	********************/
+
 	void CLobbyClientState::dataPacketReceived(Net::CPacket* packet)
 	{
-		Net::CBuffer rxSerialMsg; // Packet: "NetMessageType | extraData"
-			rxSerialMsg.write(packet->getData(),packet->getDataLength());
-			rxSerialMsg.reset();
-		
+		// Packet: "NetMessageType | extraData"
 		Net::NetMessageType rxMsgType;
+		Net::CBuffer rxSerialMsg( packet->getData(), packet->getDataLength() );	
 			rxSerialMsg.read( &rxMsgType, sizeof(rxMsgType) );
+
 		switch (rxMsgType)
 		{
 
 		// TODO Gestionar la carga del blueprints cliente y del mapa cuando  
 		// se reciba un mensaje de red de tipo LOAD_MAP. Cuando se finalice
 		// la carga avisar al servidor enviando un mensaje tipo MAP_LOADED
-		case Net::LOAD_MAP:
+		case Net::MAP_LOAD:
 
 			LOG("RX LOAD_MAP");
 
@@ -297,14 +100,14 @@ namespace Application {
 
 			// Cargamos el archivo con las definiciones de las entidades del nivel.
 			if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints_client.txt")){
-				CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar el nivel");
+				_windowStatus->setText("Error al cargar el nivel");
 				Net::CManager::getSingletonPtr()->deactivateNetwork();
 				_app->exitRequest();
 		
 			// Add - ESC
 			// Cargamos el archivo con las definiciones de los archetypes
 			} else if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes_client.txt")) {
-				CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar archetypes");
+				_windowStatus->setText("Error al cargar archetypes");
 				Net::CManager::getSingletonPtr()->deactivateNetwork();
 				_app->exitRequest();
 			
@@ -318,7 +121,7 @@ namespace Application {
 			//PT
 			//else if (!Logic::CServer::getSingletonPtr()->loadMap("mapRed")){
 			else if(!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad)){
-				CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status")->setText("Error al cargar el nivel");
+				_windowStatus->setText("Error al cargar el nivel");
 				Net::CManager::getSingletonPtr()->deactivateNetwork();
 				_app->exitRequest();
 
@@ -377,7 +180,7 @@ namespace Application {
 			break;
 
 		// CARGAR PLAYER
-		case Net::LOAD_PLAYER: { 	 //	Packet: "NetMessageType | netID | playerInfo"		
+		case Net::PLAYER_LOAD: { 	 //	Packet: "NetMessageType | netID | playerInfo"		
 
 			Net::NetID id;
 				rxSerialMsg.read(&id, sizeof(id) );
@@ -408,7 +211,7 @@ namespace Application {
 
 		}	break;	
 
-		case Net::START_GAME:
+		case Net::GAME_START:
 
 			LOG("RX START_GAME");
 			_app->setState("game"); // Rx mensaje START -> game state
@@ -417,7 +220,188 @@ namespace Application {
 
 	} // dataPacketReceived
 
+	
+
+
+
+	/*************************
+		CApplicationState
+	**************************/
+
+	bool CLobbyClientState::init() 
+	{
+		CApplicationState::init();
+
+		// Cargamos la ventana que muestra el menú con LUA
+		ScriptManager::CServer::getSingletonPtr()->loadExeScript("NetLobbyClient");
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("initNetLobbyClient");
+		
+		_windowStatus = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Status");
+
+		// Asociamos los botones del menú con las funciones que se deben ejecutar.
+		_windowConnect = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Connect");
+			_windowConnect->subscribeEvent(CEGUI::PushButton::EventClicked, 
+							CEGUI::SubscriberSlot(&CLobbyClientState::_connectReleased, this));
+		
+		_windowBack = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/Back");
+			_windowConnect->subscribeEvent(CEGUI::PushButton::EventClicked, 
+				CEGUI::SubscriberSlot(&CLobbyClientState::_backReleased, this));
+
+		//Modelo .mesh o personaje
+		_cbModel = static_cast<CEGUI::Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/ModelBox"));			
+			_cbModel->addItem(	new CEGUI::ListboxTextItem("Espartano",	0)	);// add items to the combobox list
+			_cbModel->addItem(	new CEGUI::ListboxTextItem("Loco",		1)	);
+			_cbModel->addItem(	new CEGUI::ListboxTextItem("Marine",	2)	);
+			_cbModel->addItem(	new CEGUI::ListboxTextItem("Bioshock",	3)	);
+			_cbModel->addItem(	new CEGUI::ListboxTextItem("Medusa",	4)	);
+			_cbModel->setReadOnly(true);
+
+		//Color
+		_cbColor = static_cast<CEGUI::Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("NetLobbyClient/ColorBox"));
+			_cbColor->addItem(	new CEGUI::ListboxTextItem("Red",	0)	);
+			_cbColor->addItem(	new CEGUI::ListboxTextItem("Green",	1)	);
+			_cbColor->addItem(	new CEGUI::ListboxTextItem("Blue",	2)	);
+			_cbColor->addItem(	new CEGUI::ListboxTextItem("Yellow",3)	);
+			_cbColor->setReadOnly(true);
+	
+		return true;
+	} // init
+
 	//--------------------------------------------------------
+
+	void CLobbyClientState::release() 
+	{
+		CApplicationState::release();
+
+	} // release
+
+	//--------------------------------------------------------
+
+	void CLobbyClientState::activate() 
+	{
+		CApplicationState::activate();
+
+		// Activamos la ventana que nos muestra el menú y activamos el ratón desde LUA
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("showNetLobbyClient");
+
+		// NET
+		Net::CManager::getSingletonPtr()->addObserver(this); // Se registra como IObserver
+		Net::CManager::getSingletonPtr()->activateAsClient(); //  Activar la red como tipo Client
+
+	} // activate
+
+	//--------------------------------------------------------
+
+	void CLobbyClientState::deactivate() 
+	{	
+		Net::CManager::getSingletonPtr()->removeObserver(this);
+		
+		// Desactivamos la ventana que nos muestra el menú y desactivamos el ratón desde LUA
+		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideNetLobbyClient");
+
+		CApplicationState::deactivate();
+
+
+	} // deactivate
+
+	//--------------------------------------------------------
+
+	void CLobbyClientState::tick(unsigned int msecs) 
+	{
+		CApplicationState::tick(msecs);
+
+	} // tick
+
+
+
+	
+	/*********************************
+		GUI::CKeyboardListener
+	********************************/
+
+	bool CLobbyClientState::keyPressed(GUI::TKey key)
+	{
+	   return false;
+
+	} // keyPressed
+
+	//--------------------------------------------------------
+
+	bool CLobbyClientState::keyReleased(GUI::TKey key)
+	{
+		switch(key.keyId)
+		{
+		case GUI::Key::ESCAPE:
+			Net::CManager::getSingletonPtr()->deactivateNetwork();
+			_app->setState("netmenu");
+			break;
+		case GUI::Key::RETURN:
+			_connect();
+			break;
+		//case GUI::Key::R:
+		//	ScriptManager::CServer::getSingletonPtr()->reloadScript("NetLobbyClient");
+		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadNetLobbyClient");
+		//	break;
+		default:
+			return false;
+		}
+		return true;
+
+	} // keyReleased
+
+	
+
+	/*********************************
+		GUI::CMouseListener
+	********************************/
+
+	bool CLobbyClientState::mouseMoved(const GUI::CMouseState &mouseState)
+	{
+		return false;
+
+	} // mouseMoved
+
+	//--------------------------------------------------------
+		
+	bool CLobbyClientState::mousePressed(const GUI::CMouseState &mouseState)
+	{	
+		return false;
+
+	} // mousePressed
+
+	//--------------------------------------------------------
+
+
+	bool CLobbyClientState::mouseReleased(const GUI::CMouseState &mouseState)
+	{
+		return false;
+
+	} // mouseReleased
+			
+	
+
+	/**************************
+		CEGUI::WindowManager
+	****************************/
+		
+	bool CLobbyClientState::_connectReleased(const CEGUI::EventArgs& e)
+	{
+		_connect();
+		return true;
+	} // startReleased
+			
+	//--------------------------------------------------------
+
+	bool CLobbyClientState::_backReleased(const CEGUI::EventArgs& e)
+	{
+		Net::CManager::getSingletonPtr()->deactivateNetwork(); // NET: deactivate
+		_app->setState("netmenu");
+		return true;
+
+	} // backReleased
+			
+	//--------------------------------------------------------
+
 
 
 } // namespace Application
