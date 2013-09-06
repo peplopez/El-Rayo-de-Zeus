@@ -35,27 +35,32 @@
 	<!-- LEFT -->
     <!-- <Image Name="ButtonUpL" XPos="5" YPos="12" Width="11" Height="10" /> -->
 	<Image Name="ButtonUpL" XPos="2" YPos="78" Width="11" Height="10" />
+	<Image Name="ButtonUpLNoTransp" XPos="2" YPos="45" Width="11" Height="10" />
 	<Image Name="ButtonUpLCombobox" XPos="93" YPos="221" Width="11" Height="10" />
 	
 	<!-- TOP -->
     <!-- <Image Name="ButtonUpT" XPos="16" YPos="1" Width="104" Height="11" /> -->
 	<Image Name="ButtonUpT" XPos="16" YPos="67" Width="104" Height="11" />
+	<Image Name="ButtonUpTNoTransp" XPos="16" YPos="34" Width="104" Height="11" />
 	<Image Name="ButtonUpTCombobox" XPos="104" YPos="210" Width="104" Height="11" />	
 
 	<!-- RIGHT -->
 	<!-- <Image Name="ButtonUpR" XPos="120" YPos="12" Width="11" Height="10" /> -->
 	<Image Name="ButtonUpR" XPos="120" YPos="78" Width="11" Height="10" />
+	<Image Name="ButtonUpRNoTransp" XPos="120" YPos="44" Width="11" Height="10" />
 	<Image Name="ButtonUpRCombobox" XPos="208" YPos="221" Width="11" Height="10" />
 	
 	<!-- BOTTOM -->
 	<!-- <Image Name="ButtonUpB" XPos="16" YPos="22" Width="104" Height="11" /> -->
 	<!--<Image Name="ButtonUpB" XPos="16" YPos="88" Width="104" Height="12" />-->
 	<Image Name="ButtonUpB" XPos="12" YPos="98" Width="108" Height="2" />
+	<Image Name="ButtonUpBNoTransp" XPos="12" YPos="64" Width="108" Height="2" />
 	<Image Name="ButtonUpBCombobox" XPos="104" YPos="231" Width="104" Height="11" />
 	
 	<!-- Background -->
     <!--<Image Name="ButtonUpM" XPos="16" YPos="12" Width="104" Height="10" />-->
 	<Image Name="ButtonUpM" XPos="16" YPos="78" Width="104" Height="12" />
+	<Image Name="ButtonUpMNoTransp" XPos="16" YPos="44" Width="104" Height="12" />
 	<Image Name="ButtonUpMCombobox" XPos="104" YPos="221" Width="104" Height="10" />
 	
 
@@ -92,18 +97,22 @@
 	<!-- ButtonUPxxxCombobox es para los desplegables (como en MenuSinglePlayer) -->
    <!--  <Image Name="ButtonUpBL" XPos="5" YPos="22" Width="11" Height="11" /> -->
 	<Image Name="ButtonUpBL" XPos="2" YPos="88" Width="11" Height="11" />
+	<Image Name="ButtonUpBLNoTransp" XPos="2" YPos="55" Width="11" Height="11" />
 	<Image Name="ButtonUpBLCombobox" XPos="93" YPos="231" Width="11" Height="11" />
 	
     <!-- <Image Name="ButtonUpBR" XPos="120" YPos="22" Width="11" Height="11" /> -->
 	<Image Name="ButtonUpBR" XPos="120" YPos="88" Width="11" Height="11" />
+	<Image Name="ButtonUpBRNoTransp" XPos="120" YPos="55" Width="11" Height="11" />
 	<Image Name="ButtonUpBRCombobox" XPos="208" YPos="231" Width="11" Height="11" />
 	
     <!--<Image Name="ButtonUpTL" XPos="5" YPos="1" Width="11" Height="11" />-->
 	<Image Name="ButtonUpTL" XPos="2" YPos="67" Width="11" Height="11" />
+	<Image Name="ButtonUpTLNoTransp" XPos="2" YPos="34" Width="11" Height="11" />
 	<Image Name="ButtonUpTLCombobox" XPos="93" YPos="210" Width="11" Height="11" />
 	
     <!-- <Image Name="ButtonUpTR" XPos="120" YPos="1" Width="11" Height="11" /> -->
 	<Image Name="ButtonUpTR" XPos="120" YPos="67" Width="11" Height="11" />
+	<Image Name="ButtonUpTRNoTransp" XPos="120" YPos="34" Width="11" Height="11" />
 	<Image Name="ButtonUpTRCombobox" XPos="208" YPos="210" Width="11" Height="11" />
 	
     <Image Name="HorzTrackL" XPos="58" YPos="100" Width="5" Height="15" />

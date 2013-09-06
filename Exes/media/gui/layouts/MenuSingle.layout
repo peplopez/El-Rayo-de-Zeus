@@ -75,14 +75,14 @@
 			<Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.82,0},{0.8,0},{0.88,0}}" />
         </Window>		
 		
-        <Window Type="OgreTray/Button" Name="MenuSingle/Play" >
+        <Window Type="OgreTray/ButtonNoTransp" Name="MenuSingle/Play" >
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="Play" />
             <Property Name="AlwaysOnTop" Value="True" />
             <Property Name="UnifiedAreaRect" Value="{{0.80,0},{0.9,0},{0.95,0},{0.95,0}}" />
         </Window>
 		
-        <Window Type="OgreTray/Button" Name="MenuSingle/Back" >
+        <Window Type="OgreTray/ButtonNoTransp" Name="MenuSingle/Back" >
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="Back" />
             <Property Name="AlwaysOnTop" Value="True" />
