@@ -133,7 +133,13 @@ namespace Application
 			_timeObservers.push_back(pair);
 		}
 
-		
+		void removeTimeObservers(IClockListener* listener)
+		{
+			// l.remove_if([](int n){ return n > 10; }); // remove all elements greater than 10
+ 
+			_timeObservers.remove_if([listener](std::pair<IClockListener*,unsigned long> pai) {return listener==pai.first;});
+		}
+
 		void removeAllTimeObserver()
 		{
 			_timeObservers.clear();

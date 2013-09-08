@@ -30,7 +30,7 @@ namespace Logic
 		DEC_FACTORY(CDestruction);
 	public:
 
-		CDestruction() : IComponent(GetAltTypeIdOf(CDestruction)), _destroying(false), _destroyingSpeed(0.13f),_step(0){}
+		CDestruction() : IComponent(GetAltTypeIdOf(CDestruction)), _destroying(false), _destroyingSpeed(0.13f),_step(0), _dying(false),_cont(1){}
 		
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
@@ -76,6 +76,10 @@ namespace Logic
 		unsigned short _step;
 
 		CGameStatus* _gameStatus;
+
+		bool _dying;
+
+		float _cont;
 	}; // class CDestruction
 
 	REG_FACTORY(CDestruction);
