@@ -43,18 +43,19 @@ namespace Application {
 
 
 	// TODO FRS Los app->exitRequest ya deberían desactivar la red de por sí, hasta que punto es necesario meter redundancias de deactivate networks?
-	void CLobbyServerState::_doStart()
+
+	// DLL Aquí debemos enviar a los clientes un mensaje de tipo
+	// Net::LOAD_MAP para que comiencen la carga del mapa. Tras esto 
+	// se debe realizar la carga del blueprints específico del 
+	// servidor y el mapa. La carga por defecto para monojugador
+	// se ha retrasado y se encuentra en MenuState.cpp	
+
+	void CLobbyServerState::_start()
 	{
 		_waiting = false;
-		
-		// DLL Aquí debemos enviar a los clientes un mensaje de tipo
-		// Net::LOAD_MAP para que comiencen la carga del mapa. Tras esto 
-		// se debe realizar la carga del blueprints específico del 
-		// servidor y el mapa. La carga por defecto para monojugador
-		// se ha retrasado y se encuentra en MenuState.cpp		
 
 		Net::NetMessageType txMsg = Net::MAP_LOAD; //Enviamos el mensaje de que carguen el mapa a todos los clientes
-			Net::CManager::getSingletonPtr()->send( &txMsg, sizeof(txMsg));
+			_netManager->send( &txMsg, sizeof(txMsg));
 		// Tx carga de mapa antes de cargarlo porque idealmente suponemos que nunca fallará la carga
 		// Mejor rendimiento cargarlo a la vez en lugar de cargar yo primero y luego el resto
 
@@ -64,13 +65,13 @@ namespace Application {
 			
 		// Cargamos el archivo con las definiciones de las entidades del nivel.
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints_server.txt")){
-			_windowStatus->setText("Error al cargar el nivel");	
+			_logStatus("Error al cargar el nivel");	
 			_app->exitRequest();
 		
 		// Add - ESC
 		// Cargamos el archivo con las definiciones de los archetypes
 		} else if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes_server.txt")) {
-			_windowStatus->setText("Error al cargar archetypes");	
+			_logStatus("Error al cargar archetypes");	
 			_app->exitRequest();
 			
 		// Add - JLS
@@ -81,15 +82,13 @@ namespace Application {
 		// TODO hay que cargar un mapa genérico y luego colorear por jugador
 		// Cargamos el nivel a partir del nombre del mapa. 
 		} else if (!Logic::CServer::getSingletonPtr()->loadMap("mapRed")){
-			_windowStatus->setText("Error al cargar el nivel");		
+			_logStatus("Error al cargar el nivel");		
 			_app->exitRequest();
 
 		} else {
 			LOG("MAPA Cargado");
 		}
-	} // doStart
-
-
+	} // start
 
 
 
@@ -103,7 +102,7 @@ namespace Application {
 	// y cambiar al estado "game" de la aplicación
 	void CLobbyServerState::dataPacketReceived(Net::CPacket* packet)
 	{		
-		Net::NetID clientID = packet->getConexion()->getId();
+		Net::NetID clientID = packet->getConnection()->getId();
 
 		Net::CBuffer rxSerialMsg( packet->getData(), packet->getDataLength() ); // Packet: "NetMessageType | extraData"
 			rxSerialMsg.write( packet->getData(), packet->getDataLength() );
@@ -148,7 +147,7 @@ namespace Application {
 							txSerialMsg.write(&playerNetID, sizeof(playerNetID));						
 						Net::Serializable::serialize(txSerialMsg, _playerNicks[id]  );
 						Net::Serializable::serialize(txSerialMsg, _playerModels[id] );
-					Net::CManager::getSingletonPtr()->send(txSerialMsg.getbuffer(),	txSerialMsg.getSize() );
+					_netManager->send(txSerialMsg.getbuffer(),	txSerialMsg.getSize() );
 
 					LOG("TX LOAD_PLAYER " << id << " with Nick=" << _playerNicks[id] << " and Model=" << _playerModels[id] );
 
@@ -168,10 +167,10 @@ namespace Application {
 // Así, si tarda mucho en responder o manda un disconnect -> descartamos solo su recuento
 		case Net::PLAYER_LOADED:
 		{
-			LOG("RX PLAYER_LOADED from " << packet->getConexion()->getId() );
+			LOG("RX PLAYER_LOADED from " << packet->getConnection()->getId() );
 			
 			//Aumentamos el número de jugadores cargados por el cliente
-			++_playersLoadedByClients[packet->getConexion()->getId()];
+			++_playersLoadedByClients[packet->getConnection()->getId()];
 
 			//[FRS] Comprobar si todos los clientes han terminado de cargar todos los jugadores
 			// TODO Sería mejor gestionar exactamente que player ha cargado cada uno, por si hay desconnectiones
@@ -188,7 +187,7 @@ namespace Application {
 			{
 				//Enviamos el mensaje de que empieza el juego a todos los clientes
 				Net::NetMessageType txMsg = Net::GAME_START;
-					Net::CManager::getSingletonPtr()->send( &txMsg, sizeof(txMsg));
+					_netManager->send( &txMsg, sizeof(txMsg));
 				_app->setState("game");
 
 				LOG("TX START_GAME");
@@ -204,26 +203,26 @@ namespace Application {
 
 	void CLobbyServerState::connectPacketReceived(Net::CPacket* packet)
 	{
-		LOG("RX CONNECT from " << packet->getConexion()->getId() );
+		LOG("RX CONNECT from " << packet->getConnection()->getId() );
 
 		if(!_waiting)
 			return;
 
 		//Mostramos un poco de información en el status		
-		unsigned int ip = packet->getConexion()->getAddress();
+		unsigned int ip = packet->getConnection()->getAddress();
 			Net::byte* p = (Net::byte*) &ip;
 
-		char id[100];
-			sprintf_s(id,"Client conected: %d.%d.%d.%d:%d\nWaiting for more players...", 
-				p[0],p[1],p[2],p[3], packet->getConexion()->getPort() ); 				
-			_windowStatus->setText(id);
+		char welcomeText[100];
+			sprintf_s(welcomeText,"Client conected: %d.%d.%d.%d:%d\nWaiting for more players...", 
+				p[0],p[1],p[2],p[3], packet->getConnection()->getPort() ); 				
+			_windowStatus->appendText(welcomeText);
 		
 		// > 1 Cliente? Habilitamos el botón de start.
 		_windowStart->setEnabled(true);
 
 		//Almacenamos el ID del usuario que se ha conectado.
-		//UNDONE _maskClientIds.push_back(packet->getConexion()->getId());
-		_maskClientIds |= 1 << packet->getConexion()->getId();
+		//UNDONE _maskClientIds.push_back(packet->getConnection()->getId());
+		_maskClientIds |= 1 << packet->getConnection()->getId();
 
 	} // connectPacketReceived
 
@@ -233,7 +232,7 @@ namespace Application {
 	// TODO FRS Gestionar desconnectiones y borrarles del recuento de mapas / jugadores cargados... 
 	void CLobbyServerState::disconnectPacketReceived(Net::CPacket* packet)
 	{
-		Net::NetID clientID = packet->getConexion()->getId();
+		Net::NetID clientID = packet->getConnection()->getId();
 
 		// TODO gestionar desconnectiones.
 		LOG("RX DISCONNECT from " << clientID ); // TODO quedan libres NetIDs tras disconnect? > 8 en algun momento?
@@ -244,7 +243,7 @@ namespace Application {
 		_mapLoadedByClients &= 0 << clientID;
 
 		// UNDONE
-		/*TNetIDCounterMap::const_iterator pairIt = _playersLoadedByClients.find(packet->getConexion()->getId());
+		/*TNetIDCounterMap::const_iterator pairIt = _playersLoadedByClients.find(packet->getConnection()->getId());
 		if(pairIt != _playersLoadedByClients.end())
 			_playersLoadedByClients.erase(pairIt);*/
 		_playersLoadedByClients[clientID] = 0;
@@ -252,9 +251,9 @@ namespace Application {
 		_playerModels[clientID]	= "";	
 		
 		if(_maskClientIds) {
-			_windowStatus->setText("Client disconnected. Waiting for new clients...");					
+			_logStatus("Client disconnected. Waiting for new clients...");					
 		} else{
-			_windowStatus->setText("All clients disconnected. Waiting for some client...");
+			_logStatus("All clients disconnected. Waiting for some client...");
 			_windowStart->setEnabled(false); //Dehabilitamos el botón de start.
 		}
 			
@@ -273,15 +272,17 @@ namespace Application {
 	{
 		CApplicationState::init();
 
+
 		// Cargamos la ventana que muestra el menú
-		CEGUI::WindowManager::getSingletonPtr()->loadWindowLayout("NetLobbyServer.layout");
+		_windowManager = CEGUI::WindowManager::getSingletonPtr();
+			_windowManager->loadWindowLayout("NetLobbyServer.layout");
 		
-		_windowMenu = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer");
-		_windowStatus = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Status");
-		_windowBack = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Back");
+		_windowMenu = _windowManager->getWindow("NetLobbyServer");
+		_windowStatus = _windowManager->getWindow("NetLobbyServer/Status");
+		_windowBack = _windowManager->getWindow("NetLobbyServer/Back");
 
 		// Asociamos los botones del menú con las funciones que se deben ejecutar.
-		_windowStart = CEGUI::WindowManager::getSingleton().getWindow("NetLobbyServer/Start");
+		_windowStart = _windowManager->getWindow("NetLobbyServer/Start");
 			_windowStart->subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CLobbyServerState::_startReleased, this));
 			_windowStart->setEnabled(false);
@@ -289,6 +290,7 @@ namespace Application {
 		_windowBack->subscribeEvent(CEGUI::PushButton::EventClicked, 
 				CEGUI::SubscriberSlot(&CLobbyServerState::_backReleased, this));
 
+		_netManager = Net::CManager::getSingletonPtr();
 		_nClients = 0; // Nº clientes conectados
 		_maskClientIds = 0;
 		_mapLoadedByClients = 0;	
@@ -319,10 +321,10 @@ namespace Application {
 		CEGUI::MouseCursor::getSingleton().show();
 
 		// NET: Registro como ob-server (chistaco)
-		Net::CManager::getSingletonPtr()->addObserver(this);
-		Net::CManager::getSingletonPtr()->activateAsServer(); 
+		_netManager->addObserver(this);
+		_netManager->activateAsServer(); 
 
-		_windowStatus->setText("Status: Server up. Waiting for clients ...");
+		_logStatus("Status: Server up. Waiting for clients ...");
 
 	} // activate
 
@@ -330,7 +332,7 @@ namespace Application {
 
 	void CLobbyServerState::deactivate() 
 	{		
-		Net::CManager::getSingletonPtr()->removeObserver(this);
+		_netManager->removeObserver(this);
 		// Desactivamos la ventana GUI con el menú y el ratón.
 		CEGUI::MouseCursor::getSingleton().hide();
 		_windowMenu->deactivate();
@@ -368,11 +370,11 @@ namespace Application {
 		switch(key.keyId)
 		{
 		case GUI::Key::ESCAPE:
-			Net::CManager::getSingletonPtr()->deactivateNetwork();
+			_netManager->deactivateNetwork();
 			_app->setState("netmenu");
 			break;
 		case GUI::Key::RETURN:
-			_doStart();
+			_start();
 			break;
 		default:
 			return false;
@@ -419,7 +421,7 @@ namespace Application {
 		
 	bool CLobbyServerState::_startReleased(const CEGUI::EventArgs& e)
 	{
-		_doStart();
+		_start();
 		return true;
 
 	} // startReleased
@@ -428,12 +430,19 @@ namespace Application {
 
 	bool CLobbyServerState::_backReleased(const CEGUI::EventArgs& e)
 	{
-		Net::CManager::getSingletonPtr()->deactivateNetwork();
+		_netManager->deactivateNetwork();
 		_app->setState("netmenu");
 		return true;
 
 	} // backReleased
 
 	//--------------------------------------------------------
+
+	void CLobbyServerState::_logStatus(const std::string& statusMsg) 
+	{ 
+		assert(_windowStatus && "Status window is NULL!");
+		_windowStatus->appendText(statusMsg);
+		_windowStatus->appendText("\n");
+	}
 
 } // namespace Application

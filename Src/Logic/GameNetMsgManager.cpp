@@ -46,7 +46,7 @@ namespace Logic {
 	CGameNetMsgManager::CGameNetMsgManager()
 	{
 		_instance = this;
-
+		_netManager = Net::CManager::getSingletonPtr();
 	} // CServer
 
 	//--------------------------------------------------------
@@ -85,7 +85,7 @@ namespace Logic {
 	void CGameNetMsgManager::activate() 
 	{
 		// TODO Escuchamos los mensajes de red. Engancharnos a Net::CManager
-		Net::CManager::getSingletonPtr()->addObserver(this);
+		_netManager->addObserver(this);
 	} // activate
 
 	//--------------------------------------------------------
@@ -94,7 +94,7 @@ namespace Logic {
 	{	
 		// TODO Dejamos de escuchar los mensajes de red. 
 		// Desengancharnos de Net::CManager
-		Net::CManager::getSingletonPtr()->removeObserver(this);
+		_netManager->removeObserver(this);
 	} // deactivate
 
 	//---------------------------------------------------------
@@ -115,7 +115,7 @@ namespace Logic {
 			serialMsg.write(&destID, sizeof(destID)); // Escribimos el id de la entidad destino
 			//Message::Serialize(txMsg, serialMsg);   // Serializamos el mensaje a continuación en el buffer
 			txMsg->serialize(serialMsg);
-		Net::CManager::getSingletonPtr()->send(serialMsg.getbuffer(), serialMsg.getSize());
+		_netManager->send(serialMsg.getbuffer(), serialMsg.getSize());
 		//std::cout << "Enviado mensaje tipo " << txMsg->getType() << " para la entidad " << destID << " de tamaño " << serialMsg.getSize() << std::endl;
 		//LOG("TX ENTITY_MSG " << txMsg._type << " to EntityID " << destID);
 
@@ -151,7 +151,7 @@ namespace Logic {
 
 		// PROPAGACIÓN INMEDIATA: Msgs que deben propagarse directamente desde 1 cliente al resto (p.e. CONTROL)
 		if(rxMsg->getType() == Message::CONTROL) // HACK: Si hay más mensajes de propagación inmediata -> config en map.txt
-			Net::CManager::getSingletonPtr()->send(serialMsg.getbuffer(), serialMsg.getSize(), packet->getConexion() );
+			_netManager->send(serialMsg.getbuffer(), serialMsg.getSize(), packet->getConnection() );
 
 		// RTX DESERIALIZADO
 
@@ -160,8 +160,8 @@ namespace Logic {
 			if(destEntity != 0)
 				destEntity->emitMessage(rxMsg);
 		*/
-		if(packet->getConexion()){}
-			//LOG("RX ENTITY_MSG " << rxMsg._type << " from NetID " << packet->getConexion()->getId() << " for EntityID " << destID);
+		if(packet->getConnection()){}
+			//LOG("RX ENTITY_MSG " << rxMsg._type << " from NetID " << packet->getConnection()->getId() << " for EntityID " << destID);
 	} // processEntityMessage
 
 

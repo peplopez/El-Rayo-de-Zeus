@@ -147,10 +147,10 @@ namespace Net {
 		for(std::vector<Net::CPacket*>::iterator iterp = _packets.begin(); iterp != _packets.end(); ++iterp)
 		{
 			Net::CPacket* packet = *iterp;			
-			switch (packet->getTipo())
+			switch (packet->getType())
 			{
 				case PacketType::CONNECT:
-					_serverWelcomeClient( packet->getConexion() );
+					_serverWelcomeClient( packet->getConnection() );
 					for(std::vector<IObserver*>::iterator iter = _observers.begin();iter != _observers.end();++iter)
 						(*iter)->connectPacketReceived(packet);
 					break;
@@ -164,7 +164,7 @@ namespace Net {
 				case PacketType::DISCONNECT:
 					for(std::vector<IObserver*>::iterator iter = _observers.begin();iter != _observers.end();++iter)
 						(*iter)->disconnectPacketReceived(packet);
-					_disconnect(packet->getConexion());
+					_disconnect(packet->getConnection());
 					break;
 
 				case PacketType::CONTROL:

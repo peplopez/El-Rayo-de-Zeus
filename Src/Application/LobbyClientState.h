@@ -35,6 +35,10 @@ namespace CEGUI
 	class Window;
 }
 
+namespace Net
+{
+	class CManager;
+}
 //PT
 namespace ScriptManager
 {
@@ -182,19 +186,31 @@ namespace Application
 		virtual void disconnectPacketReceived(Net::CPacket* packet){};
 
 	private:
-
-		CEGUI::Window * _windowStatus;
-		CEGUI::Window * _windowConnect;
-		CEGUI::Window * _windowBack;
-
-		//PT combobox
-		CEGUI::Combobox* _cbModel;
-		CEGUI::Combobox* _cbColor;
+		
+		/**
+		* Función que ejecuta la acción start. 
+		Centraliza el código y será invocada cuando se pulse la tecla correspondiente o se
+		genere el evento de ratón
+		*/
+		void _connect();
+		
+		Net::CManager* _netManager;
 
 		typedef std::list<std::string> TMapNameList;
 		TMapNameList _mapsToLoad;
+
+
+		//-------- CEGUI ------------------
+
+		CEGUI::WindowManager* _windowManager;
+		CEGUI::Window * _windowStatus;
+		CEGUI::Window * _windowConnect;
+		CEGUI::Window * _windowBack;
 		
-		/**
+		//PT combobox
+		CEGUI::Combobox* _cbModel;
+		CEGUI::Combobox* _cbColor;
+	/**
 		Función que se quiere realizar cuando se pulse el botón start.
 		Simplemente cambia al estado de juego.
 		*/
@@ -206,13 +222,7 @@ namespace Application
 		*/
 		bool _backReleased(const CEGUI::EventArgs& e);
 
-
-		/**
-		* Función que ejecuta la acción start. 
-		Centraliza el código y será invocada cuando se pulse la tecla correspondiente o se
-		genere el evento de ratón
-		*/
-		void _connect();
+		void _logStatus(const std::string& statusMsg);
 
 	}; // CMenuState
 

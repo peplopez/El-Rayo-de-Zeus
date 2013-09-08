@@ -35,8 +35,13 @@ namespace CEGUI
 {
 	class EventArgs;
 	class Window;
+	class WindowManager;
 }
 
+namespace Net
+{
+	class CManager;
+}
 
 namespace Application 
 {
@@ -178,18 +183,27 @@ namespace Application
 
 	private:
 
+		/**
+		Indica si estamos en fase de espera de jugadores
+		*/
+		bool _waiting;
+			
+		/**
+		* Función que ejecuta la acción start. 
+		Centraliza el código y será invocada cuando se pulse la tecla correspondiente o se
+		genere el evento de ratón
+		*/
+		void _start();
+
+				
+		//-------- NET ----------------------------
+
 		// PLAYER INFO
 		unsigned int _nClients;
 		std::string _playerNicks[8]; // HACK fijamos num max de players a 8
 		std::string _playerModels[8]; // TODO deberían ser enum para menos info por red en un futuro
 
-		/**
-		Ventana CEGUI que muestra el menú.
-		*/
-		CEGUI::Window* _windowMenu;	
-		CEGUI::Window* _windowStatus;
-		CEGUI::Window* _windowStart;
-		CEGUI::Window* _windowBack;
+		Net::CManager* _netManager;
 
 		//typedef std::list<Net::NetID> TNetIDList; UNDONE no es necesario una lista
 		typedef unsigned char TMask;
@@ -216,11 +230,17 @@ namespace Application
 		//TNetIDCounterMap _playersLoadedByClients; UNDONE
 		unsigned int _playersLoadedByClients[8];
 
-		/**
-		Indica si estamos en fase de espera de jugadores
-		*/
-		bool _waiting;
 
+		
+		//-------- CEGUI ----------------------
+
+		CEGUI::WindowManager* _windowManager;
+		CEGUI::Window* _windowMenu;	
+		CEGUI::Window* _windowStatus;
+		CEGUI::Window* _windowStart;
+		CEGUI::Window* _windowBack;
+
+		void _logStatus(const std::string& statusMsg);
 		/**
 		Función que se quiere realizar cuando se pulse el botón start.
 		Simplemente cambia al estado de juego.
@@ -233,12 +253,11 @@ namespace Application
 		*/
 		bool _backReleased(const CEGUI::EventArgs& e);
 
-		/**
-		* Función que ejecuta la acción start. 
-		Centraliza el código y será invocada cuando se pulse la tecla correspondiente o se
-		genere el evento de ratón
-		*/
-		void _doStart();
+
+
+
+
+
 
 	}; // CMenuState
 
