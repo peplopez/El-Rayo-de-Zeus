@@ -100,6 +100,8 @@ namespace Graphics
 
 		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.
 		
+		_visibleScene = _dummyScene;
+		
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()
 				->getRenderWindow()->addViewport(_dummyScene->getPlayerCamera()->getCamera());
 				
@@ -183,6 +185,7 @@ namespace Graphics
 	//TODO en red, el server tendrá activas > 1 -> activateScene
 	void CServer::activatePlayerCam(CScene* scene)
 	{
+		_visibleScene->setVisible(false);
 
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
 			_visibleScene = _dummyScene;
@@ -194,7 +197,8 @@ namespace Graphics
 
 			_visibleScene = scene;
 		}
-
+		
+		_visibleScene->setVisible(true);
 		_viewport->setCamera(_visibleScene->getPlayerCamera()->getCamera());
 		_resetCompositors();
 
@@ -204,6 +208,7 @@ namespace Graphics
 	
 	void CServer::activateBaseCam(CScene* scene)
 	{
+		_visibleScene->setVisible(false);
 
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
 			_visibleScene = _dummyScene;
@@ -216,6 +221,7 @@ namespace Graphics
 			_visibleScene = scene;
 		}
 
+		_visibleScene->setVisible(true);
 		_viewport->setCamera(_visibleScene->getBaseCamera()->getCamera());
 		_resetCompositors();
 

@@ -58,7 +58,7 @@ namespace Graphics
 	const float CScene::HHFX_WORLD_SCALE = 8.0f;
 
 	CScene::CScene(const std::string& name) : _name(name), _isInit(false), _viewport(0), 
-		_staticGeometry(0), _hhfxScene(0), _hhfxTimeSinceUpdate(0), _skyX(0), _skyXBasicController(0), _hydraX(0), _hydraXModule(0)
+		_staticGeometry(0), _hhfxScene(0), _hhfxTimeSinceUpdate(0), _skyX(0), _skyXBasicController(0), _hydraX(0), _hydraXModule(0), _isVisible(false)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);	
@@ -88,7 +88,9 @@ namespace Graphics
 	{		
 		deactivate();
 		delete _baseCamera; // FRS andaba sin liberar
-		delete _playerCamera;		
+		delete _playerCamera;
+		delete _skyX;
+		delete _hydraX;
 		_root->destroySceneManager(_sceneMgr);
 	} // ~CScene
 	
@@ -113,6 +115,7 @@ namespace Graphics
 
 	void CScene::_deinit() {
 		assert(_isInit && "Escena no inicializada previamente");
+		_hydraXDeinit();
 		_skyXDeinit();
 		_hhfxDeinit(); // Hell Heaven FX	
 		_sceneMgr->destroyStaticGeometry(_staticGeometry);
@@ -352,14 +355,14 @@ namespace Graphics
 	bool CScene::frameStarted(const Ogre::FrameEvent& evt)
 	{	
 		LOG("[HHFX] ParticleCount = " << _hhfxScene->GetParticleCount() )
-		_hydraX->update(evt.timeSinceLastFrame);
 		_hhfxTimeSinceUpdate += evt.timeSinceLastFrame;
-		if(_viewport || _hhfxTimeSinceUpdate > _HHFX_INACTIVE_UPDATE_PERIOD)
+		if(_isVisible || _hhfxTimeSinceUpdate > _HHFX_INACTIVE_UPDATE_PERIOD)
 			// && _hhfxScene->GetParticleCount() )  UNDONE  siempre devuelve 0 WTF!
 		{
 			LOG("["<< _name <<"] Frame Started: Time Since Update = " << _hhfxTimeSinceUpdate)
 			_hhfxScene->Update(_hhfxTimeSinceUpdate); // update the hhfx scene
-			_hhfxTimeSinceUpdate = 0;
+			_hydraX->update(_hhfxTimeSinceUpdate);
+			_hhfxTimeSinceUpdate = 0;	
 		} 
 		return true;
 	}
@@ -388,7 +391,6 @@ namespace Graphics
 			view.setUsePostFX(true); // FRS no se si sirve realmente para nada
 
 		_hhfxScene->Render(view, camPos);
-
 		return  true;
 	}
 
@@ -410,6 +412,7 @@ namespace Graphics
 	{
 		_root->removeFrameListener(_skyX);
 		BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->removeListener(_skyX);
+		_skyX->remove();
 	}
 
 	//-------------------------------------------------------------------------------------
@@ -503,6 +506,12 @@ namespace Graphics
 		_hydraX->setModule(static_cast<Hydrax::Module::Module*>(_hydraXModule));
 		_hydraX->loadCfg("HydraxDemo.hdx");
 		_hydraX->create();
+	}
+
+	void CScene::_hydraXDeinit()
+	{
+		_hydraX->remove();
+		_hydraXModule->remove();
 	}
 	
 

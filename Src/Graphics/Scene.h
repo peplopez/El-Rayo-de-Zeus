@@ -259,12 +259,20 @@ namespace Graphics
 		*/
 		void tick(float secs);
 
+		/**
+		*/
+		void setVisible(bool visible) { _isVisible = visible; }
+
+
+
 		
 	private:
 
 		bool _isInit;
 		void _init();
 		void _deinit();	
+
+		bool	_isVisible;
 
 		/**
 		Añade las entidades estáticas a la geometría estática del nivel
@@ -352,7 +360,7 @@ namespace Graphics
 		void _skyXDeinit();
 
 	/*********************
-			SkyX
+			Hydrax
 	*********************/
 
 	private:
