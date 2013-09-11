@@ -49,7 +49,7 @@ namespace Logic
 
 		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
 
-		_graphicsCamera = _entity->getMap()->getGraphicScene()->getCamera();
+		_graphicsCamera = _entity->getMap()->getGraphicScene()->getPlayerCamera();
 
 		if(!_graphicsCamera)
 			return false;
@@ -172,9 +172,7 @@ namespace Logic
 		riesgo = 3 - riesgo;
 		if (riesgo < 0) 
 			riesgo=0;
-
-		//	if (riesgo>0) _contador++;
-		//if (medida>=3) _entity->getMap()->getGraphicScene()->activateCompositor("BW"); AQUI ACTIVAMOS COMPOSITOR DE QUE TU BASE ESTÉ EN PELIGRO INMINENTE
+		
 		if (riesgo>0 && _calm)
 		{
 			_tremble=false;

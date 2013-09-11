@@ -37,7 +37,7 @@ namespace Logic {
 	CMap::CMap(const std::string &name) : _name(name), _isActive(false), alied(0)
 	{
 		_graphicScene = Graphics::CServer::getSingletonPtr()->createScene(name);
-		_physicScene  = Physics::CServer::getSingletonPtr()->createScene(name); 
+		_physicsScene  = Physics::CServer::getSingletonPtr()->createScene(name); 
 		// ƒ®§ aunque se creen las escenas, la escena activa debe ser la dummy hasta la activación del map
 
 	} // CMap
@@ -49,11 +49,8 @@ namespace Logic {
 	{
 		deactivate();
 		destroyAllEntities();
-		if(Graphics::CServer::getSingletonPtr())
-			Graphics::CServer::getSingletonPtr()->removeScene(_graphicScene);
-		if(Physics::CServer::getSingletonPtr() )
-			Physics::CServer::getSingletonPtr()->removeScene(_physicScene);
-
+		Graphics::CServer::getSingletonPtr()->removeScene(_graphicScene);
+		Physics::CServer::getSingletonPtr()->removeScene(_physicsScene);
 	} // ~CMap
 
 	//--------------------------------------------------------
@@ -62,9 +59,7 @@ namespace Logic {
 	{			
 		if(_isActive)
 			return true;
-
-		//Graphics::CServer::getSingletonPtr()->setActiveScene(_graphicScene);	
-		//Physics::CServer::getSingletonPtr()->setActiveScene(_physicScene);	
+		
 
 		// Activamos todas las entidades registradas en el mapa.
 		_isActive = true;
@@ -73,8 +68,14 @@ namespace Logic {
 			for(; it != end; ++it)
 				_isActive = (*it)->activate() && _isActive;
 
+		// Activamos la escena gráfica y física correspondiente a este mapa (_inits)
+		Graphics::CServer::getSingletonPtr()->activate(_graphicScene);
+		Physics::CServer::getSingletonPtr()->activate(_physicsScene);
+
+		
+
 		return _isActive;
-	} // getEntity
+	} // activate
 
 	//--------------------------------------------------------
 
@@ -90,26 +91,32 @@ namespace Logic {
 				if((*it)->isActivated())
 					(*it)->deactivate();
 
-		Graphics::CServer::getSingletonPtr()->setActiveScene(0);
-		Physics::CServer::getSingletonPtr()->setActiveScene(0);
+		//ponemos la dummyCamera
+		Graphics::CServer::getSingletonPtr()->activatePlayerCam(0); 
+
+		//deinicilizamos las escenas
+		Graphics::CServer::getSingletonPtr()->deactivate(_graphicScene);
+		Physics::CServer::getSingletonPtr()->deactivate(_physicsScene);
 
 		_isActive = false;
-	} // getEntity
+	} // deactivate
 
 	//---------------------------------------------------------
 
-	void CMap::setVisible()
+	void CMap::activatePlayerCam()
 	{
-		Graphics::CServer::getSingletonPtr()->setActiveScene(this->getGraphicScene());
+		Graphics::CServer::getSingletonPtr()->activatePlayerCam( this->_graphicScene );
 	}
 
 	//---------------------------------------------------------
 
 	void CMap::activateBaseCam()
 	{
-		Graphics::CServer::getSingletonPtr()->activateBaseCam(this->getGraphicScene());
+		Graphics::CServer::getSingletonPtr()->activateBaseCam( this->_graphicScene );
 	}
+	
 	//---------------------------------------------------------
+
 	void CMap::tick(unsigned int msecs) 
 	{
 		TEntityList::const_iterator it = _entityList.begin();
@@ -138,8 +145,7 @@ namespace Logic {
 		Map::CMapParser::TEntityList entityList = 
 			Map::CMapParser::getSingletonPtr()->getEntityList();
 
-		CEntityFactory* entityFactory = CEntityFactory::getSingletonPtr();
-		
+		CEntityFactory* entityFactory = CEntityFactory::getSingletonPtr();		
 		
 		// Creamos todas las entidades lógicas.
 		Map::CMapParser::TEntityList::const_iterator it = entityList.begin();
@@ -148,7 +154,6 @@ namespace Logic {
 				CEntity *entity = entityFactory->createMergedEntity((*it),map); // La propia factoría se encarga de añadir la entidad al mapa.
 				assert(entity && "No se pudo crear una entidad del mapa");
 			}
-
 
 		return map;
 

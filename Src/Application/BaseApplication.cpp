@@ -301,7 +301,8 @@ namespace Application {
 			{
 				if (_clock->getTime() >= it->second)
 				{
-					it->first->timeArrived();
+				//	if (it->first!=null)
+						it->first->timeArrived();
 					_clock->_timeObservers.erase(it++);
 				}
 				else

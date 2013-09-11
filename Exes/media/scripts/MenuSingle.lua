@@ -6,7 +6,7 @@ function initMenuSingle()
 		GUI.Windows:loadWindowLayout("MenuSingle.layout")
 		menuSingle = GUI.Windows:getWindow("MenuSingle")
 		
-		--menuSingleStatusWindow = menuSingle:getChild("MenuSingle/Status")
+		menuSingleModelBox = menuSingle:getChild("MenuSingle/ModelBox")
 
 	end
 end
@@ -52,6 +52,9 @@ function reloadMenuSingle()
 			menuSingleProgress = GUI.Windows:getWindow("MenuSingle/Progreso")
 			--menuSingleProgress:setVisible(true)
 			--menuSingleProgress:setProperty("UnifiedAreaRect", "{{0.05,0},{0.78,0},{0.95,0},{0.8,0}}")
+			
+			menuSingleModelBox:setProperty("UnifiedAreaRect", "{{0.6,0},{0.57,0},{0.95,0},{0.9,0}}")
+			menuSingleModelBox:setProperty("UnifiedMaxSize", "{{1,0},{1,0}}")
 		end
 end
 

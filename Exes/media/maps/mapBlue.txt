@@ -4,12 +4,7 @@ Map ={
 		type = "Scene",
 		sceneFile = "hadesScene.scene",
 	},
-	SkySphere = {
-		type = "SkySphere",
-		material = "skyHades",
-	},
-	
-	
+
 	Camera = {
 		type = "PlayerCamera",
 	},	
@@ -21,8 +16,7 @@ Map ={
 	pointLight1 = {
 		type = "WhitePLight",
 		position = {0, 100, 0},
-	},
-	
+	},	
 	Atalanta1 = {
 		type = "NPCAtalanta",
 		base=1,

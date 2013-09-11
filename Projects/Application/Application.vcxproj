@@ -70,7 +70,7 @@
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>enet.lib;ws2_32.lib;Winmm.lib;OgreMain_d.lib;OIS_d.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;fmodex_vc.lib;%(AdditionalDependencies);lua51.lib;luabindd.lib;CEGUILuaScriptModule_d.lib;tolua++_d.lib;opengl32.lib;glu32.lib</AdditionalDependencies>
+      <AdditionalDependencies>SkyX_d.lib;enet.lib;ws2_32.lib;Winmm.lib;OgreMain_d.lib;OIS_d.lib;CEGUIBase_d.lib;CEGUIOgreRenderer_d.lib;fmodex_vc.lib;%(AdditionalDependencies);lua51.lib;luabindd.lib;CEGUILuaScriptModule_d.lib;tolua++_d.lib;opengl32.lib;glu32.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>..\..\dependencies\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -95,7 +95,7 @@
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>enet.lib;lua51.lib;luabind.lib;ws2_32.lib;Winmm.lib;OgreMain.lib;OIS.lib;CEGUIBase.lib;CEGUIOgreRenderer.lib;tolua++.lib;CEGUILuaScriptModule.lib;fmodex_vc.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SkyX.lib;enet.lib;lua51.lib;luabind.lib;ws2_32.lib;Winmm.lib;OgreMain.lib;OIS.lib;CEGUIBase.lib;CEGUIOgreRenderer.lib;tolua++.lib;CEGUILuaScriptModule.lib;fmodex_vc.lib;opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>..\..\dependencies\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -113,13 +113,13 @@
     <ClCompile Include="..\..\Src\Application\GaleonApplication.cpp" />
     <ClCompile Include="..\..\Src\Application\GameOverState.cpp" />
     <ClCompile Include="..\..\Src\Application\GameState.cpp" />
-    <ClCompile Include="..\..\Src\Application\InitState.cpp" />
     <ClCompile Include="..\..\Src\Application\LobbyClientState.cpp" />
     <ClCompile Include="..\..\Src\Application\LobbyServerState.cpp" />
     <ClCompile Include="..\..\Src\Application\MenuSingleState.cpp" />
     <ClCompile Include="..\..\Src\Application\MenuState.cpp" />
     <ClCompile Include="..\..\Src\Application\NetMenuState.cpp" />
     <ClCompile Include="..\..\Src\Application\OgreClock.cpp" />
+    <ClCompile Include="..\..\Src\Application\PauseState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Application\3DApplication.h" />
@@ -131,13 +131,13 @@
     <ClInclude Include="..\..\Src\Application\GaleonApplication.h" />
     <ClInclude Include="..\..\Src\Application\GameOverState.h" />
     <ClInclude Include="..\..\Src\Application\GameState.h" />
-    <ClInclude Include="..\..\Src\Application\InitState.h" />
     <ClInclude Include="..\..\Src\Application\LobbyClientState.h" />
     <ClInclude Include="..\..\Src\Application\LobbyServerState.h" />
     <ClInclude Include="..\..\Src\Application\MenuSingleState.h" />
     <ClInclude Include="..\..\Src\Application\MenuState.h" />
     <ClInclude Include="..\..\Src\Application\NetMenuState.h" />
     <ClInclude Include="..\..\Src\Application\OgreClock.h" />
+    <ClInclude Include="..\..\Src\Application\PauseState.h" />
     <ClInclude Include="..\..\Src\Application\TimeConstants.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

@@ -292,7 +292,7 @@ namespace AI
 	TNode* CStateMachine<TNode>::getInitialNode()
 	{
 		return _nodes[_initialNodeId];
-	} // getCurrentNode
+	} // getInitialNode
 
 	template <class TNode>
 	bool CStateMachine<TNode>::accept(const CMessage *message)

@@ -67,10 +67,12 @@ namespace Logic
 
 		if (_LIFE_MODIFIER < 0)
 			txMsg->setAction(Message::DAMAGE);
-		else
-			txMsg->setAction(Message::HEAL);			
-			
-		entity->emitMessage(txMsg, this);
+		else if(_LIFE_MODIFIER > 0)
+			txMsg->setAction(Message::HEAL);
+
+		//PT. It just worth sending message when it hurts or heals, when is 0 doesnt worthy
+		if(_LIFE_MODIFIER != 0)
+			entity->emitMessage(txMsg, this);
 
 	} // process
 

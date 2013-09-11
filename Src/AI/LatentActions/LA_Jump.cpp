@@ -30,9 +30,14 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Jump::OnStart()
 	{
-				//Desactivación de componentes
+
+		//PT. time its important because we want go out from jumping state when gets 0.6 seg
+		unsigned int currentTime = Application::CBaseApplication::getSingletonPtr()->getAppTime();
+		_endingTime = currentTime + 0.6 * 1000000;
+
+		//Desactivación de componentes
 		sleepComponents();
-		std::cout<<"AI::StateMachine::Jumping"<<std::endl;
+		std::cout<<"AI::StateMachine::Jumping - OnStart"<<std::endl;
 		
 		CMessageFloatUShort *message = new CMessageFloatUShort();
 		message->setType(Message::SET_ANIMATION_WITH_TIME);
@@ -40,7 +45,9 @@ namespace AI
 		message->setFloat(0.6);
 		_entity->emitMessage(message);		
 
-		return SUSPENDED;
+		//PT
+		//return SUSPENDED;
+		return RUNNING;
 	}
 
 	/**
@@ -52,7 +59,13 @@ namespace AI
 	*/
 	void CLA_Jump::OnStop()
 	{
-		//Reactivación de componentes	
+		//PT
+		std::cout<<"*********************************************"<<std::endl;
+		std::cout<<"AI::StateMachine::Jumping - OnStop"<<std::endl;
+		std::cout<<"*********************************************"<<std::endl;
+
+		finish(true);
+		//END PT
 	}
 
 	/**
@@ -72,6 +85,23 @@ namespace AI
 		// superado el tiempo de espera. Según lo hayamos superado o no,
 		// la acción tendrá que pasar a un estado de terminado con éxito o
 		// quedarse en el mismo estado en ejecución.
+
+		//PT
+		std::cout<<"AI::StateMachine::Jumping - OnRun"<<std::endl;
+
+		if (_entity->isPlayer()){
+			if(Application::CBaseApplication::getSingletonPtr()->getAppTime() > _endingTime)
+			{
+				std::cout<<"AI::StateMachine::Jumping - OnRun - SUCCESS"<<std::endl;
+				return SUCCESS;
+			}
+			else
+			{
+				std::cout<<"AI::StateMachine::Jumping - OnRun - RUNNING"<<std::endl;
+				return RUNNING;
+			}
+		}
+
 		return RUNNING;
 	}
 
@@ -107,7 +137,7 @@ namespace AI
 	{		
 		// La acción no acepta mensajes
 		return false;
-		return (message->getType() == Message::CONTROL && (message->getAction()==Message::LIGHT_ATTACK || message->getAction()==Message::HEAVY_ATTACK));
+		//return (message->getType() == Message::CONTROL && (message->getAction()==Message::LIGHT_ATTACK || message->getAction()==Message::HEAVY_ATTACK));
 	}
 	/**
 	Procesa el mensaje recibido. El método es invocado durante la
@@ -135,4 +165,6 @@ namespace AI
 		if (_entity->hasComponent<CBaseTraveler>())
 			_entity->getComponent<CBaseTraveler>()->awake();
 	}
+
+
 } //namespace LOGIC

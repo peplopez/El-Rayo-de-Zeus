@@ -27,7 +27,7 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Beaten::OnStart()
 	{
-		std::cout<<"AI::StateMachine::WTF-I am beated!!"<<std::endl;
+		std::cout<<"AI::StateMachine::WTF-I am beated!! - "<< _entity->getName() << " - " << std::endl;
 		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
 		message->setUShort(Logic::DAMAGE);
@@ -73,6 +73,7 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Beaten::OnRun() 
 	{
+		std::cout<<"CLA_Beaten::OnRun - "<< _entity->getName() << " - " << std::endl;
 		// TODO PRÁCTICA IA
 		// En cada paso de ejecución tendremos que comprobar si hemos
 		// superado el tiempo de espera. Según lo hayamos superado o no,
@@ -83,7 +84,9 @@ namespace AI
 		else 
 			return SUCCESS;*/
 
-		return RUNNING;
+		//PT
+		//return RUNNING;
+		return SUCCESS;
 	}
 
 	/**
@@ -99,6 +102,7 @@ namespace AI
 	CLatentAction::LAStatus CLA_Beaten::OnAbort() 
 	{
 		// Cuando se aborta se queda en estado terminado con fallo
+		std::cout<<"CLA_Beaten::OnAbort - "<< _entity->getName() << " - " << std::endl;
 		return FAIL;
 	}
 	/**
@@ -123,6 +127,7 @@ namespace AI
 	*/
 	void CLA_Beaten::process(CMessage *message)
 	{
+		std::cout<<"CLA_Beaten::process - "<< _entity->getName() << " - " << std::endl;
 		switch(message->getType())
 		{
 		case Message::ANIMATION_FINISHED: //ConditionFail

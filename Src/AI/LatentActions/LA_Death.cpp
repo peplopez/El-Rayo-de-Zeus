@@ -1,7 +1,6 @@
 #include "LA_Death.h"
 
-#include "Graphics/Server.h"
-#include "Graphics/Scene.h"
+#include "Logic/Server.h"
 
 #include "../../Logic/Entity/Components/Combat.h"
 #include "../../Logic/Entity/Components/BaseTraveler.h"
@@ -18,7 +17,6 @@
 //PT se incluye el servidor de scripts de LUA
 #include "ScriptManager\Server.h"
 #include "Logic/Maps/EntityFactory.h"
-
 
 namespace AI
 {
@@ -40,30 +38,41 @@ namespace AI
 	*/
 	CLatentAction::LAStatus CLA_Death::OnStart()
 	{
+
+		std::cout<<"AI::StateMachine::WTF-I am death!! - "<< _entity->getName() << " - " << std::endl;
+
 		//PT
 		unsigned int currentTime = Application::CBaseApplication::getSingletonPtr()->getAppTime();
 		_endingTime = currentTime + _time * 1000000;
 
 		//init Respawn Layout and functions
+
 		if (_entity->isPlayer()){
 
+			std::cout<<"AI::StateMachine::WTF-I am death!! - I AM PLAYER " << std::endl;
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideHud"); //oculto el HUD
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideShop"); //oculto el SHOP
 
 			ScriptManager::CServer::getSingletonPtr()->loadExeScript("RespawnPlayer");
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("initRespawn");
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showRespawn");
+
 		}
 
-		
-		std::cout<<"AI::StateMachine::WTF-I am Death!!"<<std::endl;
+		//message to changing to death model
+
+		std::cout<<"AI::StateMachine::WTF-I am death!! - CHANGING TO DEATH MODEL " << std::endl;
 		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
 		message->setUShort(Logic::DEATH);
 		message->setAction(Message::WALK_STOP);
 		message->setBool(false);
 		_entity->emitMessage(message);
+		std::cout<<"AI::StateMachine::WTF-I am death!! - SENDING MESSAGE TO CHANGING TO DEATH MODEL " << std::endl;
+
 			//sleepComponents();
+
+		//message to hearing death sound
 		std::string _audio = "media\\audio\\fallecimiento.wav";
 		Logic::CMessageAudio *maudio=new Logic::CMessageAudio();		
 		maudio->setType(Message::AUDIO);			
@@ -74,9 +83,13 @@ namespace AI
 		maudio->setIsPlayer(false);
 		_entity->emitMessage(maudio);
 		
-		_scene=_entity->getMap()->getGraphicScene();
+
+		//for showing a black and white screen when player is death
 		if (_entity->isPlayer())
-			_scene->activateCompositor("BW");
+			Logic::CServer::getSingletonPtr()->compositorEnable("BW");
+
+		//PT se duermen los componentes al entrar en este estado
+		sleepComponents();
 
 		//PT
 		//return SUSPENDED;
@@ -96,8 +109,9 @@ namespace AI
 		//PT
 		if (_entity->isPlayer())
 		{
+			std::cout<<"AI::StateMachine::OnStop - "<< _entity->getName() << " - " << std::endl;
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideRespawn"); //escondo la pantalla de respawn
-			_scene->deactivateCompositor("BW"); //desactivo el compositor blanco y negro
+			Logic::CServer::getSingletonPtr()->compositorDisable("BW"); //desactivo el compositor blanco y negro
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("showHud"); //muestro el HUD
 			//ScriptManager::CServer::getSingletonPtr()->executeProcedure("showShop"); //muestro el SHOP
 
@@ -109,15 +123,18 @@ namespace AI
 			m->setType(Logic::Message::SHOP);
 			m->setAction(Logic::Message::DEACTIVATE_SHOP);
 			_entity->emitMessage(m);
-
-
+			
 			//respawn player
 			respawn();
 
 		}
-
-		if(_entity->getType()=="NPC")
-			respawn();
+		else
+		{
+		}
+			 
+			//_entity->destroyAllComponents();   
+		//if(_entity->getType()=="NPC")
+		 //respawn();
 
 		awakeComponents();
 
@@ -169,10 +186,7 @@ namespace AI
 			else
 				return RUNNING;
 		}
-
 		return RUNNING;
-
-
 	}
 
 	/**
@@ -219,8 +233,14 @@ namespace AI
 				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
 				if (maux->getUShort()==Logic::DEATH)
 				{
-					sleepComponents();
+					//sleepComponents(); //PT lo comento
 				//		finish(true);
+					if (!_entity->isPlayer())
+					{	
+					//	_entity->detachFromMap();
+					//	_entity->destroyAllComponents();
+						//CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
+					}
 					//el finish es para cambiar a otro estado, pero de momento este el estado en el que quiero que permanezca. Otro posible estado sería desapareciendo quiza...
 				}
 				break;
@@ -254,12 +274,12 @@ namespace AI
 			_entity->getComponent<CCombat>()->resetAttackFlags();
 		if (_entity->hasComponent<CAvatarController>())
 			_entity->getComponent<CAvatarController>()->awake();
-		if (_entity->hasComponent<CJump>())
-			_entity->getComponent<CJump>()->awake();
 		if (_entity->hasComponent<CBaseTraveler>())
 			_entity->getComponent<CBaseTraveler>()->awake();
 		if (_entity->hasComponent<CPhysicalCharacter>())
 			_entity->getComponent<CPhysicalCharacter>()->awake();
+		if (_entity->hasComponent<CJump>())
+			_entity->getComponent<CJump>()->awake();
 	}
 
 	void CLA_Death::respawn()

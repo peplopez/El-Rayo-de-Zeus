@@ -29,7 +29,7 @@ namespace Application
 {
   class CApplicationState;
   class IClock;
-    class CGameState;
+  class CGameState;
 }
 
 /**

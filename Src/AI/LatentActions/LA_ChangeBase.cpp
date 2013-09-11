@@ -55,8 +55,7 @@ namespace AI
 		_entity->emitMessage(m);
 		
 		_scene=_entity->getMap()->getGraphicScene();
-	//	if (_entity->isPlayer())
-		//	_scene->activateCompositor("RadialBlur");
+
 		return RUNNING;
 	}
 
@@ -73,8 +72,7 @@ namespace AI
 	//	_reloj->removeTimeObserver(0);		
 		//_reloj->removeTimeObserver(1);			
 		awakeComponents();
-	//	if (_entity->isPlayer())
-		//	_scene->deactivateCompositor("RadialBlur");
+	
 		CMessageFloat *m2 = new CMessageFloat();	
 		m2->setType(Message::SET_SCALE);
 		m2->setFloat(_entity->getInitialScale());

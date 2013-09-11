@@ -4,7 +4,7 @@
 
 numberAltarsActivated = 0
 numberEnemiesInBase = 0
-PM = 100
+PM = 0
 lifeBase = lifeBaseMax
 
 --Funcion de inicializacion/carga de un layout y sus ventanas y subventanas
@@ -21,6 +21,8 @@ function initHud()
 		
 		--LifeWindow = hud:getChild("Hud/Life")
 		LifeWindow = hud:getChild("Root/Hud/Life")
+		
+		--TextLifeWindow = hud:getChild("Root/Hud/LifeText")
 		
 		SwordWindow = hud:getChild("Root/Hud/SwordLifeContainer")
 		
@@ -257,6 +259,9 @@ function reloadHud()
 		
 		-- Vida del jugador embebida en una espada o similar
 		LifeWindow:setProperty("UnifiedAreaRect","{{0,58},{0,98},{0,215},{0,111}}")
+		--TextLifeWindow:setProperty("UnifiedAreaRect","{{0,50},{0,95},{0,250},{0,120}}")
+		--TextLifeWindow:setProperty("Font","Diogenes-14")
+		--TextLifeWindow:setText("100")
 		SwordWindow:setProperty("UnifiedAreaRect","{{0,1},{0,95},{0,215},{0,142}}")
 		
 end
@@ -268,5 +273,7 @@ end
 function updateHudLife(ratio)
 	local pbar = CEGUI.toProgressBar(LifeWindow)
 	pbar:setProgress(ratio)
+	
+	--TextLifeWindow:setText(ratio)
 end
 
