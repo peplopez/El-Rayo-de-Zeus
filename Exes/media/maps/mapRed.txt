@@ -23,13 +23,7 @@ Map ={
 	},	
 		
 	
-	NPCSpartan1 = {
-		type = "NPCSpartan",
-		base=1,
-		ring=1,
-		degrees=120,
-		initialMaterial1="marineYellow",
-	},	
+	
 	Cancerbero1 = {
 		type = "Cerberus",
 		model = "CanCerbero.mesh",		
