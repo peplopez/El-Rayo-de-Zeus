@@ -4,12 +4,7 @@ Map ={
 		type = "Scene",
 		sceneFile = "hadesScene.scene",
 	},
-	SkySphere = {
-		type = "SkySphere",
-		material = "skyHades",
-	},
-	
-	
+
 	Camera = {
 		type = "PlayerCamera",
 	},	
@@ -24,7 +19,7 @@ Map ={
 	},	
 	Atalanta1 = {
 		type = "NPCAtalanta",
-		base=1,
+		base=2,
 		ring=1,
 		degrees=120,
 		initialMaterial1="marineGreen",

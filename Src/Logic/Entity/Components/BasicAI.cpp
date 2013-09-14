@@ -52,6 +52,11 @@ namespace Logic
 		return true;
 	}
 
+	CBasicAI::~CBasicAI()
+	{
+		_reloj->removeTimeObservers(this);
+	} // ~CBasicAI
+
 	void CBasicAI::timeArrived()
 	{
 		_waiting=false;

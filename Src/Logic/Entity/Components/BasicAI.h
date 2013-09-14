@@ -50,6 +50,9 @@ namespace Logic
 		*/
 		CBasicAI() : IComponent(GetAltTypeIdOf(CBasicAI)),_agresivo(true),_waiting(false){}
 
+
+		~CBasicAI();
+
 		/**
 		Inicialización del componente, utilizando la información extraída de
 		la entidad leída del mapa (Maps::CEntity). Toma del mapa el atributo

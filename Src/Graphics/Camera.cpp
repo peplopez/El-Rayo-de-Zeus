@@ -35,8 +35,8 @@ namespace Graphics
 		_scene = scene;
 
 		_camera = scene->getSceneMgr()->createCamera(name + "_camera");
-			_camera->setNearClipDistance(5);
-			_camera->setFarClipDistance(10000);
+			_camera->setNearClipDistance(20);
+			_camera->setFarClipDistance(30000);
 		//HACK: Valores cableados de las distancias para reenderizar. 
 		// Deberían poder configurarse.
 

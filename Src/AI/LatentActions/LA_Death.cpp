@@ -123,15 +123,18 @@ namespace AI
 			m->setType(Logic::Message::SHOP);
 			m->setAction(Logic::Message::DEACTIVATE_SHOP);
 			_entity->emitMessage(m);
-
-
+			
 			//respawn player
 			respawn();
 
 		}
-
-		if(_entity->getType()=="NPC")
-			respawn();
+		else
+		{
+		}
+			 
+			//_entity->destroyAllComponents();   
+		//if(_entity->getType()=="NPC")
+		 //respawn();
 
 		awakeComponents();
 
@@ -232,6 +235,12 @@ namespace AI
 				{
 					//sleepComponents(); //PT lo comento
 				//		finish(true);
+					if (!_entity->isPlayer())
+					{	
+					//	_entity->detachFromMap();
+					//	_entity->destroyAllComponents();
+						//CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
+					}
 					//el finish es para cambiar a otro estado, pero de momento este el estado en el que quiero que permanezca. Otro posible estado sería desapareciendo quiza...
 				}
 				break;
