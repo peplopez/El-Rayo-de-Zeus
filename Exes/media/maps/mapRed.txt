@@ -26,21 +26,17 @@ Map ={
 	
 	Cancerbero1 = {
 		type = "Cerberus",
-		model = "CanCerbero.mesh",		
 		base=1,
 		ring=0,		
 		degrees=20,
 		sense=1,
-		behavior="Cancerbero",		
 	},	
 	Cancerbero2 = {
-		type = "Cerberus",
-		model = "CanCerbero.mesh",		
+		type = "Minotaure",
 		base=1,
 		ring=0,		
 		degrees=-20,
 		sense=1,
-		behavior="Cancerbero",		
 	},	
 	
 	puHourglass1 = {

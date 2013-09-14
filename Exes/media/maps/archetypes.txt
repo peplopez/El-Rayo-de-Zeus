@@ -388,6 +388,45 @@ Map = {
 		event_CT_Attack3=0.2,
 	},
 	
+	Minotaure = {
+		type = "Creature",
+		model = "Minotauro_animaciones_v2.mesh",
+		initialScale = 1.0,
+		logicInput = true,		
+		angularSpeed = 40,
+		turnSpeedFactor = 0.005,
+		base=0,
+		ring=0,		
+		degrees=0,
+		sense=1,
+		physicType = "dynamic",
+		shape="capsule",
+		physicRadius = 3,
+		physicHalfWidth = 1,
+		physicHalfHeight = 4,
+		density = 0.7,
+		friction = 0,
+		restitution = 0,
+		lifeMax = 100,
+		lifeBarPosition = 30.0,
+		lifeBarWidth = 8.0,
+		lifeBarHeight = 1.0,
+		lifeModifierLightAttack = -10,
+		lifeModifierHeavyAttack = -20,			
+		audio="media\\audio\\QUEJIDO1.wav",
+		offsetHeight=10.0,
+		behavior="Cancerbero",
+		animIdle="ilde",
+		animWalk="walk",		
+		animRun="run",
+		animAlert="alert",
+		animDeath="alert",	
+		animDamage="alert",
+		animAttack1="attack",
+		event_DT_Attack1=0.68,
+		event_DT_Attack2=0.98,
+	},
+	
 	Medusa = {
 		type = "Creature",
 		model = "medusa.mesh",
@@ -502,9 +541,6 @@ Map = {
 		event_DT_Attack3=1.9,		
 		event_DT_Attack4=2.5,	
 	},		
-
-
-	
 	
 	PUApple = {
 		type = "PowerUp",
