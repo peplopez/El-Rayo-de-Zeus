@@ -50,6 +50,12 @@ namespace ScriptManager
 	class Server;
 }
 
+//PT 08-09-2013
+namespace Graphics
+{
+	class CServer;
+}
+
 namespace Application 
 {
 	/**
@@ -196,11 +202,15 @@ namespace Application
 		
 		//PT
 		CEGUI::Window* _pauseWindow;
+		CEGUI::Window* _hudWindow;
+		CEGUI::Window* _rayoWindow;
+		CEGUI::Window* _swordWindow;
+		CEGUI::Window* _lifeSwordWindow;
 
 	//PT
 	private:
-
 		bool _pause;
+		int widthScreenResolution, heightScreenResolution;
 	
 
 	}; // CGameState

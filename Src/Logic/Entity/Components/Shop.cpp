@@ -478,7 +478,7 @@ namespace Logic
 			basestring << "mapRed";
 
 			unsigned short int ring = _gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getRing();
-			unsigned short int degree =_gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getDegree();
+			unsigned short int degree = (unsigned short int) _gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getDegree();
 			unsigned short int sense = _gameStatus->getPlayer(player)->getPlayer()->getLogicalPosition()->getSense();
 
 			//correct sense if player is looking in another direction that LEFT or RIGHT
