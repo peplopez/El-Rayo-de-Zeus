@@ -235,6 +235,12 @@ namespace Graphics
 	} //get Height
 	//--------------------------------------------------------
 
+	//PT to obtain directly aspect ratio
+	float CServer::getAspectRatio(){
+		return (float)_overlayManager->getViewportAspectRatio();
+	} //get getAspectRatio
+	//--------------------------------------------------------
+
 
 
 	/***********
