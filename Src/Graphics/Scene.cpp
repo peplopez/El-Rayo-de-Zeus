@@ -138,6 +138,12 @@ namespace Graphics
 	
 	//--------------------------------------------------------
 
+	void CScene::setVisible(bool visible)
+	{
+		if (visible)
+		{
+			_skyX->setCamer
+
 	// FRS Sólo se actualizan las entidades dinámicas
 	// Y en concreto, sólo implementa el tick el CAnimatedEntity : CEntity
 	void CScene::tick(float secs)
@@ -356,12 +362,12 @@ namespace Graphics
 	{	
 		LOG("[HHFX] ParticleCount = " << _hhfxScene->GetParticleCount() )
 		_hhfxTimeSinceUpdate += evt.timeSinceLastFrame;
+		_hydraX->update(evt.timeSinceLastFrame);
 		if(_isVisible || _hhfxTimeSinceUpdate > _HHFX_INACTIVE_UPDATE_PERIOD)
 			// && _hhfxScene->GetParticleCount() )  UNDONE  siempre devuelve 0 WTF!
 		{
 			LOG("["<< _name <<"] Frame Started: Time Since Update = " << _hhfxTimeSinceUpdate)
 			_hhfxScene->Update(_hhfxTimeSinceUpdate); // update the hhfx scene
-			_hydraX->update(_hhfxTimeSinceUpdate);
 			_hhfxTimeSinceUpdate = 0;	
 		} 
 		return true;
@@ -377,8 +383,8 @@ namespace Graphics
 
 		// Aplicamos transformaciones de la camara que esté renderizando actualmente el FX: PlayerCamera o BaseCamera.
 		Ogre::Camera* fxCamera = _viewport->getCamera();
-		const Vector3& camPos =		fxCamera->getParentNode()->getPosition();	  // El nodo es el que contiene el transform
-		const Quaternion& camOri =	fxCamera->getParentNode()->getOrientation(); // la camara mantiene pos = 0 (relativa al nodo)
+		const Vector3& camPos =		fxCamera->getPosition();	  // El nodo es el que contiene el transform
+		const Quaternion& camOri =	fxCamera->getOrientation(); // la camara mantiene pos = 0 (relativa al nodo)
 	
 		Matrix4 worldTransforms;
 			worldTransforms.makeTransform(camPos, Vector3::UNIT_SCALE, camOri);
@@ -392,6 +398,8 @@ namespace Graphics
 
 		_hhfxScene->Render(view, camPos);
 		return  true;
+
+	
 	}
 
 	/*********************
@@ -504,7 +512,7 @@ namespace Graphics
 	void CScene::_hydraXInit()
 	{
 		_hydraX->setModule(static_cast<Hydrax::Module::Module*>(_hydraXModule));
-		_hydraX->loadCfg("HydraxDemo.hdx");
+		_hydraX->loadCfg("FastWater3.hdx");
 		_hydraX->create();
 	}
 

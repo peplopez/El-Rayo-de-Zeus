@@ -261,7 +261,7 @@ namespace Graphics
 
 		/**
 		*/
-		void setVisible(bool visible) { _isVisible = visible; }
+		void setVisible(bool visible); 
 
 
 

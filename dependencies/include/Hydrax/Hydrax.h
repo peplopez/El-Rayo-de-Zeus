@@ -289,6 +289,13 @@ namespace Hydrax
 		{
 			return mCamera;
 		}
+		
+		/**
+		*/
+		void setCamera(Ogre::Camera* camera)
+		{
+			mCamera = camera;
+		}
 
 		/** Get main window viewport
 		    @return Ogre::Viewport pointer

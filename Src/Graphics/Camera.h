@@ -87,9 +87,6 @@ namespace Graphics
 		*/
 		const Vector3 &getTargetPosition() const;
 
-				/**
-		*/
-		Ogre::SceneNode* getNode() const {return _cameraNode;}
 
 		/**
 		*/
@@ -121,10 +118,6 @@ namespace Graphics
 		friend class CScene;
 		friend class CServer;
 
-		/**
-		Nodo que contiene la cámara.
-		*/
-		Ogre::SceneNode *_cameraNode;
 
 		/**
 		Nodo que representa el punto a donde debe mirar la cámara.

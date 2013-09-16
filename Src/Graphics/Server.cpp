@@ -107,6 +107,7 @@ namespace Graphics
 				
 
 		_initHHFX(_dummyScene); // Hell Heaven FX: requiere dummyScene
+
 		_compositorLoad();
 		
 
