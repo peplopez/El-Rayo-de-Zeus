@@ -29,6 +29,8 @@ la ventana, etc.
 #include "Overlay.h"
 #include "Camera.h"
 
+#include "CameraTypes.h"
+
 
 #define DEBUG 0
 #if DEBUG
@@ -187,7 +189,6 @@ namespace Graphics
 	void CServer::activatePlayerCam(CScene* scene)
 	{
 		_visibleScene->setVisible(false);
-
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
 			_visibleScene = _dummyScene;
 		else {
@@ -199,8 +200,7 @@ namespace Graphics
 			_visibleScene = scene;
 		}
 		
-		_visibleScene->setVisible(true);
-		_viewport->setCamera(_visibleScene->getPlayerCamera()->getCamera());
+		_visibleScene->setVisible(true, playerCamera);
 		_resetCompositors();
 
 	} // setActiveScene
@@ -210,7 +210,6 @@ namespace Graphics
 	void CServer::activateBaseCam(CScene* scene)
 	{
 		_visibleScene->setVisible(false);
-
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
 			_visibleScene = _dummyScene;
 		else {
@@ -222,8 +221,7 @@ namespace Graphics
 			_visibleScene = scene;
 		}
 
-		_visibleScene->setVisible(true);
-		_viewport->setCamera(_visibleScene->getBaseCamera()->getCamera());
+		_visibleScene->setVisible(true, baseCamera);
 		_resetCompositors();
 
 	} // setActiveScene

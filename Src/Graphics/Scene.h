@@ -21,6 +21,8 @@ de una escena.
 #include <OgreFrameListener.h>
 #include "SkyXSettings.h"
 
+#include "CameraTypes.h"
+
 #include <list>
 
 // Predeclaración de clases para ahorrar tiempo de compilación
@@ -262,6 +264,7 @@ namespace Graphics
 		/**
 		*/
 		void setVisible(bool visible); 
+		void setVisible(bool visible, CameraType cameraType); 
 
 
 
@@ -368,7 +371,7 @@ namespace Graphics
 		Hydrax::Hydrax* _hydraX;
 		Hydrax::Module::ProjectedGrid* _hydraXModule;
 
-		void _hydraXInit();
+		void _hydraXReinit();
 		void _hydraXDeinit();
 
 

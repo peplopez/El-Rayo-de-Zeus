@@ -105,6 +105,7 @@
     <ClInclude Include="..\..\Src\Graphics\AnimSet.h" />
     <ClInclude Include="..\..\Src\Graphics\Camera.h" />
     <ClInclude Include="..\..\Src\Graphics\Billboard.h" />
+    <ClInclude Include="..\..\Src\Graphics\CameraTypes.h" />
     <ClInclude Include="..\..\Src\Graphics\Cegui.h" />
     <ClInclude Include="..\..\Src\Graphics\Documentation.h" />
     <ClInclude Include="..\..\Src\Graphics\DotSceneLoader\DotSceneLoader.h" />

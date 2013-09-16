@@ -79,7 +79,7 @@ namespace Graphics
 													Hydrax::MaterialManager::NM_VERTEX,
 													// Projected grid options
 													Hydrax::Module::ProjectedGrid::Options(/*264 /*Generic one*/));
-				
+		
 	} // CScene
 
 	//--------------------------------------------------------
@@ -104,7 +104,7 @@ namespace Graphics
 		_buildStaticGeometry();		
 		_hhfxInit(); // Init Hell Heaven FX Scene
 		_skyXInit(); // Init de SkyX
-		_hydraXInit(); // Init de Hydrax
+		_hydraXReinit(); // Init de Hydrax
 		_setSkyXPreset(_skyXPresets[3]);
 		_playerCamera->getCamera()->setAutoAspectRatio(true);
 		_baseCamera->getCamera()->setAutoAspectRatio(true);
@@ -138,12 +138,6 @@ namespace Graphics
 	
 	//--------------------------------------------------------
 
-	void CScene::setVisible(bool visible)
-	{
-		if (visible)
-		{
-			_skyX->setCamer
-
 	// FRS Sólo se actualizan las entidades dinámicas
 	// Y en concreto, sólo implementa el tick el CAnimatedEntity : CEntity
 	void CScene::tick(float secs)
@@ -156,6 +150,37 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
+	void CScene::setVisible(bool visible, CameraType cameraType)
+	{
+		if (visible)
+		{
+			_isVisible = true;
+			switch (cameraType)
+			{
+			case playerCamera:
+				_viewport->setCamera(_playerCamera->getCamera());
+				_hydraX->setCamera(_playerCamera->getCamera());
+				break;
+			case baseCamera:
+				_viewport->setCamera(_baseCamera->getCamera());
+				_hydraX->setCamera(_baseCamera->getCamera());
+				break;
+			}
+			if(_name != "dummy_scene")
+				_hydraXReinit();
+		}
+		else
+		{
+			_isVisible = false;
+		}
+	}
+
+	//--------------------------------------------------------
+
+	void CScene::setVisible(bool visible)
+	{
+		setVisible(visible, playerCamera);
+	}
 
 
 	/************************
@@ -506,11 +531,17 @@ namespace Graphics
 	}
 
 	/*********************
-			SkyX
+			Hydrax
 	*********************/
 
-	void CScene::_hydraXInit()
+	void CScene::_hydraXReinit()
 	{
+		_hydraXModule->remove();
+		_hydraXModule = new Hydrax::Module::ProjectedGrid(_hydraX,
+													new Hydrax::Noise::Perlin(),
+													Ogre::Plane(Ogre::Vector3(0,1,0), Ogre::Vector3(0,0,0)),
+													Hydrax::MaterialManager::NM_VERTEX,
+													Hydrax::Module::ProjectedGrid::Options());
 		_hydraX->setModule(static_cast<Hydrax::Module::Module*>(_hydraXModule));
 		_hydraX->loadCfg("FastWater3.hdx");
 		_hydraX->create();
