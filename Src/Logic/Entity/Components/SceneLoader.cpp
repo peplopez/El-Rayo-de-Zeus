@@ -1,16 +1,16 @@
 /**
-@file DotSceneLoader.cpp
+@file SceneLoader.cpp
 
 
  
-@see Logic::CDotSceneLoader
+@see Logic::CSceneLoader
 @see Logic::IComponent
 
 @author 
 @date 
 */
 
-#include "DotSceneLoader.h"
+#include "SceneLoader.h"
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/Map.h"
@@ -26,11 +26,11 @@
 
 namespace Logic 
 {
-	IMP_FACTORY(CDotSceneLoader);
+	IMP_FACTORY(CSceneLoader);
 	
 	//---------------------------------------------------------
 
-	CDotSceneLoader::~CDotSceneLoader() 
+	CSceneLoader::~CSceneLoader() 
 	{
 		
 
@@ -38,7 +38,7 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	bool CDotSceneLoader::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
+	bool CSceneLoader::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
@@ -48,6 +48,13 @@ namespace Logic
 
 		assert(entityInfo->hasAttribute("sceneFile"));
 			_sceneFile = entityInfo->getStringAttribute("sceneFile");
+
+		assert(entityInfor->hasAttribute("skyXPresetNumber")
+			_skyXPresetNumber = entityInfo->getIntAttribute("skyXPresetNumber");
+
+		assert(entityInfor->hasAttribute("hydraXConfigFile")
+			_hydraXConfigFile = entityInfo->getStringAttribute("hydraXConfigFile");
+
 #ifdef _DEBUG
 
 #else		

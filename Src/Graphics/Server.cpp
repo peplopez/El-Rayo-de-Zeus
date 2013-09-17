@@ -188,7 +188,12 @@ namespace Graphics
 	//TODO en red, el server tendrá activas > 1 -> activateScene
 	void CServer::activatePlayerCam(CScene* scene)
 	{
-		_visibleScene->setVisible(false);
+		if (_visibleScene)
+		{
+			_visibleScene->setVisible(false);
+			_visibleScene = 0;
+		}
+
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
 			_visibleScene = _dummyScene;
 		else {
@@ -209,7 +214,12 @@ namespace Graphics
 	
 	void CServer::activateBaseCam(CScene* scene)
 	{
-		_visibleScene->setVisible(false);
+		if (_visibleScene)
+		{
+			_visibleScene->setVisible(false);
+			_visibleScene = 0;
+		}
+
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
 			_visibleScene = _dummyScene;
 		else {

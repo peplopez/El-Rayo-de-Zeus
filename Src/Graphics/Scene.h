@@ -35,6 +35,7 @@ namespace Ogre
 	class Viewport;
 	class SceneManager;
 	class StaticGeometry;
+	class Camera;
 };
 
 
@@ -371,6 +372,7 @@ namespace Graphics
 		Hydrax::Hydrax* _hydraX;
 		Hydrax::Module::ProjectedGrid* _hydraXModule;
 
+		void _hydraXInit();
 		void _hydraXReinit();
 		void _hydraXDeinit();
 

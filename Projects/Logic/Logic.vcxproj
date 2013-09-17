@@ -113,7 +113,7 @@
     <ClCompile Include="..\..\src\Logic\FX.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Audio.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Destruction.cpp" />
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\DotSceneLoader.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\SceneLoader.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\FloatingMovement.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Script.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Shop.cpp" />
@@ -178,7 +178,7 @@
     <ClInclude Include="..\..\src\Logic\FX.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Audio.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Destruction.h" />
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\DotSceneLoader.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\SceneLoader.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\FloatingMovement.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Script.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Shop.h" />

@@ -1,17 +1,17 @@
 /**
-@file DotSceneLoader.h
+@file SceneLoader.h
 
 Contiene la declaración del componente que permite cargar una escena gráfica
 desde un fichero de mapa.
 
-@see Logic::CDotSceneLoader
+@see Logic::CSceneLoader
 @see Logic::IComponent
 
 @author Emilio Santalla
 */
 
-#ifndef __Logic_DotSceneLoader_H
-#define __Logic_DotSceneLoader_H
+#ifndef __Logic_SceneLoader_H
+#define __Logic_SceneLoader_H
 
 #include "Logic/Entity/Component.h"
 
@@ -30,14 +30,14 @@ namespace Logic
 namespace Logic 
 {
 
-	class CDotSceneLoader : public IComponent
+	class CSceneLoader : public IComponent
 	{
-		DEC_FACTORY(CDotSceneLoader);
+		DEC_FACTORY(CSceneLoader);
 
 	public:
 
-		CDotSceneLoader() : 
-			IComponent(GetAltTypeIdOf(CDotSceneLoader)), _scene(0), _sceneFile("") {}
+		CSceneLoader() : 
+			IComponent(GetAltTypeIdOf(CSceneLoader)), _scene(0), _sceneFile("") {}
 
 
 		virtual ~CDotSceneLoader();
@@ -56,12 +56,20 @@ namespace Logic
 		*/
 		std::string _sceneFile;
 
+		/**
+		*/
+		int _skyXPresetNumber;
+
+		/**
+		*/
+		std::string _hydraXConfigFile;
+
 
 		
 
 	}; // class CGraphics
 
-	REG_FACTORY(CDotSceneLoader);
+	REG_FACTORY(CSceneLoader);
 
 } // namespace Logic
 

@@ -104,7 +104,7 @@ namespace Graphics
 		_buildStaticGeometry();		
 		_hhfxInit(); // Init Hell Heaven FX Scene
 		_skyXInit(); // Init de SkyX
-		_hydraXReinit(); // Init de Hydrax
+		_hydraXInit(); // Init de Hydrax
 		_setSkyXPreset(_skyXPresets[3]);
 		_playerCamera->getCamera()->setAutoAspectRatio(true);
 		_baseCamera->getCamera()->setAutoAspectRatio(true);
@@ -159,11 +159,9 @@ namespace Graphics
 			{
 			case playerCamera:
 				_viewport->setCamera(_playerCamera->getCamera());
-				_hydraX->setCamera(_playerCamera->getCamera());
 				break;
 			case baseCamera:
 				_viewport->setCamera(_baseCamera->getCamera());
-				_hydraX->setCamera(_baseCamera->getCamera());
 				break;
 			}
 			if(_name != "dummy_scene")
@@ -387,10 +385,10 @@ namespace Graphics
 	{	
 		LOG("[HHFX] ParticleCount = " << _hhfxScene->GetParticleCount() )
 		_hhfxTimeSinceUpdate += evt.timeSinceLastFrame;
-		_hydraX->update(evt.timeSinceLastFrame);
 		if(_isVisible || _hhfxTimeSinceUpdate > _HHFX_INACTIVE_UPDATE_PERIOD)
 			// && _hhfxScene->GetParticleCount() )  UNDONE  siempre devuelve 0 WTF!
 		{
+			_hydraX->update(evt.timeSinceLastFrame);
 			LOG("["<< _name <<"] Frame Started: Time Since Update = " << _hhfxTimeSinceUpdate)
 			_hhfxScene->Update(_hhfxTimeSinceUpdate); // update the hhfx scene
 			_hhfxTimeSinceUpdate = 0;	
@@ -534,9 +532,17 @@ namespace Graphics
 			Hydrax
 	*********************/
 
+	void CScene::_hydraXInit()
+	{
+		_hydraX->setModule(static_cast<Hydrax::Module::Module*>(_hydraXModule));
+		_hydraX->loadCfg("FastWater3.hdx");
+		_hydraX->create();
+
+	}
+
 	void CScene::_hydraXReinit()
 	{
-		_hydraXModule->remove();
+		_hydraX->setCamera(_viewport->getCamera());
 		_hydraXModule = new Hydrax::Module::ProjectedGrid(_hydraX,
 													new Hydrax::Noise::Perlin(),
 													Ogre::Plane(Ogre::Vector3(0,1,0), Ogre::Vector3(0,0,0)),
