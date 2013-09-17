@@ -218,6 +218,39 @@ namespace Application {
 					//CEGUI::MouseCursor::getSingletonPtr()->setVisible(false); //FER
 					CEGUI::MouseCursor::getSingletonPtr()->hide();				//PT
 		#endif
+
+		//PT After obtain aspectRatio I want to modify UDIM y for keeping aspect ratio
+		float aspectRatio;
+		aspectRatio = Graphics::CServer::getSingletonPtr()->getAspectRatio();
+
+		//PT udimHeight.d_scale / aspectRatio to keep aspect ratio (HUDWINDOW)
+		CEGUI::UDim udimWidth = _hudWindow->getWidth();
+		CEGUI::UDim udimHeight = _hudWindow->getHeight();
+		float newHeight = udimHeight.d_scale / aspectRatio;
+		udimHeight.d_scale = newHeight;
+		_hudWindow->setHeight(udimHeight);
+
+		//PT udimHeight.d_scale / aspectRatio to keep aspect ratio (RayoWindow)
+		udimWidth = _rayoWindow->getWidth();
+		udimHeight = _rayoWindow->getHeight();
+		newHeight = udimHeight.d_scale / aspectRatio;
+		udimHeight.d_scale = newHeight;
+		_rayoWindow->setHeight(udimHeight);
+
+		//PT udimHeight.d_scale / aspectRatio to keep aspect ratio (SwordWindow)
+		udimWidth = _swordWindow->getWidth();
+		udimHeight = _swordWindow->getHeight();
+		newHeight = udimHeight.d_scale / aspectRatio;
+		udimHeight.d_scale = newHeight;
+		_swordWindow->setHeight(udimHeight);
+
+		//PT udimHeight.d_scale / aspectRatio to keep aspect ratio (LifeSwordWindow)
+		udimWidth = _lifeSwordWindow->getWidth();
+		udimHeight = _lifeSwordWindow->getHeight();
+		newHeight = udimHeight.d_scale / aspectRatio;
+		udimHeight.d_scale = newHeight;
+		_lifeSwordWindow->setHeight(udimHeight);
+
 		
 		CApplicationState::deactivate();
 
