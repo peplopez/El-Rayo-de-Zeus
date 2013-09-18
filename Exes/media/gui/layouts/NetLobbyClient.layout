@@ -84,7 +84,7 @@
 		 <Window Type="OgreTray/StaticText" Name="NetLobbyClient/Status" >
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="Status: Not connected." />
-            <Property Name="AlwaysOnTop" Value="False" />
+            <Property Name="AlwaysOnTop" Value="True" />
             <Property Name="UnifiedAreaRect" Value="{{0.2,1},{0.7,0},{0.8,0},{0.8,0}}" />
         </Window>
 		

@@ -28,9 +28,6 @@
     <ClCompile Include="..\..\Src\GUI\ShopController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\GUI\Interfaz.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\GUI\Documentation.h">
@@ -52,9 +49,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\GUI\ShopController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\GUI\Interfaz.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
