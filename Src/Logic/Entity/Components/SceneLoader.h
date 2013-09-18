@@ -40,7 +40,7 @@ namespace Logic
 			IComponent(GetAltTypeIdOf(CSceneLoader)), _scene(0), _sceneFile("") {}
 
 
-		virtual ~CDotSceneLoader();
+		virtual ~CSceneLoader();
 		
 		virtual bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
 
@@ -58,14 +58,12 @@ namespace Logic
 
 		/**
 		*/
-		int _skyXPresetNumber;
+		std::string _skyXPresetName;
 
 		/**
 		*/
 		std::string _hydraXConfigFile;
 
-
-		
 
 	}; // class CGraphics
 

@@ -58,7 +58,7 @@ namespace Graphics
 	const float CScene::HHFX_WORLD_SCALE = 8.0f;
 
 	CScene::CScene(const std::string& name) : _name(name), _isInit(false), _viewport(0), 
-		_staticGeometry(0), _hhfxScene(0), _hhfxTimeSinceUpdate(0), _skyX(0), _skyXBasicController(0), _hydraX(0), _hydraXModule(0), _isVisible(false)
+		_staticGeometry(0), _hhfxScene(0), _hhfxTimeSinceUpdate(0), _skyX(0), _skyXBasicController(0), _hydraX(0), _hydraXModule(0), _hydraXConfigFileName(""), _isVisible(false)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);	
@@ -105,7 +105,6 @@ namespace Graphics
 		_hhfxInit(); // Init Hell Heaven FX Scene
 		_skyXInit(); // Init de SkyX
 		_hydraXInit(); // Init de Hydrax
-		_setSkyXPreset(_skyXPresets[3]);
 		_playerCamera->getCamera()->setAutoAspectRatio(true);
 		_baseCamera->getCamera()->setAutoAspectRatio(true);
 		_isInit = true;		
@@ -388,7 +387,8 @@ namespace Graphics
 		if(_isVisible || _hhfxTimeSinceUpdate > _HHFX_INACTIVE_UPDATE_PERIOD)
 			// && _hhfxScene->GetParticleCount() )  UNDONE  siempre devuelve 0 WTF!
 		{
-			_hydraX->update(evt.timeSinceLastFrame);
+			if (_hydraXConfigFileName != "")
+				_hydraX->update(evt.timeSinceLastFrame);
 			LOG("["<< _name <<"] Frame Started: Time Since Update = " << _hhfxTimeSinceUpdate)
 			_hhfxScene->Update(_hhfxTimeSinceUpdate); // update the hhfx scene
 			_hhfxTimeSinceUpdate = 0;	
@@ -447,21 +447,30 @@ namespace Graphics
 	}
 
 	//-------------------------------------------------------------------------------------
-	 
-		SkyXSettings CScene::_skyXPresets[6] = {
-			// Sunset
-			SkyXSettings(Ogre::Vector3(8.85f, 7.5f, 20.5f),  -0.08f, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0022f, 0.000675f, 30, Ogre::Vector3(0.57f, 0.52f, 0.44f), -0.991f, 3, 4), false, true, 300, false, Ogre::Radian(270), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0.35, 0.2, 0.92, 0.1), Ogre::Vector4(0.4, 0.7, 0, 0), Ogre::Vector2(0.8,1)),
-			// Clear
-			SkyXSettings(Ogre::Vector3(17.16f, 7.5f, 20.5f), 0, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0017f, 0.000675f, 30, Ogre::Vector3(0.57f, 0.54f, 0.44f), -0.991f, 2.5f, 4), false),
-			// Thunderstorm 1
-			SkyXSettings(Ogre::Vector3(12.23, 7.5f, 20.5f),  0, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.00545f, 0.000375f, 30, Ogre::Vector3(0.55f, 0.54f, 0.52f), -0.991f, 1, 4), false, true, 300, false, Ogre::Radian(0), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0.25, 0.4, 0.5, 0.1), Ogre::Vector4(0.45, 0.3, 0.6, 0.1), Ogre::Vector2(1,1), true, 0.5, Ogre::Vector3(1,0.976,0.92), 2),
-			// Thunderstorm 2
-			SkyXSettings(Ogre::Vector3(10.23, 7.5f, 20.5f),  0, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.00545f, 0.000375f, 30, Ogre::Vector3(0.55f, 0.54f, 0.52f), -0.991f, 0.5, 4), false, true, 300, false, Ogre::Radian(0), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0, 0.02, 0.34, 0.24), Ogre::Vector4(0.29, 0.3, 0.6, 1), Ogre::Vector2(1,1), true, 0.5, Ogre::Vector3(0.95,1,1), 2),
-			// Desert
-			SkyXSettings(Ogre::Vector3(7.59f, 7.5f, 20.5f), 0, -0.8f, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0072f, 0.000925f, 30, Ogre::Vector3(0.71f, 0.59f, 0.53f), -0.997f, 2.5f, 1), true),
-			// Night
-			SkyXSettings(Ogre::Vector3(21.5f, 7.5, 20.5), 0.03, -0.25, SkyX::AtmosphereManager::Options(), true)
-	};
+
+	std::map<std::string, SkyXSettings> CScene::_createPresets()
+	{
+        std::map<std::string, SkyXSettings> m;
+
+		//Sunset
+		m["Sunset"] = SkyXSettings(Ogre::Vector3(8.85f, 7.5f, 20.5f),  -0.08f, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0022f, 0.000675f, 30, Ogre::Vector3(0.57f, 0.52f, 0.44f), -0.991f, 3, 4), false, true, 300, false, Ogre::Radian(270), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0.35, 0.2, 0.92, 0.1), Ogre::Vector4(0.4, 0.7, 0, 0), Ogre::Vector2(0.8,1));
+		// Clear
+		m["Clear"] = SkyXSettings(Ogre::Vector3(17.16f, 7.5f, 20.5f), 0, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0017f, 0.000675f, 30, Ogre::Vector3(0.57f, 0.54f, 0.44f), -0.991f, 2.5f, 4), false);
+		// Thunderstorm 1
+		m["Thunderstorm1"] = SkyXSettings(Ogre::Vector3(12.23, 7.5f, 20.5f),  0, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.00545f, 0.000375f, 30, Ogre::Vector3(0.55f, 0.54f, 0.52f), -0.991f, 1, 4), false, true, 300, false, Ogre::Radian(0), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0.25, 0.4, 0.5, 0.1), Ogre::Vector4(0.45, 0.3, 0.6, 0.1), Ogre::Vector2(1,1), true, 0.5, Ogre::Vector3(1,0.976,0.92), 2);
+		// Thunderstorm 2
+		m["Thunderstorm2"] = SkyXSettings(Ogre::Vector3(10.23, 7.5f, 20.5f),  0, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.00545f, 0.000375f, 30, Ogre::Vector3(0.55f, 0.54f, 0.52f), -0.991f, 0.5, 4), false, true, 300, false, Ogre::Radian(0), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0, 0.02, 0.34, 0.24), Ogre::Vector4(0.29, 0.3, 0.6, 1), Ogre::Vector2(1,1), true, 0.5, Ogre::Vector3(0.95,1,1), 2);
+		// Desert
+		m["Desert"] = SkyXSettings(Ogre::Vector3(7.59f, 7.5f, 20.5f), 0, -0.8f, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0072f, 0.000925f, 30, Ogre::Vector3(0.71f, 0.59f, 0.53f), -0.997f, 2.5f, 1), true);
+		// Night
+		m["Night"] = SkyXSettings(Ogre::Vector3(21.5f, 7.5, 20.5), 0.03, -0.25, SkyX::AtmosphereManager::Options(), true);
+
+		return m;
+    }	
+
+	//-------------------------------------------------------------------------------------
+
+	std::map<std::string, SkyXSettings> CScene::_skyXPresets =  CScene::_createPresets();
 
 	//-------------------------------------------------------------------------------------
 
@@ -528,6 +537,14 @@ namespace Graphics
 		_skyX->update(0);
 	}
 
+	//-------------------------------------------------------------------------------------
+
+	void CScene::skyXLoadPreset(const std::string& presetName)
+	{
+		if (_skyXPresets.count(presetName) > 0)
+			_setSkyXPreset(_skyXPresets[presetName]);
+	}
+
 	/*********************
 			Hydrax
 	*********************/
@@ -535,10 +552,11 @@ namespace Graphics
 	void CScene::_hydraXInit()
 	{
 		_hydraX->setModule(static_cast<Hydrax::Module::Module*>(_hydraXModule));
-		_hydraX->loadCfg("FastWater3.hdx");
+	
 		_hydraX->create();
-
 	}
+
+	//-------------------------------------------------------------------------------------
 
 	void CScene::_hydraXReinit()
 	{
@@ -549,15 +567,27 @@ namespace Graphics
 													Hydrax::MaterialManager::NM_VERTEX,
 													Hydrax::Module::ProjectedGrid::Options());
 		_hydraX->setModule(static_cast<Hydrax::Module::Module*>(_hydraXModule));
-		_hydraX->loadCfg("FastWater3.hdx");
+		_hydraX->loadCfg(_hydraXConfigFileName);
 		_hydraX->create();
 	}
 
+	//-------------------------------------------------------------------------------------
+	
 	void CScene::_hydraXDeinit()
 	{
 		_hydraX->remove();
 		_hydraXModule->remove();
 	}
-	
+
+	//-------------------------------------------------------------------------------------
+
+	void CScene::hydraXLoadCFG(const std::string& hydraXConfigFile)
+	{
+		if (hydraXConfigFile != "")
+		{
+			_hydraXConfigFileName = hydraXConfigFile;
+			_hydraX->loadCfg(hydraXConfigFile);
+		}
+	}
 
 } // namespace Graphics

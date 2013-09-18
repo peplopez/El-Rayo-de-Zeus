@@ -58,7 +58,7 @@ namespace Physics
 
 namespace Logic
 {
-	class CDotSceneLoader;
+	class CSceneLoader;
 };
 
 namespace Hydrax
@@ -154,7 +154,7 @@ namespace Graphics
 		friend class CCamera;
 		friend class CSceneElement;
 		friend class CLight;
-		friend class Logic::CDotSceneLoader; // HACK FRS Logic???
+		friend class Logic::CSceneLoader; // HACK FRS Logic???
 		friend class Physics::CScene; // FRS Necesario para el pintado debug de la física
 
 		/**
@@ -357,11 +357,16 @@ namespace Graphics
 		
 		SkyX::SkyX* _skyX;
 		SkyX::BasicController* _skyXBasicController;
-		static SkyXSettings _skyXPresets[];
-
+		static std::map<std::string, SkyXSettings> _skyXPresets;
+		
+		static std::map<std::string, SkyXSettings> _createPresets();
 		void _setSkyXPreset(const SkyXSettings& preset);
 		void _skyXInit();
 		void _skyXDeinit();
+
+	protected:
+
+		void skyXLoadPreset(const std::string& presetName);
 
 	/*********************
 			Hydrax
@@ -375,6 +380,13 @@ namespace Graphics
 		void _hydraXInit();
 		void _hydraXReinit();
 		void _hydraXDeinit();
+
+		std::string _hydraXConfigFileName;
+	
+	protected:
+
+		void hydraXLoadCFG(const std::string& hydraXConfigFile);
+		
 
 
 	}; // class CScene

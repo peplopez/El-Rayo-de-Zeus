@@ -2,7 +2,9 @@ Map ={
 	
 	hadesScene = {
 		type = "Scene",
-		sceneFile = "hadesScene.scene",
+		sceneFile = "hadesScene",
+		skyXPresetName="Thunderstorm1",
+		hydraXConfigFile="HadesWater.hdx",
 	},
 
 	Camera = {

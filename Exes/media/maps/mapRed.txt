@@ -2,7 +2,9 @@ Map ={
 
 	spartanScene = {
 		type = "Scene",
-		sceneFile = "spartanScenario.scene",
+		sceneFile = "spartanScenario",
+		skyXPresetName="Thunderstorm1",
+		hydraXConfigFile="SpartanWater.hdx",
 	},
 
 	Camera = {

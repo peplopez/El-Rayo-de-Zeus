@@ -33,7 +33,6 @@ namespace Logic
 	CSceneLoader::~CSceneLoader() 
 	{
 		
-
 	} // ~CDotSceneLoader
 
 	//---------------------------------------------------------
@@ -49,18 +48,24 @@ namespace Logic
 		assert(entityInfo->hasAttribute("sceneFile"));
 			_sceneFile = entityInfo->getStringAttribute("sceneFile");
 
-		assert(entityInfor->hasAttribute("skyXPresetNumber")
-			_skyXPresetNumber = entityInfo->getIntAttribute("skyXPresetNumber");
+		assert(entityInfor->hasAttribute("skyXPresetName"));
+			_skyXPresetName = entityInfo->getStringAttribute("skyXPresetName");
 
-		assert(entityInfor->hasAttribute("hydraXConfigFile")
+		assert(entityInfor->hasAttribute("hydraXConfigFile"));
 			_hydraXConfigFile = entityInfo->getStringAttribute("hydraXConfigFile");
 
 #ifdef _DEBUG
 
 #else		
 		Graphics::DotSceneLoader loader;
-		loader.parseDotScene(_sceneFile, "General", _scene->getSceneMgr());
+		loader.parseDotScene(_sceneFile + ".scene", "General", _scene->getSceneMgr());
 #endif
+		_scene->skyXLoadPreset(_skyXPresetName);
+		if (_hydraXConfigFile == "")
+			loader.parseDotScene(_sceneFile + "fakeWater" + ".scene", "General", _scene->getSceneMgr());
+		else
+			_scene->hydraXLoadCFG(_hydraXConfigFile);
+		
 		return true;
 
 	} // spawn
