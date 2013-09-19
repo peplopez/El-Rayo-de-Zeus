@@ -57,29 +57,17 @@ namespace Graphics
 	// This scale must be taken into account when setting and getting arbitrary particle attributes !
 	const float CScene::HHFX_WORLD_SCALE = 8.0f;
 
-	CScene::CScene(const std::string& name) : _name(name), _isInit(false), _viewport(0), 
-		_staticGeometry(0), _hhfxScene(0), _hhfxTimeSinceUpdate(0), _skyX(0), _skyXBasicController(0), _hydraX(0), _hydraXModule(0), _hydraXConfigFileName(""), _isVisible(false)
+	CScene::CScene(const std::string& name) : _name(name), _isInit(false), _staticGeometry(0), 
+	_hhfxScene(0), _hhfxTimeSinceUpdate(0), _skyX(0), _skyXBasicController(0), _skyXPresetName(""), 
+	_hydraX(0), _hydraXModule(0), _hydraXConfigFileName(""), _isVisible(false)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);	
 		_playerCamera = new CCamera(name,this);
 		_baseCamera = new CCamera("base" + name, this);
 		_hhfxScene = _hhfxCreateScene(_sceneMgr);
-		_viewport = Graphics::CServer::getSingletonPtr()->getViewport(); //no hay que liberarlo en el destructor -> se encarga CServer
 		_skyXBasicController = new SkyX::BasicController();
-		_skyX = new SkyX::SkyX(_sceneMgr, _skyXBasicController);
-		_hydraX = new Hydrax::Hydrax(_sceneMgr, _playerCamera->getCamera(), _viewport);
-		_hydraXModule = new Hydrax::Module::ProjectedGrid(// Hydrax parent pointer
-													_hydraX,
-													// Noise module
-													new Hydrax::Noise::Perlin(/*Generic one*/),
-													// Base plane
-													Ogre::Plane(Ogre::Vector3(0,1,0), Ogre::Vector3(0,0,0)),
-													// Normal mode
-													Hydrax::MaterialManager::NM_VERTEX,
-													// Projected grid options
-													Hydrax::Module::ProjectedGrid::Options(/*264 /*Generic one*/));
-		
+		_skyX = new SkyX::SkyX(_sceneMgr, _skyXBasicController);		
 	} // CScene
 
 	//--------------------------------------------------------
@@ -103,7 +91,9 @@ namespace Graphics
 		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
 		_buildStaticGeometry();		
 		_hhfxInit(); // Init Hell Heaven FX Scene
-		_skyXInit(); // Init de SkyX
+		//_skyXInit(); // Init de SkyX
+		_hydraX = new Hydrax::Hydrax(_sceneMgr, _playerCamera->getCamera(), 
+			Graphics::CServer::getSingletonPtr()->getViewport()); //no puedo hacerlo enel constructor porque en dummy
 		_hydraXInit(); // Init de Hydrax
 		_playerCamera->getCamera()->setAutoAspectRatio(true);
 		_baseCamera->getCamera()->setAutoAspectRatio(true);
@@ -121,17 +111,17 @@ namespace Graphics
 		_isInit = false;
 	} // deinit
 
-	//--------------------------------------------------------
+	//------------------------------------------r--------------
 
 	void CScene::activate()
-	{		
-		if(_name != "dummy_scene")  _init();
+	{	
+		if(_name != "dummy_scene") _init();	
 	} // activate
 
 	//--------------------------------------------------------
 
 	void CScene::deactivate()
-	{		
+	{	
 		if(_isInit) _deinit();
 	} // deactivate
 	
@@ -157,18 +147,25 @@ namespace Graphics
 			switch (cameraType)
 			{
 			case playerCamera:
-				_viewport->setCamera(_playerCamera->getCamera());
+				Graphics::CServer::getSingletonPtr()->getViewport()->setCamera(_playerCamera->getCamera());
 				break;
 			case baseCamera:
-				_viewport->setCamera(_baseCamera->getCamera());
+				Graphics::CServer::getSingletonPtr()->getViewport()->setCamera(_baseCamera->getCamera());
 				break;
 			}
+
 			if(_name != "dummy_scene")
+			{
 				_hydraXReinit();
+				_skyXInit();
+				
+			}
+	
 		}
 		else
 		{
 			_isVisible = false;
+			_skyXDeinit();
 		}
 	}
 
@@ -405,7 +402,7 @@ namespace Graphics
 			return true;
 
 		// Aplicamos transformaciones de la camara que esté renderizando actualmente el FX: PlayerCamera o BaseCamera.
-		Ogre::Camera* fxCamera = _viewport->getCamera();
+		Ogre::Camera* fxCamera = Graphics::CServer::getSingletonPtr()->getViewport()->getCamera();
 		const Vector3& camPos =		fxCamera->getPosition();	  // El nodo es el que contiene el transform
 		const Quaternion& camOri =	fxCamera->getOrientation(); // la camara mantiene pos = 0 (relativa al nodo)
 	
@@ -435,6 +432,8 @@ namespace Graphics
 		_root->addFrameListener(_skyX);
 		BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->addListener(_skyX);
 		_skyX->getVCloudsManager()->getVClouds()->setDistanceFallingParams(Ogre::Vector2(2,-1));
+		_setSkyXPreset(_skyXPresets[_skyXPresetName]);
+		
 	}
 
 	//----------------------------------------------------------------------------------
@@ -445,6 +444,9 @@ namespace Graphics
 		BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->removeListener(_skyX);
 		_skyX->remove();
 	}
+
+	//----------------------------------------------------------------------------------
+
 
 	//-------------------------------------------------------------------------------------
 
@@ -516,7 +518,7 @@ namespace Graphics
 			if (!_skyX->getVCloudsManager()->isCreated())
 			{
 				// SkyX::MeshManager::getSkydomeRadius(...) works for both finite and infinite(=0) camera far clip distances
-				_skyX->getVCloudsManager()->create(_skyX->getMeshManager()->getSkydomeRadius(_viewport->getCamera()));
+				_skyX->getVCloudsManager()->create(_skyX->getMeshManager()->getSkydomeRadius(Graphics::CServer::getSingletonPtr()->getViewport()->getCamera()));
 			}
 		}
 		else
@@ -542,7 +544,9 @@ namespace Graphics
 	void CScene::skyXLoadPreset(const std::string& presetName)
 	{
 		if (_skyXPresets.count(presetName) > 0)
-			_setSkyXPreset(_skyXPresets[presetName]);
+		{
+			_skyXPresetName = presetName;
+		}
 	}
 
 	/*********************
@@ -551,16 +555,6 @@ namespace Graphics
 
 	void CScene::_hydraXInit()
 	{
-		_hydraX->setModule(static_cast<Hydrax::Module::Module*>(_hydraXModule));
-	
-		_hydraX->create();
-	}
-
-	//-------------------------------------------------------------------------------------
-
-	void CScene::_hydraXReinit()
-	{
-		_hydraX->setCamera(_viewport->getCamera());
 		_hydraXModule = new Hydrax::Module::ProjectedGrid(_hydraX,
 													new Hydrax::Noise::Perlin(),
 													Ogre::Plane(Ogre::Vector3(0,1,0), Ogre::Vector3(0,0,0)),
@@ -572,11 +566,20 @@ namespace Graphics
 	}
 
 	//-------------------------------------------------------------------------------------
+
+	void CScene::_hydraXReinit()
+	{
+		_hydraXDeinit();
+		_hydraX->setCamera(Graphics::CServer::getSingletonPtr()->getViewport()->getCamera());
+		_hydraXInit();
+	}
+
+	//-------------------------------------------------------------------------------------
 	
 	void CScene::_hydraXDeinit()
 	{
-		_hydraX->remove();
 		_hydraXModule->remove();
+		_hydraX->remove();
 	}
 
 	//-------------------------------------------------------------------------------------
@@ -584,10 +587,7 @@ namespace Graphics
 	void CScene::hydraXLoadCFG(const std::string& hydraXConfigFile)
 	{
 		if (hydraXConfigFile != "")
-		{
 			_hydraXConfigFileName = hydraXConfigFile;
-			_hydraX->loadCfg(hydraXConfigFile);
-		}
 	}
 
 } // namespace Graphics

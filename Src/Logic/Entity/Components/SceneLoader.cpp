@@ -48,16 +48,16 @@ namespace Logic
 		assert(entityInfo->hasAttribute("sceneFile"));
 			_sceneFile = entityInfo->getStringAttribute("sceneFile");
 
-		assert(entityInfor->hasAttribute("skyXPresetName"));
+		assert(entityInfo->hasAttribute("skyXPresetName"));
 			_skyXPresetName = entityInfo->getStringAttribute("skyXPresetName");
 
-		assert(entityInfor->hasAttribute("hydraXConfigFile"));
+		assert(entityInfo->hasAttribute("hydraXConfigFile"));
 			_hydraXConfigFile = entityInfo->getStringAttribute("hydraXConfigFile");
 
+		Graphics::DotSceneLoader loader;
 #ifdef _DEBUG
 
 #else		
-		Graphics::DotSceneLoader loader;
 		loader.parseDotScene(_sceneFile + ".scene", "General", _scene->getSceneMgr());
 #endif
 		_scene->skyXLoadPreset(_skyXPresetName);

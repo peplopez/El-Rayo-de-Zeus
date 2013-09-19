@@ -105,8 +105,7 @@ namespace Graphics
 		_visibleScene = _dummyScene;
 		
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()
-				->getRenderWindow()->addViewport(_dummyScene->getPlayerCamera()->getCamera());
-				
+				->getRenderWindow()->addViewport(_dummyScene->getPlayerCamera()->getCamera());	
 
 		_initHHFX(_dummyScene); // Hell Heaven FX: requiere dummyScene
 

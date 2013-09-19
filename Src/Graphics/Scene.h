@@ -178,13 +178,6 @@ namespace Graphics
 		*/
 		CCamera *_baseCamera;
 
-		/** 
-		Marco en la ventana de reenderizado donde se pinta lo captado por
-		una cámara. Solo puede haber una cámara asociada a un viewport,
-		sin embargo una ventana de reenderizado puede tener diferentes
-		viewports al mismo tiempo.
-		*/
-		Ogre::Viewport *_viewport;
 		
 		/**
 		Controla todos los elementos Ogre de una escena. Su equivalente
@@ -358,11 +351,14 @@ namespace Graphics
 		SkyX::SkyX* _skyX;
 		SkyX::BasicController* _skyXBasicController;
 		static std::map<std::string, SkyXSettings> _skyXPresets;
+		std::string _skyXPresetName;
 		
 		static std::map<std::string, SkyXSettings> _createPresets();
 		void _setSkyXPreset(const SkyXSettings& preset);
 		void _skyXInit();
 		void _skyXDeinit();
+
+
 
 	protected:
 
