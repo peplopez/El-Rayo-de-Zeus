@@ -59,12 +59,17 @@ namespace Logic
 
 #else		
 		loader.parseDotScene(_sceneFile + ".scene", "General", _scene->getSceneMgr());
+
 #endif
-		_scene->skyXLoadPreset(_skyXPresetName);
-		if (_hydraXConfigFile == "")
-			loader.parseDotScene(_sceneFile + "fakeWater" + ".scene", "General", _scene->getSceneMgr());
+		if (_skyXPresetName == "")
+			loader.parseDotScene(_sceneFile + "SkyLowQ" + ".scene", "General", _scene->getSceneMgr());
 		else
-			_scene->hydraXLoadCFG(_hydraXConfigFile);
+			_scene->setSkyXPresetToLoad(_skyXPresetName);
+		
+		if (_hydraXConfigFile == "")
+			loader.parseDotScene(_sceneFile + "WaterLowQ" + ".scene", "General", _scene->getSceneMgr());
+		else
+			_scene->setHydraXConfigToLoad(_hydraXConfigFile);
 		
 		return true;
 

@@ -1,5 +1,33 @@
 Map = {	
 
+	SpartanScene = {
+		type = "Scene",
+		sceneFile = "spartanScenario",
+		skyXPresetName="Thunderstorm1",
+		hydraXConfigFile="SpartanWater.hdx",
+	},
+	
+	SpartanSceneLowQ = {
+		type = "Scene",
+		sceneFile = "spartanScenario",
+		skyXPresetName="",
+		hydraXConfigFile="",
+	},
+	
+	HadesScene = {
+		type = "Scene",
+		sceneFile = "hadesScene",
+		skyXPresetName="Desert",
+		hydraXConfigFile="HadesWater.hdx",
+	},
+	
+	HadesSceneLowQ = {
+		type = "Scene",
+		sceneFile = "hadesScene",
+		skyXPresetName="",
+		hydraXConfigFile="",
+	},
+
 	SkySphere = {
 		type = "Sky",
 		position = {0, 0, 0},

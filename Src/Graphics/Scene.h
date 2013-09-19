@@ -362,7 +362,7 @@ namespace Graphics
 
 	protected:
 
-		void skyXLoadPreset(const std::string& presetName);
+		void setSkyXPresetToLoad(const std::string& presetName);
 
 	/*********************
 			Hydrax
@@ -381,7 +381,7 @@ namespace Graphics
 	
 	protected:
 
-		void hydraXLoadCFG(const std::string& hydraXConfigFile);
+		void setHydraXConfigToLoad(const std::string& hydraXConfigFile);
 		
 
 

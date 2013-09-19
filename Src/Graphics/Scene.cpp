@@ -91,7 +91,6 @@ namespace Graphics
 		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
 		_buildStaticGeometry();		
 		_hhfxInit(); // Init Hell Heaven FX Scene
-		//_skyXInit(); // Init de SkyX
 		_hydraX = new Hydrax::Hydrax(_sceneMgr, _playerCamera->getCamera(), 
 			Graphics::CServer::getSingletonPtr()->getViewport()); //no puedo hacerlo enel constructor porque en dummy
 		_hydraXInit(); // Init de Hydrax
@@ -157,8 +156,7 @@ namespace Graphics
 			if(_name != "dummy_scene")
 			{
 				_hydraXReinit();
-				_skyXInit();
-				
+				_skyXInit();	
 			}
 	
 		}
@@ -428,11 +426,14 @@ namespace Graphics
 
 	void CScene::_skyXInit()
 	{
-		_skyX->create();
-		_root->addFrameListener(_skyX);
-		BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->addListener(_skyX);
-		_skyX->getVCloudsManager()->getVClouds()->setDistanceFallingParams(Ogre::Vector2(2,-1));
-		_setSkyXPreset(_skyXPresets[_skyXPresetName]);
+		if (_skyXPresetName != "")
+		{
+			_skyX->create();
+			_root->addFrameListener(_skyX);
+			BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->addListener(_skyX);
+			_skyX->getVCloudsManager()->getVClouds()->setDistanceFallingParams(Ogre::Vector2(2,-1));
+			_setSkyXPreset(_skyXPresets[_skyXPresetName]);
+		}
 		
 	}
 
@@ -440,9 +441,12 @@ namespace Graphics
 
 	void CScene::_skyXDeinit()
 	{
-		_root->removeFrameListener(_skyX);
-		BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->removeListener(_skyX);
-		_skyX->remove();
+		if (_skyXPresetName != "")
+		{
+			_root->removeFrameListener(_skyX);
+			BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->removeListener(_skyX);
+			_skyX->remove();
+		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -541,12 +545,10 @@ namespace Graphics
 
 	//-------------------------------------------------------------------------------------
 
-	void CScene::skyXLoadPreset(const std::string& presetName)
+	void CScene::setSkyXPresetToLoad(const std::string& presetName)
 	{
 		if (_skyXPresets.count(presetName) > 0)
-		{
 			_skyXPresetName = presetName;
-		}
 	}
 
 	/*********************
@@ -555,36 +557,45 @@ namespace Graphics
 
 	void CScene::_hydraXInit()
 	{
-		_hydraXModule = new Hydrax::Module::ProjectedGrid(_hydraX,
-													new Hydrax::Noise::Perlin(),
-													Ogre::Plane(Ogre::Vector3(0,1,0), Ogre::Vector3(0,0,0)),
-													Hydrax::MaterialManager::NM_VERTEX,
-													Hydrax::Module::ProjectedGrid::Options());
-		_hydraX->setModule(static_cast<Hydrax::Module::Module*>(_hydraXModule));
-		_hydraX->loadCfg(_hydraXConfigFileName);
-		_hydraX->create();
+		if (_hydraXConfigFileName != "")
+		{
+			_hydraXModule = new Hydrax::Module::ProjectedGrid(_hydraX,
+														new Hydrax::Noise::Perlin(),
+														Ogre::Plane(Ogre::Vector3(0,1,0), Ogre::Vector3(0,0,0)),
+														Hydrax::MaterialManager::NM_VERTEX,
+														Hydrax::Module::ProjectedGrid::Options());
+			_hydraX->setModule(static_cast<Hydrax::Module::Module*>(_hydraXModule));
+			_hydraX->loadCfg(_hydraXConfigFileName);
+			_hydraX->create();
+		}
 	}
 
 	//-------------------------------------------------------------------------------------
 
 	void CScene::_hydraXReinit()
 	{
-		_hydraXDeinit();
-		_hydraX->setCamera(Graphics::CServer::getSingletonPtr()->getViewport()->getCamera());
-		_hydraXInit();
+		if (_hydraXConfigFileName != "")
+		{
+			_hydraXDeinit();
+			_hydraX->setCamera(Graphics::CServer::getSingletonPtr()->getViewport()->getCamera());
+			_hydraXInit();
+		}
 	}
 
 	//-------------------------------------------------------------------------------------
 	
 	void CScene::_hydraXDeinit()
 	{
-		_hydraXModule->remove();
-		_hydraX->remove();
+		if (_hydraXConfigFileName != "")
+		{
+			_hydraXModule->remove();
+			_hydraX->remove();
+		}
 	}
 
 	//-------------------------------------------------------------------------------------
 
-	void CScene::hydraXLoadCFG(const std::string& hydraXConfigFile)
+	void CScene::setHydraXConfigToLoad(const std::string& hydraXConfigFile)
 	{
 		if (hydraXConfigFile != "")
 			_hydraXConfigFileName = hydraXConfigFile;
