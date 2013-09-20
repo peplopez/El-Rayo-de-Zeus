@@ -1,7 +1,7 @@
 <scene formatVersion="1.0" upAxis="y" unitsPerMeter="100" unitType="centimeters" minOgreVersion="1.7" ogreMaxVersion="2.4.4" author="OgreMax Scene Exporter (www.ogremax.com)" application="Maya">
     <nodes>
          <node name="magma1">
-            <position x="0" y="320" z="0" />
+            <position x="0" y="300" z="0" />
             <scale x="1" y="1" z="1" />
             <rotation qx="0" qy="0" qz="0" qw="1" />
             <entity name="magma1" castShadows="true" receiveShadows="true" meshFile="magma1.mesh">
