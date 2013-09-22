@@ -88,7 +88,10 @@ namespace Logic
 		
 		@param entityID Identificador único de la entidad.
 		*/
-		CEntity(TEntityID entityID);
+		CEntity(TEntityID entityID) : _entityID(entityID), 
+				_map(0), _type(""), _name(""), _transform(Matrix4::IDENTITY),
+				_isLocalPlayer(false), _activated(false), 
+				_initialScale(1.0f) {}	
 
 		/**
 		Destructor de la clase. Es un método protegido pues para
@@ -194,7 +197,7 @@ namespace Logic
 		
 		@return true si la entidad es el jugador.
 		*/
-		bool isPlayer() { return _isPlayer; }
+		bool isLocalPlayer() { return _isLocalPlayer; }
 
 		/**
 		Método que indica si la entidad es o no el jugador.
@@ -205,7 +208,7 @@ namespace Logic
 		
 		@return true si la entidad es el jugador.
 		*/
-		void setIsPlayer(bool isPlayer);
+		void setIsLocalPlayer(bool isLocalPlayer);
 
 		/**
 		Devuelve el mapa donde está la entidad.
@@ -242,15 +245,7 @@ namespace Logic
 		*/
 		const float &getInitialScale() const { return _initialScale; }		
 
-		/**
-		Devuelve el material de la entidad.
-
-		@return Material de la entidad.
-		*/
-		//PT
-		//const std::string &getInitialMaterial() const { return _initialMaterial; }
-		const std::string &getInitialMaterial() const { return _initialMaterial0; }
-
+	
 		/**
 		Devuelve el tipo de la entidad. Este atributo es leido de
 		la entidad del mapa en spawn().
@@ -518,17 +513,7 @@ namespace Logic
 		*/
 		Matrix4 _transform;
 
-		/**
-		Material inicial de la entidad 0.
-		*/
-		//std::string _initialMaterial;
-		std::string _initialMaterial0;
-
-		/**
-		Material inicial de la entidad 1.
-		*/
-		std::string _initialMaterial1;
-
+	
 		/**
 		Escala inicial de la entidad.
 		*/
@@ -549,7 +534,7 @@ namespace Logic
 		Atributo que indica si la entidad es el jugador; por defecto
 		es false a no ser que se lea otra cosa de los atributos.
 		*/
-		bool _isPlayer;
+		bool _isLocalPlayer;
 
 		/** pep: añado variable que me sirve para el gameStatus 
 		Indica la base de origen de la entidad.

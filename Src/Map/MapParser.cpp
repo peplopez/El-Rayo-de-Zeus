@@ -13,7 +13,7 @@ Contiene la implementación de la clase que encapsula el parseo de mapas.
 #include <sstream>
 #include <cassert>
 
-#include "MapEntity.h"
+#include "Entity.h"
 #include "MapParser.h"
 #include "scanner.h"
 
@@ -35,7 +35,7 @@ namespace Map {
 
 	CMapParser::~CMapParser()
 	{
-		releaseEntityList();
+		releaseParsedEntities();
 		_instance = 0;
 
 	} // ~CMapParser
@@ -73,7 +73,7 @@ namespace Map {
 		scanner.set_debug(_traceScanning);
 		_lexer = &scanner;
 
-		releaseEntityList();
+		releaseParsedEntities();
 		CParser parser(*this);
 		parser.set_debug_level(_traceParsing);
 		return (parser.parse() == 0);
@@ -113,12 +113,12 @@ namespace Map {
 
 	//--------------------------------------------------------
 		
-	void CMapParser::releaseEntityList()
+	void CMapParser::releaseParsedEntities()
 	{
-		while(!_entityList.empty())
+		while(!_parsedEntities.empty())
 		{
-			_entityInProgress = _entityList.back();
-			_entityList.pop_back();
+			_entityInProgress = _parsedEntities.back();
+			_parsedEntities.pop_back();
 			delete _entityInProgress;
 		}
 	}

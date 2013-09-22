@@ -144,25 +144,25 @@ namespace Net {
 		_packets.clear();
 		_receivePackets(_packets);
 
-		for(std::vector<Net::CPacket*>::iterator iterp = _packets.begin(); iterp != _packets.end(); ++iterp)
+		for(std::vector<Net::CPacket*>::const_iterator iterp = _packets.cbegin(); iterp != _packets.cend(); ++iterp)
 		{
 			Net::CPacket* packet = *iterp;			
 			switch (packet->getType())
 			{
 				case PacketType::CONNECT:
 					_serverWelcomeClient( packet->getConnection() );
-					for(std::vector<IObserver*>::iterator iter = _observers.begin();iter != _observers.end();++iter)
+					for(std::vector<IObserver*>::const_iterator iter = _observers.cbegin();iter != _observers.cend();++iter)
 						(*iter)->connectPacketReceived(packet);
 					break;
 
 				case PacketType::DATA:
 					if( !_isMsgAssignID(packet) ) // Comprueba si es un MSG de asignación de NetID y guarda ID en tal caso.
-						for(std::vector<IObserver*>::iterator iter = _observers.begin();iter != _observers.end();++iter)
+						for(std::vector<IObserver*>::const_iterator iter = _observers.cbegin();iter != _observers.cend();++iter)
 							(*iter)->dataPacketReceived(packet);
 					break;
 
 				case PacketType::DISCONNECT:
-					for(std::vector<IObserver*>::iterator iter = _observers.begin();iter != _observers.end();++iter)
+					for(std::vector<IObserver*>::const_iterator iter = _observers.cbegin();iter != _observers.cend();++iter)
 						(*iter)->disconnectPacketReceived(packet);
 					_disconnect(packet->getConnection());
 					break;
@@ -232,7 +232,7 @@ namespace Net {
 		}
 		if(!_connections.empty())
 		{
-			for(TConnectionTable::const_iterator it = _connections.begin(); it != _connections.end(); it++)
+			for(TConnectionTable::const_iterator it = _connections.cbegin(); it != _connections.cend(); it++)
 				delete (*it).second;
 			_connections.clear(); // Quien hace el disconnect
 		}
@@ -254,7 +254,7 @@ namespace Net {
 
 	void CManager::removeObserver(IObserver* listener)
 	{
-		for(std::vector<IObserver*>::iterator iter = _observers.begin(); iter != _observers.end(); ++iter)
+		for(std::vector<IObserver*>::const_iterator iter = _observers.cbegin(); iter != _observers.cend(); ++iter)
 			if((*iter)==listener)
 			{
 				_observers.erase(iter);
@@ -364,7 +364,7 @@ namespace Net {
 	{
 		if( id == ID::UNASSIGNED)
 			return 0;
-		else if(_connections.find(id) != _connections.end()) // TODO: optimizacion: si somos cliente, devolver el primero directamente? vector vs map?
+		else if(_connections.find(id) != _connections.cend()) // TODO: optimizacion: si somos cliente, devolver el primero directamente? vector vs map?
 			return _connections[id];
 		else
 			return 0;

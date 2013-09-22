@@ -14,7 +14,7 @@
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/Map.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 #include "Graphics/DotSceneLoader/DotSceneLoader.h"
 #include "Graphics/Scene.h"

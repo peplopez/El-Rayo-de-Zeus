@@ -360,8 +360,8 @@ namespace GUI{
 		if (!_keyListeners.empty()) 
 		{
 			std::list<CKeyboardListener*>::const_iterator it;
-			it = _keyListeners.begin();
-			for (; it != _keyListeners.end(); it++) 
+			it = _keyListeners.cbegin();
+			for (; it != _keyListeners.cend(); it++) 
 			{
 				if ((*it)->keyPressed(ois2galeon(e)))
 				  return true;
@@ -379,8 +379,8 @@ namespace GUI{
 		if (!_keyListeners.empty()) 
 		{
 			std::list<CKeyboardListener*>::const_iterator it;
-			it = _keyListeners.begin();
-			for (; it != _keyListeners.end(); it++) 
+			it = _keyListeners.cbegin();
+			for (; it != _keyListeners.cend(); it++) 
 			{
 				if ((*it)->keyReleased(ois2galeon(e)))
 				  return true;
@@ -457,8 +457,8 @@ namespace GUI{
 			_mouseState.button = Button::UNASSIGNED;
 
 			std::list<CMouseListener*>::const_iterator it;
-			it = _mouseListeners.begin();
-			for (; it != _mouseListeners.end(); it++) 
+			it = _mouseListeners.cbegin();
+			for (; it != _mouseListeners.cend(); it++) 
 			{
 				if ((*it)->mouseMoved(_mouseState))
 				  return true;
@@ -484,8 +484,8 @@ namespace GUI{
 			_mouseState.button = (TButton)button;
 
 			std::list<CMouseListener*>::const_iterator it;
-			it = _mouseListeners.begin();
-			for (; it != _mouseListeners.end(); it++) 
+			it = _mouseListeners.cbegin();
+			for (; it != _mouseListeners.cend(); it++) 
 			{
 				if ((*it)->mousePressed(_mouseState))
 				  return true;
@@ -511,8 +511,8 @@ namespace GUI{
 			_mouseState.button = (TButton)button;
 
 			std::list<CMouseListener*>::const_iterator it;
-			it = _mouseListeners.begin();
-			for (; it != _mouseListeners.end(); it++) 
+			it = _mouseListeners.cbegin();
+			for (; it != _mouseListeners.cend(); it++) 
 			{
 				if ((*it)->mouseReleased(_mouseState))
 				  return true;
@@ -537,8 +537,8 @@ namespace GUI{
 				_joystickState->_axes[getAxisForOISAxis(axis)].abs = e.state.mAxes[axis].abs;
 				_joystickState->_axes[getAxisForOISAxis(axis)].rel= e.state.mAxes[axis].rel;
 				std::list<CJoystickListener*>::const_iterator it;
-				it = _joystickListeners.begin();
-				for (; it != _joystickListeners.end(); ++it) 
+				it = _joystickListeners.cbegin();
+				for (; it != _joystickListeners.cend(); ++it) 
 				{
 					(*it)->axisMoved(_joystickState, getAxisForOISAxis(axis));
 				}
@@ -561,8 +561,8 @@ namespace GUI{
 			{
 				_joystickState->_buttons[getButtonForOISButton(button)] = e.state.mButtons[button];
 				std::list<CJoystickListener*>::const_iterator it;
-				it = _joystickListeners.begin();
-				for (; it != _joystickListeners.end(); ++it) 
+				it = _joystickListeners.cbegin();
+				for (; it != _joystickListeners.cend(); ++it) 
 				{
 					(*it)->buttonPressed(_joystickState, getButtonForOISButton(button));
 		
@@ -587,8 +587,8 @@ namespace GUI{
 			{
 				_joystickState->_buttons[getButtonForOISButton(button)] = e.state.mButtons[button];
 				std::list<CJoystickListener*>::const_iterator it;
-				it = _joystickListeners.begin();
-				for (; it != _joystickListeners.end(); ++it) 
+				it = _joystickListeners.cbegin();
+				for (; it != _joystickListeners.cend(); ++it) 
 				{
 					(*it)->buttonReleased(_joystickState, getButtonForOISButton(button));
 				}
@@ -609,8 +609,8 @@ namespace GUI{
 			LOG(" POV MOVED: " << index << " direction: " << e.state.mPOV[index].direction);	
 			_joystickState->_pov = static_cast<TPovDirection>(e.state.mPOV[index].direction);
 			std::list<CJoystickListener*>::const_iterator it;
-			it = _joystickListeners.begin();
-			for (; it != _joystickListeners.end(); ++it) 
+			it = _joystickListeners.cbegin();
+			for (; it != _joystickListeners.cend(); ++it) 
 			{
 					(*it)->povMoved(_joystickState);
 			}

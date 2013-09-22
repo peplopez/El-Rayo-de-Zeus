@@ -39,14 +39,15 @@ void ambient_vs(VIn IN,
     oUV = IN.uv;
 }
  
-float4 ambient_ps(in float2 uv : TEXCOORD0,
-    uniform float3 ambient,
-    uniform float4 matDif,
-    uniform sampler2D dMap,
-    uniform sampler2D aoMap): COLOR0
+float4 ambient_ps(
+	in float2 uv : TEXCOORD0,
+    uniform float3 lightAmb,
+    uniform float3 surfaceAmb,
+    uniform sampler2D diffuseMap : TEXUNIT0,
+    uniform sampler2D aoMap      : TEXUNIT1): COLOR0
 {
-    return tex2D(dMap, uv) * tex2D(aoMap, uv) *
-        float4(ambient, 1) * float4(matDif.rgb, 1);
+    return tex2D(diffuseMap, uv) * tex2D(aoMap, uv) *
+        float4(lightAmb, 1) * float4(surfaceAmb.rgb, 1);
 }
  
 VOut diffuse_vs(VIn IN,
@@ -72,14 +73,14 @@ VOut diffuse_vs(VIn IN,
 }
  
 float4 diffuse_ps(
-    PIn IN,
-    uniform float3 lightDif0,
+    PIn IN,    
     uniform float4 lightPos0,
     uniform float4 lightAtt0,
+	uniform float3 lightDif0,
     uniform float3 lightSpec0,
-    uniform float4 matDif,
-    uniform float4 matSpec,
-    uniform float matShininess,
+    uniform float3 surfaceDiff,
+    uniform float3 surfaceSpec,
+    uniform float surfaceShininess,
     uniform float3 camPos,
     uniform float4 invSMSize,
     uniform float4 spotlightParams,
@@ -88,21 +89,21 @@ float4 diffuse_ps(
     uniform sampler2D specMap : TEXUNIT1,
     uniform sampler2D normalMap : TEXUNIT2): COLOR0
 {
-    // direction
+	float4 diffuseTex = tex2D(diffuseMap, IN.uv);
+    float4 normalTex = tex2D(normalMap, IN.uv);	
+    float4 specTex = tex2D(specMap, IN.uv);
+ 
+	// attenuation
+    half lightDist = length(lightPos0.xyz - IN.wp.xyz) / lightAtt0.r;   
+		half ila = lightDist * lightDist; // quadratic falloff
+		half la = 1.0 - ila;
+		la = max(la, 0);
+ 
+	// light direction (from texel)
     float3 ld0 = normalize(lightPos0.xyz - (lightPos0.w * IN.wp.xyz));
- 
-    half lightDist = length(lightPos0.xyz - IN.wp.xyz) / lightAtt0.r;
-    // attenuation
-    half ila = lightDist * lightDist; // quadratic falloff
-    half la = 1.0 - ila;
-	la = max(la, 0);
- 
-    float4 normalTex = tex2D(normalMap, IN.uv);
- 
-    float3x3 tbn = float3x3(IN.t, IN.b, IN.n);
+	float3x3 tbn = float3x3(IN.t, IN.b, IN.n);
     float3 normal = mul(transpose(tbn), normalTex.xyz * 2 - 1); // to object space
     normal = normalize(mul((float3x3)iTWMat, normal));
- 
     float3 diffuse = max(dot(ld0, normal), 0);
  
     // calculate the spotlight effect
@@ -116,13 +117,10 @@ float4 diffuse_ps(
  
     float3 camDir = normalize(camPos - IN.wp.xyz);
     float3 halfVec = normalize(ld0 + camDir);
-    float3 specular = pow(max(dot(normal, halfVec), 0), matShininess);
+    float3 specular = pow(max(dot(normal, halfVec), 0), surfaceShininess);    
  
-    float4 diffuseTex = tex2D(diffuseMap, IN.uv);
-    float4 specTex = tex2D(specMap, IN.uv);
- 
-    float3 diffuseContrib = (diffuse * lightDif0 * diffuseTex.rgb * matDif.rgb);
-    float3 specularContrib = (specular * lightSpec0 * specTex.rgb * matSpec.rgb);
+    float3 diffuseContrib = (diffuse * lightDif0 * diffuseTex.rgb * surfaceDiff.rgb);
+    float3 specularContrib = (specular * lightSpec0 * specTex.rgb * surfaceSpec.rgb);
     float3 light0C = (diffuseContrib + specularContrib) * la * spot;
  
     return float4(light0C, diffuseTex.a);

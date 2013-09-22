@@ -24,7 +24,7 @@ gráfica de la entidad.
 #include "Logic/Entity/Messages/MessageUIntString.h"
 #include "Logic/Entity/Messages/MessageUInt.h"
 
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 #include "Logic/Maps/Map.h"
 #include "Logic/Server.h"
 
@@ -150,10 +150,11 @@ namespace Logic
 			
 			LOG("Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _baseToGo );
 			
-			CMessageUInt *m2 = new CMessageUInt();	
-			m2->setType(Message::SET_INITIAL_MATERIAL);
-			m2->setUInt(1);
-			_entity->emitMessage(m2,this);
+			// UNDONE FRS temporalmente, hasta encontrarle alguna utilidad
+			//CMessageUInt *m2 = new CMessageUInt();	
+			//m2->setType(Message::RESET_MATERIAL);
+			//m2->setUInt(1);
+			//_entity->emitMessage(m2,this);
 		}
 		_changingBase=false;
 		_changingBaseTime=0;
@@ -181,10 +182,11 @@ namespace Logic
 			
 			LOG("Respawn: Change Base from " << _entity->getLogicalPosition()->getBase() << " to " << _baseToGo << " when Respawn" );
 			
-			CMessageUInt *m2 = new CMessageUInt();	
-			m2->setType(Message::SET_INITIAL_MATERIAL);
-			m2->setUInt(1);
-			_entity->emitMessage(m2,this);
+			// UNDONE FRS temporalmente, hasta encontrarle alguna utilidad
+			//CMessageUInt *m2 = new CMessageUInt();	
+			//m2->setType(Message::RESET_MATERIAL);
+			//m2->setUInt(1);
+			//_entity->emitMessage(m2,this);
 		}
 
 		_changingBase=false;
@@ -198,8 +200,7 @@ namespace Logic
 		_changeAllowed = true;
 		_baseToGo = base;
 	
-		Logic::CServer* srv = Logic::CServer::getSingletonPtr();
-		srv->activateBaseCam(base);
+		Logic::CServer::getSingletonPtr()->activateBaseCam(base);
 		LOG("Showing Base " <<  base );
 	}
 
@@ -218,7 +219,7 @@ namespace Logic
 	//---------------------------------------------------------
 	void CBaseTraveler::jumpToBase()
 	{
-		if (_changeAllowed || !_entity->isPlayer())
+		if (_changeAllowed || !_entity->isLocalPlayer())
 		{
 			_changeAllowed = false;
 			_changingBase=true;
@@ -232,7 +233,7 @@ namespace Logic
 	//---------------------------------------------------------
 	void CBaseTraveler::jumpToBaseOrigin(unsigned short baseOrigin)
 	{
-		if (_changeAllowed || !_entity->isPlayer())
+		if (_changeAllowed || !_entity->isLocalPlayer())
 		{
 			_changeAllowed = false;
 			_changingBase=true;

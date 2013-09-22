@@ -15,7 +15,7 @@ gráfica de una entidad estática.
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/Map.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 #include "Graphics/Scene.h"
 #include "Graphics/AnimSet.h"

@@ -14,7 +14,7 @@ de la entidad.
 #include "Destruction.h"
 
 #include "Logic/Entity/Entity.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 #include "PhysicalCharacter.h"
 

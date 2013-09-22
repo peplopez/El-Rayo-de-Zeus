@@ -165,7 +165,8 @@ namespace BaseSubsystems
 			!initOIS() ||
 			!initLUA() ||
 			!initCEGUI() )
-		{
+		{			 
+			srand (time(NULL));// FRS initialize random seed
 			close();
 			return false;
 		}

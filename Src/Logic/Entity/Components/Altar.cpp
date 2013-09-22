@@ -14,7 +14,7 @@ capacidad de un Character de activar/desactivar altares
 #include "Altar.h"
 
 #include "Logic/Entity/Entity.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 #include "Logic/Maps/Map.h"
 #include "Logic/Server.h"
 
@@ -87,9 +87,8 @@ namespace Logic
 		{
 			LOG(_entity->getName() << ": activado")
 				CMessageUIntString *m = new CMessageUIntString();	
-				m->setType(Message::SET_SUBENTITY_MATERIAL);
-				m->setString(_activatedMaterial);
-				m->setUInt(0);
+				m->setType(Message::SET_MATERIAL);
+				m->setString(_activatedMaterial);			
 				_entity->emitMessage(m,this);
 
 			CMessage *txMsg = new CMessage();	
@@ -103,9 +102,8 @@ namespace Logic
 		{
 			LOG(_entity->getName() << ": desactivado")
 			CMessageUIntString *m = new CMessageUIntString();	
-			m->setType(Message::SET_SUBENTITY_MATERIAL);
-			m->setString(_unactivatedMaterial);
-			m->setUInt(0);
+			m->setType(Message::SET_MATERIAL);
+			m->setString(_unactivatedMaterial);	
 			_entity->emitMessage(m,this);
 
 		}
@@ -198,9 +196,8 @@ namespace Logic
 					LOG(_entity->getName() << ": activado")
 					_gameStatus->getPlayer(_entity->getOriginBase())->increaseAltarsActivated();
 					CMessageUIntString *m = new CMessageUIntString();	
-					m->setType(Message::SET_SUBENTITY_MATERIAL);
-					m->setString(_activatedMaterial);
-					m->setUInt(0);
+					m->setType(Message::SET_MATERIAL);
+					m->setString(_activatedMaterial);			
 					_entity->emitMessage(m,this);		
 
 /////////////////////////////////// HACK TEST FRS Para probar FX
@@ -214,9 +211,8 @@ namespace Logic
 					LOG(_entity->getName() << ": desactivado")
 					_gameStatus->getPlayer(_entity->getOriginBase())->decreaseAltarsActivated();
 					CMessageUIntString *m = new CMessageUIntString();	
-					m->setType(Message::SET_SUBENTITY_MATERIAL);
-					m->setString(_unactivatedMaterial);
-					m->setUInt(0);
+					m->setType(Message::SET_MATERIAL);
+					m->setString(_unactivatedMaterial);				
 					_entity->emitMessage(m,this);
 
 

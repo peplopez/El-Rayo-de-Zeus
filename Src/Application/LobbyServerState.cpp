@@ -153,7 +153,7 @@ namespace Application {
 
 					// [FRS] Llamar al método de creación del jugador. Deberemos decidir
 					// si el jugador es el jugador local. Al ser el servidor ninguno lo es
-					Logic::CServer::getSingletonPtr()->getMap("mapPlayer")->createPlayer(_playerNicks[id], false, _playerModels[id]);
+			//		Logic::CServer::getSingletonPtr()->getMap("mapPlayer")->createPlayer(_playerNicks[id], false, _playerModels[id]);
 					// HACK Deberíamos poder propocionar caracteríasticas
 					// diferentes según el cliente (nombre, modelo, etc.). Esto es una
 					// aproximación, solo cambiamos el nombre y decimos si es el jugador local
@@ -268,51 +268,37 @@ namespace Application {
 		CApplicationState
 	************************/
 
+	// FRS En el init ya se han inicializado todos los motores de la app (CEGUI, NET, etc...)
 	bool CLobbyServerState::init() 
 	{
-		CApplicationState::init();
-
+	// CEGUI
 
 		// Cargamos la ventana que muestra el menú
 		_windowManager = CEGUI::WindowManager::getSingletonPtr();
-			_windowManager->loadWindowLayout("NetLobbyServer.layout");
-		
-		_windowMenu = _windowManager->getWindow("NetLobbyServer");
-		_windowStatus = _windowManager->getWindow("NetLobbyServer/Status");
-		_windowBack = _windowManager->getWindow("NetLobbyServer/Back");
+			_windowManager->loadWindowLayout("NetLobbyServer.layout");		
+			_windowMenu =	_windowManager->getWindow("NetLobbyServer");
+			_windowStatus = _windowManager->getWindow("NetLobbyServer/Status");			
+			_windowBack =	_windowManager->getWindow("NetLobbyServer/Back");
+			_windowStart = _windowManager->getWindow("NetLobbyServer/Start");
+				_windowStart->setEnabled(false);
 
 		// Asociamos los botones del menú con las funciones que se deben ejecutar.
-		_windowStart = _windowManager->getWindow("NetLobbyServer/Start");
-			_windowStart->subscribeEvent(CEGUI::PushButton::EventClicked, 
-				CEGUI::SubscriberSlot(&CLobbyServerState::_startReleased, this));
-			_windowStart->setEnabled(false);
-		
+		_windowStart->subscribeEvent(CEGUI::PushButton::EventClicked, 
+			CEGUI::SubscriberSlot(&CLobbyServerState::_startReleased, this));		
 		_windowBack->subscribeEvent(CEGUI::PushButton::EventClicked, 
-				CEGUI::SubscriberSlot(&CLobbyServerState::_backReleased, this));
-
+			CEGUI::SubscriberSlot(&CLobbyServerState::_backReleased, this));
+		
+	// NET
 		_netManager = Net::CManager::getSingletonPtr();
-		_nClients = 0; // Nº clientes conectados
-		_maskClientIds = 0;
-		_mapLoadedByClients = 0;	
 
 		return true;
-
 	} // init
 
-	//--------------------------------------------------------
-
-	void CLobbyServerState::release() 
-	{
-		CApplicationState::release();
-
-	} // release
 
 	//--------------------------------------------------------
 
 	void CLobbyServerState::activate() 
-	{
-		CApplicationState::activate();
-
+	{		
 		// Activamos la ventana que nos muestra el menú y activamos el ratón.
 		CEGUI::System::getSingletonPtr()->setGUISheet(_windowMenu);
 			_windowMenu->setVisible(true);
@@ -337,17 +323,8 @@ namespace Application {
 		CEGUI::MouseCursor::getSingleton().hide();
 		_windowMenu->deactivate();
 		_windowMenu->setVisible(false);
-		
-		CApplicationState::deactivate();
-
 	} // deactivate
 
-	//--------------------------------------------------------
-
-	void CLobbyServerState::tick(unsigned int msecs) 
-	{
-		CApplicationState::tick(msecs);
-	} // tick
 
 
 
@@ -356,14 +333,6 @@ namespace Application {
 	/*********************************
 		GUI::CKeyboardListener
 	********************************/
-
-	bool CLobbyServerState::keyPressed(GUI::TKey key)
-	{
-	   return false;
-
-	} // keyPressed
-
-	//--------------------------------------------------------
 
 	bool CLobbyServerState::keyReleased(GUI::TKey key)
 	{
@@ -386,32 +355,6 @@ namespace Application {
 	
 
 
-	/*********************************
-		GUI::CMouseListener
-	********************************/
-
-	bool CLobbyServerState::mouseMoved(const GUI::CMouseState &mouseState)
-	{
-		return false;
-
-	} // mouseMoved
-
-	//--------------------------------------------------------
-		
-	bool CLobbyServerState::mousePressed(const GUI::CMouseState &mouseState)
-	{
-		return false;
-
-	} // mousePressed
-
-	//--------------------------------------------------------
-
-
-	bool CLobbyServerState::mouseReleased(const GUI::CMouseState &mouseState)
-	{
-		return false;
-
-	} // mouseReleased
 			
 	
 

@@ -1,6 +1,6 @@
 #include "StateMachineExecutor.h"
 
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 namespace Logic 
 {

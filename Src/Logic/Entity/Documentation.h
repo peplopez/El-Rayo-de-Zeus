@@ -157,7 +157,7 @@ Es <em>importante</em> invocar al método spawn de la clase padre al
 principio del método, para que la inicialización sea completa. El
 siguiente ejemplo comprueba si existe el atributo "activateMsg" en el mapa
 y si existe lo guarda en una variable. Para poder acceder a los atributos 
-leídos del mapa se debe incluir el fichero Map/MapEntity.h.
+leídos del mapa se debe incluir el fichero Map/Entity.h.
 
 \code
 class CMyComponent : public Logic::IComponent 

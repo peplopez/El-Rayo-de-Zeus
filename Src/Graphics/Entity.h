@@ -18,15 +18,13 @@ Contiene la declaración de la clase que representa una entidad gráfica.
 
 #pragma warning(disable: 4482)
 
-#include "Graphics\SceneElement.h"
+#include <Graphics\SceneElement.h>
+
+#include <OgreEntity.h>
+#include <OgreSubEntity.h>
 
 #include <stack>
 
-// Predeclaración de clases para ahorrar tiempo de compilación
-namespace Ogre 
-{
-	class Entity;
-};
 
 namespace Graphics 
 {
@@ -82,12 +80,9 @@ namespace Graphics
 		@param name Nombre de la entidad.
 		@param mesh Nombre del modelo que debe cargarse.
 		*/
-		CEntity::CEntity(const std::string &name, const std::string &mesh, bool isStatic = false)
-			: _name(name), _mesh(mesh), _entity(0) 
-		{
-			_type = isStatic? TGraphicalType::STATIC : TGraphicalType::DYNAMIC;
-		}  
-		// FRS Entidades o son dinamicas o son estáticas
+		CEntity(const std::string &name, const std::string &mesh, bool isStatic = false);
+		~CEntity();
+		
 
 
 		/************
@@ -97,12 +92,12 @@ namespace Graphics
 			Unir el model mesh al hueso toBone
 		*/
 		void attach(TAttachPoint attachPoint, const std::string &mesh) {
-			attach( BONE_DICTIONARY[attachPoint], mesh);
-			_boneObjectsNameTable[ BONE_DICTIONARY[attachPoint] ].push_back(mesh); 
+			attach( _BONE_DICTIONARY[attachPoint], mesh);
+			_boneObjectsNameTable[ _BONE_DICTIONARY[attachPoint] ].push_back(mesh); 
 		}		
 		void detach(TAttachPoint detachPoint) {
-			detach( BONE_DICTIONARY[detachPoint] );
-			_boneObjectsNameTable[ BONE_DICTIONARY[detachPoint] ].pop_back();
+			detach( _BONE_DICTIONARY[detachPoint] );
+			_boneObjectsNameTable[ _BONE_DICTIONARY[detachPoint] ].pop_back();
 		}
 			
 
@@ -120,18 +115,19 @@ namespace Graphics
 
 		 @return Cierto si la entidad es visible (está activa 
 		 para ser reenderizada).
-		*/
-		bool isVisible() const;
-
-		/**
-		*/
-		void setMaterial(const std::string &materialName);
-
-		/**
-		*/
-		void setSubEntityMaterial(const std::string &materialName, unsigned int subEntityIndex); 
-
-
+		*/	
+		inline const std::string getName() const { return _name; }	
+		inline const std::string getMesh() const { return _mesh; }
+	
+		inline bool isVisible() const { 
+			assert(_loaded && "La entidad no ha sido cargada en la escena");
+			return _entity->isVisible();
+		} 
+		inline unsigned int getNumSubEntities() const { 	
+			assert(_loaded && "La entidad no ha sido cargada en la escena"); 
+			return _entity->getNumSubEntities(); 
+		}
+			
 
 	protected:
 	
@@ -156,17 +152,36 @@ namespace Graphics
 		comprobaciónes de si la entidad está o no cargada o de si pertenece
 		a una escena. Esto se debe hacer de manera externa.
 		*/
-		virtual void unload();
+		virtual void unload();		
 		
-		
+
+	private:
+
+		/**
+		Nombre de la entidad.
+		*/
+		std::string _name;
+
+		/**
+		Nombre del modelo de la entidad.
+		*/
+		std::string _mesh;
+
+
+
+
+	/******************
+		ATTACHMENTS
+	*****************/
+
 	private:
 
 		 // DICCIONARIO TAttachPoint -> BoneName
 		typedef std::map<TAttachPoint, std::string> TBoneDictionary;
 
-			static TBoneDictionary BONE_DICTIONARY;
+			static TBoneDictionary _BONE_DICTIONARY;
 
-				static TBoneDictionary initBoneDictionary() {
+				static TBoneDictionary _initBoneDictionary() {
 					TBoneDictionary dictionary;
 //*
 						dictionary[TAttachPoint::ARM_L] =	"LeftHelper";		// SPARTAN
@@ -186,31 +201,56 @@ namespace Graphics
 					// TODO añadir on demand...
 					return dictionary;
 				}
-
-		/**
-		Nombre de la entidad.
-		*/
-		std::string _name;
-
-		/**
-		Nombre del modelo de la entidad.
-		*/
-		std::string _mesh;
-
-
+				
 		typedef std::stack<Ogre::Entity*> TAttachedMeshes;
 		typedef std::map<std::string, TAttachedMeshes> TBoneObjectsTable;
 			TBoneObjectsTable _boneObjectsTable;
 
 		typedef std::deque<std::string> TAttachedMeshNames;
 		typedef std::map<std::string, TAttachedMeshNames> TBoneObjectNamesTable;
-			TBoneObjectNamesTable _boneObjectsNameTable;
-		
+			TBoneObjectNamesTable _boneObjectsNameTable;		
 
 		void attach(const std::string &toBone, const std::string &mesh, bool permanently = false);
 		void detach(const std::string &fromBone);	
-		void reattachAllMeshes();
+		void _reloadAttachments();
 
+
+
+
+	/****************
+		MATERIALS
+	***************/
+
+	public:
+		
+		void setMaterial(const std::string &materialName, unsigned int subIndex = 0);
+		inline void resetLastMaterial( unsigned int subIndex = 0) {
+			if(_matListLast) setMaterial( _matListLast[ subIndex], subIndex ); 
+		}
+		void		setColor(const std::string& color	, unsigned int subEntityIndex = 0);
+		void		setColor(const Vector3& color		, unsigned int subEntityIndex = 0);
+
+	private:
+
+		// FRS Hemos considerado que normalmente vamos tener materiales permanentes, cambios de
+		// material permanentes y, quizá, algún cambio temporal. Si en un futuro necesitáramos
+		// varios cambios consecutivos, habría que considerar guardar un _matListInit o que los
+		// arrays se unificaran en una pila (imitando los attach).
+		std::string* _matListLast;
+		std::string* _matListCurrent;
+	
+		inline void _reloadMaterial( unsigned int subIndex = 0 ) const {
+			assert(_entity && "La entidad grafica no ha sido cargada");
+			if(_matListCurrent && _matListCurrent[ subIndex ].length() )
+				_entity->getSubEntity(subIndex)->setMaterialName( _matListCurrent[ subIndex ] );
+		}
+		inline void _reloadMaterials() const {
+			if(_matListCurrent) {
+				const int N = _entity->getNumSubEntities();
+				for(int i=0; i < N; ++i) _reloadMaterial(i);
+			}
+		} 
+		
 
 	}; // class CEntity
 

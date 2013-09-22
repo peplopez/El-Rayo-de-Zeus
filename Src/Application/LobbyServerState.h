@@ -68,12 +68,8 @@ namespace Application
 		/** 
 		Constructor de la clase 
 		*/
-		CLobbyServerState(CBaseApplication *app) : CApplicationState(app),_waiting(true) {} 	
-
-		/** 
-		Destructor 
-		*/
-		virtual ~CLobbyServerState() {}
+		CLobbyServerState(CBaseApplication *app) : CApplicationState(app),
+			_waiting(true), _nClients(0), _maskClientIds(0), _mapLoadedByClients(0) {} 	
 
 		/**
 		Función llamada cuando se crea el estado (se "engancha" en la
@@ -81,19 +77,13 @@ namespace Application
 
 		@return true si todo fue bien.
 		*/
-		virtual bool init();
-
-		/**
-		Función llamada cuando se elimina ("desengancha") el
-		estado de la aplicación.
-		*/
-		virtual void release();
+		bool init();
 
 		/**
 		Función llamada por la aplicación cuando se activa
 		el estado.
 		*/
-		virtual void activate();
+		void activate();
 
 		/**
 		Función llamada por la aplicación cuando se desactiva
@@ -101,31 +91,10 @@ namespace Application
 		*/
 		virtual void deactivate();
 
-		/**
-		Función llamada por la aplicación para que se ejecute
-		la funcionalidad del estado.
 
-		@param msecs Número de milisegundos transcurridos desde
-		la última llamada (o desde la áctivación del estado, en caso
-		de ser la primera vez...).
-		*/
-		virtual void tick(unsigned int msecs);
 
 		// Métodos de CKeyboardListener
-		
-		/**
-		Método que será invocado siempre que se pulse una tecla. 
-		Será la aplicación quién llame a este método cuando el 
-		estado esté activo. Esta clase NO se registra en el 
-		InputManager sino que es la aplicación quien lo hace y 
-		delega en los estados.
 
-		@param key Código de la tecla pulsada.
-		@return true si el evento ha sido procesado. En este caso 
-		el gestor no llamará a otros listeners.
-		*/
-		virtual bool keyPressed(GUI::TKey key);
-		
 		/**
 		Método que será invocado siempre que se termine la pulsación
 		de una tecla. Será la aplicación quién llame a este método 
@@ -139,46 +108,15 @@ namespace Application
 		*/
 		virtual bool keyReleased(GUI::TKey key);
 
-		// Métodos de CMouseListener
-		
-		/**
-		Método que será invocado siempre que se mueva el ratón. La
-		aplicación avisa de este evento al estado actual.
 
-		@param mouseState Estado del ratón cuando se lanza el evento.
-		@return true si el evento ha sido procesado. En este caso 
-		el gestor no llamará a otros listeners.
-		*/
-		virtual bool mouseMoved(const GUI::CMouseState &mouseState);
-		
-		/**
-		Método que será invocado siempre que se pulse un botón. La
-		aplicación avisa de este evento al estado actual.
-
-		@param mouseState Estado del ratón cuando se lanza el evento.
-		@return true si el evento ha sido procesado. En este caso 
-		el gestor no llamará a otros listeners.
-		*/
-		virtual bool mousePressed(const GUI::CMouseState &mouseState);
-
-		/**
-		Método que será invocado siempre que se termine la pulsación
-		de un botón. La aplicación avisa de este evento al estado 
-		actual.
-
-		@param mouseState Estado del ratón cuando se lanza el evento.
-		@return true si el evento ha sido procesado. En este caso 
-		el gestor no llamará a otros listeners. 
-		*/
-		virtual bool mouseReleased(const GUI::CMouseState &mouseState);
 
 
 		/******************
 			NET::IOBSERVER
 		******************/
-		virtual void dataPacketReceived(Net::CPacket* packet);
-		virtual void connectPacketReceived(Net::CPacket* packet);
-		virtual void disconnectPacketReceived(Net::CPacket* packet);
+		void dataPacketReceived(Net::CPacket* packet);
+		void connectPacketReceived(Net::CPacket* packet);
+		void disconnectPacketReceived(Net::CPacket* packet);
 
 
 	private:
@@ -252,9 +190,6 @@ namespace Application
 		Simplemente cambia al estado de menu.
 		*/
 		bool _backReleased(const CEGUI::EventArgs& e);
-
-
-
 
 
 

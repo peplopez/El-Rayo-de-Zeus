@@ -11,7 +11,7 @@
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/Map.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 #include "Basesubsystems/Math.h"
 
 #include <math.h>

@@ -29,7 +29,7 @@ namespace Net {
 	CClientENET::~CClientENET()
 	{
 		std::vector<CConnection*>::iterator it = _connectionsList.begin();
-		while (it != _connectionsList.end()) {
+		while (it != _connectionsList.cend()) {
 			delete (*it);
 			++it;
 		}
@@ -274,9 +274,9 @@ namespace Net {
 
 	void CClientENET::disconnectReceived(CConnection* connection)
 	{
-		std::vector<CConnection*>::iterator it = _connectionsList.begin();
+		std::vector<CConnection*>::const_iterator it = _connectionsList.cbegin();
 		bool found = false;
-		while ((it != _connectionsList.end()) && (!found)) {
+		while ((it != _connectionsList.cend()) && (!found)) {
 			if(*it == connection)
 				found=true;
 			else

@@ -17,9 +17,12 @@ la ventana, etc.
 #ifndef __Graphics_Server_H
 #define __Graphics_Server_H
 
+#include <BaseSubsystems/Math.h>
+
 #include <assert.h>
 #include <map>
 #include <OgreCompositorManager.h>
+
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 
@@ -52,6 +55,27 @@ se apoyan en Ogre.
 */
 namespace Graphics 
 {
+
+	// DICCIONARIO sColor -> vRGB
+	typedef std::map<std::string, Vector3> TMapColorRGB;
+		const Vector3& colorToRGB(const std::string& colorName);
+		inline TMapColorRGB _initColorToRGB() {
+			TMapColorRGB map;
+				map["Black"]	= Vector3(0.20f,	0.20f,	0.20f); 
+				map["Blue"]		= Vector3(0.20f,	0.20f,	1.00f);
+				map["BlueSky"]	= Vector3(0.00f,	0.75f,	1.00f);
+				map["Cyan"]		= Vector3(0.00f,	1.00f,	1.00f);
+				map["Gold"]		= Vector3(1.00f,	0.84f,	0.00f);
+				map["Green"]	= Vector3(0.20f,	0.80f,	0.20f);
+				map["Lime"]		= Vector3(0.00f,	1.00f,	0.00f);
+				map["Red"]		= Vector3(1.00f,	0.00f,	0.00f);
+				map["Yellow"]	= Vector3(1.00f,	1.00f,	0.00f);
+			return map;
+		}
+		
+		
+	
+
 	/**
 	Clase central del subistema gráfico. Se encarga de gestionar todas las
 	entidades que se pintan en la ventana de la aplicación.

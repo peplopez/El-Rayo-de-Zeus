@@ -109,10 +109,10 @@ namespace BaseSubsystems
 	template <class T> 
 	inline CFactory<T>::~CFactory()
 	{
-		TFunctionPointerMap::const_iterator it = _table.begin();
+		TFunctionPointerMap::const_iterator it = _table.cbegin();
 		TFunctionPointerMap::const_iterator it2;
 		
-		while( it != _table.end() )
+		while( it != _table.cend() )
 		{
 			it2 = it;
 			it++;
@@ -175,7 +175,7 @@ namespace BaseSubsystems
 		{
 			TFunctionPointerMap::const_iterator it;
 			it = _table.find(typeId);
-			if( it != _table.end() )
+			if( it != _table.cend() )
 				return it->second();
 		}
 		throw new std::exception("No existe la función de creación que se solicitó.");
@@ -190,7 +190,7 @@ namespace BaseSubsystems
 		{
 			TFunctionPointerMap::const_iterator it;
 			it = _table.find(name);
-			if( it != _table.end() )
+			if( it != _table.cend() )
 				return it->second();
 		}
 		throw new std::exception("No existe la función de creación que se solicitó.");

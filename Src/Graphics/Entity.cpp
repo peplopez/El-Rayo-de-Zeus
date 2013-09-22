@@ -15,29 +15,57 @@ Contiene la implementación de la clase que representa una entidad gráfica.
 
 #include "Entity.h"
 
-#include <assert.h>
+#include <Graphics/Server.h>
 
-#include <OgreEntity.h>
-#include <OgreSubEntity.h>
+#include <OgreMaterialManager.h>
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
 
+
+#include <assert.h>
+
 namespace Graphics 
 {
-	CEntity::TBoneDictionary CEntity::BONE_DICTIONARY = CEntity::initBoneDictionary();
+	CEntity::TBoneDictionary CEntity::_BONE_DICTIONARY = CEntity::_initBoneDictionary();
 		
+
+	/***********************
+		CONSTRUCTORES
+	***********************/
+
+	CEntity::CEntity(const std::string &name, const std::string &mesh, bool isStatic)
+		: _name(name), _mesh(mesh), _entity(0), _matListLast(0), _matListCurrent(0)
+	{
+		// FRS Si no son dinámicas son estáticas.		
+		_type = isStatic? TGraphicalType::STATIC : TGraphicalType::DYNAMIC;
+	}
+
+	//--------------------------------------------------------
+
+	CEntity::~CEntity()
+	{
+		delete[] _matListLast;
+		delete[] _matListCurrent;
+	}
+		
+	
+
+	/*******************
+		SCENE ELEMENT
+	********************/
+
 	bool CEntity::load()
 	{
 		try{
-			_entity = getSceneMgr()->createEntity(_name, _mesh);		
-		
+			_entity = getSceneMgr()->createEntity(_name, _mesh);
+
 			_node = getSceneMgr()->getRootSceneNode()
 					->createChildSceneNode(_name + "_node");
+				_node->setScale(_scale);
 				_node->attachObject(_entity);
 			
-			reattachAllMeshes();
-
-			_node->setScale(_scale);
+			_reloadAttachments();
+			_reloadMaterials();
 
 			_loaded = true;
 
@@ -73,10 +101,11 @@ namespace Graphics
 
 
 
-	/***************
-		ATTACH
-	***************/
 
+
+	/***************
+		ATTACHMENTS
+	***************/
 
 	void CEntity::attach(const std::string &toBone, const std::string &mesh, bool permanently) 
 	{
@@ -84,7 +113,7 @@ namespace Graphics
 		if(!_node) return;
 
 		// PERMANENCIA: Algunos TAttachPoint son permanentes por definición; p.e FACE -> rasgos faciales estáticos
-		permanently |= toBone == BONE_DICTIONARY[TAttachPoint::FACE];
+		permanently |= toBone == _BONE_DICTIONARY[TAttachPoint::FACE];
 
 		// AttachName = "parentName.bone.attachedMesh"
 		std::string objectName = _name + '.';		
@@ -115,21 +144,7 @@ namespace Graphics
 
 	} // reattach
 
-	//--------------------------------------------------------
 	
-	void CEntity::reattachAllMeshes()
-	{
-		//se recorre el mapa de bicolas para volver a attachar todos los meshes
-		TBoneObjectNamesTable::const_iterator boneDeque = _boneObjectsNameTable.begin();
-		TBoneObjectNamesTable::const_iterator lastBoneDeque = _boneObjectsNameTable.end();
-			for (; boneDeque != lastBoneDeque; ++boneDeque)
-			{
-				TAttachedMeshNames::const_iterator attachedMeshName = boneDeque->second.begin();
-				TAttachedMeshNames::const_iterator lastAttachedMeshName = boneDeque->second.end();
-					for (; attachedMeshName != lastAttachedMeshName; ++attachedMeshName)			
-						attach(boneDeque->first, *attachedMeshName);			
-			}	
-	} //reattachAllMeshes()
 
 	//--------------------------------------------------------
 
@@ -147,37 +162,75 @@ namespace Graphics
 		boneObjects.top()->setVisible(true);	//  y activamos el siguiente apilado
 	} // detach
 
+	//--------------------------------------------------------
+	
+	void CEntity::_reloadAttachments()
+	{
+		//se recorre el mapa de bicolas para volver a attachar todos los meshes
+		TBoneObjectNamesTable::const_iterator boneDeque = _boneObjectsNameTable.cbegin();
+		TBoneObjectNamesTable::const_iterator lastBoneDeque = _boneObjectsNameTable.cend();
+			for (; boneDeque != lastBoneDeque; ++boneDeque)
+			{
+				TAttachedMeshNames::const_iterator attachedMeshName = boneDeque->second.cbegin();
+				TAttachedMeshNames::const_iterator lastAttachedMeshName = boneDeque->second.cend();
+					for (; attachedMeshName != lastAttachedMeshName; ++attachedMeshName)			
+						attach(boneDeque->first, *attachedMeshName);			
+			}	
+	} //reattachAllMeshes()
+
 
 
 	
-	/********************
-		GET's & SET's
-	*******************/
+	/***************
+		MATERIALS
+	***************/
 
+	void CEntity::setMaterial(const std::string &materialName, unsigned int subIndex) 
+	{	
+		if( !materialName.length() ) return;
+
+		if(!_matListLast)
+			_matListLast	= new std::string[ _entity->getNumSubEntities() ];
+		if(!_matListCurrent)
+			_matListCurrent = new std::string[ _entity->getNumSubEntities() ]; 
+
+		_matListLast[	subIndex ]	= _entity->getSubEntity(subIndex)->getMaterialName();
+		_matListCurrent[subIndex ]	= materialName;
+		_reloadMaterial(subIndex);
+	} 
+
+	//--------------------------------------------------------
+	
+	void CEntity::setColor(const Vector3& rgb, unsigned int subIndex) 
+	{
+		assert(_loaded && "La entidad no ha sido cargada");
+		assert( rgb > -1e-10f * Vector3::UNIT_SCALE && 
+				rgb.squaredLength() <= 3 && 
+				"Vector RGB no válido");
+
+		const Ogre::MaterialPtr& material = _entity->getSubEntity(subIndex)->getMaterial();
 		
-	bool CEntity::isVisible() const
-	{
-		assert(_node && "La entidad no ha sido cargada en la escena");
-		return _entity->isVisible();
-	} // getPosition
+		std::stringstream ss;
+			ss	<< material->getName() << "#"	
+				<< std::setw(2) << std::setfill('0') << std::hex << int(rgb.x * 255) 
+				<< std::setw(2) << std::setfill('0') << std::hex << int(rgb.y * 255) 
+				<< std::setw(2) << std::setfill('0') << std::hex << int(rgb.z * 255);
+			
+		std::string colorMatName = ss.str(); // = "matName#RRGGBB"
+			if( !Ogre::MaterialManager::getSingletonPtr()->resourceExists(colorMatName) ) {
+				const Ogre::MaterialPtr& colorMat = material->clone( colorMatName );
+					colorMat->setAmbient(rgb.x, rgb.y, rgb.z);
+					colorMat->setDiffuse(rgb.x, rgb.y, rgb.z, 1);
+			}
+			setMaterial( colorMatName, subIndex);
+
+	} // setColor
+
+	void CEntity:: setColor(const std::string& color, unsigned int subIndex)
+	{		
+		setColor( colorToRGB(color), subIndex);
+	}// setColor
 	
-	//--------------------------------------------------------
-
-
-	void CEntity::setMaterial(const std::string &materialName) 
-	{
-		assert(_node && "La entidad no ha sido cargada en la escena");
-		if(_node)
-			_entity->setMaterialName(materialName);
-	} // setMaterial
-
-	//--------------------------------------------------------
-	void CEntity::setSubEntityMaterial(const std::string &materialName, unsigned int subEntityIndex) 
-	{
-		assert(_node && "La entidad no ha sido cargada");
-		if(_node)
-			_entity->getSubEntity(subEntityIndex)->setMaterialName(materialName);
-	} // setSubEntityMaterial
 
 
 } // namespace Graphics

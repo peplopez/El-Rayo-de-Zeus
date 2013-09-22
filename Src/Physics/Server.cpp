@@ -77,8 +77,8 @@ namespace Physics {
 	void CServer::close()  // FRS Se ejecuta justo antes de la delete de _instance
 	{
 
-		TScenes::const_iterator it = _scenes.begin();
-		TScenes::const_iterator end = _scenes.end();
+		TScenes::const_iterator it = _scenes.cbegin();
+		TScenes::const_iterator end = _scenes.cend();
 			while(it != end)			
 				removeScene( (*it++).second );
 		
@@ -88,8 +88,8 @@ namespace Physics {
 
 	void CServer::SwitchDebugDraw()
 	{
-		TScenes::const_iterator it = _scenes.begin();
-		TScenes::const_iterator end = _scenes.end();
+		TScenes::const_iterator it = _scenes.cbegin();
+		TScenes::const_iterator end = _scenes.cend();
 		for (; it != end; ++it)
 			it->second->switchDebugDraw();
 	}
@@ -100,8 +100,8 @@ namespace Physics {
 
 	void CServer::tick(float secs) 
 	{
-		TScenes::const_iterator it = _scenes.begin();
-		TScenes::const_iterator end = _scenes.end();
+		TScenes::const_iterator it = _scenes.cbegin();
+		TScenes::const_iterator end = _scenes.cend();
 
 		for (; it != end; ++it)
 			it->second->tick(secs);
@@ -115,7 +115,7 @@ namespace Physics {
 	CScene* CServer::createScene(const std::string &name)
 	{
 		assert(_instance && "PHYSICS::SERVER>> Servidor no inicializado");			
-		assert(_scenes.find(name)==_scenes.end() && "Ya se ha creado una escena con este nombre.");
+		assert(_scenes.find(name)==_scenes.cend() && "Ya se ha creado una escena con este nombre.");
 
 		CScene *scene = new CScene(name);
 			_scenes[name] =  scene;
@@ -154,7 +154,7 @@ namespace Physics {
 
 	void CServer::activate(const std::string& name)
 	{
-		assert(_scenes.find(name) == _scenes.end() &&
+		assert(_scenes.find(name) == _scenes.cend() &&
 			"PHYSICS::SERVER>> Esta escena no pertenece al servidor");
 		activate( _scenes[name] );
 	} // activate

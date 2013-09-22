@@ -18,10 +18,9 @@ Contiene la declaración del estado de menú de Single Player (con las opciones pa
 #define __Application_MenuSingleState_H
 
 #include "ApplicationState.h"
+#include <Logic/PlayerSettings.h>
 
-
-//PT
-#include <cegui.h> //para que pueda crear combobox
+#include <CEGUIEventArgs.h>
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Application 
@@ -29,22 +28,12 @@ namespace Application
 	class CBaseApplication;
 }
 
-namespace CEGUI
+
+namespace GUI
 {
-	class EventArgs;
-	class Window;
-	class ProgressBar;
+	class CServer;
 }
 
-namespace ScriptManager
-{
-	class Server;
-}
-
-namespace Graphics
-{
-	class Server;
-}
 
 namespace Application 
 {
@@ -60,22 +49,13 @@ namespace Application
 	class CMenuSingleState : public CApplicationState 
 	{
 
-	protected:
-
-		typedef std::list<std::string> TMapNameList;
-	
 	public:
 		/** 
 		Constructor de la clase 
 		*/
-		CMenuSingleState(CBaseApplication *app) : CApplicationState(app)
-				{}
+		CMenuSingleState(CBaseApplication *app) : CApplicationState(app){}
 
-		/** 
-		Destructor 
-		*/
-		virtual ~CMenuSingleState();
-
+	
 		/**
 		Función llamada cuando se crea el estado (se "engancha" en la
 		aplicación, para que inicialice sus elementos.
@@ -112,8 +92,13 @@ namespace Application
 		*/
 		virtual void tick(unsigned int msecs);
 
-		// Métodos de CKeyboardListener
-		
+
+
+
+		/************************
+			CKeyboardListener
+		***********************/
+
 		/**
 		Método que será invocado siempre que se pulse una tecla. 
 		Será la aplicación quién llame a este método cuando el 
@@ -140,7 +125,12 @@ namespace Application
 		*/
 		virtual bool keyReleased(GUI::TKey key);
 
-		// Métodos de CMouseListener
+
+
+
+		/********************
+			CMouseListener
+		********************/
 		
 		/**
 		Método que será invocado siempre que se mueva el ratón. La
@@ -175,52 +165,40 @@ namespace Application
 
 	private:
 
-		/**
-		Ventana CEGUI que muestra el menú.
-		*/
-		//CEGUI::Window* _menuWindow;
+		// PLAYER SETTINGS	
 
-		//PT combobox
-		CEGUI::Combobox* _cbModel;
-		CEGUI::Combobox* _cbColor;
+		void _play();
+		bool _loadGame(Logic::TMultiSettings& allSettings);		
+		bool _readPlayerForm(Logic::TMultiSettings& allSettings);		
+				
+		void _setProgress(float progressAmount,  const std::string& statusMsg = "");
 
-		//PT Barra de Progreso
-		CEGUI::ProgressBar* _hbar;
 
-		std::string playerNick;
-		int playerModelID;
-		std::string playerModel;
-		int playercolorID;
-		std::string playerColor;
+		//-------- GUI ------------------
 
-		/**
-		*/
-		TMapNameList _mapsToLoad;
+		static const std::string WINDOW_PREFIX;   
+		GUI::CServer* _guiServer;
 
-	
 		/**
 		Función que se quiere realizar cuando se pulse el botón start.
 		Simplemente cambia al estado de juego.
 		*/
-		bool startReleased(const CEGUI::EventArgs& e);
+		bool _playReleased(const CEGUI::EventArgs& e);
 
 		/**
 		Función que se quiere realizar cuando se pulse el botón exit.
 		Simplemente termina la aplicación.
 		*/
-		bool backReleased(const CEGUI::EventArgs& e);
+		bool _backReleased(const CEGUI::EventArgs& e);
 
 		/**
 		Función que se quiere realizar cuando el progreso avance/actualice
 		para cambiar la barra de progreso
 		*/
-		bool CMenuSingleState::onProgressChanged(const CEGUI::EventArgs &e);
+		bool _onProgressChanged(const CEGUI::EventArgs &e);
 
-		//PT
-		bool CMenuSingleState::loadGame();
-
-		//PT
-		bool CMenuSingleState::loadInfoSingleData();
+		
+		
 
 	}; // CMenuSingleState
 

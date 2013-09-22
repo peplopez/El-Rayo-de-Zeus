@@ -343,7 +343,7 @@ namespace Audio
 	void CServer::stopSound(const std::string& id){
 		SoundChannelMap::const_iterator itMap = _soundChannel.find(id);
 
-		if (itMap != _soundChannel.end()){
+		if (itMap != _soundChannel.cend()){
 			itMap->second->stop();
 			_soundChannel.erase(id);
 		}

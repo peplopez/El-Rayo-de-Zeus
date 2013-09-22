@@ -14,24 +14,31 @@ la gestión de la interfaz con el usuario (entrada de periféricos, CEGui...).
 
 #include "InputManager.h"
 
+#include <CEGUI/CEGUIEventArgs.h>
+#include <CEGUI/CEGUIWindowManager.h>
+#include <cegui/elements/CEGUIProgressBar.h>
+#include <cegui/elements/CEGUIPushButton.h>
+
+
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Logic 
 {
 	class CAvatarController;
 }
 
-namespace GUI 
+namespace CEGUI
+{	
+	class Combobox;	
+	class System;	
+	class Window;
+}
+
+namespace GUI
 {
 	class CPlayerController;
 	class CCameraController;
 	class CHudController; //PT
 	class CShopController; //PT
-}
-
-namespace CEGUI
-{
-	class System;
-	class Window; //PT
 }
 
 // Declaración de la clase
@@ -50,6 +57,7 @@ namespace GUI
 	@author David Llansó
 	@date Agosto, 2010
 	*/
+	
 	class CServer : public CKeyboardListener, public CMouseListener, public CJoystickListener
 	{
 	public:
@@ -163,12 +171,59 @@ namespace GUI
 		*/
 		bool mouseReleased(const CMouseState &mouseState);
 
-	/**
-	 * Show a text on the GUI screen.
-	 *
-	 * @param msg Message that is going to be shown on screen.
-	 */
+
+		/***************
+			WINDOW
+		**************/
+
+		CEGUI::Window* getWindow(const std::string& windowName)	{ return _windowManager->getWindow(windowName); }
+		std::string getWindowText(const std::string& textWindow);
+		void setWindowEnabled(const std::string& windowName, bool isEnable);
+		void setWindowVisible(const std::string& windowName, bool isVisible);
+
+		/**
+		 * Show a text on the GUI screen.
+		 *
+		 * @param msg Message that is going to be shown on screen.
+		 */
 		void setText(const std::string& msg);
+
+		// ------------- BUTTONS ----------------------
+		
+		template <class T>
+		void setCallbackButton(const std::string& buttonWindow,
+			bool (T::*callback) (const CEGUI::EventArgs&), T *cbOwner)
+		{			
+			getWindow(buttonWindow)->subscribeEvent( 
+				CEGUI::PushButton::EventClicked, 
+				CEGUI::SubscriberSlot(callback, cbOwner)
+			);
+		}
+		
+
+		// ------------- PROGRESS ----------------------
+		void updateProgress( const std::string& barWindow, const std::string& statusWindow,
+			float progressAmount, const std::string& statusMsg);
+		
+		template <class T>
+		void setCallbackProgress(const std::string& barWindow,
+			bool (T::*callback) (const CEGUI::EventArgs&), T *cbOwner)
+		{
+			CEGUI::ProgressBar* bar = 
+				static_cast<CEGUI::ProgressBar*> ( getWindow( barWindow ));
+				bar->subscribeEvent( 
+					CEGUI::ProgressBar::EventProgressChanged, 
+					CEGUI::Event::Subscriber(callback, cbOwner)
+				);
+		}
+
+
+		//---------- COMBOS ---------------------------------
+		CEGUI::Combobox* createCombobox(const std::string& comboWindow, 
+			const std::string* itemTexts, const unsigned int nItems);
+
+		int getComboSelectedID(const std::string& comboWindow);
+		std::string getComboSelectedText(const std::string& comboWindow);
 
 	protected:
 
@@ -237,6 +292,8 @@ namespace GUI
 		Única instancia de la clase.
 		*/
 		static CServer* _instance;
+
+		CEGUI::WindowManager* _windowManager;
 
 	}; // class CServer
 

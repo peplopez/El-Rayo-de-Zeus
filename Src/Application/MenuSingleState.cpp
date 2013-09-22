@@ -15,83 +15,189 @@ Contiene la implementación del estado de menú de opciones de Single Player.
 */
 
 #include "MenuSingleState.h"
+
 #include "BaseApplication.h"
 #include "Clock.h"
-#include "Logic/Server.h"
-#include "Logic/Maps/EntityFactory.h"
-#include "Logic/Maps/Map.h"
 
-#include "GUI/Server.h"
-
-#include <CEGUISystem.h>
-#include <CEGUIWindowManager.h>
-#include <CEGUIWindow.h>
-#include <elements/CEGUIPushButton.h>
-
-//PT se incluye el servidor de scripts de LUA
-#include "ScriptManager\Server.h"
-//PT
-#include <CEGUIDataContainer.h>
-#include <CEGUIWindowRenderer.h>
-#include <cegui\elements\CEGUIProgressBar.h>
-#include <Graphics\Server.h>
-
-//PT
 #include <BaseSubsystems/Server.h>
+#include <Graphics/Server.h>
+#include <GUI/Server.h>
+#include <Logic/Server.h>
+#include <Logic/Maps/Map.h>
+#include <Logic/Maps/EntityFactory.h>
+#include <ScriptManager/Server.h>
+
+#include <CEGUIMouseCursor.h>//HACK FRS
+
+
+
+#define DEBUG 1
+#if DEBUG
+#	include <iostream>
+#	define LOG(msg) std::cout << "APP::MENU_SINGLE>> " << msg << std::endl;
+#else
+#	define LOG(msg)
+#endif
 
 
 
 namespace Application {
 
-	CMenuSingleState::~CMenuSingleState() 
-	{
-	} // ~CMenuSingleState
+	const std::string CMenuSingleState::WINDOW_PREFIX = "MenuSingle";
 
-	//--------------------------------------------------------
+	void CMenuSingleState::_play()
+	{
+		
+		Logic::TMultiSettings allSettings;
+
+		if( !_readPlayerForm(allSettings) )	{
+			_setProgress(0, "Error al leer datos de formulario");		
+
+		//Carga del juego (arquetipos, blueprints, mapas y players...)
+		} else if( !_loadGame(allSettings) ) {	
+			_setProgress(0, "Error al cargar juego");	
+
+		} else {
+			_app->setState("game"); // Acaba generando un GameState->activate()
+			_setProgress(1.0f, "LISTO!!");
+		}
+			
+	}// play
+
+	//---------------------------------------------------------------------
+
+	
+
+	//RECUPERAMOS LA INFORMACION DEL PLAYER FORM (Nickname, Avatar, Color, enemigos, ...)
+	bool CMenuSingleState::_readPlayerForm(Logic::TMultiSettings& allSettings)
+	{
+		//NICKNAME
+		std::string& nick = _guiServer->getWindowText(WINDOW_PREFIX + "/NickBox");
+			if( !nick.length() ) {
+				ScriptManager::CServer::getSingletonPtr()->executeProcedureString(
+					"showError", std::string("It must be provided a not empty Nickname"));
+				return false;
+			}
+
+		int colorIndex		= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/ColorBox");
+		int avatarIndex		= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/AvatarBox");
+		int stageIndex		= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/StageBox");
+		int nOpps			= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/OppBox");
+
+		// FRS Si no se escoge opción, default = 0;
+		colorIndex =	colorIndex	< 0 ? 0 : colorIndex; 
+		avatarIndex =	avatarIndex	< 0 ? 0 : avatarIndex;
+		stageIndex =	stageIndex	< 0 ? 0 : stageIndex;
+
+		Logic::TPlayerColor color	= static_cast< Logic::TPlayerColor>(colorIndex);
+		Logic::TPlayerAvatar avatar = static_cast< Logic::TPlayerAvatar>(avatarIndex);
+		Logic::TPlayerStage stage	= static_cast< Logic::TPlayerStage>(stageIndex);
+		nOpps = nOpps < 0 ? 1 : nOpps + 1;
+				
+		// Al estar en el estado MenuSingleState el jugador es Single Player (Monojugador)
+		allSettings.push_back( Logic::CPlayerSettings(nick, true, false, color, avatar, stage) );
+		for(int i=0; i< nOpps; ++i)
+			allSettings.push_back( Logic::CPlayerSettings::createRandSettings(true) );
+
+		return true;		
+	} // readPlayerForm
+
+
+
+
+	//---------------------------------------------------------------------
+	
+	bool CMenuSingleState::_loadGame(Logic::TMultiSettings& allSettings)
+	{
+		_setProgress(0.4f, "Loading maps..." );
+
+//*
+		
+		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints"))
+			return false;
+		if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes"))
+			return false;
+		if (!Logic::CEntityFactory::getSingletonPtr()->loadPatternEntities("map_pattern"))
+			return false;										// JLS Cargamos los anillos a partir del nombre del mapa.
+		if (!Logic::CServer::getSingletonPtr()->setRingPositions())//[ƒ®§] Esto no deberia ejecutarse como parte del loadLevel...?
+			return false;
+		if (!Logic::CServer::getSingletonPtr()->loadWorld(allSettings) ) // FRS CARGA DESDE MAP_PATTERN
+			return false;
+
+		
+/*/
+		Logic::TMapNames mapsToLoad;		// FRS OLD: Carga desde fichero
+			mapsToLoad.push_back("mapRed");
+			mapsToLoad.push_back("mapBlue");	
+				if (!Logic::CServer::getSingletonPtr()->loadWorld(mapsToLoad) )
+					return false;
+
+		// Llamamos al método de creación del jugador. 
+		// Al estar en el estado MenuSingleState el jugador es Single Player (Monojugador)
+		Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer(
+		Logic::CPlayerSettings(playerNick, Logic::Player::Color::BLUE, Logic::Player::Avatar::SPARTAN), true);
+/**/
+
+		_setProgress(0.9f, "World loaded");
+
+		return true;
+	} //loadGame
+
+
+
+
+
+
+
+
+	/*************************
+		CApplicationState
+	**************************/
 
 	bool CMenuSingleState::init() 
 	{
-		CApplicationState::init();
+	
+	// CEGUI
 
 		// Cargamos la ventana que muestra el menú con LUA
 		ScriptManager::CServer::getSingletonPtr()->loadExeScript("MenuSingle");
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("initMenuSingle");
 		
-		// Asociamos los botones del menú con las funciones que se deben ejecutar.
-		CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Play")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, 
-				CEGUI::SubscriberSlot(&CMenuSingleState::startReleased, this));
+		_guiServer = GUI::CServer::getSingletonPtr();
 		
-		CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Back")->
-			subscribeEvent(CEGUI::PushButton::EventClicked, 
-				CEGUI::SubscriberSlot(&CMenuSingleState::backReleased, this));
+		//// Asociamos los botones del menú con las funciones que se deben ejecutar.
+		_guiServer->setCallbackButton(WINDOW_PREFIX + "/Play",  &CMenuSingleState::_playReleased, this);
+		_guiServer->setCallbackButton(WINDOW_PREFIX + "/Back",  &CMenuSingleState::_backReleased, this);
+		_guiServer->setCallbackProgress(WINDOW_PREFIX + "/Progreso", &CMenuSingleState::_onProgressChanged, this);
+		
 
-			// Barra de progreso de MenuSingle
-			_hbar = static_cast<CEGUI::ProgressBar*> (CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
-			_hbar->subscribeEvent(CEGUI::ProgressBar::EventProgressChanged, CEGUI::Event::Subscriber(&CMenuSingleState::onProgressChanged, this));
-			_hbar->setVisible(false);
+		// COMBOBOXES
+		_guiServer->createCombobox(
+			 WINDOW_PREFIX + "/ColorBox", 
+			 Logic::Player::COLOR_STRINGS, 
+			 Logic::Player::Color::_COUNT
+		);
+		 _guiServer->createCombobox(
+			WINDOW_PREFIX + "/AvatarBox",	
+			Logic::Player::AVATAR_STRINGS, 
+			Logic::Player::Avatar::_COUNT
+		);
+		_guiServer->createCombobox(
+			WINDOW_PREFIX + "/StageBox", // TODO
+			Logic::Player::STAGE_SCENES, 
+			Logic::Player::Stage::_COUNT 
+		);		
+		std::string nOpps[] = {"1","2","3"}; 
+		_guiServer->createCombobox(
+			WINDOW_PREFIX + "/OppBox", // TODO
+			nOpps, 
+			sizeof(nOpps) / sizeof( nOpps[0] )
+		);
 
-			//Modelo .mesh o personaje
-		   _cbModel = static_cast<CEGUI::Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/ModelBox"));
+		// CHECKBOX 
+		// TODO
+		//_checkLowQ = 
 
-			// add items to the combobox list
-			_cbModel->addItem(new CEGUI::ListboxTextItem("Espartano",0));
-			_cbModel->addItem(new CEGUI::ListboxTextItem("Loco",1));
-			_cbModel->addItem(new CEGUI::ListboxTextItem("Marine",2));
-			_cbModel->addItem(new CEGUI::ListboxTextItem("Bioshock",3));
-			_cbModel->addItem(new CEGUI::ListboxTextItem("Medusa",4));
-
-
-			_cbModel->setReadOnly(true);
-
-			//Color
-			_cbColor = static_cast<CEGUI::Combobox*>(CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/ColorBox"));
-			_cbColor->addItem(new CEGUI::ListboxTextItem("Rojo",0));
-			_cbColor->addItem(new CEGUI::ListboxTextItem("Verde",1));
-			_cbColor->addItem(new CEGUI::ListboxTextItem("Amarillo",2));
-			_cbColor->addItem(new CEGUI::ListboxTextItem("Azul",3));
-
-			_cbColor->setReadOnly(true);
 
 		return true;
 
@@ -124,23 +230,16 @@ namespace Application {
 		#endif
 
 		// In case we come back from game to MenuSingleState
-		CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/TextoProgreso")->setText("");
-		_hbar->setVisible(false);
-		_hbar->setProgress(0.0f);
-
-
-		
-
+		_guiServer->setWindowVisible(WINDOW_PREFIX + "/Progreso", false);
+		_guiServer->setWindowVisible(WINDOW_PREFIX + "/TextoProgreso", false);
 	} // activate
 
 	//--------------------------------------------------------
 
 	void CMenuSingleState::deactivate() 
 	{		
-
 		// Desactivamos la ventana GUI con el menú y el ratón desde LUA
 		ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideMenuSingle");
-
 		CApplicationState::deactivate();
 
 	} // deactivate
@@ -153,12 +252,60 @@ namespace Application {
 
 	} // tick
 
+
+
+
+
+
+	/**************************
+		CEGUI::WindowManager
+	****************************/
+
+	bool CMenuSingleState::_playReleased(const CEGUI::EventArgs& e)
+	{
+		_play();
+		return true;
+	} // startReleased
+			
 	//--------------------------------------------------------
+
+	bool CMenuSingleState::_backReleased(const CEGUI::EventArgs& e)
+	{
+		_app->setState("menu");
+		return true;
+	} // backReleased
+
+	//---------------------------------------------------------------------
+
+	bool CMenuSingleState::_onProgressChanged(const CEGUI::EventArgs &e)
+	{
+		Graphics::CServer::getSingletonPtr()->tick(0);
+		return true;
+	} //onProgressChanged
+
+	//---------------------------------------------------------------------
+
+	void CMenuSingleState::_setProgress(float progressAmount,  const std::string& statusMsg)
+	{
+		_guiServer->updateProgress( 
+			WINDOW_PREFIX + "/Progreso", WINDOW_PREFIX + "/TextoProgreso", 
+			progressAmount, statusMsg
+		);
+		// TODO FRS si el progress sólo se va a actualizar a través de esta función -> barajar 
+		// el ejecutar el Graphics::CServer::getSingletonPtr()->tick(0) aquí y dejarnos de callbacks
+	}
+
+	
+
+
+
+	/******************
+		KEYBOARD
+	******************/
 
 	bool CMenuSingleState::keyPressed(GUI::TKey key)
 	{
 		return false;
-
 	} // keyPressed
 
 	//--------------------------------------------------------
@@ -172,24 +319,10 @@ namespace Application {
 			_app->exitRequest();
 			break;
 
-		case GUI::Key::RETURN:
-
-			// Funcion que carga blueprints, arquetipos, mapas, etc
-			loadGame();
-
-			// Creacion del Jugador:  Llamamos al método de creación del jugador. Deberemos decidir
-			// si el jugador es el jugador local. Al ser el monojugador lo es.
-			Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true, "Mono", "spartan2.4.mesh", "SpartanBodyWounds");
-			//Logic::CServer::getSingletonPtr()->getMap("map1")->createPlayer("Mono", true, "Mono", "spartan2.4.mesh", "SpartanBodyWounds");
-
+		case GUI::Key::RETURN:			
+			_play();
 			break;
-
-		// PT. Lo comento porque si en el nombre del Jugador pones una M, te dirige
-		// al estado del menu de red.
-		//case GUI::Key::M:
-		//	_app->setState("netmenu");
-		//	break;
-
+					
 		//case GUI::Key::R:
 		//	ScriptManager::CServer::getSingletonPtr()->executeProcedure("reloadMenuSingle");
 		//	break;
@@ -202,12 +335,15 @@ namespace Application {
 
 	} // keyReleased
 
-	//--------------------------------------------------------
+	
+	
+	/************
+		MOUSE
+	************/
 	
 	bool CMenuSingleState::mouseMoved(const GUI::CMouseState &mouseState)
 	{
 		return false;
-
 	} // mouseMoved
 
 	//--------------------------------------------------------
@@ -215,7 +351,6 @@ namespace Application {
 	bool CMenuSingleState::mousePressed(const GUI::CMouseState &mouseState)
 	{
 		return false;
-
 	} // mousePressed
 
 	//--------------------------------------------------------
@@ -224,179 +359,7 @@ namespace Application {
 	bool CMenuSingleState::mouseReleased(const GUI::CMouseState &mouseState)
 	{
 		return false;
+	} // mouseReleased		
 
-	} // mouseReleased
-			
-	//--------------------------------------------------------
-// TODO Por qué se devuelve  true o false?
-// TODO Toda la carga y creación del jugador deberia encapsularse en un startGame() reusable
-	bool CMenuSingleState::startReleased(const CEGUI::EventArgs& e)
-	{
-
-		//Recuperacion de los datos de pantalla MenuSingle (nick del player, modelo, color)
-		if(loadInfoSingleData())
-		{
-			//Carga del juego (arquetipos, blueprints, mapas...)
-			if(loadGame())
-			{
-				// Llamamos al método de creación del jugador. 
-				// Al estar en el estado MenuSingleState el jugador es Single Player (Monojugador)
-
-				Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer(playerNick, true, playerNick, playerModel, playerColor);
-				//Logic::CServer::getSingletonPtr()->getMap("map1")->createPlayer(playerNick, true, playerNick, playerModel, playerColor);
-				//PT. si se le intenta pasar otro modelo da un error en getBones porque no encuentra el hueso "paracasco"
-				//para que funcione medusa, bigdday etc, hay que quitar el casco y el escudo y los accesorios al espartano
-				//en el archetypes. de esa manera no da error.
-
-				_hbar->setProgress(1.0f);
-
-				return true;
-			}
-			else
-			 return false;
-		} //loadInfoSingleData
-		else
-			return false;
-	} // startReleased
-			
-	//--------------------------------------------------------
-
-	bool CMenuSingleState::backReleased(const CEGUI::EventArgs& e)
-	{
-		_app->setState("menu");
-		return true;
-
-	} // backReleased
-
-
-	bool CMenuSingleState::onProgressChanged(const CEGUI::EventArgs &e)
-	{
-		Graphics::CServer::getSingletonPtr()->tick(0);
-		return true;
-	} //onProgressChanged
-
-	bool CMenuSingleState::loadGame()
-	{
-			_app->setState("game"); // Acaba generando un GameState->activate()
-
-			//Se vuelve visible la barra de progreso
-			_hbar->setVisible(true);
-			
-			// FRS CARGA de Blueprints, Arquetypes y Map adelantada
-			// Cargamos el archivo con las definiciones de las entidades del nivel.			
-			if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
-				return false;
-
-			CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/TextoProgreso")->setText("Loading archetypes");
-			_hbar->setProgress(0.2f);
-
-			// ESC Cargamos el archivo con las definiciones de los archetypes
-			if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes.txt"))
-				return false;
-
-			CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/TextoProgreso")->setText("Loading maps");
-			_hbar->setProgress(0.4f);
-			
-			// JLS Cargamos los anillos a partir del nombre del mapa.
-			if (!Logic::CServer::getSingletonPtr()->setRingPositions())//[ƒ®§] Esto no deberia ejecutarse como parte del loadLevel...?
-				return false;
-
-			_mapsToLoad.push_back("mapRed");
-			_mapsToLoad.push_back("mapBlue");
-			//_mapsToLoad.push_back("mapGreen");
-			//_mapsToLoad.push_back("mapYellow");
-
-			//_mapsToLoad.push_back("map1");
-			//_mapsToLoad.push_back("map2");
-			//_mapsToLoad.push_back("map3");
-			//_mapsToLoad.push_back("map4");
-
-			if (!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad))
-				return false;
-
-			CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/TextoProgreso")->setText("Creating player");
-			_hbar->setProgress(0.9f);
-
-			return true;
-	}
-
-
-	bool CMenuSingleState::loadInfoSingleData()
-	{
-				//RECUPERAMOS LA INFORMACION DEL MENUSINGLESTATE (Nickname, Modelo, y Color)
-				// OBTENER PLAYER INFO
-
-				//NICKNAME
-				playerNick = std::string( CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/NickBox")->getText().c_str() );
-
-				//Se eliminan los espacios (trim)
-				playerNick.erase(playerNick.find_last_not_of(" \n\r\t")+1);
-
-				if(playerNick.length() == 0)
-				{
-					ScriptManager::CServer::getSingletonPtr()->executeProcedureString("showError", std::string("It must be provided a not empty Nickname"));
-				    return false;
-				}
-
-				//MODELO
-				//int playerModelID = (int)CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/ModelBox")->getID();
-				playerModelID = 99;
-				if(_cbModel->getSelectedItem() != NULL)
-					playerModelID = _cbModel->getSelectedItem()->getID();
-				playerModel = "";
-
-
-				//COLOR
-				playercolorID = 99;
-				if(_cbColor->getSelectedItem() != NULL)
-					playercolorID = _cbColor->getSelectedItem()->getID();
-				playerColor = "";
-
-				//PT. se rellena el string de playerModel con su correspondiente asociacion a su ID
-				switch(playerModelID)
-				{
-					case 0: //espartano
-						playerModel = "spartan2.4.mesh";
-						break;
-					case 1: //loco
-						playerModel = "loco.mesh";
-						break;
-					case 2: //marine
-						playerModel = "marine.mesh";
-						break;
-					case 3: //biosock
-						playerModel = "bioshock.mesh";
-						break;
-					case 4: //medusa
-						playerModel = "medusa.mesh";
-						break;
-					default: //espartano
-						playerModel = "spartan2.4.mesh";
-						break;
-				}
-
-				//Tambien el color
-				switch(playercolorID)
-				{
-					case 0: //Rojo
-						playerColor = "marineRed";
-						break;
-					case 1: //Verde
-						playerColor = "marineGreen";
-						break;
-					case 2: //Amarillo
-						playerColor = "marineYellow";
-						break;
-					case 3: //Azul
-						playerColor = "marineBlue";
-						break;
-					default: //ninguno
-						//playerColor = "SpartanBodyTatoo";
-						playerColor = "SpartanBodyWounds";
-						break;
-				}
-
-				return true;
-	}
-
+	
 } // namespace Application

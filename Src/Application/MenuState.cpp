@@ -150,6 +150,8 @@ namespace Application {
 
 	bool CMenuState::keyReleased(GUI::TKey key)
 	{
+		Logic::TMapNames _mapsToLoad;
+
 		switch(key.keyId)
 		{
 
@@ -179,6 +181,7 @@ namespace Application {
 			//if (!Logic::CServer::getSingletonPtr()->loadMap("map.txt"))
 			//	return false;
 
+			
 			_mapsToLoad.push_back("mapRed");
 			_mapsToLoad.push_back("mapBlue");
 			//_mapsToLoad.push_back("mapGreen");
@@ -189,7 +192,7 @@ namespace Application {
 		
 			// Llamamos al método de creación del jugador. Deberemos decidir
 			// si el jugador es el jugador local. Al ser el monojugador lo es.
-			Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true);
+			// UNDONE Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true);
 
 			// TODO Deberíamos poder propocionar caracteríasticas  (nombre, modelo, etc.)... ==> Ampliar MenuState...
 			break;

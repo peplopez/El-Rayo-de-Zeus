@@ -79,19 +79,6 @@ namespace Application {
 
 		_pauseWindow = _rootWindow->getChild("Root/Pause");
 
-
-
-		//inicialización del GameStatus:
-		// se supone que hemos elegido ya en este punto cuantos jugadores somos
-		/*if (_gameStatus==0)
-			_gameStatus=new Logic::CGameStatus(8);
-		else
-			delete _gameStatus;
-			*/
-
-		//Loading of Pause Script
-		//ScriptManager::CServer::getSingletonPtr()->loadExeScript("Pause");
-
 		return true;
 	
 	} // init
@@ -103,8 +90,11 @@ namespace Application {
 	{
 		// Liberamos el nivel junto con las escenas físico-graficas.
 		Logic::CServer::getSingletonPtr()->unLoadWorld();
-		Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
-		Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
+
+		//UNDONE FRS Esto ya lo ejecuta EntityFactory en su release
+		//Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
+		//Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
+
 
 		CApplicationState::release();
 	} // release
@@ -114,14 +104,7 @@ namespace Application {
 	// ƒ®§ Al entrar en GameState (cambio de currentState)
 	void CGameState::activate() 
 	{
-		/*	if (_gameStatus!=0)
-			{
-				delete _gameStatus; //se reinicia el juego... esto no es pausa de juego, es reinicio,
-				//al menos de momento. Llegar al estado GameState es reinciar partida.
-				_gameStatus=new Logic::CGameStatus(8);
-			}else			
-				_gameStatus=new Logic::CGameStatus(8);
-		*/
+		
 		CApplicationState::activate();
 	
 		// Activamos el mapa que ha sido cargado para la partida (incluye la activacion de la escenas)
@@ -171,8 +154,7 @@ namespace Application {
 
 		//PT si no estamos en ventana completa, entonces utilizamos el raton de Windows y no el de CEGUI
 		#if _WIN32	
-				if(BaseSubsystems::CServer::getSingletonPtr()->isWindowedMode() )
-					//CEGUI::MouseCursor::getSingletonPtr()->setVisible(false); //FER
+				if(BaseSubsystems::CServer::getSingletonPtr()->isWindowedMode() )				
 					CEGUI::MouseCursor::getSingletonPtr()->hide();				//PT
 		#endif
 		
@@ -221,8 +203,6 @@ namespace Application {
 		{
 		case GUI::Key::ESCAPE:
 			Logic::CServer::getSingletonPtr()->unLoadWorld();
-			Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
-			Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
 			_app->setState("menu");
 			break;
 

@@ -15,7 +15,7 @@
 
 
 #include "Logic/Maps/Map.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 #include "Graphics/Server.h"
 
@@ -49,10 +49,12 @@ namespace AI
 		std::cout<<"AI::StateMachine::ChangeBase"<<std::endl;		
 		//_velocidad=0.01f;
 		_velocidad=20*0.0001f;	//PT, cambio de base mas rapido			
-		CMessageString *m = new CMessageString();	
+	
+		/* UNDONE FRS	
+		CMessageUIntString *m = new CMessageUIntString();	
 		m->setType(Message::SET_MATERIAL);
 		m->setString("transito");
-		_entity->emitMessage(m);
+		_entity->emitMessage(m);*/
 		
 		_scene=_entity->getMap()->getGraphicScene();
 
@@ -141,11 +143,12 @@ namespace AI
 		switch(message->getType())
 		{			
 			case Message::CONTROL:
-			{								
-				CMessageUInt *m = new CMessageUInt();	
-				m->setType(Message::SET_INITIAL_MATERIAL);
-				m->setUInt(1);
-				_entity->emitMessage(m);	
+			{	
+				// UNDONE FRS
+				//CMessageUInt *m = new CMessageUInt();	
+				//m->setType(Message::RESET_MATERIAL);
+				//m->setUInt(1);
+				//_entity->emitMessage(m);	
 				//finish(false);
 			}
 		}

@@ -28,7 +28,7 @@ namespace Net {
 	CServerENET::~CServerENET()
 	{
 		std::vector<CConnection*>::iterator it = _connectionsList.begin();
-		while (it != _connectionsList.end()) {
+		while (it != _connectionsList.cend()) {
 			delete (*it);
 			++it;
 		}
@@ -179,7 +179,7 @@ namespace Net {
 
 		ENetPacket * packet = enet_packet_create (data,longData,rel);
 	    
-		for(std::vector<CConnection*>::iterator iter = _connectionsList.begin(); iter != _connectionsList.end(); ++iter)	
+		for(std::vector<CConnection*>::const_iterator iter = _connectionsList.cbegin(); iter != _connectionsList.cend(); ++iter)	
 			if( (*iter) != exception )
 				enet_peer_send (static_cast<CConnectionENET*>(*iter)->getENetPeer(), channel, packet);		
 
@@ -244,9 +244,9 @@ namespace Net {
 
 	void CServerENET::disconnectReceived(CConnection* connection)
 	{
-		std::vector<CConnection*>::iterator it = _connectionsList.begin();
+		std::vector<CConnection*>::const_iterator it = _connectionsList.cbegin();
 		bool found = false;
-		while ((it != _connectionsList.end()) && (!found)) {
+		while ((it != _connectionsList.cend()) && (!found)) {
 			if(*it == connection)
 				found=true;
 			else

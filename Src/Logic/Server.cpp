@@ -33,6 +33,11 @@ la gestión de la lógica del juego.
 
 namespace Logic {
 
+
+	/**********************
+		SINGLETON
+	******************/
+
 	CServer* CServer::_instance = 0;
 
 	//--------------------------------------------------------
@@ -125,92 +130,94 @@ namespace Logic {
 		moveDefferedEntities();
 		Logic::CEntityFactory::getSingletonPtr()->deleteDefferedEntities();
 
-		TMaps::const_iterator it = _maps.begin();
-		TMaps::const_iterator end = _maps.end();
+		TMaps::const_iterator it = _maps.cbegin();
+		TMaps::const_iterator end = _maps.cend();
 		
 		for (; it != end; ++it)
 			it->second->tick(msecs);
 	} // tick
 
-	//---------------------------------------------------------
+	
 
-	// ƒ®§ Carga el map desde fichero ==> ejecuta el entity.spawn()
-	bool CServer::loadMap(const std::string &filename)
-	{
-		// solo admitimos un mapa cargado, si iniciamos un nuevo nivel 
-		// se borra el mapa anterior.
-		unLoadMap(filename);
 
-		if(_maps[filename] = CMap::createMapFromFile(filename))
-			return true;
 
-		return false;
-	} // loadLevel
-
-	//--------------------------------------------------------
-
-	void CServer::unLoadMap(const std::string &filename)
-	{
-		TMaps::const_iterator it = _maps.find(filename);
-		
-		if(it != _maps.end())
-		{
-			it->second->deactivate();
-			delete _maps[filename];
-			_maps[filename] = 0;
-			_maps.erase(it);
-		}
-
-	} // unLoadLevel
-
-	//---------------------------------------------------------
-
-	bool CServer::loadWorld(TMapNameList &mapList)
+	/************
+		WORLD
+	************/
+	
+	bool CServer::loadWorld(TMultiSettings& allSettings)
 	{		
 		if(_worldIsLoaded)
 			unLoadWorld();
-
-		// Inicializamos el gestor de los mensajes de red durante el estado de juego
-		//PT Paso el mapList y no el mapList.size() para luego recuperar datos de ese mapList
-		//if (!Logic::CGameStatus::Init(mapList.size()))
-		if (!Logic::CGameStatus::Init(mapList))
-			return false;
-
-		TMapNameList::const_iterator it = mapList.begin();
-		TMapNameList::const_iterator end = mapList.end();
 		
+		const int nPlayers = allSettings.size();
+			if ( !Logic::CGameStatus::Init( nPlayers ) )
+				return false;
+				
 		//PT creo la barra de progreso
 		CEGUI::ProgressBar *hbar = static_cast<CEGUI::ProgressBar*> (CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
-		float progress = hbar->getProgress();
-		int nummaps = mapList.size();
-		float step = (0.9f - progress) / nummaps;
-
-		int i = 1;
+		float progress = hbar->getProgress();		
 		std::string texto = "";
+	
+		float step = (0.9f - progress) /  nPlayers;
 
-		for (; it != end; ++it)
+		for (int i = 0; i < nPlayers; ++i)
 		{
-			_worldIsLoaded = loadMap(*it);
-			_mapNames.push_back(*it);
+			_worldIsLoaded = loadMap( allSettings[i] );
+			_mapNames.push_back( allSettings[i].getMapName() );
 
 			//PT
 			progress+= step;
 			hbar->setProgress(progress);
-
 			std::string result;
 			std::stringstream ss;
 			ss.clear();
-			ss << "Loading maps: " << i << " / " << nummaps;
-
+			ss << "Loading maps: " << (i + 1) << " / " <<  nPlayers;
 			result = ss.str();
-
 			CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/TextoProgreso")->setText(result);
-			Graphics::CServer::getSingletonPtr()->tick(0);
-
-			i++;
+			Graphics::CServer::getSingletonPtr()->tick(0);		
 		}	
 
-  		mapList.clear();
+  		allSettings.clear();		
+		return _worldIsLoaded;
+	}
+	
+
+	bool CServer::loadWorld(TMapNames& mapFileNames)
+	{		
+		if(_worldIsLoaded)
+			unLoadWorld();
+	
+		const int nPlayers = mapFileNames.size();
+			if ( !Logic::CGameStatus::Init( mapFileNames.size() ) )
+				return false;
+
+		// HACK HACK HACK!!! me parto.... (FRS)
+		//PT creo la barra de progreso
+		CEGUI::ProgressBar *hbar = static_cast<CEGUI::ProgressBar*> (CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
+		float progress = hbar->getProgress();		
+		std::string texto = "";
+		
+		float step = (0.9f - progress) /  nPlayers;
+
+		for (int i = 0; i < nPlayers; ++i)
+		{
+			_worldIsLoaded = loadMap( mapFileNames[i] );
+			_mapNames.push_back( mapFileNames[i]  );
+			
+			//PT
+			progress+= step;
+			hbar->setProgress(progress);
+			std::string result;
+			std::stringstream ss;
+			ss.clear();
+			ss << "Loading maps: " << (i + 1) << " / " <<  nPlayers;
+			result = ss.str();
+			CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/TextoProgreso")->setText(result);
+			Graphics::CServer::getSingletonPtr()->tick(0);		
+		}	
+
+		mapFileNames.clear();
 		return _worldIsLoaded;
 	}
 
@@ -220,67 +227,49 @@ namespace Logic {
 	{
 		if(_worldIsLoaded) {
 
-			TMaps::const_iterator it = _maps.begin();
-			TMaps::const_iterator end = _maps.end();
-		
-			while (it != end)
-				unLoadMap(it++->first);
+			TMaps::const_iterator it = _maps.cbegin();
+			TMaps::const_iterator end = _maps.cend();		
+				while (it != end)
+					unLoadMap(it++->first);
 
+			_mapNames.clear();
 			Logic::CGameStatus::Release(); // FRS 1304 Borramos GameStatus
+			CPlayerSettings::resetUsedColors(); // FRS reset del cómputo de colores en uso
 			_player = 0;
 			_worldIsLoaded = false;
 		}
 	}
+	
 
-	//---------------------------------------------------------
+	
+	/*************
+		MAPS
+	************/
 
-	bool CServer::activateMap(const std::string &filename) 
-	{
-		// Se activa la escucha del oyente de los mensajes de red para el estado de juego.
-		//_gameNetMsgManager->activate();
-		return _maps[filename]->activate();
-
-	} // activateMap
-
-	//---------------------------------------------------------
-
-	void CServer::deactivateMap(const std::string &filename) 
-	{
-		TMaps::const_iterator it = _maps.find(filename);
-		
-		if(it != _maps.end())
-			it->second->deactivate();
-		//_gameNetMsgManager->deactivate(); // Se desactiva la escucha del oyente de los mensajes de red para el estado de juego.
-	} // deactivateMap
-
-	//---------------------------------------------------------
+	//--------------  ALL MAPS ------------------------------------------
 
 	bool CServer::activateAllMaps()
 	{
-		TMaps::const_iterator it = _maps.begin();
-		TMaps::const_iterator end = _maps.end();
+		TMaps::const_iterator it = _maps.cbegin();
+		TMaps::const_iterator end = _maps.cend();
 
 		bool activated = false;
 
 		for (; it != end; ++it)
 			activated = it->second->activate();
 
-		_gameNetMsgManager->activate();
-
-		
+		_gameNetMsgManager->activate();		
 		_player->getMap()->activatePlayerCam();
-		
 
 		return activated;
-
 	}
 
-	//---------------------------------------------------------
+	//------------------------------------------------------------------
 
 	void CServer::deactivateAllMaps()
 	{
-		TMaps::const_iterator it = _maps.begin();
-		TMaps::const_iterator end = _maps.end();
+		TMaps::const_iterator it = _maps.cbegin();
+		TMaps::const_iterator end = _maps.cend();
 
 		for (; it != end; ++it)
 			it->second->deactivate();
@@ -288,40 +277,122 @@ namespace Logic {
 		_gameNetMsgManager->deactivate();
 	}
 
-	//---------------------------------------------------------
+
+	//--------------  SINGLE MAP ------------------------------------------
+
+	bool CServer::loadMap(CPlayerSettings& settings)
+	{		
+		// solo admitimos un mapa cargado con el mismo nombre 
+		// si iniciamos un nuevo nivel  se borra el mapa anterior.
+		unLoadMap( settings.getMapName() );
+		if(_maps[ settings.getMapName() ] = CMap::createMap(settings) )
+			return true;
+
+		return false;
+	} // loadMap
+
+
+	// ƒ®§ Carga el map desde fichero ==> ejecuta el entity.spawn()
+	bool CServer::loadMap(const std::string &mapFileName)
+	{
+		// solo admitimos un mapa cargado, si iniciamos un nuevo nivel 
+		// se borra el mapa anterior.
+		unLoadMap(mapFileName);
+
+		if(_maps[mapFileName] = CMap::createMap(mapFileName) )
+			return true;
+
+		return false;
+	} // loadMap
 	
+	//--------------------------------------------------------------
+
+	void CServer::unLoadMap(std::string mapName)
+	{
+		TMaps::const_iterator it = _maps.find(mapName);
+		
+		if(it != _maps.cend())
+		{
+			it->second->deactivate();
+			delete _maps[mapName];
+			_maps[mapName] = 0;
+			_maps.erase(it);
+
+			const int N = _mapNames.size();
+			for(int i = 0; i < N; ++i)
+				if(_mapNames[i] == mapName) {
+					for(int j = i; j < N - 1; ++j)
+						_mapNames[j] = _mapNames[j + 1];
+					_mapNames.pop_back();
+					break;
+				}
+		}
+
+	} // unLoadLevel
+
+	//--------------  SINGLE MAP ------------------------------------------
+
+	bool CServer::activateMap(const std::string &mapName) 
+	{
+		// Se activa la escucha del oyente de los mensajes de red para el estado de juego.
+		//_gameNetMsgManager->activate();
+		TMaps::const_iterator it = _maps.find(mapName);		
+		if(it != _maps.cend())
+			return it->second->activate();
+		else 
+			return false;
+	} // activateMap
+
+
+	//--------------  SINGLE MAP ------------------------------------------
+
+	void CServer::deactivateMap(const std::string &mapName) 
+	{
+		TMaps::const_iterator it = _maps.find(mapName);		
+		if(it != _maps.cend())
+			it->second->deactivate();
+		//_gameNetMsgManager->deactivate(); // Se desactiva la escucha del oyente de los mensajes de red para el estado de juego.
+	} // deactivateMap
+
+	
+	//--------------  SINGLE MAP ------------------------------------------
+
 	CMap* CServer::getMap(const std::string mapName)
 	{
 		TMaps::const_iterator it = _maps.find(mapName);
 
-		if (it != _maps.end())
+		if (it != _maps.cend())
 			return it->second;
 		
 		return NULL;
 	}
 
-	//---------------------------------------------------------
+
+
+	
+
+	/********************
+		MOVE ENTITIES
+	********************/
 
 	void CServer::deferredMoveEntity(CEntity *entity, int targetMap)
 	{
 		assert(entity);
 		_entitiesToMove[targetMap].push_back(entity);
-
 	}
-
-
+	
 
 	//---------------------------------------------------------
 
 	void CServer::moveDefferedEntities()
 	{
-		TMapEntityLists::iterator it = _entitiesToMove.begin();
-		TMapEntityLists::const_iterator end = _entitiesToMove.end();
+		TEntityIDMap::iterator it = _entitiesToMove.begin();
+		TEntityIDMap::const_iterator end = _entitiesToMove.cend();
 
 		for (; it != end; ++it)
 		{
-			TEntityList::const_iterator entity = it->second.begin();
-			TEntityList::const_iterator entityEnd = it->second.end();
+			TEntityList::const_iterator entity = it->second.cbegin();
+			TEntityList::const_iterator entityEnd = it->second.cend();
 
 			for (; entity != entityEnd; ++entity)
 			{
@@ -329,7 +400,7 @@ namespace Logic {
 				(*entity)->attachToMap(_maps[ _mapNames[it->first - 1] ]);
 				(*entity)->activate();	
 
-				if ((*entity)->isPlayer())
+				if ((*entity)->isLocalPlayer())
 					(*entity)->getMap()->activatePlayerCam(); 
 			}
 			it->second.clear();
@@ -337,7 +408,11 @@ namespace Logic {
 
 	}
 
-	//---------------------------------------------------------
+	
+
+	/**************
+		CAMS
+	*************/
 
 	void CServer::activateBaseCam(int targetMap)
 	{
@@ -351,7 +426,33 @@ namespace Logic {
 		_player->getMap()->activatePlayerCam();
 	}
 
+	
+
+	
+
+	
+
+	/******************
+		COMPOSITORS
+	******************/
+
+	void CServer::compositorEnable(const std::string &name)
+	{
+		Graphics::CServer::getSingletonPtr()->compositorEnable(name);
+	}
+
 	//---------------------------------------------------------
+
+	void CServer::compositorDisable(const std::string &name)
+	{
+		Graphics::CServer::getSingletonPtr()->compositorDisable(name);
+	}
+
+
+
+	/**************
+		RINGS
+	**************/
 
 	Vector3 TRingPositions::_up;
 	Vector3 TRingPositions::_center;
@@ -415,20 +516,6 @@ namespace Logic {
 												
 			}
 
-	}
-
-	//---------------------------------------------------------
-
-	void CServer::compositorEnable(const std::string &name)
-	{
-		Graphics::CServer::getSingletonPtr()->compositorEnable(name);
-	}
-
-	//---------------------------------------------------------
-
-	void CServer::compositorDisable(const std::string &name)
-	{
-		Graphics::CServer::getSingletonPtr()->compositorDisable(name);
 	}
 
 

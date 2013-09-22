@@ -54,8 +54,8 @@ Map::CMapParser::Init();
 Map::CMapParser *mapParser = Map::CMapParser::getSingletonPtr();
 
 if(mapParser->parseFile("nombre_mapa.extension"))
-	Map::CMapParser::TEntityList entitylist = 
-						mapParser->getEntityList();
+	Map::CMapParser::TEntities entitylist = 
+						mapParser->getParsedEntities();
 
 Map::CMapParser::Release();
 	\endcode
@@ -187,23 +187,25 @@ Map = {
 		*/
 		void error(const std::string& m);
 
+		
 		/**
-		Tipo lista de entidades de mapa.
+		Tipo lista de entidades parseadas desde mapa.
 		*/
-		typedef std::list<Map::CEntity*> TEntityList;
+		typedef std::vector<CEntity*> TEntities;
 
 		/**
 		Devuelve el listado de las entidades leidas del mapa.
 
 		@return Entidades parseadas.
 		*/
-		const TEntityList getEntityList() {return _entityList;}
+	
+		const TEntities getParsedEntities() {return _parsedEntities;}
 
 		/**
 		Elimina todas las entidades que contenga la lista de entidades 
 		parseadas.
 		*/
-		void releaseEntityList();
+		void releaseParsedEntities();
 
 	private:
 		/**
@@ -257,7 +259,7 @@ Map = {
 		/**
 		Lista de entidades parseada.
 		*/
-		TEntityList _entityList;
+		TEntities _parsedEntities;
 	};
 
 } // namespace Map
