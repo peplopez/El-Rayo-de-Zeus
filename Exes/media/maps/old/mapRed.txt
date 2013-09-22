@@ -20,25 +20,23 @@ Map ={
 	Light2 = {
 		type = "WhitePLight",
 		position = {100, 20, 0},
-	},			
+	},	
+		
+	
 	
 	Cancerbero1 = {
 		type = "Cerberus",
-		model = "CanCerbero.mesh",		
 		base=1,
 		ring=0,		
 		degrees=20,
 		sense=1,
-		behavior="Cancerbero",		
 	},	
 	Cancerbero2 = {
-		type = "Cerberus",
-		model = "CanCerbero.mesh",		
+		type = "Minotaure",
 		base=1,
 		ring=0,		
 		degrees=-20,
 		sense=1,
-		behavior="Cancerbero",		
 	},	
 	
 	puHourglass1 = {
@@ -59,6 +57,12 @@ Map ={
 		ring=2,
 		degrees=90,
 		height=30,
+	},
+	puPoison1 = {
+		type = "PUPoison",
+		base=1,
+		ring=1,
+		degrees=10,
 	},
 	puCauldron1 = {
 		type = "PUCauldron",

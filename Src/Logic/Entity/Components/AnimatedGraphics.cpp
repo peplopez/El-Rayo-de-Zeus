@@ -281,6 +281,14 @@ namespace Logic
 				_graphicalEntity->setAnimation(_defaultAnimation,0,true,NULL); //tenemos que cambiar defaultanimation por un enum Logico
 			}
 		}
+		/*else
+		{
+			CMessageBool *txMsg = new CMessageBool();
+			txMsg->setType(Message::d);
+			txMsg->setUShort(_currentLogicAnimation); //PeP: envio que se ha finalizado la animación que se está reproduciendo.
+			_entity->emitMessage(txMsg);
+
+		}*/
 		
 	}
 	//---------------------------------------------------------
@@ -314,5 +322,7 @@ namespace Logic
 		}
 	}
 
+	
+	
 } // namespace Logic
 

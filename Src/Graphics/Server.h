@@ -228,6 +228,13 @@ namespace Graphics
 		int getScreenHeight();
 
 		/**
+		Metodo que devuelve el aspect ratio de la pantalla. Esta tomado gracias a los overlays, puede que no sea fiable 100%
+
+		@return devuelve el aspect ratio de la pantalla
+		*/
+		float CServer::getAspectRatio();
+
+		/**
 		*/
 		Ogre::Viewport* getViewport() { return _viewport; }
 

@@ -68,12 +68,9 @@ namespace Logic
 			_unactivatedMaterial = entityInfo->getStringAttribute("unactivatedMaterial");
 
 		_on=true;
-			if (_entity->getName()=="Altar1" || _entity->getName()=="Altar2"|| _entity->getName()=="Altar3") _on=false;
-		
-	
+		if (_entity->getName()=="Altar1" || _entity->getName()=="Altar2"|| _entity->getName()=="Altar3") _on=false;	
 	
 	return true;
-
 	} // spawn
 	
 	//---------------------------------------------------------
@@ -92,9 +89,8 @@ namespace Logic
 				_entity->emitMessage(m,this);
 
 			CMessage *txMsg = new CMessage();	
-				txMsg->setType(Message::FX_START);		
+				txMsg->setType(Message::FX_START);
 				_entity->emitMessage(txMsg,this);
-
 
 			_gameStatus->getPlayer(_entity->getLogicalPosition()->getBase())->increaseAltarsActivated();
 		}
@@ -125,7 +121,6 @@ namespace Logic
 	bool CAltar::accept(const CMessage *message)
 	{
 		return (message->getType() == Message::CONTROL);
-
 	} // accept
 	
 	//---------------------------------------------------------

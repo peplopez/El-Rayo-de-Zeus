@@ -122,7 +122,7 @@ namespace Logic
 ////////////////////////////////////////////////
 
 				}
-				if (_entity->getName()=="GemeloGreen" || _entity->getName()=="GemeloYellow" || _entity->getName()=="GemeloBlue") // HACK de Hardcode (FRS)
+				if (_entity->getType()=="NPC") // HACK de Hardcode (FRS)
 				{
 					_changingBase=true;
 					CMessageUShort *maux = static_cast<CMessageUShort*>(message);

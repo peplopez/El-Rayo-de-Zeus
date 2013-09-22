@@ -15,6 +15,8 @@ Contiene la implementación de la clase AltarInfo
 #include "Logic\AltarInfo.h"
 #include "Logic\Entity\Entity.h"
 #include "Logic\Entity\Components\Altar.h"
+#include "Logic\Entity\Components\AnimatedAltar.h"
+
 namespace Logic
 {
 	CAltarInfo::CAltarInfo(Logic::CEntity* entity):_altar(entity),_activated(false),_toActivation(false),_toDesActivation(false)// Esto es así hasta saber como será la escena que emilio está haciendo.
@@ -26,6 +28,9 @@ namespace Logic
 		if (_altar) //si hay un puntero valido a un altar
 			if (_altar->hasComponent<CAltar>())
 				_activated=_altar->getComponent<CAltar>()->isActivated();
+			if (_altar->hasComponent<CAnimatedAltar>())
+				_activated=_altar->getComponent<CAnimatedAltar>()->isActivated();
+
 		return _activated;
 	}	
 }

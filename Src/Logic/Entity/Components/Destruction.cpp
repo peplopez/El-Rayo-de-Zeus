@@ -13,6 +13,7 @@ de la entidad.
 
 #include "Destruction.h"
 
+#include "Logic/Maps/EntityFactory.h"
 #include "Logic/Entity/Entity.h"
 #include "Map/Entity.h"
 
@@ -76,7 +77,8 @@ namespace Logic
 	bool CDestruction::accept(const CMessage *message)
 	{
 		return (isAwake() && message->getType() == Message::CONTROL && 
-					message->getAction() == Message::DESTROY);
+					message->getAction() == Message::DESTROY) || (isAwake() && message->getType() == Message::DEAD && 
+					message->getAction() == Message::DAMAGE);
 	}
 	
 	//---------------------------------------------------------
@@ -88,6 +90,11 @@ namespace Logic
 		case Message::CONTROL:
 			if(message->getAction() == Message::DESTROY)
 					destroy();
+			break;
+		case Message::DEAD:
+			if(message->getAction() == Message::DAMAGE)
+				_dying=true;
+			break;
 		}
 	} // process
 	
@@ -164,9 +171,17 @@ namespace Logic
 				}
 			}
 		}
-		
-
 	}
+		if (_dying && _entity->getType()!="NPC" && _entity->getType()!="Player")
+		{
+			CMessageFloat *m = new CMessageFloat();	
+			m->setType(Message::SET_SCALE);
+			m->setAction(Message::Y_AXIS);
+			if (_cont>0) _cont-=0.00005*msecs;
+			else  CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity); 
+			m->setFloat(_cont);
+			_entity->emitMessage(m);
+		}
 	 // tick
 	}
 } // namespace Logic

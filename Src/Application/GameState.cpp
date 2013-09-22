@@ -79,6 +79,16 @@ namespace Application {
 
 		_pauseWindow = _rootWindow->getChild("Root/Pause");
 
+		_hudWindow = _rootWindow->getChild("Root/Hud");
+
+		_rayoWindow = _hudWindow->getChild("Root/Hud/RayoBase");
+
+		_swordWindow = _hudWindow->getChild("Root/Hud/SwordLifeContainer");
+
+		_lifeSwordWindow = _hudWindow->getChild("Root/Hud/Life");
+
+
+
 		return true;
 	
 	} // init
@@ -104,7 +114,41 @@ namespace Application {
 	// Гоз Al entrar en GameState (cambio de currentState)
 	void CGameState::activate() 
 	{
+
+		//PT After obtain aspectRatio I want to modify UDIM y for keeping aspect ratio
+		float aspectRatio;
+		aspectRatio = Graphics::CServer::getSingletonPtr()->getAspectRatio();
+
+		//PT udimHeight.d_scale * aspectRatio to keep aspect ratio (HUDWINDOW)
+		CEGUI::UDim udimWidth = _hudWindow->getWidth();
+		CEGUI::UDim udimHeight = _hudWindow->getHeight();
+		float newHeight = udimHeight.d_scale * aspectRatio;
+		udimHeight.d_scale = newHeight;
+		_hudWindow->setHeight(udimHeight);
+
+		//PT udimHeight.d_scale * aspectRatio to keep aspect ratio (RayoWindow)
+		udimWidth = _rayoWindow->getWidth();
+		udimHeight = _rayoWindow->getHeight();
+		newHeight = udimHeight.d_scale * aspectRatio;
+		udimHeight.d_scale = newHeight;
+		_rayoWindow->setHeight(udimHeight);
+
+		//PT udimHeight.d_scale * aspectRatio to keep aspect ratio (SwordWindow)
+		udimWidth = _swordWindow->getWidth();
+		udimHeight = _swordWindow->getHeight();
+		newHeight = udimHeight.d_scale * aspectRatio;
+		udimHeight.d_scale = newHeight;
+		_swordWindow->setHeight(udimHeight);
+
+		//PT udimHeight.d_scale * aspectRatio to keep aspect ratio (LifeSwordWindow)
+		udimWidth = _lifeSwordWindow->getWidth();
+		udimHeight = _lifeSwordWindow->getHeight();
+		newHeight = udimHeight.d_scale * aspectRatio;
+		udimHeight.d_scale = newHeight;
+		_lifeSwordWindow->setHeight(udimHeight);
 		
+
+
 		CApplicationState::activate();
 	
 		// Activamos el mapa que ha sido cargado para la partida (incluye la activacion de la escenas)
@@ -157,6 +201,39 @@ namespace Application {
 				if(BaseSubsystems::CServer::getSingletonPtr()->isWindowedMode() )				
 					CEGUI::MouseCursor::getSingletonPtr()->hide();				//PT
 		#endif
+
+		//PT After obtain aspectRatio I want to modify UDIM y for keeping aspect ratio
+		float aspectRatio;
+		aspectRatio = Graphics::CServer::getSingletonPtr()->getAspectRatio();
+
+		//PT udimHeight.d_scale / aspectRatio to keep aspect ratio (HUDWINDOW)
+		CEGUI::UDim udimWidth = _hudWindow->getWidth();
+		CEGUI::UDim udimHeight = _hudWindow->getHeight();
+		float newHeight = udimHeight.d_scale / aspectRatio;
+		udimHeight.d_scale = newHeight;
+		_hudWindow->setHeight(udimHeight);
+
+		//PT udimHeight.d_scale / aspectRatio to keep aspect ratio (RayoWindow)
+		udimWidth = _rayoWindow->getWidth();
+		udimHeight = _rayoWindow->getHeight();
+		newHeight = udimHeight.d_scale / aspectRatio;
+		udimHeight.d_scale = newHeight;
+		_rayoWindow->setHeight(udimHeight);
+
+		//PT udimHeight.d_scale / aspectRatio to keep aspect ratio (SwordWindow)
+		udimWidth = _swordWindow->getWidth();
+		udimHeight = _swordWindow->getHeight();
+		newHeight = udimHeight.d_scale / aspectRatio;
+		udimHeight.d_scale = newHeight;
+		_swordWindow->setHeight(udimHeight);
+
+		//PT udimHeight.d_scale / aspectRatio to keep aspect ratio (LifeSwordWindow)
+		udimWidth = _lifeSwordWindow->getWidth();
+		udimHeight = _lifeSwordWindow->getHeight();
+		newHeight = udimHeight.d_scale / aspectRatio;
+		udimHeight.d_scale = newHeight;
+		_lifeSwordWindow->setHeight(udimHeight);
+
 		
 		CApplicationState::deactivate();
 

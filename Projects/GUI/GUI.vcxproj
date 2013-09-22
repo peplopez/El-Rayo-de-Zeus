@@ -88,7 +88,6 @@
     <ClCompile Include="..\..\Src\GUI\CameraController.cpp" />
     <ClCompile Include="..\..\Src\GUI\HudController.cpp" />
     <ClCompile Include="..\..\Src\GUI\InputManager.cpp" />
-    <ClCompile Include="..\..\Src\GUI\Interfaz.cpp" />
     <ClCompile Include="..\..\Src\GUI\PlayerController.cpp" />
     <ClCompile Include="..\..\Src\GUI\Server.cpp" />
     <ClCompile Include="..\..\Src\GUI\ShopController.cpp" />
@@ -98,7 +97,6 @@
     <ClInclude Include="..\..\Src\GUI\Documentation.h" />
     <ClInclude Include="..\..\Src\GUI\HudController.h" />
     <ClInclude Include="..\..\Src\GUI\InputManager.h" />
-    <ClInclude Include="..\..\Src\GUI\Interfaz.h" />
     <ClInclude Include="..\..\Src\GUI\PlayerController.h" />
     <ClInclude Include="..\..\Src\GUI\Server.h" />
     <ClInclude Include="..\..\Src\GUI\ShopController.h" />

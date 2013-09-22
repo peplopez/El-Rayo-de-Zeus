@@ -65,12 +65,8 @@ namespace Logic
 		if (_entity->getName() == "Altar1" || 
 				_entity->getName() == "Altar2"||
 					_entity->getName() == "Altar3") 
-			_on = false;
-		
-	
-	
+						_on = false;	
 	return true;
-
 	} // spawn
 	
 	//---------------------------------------------------------
