@@ -7,7 +7,7 @@ del fichero del mapa.
 @author David Llansó García
 @date Agosto, 2010
 */
-#include "MapEntity.h"
+#include "Entity.h"
 
 #include <cassert>
 
@@ -16,12 +16,8 @@ namespace Map {
 	typedef std::pair<std::string, std::string> TSSPar;
 
 	void CEntity::setAttribute(const std::string &attr, const std::string &value)
-	{
-		TSSPar elem(attr,value);
-		if(_attributes.count(attr))
-			_attributes.erase(attr);
-		_attributes.insert(elem);
-
+	{	
+		_attributes[attr] = value;
 	} // setAttribute
 
 	//--------------------------------------------------------
@@ -123,22 +119,80 @@ namespace Map {
 	//--------------------------------------------------------
 
 	void CEntity::mergeWithArchetype(const CEntity& archetype)
-	{
-		
-		TAttrList::const_iterator it,end;
+	{		
+		// UNDONE FRS Es más sencillo utilizar insert directamente, el cual 
+		// inserta tan sólo los pares cuya clave no esté registrada ya en _attributes.
+		// Tampoco hay que temer por "name" o "type", ya que el parser no las almacena 
+		// en _attributes, si no en variables independientes (_name y _type).
 
-		it=archetype.getAttributes().begin();
-		end=archetype.getAttributes().end();
-		
-		for (; it != end; it++)
-		{
-			if(!this->hasAttribute(it->first) && it->first.compare("type") != 0)
-				this->setAttribute(it->first, it->second);
-		}
+		//TAttrList::const_iterator it	= archetype.getAttributes().cbegin();
+		//TAttrList::const_iterator end	= archetype.getAttributes().cend();		
+		//	for (; it != end; ++it)	
+		//		if( !this->hasAttribute(it->first) )			// UNDONE FRS it->first != "type": el 
+		//			this->setAttribute(it->first, it->second);	//parser no guarda "name" ni "type" en Attributes.
+
+		_attributes.insert(archetype.getAttributes().cbegin(), archetype.getAttributes().cend() );
 
 		//Por ultimo se modifica el tipo de la entidad al que se indique en el arquetipo
 		this->setType(archetype.getType());
 
 	} // mergeWithArchetype
+
+	//--------------------------------------------------------
+
+	void CEntity::replaceAttrKeywords(
+			const TAttrKeywords& keywords, const std::string& attr)
+	{				
+		if( keywords.empty() )
+			return;
+		
+		// ATTRIBUTO ESPECÍFICO
+		if( attr.length() ) { // Reemplazo del valor de un atributo específico
+		
+			if( attr == "name") {
+				_replaceKeywords(_name, keywords);
+			}else if( attr == "type") {
+				_replaceKeywords(_type, keywords);
+		
+			} else { // Resto de atributos		
+
+				// BÚSQUEDA Y REEMPLAZO
+				TAttrList::iterator       attrIt	= _attributes.find(attr);			
+				TAttrList::const_iterator attrEnd	= _attributes.cend();
+				if(attrIt != attrEnd) // Atributo encontrado					
+					_replaceKeywords(attrIt->second, keywords);
+			}
+		
+		// TODOS LOS ATRIBUTOS
+		} else { // Reemplazo de todos los atributos
+
+			_replaceKeywords(_name, keywords);
+			_replaceKeywords(_type, keywords);
+
+			TAttrList::iterator       attrIt	= _attributes.begin();			
+			TAttrList::const_iterator attrEnd	= _attributes.cend();
+			for (; attrIt != attrEnd; ++attrIt) 
+				_replaceKeywords(attrIt->second, keywords);
+		}
+				
+	} // replaceAttrKeywords
+
+	//--------------------------------------------------------
+
+	void CEntity::_replaceKeywords(std::string& text, const TAttrKeywords& keywords)
+	{
+		TAttrKeywords::const_iterator keyIt 	= keywords.cbegin();
+		TAttrKeywords::const_iterator keyEnd	= keywords.cend();
+		for(; keyIt != keyEnd; ++keyIt) {
+
+			const std::string& keyword  = keyIt->first;
+			const std::string& value	= keyIt->second;
+
+			size_t start_pos = text.find( keyword );
+				if(start_pos != std::string::npos)       
+					text.replace(start_pos, keyword.length(), value);
+		}
+
+	} // replaceKeywords
 
 } // namespace Map

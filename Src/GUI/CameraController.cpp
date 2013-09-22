@@ -59,8 +59,8 @@ namespace GUI {
 
 	void CCameraController::removeControlledCamera(Logic::CEntity *controlledCamera)
 	{
-		TEntities::const_iterator it = std::find(_controlledCameras.begin(), _controlledCameras.begin(), controlledCamera);
-		if (it != _controlledCameras.end())
+		TEntities::const_iterator it = std::find(_controlledCameras.cbegin(), _controlledCameras.cbegin(), controlledCamera);
+		if (it != _controlledCameras.cend())
 			_controlledCameras.erase(it);
 	}
 
@@ -71,8 +71,8 @@ namespace GUI {
 		if(!_controlledCameras.empty())
 		{
 			bool keySent = false;
-			TEntities::const_iterator it = _controlledCameras.begin();
-			TEntities::const_iterator end = _controlledCameras.end();
+			TEntities::const_iterator it = _controlledCameras.cbegin();
+			TEntities::const_iterator end = _controlledCameras.cend();
 			for (; it != end; ++it)
 			{
 				Logic::CMessageBoolFloat *m = new Logic::CMessageBoolFloat();

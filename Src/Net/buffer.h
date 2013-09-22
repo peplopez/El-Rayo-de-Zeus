@@ -31,7 +31,9 @@ public:
 	 * @param initsize Tamaño inicial del buffer
 	 * @param delta Indica cuanto crecerá el buffer cada vez que se necesite ampliarlo
      */
+
 	CBuffer(size_t initsize=500, size_t delta=100);
+	CBuffer(void* data, size_t dataLength, size_t initsize=500, size_t delta=100);
 
 	/**
 	 * Destructora

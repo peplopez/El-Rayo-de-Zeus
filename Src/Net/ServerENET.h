@@ -103,7 +103,7 @@ public:
 
 private:
 
-	enum EstadoServidorENet{
+	enum ENETServiceState {
 		NO_INIT,
 		INIT_NOT_CONNECTED,
 		INIT_AND_CONNECTED
@@ -113,7 +113,7 @@ private:
 
 	void disconnectReceived(CConnection* connection);
 	
-	EstadoServidorENet estado;
+	ENETServiceState _state;
 
 	std::vector<CConnection*> _connectionsList;
 

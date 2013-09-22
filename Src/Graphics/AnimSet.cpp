@@ -14,9 +14,8 @@ Contiene la implementación de la clase que reprenta una correspondencia entre no
 */
 #include <assert.h>
 #include "AnimSet.h"
-//#include "Graphics\Entity.h"
-//#include "Logic/Maps/Map.h"
-#include "Map/MapEntity.h"
+
+#include "Map/Entity.h"
 
 namespace Graphics 
 {

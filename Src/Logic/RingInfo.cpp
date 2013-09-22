@@ -47,7 +47,7 @@ namespace Logic
 	{
 		 TAltars::const_iterator itr;
 		 _numActivatedAltars=0;
-		 for(itr = _altars.begin(); itr != _altars.end(); ++itr){
+		 for(itr = _altars.cbegin(); itr != _altars.cend(); ++itr){
 			 if ((*itr).second->isActivated())
 				 _numActivatedAltars++;	
 		 }

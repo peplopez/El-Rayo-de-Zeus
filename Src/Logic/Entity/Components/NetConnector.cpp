@@ -16,7 +16,7 @@ Contiene la implementación del componente que reenvia mensajes por la red.
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/Map.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 
 
@@ -70,13 +70,13 @@ namespace Logic {
 
 	bool CNetConnector::accept(const CMessage *message)
 	{
-		if(message->getType() == Message::CONTROL && !_entity->isPlayer() )  // CONTROL: sólo TX por red si lo ha generado el Player local (PlayerController)
+		if(message->getType() == Message::CONTROL && !_entity->isLocalPlayer() )  // CONTROL: sólo TX por red si lo ha generado el Player local (PlayerController)
 			return false;
 
 		// [ƒ®§] Vemos si es uno de los mensajes que debemos trasmitir 
 		// por red. Para eso usamos la lista de mensajes que se ha leido del mapa.
 		// Vemos si es uno de los mensajes que debemos trasmitir  por red.
-		else if (std::find(_forwardedMsgTypes.begin(),  _forwardedMsgTypes.end(), message->getType()) != _forwardedMsgTypes.end())
+		else if (std::find(_forwardedMsgTypes.cbegin(),  _forwardedMsgTypes.cend(), message->getType()) != _forwardedMsgTypes.cend())
 		{			
 			// Grano fino, en vez de aceptar el mensaje directamente
 			// solo se retransmitirá por la red si no se ha transmitido 
@@ -116,7 +116,7 @@ namespace Logic {
 		// mensaje de un tipo espécifico.
 		TTimeToUnblockMsgDelivery::iterator it =
 			_timeToUnblockMsgDelivery.begin();
-		while(it != _timeToUnblockMsgDelivery.end()) // Recorremos pares
+		while(it != _timeToUnblockMsgDelivery.cend()) // Recorremos pares
 		{
 			(*it).second -= msecs;	//Descontamos tiempo a _timeToUnblock (second)
 			if ((*it).second <= 0)

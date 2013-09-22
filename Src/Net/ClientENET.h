@@ -111,7 +111,7 @@ public:
 
 private:
 	
-	enum ClientStateENET{
+	enum ENETClientState{
 		NO_INIT,
 		INIT_NOT_CONNECTED,
 		INIT_AND_CONNECTED
@@ -121,7 +121,7 @@ private:
 
 	void disconnectReceived(CConnection* connection);
 
-	ClientStateENET estado;
+	ENETClientState _state;
 
 	std::vector<CConnection*> _connectionsList;
 	ENetHost* client;

@@ -19,6 +19,8 @@ del fichero del mapa.
 
 namespace Map 
 {
+	typedef std::map<std::string, std::string> TAttrKeywords;
+
 	/**
 	Clase que representa una entidad leida del fichero del mapa. Es
 	simplemente una colección de pares <atributo,valor> más un string
@@ -43,10 +45,11 @@ namespace Map
 
 	public:
 
+		CEntity(): _name(""), _type("") {}
 		/**
 		Constructor de la clase.
 		*/
-		CEntity(const std::string &name) : _type(""), _name(name) {}
+		CEntity(const std::string &name) : _name(name), _type("") {}
 
 		/**
 		Destructor.
@@ -177,6 +180,10 @@ namespace Map
 		*/
 
 		void mergeWithArchetype(const CEntity &archetype);
+		void replaceAttrKeywords(
+			const TAttrKeywords& properties, const std::string& attribute = "");
+
+
 
 		/**
 		Tipo lista de CEntity donde guardaremos los pendientes de borrar.
@@ -190,6 +197,9 @@ namespace Map
 
 		const TAttrList& getAttributes() const {return _attributes;}
 
+
+		
+		
 	
 
 	protected:
@@ -210,8 +220,13 @@ namespace Map
 		std::string _name;
 
 
+	private:
+		void _replaceKeywords(std::string& text, const TAttrKeywords& keywords);
+
 
 	}; // CEntity
+
+	
 
 } // namespace Map
 

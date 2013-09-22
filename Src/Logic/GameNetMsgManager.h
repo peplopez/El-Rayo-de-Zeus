@@ -24,6 +24,11 @@ Contiene la declaración del gestor de los mensajes de red durante la partida.
 #include "Net/IObserver.h"
 
 
+namespace Net
+{
+	class CManager;
+}
+
 namespace Logic 
 {
 	/**
@@ -97,8 +102,8 @@ namespace Logic
 			NET::IOBSERVER
 		******************/
 		virtual void dataPacketReceived(Net::CPacket* packet);
-		virtual void connexionPacketReceived(Net::CPacket* packet) {};
-		virtual void disconnexionPacketReceived(Net::CPacket* packet) {};
+		virtual void connectPacketReceived(Net::CPacket* packet) {};
+		virtual void disconnectPacketReceived(Net::CPacket* packet) {};
 		
 
 	protected:
@@ -128,6 +133,8 @@ namespace Logic
 		Única instancia de la clase.
 		*/
 		static CGameNetMsgManager* _instance;
+
+		Net::CManager* _netManager;
 
 	}; // CGameNetMsgManager
 

@@ -11,17 +11,20 @@ Contiene la declaración de la clase CMap, Un mapa lógico.
 #ifndef __Logic_Map_H
 #define __Logic_Map_H
 
+#include "EntityID.h"
+
+
+#include <Logic/PlayerSettings.h>
+#include <map/Entity.h>
+
 #include <map>
 #include <list>
-#include "EntityID.h"
+
+
+
 
 // Predeclaración de clases para ahorrar tiempo de compilación
 namespace Logic 
-{
-	class CEntity;
-}
-
-namespace Map
 {
 	class CEntity;
 }
@@ -38,6 +41,9 @@ namespace Physics
 // Declaración de la clase
 namespace Logic
 {
+
+	
+
 	/**
 	Clase que representa un mapa lógico.
 	<p>
@@ -64,7 +70,9 @@ namespace Logic
 		@param filename Nombre del archivo a cargar.
 		@return Mapa generado.
 		*/
-		static CMap *createMapFromFile(const std::string &filename);
+		static CMap *createMap(const std::string &filename);
+		static CMap* createMap(CPlayerSettings& settings);
+		
 
 		/**
 		Constructor.
@@ -123,9 +131,7 @@ namespace Logic
 		/*
 		*/
 		void insertEntity(CEntity *entity);
-
 		void insertIntoGraphics(CEntity *entity);
-
 		void insertIntoPhysics(CEntity *entity);
 
 		/**
@@ -139,9 +145,7 @@ namespace Logic
 		@param entity Entidad a eliminar.
 		*/
 		void removeEntity(CEntity *entity);
-
 		void removeFromGraphics(CEntity *entity);
-
 		void removeFromPhysics(CEntity *entity);
 
 
@@ -215,9 +219,16 @@ namespace Logic
 
 		@param name Nombre del jugador.
 		*/
-		//PT
-		//void createPlayer(std::string entityName, bool isLocalPlayer, const std::string& model = "");
-		void createPlayer(std::string entityName, bool isLocalPlayer,const std::string& nickname = "", const std::string& model = "", const std::string& color = "");
+
+
+		/*******************
+			CREATORS
+		****************/
+
+		//FRS DEPRECATED
+		// Ya no es necesario ejecutar esta función; la creación del player va ligada a loadMap
+		void createPlayer(bool isLocalPlayer, const std::string& nickname = "", const std::string& color = "", const std::string& model = "");
+		
 
 		//PT
 		void createAlly(std::string entityName, const std::string& type="", const unsigned short base=0U, const unsigned short ring=0U, const unsigned short degrees=0U, const unsigned short sense=0);
@@ -225,14 +236,32 @@ namespace Logic
 
 		/*******************
 			GET's & SET's
-		******************/
-		bool isActive() { return _isActive; }
+		******************/		
+		const Map::TAttrKeywords& getProperties() const { return _properties; }
+		void setProperty(const std::string& keyword, const std::string& value) 
+			{ _properties[keyword] = value; }
+		void setProperties(const Map::TAttrKeywords& properties) 
+			{ _properties.insert(properties.cbegin(), properties.cend() ); }
+
+		bool isActive() const { return _isActive; }
 
 
 	private:
 
-		//PT Contador para crear aliados y que no se repitan sus nombres al crearlos
-		unsigned short int alied;
+		/**
+		Escena gráfica donde se encontrarán las representaciones gráficas de las entidades.
+		*/
+		Graphics::CScene* _graphicScene;
+		/**
+		Escena física donde se encontrarán los actores físicos de las entidades.
+		*/
+		Physics::CScene* _physicsScene;
+
+		/**
+		Nombre del mapa.
+		*/
+		std::string _name;
+
 
 		/**
 		Tipo tabla de entidades de mapa.
@@ -249,21 +278,16 @@ namespace Logic
 		*/
 		TEntityList _entityList;
 
-		/**
-		Nombre del mapa.
-		*/
-		std::string _name;
+			
 
 		bool _isActive;
 
-		/**
-		Escena gráfica donde se encontrarán las representaciones gráficas de las entidades.
-		*/
-		Graphics::CScene* _graphicScene;
-		/**
-		Escena física donde se encontrarán los actores físicos de las entidades.
-		*/
-		Physics::CScene* _physicsScene;
+		//PT Contador para crear aliados y que no se repitan sus nombres al crearlos
+		unsigned short int _nAllies;
+		
+		// FRS Propiedades (Keyword - value) a ser sustituidas sobre el mapa patron.
+		Map::TAttrKeywords _properties;
+		
 	}; // class CMap
 
 } // namespace Logic

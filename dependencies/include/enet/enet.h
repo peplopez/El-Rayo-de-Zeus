@@ -369,7 +369,7 @@ typedef enum _ENetEventType
    
    @sa enet_host_service
  */
-typedef struct _ENetEvent 
+typedef struct
 {
    ENetEventType        type;      /**< type of the event */
    ENetPeer *           peer;      /**< peer that generated a connect, disconnect or receive event */

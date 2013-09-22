@@ -49,7 +49,7 @@ public:
 	 * @param connection es la conexión por la que se transmiten
 	 * @param canan es el canal por el que se transmiten
 	 */
-	CPacket(PacketType tipo, byte* data, size_t dataLength, CConnection* connection, unsigned char canal);
+	CPacket(PacketType tipo, byte* data, size_t dataLength, CConnection* connection, unsigned char channel);
 
 	/**
 	 * Destructura
@@ -74,35 +74,35 @@ public:
 	/**
 	 * Obtener el tipo de los datos
 	 */
-	PacketType getTipo();
+	PacketType getType();
 
 	/**
 	 * Establecer el tipo de los datos
 	 */
-	void setTipo(PacketType tipo);
+	void setType(PacketType type);
 
 	/**
 	 * Establecer la conexión que transmite los datos
 	 */ 
-	void setConexion(CConnection* connection);
+	void setConnection(CConnection* connection);
 
 	/**
 	 * Obtener la conexión que transmite los datos
 	 */ 
-	CConnection* getConexion();
+	CConnection* getConnection();
 
 	/**
 	 * Establecer el canal que transmite los datos
 	 */ 
-	void setCanal(unsigned char canal);
+	void setChannel(unsigned char channel);
 
 	/**
 	 * Obtener el canal que transmite los datos
 	 */ 
-	unsigned char getCanal();
+	unsigned char getChannel();
 
 protected:
-	unsigned char _canal;
+	unsigned char _channel;
 	size_t _dataLength;
 	byte* _data;
 	PacketType _packetType;

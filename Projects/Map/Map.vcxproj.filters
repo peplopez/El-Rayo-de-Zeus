@@ -9,9 +9,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Src\Map\MapEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Map\MapParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -21,15 +18,15 @@
     <ClCompile Include="..\..\Src\Map\Scanner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Src\Map\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Map\Documentation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Map\FlexLexer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Src\Map\MapEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Src\Map\MapParser.h">
@@ -44,6 +41,9 @@
     <ClInclude Include="..\..\Src\Map\y.tab.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\Map\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Src\Map\location.hh">
@@ -54,6 +54,9 @@
     </None>
     <None Include="..\..\Src\Map\stack.hh">
       <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\Src\Map\Parser.yy">
+      <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
 </Project>

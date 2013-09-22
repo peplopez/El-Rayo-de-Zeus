@@ -21,8 +21,7 @@ Map ={
 		type = "NPCAtalanta",
 		base=2,
 		ring=1,
-		degrees=120,
-		initialMaterial1="marineGreen",
+		degrees=120,		
 	},
 	medusa2 = {
 		type = "Medusa",

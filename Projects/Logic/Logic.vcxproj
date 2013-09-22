@@ -165,6 +165,7 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Life.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\NetConnector.cpp" />
     <ClCompile Include="..\..\Src\Logic\PlayerInfo.cpp" />
+    <ClCompile Include="..\..\src\Logic\PlayerSettings.cpp" />
     <ClCompile Include="..\..\Src\Logic\Ranking.cpp" />
     <ClCompile Include="..\..\Src\Logic\RingInfo.cpp" />
     <ClCompile Include="..\..\Src\Logic\Server.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\NetConnector.h" />
     <ClInclude Include="..\..\Src\Logic\Documentation.h" />
     <ClInclude Include="..\..\Src\Logic\PlayerInfo.h" />
+    <ClInclude Include="..\..\src\Logic\PlayerSettings.h" />
     <ClInclude Include="..\..\Src\Logic\Ranking.h" />
     <ClInclude Include="..\..\Src\Logic\RingInfo.h" />
     <ClInclude Include="..\..\Src\Logic\Server.h" />

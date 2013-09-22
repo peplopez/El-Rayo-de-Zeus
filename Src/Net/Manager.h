@@ -40,7 +40,8 @@ namespace Net
 	*/
 	typedef unsigned int NetID;
 
-	unsigned const int CLIENTS_MAX = 8;
+	const unsigned int CLIENTS_MAX = 4;
+	const unsigned short SERVER_PORT = 1234;	
 
 	/**
 	Namespace para los tipos de IDs posibles.
@@ -67,14 +68,14 @@ namespace Net
 
 	enum NetMessageType {
 		COMMAND,
-		START_GAME,
-		END_GAME,
-		LOAD_MAP,
-		LOAD_PLAYER,
+		ASSIGN_ID, // Mensaje de asignación de NetID a un cliente
+		GAME_START,
+		GAME_END,
+		MAP_LOAD,
 		MAP_LOADED,
+		PLAYER_LOAD,		
 		PLAYER_LOADED,
-		ENTITY_MSG,
-		ASSIGN_ID // Mensaje de asignación de NetID a un cliente
+		ENTITY_MSG
 	};
 
 
@@ -98,6 +99,20 @@ namespace Net
 	*/
 	class CManager
 	{
+
+	private:
+
+		/**
+		Única instancia de la clase.
+		*/
+		static CManager* _instance;
+
+		/**
+		Factoría de objetos de red
+		*/
+		Net::CFactory* _netFactory;
+
+
 	public:
 
 		/**
@@ -131,6 +146,9 @@ namespace Net
 		*/
 		void tick(unsigned int msecs);
 
+
+		//------------ NET ----------------------------------
+			
 		/**
 		Función que sirve para enviar datos al otro lado de la conexión.
 		Si se está en modo cliente los datos se enviarán al servidor
@@ -142,26 +160,9 @@ namespace Net
 		void send(void* data, size_t longdata, CConnection* exception);
 		void send(void* data, size_t longdata, bool reliable = true, CConnection* exception = 0);
 
-		void activateAsServer(int port, int clients = 16, unsigned int maxinbw = 0, unsigned int maxoutbw = 0);
-
-		void activateAsClient(unsigned int maxConnections = 1, unsigned int maxinbw = 0, unsigned int maxoutbw = 0);
-
-		void connectTo(char* address, int port, int channels = 1, unsigned int timeout = 5000);
-
 		void deactivateNetwork();
 
-
-		void addObserver(IObserver*);
-
-		void removeObserver(IObserver*);
-
-		/**
-		Devuelve el ID de red.
 		
-		@return El ID de red.
-		*/
-		NetID getID() {return _id;}
-
 	protected:
 		/**
 		Constructor.
@@ -180,44 +181,54 @@ namespace Net
 
 		@return true si todo fue correctamente.
 		*/
-		bool open();
+		bool _open();
 
 		/**
 		Segunda fase de la destrucción del objeto. Sirve para hacer liberar 
 		los recursos de la propia instancia, la liberación de los recursos 
 		estáticos se hace en Release().
 		*/
-		void close();
+		void _close();
 
-		void getPackets(std::vector<Net::CPacket*>& _packets);
-		
-		bool isMsgAssignID(Net::CPacket* packet);
-		
-		void connect(CConnection* connection);
 
-		void disconnect(CConnection* connection);
 
+
+
+	/**************
+		SERVER
+	***************/
 	private:
-		/**
-		Única instancia de la clase.
-		*/
-		static CManager* _instance;
+		Net::CServer* _netServer; // Servidor de red
+	public:
+		void activateAsServer(unsigned short port = SERVER_PORT, unsigned int maxConnections = CLIENTS_MAX,
+			unsigned int maxinbw = 0, unsigned int maxoutbw = 0);
+	
 
-		/**
-		Factoría de objetos de red
-		*/
-		Net::CFactory* _netFactory;
+	/*************
+		CLIENT			
+	*************/
+	private: 
+		Net::CClient* _netClient; //Cliente de red
+	public: 
+		void activateAsClient(unsigned int maxConnections = 1, unsigned int maxinbw = 0, unsigned int maxoutbw = 0);
+		bool clientConnectToServer(char* serverAddress, unsigned short serverPort = SERVER_PORT,
+			unsigned int nChannels = 1, unsigned int timeout = 5000);
 
-		/**
-			 Servidor de red
-		*/
-		Net::CServer* _netServer;
 
-		/**
-			Cliente de red
-		*/
-		Net::CClient* _netClient;
+	/******************
+		NET EVENTS
+	******************/
+	private:
+		std::vector<IObserver*> _observers;
+	public:
+		void addObserver(IObserver*);
+		void removeObserver(IObserver*);
 
+	
+	/*****************
+		CONNECTIONS
+	******************/
+	private:
 		typedef std::pair<NetID, CConnection*> TConnectionPair;
 		typedef std::map<NetID, CConnection*> TConnectionTable;
 		/**
@@ -226,29 +237,46 @@ namespace Net
 			usará una y en el servidor tantas como clientes haya.
 		*/
 		TConnectionTable _connections;
-
 		CConnection* getConnection(NetID id);
-
 		bool addConnection(NetID id, CConnection* connection);
-
 		bool removeConnection(NetID id);
 
-		std::vector<IObserver*> _observers;
+	protected:
+		void _serverWelcomeClient(CConnection* connection);
+		void _disconnect(CConnection* connection);
 
+
+	/************
+		PACKETS
+	*************/
+	private: 
 		std::vector<Net::CPacket*> _packets;
+	protected:
+		void _receivePackets(std::vector<Net::CPacket*>& _packets);		
+		bool _isMsgAssignID(Net::CPacket* packet);
 
+
+	/************
+		NET ID
+	***************/
+	private:			
 		/**
 		ID de red una vez conectado.
 		*/
 		NetID _id;// id para esta entidad de red
-
 		/**
 		Siguiente ID de red que se asignará al próximo cliente. Solo se usa en modo 
 		servidor.
 		*/
 		NetID _nextId;
+		/**
+		Devuelve el ID de red.		
+		@return El ID de red.
+		*/
+	public: 
+		NetID getID() {return _id;}
 
-		}; // class CManager
+	}; // class CManager
 
 } // namespace Net
 

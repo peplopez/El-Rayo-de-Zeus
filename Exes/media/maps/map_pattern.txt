@@ -1,0 +1,138 @@
+Map ={
+	
+	Scene = {
+		type = "SCENE",		
+	},
+	
+	NICK = {
+		type = "AVATAR",
+		isLocalPlayer = "LOCAL",		
+		base = 1,
+		ring = 1,
+		degrees = 0,
+		sense = 2,
+		fxScript0 = "Blast",	
+		fxPos0 = {0, 10, 5},
+	},
+	
+	Camera = {
+		type = "PlayerCamera",
+	},
+	BaseCamera1 = {
+		type = "BaseCamera",
+	},
+	
+	
+	Light1 = {
+		type = "WhitePLight",
+		position = {-100, 120, 0},
+	},
+	Light2 = {
+		type = "WhitePLight",
+		position = {100, 20, 0},
+	},	
+	
+	LowerRing = {
+		type = "World",
+		base=1,
+		ring=0,
+		model = "lower_ring.mesh",		
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -1.9,
+	},	
+	CenterRing = {
+		type = "World",
+		base=1,
+		ring=1,
+		model = "central_ring.mesh",		
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -1.9,
+	},	
+	UpperRing = {
+		type = "World",
+		base=1,
+		ring=2,
+		model = "upper_ring.mesh",		
+		physicType = "static",
+		shape="box",
+		physicHalfWidth = 190,
+		physicHalfHeight = 1,
+		physicBodyOffset = -1.9,
+	},
+
+	
+	Altar1 = {
+		type = "Altar",
+		degrees=30,
+		ring=0,
+		base=1,		
+	},	
+	Altar2 = {
+		type = "Altar",
+		degrees=150,
+		ring=0,
+		base=1,	
+
+	},	
+	Altar3 = {
+		type = "Altar",
+		degrees=270,
+		ring=0,
+		base=1,
+	},	
+	Altar4 = {
+		type = "Altar",
+		degrees=6,
+		ring=1,
+		base=1,	
+	},	
+	Altar5 = {
+		type = "Altar",
+		degrees=78,
+		ring=1,
+		base=1,
+	},	
+	Altar6 = {
+		type = "Altar",
+		degrees=150,
+		ring=1,
+		base=1,	
+	},	
+	Altar7 = {
+		type = "Altar",
+		degrees=222,
+		ring=1,
+		base=1,			
+	},	
+	Altar8 = {
+		type = "Altar",
+		degrees=294,
+		ring=1,
+		base=1,		
+	},	
+	Altar9 = {
+		type = "Altar",
+		degrees=30,
+		ring=2,
+		base=1,		
+	},	
+	Altar10 = {
+		type = "Altar",
+		degrees=150,
+		ring=2,
+		base=1,		
+	},	
+	Altar11 = {
+		type = "Altar",
+		degrees=270,
+		ring=2,
+		base=1,		
+	},				
+
+}

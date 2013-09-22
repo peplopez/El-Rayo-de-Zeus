@@ -89,7 +89,7 @@ namespace AI
 		//PT
 		std::cout<<"AI::StateMachine::Jumping - OnRun"<<std::endl;
 
-		if (_entity->isPlayer()){
+		if (_entity->isLocalPlayer()){
 			if(Application::CBaseApplication::getSingletonPtr()->getAppTime() > _endingTime)
 			{
 				std::cout<<"AI::StateMachine::Jumping - OnRun - SUCCESS"<<std::endl;

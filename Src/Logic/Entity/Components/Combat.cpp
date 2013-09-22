@@ -23,7 +23,7 @@ angular de entidades.
 #include <Logic/Entity/Messages/MessageUInt.h>
 #include <Logic/Entity/Messages/MessageString.h>
 #include <Logic/Maps/Map.h>
-#include <Map/MapEntity.h>
+#include <Map/Entity.h>
 
 #include "AnimatedGraphics.h"
 
@@ -193,8 +193,8 @@ namespace Logic
 	//este metodo devuelve null si no se está ocupando ese grado o la entidad que ocupa ese espacio
 	unsigned short CCombat::attackToPlace(float grado, short ring, short base,bool soloInfo)
 	{//acotar				
-		CMap::TEntityList::const_iterator it = _entity->getMap()->getEntities().begin();
-		CMap::TEntityList::const_iterator end = _entity->getMap()->getEntities().end();
+		CMap::TEntityList::const_iterator it = _entity->getMap()->getEntities().cbegin();
+		CMap::TEntityList::const_iterator end = _entity->getMap()->getEntities().cend();
 
 		for(; it != end; ++it)
 		{			

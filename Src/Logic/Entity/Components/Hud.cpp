@@ -57,6 +57,9 @@ namespace Logic
 
 		//Inicializo su nickname en el gamestatus con el nombre de la entidad del player.
 		_gameStatus->getPlayer(player)->setNickName(entity->getName());
+		// TODO FRS Habría que tener cuidado y considerar si realmente queremos que entityName = nickName...
+		// Podría darse el caso de necesitar acceder a las entidades por nombres explicitos (PlayerRed,
+		// PlayerGreen, etc...) y que el nick fuera un atributo aparte...
 
 		//init HUD Layout and functions
 		ScriptManager::CServer::getSingletonPtr()->loadExeScript("Hud");

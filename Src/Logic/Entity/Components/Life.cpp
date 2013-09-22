@@ -24,7 +24,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Entity/Messages/MessageFloat.h"
 #include "Logic/Maps/Map.h"
 #include "Logic/Entity/Messages/MessageAudio.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 //PT
 #include "Logic/Maps/EntityFactory.h"
@@ -50,7 +50,7 @@ namespace Logic
 
 	void CLife::detachFromMap()
 	{
-		if(!_entity->isPlayer())
+		if(!_entity->isLocalPlayer())
 		{
 			_graphicalScene->remove(_lifeBarBB);
 			_graphicalScene = NULL;
@@ -61,7 +61,7 @@ namespace Logic
 
 	void CLife::attachToMap(CMap* map)
 	{
-		if(!_entity->isPlayer())
+		if(!_entity->isLocalPlayer())
 		{
 			_graphicalScene = map->getGraphicScene();
 			_graphicalScene->add(_lifeBarBB);
@@ -96,7 +96,7 @@ namespace Logic
 		//Si la entidad no es el PLAYER le creamos el Billboard (para el player su vida se visualiza
 		//en el hud)
 
-		if(!_entity->isPlayer())
+		if(!_entity->isLocalPlayer())
 		{
 			// crear el graphics::cbillboard y añadirle las dimensiones y ponerle las coordenadas
 
@@ -157,7 +157,7 @@ namespace Logic
 
 	void CLife::modifyLife(int lifeModifier) {
 
-		if(_entity->isPlayer()){
+		if(_entity->isLocalPlayer()){
 			std::cout<<"----CLife::modifyLife ---- "<<  std::endl;
 			std::cout<<" _life = "<< _life << std::endl;
 			std::cout<<" lifeModifier = "<< lifeModifier << std::endl;
@@ -167,7 +167,7 @@ namespace Logic
 
 		Math::Clamp( _life, 0, _LIFE_MAX); // Disminuir/ aumentar la vida de la entidad
 
-		if(_entity->isPlayer()){
+		if(_entity->isLocalPlayer()){
 			std::cout<<" _life after modifying =  "<< _life << std::endl;
 			std::cout<<"----End CLife::modifyLife ---- "<<  std::endl;
 		}
@@ -175,7 +175,7 @@ namespace Logic
 		// DIES
 		if(_life <= 0) {
 
-			if(_entity->isPlayer()){
+			if(_entity->isLocalPlayer()){
 				std::cout<<" BUCLE IF: _life <= 0 y se manda mensaje de TIPO DEAD y ACTION DAMAGE"<<  std::endl;
 			}
 
@@ -186,7 +186,7 @@ namespace Logic
 
 			// PT. When NO PLAYER entity lose all its life
 			// entity is deleted graphically as phisically
-			if( !_entity->isPlayer() && _entity->getType() != "NPC")
+			if( !_entity->isLocalPlayer() && _entity->getType() != "NPC")
 			{
 				if(_lifeBarBB!=NULL)
 				{
@@ -216,7 +216,7 @@ namespace Logic
 			float flifeMax = float (_LIFE_MAX);
 			//float ratio = float (_life) / float (_LIFE_MAX);
 			float ratio = flife / flifeMax;
-			if(_entity->isPlayer()){
+			if(_entity->isLocalPlayer()){
 				std::cout<<" ----------- RATIO --------------- " << std::endl;
 				std::cout<<" _life =  "<< _life << " flife = " << flife << std::endl;
 				std::cout<<" _LIFE_MAX =  "<< _LIFE_MAX << " flifeMax = " << flifeMax << std::endl;
@@ -225,7 +225,7 @@ namespace Logic
 			}
 
 			//If NOT Player, its billboard is updated 
-			if(!_entity->isPlayer())
+			if(!_entity->isLocalPlayer())
 			{
 				//Si la entidad tiene su _lifeBar distinto de NULL actualizamos las coordenadas UV, sino NO.
 				if(_lifeBarBB!=NULL)

@@ -40,8 +40,8 @@ namespace Logic {
 
 	void CCommunicationPort::processMessages()
 	{
-		TMessageList::const_iterator it = _messages.begin();
-		for(; it != _messages.end(); it++)
+		TMessageList::const_iterator it = _messages.cbegin();
+		for(; it != _messages.cend(); it++)
 		{
 			process(*it);
 			(*it)->release();

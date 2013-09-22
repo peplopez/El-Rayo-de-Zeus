@@ -39,7 +39,7 @@ namespace Logic
 		DEC_FACTORY(CFX);
 	public:
 
-		CFX() : IComponent(GetAltTypeIdOf(CFX)), _MAX_FX(10) {}		
+		CFX() : IComponent(GetAltTypeIdOf(CFX)) {}		
 		~CFX();
 		
 		bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
@@ -51,29 +51,29 @@ namespace Logic
 		
 		
 	private:
-
-		const int _MAX_FX;
-		
+			
 		Graphics::CScene* _graphicalScene;
 
 		typedef std::map<std::string, Graphics::CParticleSystem*> TParticleTable;
 		TParticleTable _psTable;	
 
-		// DICCIONARIO TAttachPoint -> BoneName
+		// DICCIONARIO TActionType -> sFX
 		typedef std::map<Message::TActionType, std::string> TActionToHfxMap;
 			static TActionToHfxMap _ACTION_TO_HFX;
 				static TActionToHfxMap _initActionToHfxMap() {
 					TActionToHfxMap map;
 						map[Message::TActionType::FX_BLAST]				="Blast";
 						map[Message::TActionType::FX_BLAST_SMALL]		="Blast_Small";
-						map[Message::TActionType::FX_CIRCLES]			="Circles";
-						map[Message::TActionType::FX_ELECTRIC_ORB_RED]	="ElectricOrbRed";
-						map[Message::TActionType::FX_ELECTRIC_ORB_BLUE]	="ElectricOrbBlue";
-						map[Message::TActionType::FX_FLAME_THROWER]		="FlameThrower";
-						map[Message::TActionType::FX_RAIN]				="Rain";
-						map[Message::TActionType::FX_SMOKE]				="Smoke";
 						map[Message::TActionType::FX_BURN]				="BurnHit";
 						map[Message::TActionType::FX_BURN_SMALL]		="BurnHit_Small";
+						map[Message::TActionType::FX_CIRCLES]			="Circles";
+						map[Message::TActionType::FX_FLAME_THROWER]		="FlameThrower";
+						map[Message::TActionType::FX_ORB_RED]			="OrbRed";
+						map[Message::TActionType::FX_ORB_GREEN]			="OrbGreen";
+						map[Message::TActionType::FX_ORB_BLUE]			="OrbBlue";
+						map[Message::TActionType::FX_ORB_YELLOW]		="OrbYellow";
+						map[Message::TActionType::FX_RAIN]				="Rain";
+						map[Message::TActionType::FX_SMOKE]				="Smoke";
 						map[Message::TActionType::FX_SPARKS]			="Sparks";
 						map[Message::TActionType::FX_TRAILS]			="Trails";
 
