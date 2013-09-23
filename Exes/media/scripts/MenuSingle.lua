@@ -12,6 +12,10 @@ function initMenuSingle()
 		
 		menuSingleColorBoxLabel = menuSingle:getChild("MenuSingle/ColorBoxLabel")
 		menuSingleColorBox = menuSingle:getChild("MenuSingle/ColorBox")
+		
+		menuSingleStatusWindow = menuSingle:getChild("MenuSingle/Status")
+		
+		menuSingleTextoProgreso = menuSingle:getChild("MenuSingle/TextoProgreso")
 
 	end
 end
@@ -70,7 +74,11 @@ function reloadMenuSingle()
 end
 
 function showError(msgError)
-	--menuSingleStatusWindow:setProperty("AlwaysOnTop","True")
-    --menuSingleStatusWindow:setProperty("Text",msgError)
+	menuSingleStatusWindow:setProperty("AlwaysOnTop","True")
+    menuSingleStatusWindow:setProperty("Text",msgError)
 	--menuSingleStatusWindow:setProperty("AlwaysOnTop","False")
 end
+
+--function showErrorProgressBar(msgError)
+--	menuSingleTextoProgreso:setProperty("Text",msgError)
+--end

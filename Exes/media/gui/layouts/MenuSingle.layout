@@ -87,6 +87,13 @@
 			<Property Name="AlwaysOnTop" Value="True" />			
         </Window>
 		
+		<Window Type="OgreTray/Error" Name="MenuSingle/Status" >
+			<Property Name="Text" Value="" />
+			<Property Name="Font" Value="Diogenes-14" />
+			<Property Name="AlwaysOnTop" Value="True" />
+			<Property Name="UnifiedAreaRect" Value="{{0.25,0},{0.35,0},{0.95,0},{0.4,0}}" />
+        </Window>		
+		
 		
 		
 		
