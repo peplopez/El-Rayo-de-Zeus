@@ -67,7 +67,7 @@ namespace Physics
 	{
 //#ifdef _DEBUG
 		
-		_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(_name)->getPlayerCamera()->getNode());
+		//_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(_name)->getPlayerCamera()->getNode());
 		_debugDraw->SetFlags(b2Draw::e_shapeBit);
 		_world->SetDebugDraw(_debugDraw);
 //#endif		

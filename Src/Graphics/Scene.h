@@ -21,6 +21,8 @@ de una escena.
 #include <OgreFrameListener.h>
 #include "SkyXSettings.h"
 
+#include "CameraTypes.h"
+
 #include <list>
 
 // Predeclaración de clases para ahorrar tiempo de compilación
@@ -33,6 +35,7 @@ namespace Ogre
 	class Viewport;
 	class SceneManager;
 	class StaticGeometry;
+	class Camera;
 };
 
 
@@ -55,7 +58,16 @@ namespace Physics
 
 namespace Logic
 {
-	class CDotSceneLoader;
+	class CSceneLoader;
+};
+
+namespace Hydrax
+{
+	class Hydrax;
+	namespace Module
+	{
+		class ProjectedGrid;
+	}
 };
 
 namespace Graphics 
@@ -142,7 +154,7 @@ namespace Graphics
 		friend class CCamera;
 		friend class CSceneElement;
 		friend class CLight;
-		friend class Logic::CDotSceneLoader; // HACK FRS Logic???
+		friend class Logic::CSceneLoader; // HACK FRS Logic???
 		friend class Physics::CScene; // FRS Necesario para el pintado debug de la física
 
 		/**
@@ -166,13 +178,6 @@ namespace Graphics
 		*/
 		CCamera *_baseCamera;
 
-		/** 
-		Marco en la ventana de reenderizado donde se pinta lo captado por
-		una cámara. Solo puede haber una cámara asociada a un viewport,
-		sin embargo una ventana de reenderizado puede tener diferentes
-		viewports al mismo tiempo.
-		*/
-		Ogre::Viewport *_viewport;
 		
 		/**
 		Controla todos los elementos Ogre de una escena. Su equivalente
@@ -250,12 +255,21 @@ namespace Graphics
 		*/
 		void tick(float secs);
 
+		/**
+		*/
+		void setVisible(bool visible); 
+		void setVisible(bool visible, CameraType cameraType); 
+
+
+
 		
 	private:
 
 		bool _isInit;
 		void _init();
 		void _deinit();	
+
+		bool	_isVisible;
 
 		/**
 		Añade las entidades estáticas a la geometría estática del nivel
@@ -336,11 +350,39 @@ namespace Graphics
 		
 		SkyX::SkyX* _skyX;
 		SkyX::BasicController* _skyXBasicController;
-		static SkyXSettings _skyXPresets[];
-
+		static std::map<std::string, SkyXSettings> _skyXPresets;
+		std::string _skyXPresetName;
+		
+		static std::map<std::string, SkyXSettings> _createPresets();
 		void _setSkyXPreset(const SkyXSettings& preset);
 		void _skyXInit();
 		void _skyXDeinit();
+
+
+
+	protected:
+
+		void setSkyXPresetToLoad(const std::string& presetName);
+
+	/*********************
+			Hydrax
+	*********************/
+
+	private:
+
+		Hydrax::Hydrax* _hydraX;
+		Hydrax::Module::ProjectedGrid* _hydraXModule;
+
+		void _hydraXInit();
+		void _hydraXReinit();
+		void _hydraXDeinit();
+
+		std::string _hydraXConfigFileName;
+	
+	protected:
+
+		void setHydraXConfigToLoad(const std::string& hydraXConfigFile);
+		
 
 
 	}; // class CScene

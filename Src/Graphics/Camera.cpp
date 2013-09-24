@@ -43,21 +43,15 @@ namespace Graphics
 		// Creamos la estructura de nodos de la cámara. Los nodos cuelgan
 		// de la raiz, son globales.		
 		_targetNode = scene->getSceneMgr()->getRootSceneNode()->createChildSceneNode(name + "_target_node");
-		_cameraNode = _scene->getSceneMgr()->getRootSceneNode()->createChildSceneNode(name + "_camera_node");
-			_cameraNode->setAutoTracking(true, _targetNode);// Hacemos que el nodo de la cámara siempre esté mirando al nodo objetivo.
-			_cameraNode->setFixedYawAxis(true); // Fijamos el viraje de la cámara para se mantenga paralelo al suelo.
-			_cameraNode->attachObject (_camera); // Finalmente adjuntamos la cámara a su nodo.
-
+		_camera->setAutoTracking(true, _targetNode);
+		_camera->setFixedYawAxis(true);
 	} // CCamera
 
 	//--------------------------------------------------------
 
 	CCamera::~CCamera() 
 	{
-		// desacoplamos la cámara de su nodo
-		_cameraNode->detachAllObjects();
 		_scene->getSceneMgr()->destroyCamera(_camera);
-		_scene->getSceneMgr()->destroySceneNode(_cameraNode);
 		_scene->getSceneMgr()->destroySceneNode(_targetNode);
 
 	} // ~CCamera
@@ -69,14 +63,14 @@ namespace Graphics
 	
 	const Vector3 &CCamera::getPosition() const
 	{
-		return _cameraNode->getPosition();
+		return _camera->getPosition();
 	}
 	
 	//--------------------------------------------------------
 	
 	const Quaternion &CCamera::getOrientation() const
 	{
-		return _cameraNode->getOrientation();
+		return _camera->getOrientation();
 	}
 
 	//--------------------------------------------------------
@@ -98,7 +92,7 @@ namespace Graphics
 
 	void CCamera::setPosition(const Vector3 &newPosition)
 	{
-		_cameraNode->setPosition(newPosition);
+		_camera->setPosition(newPosition);
 	}
 
 	//--------------------------------------------------------

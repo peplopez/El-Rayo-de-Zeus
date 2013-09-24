@@ -91,6 +91,8 @@ namespace Graphics
 	@author David Llansó
 	@date Julio, 2010
 	*/
+
+
 	class CServer 
 	{
 	protected:

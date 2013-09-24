@@ -166,6 +166,7 @@ DocumentacionDoxygen/
 !/dependencies/bin/*/fmodex.dll
 !/dependencies/bin/*/Plugin_HellHeavenFX_v1-7-4*.dll
 !/dependencies/bin/*/SkyX*.dll
+!/dependencies/bin/*/Hydrax*.dll
 !/dependencies/CEGUI/projects/premake/ScriptingModules/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++/premake.lua
 !/dependencies/CEGUI/projects/premake/ScriptingModules/support/tolua++bin/premake.lua
@@ -173,9 +174,12 @@ DocumentacionDoxygen/
 !/dependencies/include/fmod/
 !/dependencies/include/hhfx/
 !/dependencies/include/SkyX/
+!/dependencies/include/Hydrax/
 !/dependencies/lib/*/enet.lib
 !/dependencies/lib/*/fmodex_vc.lib
 !/dependencies/lib/*/SkyX*.lib
+!/dependencies/lib/*/Hydrax*.lib
+
 
 !/Exes/controls.cfg
 !/Exes/plugins*.cfg
