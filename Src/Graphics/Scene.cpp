@@ -67,7 +67,8 @@ namespace Graphics
 		_baseCamera = new CCamera("base" + name, this);
 		_hhfxScene = _hhfxCreateScene(_sceneMgr);
 		_skyXBasicController = new SkyX::BasicController();
-		_skyX = new SkyX::SkyX(_sceneMgr, _skyXBasicController);		
+		_skyX = new SkyX::SkyX(_sceneMgr, _skyXBasicController);
+		_server = CServer::getSingletonPtr();
 	} // CScene
 
 	//--------------------------------------------------------
@@ -93,7 +94,7 @@ namespace Graphics
 		_hhfxInit(); // Init Hell Heaven FX Scene
 		_skyXInit();
 		_hydraX = new Hydrax::Hydrax(_sceneMgr, _playerCamera->getCamera(), 
-			Graphics::CServer::getSingletonPtr()->getViewport()); //no puedo hacerlo enel constructor porque en dummy
+			_server->getViewport()); //no puedo hacerlo enel constructor porque en dummy
 		_hydraXInit(); // Init de Hydrax
 		_playerCamera->getCamera()->setAutoAspectRatio(true);
 		_baseCamera->getCamera()->setAutoAspectRatio(true);
@@ -149,10 +150,10 @@ namespace Graphics
 			switch (cameraType)
 			{
 			case playerCamera:
-				Graphics::CServer::getSingletonPtr()->getViewport()->setCamera(_playerCamera->getCamera());
+				_server->getViewport()->setCamera(_playerCamera->getCamera());
 				break;
 			case baseCamera:
-				Graphics::CServer::getSingletonPtr()->getViewport()->setCamera(_baseCamera->getCamera());
+				_server->getViewport()->setCamera(_baseCamera->getCamera());
 				break;
 			}
 
@@ -398,7 +399,7 @@ namespace Graphics
 			return true;
 
 		// Aplicamos transformaciones de la camara que esté renderizando actualmente el FX: PlayerCamera o BaseCamera.
-		Ogre::Camera* fxCamera = Graphics::CServer::getSingletonPtr()->getViewport()->getCamera();
+		Ogre::Camera* fxCamera = _server->getViewport()->getCamera();
 		const Vector3& camPos =		fxCamera->getPosition();	  // El nodo es el que contiene el transform
 		const Quaternion& camOri =	fxCamera->getOrientation(); // la camara mantiene pos = 0 (relativa al nodo)
 	
@@ -517,7 +518,7 @@ namespace Graphics
 			if (!_skyX->getVCloudsManager()->isCreated())
 			{
 				// SkyX::MeshManager::getSkydomeRadius(...) works for both finite and infinite(=0) camera far clip distances
-				_skyX->getVCloudsManager()->create(_skyX->getMeshManager()->getSkydomeRadius(Graphics::CServer::getSingletonPtr()->getViewport()->getCamera()));
+				_skyX->getVCloudsManager()->create(_skyX->getMeshManager()->getSkydomeRadius(_server->getViewport()->getCamera()));
 			}
 		}
 		else
@@ -542,8 +543,16 @@ namespace Graphics
 
 	void CScene::setSkyXPresetToLoad(const std::string& presetName)
 	{
-		if (_skyXPresets.count(presetName) > 0)
-			_skyXPresetName = presetName;
+		std::string auxName;
+
+		if(_server->getClimatologyToLoad() != "")
+			auxName = _server->getClimatologyToLoad();
+		else
+			auxName = presetName;
+
+		if (_skyXPresets.count(auxName) > 0)
+			
+			_skyXPresetName = auxName;
 	}
 
 	/*********************
@@ -572,7 +581,7 @@ namespace Graphics
 		if (_hydraXConfigFileName != "")
 		{
 			_hydraXDeinit();
-			_hydraX->setCamera(Graphics::CServer::getSingletonPtr()->getViewport()->getCamera());
+			_hydraX->setCamera(_server->getViewport()->getCamera());
 			_hydraXInit();
 		}
 	}

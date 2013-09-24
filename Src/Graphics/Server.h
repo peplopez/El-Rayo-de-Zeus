@@ -240,6 +240,10 @@ namespace Graphics
 		*/
 		Ogre::Viewport* getViewport() { return _viewport; }
 
+		/**
+		*/
+		void setClimatologyToLoad(const std::string& skyXPreset) {_climatologyToLoad = skyXPreset;}
+		std::string& getClimatologyToLoad() {return _climatologyToLoad;}
 
 	protected:
 
@@ -356,6 +360,12 @@ namespace Graphics
 			Ogre::CompositorInstance* comp = Ogre::CompositorManager::getSingletonPtr()->addCompositor(_viewport, name); 
 			assert(comp && "Error al cargar compositor. Revisar que esta bien definido en los assets" );
 		}
+	/*********************
+			EXTRAS
+	**********************/
+	private:
+
+		std::string _climatologyToLoad;
 
 	}; // class CServer
 

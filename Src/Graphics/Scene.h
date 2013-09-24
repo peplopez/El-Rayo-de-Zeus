@@ -270,7 +270,7 @@ namespace Graphics
 		void _deinit();	
 
 		bool	_isVisible;
-
+		CServer* _server;
 		/**
 		Añade las entidades estáticas a la geometría estática del nivel
 		y la construlle. Si la geometría estática ya ha sido construida

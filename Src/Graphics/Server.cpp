@@ -112,6 +112,8 @@ namespace Graphics
 		
 		_overlayManager = Ogre::OverlayManager::getSingletonPtr();//PT. Se carga el manager de overlays
 
+		_climatologyToLoad = "";
+
 		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.
 		
 		_visibleScene = _dummyScene;

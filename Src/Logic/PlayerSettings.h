@@ -95,7 +95,8 @@ namespace Logic
 	typedef Player::Color::TColor	TPlayerColor;
 	typedef std::set<TPlayerColor> TColors;
 	typedef Player::Avatar::TAvatar	TPlayerAvatar;
-	typedef Player::Stage::TStage	TPlayerStage;	
+	typedef Player::Stage::TStage	TPlayerStage;
+	typedef Player::Stage::TStage	TPlayerClimatology;
 
 	
 	class CPlayerSettings : Net::Serializable

@@ -83,20 +83,29 @@ namespace Application {
 		int avatarIndex		= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/AvatarBox");
 		int stageIndex		= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/StageBox");
 		int nOpps			= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/OppBox");
-		int nClim			= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/ClimatologyBox");
-		bool islowQMode		= _guiServer->isCheckboxSelected(WINDOW_PREFIX + "/LowQuality");
-
+		int climIndex		= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/ClimatologyBox");
+		bool isLowQMode		= _guiServer->isCheckboxSelected(WINDOW_PREFIX + "/LowQuality");
+		
 		
 		// FRS Si no se escoge opción, default = 0;
 		colorIndex =	colorIndex	< 0 ? 0 : colorIndex; 
 		avatarIndex =	avatarIndex	< 0 ? 0 : avatarIndex;
 		stageIndex =	stageIndex	< 0 ? 0 : stageIndex;
+		climIndex =		climIndex	< 0 ? 0 : climIndex;
+				
+		Logic::CPlayerSettings::setLowQMode(isLowQMode);
+		
+		if (isLowQMode)
+			Graphics::CServer::getSingletonPtr()->setClimatologyToLoad("");
+		else
+			Graphics::CServer::getSingletonPtr()->setClimatologyToLoad(Logic::Player::CLIMATOLOGY_STRINGS[climIndex]);
 
 
 
 		Logic::TPlayerColor color	= static_cast< Logic::TPlayerColor>(colorIndex);
 		Logic::TPlayerAvatar avatar = static_cast< Logic::TPlayerAvatar>(avatarIndex);
 		Logic::TPlayerStage stage	= static_cast< Logic::TPlayerStage>(stageIndex);
+		Logic::TPlayerClimatology clim = static_cast< Logic::TPlayerClimatology>(climIndex);
 		nOpps = nOpps < 0 ? 1 : nOpps + 1;
 				
 		// Al estar en el estado MenuSingleState el jugador es Single Player (Monojugador)
@@ -104,12 +113,8 @@ namespace Application {
 		for(int i=0; i< nOpps; ++i)
 			allSettings.push_back( Logic::CPlayerSettings::createRandSettings(true) );
 
-		Logic::CPlayerSettings::setLowQMode(islowQMode);
-
 		return true;		
 	} // readPlayerForm
-
-
 
 
 	//---------------------------------------------------------------------
@@ -206,11 +211,6 @@ namespace Application {
 			Logic::Player::CLIMATOLOGY_STRINGS, 
 			Logic::Player::Climatology::_COUNT 
 		);	
-
-
-		// CHECKBOX 
-		// TODO
-		//_checkLowQ = 
 
 
 		return true;
