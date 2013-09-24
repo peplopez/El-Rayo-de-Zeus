@@ -108,6 +108,8 @@ namespace Graphics
 		_skyXDeinit();
 		_hhfxDeinit(); // Hell Heaven FX	
 		_sceneMgr->destroyStaticGeometry(_staticGeometry);
+		_skyXPresetName = "";
+		_hydraXConfigFileName = "";
 		_isInit = false;
 	} // deinit
 
@@ -446,9 +448,6 @@ namespace Graphics
 	}
 
 	//----------------------------------------------------------------------------------
-
-
-	//-------------------------------------------------------------------------------------
 
 	std::map<std::string, SkyXSettings> CScene::_createPresets()
 	{
