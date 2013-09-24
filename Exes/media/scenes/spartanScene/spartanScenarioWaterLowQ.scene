@@ -1,0 +1,13 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="100" unitType="centimeters" minOgreVersion="1.7" ogreMaxVersion="2.4.4" author="OgreMax Scene Exporter (www.ogremax.com)" application="Maya">
+    <nodes>
+            <node name="oceano1">
+                <position x="0" y="300" z="0" />
+                <scale x="1" y="1" z="1" />
+                <entity name="oceano1" castShadows="true" receiveShadows="true" meshFile="oceano1.mesh">
+                    <subentities>
+                        <subentity index="0" materialName="mar" renderQueuePriority="1112406224" />
+                    </subentities>
+                </entity>
+            </node>
+    </nodes>
+</scene>
