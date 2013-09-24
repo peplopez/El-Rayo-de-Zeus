@@ -83,6 +83,7 @@ namespace Application {
 		int avatarIndex		= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/AvatarBox");
 		int stageIndex		= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/StageBox");
 		int nOpps			= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/OppBox");
+		int nClim			= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/ClimatologyBox");
 
 		// FRS Si no se escoge opción, default = 0;
 		colorIndex =	colorIndex	< 0 ? 0 : colorIndex; 
