@@ -1228,7 +1228,7 @@
     <WidgetLook name="OgreTray/MiniError">
         <PropertyDefinition name="TextColour" initialValue="FFFFFFFF" redrawOnWrite="true" /> <!-- color blanco(FFFFFFFF) del titulo del videojuego. El negro es FF000000 --> 
         <PropertyDefinition name="VertFormatting" initialValue="CentreAligned" />
-        <PropertyDefinition name="HorzFormatting" initialValue="CentreAligned" />
+        <PropertyDefinition name="HorzFormatting" initialValue="LeftAligned" />
         <ImagerySection name="frame">
             <FrameComponent>
                 <Area>
