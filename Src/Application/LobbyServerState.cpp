@@ -81,7 +81,7 @@ namespace Application {
 		
 		// TODO hay que cargar un mapa genérico y luego colorear por jugador
 		// Cargamos el nivel a partir del nombre del mapa. 
-		} else if (!Logic::CServer::getSingletonPtr()->loadMap("mapRed")){
+		} else if (true/*!Logic::CServer::getSingletonPtr()->loadMap("mapRed")*/){
 			_logStatus("Error al cargar el nivel");		
 			_app->exitRequest();
 

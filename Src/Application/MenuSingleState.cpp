@@ -123,7 +123,7 @@ namespace Application {
 	{
 		_setProgress(0.4f, "Loading maps..." );
 
-//*
+
 		
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints"))
 			return false;
@@ -136,26 +136,11 @@ namespace Application {
 		if (!Logic::CServer::getSingletonPtr()->loadWorld(allSettings) ) // FRS CARGA DESDE MAP_PATTERN
 			return false;
 
-		
-/*/
-		Logic::TMapNames mapsToLoad;		// FRS OLD: Carga desde fichero
-			mapsToLoad.push_back("mapRed");
-			mapsToLoad.push_back("mapBlue");	
-				if (!Logic::CServer::getSingletonPtr()->loadWorld(mapsToLoad) )
-					return false;
-
-		// Llamamos al método de creación del jugador. 
-		// Al estar en el estado MenuSingleState el jugador es Single Player (Monojugador)
-		Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer(
-		Logic::CPlayerSettings(playerNick, Logic::Player::Color::BLUE, Logic::Player::Avatar::SPARTAN), true);
-/**/
 
 		_setProgress(0.9f, "World loaded");
 
 		return true;
 	} //loadGame
-
-
 
 
 

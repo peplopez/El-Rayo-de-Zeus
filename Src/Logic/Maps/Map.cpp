@@ -38,7 +38,7 @@ namespace Logic {
 	
 
 	// ƒ®§ Creación de un mapa con nombre name (normalmente el propio filename). => Creación de escenas física y gráfica
-	CMap::CMap(const std::string &name) : _name(name), _isActive(false), _nAllies(0)
+	CMap::CMap(const std::string &name, int mapNumber) : _name(name), _mapNumber(mapNumber), _isActive(false), _nAllies(0)
 	{
 		_graphicScene = Graphics::CServer::getSingletonPtr()->createScene(name);
 		_physicsScene  = Physics::CServer::getSingletonPtr()->createScene(name); 
@@ -137,16 +137,14 @@ namespace Logic {
 	
 
 
-
-
 	/********************
 		MAP CREATORS
 	*******************/
 
-	CMap* CMap::createMap(CPlayerSettings& settings)
+	CMap* CMap::createMap(CPlayerSettings& settings, int mapNumber)
 	{				
 		// Creación de las escenas física y gráfica
-		CMap *map = new CMap( settings.getMapName() ); 
+		CMap *map = new CMap( settings.getMapName(), mapNumber ); 
 			map->setProperties( settings.getMapProperties() );
 
 		// TODO FRS Habría que tener cuidado y considerar si realmente queremos que entityName = nickName...
@@ -163,39 +161,6 @@ namespace Logic {
 	
 	
 	//--------------------------------------------------------
-
-	CMap* CMap::createMap(const std::string &mapFileName)
-	{
-		// Completamos la ruta con el nombre proporcionado
-		std::string mapPath(FILE_PATH);
-			mapPath.append( mapFileName );
-			mapPath.append(".txt");				
-				if(!Map::CMapParser::getSingletonPtr()->parseFile(mapPath)){ // Parseamos el fichero
-					assert(!"No se ha podido parsear el mapa.");
-					return false;
-				}
-
-		// Si se ha realizado con éxito el parseo creamos el mapa.
-		CMap *map = new CMap(mapFileName); // Desencadena la creación de las escenas física y gráfica
-
-		// Extraemos las entidades del parseo.
-		Map::CMapParser::TEntities entityList = 
-			Map::CMapParser::getSingletonPtr()->getParsedEntities();
-
-		CEntityFactory* entityFactory = CEntityFactory::getSingletonPtr();		
-		
-		// Creamos todas las entidades lógicas.
-		Map::CMapParser::TEntities::const_iterator it = entityList.cbegin();
-		Map::CMapParser::TEntities::const_iterator end = entityList.cend();
-			for(; it != end; ++it)		{ // La propia factoría se encarga de añadir la entidad al map
-				CEntity *entity = entityFactory->createEntity( *(*it), map); 
-				assert(entity && "No se pudo crear una entidad del mapa");
-		}	
-
-		return map;
-
-	} // createMapFromFile
-
 
 
 	/***********************
