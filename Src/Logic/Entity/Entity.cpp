@@ -90,7 +90,7 @@ namespace Logic
 
 		if(entityInfo->hasAttribute("base"))					
 		{
-			_pos->setBase(entityInfo->getIntAttribute("base"));
+			_pos->setBase(_map->getMapNumber());
 			this->setOriginBase(_pos->getBase());
 		}
 		if(entityInfo->hasAttribute("ring"))

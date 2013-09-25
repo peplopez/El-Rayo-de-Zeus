@@ -29,6 +29,7 @@ la gestión de la interfaz con el usuario (entrada de periféricos, CEGui...).
 #include <CEGUI/elements/CEGUIListboxTextItem.h>
 #include <CEGUI/elements/CEGUIProgressBar.h>
 #include <CEGUI/elements/CEGUIPushButton.h>
+#include <CEGUI/elements/CEGUICheckbox.h>
 
 
 namespace GUI {
@@ -334,7 +335,16 @@ namespace GUI {
 	
 	//---------------------------------------------------------
 
+	bool CServer::isCheckboxSelected(const std::string& checkBox)
+	{
+		CEGUI::Checkbox* check = static_cast<CEGUI::Checkbox*>(
+			_windowManager->getWindow(checkBox));
+
+		return check->isSelected();
+	}
 	
+
+	//---------------------------------------------------------
 	std::string CServer::getComboSelectedText(const std::string& comboWindow) 
 	{		
 		CEGUI::Combobox* combo = static_cast<CEGUI::Combobox*>(

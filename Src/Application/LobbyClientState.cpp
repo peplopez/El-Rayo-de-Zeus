@@ -119,7 +119,7 @@ namespace Application {
 			}
 			//PT
 			//else if (!Logic::CServer::getSingletonPtr()->loadMap("mapRed")){
-			else if(!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad)){
+			else if(true/*!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad)*/){
 				_logStatus("Error al cargar el nivel");
 				_netManager->deactivateNetwork();
 				_app->exitRequest();

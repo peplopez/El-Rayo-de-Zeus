@@ -1,12 +1,33 @@
 Map = {	
 
-	SkySphere = {
-		type = "Sky",
-		position = {0, 0, 0},
-		orientation = 0,
-		model = "skySphere100x.mesh",
-		static = true,
-	},		
+	SceneSpartan = {
+		type = "Scene",
+		sceneFile = "spartanScenario",
+		skyXPresetName="Thunderstorm1",
+		hydraXConfigFile="SpartanWater.hdx",
+	},
+	
+	SceneSpartanLowQ = {
+		type = "Scene",
+		sceneFile = "spartanScenario",
+		skyXPresetName="",
+		hydraXConfigFile="",
+	},
+	
+	SceneHades = {
+		type = "Scene",
+		sceneFile = "hadesScene",
+		skyXPresetName="Thunderstorm1",
+		hydraXConfigFile="HadesWater.hdx",
+	},
+	
+	SceneHadesLowQ = {
+		type = "Scene",
+		sceneFile = "hadesScene",
+		skyXPresetName="",
+		hydraXConfigFile="",
+	},	
+	
 	World = {
 		type = "World",
 		model = "ring.mesh",
@@ -17,7 +38,7 @@ Map = {
 	
 	PlayerCamera = {
 		type = "Camera",
-		distance = 300,
+		distance = 600,
 		height = 30,
 		targetDistance =6,
 		targetHeight = 7,
@@ -60,23 +81,6 @@ Map = {
 	},
 	
 	
-	SceneHades = {
-		type = "Scene",
-		sceneFile = "hadesScene.scene",
-	},
-	SceneHadesLowQ = {
-		type = "Scene",
-		sceneFile = "hadesScene.scene",
-	},
-	SceneSpartan = {
-		type = "Scene",
-		sceneFile = "spartanScenario.scene",
-	},
-	SceneSpartanLowQ = {
-		type = "Scene",
-		sceneFile = "spartanScenario.scene",
-	},
-
 	
 	AvatarAtalanta = {
 		type = "CONTROL",

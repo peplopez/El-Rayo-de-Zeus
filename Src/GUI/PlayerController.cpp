@@ -179,9 +179,14 @@ namespace GUI {
 			Logic::CMessage *m = new Logic::CMessage();
 			m->setType(Logic::Message::CONTROL);
 			if (_changeBaseAllowed)
+			{
 				m->setAction(Logic::Message::CHANGE_BASE);
+				_changeBaseAllowed = false;
+			}
 			else
-				m->setAction(Logic::Message::JUMP); 
+			{
+				m->setAction(Logic::Message::JUMP);
+			}
 			_controlledAvatar->emitMessage(m);
 			break;
 			}
@@ -559,28 +564,17 @@ namespace GUI {
 
 		_changeBaseAllowed = true;
 
-		switch (baseNumber)
-		{
-		case 0: {
-			Logic::CMessageUShort *m = new Logic::CMessageUShort();
-			m->setType(Logic::Message::CONTROL);
-			_changeBaseAllowed = false;
-			m->setAction(Logic::Message::GOBACK_TO_BASE);
-			Logic::CMessage *m2 = new Logic::CMessage();
-			m2->setType(Logic::Message::CONTROL);
-			m2->setAction(Logic::Message::WALK_STOP);
-			_controlledAvatar->emitMessage(m2);
-			break;
-			}
-		default: {
-			Logic::CMessageUShort *m = new Logic::CMessageUShort();
-			m->setType(Logic::Message::CONTROL);
-			m->setAction(Logic::Message::SHOW_BASE);
-			m->setUShort(baseNumber);
-			_controlledAvatar->emitMessage(m);
-			break;
-			}
-		}
+		Logic::CMessage *msgStop = new Logic::CMessage();
+		msgStop->setType(Logic::Message::CONTROL);
+		msgStop->setAction(Logic::Message::WALK_STOP);
+		_controlledAvatar->emitMessage(msgStop);
+
+		Logic::CMessageUShort *m = new Logic::CMessageUShort();
+		m->setType(Logic::Message::CONTROL);
+		m->setAction(Logic::Message::SHOW_BASE);
+		m->setUShort(baseNumber);
+		_controlledAvatar->emitMessage(m);
+
 	}
 
 	//--------------------------------------------------------

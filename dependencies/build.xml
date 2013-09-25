@@ -59,7 +59,7 @@
 	  </antcall>
 	  
 	  <delete includeemptydirs="true" failonerror="false">
-		<fileset dir="${basedir}/include" excludes="enet/,fmod/,hhfx/"/>  
+		<fileset dir="${basedir}/include" excludes="enet/,fmod/,hhfx/,Hydrax/,SkyX/"/>  
 		<fileset dir="${basedir}/../Exes" includes="*" excludes="*.cfg"/>  
 	  </delete>  
 
@@ -70,8 +70,8 @@
 			description="Elimina los ficheros intermedios de la compilacion en Debug y las bibliotecas resultantes de dependencies/lib/Debug, dependencies/bin/Debug y Exes"
 			depends="cleanDebugObj">
 		  <delete includeemptydirs="true" failonerror="false">
-			<fileset dir="${basedir}/lib/Debug" excludes="fmodex_vc.lib, enet.lib"/>  
-			<fileset dir="${basedir}/bin/Debug" excludes="fmodex.dll, Plugin_HellHeavenFX_v1-7-4_d.dll, SkyX_d.dll"/> 
+			<fileset dir="${basedir}/lib/Debug" excludes="fmodex_vc.lib, enet.lib, SkyX_d.lib, Hydrax_d.lib"/>  
+			<fileset dir="${basedir}/bin/Debug" excludes="fmodex.dll, Plugin_HellHeavenFX_v1-7-4_d.dll, SkyX_d.dll, Hydrax_d.dll"/> 
 			<fileset dir="${basedir}/../Exes" includes="*_d*" excludes="*.cfg"/>  
 		  </delete>  
 	</target>
@@ -80,8 +80,8 @@
         description="Elimina los ficheros intermedios de la compilacion en Release y las bibliotecas resultantes de dependencies/lib/Release, dependencies/bin/Release y Exes"
         depends="cleanReleaseObj">
 		<delete includeemptydirs="true" failonerror="false">
-			<fileset dir="${basedir}/lib/Release" excludes="fmodex_vc.lib, enet.lib"/> 
-			<fileset dir="${basedir}/bin/Release" excludes="fmodex.dll, Plugin_HellHeavenFX_v1-7-4_r.dll, Plugin_HellHeavenFX_v1-7-4.dll, SkyX.dll"/>
+			<fileset dir="${basedir}/lib/Release" excludes="fmodex_vc.lib, enet.lib, SkyX.lib, Hydrax.lib"/> 
+			<fileset dir="${basedir}/bin/Release" excludes="fmodex.dll, Plugin_HellHeavenFX_v1-7-4_r.dll, Plugin_HellHeavenFX_v1-7-4.dll, SkyX.dll, Hydrax.dll"/>
 			<fileset dir="${basedir}/../Exes" includes="*" excludes="*_d*,cg.dll,*.cfg"/>  
 		</delete>  
     </target>

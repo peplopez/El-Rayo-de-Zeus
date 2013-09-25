@@ -163,7 +163,7 @@ namespace Logic {
 
 		for (int i = 0; i < nPlayers; ++i)
 		{
-			_worldIsLoaded = loadMap( allSettings[i] );
+			_worldIsLoaded = loadMap( allSettings[i], i+1 );
 			_mapNames.push_back( allSettings[i].getMapName() );
 
 			//PT
@@ -182,47 +182,6 @@ namespace Logic {
 		return _worldIsLoaded;
 	}
 	
-
-	bool CServer::loadWorld(TMapNames& mapFileNames)
-	{		
-		if(_worldIsLoaded)
-			unLoadWorld();
-	
-		const int nPlayers = mapFileNames.size();
-			if ( !Logic::CGameStatus::Init( mapFileNames.size() ) )
-				return false;
-
-		// HACK HACK HACK!!! me parto.... (FRS)
-		//PT creo la barra de progreso
-		CEGUI::ProgressBar *hbar = static_cast<CEGUI::ProgressBar*> (CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
-		float progress = hbar->getProgress();		
-		std::string texto = "";
-		
-		float step = (0.9f - progress) /  nPlayers;
-
-		for (int i = 0; i < nPlayers; ++i)
-		{
-			_worldIsLoaded = loadMap( mapFileNames[i] );
-			_mapNames.push_back( mapFileNames[i]  );
-			
-			//PT
-			progress+= step;
-			hbar->setProgress(progress);
-			std::string result;
-			std::stringstream ss;
-			ss.clear();
-			ss << "Loading maps: " << (i + 1) << " / " <<  nPlayers;
-			result = ss.str();
-			CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/TextoProgreso")->setText(result);
-			Graphics::CServer::getSingletonPtr()->tick(0);		
-		}	
-
-		mapFileNames.clear();
-		return _worldIsLoaded;
-	}
-
-	//---------------------------------------------------------
-
 	void CServer::unLoadWorld()
 	{
 		if(_worldIsLoaded) {
@@ -280,26 +239,12 @@ namespace Logic {
 
 	//--------------  SINGLE MAP ------------------------------------------
 
-	bool CServer::loadMap(CPlayerSettings& settings)
+	bool CServer::loadMap(CPlayerSettings& settings, int mapNumber)
 	{		
 		// solo admitimos un mapa cargado con el mismo nombre 
 		// si iniciamos un nuevo nivel  se borra el mapa anterior.
 		unLoadMap( settings.getMapName() );
-		if(_maps[ settings.getMapName() ] = CMap::createMap(settings) )
-			return true;
-
-		return false;
-	} // loadMap
-
-
-	// Гоз Carga el map desde fichero ==> ejecuta el entity.spawn()
-	bool CServer::loadMap(const std::string &mapFileName)
-	{
-		// solo admitimos un mapa cargado, si iniciamos un nuevo nivel 
-		// se borra el mapa anterior.
-		unLoadMap(mapFileName);
-
-		if(_maps[mapFileName] = CMap::createMap(mapFileName) )
+		if(_maps[ settings.getMapName() ] = CMap::createMap(settings, mapNumber) )
 			return true;
 
 		return false;
@@ -366,9 +311,6 @@ namespace Logic {
 		
 		return NULL;
 	}
-
-
-
 	
 
 	/********************
