@@ -69,6 +69,10 @@ DocumentacionDoxygen/
 #######
 /Exes/*.*
 
+#INSTALLER#
+############
+/Projects/ZeusSetup/bin
+/Projects/ZeusSetup/obj
 
 #PROJECTS #
 ###########

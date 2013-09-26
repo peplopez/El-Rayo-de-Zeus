@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <Product Id="*" Name="Zeus Thunderbolt" Language="1033" Version="1.0.0.2"
+           Manufacturer="Monster LEAK" UpgradeCode="6e904103-ca42-498d-bfe6-7e2a19e317e8">
+
+    <Package Id="*" InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <Media Id="1" Cabinet="zeus.cab" EmbedCab="yes"/>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+    <Icon Id="ZeusIco.exe"    SourceFile="$(var.Application.TargetPath)" />
+    <Icon Id="ConfigIco.exe"  SourceFile="$(var.Configure.TargetPath)" />
+
+    <Feature Id="DefaultFeature" Title="Zeus Feature Title" Level="1">
+      <ComponentRef Id="Game" />
+      <ComponentRef Id="Config" />
+      <ComponentRef Id="InstallData"/>
+    </Feature>
+
+  </Product>
+
+
+  
+  
+  <Fragment>
+    
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLDIR" Name="Zeus Thunderbolt" />
+      </Directory>
+      
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="MENUDIR" Name="Zeus Thunderbolt">
+        </Directory>
+      </Directory>
+
+      <Directory Id="DesktopFolder" Name="Desktop"/>
+   
+      
+    </Directory>
+    
+  </Fragment>
+
+  
+  <Fragment>
+      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+
+      <Component Id="Game" Directory="INSTALLDIR">
+        
+        <!-- TODO: Insert files, registry keys, and other resources here. -->
+        
+        <File Id="GameExe" Name="Zeus Thunderbolt.exe" Source="$(var.Application.TargetPath)" DiskId="1" KeyPath="yes">
+          
+          <Shortcut Id="GameShortcutMenu" Name="Zeus Thunderbolt" Directory="MENUDIR" Description="Clicka acho, juegasho, pisha!"
+                    WorkingDirectory="INSTALLDIR" Icon="ZeusIco.exe" IconIndex="0" Advertise="yes"/>
+         
+          <Shortcut Id="GameShortcutDesktop" Name="Zeus Thunderbolt" Directory="DesktopFolder"
+                WorkingDirectory='INSTALLDIR' Icon="ZeusIco.exe" IconIndex="0" Advertise="yes"/> 
+          
+        </File>
+        
+      </Component>
+  </Fragment>
+  
+
+  <Fragment>
+  <Component Id="Config" Directory="INSTALLDIR">
+
+     <File Id="ConfigExe" Name="Settings.exe" Source="$(var.Configure.TargetPath)" DiskId="1" KeyPath="yes">
+
+        <Shortcut Id="ConfigShortcutMenu" Name="Settings" Directory="MENUDIR" Description="Tunea, tunea!"
+                  WorkingDirectory="INSTALLDIR" Icon="ConfigIco.exe" IconIndex="0" Advertise="yes"/>
+      </File>
+
+    </Component>
+ </Fragment>
+  
+  
+  <Fragment>
+
+    <Component Id="InstallData" Directory="MENUDIR">      
+      <RegistryValue Root="HKCU" Key="Software\Monster LEAK\Zeus Thunderbolt"
+                Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      <RemoveFolder Id="MENUDIR" On="uninstall"/>
+    </Component>
+    
+  </Fragment>
+  
+  
+</Wix>
