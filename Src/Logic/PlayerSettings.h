@@ -55,7 +55,7 @@ namespace Logic
 		}
 
 		namespace Climatology {
-			enum TClimatology: unsigned char {
+			enum TPlayerClim: unsigned char {
 				STORM1	= 0,
 				STORM2	= 1,
 				DESERT	= 2,
@@ -96,7 +96,7 @@ namespace Logic
 	typedef std::set<TPlayerColor> TColors;
 	typedef Player::Avatar::TAvatar	TPlayerAvatar;
 	typedef Player::Stage::TStage	TPlayerStage;
-	typedef Player::Stage::TStage	TPlayerClimatology;
+	typedef Player::Climatology::TPlayerClim	TPlayerClim;
 
 	
 	class CPlayerSettings : Net::Serializable
@@ -141,7 +141,11 @@ namespace Logic
 
 		
 		// ----------------- SET's ---------------------
-		static void setLowQMode(bool lowQ) { CPlayerSettings::_isLowQMode = lowQ; }
+		static void setLowQMode(bool lowQ)				{ CPlayerSettings::_isLowQMode = lowQ; }
+		static void setClimatology(TPlayerClim clim)	{ CPlayerSettings::_climatology = clim; }
+
+		static bool isLowQMode()						{ return _isLowQMode; }
+		static TPlayerClim getClimatology()				{ return _climatology;}
 		
 		
 	private:
@@ -150,6 +154,7 @@ namespace Logic
 		static TColors	_initColorsNotUsed();
 		static std::string	_nextRandNick;
 		static bool _isLowQMode;
+		static TPlayerClim _climatology;
 		
 		TPlayerAvatar		_avatar;		
 		TPlayerColor		_color;			

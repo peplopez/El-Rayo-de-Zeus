@@ -17,6 +17,7 @@ namespace Logic
 	std::string CPlayerSettings::_nextRandNick = "PlayerRandom0";
 	TColors CPlayerSettings::_colorsNotUsed = _initColorsNotUsed();
 	bool CPlayerSettings::_isLowQMode = false;
+	TPlayerClim CPlayerSettings::_climatology = TPlayerClim::STORM1;
 
 
 	TColors CPlayerSettings::_initColorsNotUsed()
