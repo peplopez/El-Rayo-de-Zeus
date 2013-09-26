@@ -92,20 +92,16 @@ namespace Application {
 		avatarIndex =	avatarIndex	< 0 ? 0 : avatarIndex;
 		stageIndex =	stageIndex	< 0 ? 0 : stageIndex;
 		climIndex =		climIndex	< 0 ? 0 : climIndex;
-				
-		Logic::CPlayerSettings::setLowQMode(isLowQMode);
-		
-		if (isLowQMode)
-			Graphics::CServer::getSingletonPtr()->setClimatologyToLoad("");
-		else
-			Graphics::CServer::getSingletonPtr()->setClimatologyToLoad(Logic::Player::CLIMATOLOGY_STRINGS[climIndex]);
-
-
+			
 
 		Logic::TPlayerColor color	= static_cast< Logic::TPlayerColor>(colorIndex);
 		Logic::TPlayerAvatar avatar = static_cast< Logic::TPlayerAvatar>(avatarIndex);
 		Logic::TPlayerStage stage	= static_cast< Logic::TPlayerStage>(stageIndex);
-		Logic::TPlayerClimatology clim = static_cast< Logic::TPlayerClimatology>(climIndex);
+		Logic::TPlayerClim clim = static_cast< Logic::TPlayerClim>(climIndex);
+		
+		Logic::CPlayerSettings::setLowQMode(isLowQMode);
+		Logic::CPlayerSettings::setClimatology(clim);
+
 		nOpps = nOpps < 0 ? 1 : nOpps + 1;
 				
 		// Al estar en el estado MenuSingleState el jugador es Single Player (Monojugador)
@@ -141,8 +137,6 @@ namespace Application {
 
 		return true;
 	} //loadGame
-
-
 
 
 
