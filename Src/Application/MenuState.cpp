@@ -160,41 +160,8 @@ namespace Application {
 			break;
 
 		case GUI::Key::RETURN:
-			_app->setState("game");
+			_app->setState("menusingle");
 			
-			//[ƒ®§] CARGA de Blueprints, Arquetypes y Map adelantada
-			// Cargamos el archivo con las definiciones de las entidades del nivel.
-			if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
-				return false;
-				
-			// Add - ESC
-			// Cargamos el archivo con las definiciones de los archetypes
-			if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes.txt"))
-				return false;
-			
-			// Add - JLS
-			// Cargamos los anillos a partir del nombre del mapa. 
-			if (!Logic::CServer::getSingletonPtr()->setRingPositions())//[ƒ®§] Esto no deberia ejecutarse como parte del loadLevel...?
-				return false;
-
-			// Cargamos el nivel a partir del nombre del mapa. 
-			//if (!Logic::CServer::getSingletonPtr()->loadMap("map.txt"))
-			//	return false;
-
-			
-			_mapsToLoad.push_back("mapRed");
-			_mapsToLoad.push_back("mapBlue");
-			//_mapsToLoad.push_back("mapGreen");
-			//_mapsToLoad.push_back("mapYellow");
-
-			if (!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad))
-				return false;
-		
-			// Llamamos al método de creación del jugador. Deberemos decidir
-			// si el jugador es el jugador local. Al ser el monojugador lo es.
-			// UNDONE Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true);
-
-			// TODO Deberíamos poder propocionar caracteríasticas  (nombre, modelo, etc.)... ==> Ampliar MenuState...
 			break;
 
 		case GUI::Key::M:
@@ -241,42 +208,6 @@ namespace Application {
 	{
 		_app->setState("menusingle");
 
-		/*
-		_app->setState("game");
-			
-		//[ƒ®§] CARGA de Blueprints, Arquetypes y Map adelantada
-		// Cargamos el archivo con las definiciones de las entidades del nivel.
-		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints.txt"))
-			return false;
-				
-		// Add - ESC
-		// Cargamos el archivo con las definiciones de los archetypes
-		if (!Logic::CEntityFactory::getSingletonPtr()->loadArchetypes("archetypes.txt"))
-			return false;
-			
-		// Add - JLS
-		// Cargamos los anillos a partir del nombre del mapa. 
-		if (!Logic::CServer::getSingletonPtr()->setRingPositions())//[ƒ®§] Esto no deberia ejecutarse como parte del loadLevel...?
-			return false;
-
-		_mapsToLoad.push_back("mapRed");
-		_mapsToLoad.push_back("mapBlue");
-		//_mapsToLoad.push_back("mapGreen");
-		//_mapsToLoad.push_back("mapYellow");
-
-		if (!Logic::CServer::getSingletonPtr()->loadWorld(_mapsToLoad))
-			return false;
-		
-		// Llamamos al método de creación del jugador. Deberemos decidir
-		// si el jugador es el jugador local. Al ser el monojugador lo es.
-
-		//CMap::createPlayer(entityName, isLocalPlayer, model)
-		Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer("Mono", true);
-		//PT. si se le intenta pasar otro modelo da un error en getBones porque no encuentra el hueso "paracasco"
-
-		// TODO Deberíamos poder proporcionar características  (nombre, modelo, etc.)... ==> Ampliar MenuState...
-
-		*/
 		return true;
 
 	} // startReleased

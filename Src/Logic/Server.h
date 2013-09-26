@@ -106,7 +106,6 @@ namespace Logic
 
 		/**
 		*/		
-		bool loadWorld(TMapNames& mapFileNames);
 		bool loadWorld(TMultiSettings& allSettings);
 
 		/**
@@ -117,8 +116,7 @@ namespace Logic
 		@param filename Fichero que se desea cargar.
 		@return true si la carga fue correcta.
 		*/
-		bool loadMap(const std::string &mapFileName);
-		bool loadMap(CPlayerSettings &settings);
+		bool loadMap(CPlayerSettings &settings, int mapNumber);
 
 		/**
 		Si hay un nivel cargado lo descarga  destruye.

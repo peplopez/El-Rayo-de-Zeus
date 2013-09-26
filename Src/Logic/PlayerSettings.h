@@ -48,11 +48,21 @@ namespace Logic
 		}		
 		namespace Stage {
 			enum TStage: unsigned char {
-				SPARTAN_HQ	= 0,
-				SPARTAN_LQ	= 1,
-				HADES_HQ	= 2,
-				HADES_LQ	= 3,
-				_COUNT		= 4
+				SPARTAN	= 0,
+				HADES	= 1,
+				_COUNT	= 2
+			};
+		}
+
+		namespace Climatology {
+			enum TClimatology: unsigned char {
+				STORM1	= 0,
+				STORM2	= 1,
+				DESERT	= 2,
+				SUNSET	= 3,
+				CLEAR	= 4,
+				NIGHT	= 5,
+				_COUNT	= 6
 			};
 		}
 		
@@ -68,9 +78,16 @@ namespace Logic
 		};	
 		const std::string STAGE_SCENES[] = {
 			"Spartan",
-			"SpartanLowQ",
-			"Hades",
-			"HadesLowQ",
+			"Hades"
+		};
+
+		const std::string CLIMATOLOGY_STRINGS[] = {
+			"Thunderstorm1",
+			"Thunderstorm2",
+			"Desert",
+			"Sunset",
+			"Clear",
+			"Night"
 		};
 	}  // namespace Player
 
@@ -78,7 +95,8 @@ namespace Logic
 	typedef Player::Color::TColor	TPlayerColor;
 	typedef std::set<TPlayerColor> TColors;
 	typedef Player::Avatar::TAvatar	TPlayerAvatar;
-	typedef Player::Stage::TStage	TPlayerStage;	
+	typedef Player::Stage::TStage	TPlayerStage;
+	typedef Player::Stage::TStage	TPlayerClimatology;
 
 	
 	class CPlayerSettings : Net::Serializable
@@ -93,7 +111,7 @@ namespace Logic
 			bool isNPC = true,
 			TPlayerColor color = Player::Color::RED, 
 			TPlayerAvatar avatar = Player::Avatar::SPARTAN,
-			TPlayerStage stage = Player::Stage::SPARTAN_HQ);
+			TPlayerStage stage = Player::Stage::SPARTAN);
 
 			  
 		//--------- SERIALIZABLE ------------------
@@ -108,7 +126,7 @@ namespace Logic
 		virtual void deserialize(Net::CBuffer& buffer);
 
 
-		// ------------- GET's ---------------------
+		// ---------------- GET's ---------------------
 
 		TPlayerAvatar		getAvatar()			const	{	return _avatar; }		
 		TPlayerColor		getColor()			const	{	return _color;	}		
@@ -120,6 +138,10 @@ namespace Logic
 		const std::string&  getMapName()		const	{	return _mapName; }
 		const Map::TAttrKeywords& getMapProperties();
 		static void resetUsedColors() { _colorsNotUsed = _initColorsNotUsed(); }
+
+		
+		// ----------------- SET's ---------------------
+		static void setLowQMode(bool lowQ) { CPlayerSettings::_isLowQMode = lowQ; }
 		
 		
 	private:
@@ -127,6 +149,7 @@ namespace Logic
 		static TColors	_colorsNotUsed;
 		static TColors	_initColorsNotUsed();
 		static std::string	_nextRandNick;
+		static bool _isLowQMode;
 		
 		TPlayerAvatar		_avatar;		
 		TPlayerColor		_color;			

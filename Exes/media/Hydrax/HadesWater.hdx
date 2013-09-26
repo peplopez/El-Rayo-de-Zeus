@@ -1,0 +1,50 @@
+#Hydrax cfg file.
+
+#Hydrax version field
+HydraxVersion=0.5.1
+
+#Main options field
+<vector3>Position=1500x100x1500
+<float>PlanesError=10.5
+#Shader mode: 0=HLSL, 1=CG, 2=GLSL
+<int>ShaderMode=0
+<float>FullReflectionDistance=1e+011
+<float>GlobalTransparency=0
+<float>NormalDistortion=0.065
+<vector3>WaterColor=0.776119x0.161365x0.0221748
+
+#Components field
+Components=Depth
+
+#Depth parameters
+<float>DepthLimit=1
+
+#Rtt quality field(0x0 = Auto)
+<size>Rtt_Quality_Reflection=0x0
+<size>Rtt_Quality_Refraction=0x0
+<size>Rtt_Quality_Depth=0x0
+<size>Rtt_Quality_URDepth=0x0
+<size>Rtt_Quality_GPUNormalMap=0x0
+
+#Module options
+Module=ProjectedGridRtt
+
+<float>PG_ChoopyStrength=3.75
+<bool>PG_ChoppyWaves=false
+<int>PG_Complexity=64
+<float>PG_Elevation=50
+<bool>PG_ForceRecalculateGeometry=false
+<bool>PG_Smooth=false
+<float>PG_Strength=35
+
+#Noise options
+Noise=FFT
+
+<int>FFT_Resolution=128
+<float>FFT_PhysycalResolution=32
+<float>FFT_Scale=0.2
+<vector2>FFT_WindDirection=1000x100
+<float>FFT_AnimationSpeed=1
+<float>FFT_KwPower=6
+<float>FFT_Amplitude=10
+

@@ -70,8 +70,7 @@ namespace Logic
 		@param filename Nombre del archivo a cargar.
 		@return Mapa generado.
 		*/
-		static CMap *createMap(const std::string &filename);
-		static CMap* createMap(CPlayerSettings& settings);
+		static CMap* createMap(CPlayerSettings& settings, int mapNumber);
 		
 
 		/**
@@ -80,6 +79,8 @@ namespace Logic
 		@param name Nombre que se le da a este mapa.
 		*/
 		CMap (const std::string &name);
+
+		CMap (const std::string &name, int mapNumber);
 
 		/**
 		Destructor.
@@ -244,6 +245,7 @@ namespace Logic
 			{ _properties.insert(properties.cbegin(), properties.cend() ); }
 
 		bool isActive() const { return _isActive; }
+		int getMapNumber() const { return _mapNumber; }
 
 
 	private:
@@ -262,6 +264,9 @@ namespace Logic
 		*/
 		std::string _name;
 
+		/**
+		*/
+		int _mapNumber;
 
 		/**
 		Tipo tabla de entidades de mapa.

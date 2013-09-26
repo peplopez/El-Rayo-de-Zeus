@@ -1222,7 +1222,63 @@
         </StateImagery>
     </WidgetLook>
 	
-	
+
+
+	<!-- PT -->
+    <WidgetLook name="OgreTray/MiniError">
+        <PropertyDefinition name="TextColour" initialValue="FFFFFFFF" redrawOnWrite="true" /> <!-- color blanco(FFFFFFFF) del titulo del videojuego. El negro es FF000000 --> 
+        <PropertyDefinition name="VertFormatting" initialValue="CentreAligned" />
+        <PropertyDefinition name="HorzFormatting" initialValue="LeftAligned" />
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <!--
+				<Image type="TopLeftCorner" imageset="OgreTrayImages" image="MiniTrayTL" />
+                <Image type="TopRightCorner" imageset="OgreTrayImages" image="MiniTrayTR" />
+                <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="MiniTrayBL" />
+                <Image type="BottomRightCorner" imageset="OgreTrayImages" image="MiniTrayBR" />
+                <Image type="LeftEdge" imageset="OgreTrayImages" image="MiniTrayL" />
+                <Image type="TopEdge" imageset="OgreTrayImages" image="MiniTrayT" />
+                <Image type="RightEdge" imageset="OgreTrayImages" image="MiniTrayR" />
+                <Image type="BottomEdge" imageset="OgreTrayImages" image="MiniTrayB" />
+                <Image type="Background" imageset="OgreTrayImages" image="MiniTrayM" />
+				-->
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width"><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height"><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormatProperty name="VertFormatting" />
+                <HorzFormatProperty name="HorzFormatting" />
+            </TextComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame" />
+                <Section section="label">
+                    <ColourProperty name="TextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame" />
+                <Section section="label">
+                    <ColourProperty name="TextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>	
 	
 	<!-- PT-->
     <WidgetLook name="OgreTray/MiniTrayInit">

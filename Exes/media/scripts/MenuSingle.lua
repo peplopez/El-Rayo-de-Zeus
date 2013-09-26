@@ -6,7 +6,16 @@ function initMenuSingle()
 		GUI.Windows:loadWindowLayout("MenuSingle.layout")
 		menuSingle = GUI.Windows:getWindow("MenuSingle")
 		
-		menuSingleModelBox = menuSingle:getChild("MenuSingle/ModelBox")
+		--menuSingleModelBox = menuSingle:getChild("MenuSingle/ModelBox")
+		menuSingleNickBoxLabel = menuSingle:getChild("MenuSingle/NickBoxLabel")
+		menuSingleNickBox = menuSingle:getChild("MenuSingle/NickBox")
+		
+		menuSingleColorBoxLabel = menuSingle:getChild("MenuSingle/ColorBoxLabel")
+		menuSingleColorBox = menuSingle:getChild("MenuSingle/ColorBox")
+		
+		menuSingleStatusWindow = menuSingle:getChild("MenuSingle/Status")
+		
+		menuSingleTextoProgreso = menuSingle:getChild("MenuSingle/TextoProgreso")
 
 	end
 end
@@ -53,13 +62,23 @@ function reloadMenuSingle()
 			--menuSingleProgress:setVisible(true)
 			--menuSingleProgress:setProperty("UnifiedAreaRect", "{{0.05,0},{0.78,0},{0.95,0},{0.8,0}}")
 			
-			menuSingleModelBox:setProperty("UnifiedAreaRect", "{{0.6,0},{0.57,0},{0.95,0},{0.9,0}}")
-			menuSingleModelBox:setProperty("UnifiedMaxSize", "{{1,0},{1,0}}")
+			--menuSingleModelBox:setProperty("UnifiedAreaRect", "{{0.6,0},{0.57,0},{0.95,0},{0.9,0}}")
+			--menuSingleModelBox:setProperty("UnifiedMaxSize", "{{1,0},{1,0}}")
+			
+			menuSingleNickBoxLabel:setProperty("UnifiedAreaRect", "{{0.58,1},{0.4,0},{0.69,0},{0.45,0}}")
+			menuSingleNickBox:setProperty("UnifiedAreaRect", "{{0.7,0},{0.4,0},{0.95,0},{0.45,0}}")
+			
+			menuSingleColorBoxLabel:setProperty("UnifiedAreaRect", "{{0.58,1},{0.47,0},{0.69,0},{0.52,0}}")
+			menuSingleColorBox:setProperty("UnifiedAreaRect", "{{0.7,0},{0.47,0},{0.95,0},{0.56,0}}")
 		end
 end
 
 function showError(msgError)
-	--menuSingleStatusWindow:setProperty("AlwaysOnTop","True")
-    --menuSingleStatusWindow:setProperty("Text",msgError)
+	menuSingleStatusWindow:setProperty("AlwaysOnTop","True")
+    menuSingleStatusWindow:setProperty("Text",msgError)
 	--menuSingleStatusWindow:setProperty("AlwaysOnTop","False")
 end
+
+--function showErrorProgressBar(msgError)
+--	menuSingleTextoProgreso:setProperty("Text",msgError)
+--end

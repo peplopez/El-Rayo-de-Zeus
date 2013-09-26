@@ -225,6 +225,10 @@ namespace GUI
 		int getComboSelectedID(const std::string& comboWindow);
 		std::string getComboSelectedText(const std::string& comboWindow);
 
+		//---------- CHECKBOX ---------------------------------
+		bool isCheckboxSelected(const std::string& checkBox);
+
+
 	protected:
 
 		/**

@@ -28,6 +28,8 @@ la ventana, etc.
 #include "Overlay.h"
 #include "Camera.h"
 
+#include "CameraTypes.h"
+
 
 #define DEBUG 0
 #if DEBUG
@@ -110,13 +112,17 @@ namespace Graphics
 		
 		_overlayManager = Ogre::OverlayManager::getSingletonPtr();//PT. Se carga el manager de overlays
 
+		_climatologyToLoad = "";
+
 		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.
 		
+		_visibleScene = _dummyScene;
+		
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()
-				->getRenderWindow()->addViewport(_dummyScene->getPlayerCamera()->getCamera());
-				
+				->getRenderWindow()->addViewport(_dummyScene->getPlayerCamera()->getCamera());	
 
 		_initHHFX(_dummyScene); // Hell Heaven FX: requiere dummyScene
+
 		_compositorLoad();
 		
 
@@ -195,6 +201,11 @@ namespace Graphics
 	//TODO en red, el server tendrá activas > 1 -> activateScene
 	void CServer::activatePlayerCam(CScene* scene)
 	{
+		if (_visibleScene)
+		{
+			_visibleScene->setVisible(false);
+			_visibleScene = 0;
+		}
 
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
 			_visibleScene = _dummyScene;
@@ -206,8 +217,8 @@ namespace Graphics
 
 			_visibleScene = scene;
 		}
-
-		_viewport->setCamera(_visibleScene->getPlayerCamera()->getCamera());
+		
+		_visibleScene->setVisible(true, playerCamera);
 		_resetCompositors();
 
 	} // setActiveScene
@@ -216,6 +227,11 @@ namespace Graphics
 	
 	void CServer::activateBaseCam(CScene* scene)
 	{
+		if (_visibleScene)
+		{
+			_visibleScene->setVisible(false);
+			_visibleScene = 0;
+		}
 
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
 			_visibleScene = _dummyScene;
@@ -228,7 +244,7 @@ namespace Graphics
 			_visibleScene = scene;
 		}
 
-		_viewport->setCamera(_visibleScene->getBaseCamera()->getCamera());
+		_visibleScene->setVisible(true, baseCamera);
 		_resetCompositors();
 
 	} // setActiveScene

@@ -83,15 +83,29 @@ namespace Application {
 		int avatarIndex		= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/AvatarBox");
 		int stageIndex		= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/StageBox");
 		int nOpps			= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/OppBox");
-
+		int climIndex		= _guiServer->getComboSelectedID(WINDOW_PREFIX + "/ClimatologyBox");
+		bool isLowQMode		= _guiServer->isCheckboxSelected(WINDOW_PREFIX + "/LowQuality");
+		
+		
 		// FRS Si no se escoge opción, default = 0;
 		colorIndex =	colorIndex	< 0 ? 0 : colorIndex; 
 		avatarIndex =	avatarIndex	< 0 ? 0 : avatarIndex;
 		stageIndex =	stageIndex	< 0 ? 0 : stageIndex;
+		climIndex =		climIndex	< 0 ? 0 : climIndex;
+				
+		Logic::CPlayerSettings::setLowQMode(isLowQMode);
+		
+		if (isLowQMode)
+			Graphics::CServer::getSingletonPtr()->setClimatologyToLoad("");
+		else
+			Graphics::CServer::getSingletonPtr()->setClimatologyToLoad(Logic::Player::CLIMATOLOGY_STRINGS[climIndex]);
+
+
 
 		Logic::TPlayerColor color	= static_cast< Logic::TPlayerColor>(colorIndex);
 		Logic::TPlayerAvatar avatar = static_cast< Logic::TPlayerAvatar>(avatarIndex);
 		Logic::TPlayerStage stage	= static_cast< Logic::TPlayerStage>(stageIndex);
+		Logic::TPlayerClimatology clim = static_cast< Logic::TPlayerClimatology>(climIndex);
 		nOpps = nOpps < 0 ? 1 : nOpps + 1;
 				
 		// Al estar en el estado MenuSingleState el jugador es Single Player (Monojugador)
@@ -103,15 +117,13 @@ namespace Application {
 	} // readPlayerForm
 
 
-
-
 	//---------------------------------------------------------------------
 	
 	bool CMenuSingleState::_loadGame(Logic::TMultiSettings& allSettings)
 	{
 		_setProgress(0.4f, "Loading maps..." );
 
-//*
+
 		
 		if (!Logic::CEntityFactory::getSingletonPtr()->loadBluePrints("blueprints"))
 			return false;
@@ -124,26 +136,11 @@ namespace Application {
 		if (!Logic::CServer::getSingletonPtr()->loadWorld(allSettings) ) // FRS CARGA DESDE MAP_PATTERN
 			return false;
 
-		
-/*/
-		Logic::TMapNames mapsToLoad;		// FRS OLD: Carga desde fichero
-			mapsToLoad.push_back("mapRed");
-			mapsToLoad.push_back("mapBlue");	
-				if (!Logic::CServer::getSingletonPtr()->loadWorld(mapsToLoad) )
-					return false;
-
-		// Llamamos al método de creación del jugador. 
-		// Al estar en el estado MenuSingleState el jugador es Single Player (Monojugador)
-		Logic::CServer::getSingletonPtr()->getMap("mapRed")->createPlayer(
-		Logic::CPlayerSettings(playerNick, Logic::Player::Color::BLUE, Logic::Player::Avatar::SPARTAN), true);
-/**/
 
 		_setProgress(0.9f, "World loaded");
 
 		return true;
 	} //loadGame
-
-
 
 
 
@@ -194,9 +191,11 @@ namespace Application {
 			sizeof(nOpps) / sizeof( nOpps[0] )
 		);
 
-		// CHECKBOX 
-		// TODO
-		//_checkLowQ = 
+		_guiServer->createCombobox(
+			WINDOW_PREFIX + "/ClimatologyBox", 
+			Logic::Player::CLIMATOLOGY_STRINGS, 
+			Logic::Player::Climatology::_COUNT 
+		);	
 
 
 		return true;

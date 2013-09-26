@@ -16,6 +16,7 @@ namespace Logic
 	
 	std::string CPlayerSettings::_nextRandNick = "PlayerRandom0";
 	TColors CPlayerSettings::_colorsNotUsed = _initColorsNotUsed();
+	bool CPlayerSettings::_isLowQMode = false;
 
 
 	TColors CPlayerSettings::_initColorsNotUsed()
@@ -71,13 +72,16 @@ namespace Logic
 			_mapProperties[KEYWORD_CONTROL]	= _isNPC? "NPC" : "Player";
 			_mapProperties[KEYWORD_LOCAL]	= _isLocalPlayer? "true" : "false";
 			_mapProperties[KEYWORD_NICK]	= _nick;
-			_mapProperties[KEYWORD_SCENE]	= "Scene" + Player::STAGE_SCENES[_stage];		
+			if (_isLowQMode)
+				_mapProperties[KEYWORD_SCENE]	= "Scene" + Player::STAGE_SCENES[_stage] + "LowQ";	
+			else
+				_mapProperties[KEYWORD_SCENE]	= "Scene" + Player::STAGE_SCENES[_stage];
 		}
 		return _mapProperties;
 
 	} // getMapProperties
 
-
+	//---------------------------------------------------------
 
 
 	/******************

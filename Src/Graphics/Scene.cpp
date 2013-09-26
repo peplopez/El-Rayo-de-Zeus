@@ -23,6 +23,10 @@ de una escena.
 #include <HHFX/RendererSubView.h>
 
 #include <SkyX.h>
+#include <Hydrax.h>
+#include <Hydrax\Noise\Perlin\Perlin.h>
+#include <Hydrax\Modules\ProjectedGrid\ProjectedGrid.h>
+
 
 #include <OgreRenderWindow.h>
 #include <OgreRoot.h>
@@ -53,18 +57,18 @@ namespace Graphics
 	// This scale must be taken into account when setting and getting arbitrary particle attributes !
 	const float CScene::HHFX_WORLD_SCALE = 8.0f;
 
-	CScene::CScene(const std::string& name) : _name(name), _isInit(false), _viewport(0), 
-		_staticGeometry(0), _hhfxScene(0), _hhfxTimeSinceUpdate(0), _skyX(0), _skyXBasicController(0)
+	CScene::CScene(const std::string& name) : _name(name), _isInit(false), _staticGeometry(0), 
+	_hhfxScene(0), _hhfxTimeSinceUpdate(0), _skyX(0), _skyXBasicController(0), _skyXPresetName(""), 
+	_hydraX(0), _hydraXModule(0), _hydraXConfigFileName(""), _isVisible(false)
 	{
 		_root = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot();
 		_sceneMgr = _root->createSceneManager(Ogre::ST_INTERIOR, name);	
 		_playerCamera = new CCamera(name,this);
 		_baseCamera = new CCamera("base" + name, this);
 		_hhfxScene = _hhfxCreateScene(_sceneMgr);
-		_viewport = Graphics::CServer::getSingletonPtr()->getViewport(); //no hay que liberarlo en el destructor -> se encarga CServer
 		_skyXBasicController = new SkyX::BasicController();
 		_skyX = new SkyX::SkyX(_sceneMgr, _skyXBasicController);
-				
+		_server = CServer::getSingletonPtr();
 	} // CScene
 
 	//--------------------------------------------------------
@@ -73,7 +77,9 @@ namespace Graphics
 	{		
 		deactivate();
 		delete _baseCamera; // FRS andaba sin liberar
-		delete _playerCamera;		
+		delete _playerCamera;
+		delete _skyX;
+		delete _hydraX;
 		_root->destroySceneManager(_sceneMgr);
 	} // ~CScene
 	
@@ -84,10 +90,12 @@ namespace Graphics
 	void CScene::_init() {
 		assert(!_isInit && "Escena ya inicializada previamente");
 		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
-		_buildStaticGeometry();		
+		_buildStaticGeometry();
 		_hhfxInit(); // Init Hell Heaven FX Scene
-		_skyXInit(); // Init de SkyX
-		_setSkyXPreset(_skyXPresets[3]);
+		_skyXInit();
+		_hydraX = new Hydrax::Hydrax(_sceneMgr, _playerCamera->getCamera(), 
+			_server->getViewport()); //no puedo hacerlo enel constructor porque en dummy
+		_hydraXInit(); // Init de Hydrax
 		_playerCamera->getCamera()->setAutoAspectRatio(true);
 		_baseCamera->getCamera()->setAutoAspectRatio(true);
 		_isInit = true;		
@@ -97,23 +105,26 @@ namespace Graphics
 
 	void CScene::_deinit() {
 		assert(_isInit && "Escena no inicializada previamente");
+		_hydraXDeinit();
 		_skyXDeinit();
 		_hhfxDeinit(); // Hell Heaven FX	
 		_sceneMgr->destroyStaticGeometry(_staticGeometry);
+		_skyXPresetName = "";
+		_hydraXConfigFileName = "";
 		_isInit = false;
 	} // deinit
 
-	//--------------------------------------------------------
+	//------------------------------------------r--------------
 
 	void CScene::activate()
-	{		
-		if(_name != "dummy_scene")  _init();
+	{	
+		if(_name != "dummy_scene") _init();	
 	} // activate
 
 	//--------------------------------------------------------
 
 	void CScene::deactivate()
-	{		
+	{	
 		if(_isInit) _deinit();
 	} // deactivate
 	
@@ -131,6 +142,36 @@ namespace Graphics
 
 	//--------------------------------------------------------
 
+	void CScene::setVisible(bool visible, CameraType cameraType)
+	{
+		if (visible)
+		{
+			_isVisible = true;
+			switch (cameraType)
+			{
+			case playerCamera:
+				_server->getViewport()->setCamera(_playerCamera->getCamera());
+				break;
+			case baseCamera:
+				_server->getViewport()->setCamera(_baseCamera->getCamera());
+				break;
+			}
+
+			if(_name != "dummy_scene")
+				_hydraXReinit();
+		}
+		else
+		{
+			_isVisible = false;
+		}
+	}
+
+	//--------------------------------------------------------
+
+	void CScene::setVisible(bool visible)
+	{
+		setVisible(visible, playerCamera);
+	}
 
 
 	/************************
@@ -336,14 +377,15 @@ namespace Graphics
 	bool CScene::frameStarted(const Ogre::FrameEvent& evt)
 	{	
 		LOG("[HHFX] ParticleCount = " << _hhfxScene->GetParticleCount() )
-
 		_hhfxTimeSinceUpdate += evt.timeSinceLastFrame;
-		if(_viewport || _hhfxTimeSinceUpdate > _HHFX_INACTIVE_UPDATE_PERIOD)
+		if(_isVisible || _hhfxTimeSinceUpdate > _HHFX_INACTIVE_UPDATE_PERIOD)
 			// && _hhfxScene->GetParticleCount() )  UNDONE  siempre devuelve 0 WTF!
 		{
+			if (_hydraXConfigFileName != "")
+				_hydraX->update(evt.timeSinceLastFrame);
 			LOG("["<< _name <<"] Frame Started: Time Since Update = " << _hhfxTimeSinceUpdate)
 			_hhfxScene->Update(_hhfxTimeSinceUpdate); // update the hhfx scene
-			_hhfxTimeSinceUpdate = 0;
+			_hhfxTimeSinceUpdate = 0;	
 		} 
 		return true;
 	}
@@ -357,9 +399,9 @@ namespace Graphics
 			return true;
 
 		// Aplicamos transformaciones de la camara que esté renderizando actualmente el FX: PlayerCamera o BaseCamera.
-		Ogre::Camera* fxCamera = _viewport->getCamera();
-		const Vector3& camPos =		fxCamera->getParentNode()->getPosition();	  // El nodo es el que contiene el transform
-		const Quaternion& camOri =	fxCamera->getParentNode()->getOrientation(); // la camara mantiene pos = 0 (relativa al nodo)
+		Ogre::Camera* fxCamera = _server->getViewport()->getCamera();
+		const Vector3& camPos =		fxCamera->getPosition();	  // El nodo es el que contiene el transform
+		const Quaternion& camOri =	fxCamera->getOrientation(); // la camara mantiene pos = 0 (relativa al nodo)
 	
 		Matrix4 worldTransforms;
 			worldTransforms.makeTransform(camPos, Vector3::UNIT_SCALE, camOri);
@@ -372,8 +414,9 @@ namespace Graphics
 			view.setUsePostFX(true); // FRS no se si sirve realmente para nada
 
 		_hhfxScene->Render(view, camPos);
-
 		return  true;
+
+	
 	}
 
 	/*********************
@@ -382,36 +425,54 @@ namespace Graphics
 
 	void CScene::_skyXInit()
 	{
-		_skyX->create();
-		_root->addFrameListener(_skyX);
-		BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->addListener(_skyX);
-		_skyX->getVCloudsManager()->getVClouds()->setDistanceFallingParams(Ogre::Vector2(2,-1));
+		if (_skyXPresetName != "")
+		{
+			_skyX->create();
+			_root->addFrameListener(_skyX);
+			BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->addListener(_skyX);
+			_skyX->getVCloudsManager()->getVClouds()->setDistanceFallingParams(Ogre::Vector2(2,-1));
+			_setSkyXPreset(_skyXPresets[_skyXPresetName]);
+		}
+		
 	}
 
 	//----------------------------------------------------------------------------------
 
 	void CScene::_skyXDeinit()
 	{
-		_root->removeFrameListener(_skyX);
-		BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->removeListener(_skyX);
+		if (_skyXPresetName != "")
+		{
+			_root->removeFrameListener(_skyX);
+			BaseSubsystems::CServer::getSingletonPtr()->getRenderWindow()->removeListener(_skyX);
+			_skyX->remove();
+		}
 	}
 
+	//----------------------------------------------------------------------------------
+
+	std::map<std::string, SkyXSettings> CScene::_createPresets()
+	{
+        std::map<std::string, SkyXSettings> m;
+
+		//Sunset
+		m["Sunset"] = SkyXSettings(Ogre::Vector3(8.85f, 7.5f, 20.5f),  -0.08f, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0022f, 0.000675f, 30, Ogre::Vector3(0.57f, 0.52f, 0.44f), -0.991f, 3, 4), false, true, 300, false, Ogre::Radian(270), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0.35, 0.2, 0.92, 0.1), Ogre::Vector4(0.4, 0.7, 0, 0), Ogre::Vector2(0.8,1));
+		// Clear
+		m["Clear"] = SkyXSettings(Ogre::Vector3(17.16f, 7.5f, 20.5f), 0, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0017f, 0.000675f, 30, Ogre::Vector3(0.57f, 0.54f, 0.44f), -0.991f, 2.5f, 4), false);
+		// Thunderstorm 1
+		m["Thunderstorm1"] = SkyXSettings(Ogre::Vector3(12.23, 7.5f, 20.5f),  0, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.00545f, 0.000375f, 30, Ogre::Vector3(0.55f, 0.54f, 0.52f), -0.991f, 1, 4), false, true, 300, false, Ogre::Radian(0), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0.25, 0.4, 0.5, 0.1), Ogre::Vector4(0.45, 0.3, 0.6, 0.1), Ogre::Vector2(1,1), true, 0.5, Ogre::Vector3(1,0.976,0.92), 2);
+		// Thunderstorm 2
+		m["Thunderstorm2"] = SkyXSettings(Ogre::Vector3(10.23, 7.5f, 20.5f),  0, 0, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.00545f, 0.000375f, 30, Ogre::Vector3(0.55f, 0.54f, 0.52f), -0.991f, 0.5, 4), false, true, 300, false, Ogre::Radian(0), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0, 0.02, 0.34, 0.24), Ogre::Vector4(0.29, 0.3, 0.6, 1), Ogre::Vector2(1,1), true, 0.5, Ogre::Vector3(0.95,1,1), 2);
+		// Desert
+		m["Desert"] = SkyXSettings(Ogre::Vector3(7.59f, 7.5f, 20.5f), 0, -0.8f, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0072f, 0.000925f, 30, Ogre::Vector3(0.71f, 0.59f, 0.53f), -0.997f, 2.5f, 1), true);
+		// Night
+		m["Night"] = SkyXSettings(Ogre::Vector3(21.5f, 7.5, 20.5), 0.03, -0.25, SkyX::AtmosphereManager::Options(), true);
+
+		return m;
+    }	
+
 	//-------------------------------------------------------------------------------------
-	 
-		SkyXSettings CScene::_skyXPresets[6] = {
-			// Sunset
-			SkyXSettings(Ogre::Vector3(8.85f, 7.5f, 20.5f),  -0.08f, 0.0f, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0022f, 0.000675f, 30, Ogre::Vector3(0.57f, 0.52f, 0.44f), -0.991f, 3, 4), false, true, 300, false, Ogre::Radian(270), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0.35, 0.2, 0.92, 0.1), Ogre::Vector4(0.4, 0.7, 0, 0), Ogre::Vector2(0.8,1)),
-			// Clear
-			SkyXSettings(Ogre::Vector3(17.16f, 7.5f, 20.5f), 0.0f, 0.0f, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0017f, 0.000675f, 30, Ogre::Vector3(0.57f, 0.54f, 0.44f), -0.991f, 2.5f, 4), false),
-			// Thunderstorm 1
-			SkyXSettings(Ogre::Vector3(12.23, 7.5f, 20.5f),  0.0f, 0.0f, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.00545f, 0.000375f, 30, Ogre::Vector3(0.55f, 0.54f, 0.52f), -0.991f, 1, 4), false, true, 300, false, Ogre::Radian(0), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0.25, 0.4, 0.5, 0.1), Ogre::Vector4(0.45, 0.3, 0.6, 0.1), Ogre::Vector2(1,1), true, 0.5, Ogre::Vector3(1,0.976,0.92), 2),
-			// Thunderstorm 2
-			SkyXSettings(Ogre::Vector3(10.23, 7.5f, 20.5f),  0.0f, 0.0f, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.00545f, 0.000375f, 30, Ogre::Vector3(0.55f, 0.54f, 0.52f), -0.991f, 0.5, 4), false, true, 300, false, Ogre::Radian(0), Ogre::Vector3(0.63f,0.63f,0.7f), Ogre::Vector4(0, 0.02, 0.34, 0.24), Ogre::Vector4(0.29, 0.3, 0.6, 1), Ogre::Vector2(1,1), true, 0.5, Ogre::Vector3(0.95,1,1), 2),
-			// Desert
-			SkyXSettings(Ogre::Vector3(7.59f, 7.5f, 20.5f), 0.0f, -0.8f, SkyX::AtmosphereManager::Options(9.77501f, 10.2963f, 0.01f, 0.0072f, 0.000925f, 30, Ogre::Vector3(0.71f, 0.59f, 0.53f), -0.997f, 2.5f, 1), true),
-			// Night
-			SkyXSettings(Ogre::Vector3(21.5f, 7.5, 20.5), 0.03, -0.25, SkyX::AtmosphereManager::Options(), true)
-	};
+
+	std::map<std::string, SkyXSettings> CScene::_skyXPresets =  CScene::_createPresets();
 
 	//-------------------------------------------------------------------------------------
 
@@ -457,7 +518,7 @@ namespace Graphics
 			if (!_skyX->getVCloudsManager()->isCreated())
 			{
 				// SkyX::MeshManager::getSkydomeRadius(...) works for both finite and infinite(=0) camera far clip distances
-				_skyX->getVCloudsManager()->create(_skyX->getMeshManager()->getSkydomeRadius(_viewport->getCamera()));
+				_skyX->getVCloudsManager()->create(_skyX->getMeshManager()->getSkydomeRadius(_server->getViewport()->getCamera()));
 			}
 		}
 		else
@@ -478,6 +539,70 @@ namespace Graphics
 		_skyX->update(0);
 	}
 
+	//-------------------------------------------------------------------------------------
+
+	void CScene::setSkyXPresetToLoad(const std::string& presetName)
+	{
+		std::string auxName;
+
+		if(_server->getClimatologyToLoad() != "")
+			auxName = _server->getClimatologyToLoad();
+		else
+			auxName = presetName;
+
+		if (_skyXPresets.count(auxName) > 0)
+			
+			_skyXPresetName = auxName;
+	}
+
+	/*********************
+			Hydrax
+	*********************/
+
+	void CScene::_hydraXInit()
+	{
+		if (_hydraXConfigFileName != "")
+		{
+			_hydraXModule = new Hydrax::Module::ProjectedGrid(_hydraX,
+														new Hydrax::Noise::Perlin(),
+														Ogre::Plane(Ogre::Vector3(0,1,0), Ogre::Vector3(0,0,0)),
+														Hydrax::MaterialManager::NM_VERTEX,
+														Hydrax::Module::ProjectedGrid::Options());
+			_hydraX->setModule(static_cast<Hydrax::Module::Module*>(_hydraXModule));
+			_hydraX->loadCfg(_hydraXConfigFileName);
+			_hydraX->create();
+		}
+	}
+
+	//-------------------------------------------------------------------------------------
+
+	void CScene::_hydraXReinit()
+	{
+		if (_hydraXConfigFileName != "")
+		{
+			_hydraXDeinit();
+			_hydraX->setCamera(_server->getViewport()->getCamera());
+			_hydraXInit();
+		}
+	}
+
+	//-------------------------------------------------------------------------------------
 	
+	void CScene::_hydraXDeinit()
+	{
+		if (_hydraXConfigFileName != "")
+		{
+			_hydraXModule->remove();
+			_hydraX->remove();
+		}
+	}
+
+	//-------------------------------------------------------------------------------------
+
+	void CScene::setHydraXConfigToLoad(const std::string& hydraXConfigFile)
+	{
+		if (hydraXConfigFile != "")
+			_hydraXConfigFileName = hydraXConfigFile;
+	}
 
 } // namespace Graphics

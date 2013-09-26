@@ -29,6 +29,7 @@ la gestión de la interfaz con el usuario (entrada de periféricos, CEGui...).
 #include <CEGUI/elements/CEGUIListboxTextItem.h>
 #include <CEGUI/elements/CEGUIProgressBar.h>
 #include <CEGUI/elements/CEGUIPushButton.h>
+#include <CEGUI/elements/CEGUICheckbox.h>
 
 
 namespace GUI {
@@ -280,13 +281,22 @@ namespace GUI {
 	{
 		CEGUI::ProgressBar* bar = static_cast<CEGUI::ProgressBar*> (
 			getWindow( barWindow ));
-				
-		if(	!bar->isVisible() )
-			bar->setVisible(true);
+		
+		//PT I dont want to show progresBar when form has not been filled
+		// Only when progressBar is up to 0 is when I want to show it
+		if(progressAmount > 0.0f)
+		{
+			if(	!bar->isVisible() )
+				bar->setVisible(true);
+		}
 
 		bar->setProgress(progressAmount);
-		if(statusMsg.length() )
-			getWindow(statusWindow)->setText(statusMsg);
+		if(statusMsg.length() ){
+			CEGUI::Window* statusW = getWindow(statusWindow);
+			statusW->setText(statusMsg);
+			statusW->setVisible(true);
+			//getWindow(statusWindow)->setText(statusMsg);
+		}
 		
 		
 	} // addProgress
@@ -325,7 +335,16 @@ namespace GUI {
 	
 	//---------------------------------------------------------
 
+	bool CServer::isCheckboxSelected(const std::string& checkBox)
+	{
+		CEGUI::Checkbox* check = static_cast<CEGUI::Checkbox*>(
+			_windowManager->getWindow(checkBox));
+
+		return check->isSelected();
+	}
 	
+
+	//---------------------------------------------------------
 	std::string CServer::getComboSelectedText(const std::string& comboWindow) 
 	{		
 		CEGUI::Combobox* combo = static_cast<CEGUI::Combobox*>(

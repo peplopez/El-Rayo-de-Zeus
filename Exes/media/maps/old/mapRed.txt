@@ -1,8 +1,7 @@
 Map ={
 
-	spartanScene = {
-		type = "Scene",
-		sceneFile = "spartanScenario.scene",
+	SpartanScene = {
+		type = "SpartanSceneLowQ",
 	},
 
 	Camera = {
