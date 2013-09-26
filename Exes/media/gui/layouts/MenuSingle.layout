@@ -28,7 +28,7 @@
             <Property Name="Font" Value="DejaVuSans-10" />
             <Property Name="Text" Value="Nickname" />
             <Property Name="AlwaysOnTop" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{0.58,1},{0.35,0},{0.69,0},{0.40,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.58,0},{0.35,0},{0.69,0},{0.40,0}}" />
         </Window>		
 		
 		<Window Type="OgreTray/Editbox" Name="MenuSingle/NickBox" >

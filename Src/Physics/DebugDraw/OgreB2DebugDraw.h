@@ -77,6 +77,9 @@ public:
     /// Method called by the b2World for XForms.
    void DrawTransform(const b2Transform& xf);
 
+   void enable();
+   void disable();
+
 private:
     /// ManualObject which holds all the shapes each frame
     Ogre::ManualObject  *m_shapes;

@@ -329,6 +329,7 @@ namespace BaseSubsystems
 		Ventana de renderizado 
 		*/
 		Ogre::RenderWindow *_renderWindow;
+		Ogre::RenderWindow *_debugRenderWindow;
 
 		/**
 		Clase que escucha los eventos de ventana. Capturamos el evento de
@@ -371,6 +372,15 @@ namespace BaseSubsystems
 		private:
 			static const std::string _WINDOW_TITLE;
 
+		
+		/**************************
+			PHYSICS DEBUG WINDOW
+		***************************/
+
+		void createDebugRenderWindow();
+		void destroyDebugRenderWindow();
+
+		Ogre::RenderWindow*				getDebugRenderWindow() { return _debugRenderWindow; }
 	}; // class CServer
 
 } // namespace BaseSubsystems

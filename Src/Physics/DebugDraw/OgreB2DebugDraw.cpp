@@ -282,3 +282,15 @@ void OgreB2DebugDraw::DrawTransform(const b2Transform& xf)
 	BuildSegment(p1, p2, b2Color(0,1,0), _lineList);
 
 }
+
+void OgreB2DebugDraw::enable()
+{
+	m_scene->getRootSceneNode()->setVisible(false);
+	_debugNode->setVisible(true);
+}
+
+void OgreB2DebugDraw::disable()
+{
+	m_scene->getRootSceneNode()->setVisible(true);
+	_debugNode->setVisible(false);
+}

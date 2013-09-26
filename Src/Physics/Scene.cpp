@@ -43,7 +43,8 @@
 
 namespace Physics
 {
-	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0), _worldListener(0), _debugDrawEnabled(false), _isInit(false)
+	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0),
+		_worldListener(0), _debugDrawEnabled(false), _isInit(false)
 	{	
 		b2Vec2 gravity(0, -20);
 		_world = new b2World(gravity);
@@ -203,6 +204,10 @@ namespace Physics
 	void CScene::switchDebugDraw()
 	{
 		_debugDrawEnabled = !_debugDrawEnabled;
+		if (_debugDrawEnabled)
+			_debugDraw->enable();
+		else
+			_debugDraw->disable();
 
 	}
 } // namespace Physics

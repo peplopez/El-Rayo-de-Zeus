@@ -103,6 +103,7 @@ namespace BaseSubsystems
 	CServer::CServer() : 
 		_root(0),
 		_renderWindow(0),
+		_debugRenderWindow(0),
 		_mouse(0),
 		_keyboard(0),
 		_joystick(0),
@@ -519,6 +520,7 @@ namespace BaseSubsystems
 			// con los parámetros actuales del sistema de reenderizado.
 			_renderWindow = _root->initialise(true, _WINDOW_TITLE);
 			
+			
 			// FRS Establecemos el *.ico de ventana y el cursor para modo windowed
 #if _WIN32		
 
@@ -629,4 +631,22 @@ namespace BaseSubsystems
 
 	} // setWindowExtents
 
+	//--------------------------------------------------------
+
+	void CServer::createDebugRenderWindow()
+	{
+		//creo un debug renderWindow de tamaño 3/4 el original
+		_debugRenderWindow = _root->createRenderWindow(_WINDOW_TITLE + "- DEBUG", _renderWindow->getWidth()*3/4,
+									_renderWindow->getHeight()*3/4, _renderWindow->isFullScreen());
+
+	}
+
+	//--------------------------------------------------------
+
+	void CServer::destroyDebugRenderWindow()
+	{
+		_debugRenderWindow->destroy();
+	}
+
 } // namespace BaseSubsystems
+in
