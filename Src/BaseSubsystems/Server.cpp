@@ -635,17 +635,19 @@ namespace BaseSubsystems
 
 	void CServer::createDebugRenderWindow()
 	{
-		//Crear un debug renderWindow de tamaño 3/4 el original
-		_debugRenderWindow = _root->createRenderWindow(_WINDOW_TITLE + "- DEBUG", _renderWindow->getWidth()*3/4,
-									_renderWindow->getHeight()*3/4, _renderWindow->isFullScreen());
-
+		//Si no existe Crear un debug renderWindow de tamaño 1/2 el original
+		if (!_debugRenderWindow)
+			_debugRenderWindow = _root->createRenderWindow(_WINDOW_TITLE + "- DEBUG", _renderWindow->getWidth()*1/2,
+									_renderWindow->getHeight()*1/2, false);
 	}
 
 	//--------------------------------------------------------
 
 	void CServer::destroyDebugRenderWindow()
 	{
+		_debugRenderWindow->removeAllViewports();
 		_debugRenderWindow->destroy();
+		_debugRenderWindow = 0;
 	}
 
 } // namespace BaseSubsystems

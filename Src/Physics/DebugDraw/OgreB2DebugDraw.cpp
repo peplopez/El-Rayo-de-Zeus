@@ -1,21 +1,39 @@
 #include "OgreB2DebugDraw.h"
+#include <BaseSubsystems/Server.h>
 #include <OgreVector3.h>
 #include "Physics/Scales.h"
 
-OgreB2DebugDraw::OgreB2DebugDraw(Ogre::SceneManager* scene, const char* material, float fillAlpha, Ogre::uint8 renderQueueGroup) :
-    b2Draw(),
-    m_scene(scene),
+OgreB2DebugDraw::OgreB2DebugDraw(const std::string name, const char* material, float fillAlpha, Ogre::uint8 renderQueueGroup) :
+    b2Draw(), _name(name),
     m_material(material),
     m_fillAlpha(fillAlpha),
     m_shapes()
 {
-    // Create the manual object.
-    m_shapes = m_scene->createManualObject("OgreB2DebugDrawShapes");
+   
+
+	m_scene = BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot()->
+					createSceneManager(Ogre::ST_INTERIOR, _name + "- DEBUG");
+	
+	m_scene->setAmbientLight(Ogre::ColourValue(0.7f,0.7f,0.7f));
+	
+	//Set up of the Camera
+	m_camera = m_scene->createCamera("debugPhysics");
+		m_camera->setNearClipDistance(20);
+		m_camera->setFarClipDistance(30000);
+		m_camera->setFixedYawAxis(true);
+		m_camera->setAutoAspectRatio(true);
+		m_camera->setPosition(0,0,300);
+
+		
+
+
+    
+	// Create the manual object.
+	m_shapes = m_scene->createManualObject("OgreB2DebugDrawShapes");
 
 
     _debugNode = m_scene->getRootSceneNode()->createChildSceneNode("OgreB2DebugDrawNode");
 	_debugNode->attachObject(m_shapes);
-	_debugNode->yaw(Ogre::Degree(90.0f));
 
 	
     // Make it dynamic since we will be rewriting the data many times each frame.
@@ -30,15 +48,11 @@ OgreB2DebugDraw::OgreB2DebugDraw(Ogre::SceneManager* scene, const char* material
 
 OgreB2DebugDraw::~OgreB2DebugDraw()
 {
+	BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot()->destroySceneManager(m_scene);
     m_scene->destroyManualObject("OgreB2DebugDrawShapes");
     m_scene->destroySceneNode("OgreB2DebugDrawNode");
 }
 
-void OgreB2DebugDraw::setAutoTracking(Ogre::SceneNode* target)
-{
-	_debugNode->setFixedYawAxis(true);
-	_debugNode->setAutoTracking(true, target, Ogre::Vector3::UNIT_Z);
-}
 
 void OgreB2DebugDraw::clear()
 {
@@ -285,12 +299,12 @@ void OgreB2DebugDraw::DrawTransform(const b2Transform& xf)
 
 void OgreB2DebugDraw::enable()
 {
-	m_scene->getRootSceneNode()->setVisible(false);
-	_debugNode->setVisible(true);
+	BaseSubsystems::CServer::getSingletonPtr()->createDebugRenderWindow();
+	BaseSubsystems::CServer::getSingletonPtr()->getDebugRenderWindow()->addViewport(m_camera);
 }
 
 void OgreB2DebugDraw::disable()
 {
-	m_scene->getRootSceneNode()->setVisible(true);
-	_debugNode->setVisible(false);
+	BaseSubsystems::CServer::getSingletonPtr()->getDebugRenderWindow()->removeAllViewports();
+	BaseSubsystems::CServer::getSingletonPtr()->destroyDebugRenderWindow();
 }

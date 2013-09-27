@@ -112,6 +112,10 @@ namespace Logic
 		void activateBaseCam();
 
 		/**
+		*/
+		void switchDebugDraw();
+
+		/**
 		Función llamada en cada frame para que se realicen las funciones
 		de actualización adecuadas.
 		<p>

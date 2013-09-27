@@ -23,11 +23,6 @@
 #include <Box2D\Common\b2Math.h>
 #include <Box2D\Common\b2Settings.h>
 
-#include "Graphics\Server.h"
-#include "Graphics\Scene.h"
-#include "Graphics\Camera.h"
-
-
 #include <assert.h>
 #include <iostream>
 
@@ -49,13 +44,13 @@ namespace Physics
 		b2Vec2 gravity(0, -20);
 		_world = new b2World(gravity);
 		_worldListener = new CContactListener();
-		_debugDraw = new OgreB2DebugDraw(Graphics::CServer::getSingletonPtr()->getScene(_name)->getSceneMgr(), "debugDraw") ;	
+		_debugDraw = new OgreB2DebugDraw(_name, "debugDraw") ;	
 	};
 
 	//--------------------------------------------------------
 
 	CScene::~CScene() 
-	{
+	{	
 		delete _worldListener;
 		deactivate();
 		delete _world;	
@@ -67,13 +62,11 @@ namespace Physics
 	void CScene::_init() 
 	{
 //#ifdef _DEBUG
-		
-		//_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(_name)->getPlayerCamera()->getNode());
 		_debugDraw->SetFlags(b2Draw::e_shapeBit);
 		_world->SetDebugDraw(_debugDraw);
 //#endif		
 		_world->SetContactListener(_worldListener);
-		CreateWorldEdges();	
+		_createWorldEdges();	
 
 		_isInit = true;
 
@@ -151,7 +144,7 @@ namespace Physics
 
 	//--------------------------------------------------------
 
-	void CScene::CreateWorldEdges()
+	void CScene::_createWorldEdges()
 	{
 
 		CActor* leftWorldEdge = new CActor(180, -150, Logic::Ring::CENTRAL_RING, "static", 0);
@@ -204,10 +197,12 @@ namespace Physics
 	void CScene::switchDebugDraw()
 	{
 		_debugDrawEnabled = !_debugDrawEnabled;
+		
 		if (_debugDrawEnabled)
 			_debugDraw->enable();
 		else
 			_debugDraw->disable();
 
 	}
+
 } // namespace Physics

@@ -336,6 +336,12 @@ namespace Logic {
 
 	} // getEntityByType
 
+	//--------------------------------------------------------
+
+	void CMap::switchDebugDraw()
+	{
+		_physicsScene->switchDebugDraw();
+	}
 	
 
 } // namespace Logic

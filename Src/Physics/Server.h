@@ -69,11 +69,6 @@ namespace Physics {
 		*/
 		void tick(float secs);
 
-		/**
-		*/
-		void SwitchDebugDraw();
-
-
 		//----------------------
 		// Gestion de la escena
 		//----------------------

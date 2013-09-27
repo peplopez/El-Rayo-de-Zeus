@@ -20,7 +20,7 @@ mover al jugador.
 #include <Logic/Entity/Messages/Message.h>
 #include <Logic/Entity/Messages/MessageUShort.h>
 
-#include <Physics/Server.h>
+#include <Logic/Maps/Map.h>
 
 #include <cassert>
 
@@ -222,7 +222,7 @@ namespace GUI {
 			break;
 			}
 		case GUI::Key::F2:
-			Physics::CServer::getSingletonPtr()->SwitchDebugDraw();
+			_controlledAvatar->getMap()->switchDebugDraw();
 			break;
 		}
 

@@ -21,7 +21,7 @@ struct Vertex
 class OgreB2DebugDraw : public b2Draw
 {
 public:
-    OgreB2DebugDraw(Ogre::SceneManager* scene, const char* material, float fillAlpha = 0.5f, Ogre::uint8 renderQueueGroup = Ogre::RENDER_QUEUE_OVERLAY);
+    OgreB2DebugDraw(const std::string name, const char* material, float fillAlpha = 0.5f, Ogre::uint8 renderQueueGroup = Ogre::RENDER_QUEUE_OVERLAY);
     ~OgreB2DebugDraw();
 
     /// Method to be called each frame to clear out all of last frame's shapes.
@@ -31,7 +31,6 @@ public:
 	void RenderLines();
 	void RenderTriangles();
 
-	void setAutoTracking(Ogre::SceneNode* target);
 
     // Methods for accessing rendering options.
     inline const char* getMaterialName() {
@@ -81,12 +80,18 @@ public:
    void disable();
 
 private:
+
+	std::string _name;
+
+	Ogre::Camera *m_camera;
     /// ManualObject which holds all the shapes each frame
     Ogre::ManualObject  *m_shapes;
     /// Pointer to the scene to which the shapes are added
     Ogre::SceneManager  *m_scene;
 
 	Ogre::SceneNode *_debugNode;
+
+
 
     /// Material to use for rendering the shapes
     Ogre::String m_material;

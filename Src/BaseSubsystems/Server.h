@@ -369,13 +369,14 @@ namespace BaseSubsystems
 		*/
 		CEGUI::LuaScriptModule *_luaModule;
 
-		private:
-			static const std::string _WINDOW_TITLE;
+	private:
+		static const std::string _WINDOW_TITLE;
 
 		
 		/**************************
 			PHYSICS DEBUG WINDOW
 		***************************/
+	public:
 
 		void createDebugRenderWindow();
 		void destroyDebugRenderWindow();

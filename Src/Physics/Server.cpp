@@ -85,14 +85,6 @@ namespace Physics {
 	} // close
 
 	//--------------------------------------------------------
-
-	void CServer::SwitchDebugDraw()
-	{
-		TScenes::const_iterator it = _scenes.cbegin();
-		TScenes::const_iterator end = _scenes.cend();
-		for (; it != end; ++it)
-			it->second->switchDebugDraw();
-	}
 	
 	/***********
 		TICK
