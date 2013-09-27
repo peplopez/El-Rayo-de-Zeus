@@ -137,9 +137,6 @@ namespace Logic {
 			it->second->tick(msecs);
 	} // tick
 
-	
-
-
 
 	/************
 		WORLD
@@ -153,6 +150,10 @@ namespace Logic {
 		const int nPlayers = allSettings.size();
 			if ( !Logic::CGameStatus::Init( nPlayers ) )
 				return false;
+		
+		if (!CPlayerSettings::isLowQMode())
+		Graphics::CServer::getSingletonPtr()->
+			setClimatologyToLoad(Logic::Player::CLIMATOLOGY_STRINGS[CPlayerSettings::getClimatology()]);
 				
 		//PT creo la barra de progreso
 		CEGUI::ProgressBar *hbar = static_cast<CEGUI::ProgressBar*> (CEGUI::WindowManager::getSingleton().getWindow("MenuSingle/Progreso"));
@@ -178,7 +179,7 @@ namespace Logic {
 			Graphics::CServer::getSingletonPtr()->tick(0);		
 		}	
 
-  		allSettings.clear();		
+  		allSettings.clear();
 		return _worldIsLoaded;
 	}
 	
@@ -192,6 +193,7 @@ namespace Logic {
 					unLoadMap(it++->first);
 
 			_mapNames.clear();
+			Graphics::CServer::getSingletonPtr()->setClimatologyToLoad("");
 			Logic::CGameStatus::Release(); // FRS 1304 Borramos GameStatus
 			CPlayerSettings::resetUsedColors(); // FRS reset del cómputo de colores en uso
 			_player = 0;
