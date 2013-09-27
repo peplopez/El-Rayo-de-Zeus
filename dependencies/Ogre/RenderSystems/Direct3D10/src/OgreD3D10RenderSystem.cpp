@@ -212,9 +212,6 @@ namespace Ogre
 		ConfigOption optExceptionsErrorLevel;
 		ConfigOption optDriverType;
 
-		//PT 06-09-2013
-		ConfigOption optBorder;
-
 		driverList = this->getDirect3DDrivers();
 
 		optDevice.name = "Rendering Device";
@@ -308,15 +305,6 @@ namespace Ogre
 		optDriverType.currentValue = "Hardware";
 		optDriverType.immutable = false;
 
-		//PT 06-09-2013
-		optBorder.name = "Border";
-		optBorder.possibleValues.push_back( "None" );
-		optBorder.possibleValues.push_back( "Fixed" );
-		//optBorder.possibleValues.push_back( "Resize" );
-		optBorder.currentValue = "None";
-		optBorder.immutable = false;
-		//FIN PT 06-09-2013
-
 
 		mOptions[optDevice.name] = optDevice;
 		mOptions[optVideoMode.name] = optVideoMode;
@@ -329,9 +317,6 @@ namespace Ogre
 		mOptions[optSRGB.name] = optSRGB;
 		mOptions[optExceptionsErrorLevel.name] = optExceptionsErrorLevel;
 		mOptions[optDriverType.name] = optDriverType;
-
-		//PT 06-09-2013
-		mOptions[optBorder.name] = optBorder;
 		
 		refreshD3DSettings();
 
@@ -775,7 +760,7 @@ namespace Ogre
 			bool hwGamma = false;
 			opt = mOptions.find( "sRGB Gamma Conversion" );
 			if( opt == mOptions.end() )
-				OGRE_EXCEPT( Exception::ERR_INTERNAL_ERROR, "Can't find sRGB option!", "D3D10RenderSystem::initialise" );
+				OGRE_EXCEPT( Exception::ERR_INTERNAL_ERROR, "Can't find sRGB option!", "D3D9RenderSystem::initialise" );
 			hwGamma = opt->second.currentValue == "Yes";
 			uint fsaa = 0;
 			String fsaaHint;
@@ -785,12 +770,7 @@ namespace Ogre
 				fsaa = StringConverter::parseUnsignedInt(values[0]);
 				if (values.size() > 1)
 					fsaaHint = values[1];
-			}	
-
-			//PT 06-09-2013
-			opt = mOptions.find( "Border" );
-			if( opt == mOptions.end() )
-				OGRE_EXCEPT( Exception::ERR_INTERNAL_ERROR, "Can't find Border option!", "D3D10RenderSystem::initialise" );
+			}				
 			
 
 			NameValuePairList miscParams;
@@ -801,8 +781,6 @@ namespace Ogre
 			miscParams["vsyncInterval"] = StringConverter::toString(mVSyncInterval);
 			miscParams["useNVPerfHUD"] = StringConverter::toString(mUseNVPerfHUD);
 			miscParams["gamma"] = StringConverter::toString(hwGamma);
-			//PT
-			miscParams["border"] = "none";
 
 			autoWindow = this->_createRenderWindow( windowTitle, width, height, 
 				fullScreen, &miscParams );

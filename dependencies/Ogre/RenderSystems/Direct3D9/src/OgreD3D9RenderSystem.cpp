@@ -186,8 +186,6 @@ namespace Ogre
 		ConfigOption optNVPerfHUD;
 		ConfigOption optSRGB;
 		ConfigOption optResourceCeationPolicy;
-		//PT 06-09-2013
-		ConfigOption optBorder;
 
 		driverList = this->getDirect3DDrivers();
 
@@ -271,15 +269,6 @@ namespace Ogre
 		optSRGB.currentValue = "No";
 		optSRGB.immutable = false;
 
-		//PT 06-09-2013
-		optBorder.name = "Border";
-		optBorder.possibleValues.push_back( "None" );
-		optBorder.possibleValues.push_back( "Fixed" );
-		//optBorder.possibleValues.push_back( "Resize" );
-		optBorder.currentValue = "None";
-		optBorder.immutable = false;
-		//FIN PT 06-09-2013
-
 		mOptions[optDevice.name] = optDevice;
 		mOptions[optVideoMode.name] = optVideoMode;
 		mOptions[optFullScreen.name] = optFullScreen;
@@ -290,9 +279,6 @@ namespace Ogre
 		mOptions[optNVPerfHUD.name] = optNVPerfHUD;
 		mOptions[optSRGB.name] = optSRGB;
 		mOptions[optResourceCeationPolicy.name] = optResourceCeationPolicy;
-
-		//PT 06-09-2013
-		mOptions[optBorder.name] = optBorder;
 
 		refreshD3DSettings();
 
@@ -614,11 +600,6 @@ namespace Ogre
 				OGRE_EXCEPT( Exception::ERR_INTERNAL_ERROR, "Can't find sRGB option!", "D3D9RenderSystem::initialise" );
 			hwGamma = opt->second.currentValue == "Yes";
 
-			//PT 06-09-2013
-			opt = mOptions.find( "Border" );
-			if( opt == mOptions.end() )
-				OGRE_EXCEPT( Exception::ERR_INTERNAL_ERROR, "Can't find Border option!", "D3D9RenderSystem::initialise" );
-
 			
 
 			NameValuePairList miscParams;
@@ -630,8 +611,7 @@ namespace Ogre
 			miscParams["useNVPerfHUD"] = StringConverter::toString(mUseNVPerfHUD);
 			miscParams["gamma"] = StringConverter::toString(hwGamma);
 			miscParams["monitorIndex"] = StringConverter::toString(static_cast<int>(mActiveD3DDriver->getAdapterNumber()));
-			//PT
-			miscParams["border"] = "none";
+
 			autoWindow = _createRenderWindow( windowTitle, width, height, 
 				fullScreen, &miscParams );
 

@@ -216,8 +216,7 @@ namespace Ogre
 		ConfigOption optSRGB;
 		ConfigOption optExceptionsErrorLevel;
 		ConfigOption optDriverType;
-		//PT 06-09-2013
-		ConfigOption optBorder;
+
 
 
 		driverList = this->getDirect3DDrivers();
@@ -313,14 +312,6 @@ namespace Ogre
 		optDriverType.currentValue = "Hardware";
 		optDriverType.immutable = false;
 
-		//PT 06-09-2013
-		optBorder.name = "Border";
-		optBorder.possibleValues.push_back( "None" );
-		optBorder.possibleValues.push_back( "Fixed" );
-		//optBorder.possibleValues.push_back( "Resize" );
-		optBorder.currentValue = "None";
-		optBorder.immutable = false;
-		//FIN PT 06-09-2013
 
 		mOptions[optDevice.name] = optDevice;
 		mOptions[optVideoMode.name] = optVideoMode;
@@ -333,9 +324,6 @@ namespace Ogre
 		mOptions[optSRGB.name] = optSRGB;
 		mOptions[optExceptionsErrorLevel.name] = optExceptionsErrorLevel;
 		mOptions[optDriverType.name] = optDriverType;
-
-		//PT 06-09-2013
-		mOptions[optBorder.name] = optBorder;
 		
 		refreshD3DSettings();
 
@@ -807,10 +795,6 @@ namespace Ogre
 					fsaaHint = values[1];
 			}				
 			
-			//PT 06-09-2013
-			opt = mOptions.find( "Border" );
-			if( opt == mOptions.end() )
-				OGRE_EXCEPT( Exception::ERR_INTERNAL_ERROR, "Can't find Border option!", "D3D11RenderSystem::initialise" );
 
 			NameValuePairList miscParams;
 			miscParams["colourDepth"] = StringConverter::toString(videoMode->getColourDepth());
@@ -820,9 +804,6 @@ namespace Ogre
 			miscParams["vsyncInterval"] = StringConverter::toString(mVSyncInterval);
 			miscParams["useNVPerfHUD"] = StringConverter::toString(mUseNVPerfHUD);
 			miscParams["gamma"] = StringConverter::toString(hwGamma);
-
-			//PT
-			miscParams["border"] = "none";
 
 			autoWindow = this->_createRenderWindow( windowTitle, width, height, 
 				fullScreen, &miscParams );
