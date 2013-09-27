@@ -71,11 +71,8 @@ namespace Logic
 			_mapProperties[KEYWORD_COLOR]	=  Player::COLOR_STRINGS[_color];
 			_mapProperties[KEYWORD_CONTROL]	= _isNPC? "NPC" : "Player";
 			_mapProperties[KEYWORD_LOCAL]	= _isLocalPlayer? "true" : "false";
-			_mapProperties[KEYWORD_NICK]	= _nick;
-			if (_isLowQMode)
-				_mapProperties[KEYWORD_SCENE]	= "Scene" + Player::STAGE_SCENES[_stage] + "LowQ";	
-			else
-				_mapProperties[KEYWORD_SCENE]	= "Scene" + Player::STAGE_SCENES[_stage];
+			_mapProperties[KEYWORD_NICK]	= _nick;		
+			_mapProperties[KEYWORD_SCENE]	= "Scene" + _isLowQMode ? "LowQ" : "";	
 		}
 		return _mapProperties;
 
