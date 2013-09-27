@@ -16,6 +16,7 @@
     <Feature Id="DefaultFeature" Title="Zeus Feature Title" Level="1">
       <ComponentRef Id="Game" />
       <ComponentRef Id="Config" />
+      <ComponentRef Id="DLLs" />
       <ComponentRef Id="InstallData"/>
     </Feature>
 
@@ -77,6 +78,38 @@
 
     </Component>
  </Fragment>
+  
+  
+  <Fragment>
+      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+
+      <Component Id="DLLs" Directory="INSTALLDIR">
+        
+        <!-- TODO: Insert files, registry keys, and other resources here. -->
+        
+        <File Id="CEGUIBase"                  Source="$(var.Application.TargetDir)\CEGUIBase.dll"                   DiskId="1" KeyPath="yes"/>
+        <File Id="CEGUIExpatParser"           Source="$(var.Application.TargetDir)\CEGUIExpatParser.dll"            DiskId="1" KeyPath="yes"/>
+        <File Id="CEGUIFalagardWRBase"        Source="$(var.Application.TargetDir)\CEGUIFalagardWRBase.dll"         DiskId="1" KeyPath="yes"/>
+        <File Id="CEGUILuaScriptModule"       Source="$(var.Application.TargetDir)\CEGUILuaScriptModule.dll"        DiskId="1" KeyPath="yes"/>
+        <File Id="CEGUIOgreRenderer"          Source="$(var.Application.TargetDir)\CEGUIOgreRenderer.dll"           DiskId="1" KeyPath="yes"/>
+        <File Id="CEGUISILLYImageCodec"       Source="$(var.Application.TargetDir)\CEGUISILLYImageCodec.dll"        DiskId="1" KeyPath="yes"/>
+        <File Id="cg"                         Source="$(var.Application.TargetDir)\cg.dll"                          DiskId="1" KeyPath="yes"/>
+        <File Id="fmodex"                     Source="$(var.Application.TargetDir)\fmodex.dll"                      DiskId="1" KeyPath="yes"/>
+        <File Id="lua51"                      Source="$(var.Application.TargetDir)\lua51.dll"                       DiskId="1" KeyPath="yes"/>
+        <File Id="luabind"                    Source="$(var.Application.TargetDir)\luabind.dll"                     DiskId="1" KeyPath="yes"/>
+        <File Id="OgreMain"                   Source="$(var.Application.TargetDir)\OgreMain.dll"                    DiskId="1" KeyPath="yes"/>
+        <File Id="OgreProperty"               Source="$(var.Application.TargetDir)\OgreProperty.dll"                DiskId="1" KeyPath="yes"/>
+        <File Id="OgreRTShaderSystem"         Source="$(var.Application.TargetDir)\OgreRTShaderSystem.dll"          DiskId="1" KeyPath="yes"/>
+        <File Id="OIS"                        Source="$(var.Application.TargetDir)\OIS.dll"                         DiskId="1" KeyPath="yes"/>
+        <File Id="Plugin_CgProgramManager"    Source="$(var.Application.TargetDir)\Plugin_CgProgramManager.dll"     DiskId="1" KeyPath="yes"/>
+        <File Id="Plugin_HellHeavenFX_v1-7-4" Source="$(var.Application.TargetDir)\Plugin_HellHeavenFX_v1-7-4.dll"  DiskId="1" KeyPath="yes"/>
+        <File Id="Plugin_ParticleFX"          Source="$(var.Application.TargetDir)\Plugin_ParticleFX.dll"           DiskId="1" KeyPath="yes"/>
+        <File Id="RenderSystem_Direct3D9"     Source="$(var.Application.TargetDir)\RenderSystem_Direct3D9.dll"      DiskId="1" KeyPath="yes"/>
+        <File Id="RenderSystem_GL"            Source="$(var.Application.TargetDir)\RenderSystem_GL.dll"             DiskId="1" KeyPath="yes"/>
+        <File Id="SILLY"                      Source="$(var.Application.TargetDir)\SILLY.dll"                       DiskId="1" KeyPath="yes"/>
+        <File Id="tolua++"                    Source="$(var.Application.TargetDir)\tolua++.dll"                     DiskId="1" KeyPath="yes"/>
+      </Component>
+  </Fragment>
   
   
   <Fragment>
