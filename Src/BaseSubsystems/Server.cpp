@@ -637,8 +637,9 @@ namespace BaseSubsystems
 	{
 		//Si no existe Crear un debug renderWindow de tamaño 1/2 el original
 		if (!_debugRenderWindow)
-			_debugRenderWindow = _root->createRenderWindow(_WINDOW_TITLE + "- DEBUG", _renderWindow->getWidth()*1/2,
-									_renderWindow->getHeight()*1/2, false);
+			_debugRenderWindow = _root->createRenderWindow(_WINDOW_TITLE + "- DEBUG", 640,
+									480, false);
+			_debugRenderWindow->setDeactivateOnFocusChange(false);
 	}
 
 	//--------------------------------------------------------

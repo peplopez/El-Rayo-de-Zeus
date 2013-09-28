@@ -9,7 +9,8 @@ EntityAnimated CAnimatedGraphics
 Light CLight
 NPC    CAnimatedGraphics CFX CAvatarController CCombat CStateMachineExecutor CPhysicalCharacter CLife CAudio CDestruction CBaseTraveler CAltarStateSwitcher CLifeModifier CBasicAI
 Player CAnimatedGraphics CFX CAvatarController CCombat CStateMachineExecutor CPhysicalCharacter CLife CAudio CDestruction CBaseTraveler CAltarStateSwitcher CShop CHud CJump
-PowerUp CGraphics CFX CPhysics CFloatingMovement CItem CLifeModifier CDestruction
+PowerUp CGraphics CPhysics CFloatingMovement CItem CLifeModifier CDestruction
 Scene CSceneLoader
 Sky CGraphics
 World CGraphics CFX CPhysics CDestruction
+Arrow CGraphics CArrow 

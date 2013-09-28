@@ -1,3 +1,15 @@
+/*
+OgreB2-Debug Draw.
+Implementación de Box2D Debug Draw
+usando Ogre como motor de renderizado.
+
+Modificación y adaptación a Galeon para mejorar rendimiento(menos drawcalls)
+del origial de Stephan Aelmore realizado en 2009.
+
+Emilio Santalla, 2013.
+*/
+
+
 #ifndef _OGRE_B2_DEBUGDRAW_H
 #define _OGRE_B2_DEBUGDRAW_H
 

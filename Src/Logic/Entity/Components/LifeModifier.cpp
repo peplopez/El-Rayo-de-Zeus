@@ -71,7 +71,7 @@ namespace Logic
 			txMsg->setAction(Message::HEAL);
 
 		//PT. It just worth sending message when it hurts or heals, when is 0 doesnt worthy
-		if(_LIFE_MODIFIER != 0)
+		if(_LIFE_MODIFIER != 0 && _entity!=NULL)
 			entity->emitMessage(txMsg, this);
 
 	} // process

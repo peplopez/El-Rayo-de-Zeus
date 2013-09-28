@@ -64,7 +64,7 @@ namespace Logic
 		*/
 		CPhysics::CPhysics() : 
 		  IComponent(GetAltTypeIdOf(CPhysics)), _physicalActor(0), _isTrigger(false), _radius(0), _halfWidth(0), _halfHeight(0),
-				_density(0), _friction(0), _restitution(0) {}
+				_density(0), _friction(0), _restitution(0),_attackPower(0) {}
 		CPhysics::CPhysics(altTypeId id) : 
 		  IComponent(id),  _physicalActor(0), _isTrigger(false), _radius(0), _halfWidth(0), _halfHeight(0), 
 				_density(0), _friction(0), _restitution(0) {}
@@ -76,6 +76,7 @@ namespace Logic
 		
 		/**	Inicializa el componente usando los atributos definidos en el fichero de mapa.*/
 		virtual bool spawn(CEntity* entity, CMap *map, const Map::CEntity *entityInfo);
+		virtual	bool spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo, CEntity* father);
 		virtual bool accept(const CMessage *message) { return false; }
 		virtual void process(CMessage *message) {}
 		virtual void tick(unsigned int msecs) {}
@@ -94,6 +95,8 @@ namespace Logic
 		virtual void onTrigger(IObserver* other, bool enter);
 		virtual void onCollision(IObserver* other);
 
+		Physics::CActor* getPhysicalActor();
+
 
 	protected:
 
@@ -106,11 +109,20 @@ namespace Logic
 		float _radius, _halfWidth, _halfHeight;
 		float _density, _friction, _restitution;
 
-
+		/**
+		Atributo que indica la magnitud de velocidad de la flecha.
+		*/
+		float _angularProjectileSpeed;
 
 		// Crea el actor que representa la entidad física a partir de la información del mapa.*/
 		virtual Physics::CActor* createActor(const Map::CEntity* entityInfo);
 		// TODO FRS Podría pasar a llamarse physicEntity (por paralelismos con CGraphics)
+
+		CEntity* _father;
+
+		float _attackPower;
+		
+		float _negativeYVelocity;
 	
 	}; // class CPhysics
 

@@ -22,11 +22,9 @@ OgreB2DebugDraw::OgreB2DebugDraw(const std::string name, const char* material, f
 		m_camera->setFarClipDistance(30000);
 		m_camera->setFixedYawAxis(true);
 		m_camera->setAutoAspectRatio(true);
-		m_camera->setPosition(0,0,300);
+		m_camera->setPosition(0,0,380);
 
 		
-
-
     
 	// Create the manual object.
 	m_shapes = m_scene->createManualObject("OgreB2DebugDrawShapes");

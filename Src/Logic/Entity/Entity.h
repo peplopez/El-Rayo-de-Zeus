@@ -116,6 +116,10 @@ namespace Logic
 		*/
 		bool spawn(CMap *map, const Map::CEntity *entity);
 
+		/** Add Pep, para pasarle un puntero al padre en la creación, lo uso con la flecha, 
+		no quiero que la flecha impacte con el que la produce al aparecer. */
+		bool spawn(CMap *map, const Map::CEntity *entity, const CEntity* father);
+
 	public:
 			
 		/**
@@ -444,6 +448,11 @@ namespace Logic
 			return _originBase;
 		}
 
+		const CEntity* getFather()
+		{
+			return _father;
+		}
+
 		void detachFromMap();
 		void attachToMap(CMap* map);
 
@@ -550,6 +559,12 @@ namespace Logic
 		*/
 		float _offsetHeight;
 
+		/**
+		Add Pep,
+		Almacena el hijo de la entidad, normalmente no lo usaremos, yo lo he tenido que usar para las 
+		flechas, para que la flecha sepa quien lo ha creado y no dañe a su creador.
+		*/
+		const Logic::CEntity* _father;
 	}; // class CEntity
 
 } // namespace Logic

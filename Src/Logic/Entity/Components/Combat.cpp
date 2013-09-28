@@ -26,6 +26,7 @@ angular de entidades.
 #include <Map/Entity.h>
 
 #include "AnimatedGraphics.h"
+#include "logic\server.h"
 
 
 //declaración de la clase
@@ -144,9 +145,45 @@ namespace Logic
 				message->setUShort(Logic::COVER_WITH_SHIELD);
 				message->setBool(true);
 				_entity->emitMessage(message,this);
-			}
+
+			
+			}	fireArrow();
 	 }
 
+	 void CCombat::fireArrow()
+	 {
+		 
+		 Logic::Ring ring = _entity->getLogicalPosition()->getRing();
+		unsigned short int degree = (unsigned short int)_entity->getLogicalPosition()->getDegree();
+		Logic::Sense sense =_entity->getLogicalPosition()->getSense();
+		unsigned short numBase =_entity->getLogicalPosition()->getBase();
+
+		short int newdegree = degree;
+
+		if(sense==LogicalPosition::RIGHT) //seeing right
+			newdegree-= 10;
+		else if(LogicalPosition::LEFT) //seeing left
+			newdegree+= 10;
+
+		//correction in the degrees where ally appears
+		if(newdegree<0)
+			newdegree = 360 + newdegree;
+		if(newdegree > 360)
+			newdegree = newdegree - 360;
+
+		const std::string type = "Arrow";
+		
+		if(sense!=LogicalPosition::Sense::LEFT && sense!=LogicalPosition::Sense::RIGHT)
+		sense = LogicalPosition::Sense::LEFT;
+
+		CLogicalPosition pos;
+		pos.setDegree(newdegree);
+		pos.setRing(ring);
+		pos.setBase(numBase);
+		pos.setSense(sense);
+
+		_entity->getMap()->createProjectile(type,pos,_entity);
+	 }
 
 	void CCombat::lightAttack() 
 	{
@@ -161,16 +198,19 @@ namespace Logic
 		 //muint->setUInt(_lifeModifierLightAttack);
 		 //_entity->emitMessage(muint);
 ///////////// HACK TEST FRS Para probar FX
-		if(_isModeBomb) {
+	/*	if(_isModeBomb) {
 			CMessage *txMsg = new CMessage();	
 				txMsg->setType(Message::FX_START);
 				txMsg->setAction(Message::FX_BLAST);
 				_entity->emitMessage(txMsg,this);
-		}
+		}*/
 ////////////////////
 
-		_attackPower = _lifeModifierLightAttack;
+		if (_entity->getType()=="NPC" || _entity->getType()=="Creature")
+		 fireArrow();
 
+
+		_attackPower = _lifeModifierLightAttack;
 	} // lightAttack
 
 	void CCombat::heavyAttack() 
@@ -193,8 +233,8 @@ namespace Logic
 	//este metodo devuelve null si no se está ocupando ese grado o la entidad que ocupa ese espacio
 	unsigned short CCombat::attackToPlace(float grado, short ring, short base,bool soloInfo)
 	{//acotar				
-		CMap::TEntityList::const_iterator it = _entity->getMap()->getEntities().cbegin();
-		CMap::TEntityList::const_iterator end = _entity->getMap()->getEntities().cend();
+		CMap::TEntityList::const_iterator it = _entity->getMap()->getEntities().begin();
+		CMap::TEntityList::const_iterator end = _entity->getMap()->getEntities().end();
 
 		for(; it != end; ++it)
 		{			
@@ -203,7 +243,7 @@ namespace Logic
 
 			if(_entity != (*it) )
 			{
-				if (((*it)->getType().compare("PowerUp")!=0)&&((*it)->getType().compare("Altar")!=0)&& ((*it)->getType().compare("World")!=0)&& ((*it)->getType().compare("Sky")!=0))
+				if (((*it)->getType().compare("PowerUp")!=0)&&((*it)->getType().compare("Altar")!=0)&& ((*it)->getType().compare("World")!=0)&& ((*it)->getType().compare("Sky")!=0)&&((*it)->getType().compare("Arrow")!=0))
 				{//lo que hay que  hacer es que no se itere sobre entidades que no tengan componente CCollider, de momento se hace esa comprobación
 
 			

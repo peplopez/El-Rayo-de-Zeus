@@ -1,12 +1,12 @@
-/**
+ï»¿/**
 @file EntityFactory.cpp
 
-Contiene la implementación de la clase factoría de entidades
+Contiene la implementaciÃ³n de la clase factorÃ­a de entidades
 del juego.
 
 @see Logic::CEntityFactory
 
-@author David Llansó García, Marco Antonio Gómez Martín
+@author David LlansÃ³ GarcÃ­a, Marco Antonio GÃ³mez MartÃ­n
 @date Agosto, 2010
 */
 #include "EntityFactory.h"
@@ -20,12 +20,12 @@ del juego.
 #include <fstream>
 #include <cassert>
 
-// HACK. Debería leerse de algún fichero de configuración
+// HACK. DeberÃ­a leerse de algÃºn fichero de configuraciÃ³n
 #define FILE_PATH "./media/maps/"
 
 /**
 Sobrecargamos el operador >> para la lectura de blueprints.
-Cada línea equivaldrá a una entidad donde la primera palabra es el tipo
+Cada lÃ­nea equivaldrÃ¡ a una entidad donde la primera palabra es el tipo
 y las siguientes son los componentes que tiene.
 */
 std::istream& operator>>(std::istream& is, Logic::CEntityFactory::TBluePrint& blueprint) 
@@ -72,7 +72,7 @@ namespace Logic
 
 	bool CEntityFactory::Init() 
 	{
-		assert(!_instance && "Segunda inicialización de Logic::CEntityFactory no permitida!");
+		assert(!_instance && "Segunda inicializaciÃ³n de Logic::CEntityFactory no permitida!");
 
 		new CEntityFactory();
 
@@ -90,7 +90,7 @@ namespace Logic
 
 	void CEntityFactory::Release() 
 	{
-		assert(_instance && "Logic::CEntityFactory no está inicializado!");
+		assert(_instance && "Logic::CEntityFactory no estÃ¡ inicializado!");
 
 		if(_instance)
 		{
@@ -174,11 +174,11 @@ namespace Logic
 
 	void CEntityFactory::fillMapUsingPattern(Logic::CMap *map)
 	{		
-		// Creamos todas las entidades lógicas.
+		// Creamos todas las entidades lÃ³gicas.
 		TPatternEntities::const_iterator it =  _patternEntities.cbegin();
 		TPatternEntities::const_iterator end = _patternEntities.cend();
 			for(; it != end; ++it)		{
-				CEntity *entity = createEntity( *it, map); // La propia factoría se encarga de añadir la entidad al mapa.
+				CEntity *entity = createEntity( *it, map); // La propia factorÃ­a se encarga de aÃ±adir la entidad al mapa.
 				assert(entity && "No se pudo crear una entidad patron en el mapa");
 			}
 	}
@@ -194,7 +194,7 @@ namespace Logic
 
 		// MERGE WITH ARCHETYPE
 		//	Se busca en el std::map de archetypes el tipo del *entityInfo
-		//	Si encuentra el archetype de ese tipo, fusiono con él en entityInfo
+		//	Si encuentra el archetype de ese tipo, fusiono con Ã©l en entityInfo
 		if(useArchetype) {
 			TArchetypeMap::const_iterator it = _archetypes.find(entityInfo.getType());
 			TArchetypeMap::const_iterator end = _archetypes.cend();
@@ -209,7 +209,7 @@ namespace Logic
 			if (!newEntity)
 				return 0;
 		
-		map->addEntity(newEntity);// Añadimos la nueva entidad en el mapa.
+		map->addEntity(newEntity);// AÃ±adimos la nueva entidad en el mapa.
 
 		// Y la inicializamos		
 		if ( newEntity->spawn(map, &entityInfo) )
@@ -235,7 +235,7 @@ namespace Logic
 			CEntity* ent = new CEntity(EntityID::NextID());
 			std::list<std::string>::const_iterator itc;
 			
-			// Añadimos todos sus componentes.
+			// AÃ±adimos todos sus componentes.
 			IComponent* comp;
 			for(itc = (*it).second.components.cbegin(); // TBluePrintMap.second: TBluePrint: struct { type (string), components (list<string>) }
 				itc !=(*it).second.components.cend(); itc++)
@@ -246,7 +246,7 @@ namespace Logic
 				}
 				else
 				{
-					assert(!"Nombre erroneo de un componente, Mira a ver si están todos bien escritos en el fichero de blueprints");
+					assert(!"Nombre erroneo de un componente, Mira a ver si estÃ¡n todos bien escritos en el fichero de blueprints");
 					delete ent;
 					return 0;
 				}
@@ -284,21 +284,53 @@ namespace Logic
 	
 	//-----------------------------------------------------------------
 
-	void CEntityFactory::deleteEntity(Logic::CEntity *entity)
+	Logic::CEntity *CEntityFactory::createEntity(const	Map::CEntity *entityInfo,Logic::CMap *map,const Logic::CEntity* father)
+	{		
+		CEntity *ret = assembleEntity(entityInfo->getType());
+
+		if (!ret)
+			return 0;
+
+		// AÃ±adimos la nueva entidad en el mapa antes de inicializarla.
+		map->addEntity(ret);
+
+		// Y lo inicializamos
+		
+		if (ret->spawn(map, entityInfo, father))
+			return ret;
+		else {
+			map->removeEntity(ret);
+			delete ret;
+			return 0;
+		}
+
+	} // createEntity
+	void CEntityFactory::deleteEntity(CEntity *entity)
 	{
-		assert(entity);		
+			assert(entity);		
 		entity->getMap()->removeEntity(entity);// Si la entidad estaba activada se desactiva al sacarla del mapa.
 		delete entity; // El delete nos toca a nosotros
 	} // deleteEntity
 
+	Logic::CEntity *CEntityFactory::createMergedEntity(Map::CEntity *entityInfo,Logic::CMap *map,const CEntity* father)	{		
+		//Se busca en el std::map de archetypes el tipo del *entityInfo
+		TArchetypeMap::const_iterator it = _archetypes.find(entityInfo->getType());
 
+		//Si encuentra el archetype de ese tipo, fusiono con ï¿½l en entityInfo
+		if (it != _archetypes.end())
+		{
+			entityInfo->mergeWithArchetype(it->second);
+		}	
 
+		// UNDONE CEntity *ret = createEntity(entityInfo, map);
+		return createEntity(entityInfo, map, father); // [ï¿½ï¿½ï¿½] No se optimiza mï¿½s enchufando directamente la salida asï¿½?
+		//return ret;
+	} // createMergedEntity
 
 	
 
 	
-
-	/**********************
+/**********************
 		ARCHETYPES
 	*********************/
 
@@ -363,13 +395,13 @@ namespace Logic
 			// Se lee un TBluePrint del fichero
 			TBluePrint b;
 			in >> b;
-			// Si no era una línea en blanco
+			// Si no era una lÃ­nea en blanco
 			if(!b.type.empty())
 			{				
 				if(_bluePrints.count(b.type)) // Si el tipo ya estaba definido lo eliminamos.
 					_bluePrints.erase(b.type);
 
-				// Añadimos a la tabla
+				// AÃ±adimos a la tabla
 				TStringBluePrintPair elem(b.type,b);
 				_bluePrints.insert(elem);
 			}
@@ -380,6 +412,7 @@ namespace Logic
 	} // loadBluePrints
 	
 	//---------------------------------------------------------
+
 
 	void CEntityFactory::unloadBluePrints()
 	{

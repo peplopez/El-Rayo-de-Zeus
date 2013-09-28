@@ -24,7 +24,7 @@ de la entidad.
 #include "Logic/Entity/Messages/MessageBoolString.h"
 #include "Logic/Entity/Messages/MessageFloat.h"
 #include "Application/BaseApplication.h"
-
+#include "../Components/Combat.h"
 
 /*para tener un acceso directo al gamestatus*/
 #include "Logic/GameStatus.h"
@@ -93,7 +93,11 @@ namespace Logic
 			break;
 		case Message::DEAD:
 			if(message->getAction() == Message::DAMAGE)
+			{
 				_dying=true;
+				_entity->getComponent<CCombat>()->sleep();
+				_entity->getComponent<CPhysicalCharacter>()->sleep();
+			}
 			break;
 		}
 	} // process
@@ -174,6 +178,7 @@ namespace Logic
 	}
 		if (_dying && _entity->getType()!="NPC" && _entity->getType()!="Player")
 		{
+
 			CMessageFloat *m = new CMessageFloat();	
 			m->setType(Message::SET_SCALE);
 			m->setAction(Message::Y_AXIS);

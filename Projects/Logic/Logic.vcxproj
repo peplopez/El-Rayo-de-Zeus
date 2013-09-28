@@ -107,6 +107,7 @@
     <ClCompile Include="..\..\src\Logic\AltarInfo.cpp" />
     <ClCompile Include="..\..\Src\Logic\BaseInfo.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Components\AnimatedAltar.cpp" />
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\Arrow.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloatString.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFloatString.cpp" />
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageFloatUShort.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="..\..\src\Logic\AltarInfo.h" />
     <ClInclude Include="..\..\Src\Logic\BaseInfo.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Components\AnimatedAltar.h" />
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\Arrow.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFloatString.h" />
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFloatUShort.h" />
     <ClInclude Include="..\..\src\Logic\FX.h" />
