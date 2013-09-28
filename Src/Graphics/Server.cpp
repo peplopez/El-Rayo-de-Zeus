@@ -18,7 +18,6 @@ la ventana, etc.
 
 #include <assert.h>
 #include <BaseSubsystems/Server.h>
-#include <BaseSubsystems/Math.h>
 #include <HHFX/IHHFXPublic.h>
 #include <OgreRoot.h>
 #include <OgreRenderWindow.h>
@@ -28,6 +27,8 @@ la ventana, etc.
 #include "Scene.h"
 #include "Overlay.h"
 #include "Camera.h"
+
+#include "CameraTypes.h"
 
 
 #define DEBUG 0
@@ -40,8 +41,18 @@ la ventana, etc.
 
 namespace Graphics 
 {
-	CServer *CServer::_instance = 0; // Única instancia del servidor
+	
+	// DICCIONARIO sColor -> vRGB
+	TMapColorRGB COLOR_TO_RGB = _initColorToRGB();
+		const Vector3& colorToRGB(const std::string& colorName) {
+			return COLOR_TO_RGB[colorName];
+		}
 
+	
+	//--------------------------------------------------------
+
+	CServer *CServer::_instance = 0; // Única instancia del servidor
+	
 	//--------------------------------------------------------
 
 
@@ -71,6 +82,9 @@ namespace Graphics
 			Release();
 			return false;
 		}
+
+		//_initColorToRGB();
+
 		return true;
 
 	} // Init
@@ -98,13 +112,17 @@ namespace Graphics
 		
 		_overlayManager = Ogre::OverlayManager::getSingletonPtr();//PT. Se carga el manager de overlays
 
+		_climatologyToLoad = "";
+
 		_dummyScene = createScene("dummy_scene"); // Creamos la escena dummy para cuando no hay ninguna activa.
 		
+		_visibleScene = _dummyScene;
+		
 		_viewport = BaseSubsystems::CServer::getSingletonPtr()
-				->getRenderWindow()->addViewport(_dummyScene->getPlayerCamera()->getCamera());
-				
+				->getRenderWindow()->addViewport(_dummyScene->getPlayerCamera()->getCamera());	
 
 		_initHHFX(_dummyScene); // Hell Heaven FX: requiere dummyScene
+
 		_compositorLoad();
 		
 
@@ -120,8 +138,8 @@ namespace Graphics
 			_visibleScene = 0;
 		}
 
-		TScenes::const_iterator it = _scenes.begin();
-		TScenes::const_iterator end = _scenes.end();
+		TScenes::const_iterator it = _scenes.cbegin();
+		TScenes::const_iterator end = _scenes.cend();
 			while(it != end)			
 				removeScene( (*it++).second );
 
@@ -139,7 +157,7 @@ namespace Graphics
 	
 	CScene* CServer::createScene(const std::string& name)
 	{				
-		assert(_scenes.find(name) == _scenes.end() && "Ya se ha creado una escena con este nombre.");
+		assert(_scenes.find(name) == _scenes.cend() && "Ya se ha creado una escena con este nombre.");
 
 		CScene *scene = new CScene(name);
 		_scenes[name] =  scene;
@@ -183,6 +201,11 @@ namespace Graphics
 	//TODO en red, el server tendrá activas > 1 -> activateScene
 	void CServer::activatePlayerCam(CScene* scene)
 	{
+		if (_visibleScene)
+		{
+			_visibleScene->setVisible(false);
+			_visibleScene = 0;
+		}
 
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
 			_visibleScene = _dummyScene;
@@ -194,8 +217,8 @@ namespace Graphics
 
 			_visibleScene = scene;
 		}
-
-		_viewport->setCamera(_visibleScene->getPlayerCamera()->getCamera());
+		
+		_visibleScene->setVisible(true, playerCamera);
 		_resetCompositors();
 
 	} // setActiveScene
@@ -204,6 +227,11 @@ namespace Graphics
 	
 	void CServer::activateBaseCam(CScene* scene)
 	{
+		if (_visibleScene)
+		{
+			_visibleScene->setVisible(false);
+			_visibleScene = 0;
+		}
 
 		if(!scene) // Si se añade NULL ponemos la escena dummy.		
 			_visibleScene = _dummyScene;
@@ -216,7 +244,7 @@ namespace Graphics
 			_visibleScene = scene;
 		}
 
-		_viewport->setCamera(_visibleScene->getBaseCamera()->getCamera());
+		_visibleScene->setVisible(true, baseCamera);
 		_resetCompositors();
 
 	} // setActiveScene
@@ -253,8 +281,8 @@ namespace Graphics
 		// y diferenciar tan sólo una como visible, para que sólo se renderice ese viewport.
 		
 		//Ejecutamos el tick grafico en todas las escenas
-		TScenes::const_iterator it = _scenes.begin();
-		TScenes::const_iterator end = _scenes.end();
+		TScenes::const_iterator it = _scenes.cbegin();
+		TScenes::const_iterator end = _scenes.cend();
 		for (; it != end ; ++it)
 		{
 			if(it->second != _dummyScene)

@@ -85,7 +85,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Src\Map\MapEntity.cpp" />
+    <ClCompile Include="..\..\Src\Map\Entity.cpp" />
     <ClCompile Include="..\..\Src\Map\MapParser.cpp" />
     <ClCompile Include="..\..\Src\Map\Parser.cpp" />
     <ClCompile Include="..\..\Src\Map\Scanner.cpp" />
@@ -93,7 +93,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Src\Map\Documentation.h" />
     <ClInclude Include="..\..\Src\Map\FlexLexer.h" />
-    <ClInclude Include="..\..\Src\Map\MapEntity.h" />
+    <ClInclude Include="..\..\Src\Map\Entity.h" />
     <ClInclude Include="..\..\Src\Map\MapParser.h" />
     <ClInclude Include="..\..\Src\Map\Parser.h" />
     <ClInclude Include="..\..\Src\Map\Scanner.h" />
@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Src\Map\location.hh" />
+    <None Include="..\..\Src\Map\Parser.yy" />
     <None Include="..\..\Src\Map\position.hh" />
     <None Include="..\..\Src\Map\stack.hh" />
   </ItemGroup>

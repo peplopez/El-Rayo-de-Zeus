@@ -25,7 +25,7 @@ de juego. Es una colección de componentes.
 #include <Logic/Maps/Map.h>
 #include <Logic/Server.h>
 
-#include <Map/MapEntity.h>
+#include <Map/Entity.h>
 
 // Componentes
 #include "Component.h"
@@ -36,15 +36,6 @@ de juego. Es una colección de componentes.
 
 namespace Logic 
 {
-	CEntity::CEntity(TEntityID entityID) : _entityID(entityID), 
-				_map(0), _type(""), _name(""), _transform(Matrix4::IDENTITY),
-				_isPlayer(false), _activated(false) // UNDONE ƒ®§ _pos(TLogicalPosition()) ya llama al ctro por defecto, por defecto, valga la rebuznancia
-	{
-
-	} // CEntity
-	
-	//---------------------------------------------------------
-
 	CEntity::~CEntity()
 	{
 		assert(!_map && "¡¡Antes de destruir la entidad debe desacoplarse del mapa!!");
@@ -89,37 +80,17 @@ namespace Logic
 		else
 			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna por defecto dirección LEFT
 			_pos->setSense(Logic::Sense::LOOKING_OUTSIDE);
-
-
-		//PT
-		/*if(entityInfo->hasAttribute("initialMaterial"))
-			_initialMaterial = entityInfo->getStringAttribute("initialMaterial");	
-		else
-			_initialMaterial = "marine";
-			*/
-		if(entityInfo->hasAttribute("initialMaterial0"))
-			_initialMaterial0 = entityInfo->getStringAttribute("initialMaterial0");	
-		else
-			_initialMaterial0 = "marine";
-
-		if(entityInfo->hasAttribute("initialMaterial1"))
-			_initialMaterial1 = entityInfo->getStringAttribute("initialMaterial1");	
-		else
-			_initialMaterial1 = "";
-		//FIN PT
 		
-		_initialScale= 1.0f;	
+	
 		if(entityInfo->hasAttribute("initialScale"))
-			_initialScale = entityInfo->getFloatAttribute("initialScale");	
-		
-		if(entityInfo->hasAttribute("offsetHeight"))					
-		{
+			_initialScale = entityInfo->getFloatAttribute("initialScale");			
+		if(entityInfo->hasAttribute("offsetHeight"))	
 			_offsetHeight=entityInfo->getFloatAttribute("offsetHeight");
-		}
+		
 
 		if(entityInfo->hasAttribute("base"))					
 		{
-			_pos->setBase(entityInfo->getIntAttribute("base"));
+			_pos->setBase(_map->getMapNumber());
 			this->setOriginBase(_pos->getBase());
 		}
 		if(entityInfo->hasAttribute("ring"))
@@ -156,13 +127,13 @@ namespace Logic
 			_transform.setTrans(position);
 		}
 
-		if(entityInfo->hasAttribute("isPlayer"))
-			setIsPlayer( entityInfo->getBoolAttribute("isPlayer") );		
+		if(entityInfo->hasAttribute("isLocalPlayer"))
+			setIsLocalPlayer( entityInfo->getBoolAttribute("isLocalPlayer") );		
 
 		// Inicializamos los componentes
 		bool correct = true;
-		TComponentVector::const_iterator it = _compoList.begin(); 	
-		TComponentVector::const_iterator end = _compoList.end(); 
+		TComponentVector::const_iterator it = _compoList.cbegin(); 	
+		TComponentVector::const_iterator end = _compoList.cend(); 
 			for( ; it != end && correct; ++it )				
 				correct = (*it)->spawn(this,map,entityInfo) && correct;
 
@@ -295,7 +266,7 @@ namespace Logic
 		if ( this->getType() == "Camera" )				
 			GUI::CServer::getSingletonPtr()->getCameraController()->setControlledCamera(this);
 		
-		if(_isPlayer) {
+		if(_isLocalPlayer) {
 			CServer::getSingletonPtr()->setPlayer(this);
 			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);		
 		}
@@ -304,8 +275,8 @@ namespace Logic
 		// Solo si se activan todos los componentes correctamente nos
 		// consideraremos activados.
 		_activated = true;
-		TComponentVector::const_iterator it = _compoList.begin(); 	
-		TComponentVector::const_iterator end = _compoList.end(); 
+		TComponentVector::const_iterator it = _compoList.cbegin(); 	
+		TComponentVector::const_iterator end = _compoList.cend(); 
 			for(; it != end; ++it )
 				_activated = (*it)->activate() && _activated;
 
@@ -319,7 +290,7 @@ namespace Logic
 		// Si éramos el jugador, le decimos al servidor que ya no hay.
 		// y evitamos que se nos siga informando de los movimientos que 
 		// debemos realizar
-		//if (isPlayer())
+		//if (isLocalPlayer())
 		//	setIsPlayer(false);
 		if ( this->getType() == "Camera" )
 		{
@@ -328,8 +299,8 @@ namespace Logic
 		}
 
 		// Desactivamos los componentes
-		TComponentVector::const_iterator it = _compoList.begin(); 	
-		TComponentVector::const_iterator end = _compoList.end(); 
+		TComponentVector::const_iterator it = _compoList.cbegin(); 	
+		TComponentVector::const_iterator end = _compoList.cend(); 
 			for(; it != end; ++it )
 				(*it)->deactivate();
 
@@ -339,13 +310,13 @@ namespace Logic
 
 	//---------------------------------------------------------
 
-	void CEntity::setIsPlayer(bool isPlayer) 
+	void CEntity::setIsLocalPlayer(bool isLocalPlayer) 
 	{ 		
-		if(isPlayer == _isPlayer)
+		if(isLocalPlayer == _isLocalPlayer)
 			return;
 
-		_isPlayer = isPlayer; 
-		if(_isPlayer) {
+		_isLocalPlayer = isLocalPlayer; 
+		if(_isLocalPlayer) {
 			CServer::getSingletonPtr()->setPlayer(this);
 			GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(this);
 			GUI::CServer::getSingletonPtr()->getHudController()->setControlledHud(this); //PT
@@ -356,7 +327,7 @@ namespace Logic
 			if(GUI::CServer::getSingletonPtr()->getPlayerController()->getControlledAvatar() == this)
 				GUI::CServer::getSingletonPtr()->getPlayerController()->setControlledAvatar(0);
 		}
-	} // setIsPlayer
+	} // setIsLocalPlayer
 
 	//---------------------------------------------------------
 
@@ -385,8 +356,8 @@ namespace Logic
 	
 	 void CEntity::tick(unsigned int msecs) 
 	{		
-		TComponentVector::const_iterator it = _compoList.begin(); 	
-		TComponentVector::const_iterator end = _compoList.end(); 
+		TComponentVector::const_iterator it = _compoList.cbegin(); 	
+		TComponentVector::const_iterator end = _compoList.cend(); 
 			for(; it != end; ++it )
 				if ( (*it)->isAwake() )
 					(*it)->tick(msecs);
@@ -431,8 +402,8 @@ namespace Logic
 
 	void CEntity::destroyAllComponents()
 	{		
-		TComponentVector::const_iterator it = _compoList.begin(); 	
-		TComponentVector::const_iterator end = _compoList.end(); 
+		TComponentVector::const_iterator it = _compoList.cbegin(); 	
+		TComponentVector::const_iterator end = _compoList.cend(); 
 			for(; it != end; ++it ) 
 				 delete (*it);
 
@@ -460,8 +431,8 @@ namespace Logic
 
 		// Para saber si alguien quiso el mensaje.
 		bool anyReceiver = false;
-		TComponentVector::const_iterator it = _compoList.begin(); 	
-		TComponentVector::const_iterator end = _compoList.end(); 
+		TComponentVector::const_iterator it = _compoList.cbegin(); 	
+		TComponentVector::const_iterator end = _compoList.cend(); 
 			for(; it != end; ++it ) // Al emisor no se le envia el mensaje.				
 				if(*it != emitter)
 					anyReceiver = (*it)->set(message) || anyReceiver;			
@@ -477,8 +448,8 @@ namespace Logic
 	{
 		_map->removeEntity(this);
 
-		TComponentVector::const_iterator it = _compoList.begin(); 	
-		TComponentVector::const_iterator end = _compoList.end(); 
+		TComponentVector::const_iterator it = _compoList.cbegin(); 	
+		TComponentVector::const_iterator end = _compoList.cend(); 
 		for (; it != end; ++it) {
 		     (*it)->detachFromMap();		
 		}		
@@ -490,8 +461,8 @@ namespace Logic
 	{
 		map->addEntity(this);
 
-		TComponentVector::const_iterator it = _compoList.begin(); 	
-		TComponentVector::const_iterator end = _compoList.end(); 
+		TComponentVector::const_iterator it = _compoList.cbegin(); 	
+		TComponentVector::const_iterator end = _compoList.cend(); 
 		for (; it != end; ++it) {
 		     (*it)->attachToMap(map);		
 		}		

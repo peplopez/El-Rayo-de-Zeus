@@ -178,10 +178,7 @@ namespace Application
 		*/
 		CEGUI::Window* _menuWindow;
 
-		/**
-		*/
-		TMapNameList _mapsToLoad;
-		
+			
 		/**
 		Función que se quiere realizar cuando se pulse el botón start.
 		Simplemente cambia al estado de juego.

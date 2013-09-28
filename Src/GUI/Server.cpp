@@ -10,30 +10,38 @@ la gestión de la interfaz con el usuario (entrada de periféricos, CEGui...).
 @date Agosto, 2010
 */
 
+
 #include "Server.h"
+
 #include "PlayerController.h"
 #include "CameraController.h"
 #include "HudController.h" //PT
 #include "ShopController.h" //PT
-#include "BaseSubsystems/Server.h"
+
+#include <BaseSubsystems/Server.h>
+#include <ScriptingModules\LuaScriptModule\CEGUILua.h> //PT
+#include <ScriptManager\Server.h> //PT
 
 #include <cassert>
 #include <CEGUISystem.h>
-#include <CEGUIWindowManager.h>
 #include <CEGUIWindow.h>
-#include <CEGUISchemeManager.h>
-#include <CEGUIFontManager.h>
-#include <ScriptingModules\LuaScriptModule\CEGUILua.h> //PT
-#include "ScriptManager\Server.h" //PT
+#include <CEGUI/elements/CEGUICombobox.h>
+#include <CEGUI/elements/CEGUIListboxTextItem.h>
+#include <CEGUI/elements/CEGUIProgressBar.h>
+#include <CEGUI/elements/CEGUIPushButton.h>
+#include <CEGUI/elements/CEGUICheckbox.h>
+
 
 namespace GUI {
 
+	
 	CServer* CServer::_instance = 0;
 
 	//--------------------------------------------------------
 
 	//PT. Antes. CServer::CServer() : _playerController(0)
 
+	
 	CServer::CServer() : _playerController(0), _cameraController(0), _hudController(0), _shopController(0)
 	{
 		_instance = this;
@@ -42,6 +50,7 @@ namespace GUI {
 
 	//--------------------------------------------------------
 
+	
 	CServer::~CServer()
 	{
 		_instance = 0;
@@ -51,6 +60,7 @@ namespace GUI {
 	
 	//--------------------------------------------------------
 
+	
 	bool CServer::Init()
 	{
 		assert(!_instance && "Segunda inicialización de GUI::CServer no permitida!");
@@ -69,6 +79,7 @@ namespace GUI {
 
 	//--------------------------------------------------------
 
+	
 	void CServer::Release()
 	{
 		assert(_instance && "GUI::CServer no está inicializado!");
@@ -83,6 +94,7 @@ namespace GUI {
 
 	//--------------------------------------------------------
 
+	
 	bool CServer::open()
 	{
 		_playerController = new CPlayerController();
@@ -91,7 +103,7 @@ namespace GUI {
 		_shopController = new CShopController(); //PT
 
 		_GUISystem = BaseSubsystems::CServer::getSingletonPtr()->getGUISystem();
-
+		_windowManager = CEGUI::WindowManager::getSingletonPtr();
 
 		//PT
 		//Carga de las plantillas y archivos de fuentes con LUA en lugar de con CEGUI
@@ -121,6 +133,7 @@ namespace GUI {
 
 	//--------------------------------------------------------
 
+	
 	void CServer::close() 
 	{
 		CInputManager::getSingletonPtr()->removeKeyListener(this);
@@ -134,6 +147,7 @@ namespace GUI {
 
 	//--------------------------------------------------------
 
+	
 	bool CServer::keyPressed(TKey key)
 	{
 		_GUISystem->injectKeyDown(key.keyId);    
@@ -147,6 +161,7 @@ namespace GUI {
 
 	//--------------------------------------------------------
 
+	
 	bool CServer::keyReleased(TKey key)
 	{
 		_GUISystem->injectKeyUp(key.keyId);
@@ -158,6 +173,7 @@ namespace GUI {
 	} // keyReleased
 
 	//--------------------------------------------------------
+	
 	
 	bool CServer::mouseMoved(const CMouseState &mouseState)
 	{
@@ -173,6 +189,7 @@ namespace GUI {
 
 	//--------------------------------------------------------
 		
+	
 	bool CServer::mousePressed(const CMouseState &mouseState)
 	{
 		switch (mouseState.button)
@@ -192,6 +209,7 @@ namespace GUI {
 
 	//--------------------------------------------------------
 
+	
 	bool CServer::mouseReleased(const CMouseState &mouseState)
 	{
 		switch (mouseState.button)
@@ -209,8 +227,133 @@ namespace GUI {
 
 	} // mouseReleased
 
-	void CServer::setText(const std::string& msg) {
-			_currentWindow->setText(msg.c_str());
+
+
+
+	
+	/***************
+		WINDOW
+	****************/
+	
+	
+	void CServer::setText(const std::string& msg)
+	{
+		_currentWindow->setText(msg.c_str());
+	} // setText
+
+	//--------------------------------------------------------
+
+	
+	void CServer::setWindowEnabled(const std::string& windowName, bool isEnable)
+	{
+		getWindow(windowName)->setEnabled(isEnable);
+	} // setWindowEnable
+
+	//--------------------------------------------------------
+
+
+	
+	void CServer::setWindowVisible(const std::string& windowName, bool isVisible)
+	{
+		getWindow(windowName)->setVisible(isVisible);
+	} // setWindowVisible
+
+	//--------------------------------------------------------
+
+	
+	std::string CServer::getWindowText(const std::string& textWindow)
+	{
+		std::string& text = std::string( _windowManager->getWindow( textWindow )->getText().c_str() );		
+			text.erase(text.find_last_not_of(" \n\r\t")+1);//Se eliminan los espacios (trim)
+		return text;
+	}
+
+
+	
+	
+
+	//-------- PROGRESS BAR --------------------
+
+	
+	void CServer::updateProgress(
+		const std::string& barWindow, const std::string& statusWindow,
+		float progressAmount, const std::string& statusMsg) 
+	{
+		CEGUI::ProgressBar* bar = static_cast<CEGUI::ProgressBar*> (
+			getWindow( barWindow ));
+		
+		//PT I dont want to show progresBar when form has not been filled
+		// Only when progressBar is up to 0 is when I want to show it
+		if(progressAmount > 0.0f)
+		{
+			if(	!bar->isVisible() )
+				bar->setVisible(true);
+		}
+
+		bar->setProgress(progressAmount);
+		if(statusMsg.length() ){
+			CEGUI::Window* statusW = getWindow(statusWindow);
+			statusW->setText(statusMsg);
+			statusW->setVisible(true);
+			//getWindow(statusWindow)->setText(statusMsg);
+		}
+		
+		
+	} // addProgress
+
+
+	//--------- COMBOBOX ----------------------
+
+	
+	CEGUI::Combobox* CServer::createCombobox(const std::string& comboWindow, 
+		const std::string* itemTexts, const unsigned int nItems) 
+	{		
+		CEGUI::Combobox* combo = static_cast<CEGUI::Combobox*>(
+			_windowManager->getWindow(comboWindow) );			
+			
+		for(int i=0; i < nItems; ++i) // add items to the combobox list
+			combo->addItem(	new CEGUI::ListboxTextItem( itemTexts[i], i));
+			// FRS AutoDelete = true por defecto (no hace falta delete)	
+
+		combo->setReadOnly(true);		
+		return combo;
+	}
+	
+	//---------------------------------------------------------
+
+	
+	int CServer::getComboSelectedID(const std::string& comboWindow) 
+	{		
+		CEGUI::Combobox* combo = static_cast<CEGUI::Combobox*>(
+			_windowManager->getWindow(comboWindow) );		
+				
+		if( combo->getSelectedItem() !=  0)
+			return combo->getSelectedItem()->getID();
+		else
+			return -1;
+	}
+	
+	//---------------------------------------------------------
+
+	bool CServer::isCheckboxSelected(const std::string& checkBox)
+	{
+		CEGUI::Checkbox* check = static_cast<CEGUI::Checkbox*>(
+			_windowManager->getWindow(checkBox));
+
+		return check->isSelected();
+	}
+	
+
+	//---------------------------------------------------------
+	std::string CServer::getComboSelectedText(const std::string& comboWindow) 
+	{		
+		CEGUI::Combobox* combo = static_cast<CEGUI::Combobox*>(
+			CEGUI::WindowManager::getSingletonPtr()->getWindow(comboWindow) );			
+			
+		if( combo->getSelectedItem() !=  0)
+			return std::string(combo->getSelectedItem()->getText().c_str() );
+		else
+			return "";
 	}
 
 } // namespace GUI

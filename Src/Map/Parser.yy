@@ -13,7 +13,7 @@ Contiene el codigo autogenerado del parser Bison.
 #include <string>
 #include <map>
 #include <cassert>
-#include "MapEntity.h"
+#include "Entity.h"
 
 %}
 
@@ -131,15 +131,15 @@ Entity: ID
 		{
 		#ifdef _DEBUG
 			assert(_mapParser._entityInProgress->getType().compare("") && "No se ha establecido tipo a la entidad");
-			Map::CMapParser::TEntityList::const_iterator it, end;
-			it = _mapParser._entityList.begin();
-			end = _mapParser._entityList.end();
+			Map::TEntities::const_iterator it, end;
+			it = _mapParser._parsedEntities.begin();
+			end = _mapParser._parsedEntities.end();
 			for(; it != end; it++)
 			{
 				assert((*it)->getName().compare(_mapParser._entityInProgress->getName()) && "Ya existe una entidad con este nombre.");
 			}
 		#endif // _DEBUG
-			_mapParser._entityList.push_back(_mapParser._entityInProgress);
+			_mapParser._parsedEntities.push_back(_mapParser._entityInProgress);
 		}
 		;
 		

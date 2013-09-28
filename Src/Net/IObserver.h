@@ -24,8 +24,8 @@ namespace Net
 	public:
 		virtual ~IObserver() {};
 		virtual void dataPacketReceived(Net::CPacket* packet) = 0;
-		virtual void connexionPacketReceived(Net::CPacket* packet) = 0;
-		virtual void disconnexionPacketReceived(Net::CPacket* packet) = 0;
+		virtual void connectPacketReceived(Net::CPacket* packet) = 0;
+		virtual void disconnectPacketReceived(Net::CPacket* packet) = 0;
 	};
 }
 

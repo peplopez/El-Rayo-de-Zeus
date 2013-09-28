@@ -13,11 +13,7 @@ del juego.
 #include "ComponentFactory.h"
 #include "Logic/Entity/Entity.h"
 #include "Map.h"
-
-
-
-
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 #include "Map/MapParser.h"
 
 #include <iostream>
@@ -25,8 +21,7 @@ del juego.
 #include <cassert>
 
 // HACK. Debería leerse de algún fichero de configuración
-#define BLUEPRINTS_FILE_PATH "./media/maps/"
-#define ARCHETYPES_FILE_PATH "./media/maps/"
+#define FILE_PATH "./media/maps/"
 
 /**
 Sobrecargamos el operador >> para la lectura de blueprints.
@@ -51,6 +46,9 @@ std::istream& operator>>(std::istream& is, Logic::CEntityFactory::TBluePrint& bl
 
 namespace Logic
 {
+	/****************
+		SINGLETON
+	****************/
 
 	CEntityFactory *CEntityFactory::_instance = 0;
 	
@@ -116,94 +114,115 @@ namespace Logic
 	{
 		unloadBluePrints();
 		unloadArchetypes();
-
+		unloadPatternEntities();
 	} // close
 	
-	//---------------------------------------------------------
-
-	typedef std::pair<std::string,CEntityFactory::TBluePrint> TStringBluePrintPair;
-
-	bool CEntityFactory::loadBluePrints(const std::string &filename)
-	{
-		// Completamos la ruta con el nombre proporcionado
-		std::string completePath(BLUEPRINTS_FILE_PATH);
-		completePath = completePath + filename;
-		// Abrimos el fichero
-		std::ifstream in(completePath.c_str());        
-		if(!in)
-			return false;
-
-		while(!in.eof())
-		{
-			// Se lee un TBluePrint del fichero
-			TBluePrint b;
-			in >> b;
-			// Si no era una línea en blanco
-			if(!b.type.empty())
-			{				
-				if(_bluePrints.count(b.type)) // Si el tipo ya estaba definido lo eliminamos.
-					_bluePrints.erase(b.type);
-				// Añadimos a la tabla
-				TStringBluePrintPair elem(b.type,b);
-				_bluePrints.insert(elem);
-			}
-		}
-
-		return true;
-
-	} // loadBluePrints
 	
-	//---------------------------------------------------------
+	/******************
+		ENTITIES
+	*******************/
 
-	void CEntityFactory::unloadBluePrints()
-	{
-		_bluePrints.clear();
 
-	} // unloadBluePrints
+	//---------------- PATTERN ENTITIES -------------------------------
 
-	//---------------------------------------------------------
 
 	typedef std::pair<std::string,Map::CEntity> TStringCEntityPair;
 
-	bool CEntityFactory::loadArchetypes(const std::string &filename)
+	bool CEntityFactory::loadPatternEntities(const std::string &mapFileName)
 	{
 		// Completamos la ruta con el nombre proporcionado
-		std::string completePath(ARCHETYPES_FILE_PATH);
-		completePath = completePath + filename;
+		std::string mapPath(FILE_PATH);
+			mapPath.append(mapFileName);
+			mapPath.append(".txt");
 
-		if(!Map::CMapParser::getSingletonPtr()->parseFile(completePath))
-		{
-			assert(!"No se ha podido parsear el archetypes.");
+		if(!Map::CMapParser::getSingletonPtr()->parseFile(mapPath)) {
+			assert(!"No se ha podido parsear mapa patron.");
 			return false;
 		}
 
 		// Extraemos las entidades del parseo.
-		Map::CMapParser::TEntityList entityList = 
-			Map::CMapParser::getSingletonPtr()->getEntityList();
+		 Map::CMapParser::TEntities parsedEntities = Map::CMapParser::getSingletonPtr()->getParsedEntities();
+		
+		 _patternEntities.clear(); // Vaciamos la lista de patrones actual
 
-		Map::CMapParser::TEntityList::const_iterator it, end;
-		it = entityList.begin();
-		end = entityList.end();
+		// SAVE & MERGE WITH ARCHETYPES6
+		//	Con este premerge ahorramos tener que repetir un merge por cada fillMapUsingPattern
+		Map::CMapParser::TEntities::const_iterator entIt  = parsedEntities.cbegin();
+		Map::CMapParser::TEntities::const_iterator entEnd = parsedEntities.cend();
+		for(; entIt != entEnd; ++entIt) {
 
-		//Guardamos cada uno de los archetypes en el std::map de archetypes
-		for (; it != end; it++) 
-		{
-			TStringCEntityPair elem((*it)->getName(), *(*it));
-			_archetypes.insert(elem);
+			_patternEntities.push_back( *(*entIt) );
+			Map::CEntity& entityToMerge = _patternEntities.back();
+
+			TArchetypeMap::const_iterator archIt  = _archetypes.find( entityToMerge.getType() );
+			TArchetypeMap::const_iterator archEnd = _archetypes.cend();
+			if (archIt !=  archEnd)		
+				entityToMerge.mergeWithArchetype(archIt->second);
 		}
+		
 		return true;
-
-	} // loadArchetypes
+	} // loadPatternEntities
 
 	//---------------------------------------------------------
 
-	void CEntityFactory::unloadArchetypes()
+	void CEntityFactory::unloadPatternEntities()
 	{
-		_archetypes.clear();
-
-	} // unloadArchetypes
+		_patternEntities.clear();
+	} // unloadPatternEntities
 	
 	//---------------------------------------------------------
+
+	void CEntityFactory::fillMapUsingPattern(Logic::CMap *map)
+	{		
+		// Creamos todas las entidades lógicas.
+		TPatternEntities::const_iterator it =  _patternEntities.cbegin();
+		TPatternEntities::const_iterator end = _patternEntities.cend();
+			for(; it != end; ++it)		{
+				CEntity *entity = createEntity( *it, map); // La propia factoría se encarga de añadir la entidad al mapa.
+				assert(entity && "No se pudo crear una entidad patron en el mapa");
+			}
+	}
+
+	//-----------------  CREATION ----------------------------------------
+
+	Logic::CEntity *CEntityFactory::createEntity(
+		Map::CEntity entityInfo, Logic::CMap *map, bool useArchetype)
+	{		
+		// Despejamos las palabras clave del atributo "type" 
+		// para sacar partido del subsiguiente mergeWithArchetype
+		entityInfo.replaceAttrKeywords( map->getProperties(), "type" );
+
+		// MERGE WITH ARCHETYPE
+		//	Se busca en el std::map de archetypes el tipo del *entityInfo
+		//	Si encuentra el archetype de ese tipo, fusiono con él en entityInfo
+		if(useArchetype) {
+			TArchetypeMap::const_iterator it = _archetypes.find(entityInfo.getType());
+			TArchetypeMap::const_iterator end = _archetypes.cend();
+				if (it !=  end)		
+					entityInfo.mergeWithArchetype(it->second);
+		}
+		
+		// Despejamos las palabras clave en el resto de atributos (!= "type")
+		entityInfo.replaceAttrKeywords( map->getProperties() );		
+
+		CEntity *newEntity = assembleEntity( entityInfo.getType() );
+			if (!newEntity)
+				return 0;
+		
+		map->addEntity(newEntity);// Añadimos la nueva entidad en el mapa.
+
+		// Y la inicializamos		
+		if ( newEntity->spawn(map, &entityInfo) )
+			return newEntity;
+		else {
+			map->removeEntity(newEntity);
+			delete newEntity;
+			return 0;
+		}
+
+	} // createEntity
+
+	//-----------------------------------------------------------------
 
 	Logic::CEntity *CEntityFactory::assembleEntity(const std::string &type) 
 	{
@@ -211,15 +230,15 @@ namespace Logic
 
 		it = _bluePrints.find(type); // TBluePrintMap: mapa <"tipoEntidad", TBluePrint>
 		// si el tipo se encuentra registrado.
-		if (it != _bluePrints.end()) 
+		if (it != _bluePrints.cend()) 
 		{
 			CEntity* ent = new CEntity(EntityID::NextID());
 			std::list<std::string>::const_iterator itc;
 			
 			// Añadimos todos sus componentes.
 			IComponent* comp;
-			for(itc = (*it).second.components.begin(); // TBluePrintMap.second: TBluePrint: struct { type (string), components (list<string>) }
-				itc !=(*it).second.components.end(); itc++)
+			for(itc = (*it).second.components.cbegin(); // TBluePrintMap.second: TBluePrint: struct { type (string), components (list<string>) }
+				itc !=(*it).second.components.cend(); itc++)
 			{
 				if(CComponentFactory::getSingletonPtr()->has((*itc))) // itc (string cName)
 				{
@@ -241,30 +260,29 @@ namespace Logic
 
 	} // assembleEntity
 	
-	//---------------------------------------------------------
-	Logic::CEntity *CEntityFactory::createEntity(const
-								Map::CEntity *entityInfo,
-								Logic::CMap *map)
-	{		
-		CEntity *ret = assembleEntity(entityInfo->getType());
 
-		if (!ret)
-			return 0;
+	//----------------- DELETION  ----------------------------------------
 
-		// Añadimos la nueva entidad en el mapa antes de inicializarla.
-		map->addEntity(ret);
+	void CEntityFactory::deferredDeleteEntity(Logic::CEntity *entity)
+	{
+		assert(entity);
+		_pendingEntities.push_back(entity);
+	} // deferredDeleteEntity
+	
+	
+	//-----------------------------------------------------------------
 
-		// Y lo inicializamos
-		
-		if (ret->spawn(map, entityInfo))
-			return ret;
-		else {
-			map->removeEntity(ret);
-			delete ret;
-			return 0;
-		}
-
-	} // createEntity
+	void CEntityFactory::deleteDefferedEntities()
+	{
+		TEntityList::const_iterator it(_pendingEntities.cbegin());
+		TEntityList::const_iterator end(_pendingEntities.cend());
+			for(; it != end; ++it)
+				deleteEntity(*it);
+			_pendingEntities.clear();
+	} // deleteDefferedObjects
+	
+	
+	//-----------------------------------------------------------------
 
 	Logic::CEntity *CEntityFactory::createEntity(const	Map::CEntity *entityInfo,Logic::CMap *map,const Logic::CEntity* father)
 	{		
@@ -287,75 +305,102 @@ namespace Logic
 		}
 
 	} // createEntity
-	//---------------------------------------------------------
 
-	//---------------------------------------------------------
 
-	Logic::CEntity *CEntityFactory::createMergedEntity(
-								Map::CEntity *entityInfo,
-								Logic::CMap *map)
+
+	
+
+	
+/**********************
+		ARCHETYPES
+	*********************/
+
+	bool CEntityFactory::loadArchetypes(const std::string &filename)
 	{
-		
-		//Se busca en el std::map de archetypes el tipo del *entityInfo
-		TArchetypeMap::const_iterator it = _archetypes.find(entityInfo->getType());
+		// Completamos la ruta con el nombre proporcionado
+		std::string archetypesPath(FILE_PATH);
+			archetypesPath.append(filename);
+			archetypesPath.append(".txt");
 
-		//Si encuentra el archetype de ese tipo, fusiono con él en entityInfo
-		if (it != _archetypes.end())
-		{
-			entityInfo->mergeWithArchetype(it->second);
+		if(!Map::CMapParser::getSingletonPtr()->parseFile(archetypesPath)) {
+			assert(!"No se ha podido parsear el archetypes.");
+			return false;
 		}
 
-		// UNDONE CEntity *ret = createEntity(entityInfo, map);
-		return createEntity(entityInfo, map); // [ƒ®§] No se optimiza más enchufando directamente la salida así?
-		//return ret;
-	} // createMergedEntity
+		// Extraemos las entidades del parseo.
+		Map::CMapParser::TEntities entityList = 
+			Map::CMapParser::getSingletonPtr()->getParsedEntities();
+				
+		//Guardamos cada uno de los archetypes en el std::map de archetypes
+		Map::CMapParser::TEntities::const_iterator it  = entityList.cbegin();
+		Map::CMapParser::TEntities::const_iterator end = entityList.cend();
+			for (; it != end; ++it)			
+				_archetypes[ (*it)->getName() ] = *(*it);
 
-	Logic::CEntity *CEntityFactory::createMergedEntity(
-								Map::CEntity *entityInfo,
-								Logic::CMap *map,
-								const CEntity* father)
-	{
-		
-		//Se busca en el std::map de archetypes el tipo del *entityInfo
-		TArchetypeMap::const_iterator it = _archetypes.find(entityInfo->getType());
+		return true;
 
-		//Si encuentra el archetype de ese tipo, fusiono con él en entityInfo
-		if (it != _archetypes.end())
-		{
-			entityInfo->mergeWithArchetype(it->second);
-		}
-
-		// UNDONE CEntity *ret = createEntity(entityInfo, map);
-		return createEntity(entityInfo, map, father); // [ƒ®§] No se optimiza más enchufando directamente la salida así?
-		//return ret;
-	} // createMergedEntity
+	} // loadArchetypes
 
 	//---------------------------------------------------------
 
-	void CEntityFactory::deferredDeleteEntity(Logic::CEntity *entity)
+	void CEntityFactory::unloadArchetypes()
 	{
-		assert(entity);
-		_pendingEntities.push_back(entity);
-	} // deferredDeleteEntity
+		_archetypes.clear();
+
+	} // unloadArchetypes
+	
+	
+	
+
+
+	/*******************
+		BLUEPRINTS
+	*******************/
+
+	typedef std::pair<std::string,CEntityFactory::TBluePrint> TStringBluePrintPair;
+
+	bool CEntityFactory::loadBluePrints(const std::string &filename)
+	{
+		// Completamos la ruta con el nombre proporcionado
+		std::string completePath(FILE_PATH);
+			completePath.append(filename);
+			completePath.append(".txt");
+		
+		// Abrimos el fichero
+		std::ifstream in(completePath.c_str());        
+		if(!in)
+			return false;
+
+		while(!in.eof())
+		{
+			// Se lee un TBluePrint del fichero
+			TBluePrint b;
+			in >> b;
+			// Si no era una línea en blanco
+			if(!b.type.empty())
+			{				
+				if(_bluePrints.count(b.type)) // Si el tipo ya estaba definido lo eliminamos.
+					_bluePrints.erase(b.type);
+
+				// Añadimos a la tabla
+				TStringBluePrintPair elem(b.type,b);
+				_bluePrints.insert(elem);
+			}
+		}
+
+		return true;
+
+	} // loadBluePrints
 	
 	//---------------------------------------------------------
 
-	void CEntityFactory::deleteDefferedEntities()
+	void CEntityFactory::unloadBluePrints()
 	{
-		TEntityList::const_iterator it(_pendingEntities.begin());
-		TEntityList::const_iterator end(_pendingEntities.end());
-			for(; it != end; ++it)
-				deleteEntity(*it);
-			_pendingEntities.clear();
-	} // deleteDefferedObjects
+		_bluePrints.clear();
 
-	//---------------------------------------------------------
+	} // unloadBluePrints
 
-	void CEntityFactory::deleteEntity(Logic::CEntity *entity)
-	{
-		assert(entity);		
-		entity->getMap()->removeEntity(entity);// Si la entidad estaba activada se desactiva al sacarla del mapa.
-		delete entity; // El delete nos toca a nosotros
-	} // deleteEntity
+
+	
 
 } // namespace Logic

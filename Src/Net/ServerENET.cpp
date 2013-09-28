@@ -22,13 +22,13 @@ namespace Net {
 
 	CServerENET::CServerENET()
 	{
-		estado = NO_INIT;
+		_state = NO_INIT;
 	}
 
 	CServerENET::~CServerENET()
 	{
 		std::vector<CConnection*>::iterator it = _connectionsList.begin();
-		while (it != _connectionsList.end()) {
+		while (it != _connectionsList.cend()) {
 			delete (*it);
 			++it;
 		}
@@ -37,7 +37,7 @@ namespace Net {
 
 	bool CServerENET::init(int port, int clients, unsigned int maxinbw, unsigned int maxoutbw)
 	{
-		if(estado != NO_INIT)
+		if(_state != NO_INIT)
 			return false;
 
 		if (enet_initialize () != 0)
@@ -69,7 +69,7 @@ namespace Net {
 		if(DEBUG)
 			fprintf(stdout, "NET::SERVER>> Server initialized");
 
-		estado = INIT_NOT_CONNECTED;
+		_state = INIT_NOT_CONNECTED;
 
 		return true;
 	}
@@ -101,7 +101,7 @@ namespace Net {
 				packet = new CPacket(CONNECT,0,0,connection,0);
 					packetsRecibidos.push_back(packet);
 				
-				estado = INIT_AND_CONNECTED;
+				_state = INIT_AND_CONNECTED;
 				
 				break;
 
@@ -143,12 +143,12 @@ namespace Net {
 
 	void CServerENET::deInit()
 	{
-		if(estado == INIT_AND_CONNECTED)
+		if(_state == INIT_AND_CONNECTED)
 			disconnectAll();
 
 		enet_host_destroy(server);
 		atexit(enet_deinitialize);
-		estado = NO_INIT;
+		_state = NO_INIT;
 	}
 	
 
@@ -179,7 +179,7 @@ namespace Net {
 
 		ENetPacket * packet = enet_packet_create (data,longData,rel);
 	    
-		for(std::vector<CConnection*>::iterator iter = _connectionsList.begin(); iter != _connectionsList.end(); ++iter)	
+		for(std::vector<CConnection*>::const_iterator iter = _connectionsList.cbegin(); iter != _connectionsList.cend(); ++iter)	
 			if( (*iter) != exception )
 				enet_peer_send (static_cast<CConnectionENET*>(*iter)->getENetPeer(), channel, packet);		
 
@@ -221,13 +221,13 @@ namespace Net {
 			fprintf(stdout, "NET::SERVER>> Disconnection Forced.\n");
 
 		if(_connectionsList.empty())
-			estado = INIT_NOT_CONNECTED;
+			_state = INIT_NOT_CONNECTED;
 	}
 
 
 	void CServerENET::disconnectAll()
 	{
-		if(estado == INIT_AND_CONNECTED)
+		if(_state == INIT_AND_CONNECTED)
 		{
 			while(!_connectionsList.empty())
 			{
@@ -238,15 +238,15 @@ namespace Net {
 		if(DEBUG)
 			fprintf(stdout, "NET::SERVER>> Everything Disconnected.\n");
 
-		estado = INIT_NOT_CONNECTED;
+		_state = INIT_NOT_CONNECTED;
 	}
 
 
 	void CServerENET::disconnectReceived(CConnection* connection)
 	{
-		std::vector<CConnection*>::iterator it = _connectionsList.begin();
+		std::vector<CConnection*>::const_iterator it = _connectionsList.cbegin();
 		bool found = false;
-		while ((it != _connectionsList.end()) && (!found)) {
+		while ((it != _connectionsList.cend()) && (!found)) {
 			if(*it == connection)
 				found=true;
 			else
@@ -257,18 +257,18 @@ namespace Net {
 			_connectionsList.erase(it);
 
 			if(_connectionsList.empty())
-				estado = INIT_NOT_CONNECTED;
+				_state = INIT_NOT_CONNECTED;
 		}
 	}
 
 	bool CServerENET::isConnected()
 	{
-		return (estado == INIT_AND_CONNECTED);
+		return (_state == INIT_AND_CONNECTED);
 	}
 
 	bool CServerENET::isInitialized()
 	{
-		return (estado != NO_INIT);
+		return (_state != NO_INIT);
 	}
 
 } // namespace aplicacion

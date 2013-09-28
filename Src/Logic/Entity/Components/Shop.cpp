@@ -472,10 +472,6 @@ namespace Logic
 
 		if(pm >= cost)
 		{
-			std::ostringstream basestring;
-			//basestring << "map" << numBase;
-			basestring << Logic::CServer::getSingletonPtr()->getBasestring(numBase);
-
 			unsigned short int ring = _entity->getLogicalPosition()->getRing();
 			unsigned short int degree = (unsigned short int)_entity->getLogicalPosition()->getDegree();
 			unsigned short int sense =_entity->getLogicalPosition()->getSense();
@@ -503,15 +499,6 @@ namespace Logic
 			//PARAMETROS
 			// nombreEntidad, Tipo de aliado, base origen (porque siempre se creara la criatura en su
 			//base origen, no en el resto de bases), anillo, grados 
-
-			/*Logic::CServer::getSingletonPtr()->getMap(basestring.str())->createAlly(
-				type,
-				type,
-				numBase, 
-				ring,
-				newdegree,
-				sense 
-			);*/
 
 			_entity->getMap()->createAlly(
 				type,

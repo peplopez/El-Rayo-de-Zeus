@@ -15,7 +15,7 @@ de la entidad.
 
 #include "Logic/Maps/EntityFactory.h"
 #include "Logic/Entity/Entity.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 #include "PhysicalCharacter.h"
 

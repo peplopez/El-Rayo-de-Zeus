@@ -50,8 +50,8 @@ namespace Graphics
 		
 		_overlay->clear(); // FRS Deattach all children
 
-		TChildElements::const_iterator it = _childElements.begin();
-		TChildElements::const_iterator end = _childElements.end();
+		TChildElements::const_iterator it = _childElements.cbegin();
+		TChildElements::const_iterator end = _childElements.cend();
 			for(; it != end; ++it)
 				_overlayManager->destroyOverlayElement( it->second );
 

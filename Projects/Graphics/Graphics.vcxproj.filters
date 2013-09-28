@@ -121,5 +121,8 @@
     <ClInclude Include="..\..\Src\Graphics\SkyXSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Src\Graphics\CameraTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

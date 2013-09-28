@@ -11,19 +11,20 @@ Contiene la implementación de la clase CMap, Un mapa lógico.
 
 #include "Map.h"
 
-#include "Logic/Server.h"
-#include "Logic/Entity/Entity.h"
 #include "EntityFactory.h"
 
-#include "Map/MapParser.h"
-#include "Map/MapEntity.h"
-
-#include "Graphics/Server.h"
-#include "Graphics/Scene.h"
-
-#include "Physics/Server.h"
-#include "Physics/Scene.h"
+#include <Logic/Entity/Entity.h>
+#include <Logic/Server.h>
+#include <Graphics/Server.h>
+#include <Graphics/Scene.h>
+#include <Map/MapParser.h>
+#include <Physics/Server.h>
+#include <Physics/Scene.h>
 #include <cassert>
+
+
+// HACK. Debería leerse de algún fichero de configuración
+#define FILE_PATH "./media/maps/"
 
 #include "Application/BaseApplication.h"
 #include "../Entity/LogicalPosition.h"
@@ -31,14 +32,17 @@ Contiene la implementación de la clase CMap, Un mapa lógico.
 
 #include "..\..\Application\Clock.h"
 
-// HACK. Debería leerse de algún fichero de configuración
-#define MAP_FILE_PATH "./media/maps/"
 
 namespace Logic {
 		
 
+	/*****************
+		CONSTRUCTORES
+	*****************/
+	
+
 	// ƒ®§ Creación de un mapa con nombre name (normalmente el propio filename). => Creación de escenas física y gráfica
-	CMap::CMap(const std::string &name) : _name(name), _isActive(false), alied(0), bullet(0)
+	CMap::CMap(const std::string &name, int mapNumber) : _name(name), _mapNumber(mapNumber), _isActive(false), _nAllies(0)
 	{
 		_graphicScene = Graphics::CServer::getSingletonPtr()->createScene(name);
 		_physicsScene  = Physics::CServer::getSingletonPtr()->createScene(name); 
@@ -57,7 +61,11 @@ namespace Logic {
 		Physics::CServer::getSingletonPtr()->removeScene(_physicsScene);
 	} // ~CMap
 
-	//--------------------------------------------------------
+	
+
+	/************
+		FLOW
+	************/
 
 	bool CMap::activate()
 	{			
@@ -67,8 +75,8 @@ namespace Logic {
 
 		// Activamos todas las entidades registradas en el mapa.
 		_isActive = true;
-		TEntityList::const_iterator it = _entityList.begin();
-		TEntityList::const_iterator end = _entityList.end();
+		TEntityList::const_iterator it = _entityList.cbegin();
+		TEntityList::const_iterator end = _entityList.cend();
 			for(; it != end; ++it)
 				_isActive = (*it)->activate() && _isActive;
 
@@ -77,7 +85,6 @@ namespace Logic {
 		Physics::CServer::getSingletonPtr()->activate(_physicsScene);
 
 		bullet=0;
-
 		return _isActive;
 	} // activate
 
@@ -89,8 +96,8 @@ namespace Logic {
 			return;
 
 		// Desactivamos todas las entidades activas registradas en el mapa.
-		TEntityList::const_iterator it  = _entityList.begin();
-		TEntityList::const_iterator end = _entityList.end();
+		TEntityList::const_iterator it  = _entityList.cbegin();
+		TEntityList::const_iterator end = _entityList.cend();
 			for(; it != end; it++)
 				if((*it)->isActivated())
 					(*it)->deactivate();
@@ -105,7 +112,21 @@ namespace Logic {
 		_isActive = false;
 	} // deactivate
 
-	//---------------------------------------------------------
+
+	void CMap::tick(unsigned int msecs) 
+	{
+		TEntityList::const_iterator it = _entityList.cbegin();
+		TEntityList::const_iterator end = _entityList.cend();
+			for(; it != end; ++it )
+				(*it)->tick(msecs);
+	} // tick
+
+
+
+	
+	/**********
+		CAMS
+	**********/
 
 	void CMap::activatePlayerCam()
 	{
@@ -119,79 +140,55 @@ namespace Logic {
 		Graphics::CServer::getSingletonPtr()->activateBaseCam( this->_graphicScene );
 	}
 	
-	//---------------------------------------------------------
 
-	void CMap::tick(unsigned int msecs) 
-	{
-		TEntityList::const_iterator it = _entityList.begin();
-		TEntityList::const_iterator end = _entityList.end();
-			for(; it != end; ++it )
-				(*it)->tick(msecs);
-	} // tick
 
-	//--------------------------------------------------------
+	/********************
+		MAP CREATORS
+	*******************/
 
-	CMap* CMap::createMapFromFile(const std::string &filename)
-	{
-		// Completamos la ruta con el nombre proporcionado
-		std::string completePath(MAP_FILE_PATH);
-			completePath = completePath + filename + ".txt";
-				
-				if(!Map::CMapParser::getSingletonPtr()->parseFile(completePath)){ // Parseamos el fichero
-					assert(!"No se ha podido parsear el mapa.");
-					return false;
-				}
+	CMap* CMap::createMap(CPlayerSettings& settings, int mapNumber)
+	{				
+		// Creación de las escenas física y gráfica
+		CMap *map = new CMap( settings.getMapName(), mapNumber ); 
+			map->setProperties( settings.getMapProperties() );
 
-		// Si se ha realizado con éxito el parseo creamos el mapa.
-		CMap *map = new CMap(filename); // Desencadena la creación de las escenas física y gráfica
+		// TODO FRS Habría que tener cuidado y considerar si realmente queremos que entityName = nickName...
+		// Podría darse el caso de necesitar acceder a las entidades por nombres explicitos (PlayerRed,
+		// PlayerGreen, etc...) y que el nick fuera un atributo aparte...
 
-		// Extraemos las entidades del parseo.
-		Map::CMapParser::TEntityList entityList = 
-			Map::CMapParser::getSingletonPtr()->getEntityList();
-
-		CEntityFactory* entityFactory = CEntityFactory::getSingletonPtr();		
+		CEntityFactory::getSingletonPtr()->fillMapUsingPattern(map); 
+		// FRS desencadena también la creación del Player, ya que map_pattern.txt define un player genérico
+		// configurado a través de Keywords.
 		
-		// Creamos todas las entidades lógicas.
-		Map::CMapParser::TEntityList::const_iterator it = entityList.begin();
-		Map::CMapParser::TEntityList::const_iterator end = entityList.end();
-			for(; it != end; it++)		{			
-				CEntity *entity = entityFactory->createMergedEntity((*it),map); // La propia factoría se encarga de añadir la entidad al mapa.
-				assert(entity && "No se pudo crear una entidad del mapa");
-			}
-
 		return map;
-
-	} // createMapFromFile
-
-	//--------------------------------------------------------
-
-	//PT. Se le pasan los argumentos de nickname, modelo, y color del Player.
-	//void CMap::createPlayer(std::string entityName, bool isLocalPlayer, const std::string& model)
-	void CMap::createPlayer(std::string entityName, bool isLocalPlayer, const std::string& nickname, const std::string& model, const std::string& color)
-	{
-		// [ƒ®§] Creamos un nuevo jugador. Deberíamos tener la info del player
-		// almacenada en _playerInfo así que solo habría que modificarle el
-		// "name". Luego se crea la entidad del jugador con la factoría de 
-		// entidades y se le dice si es o no el jugador local (con setIsPlayer())
-		// Para que no salgan todos los jugadores unos encima de otros podemos
-		// cambiar la posición de éstos.
-
-		Map::CEntity playerInfo(entityName);
-		playerInfo.setType("Player");		
-		//PT
-		playerInfo.setAttribute("nickname", nickname);
-		
-		if(model.length() > 0)
-			playerInfo.setAttribute("model", model);
-
-		playerInfo.setAttribute("isPlayer", isLocalPlayer? "true" : "false");
-		//PT
-		playerInfo.setAttribute("initialMaterial1", color); //player color
-			
-		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createMergedEntity(&playerInfo, this);
-		//newPlayer->setPosition( newPlayer->getPosition() + (rand()%50-25) * Vector3(1, 0, 1) ); // TODO calibrar esta pos
+	} // createMap
 
 	
+	
+	//--------------------------------------------------------
+
+
+	/***********************
+		ENTITY CREATORS
+	**********************/
+
+
+	// FRS DEPRECATED
+
+	// [ƒ®§] Creamos un nuevo jugador. Deberíamos tener la info del player
+	// almacenada en _playerInfo así que solo habría que modificarle el
+	// "name". Luego se crea la entidad del jugador con la factoría de 
+	// entidades y se le dice si es o no el jugador local (con setisLocalPlayer())
+
+	//PT. Se le pasan los argumentos de nickname, modelo, y color del Player.
+	void CMap::createPlayer(bool isLocalPlayer, const std::string& nickname, const std::string& color, const std::string& model)
+	{
+		Map::CEntity playerInfo( nickname );
+			playerInfo.setType("Player");	
+			playerInfo.setAttribute("isLocalPlayer", isLocalPlayer ? "true" : "false");	
+			playerInfo.setAttribute("modelColor1",	color );	
+			playerInfo.setAttribute("model",		model );				
+		CEntity* newPlayer = CEntityFactory::getSingletonPtr()->createEntity(playerInfo, this);
 	} // createPlayer
 
 
@@ -203,11 +200,11 @@ namespace Logic {
 
 		// [PT] Creamos un nuevo aliado. Deberíamos tener la info del aliado
 		// almacenada en aliedInfo así que solo habría que modificarle el
-		// "name". Luego se crea la entidad del aliado con la factoría de 
+		// "name" (FRS a eso se le llama Archetype). Luego se crea la entidad del aliado con la factoría de 
 		// entidades
 
 		std::ostringstream eName, eBase, eRing, eDegrees, eSense;
-		eName << entityName << alied; //alied es un contador
+		eName << entityName << _nAllies; //alied es un contador
 
 		eBase << base;
 		eRing << ring;
@@ -225,12 +222,12 @@ namespace Logic {
 		aliedInfo.setAttribute("sense", eSense.str());
 		aliedInfo.setAttribute("degrees", eDegrees.str());
 
-		CEntity* newAlied = CEntityFactory::getSingletonPtr()->createMergedEntity(&aliedInfo, this);
+		CEntity* newAlied = CEntityFactory::getSingletonPtr()->createEntity(aliedInfo, this);
 
 		//activate the new entity
 		newAlied->activate();
 
-		alied++;
+		++_nAllies;
 
 		//newAlied->setPosition(newAlied->getPosition() + (rand()%50-25) * Vector3(1, 0, 1) );
 
@@ -286,8 +283,8 @@ namespace Logic {
 		// Eliminamos todas las entidades. La factoría se encarga de
 		// desactivarlas y sacarlas previamente del mapa.
 		// FRS No podemos usar el removeEntity ya que modificaría la lista mientras la recorremos
-		TEntityList::iterator it = _entityList.begin();
-		TEntityList::iterator end = _entityList.end();
+		TEntityList::const_iterator it	= _entityList.cbegin();
+		TEntityList::const_iterator end = _entityList.cend();
 	
 			while(it != end)			
 				entityFactory->deleteEntity( *it++ ); 
@@ -335,7 +332,7 @@ namespace Logic {
 	{
 		// Si se definió entidad desde la que comenzar la búsqueda 
 		// cogemos su posición y empezamos desde la siguiente.
-		TEntityMap::const_iterator end = _entityMap.end();
+		TEntityMap::const_iterator end = _entityMap.cend();
 		TEntityMap::const_iterator it;
 			if (!start)
 				it = _entityMap.begin();
@@ -361,7 +358,7 @@ namespace Logic {
 	{
 		// Si se definió entidad desde la que comenzar la búsqueda 
 		// cogemos su posición y empezamos desde la siguiente.
-		TEntityMap::const_iterator end = _entityMap.end();
+		TEntityMap::const_iterator end = _entityMap.cend();
 		TEntityMap::const_iterator it;
 			if (!start)
 				it = _entityMap.begin();

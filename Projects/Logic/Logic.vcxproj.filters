@@ -163,9 +163,6 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Destruction.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\DotSceneLoader.cpp">
-      <Filter>Entity\Components\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Src\Logic\Entity\Components\Light.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
@@ -196,7 +193,10 @@
     <ClCompile Include="..\..\Src\Logic\Entity\Messages\MessageBoolFloatString.cpp">
       <Filter>Entity\Messages\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Src\Logic\Entity\Components\Arrow.cpp">
+    <ClCompile Include="..\..\src\Logic\PlayerSettings.cpp">
+      <Filter>GameStatus\Source Files</Filter>
+     </ClCompile>
+    <ClCompile Include="..\..\Src\Logic\Entity\Components\SceneLoader.cpp">
       <Filter>Entity\Components\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -375,9 +375,6 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Destruction.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\DotSceneLoader.h">
-      <Filter>Entity\Components\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Src\Logic\Entity\Components\Hud.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
@@ -405,7 +402,10 @@
     <ClInclude Include="..\..\Src\Logic\Entity\Messages\MessageFloatUShort.h">
       <Filter>Entity\Messages\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Src\Logic\Entity\Components\Arrow.h">
+    <ClInclude Include="..\..\src\Logic\PlayerSettings.h">
+      <Filter>GameStatus\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Logic\Entity\Components\SceneLoader.h">
       <Filter>Entity\Components\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

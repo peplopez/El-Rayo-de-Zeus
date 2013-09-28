@@ -1,6 +1,7 @@
 material base_material
 {
-    set $diffuseCol "1 1 1 1"
+	set $ambientCol  "1 1 1"
+    set $diffuseCol  "1 1 1"
     set $specularCol "1 1 1"
     set $shininess "32"	
  
@@ -10,9 +11,7 @@ material base_material
         {
             illumination_stage ambient
  
-            ambient 	1 1 1
-            diffuse 	$diffuseCol
-            specular 	0 0 0 0       
+            ambient 	$ambientCol   
  
             vertex_program_ref ambient_vs
             {
@@ -46,9 +45,8 @@ material base_material
  
             fragment_program_ref diffuse_ps
             {
-            }
- 
-			ambient 	0 0 0
+            } 
+		
             diffuse 	$diffuseCol
             specular 	$specularCol $shininess      
  

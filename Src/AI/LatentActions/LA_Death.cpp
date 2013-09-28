@@ -12,7 +12,7 @@
 #include "Logic/Entity/Messages/MessageUShort.h"
 #include "../../Logic/Entity/Components/AnimatedGraphics.h"
 #include "Logic/Maps/Map.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 #include "Application/BaseApplication.h"
 //PT se incluye el servidor de scripts de LUA
 #include "ScriptManager\Server.h"
@@ -47,7 +47,7 @@ namespace AI
 
 		//init Respawn Layout and functions
 
-		if (_entity->isPlayer()){
+		if (_entity->isLocalPlayer()){
 
 			std::cout<<"AI::StateMachine::WTF-I am death!! - I AM PLAYER " << std::endl;
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideHud"); //oculto el HUD
@@ -85,7 +85,7 @@ namespace AI
 		
 
 		//for showing a black and white screen when player is death
-		if (_entity->isPlayer())
+		if (_entity->isLocalPlayer())
 			Logic::CServer::getSingletonPtr()->compositorEnable("BW");
 
 		//PT se duermen los componentes al entrar en este estado
@@ -107,7 +107,7 @@ namespace AI
 	{
 
 		//PT
-		if (_entity->isPlayer())
+		if (_entity->isLocalPlayer())
 		{
 			std::cout<<"AI::StateMachine::OnStop - "<< _entity->getName() << " - " << std::endl;
 			ScriptManager::CServer::getSingletonPtr()->executeProcedure("hideRespawn"); //escondo la pantalla de respawn
@@ -166,7 +166,7 @@ namespace AI
 
 
 		//PT
-		if (_entity->isPlayer()){
+		if (_entity->isLocalPlayer()){
 			if(Application::CBaseApplication::getSingletonPtr()->getAppTime() > _endingTime)
 			{
 				ScriptManager::CServer::getSingletonPtr()->executeProcedure("updateTime",0);
@@ -235,7 +235,7 @@ namespace AI
 				{
 					//sleepComponents(); //PT lo comento
 				//		finish(true);
-					if (!_entity->isPlayer())
+					if (!_entity->isLocalPlayer())
 					{	
 					//	_entity->detachFromMap();
 					//	_entity->destroyAllComponents();

@@ -19,7 +19,7 @@ para representar character controllers.
 #include "Logic/Entity/Messages/MessageUInt.h"
 #include "Logic/Maps/Map.h"
 
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 #include "Physics/Scene.h"
 #include "Physics/Actor.h"

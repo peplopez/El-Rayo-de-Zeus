@@ -15,7 +15,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include <BaseSubsystems/Math.h>
 #include <Graphics/ParticleSystem.h>
 #include <Graphics/Scene.h>
-#include <Map/MapEntity.h>
+#include <Map/Entity.h>
 
 #include "Entity/Entity.h"
 #include "Maps/Map.h"
@@ -44,8 +44,8 @@ namespace Logic
 
 		if(!_psTable.empty())
 		{			
-			TParticleTable::const_iterator it	= _psTable.begin();
-			TParticleTable::const_iterator end  = _psTable.end();
+			TParticleTable::const_iterator it	= _psTable.cbegin();
+			TParticleTable::const_iterator end  = _psTable.cend();
 				for(; it != end; ++it) {
 					_graphicalScene->remove( it->second );				
 					delete it->second;
@@ -61,8 +61,8 @@ namespace Logic
 	{
 		if(!_psTable.empty())
 		{			
-			TParticleTable::const_iterator it	= _psTable.begin();
-			TParticleTable::const_iterator end  = _psTable.end();
+			TParticleTable::const_iterator it	= _psTable.cbegin();
+			TParticleTable::const_iterator end  = _psTable.cend();
 				for(; it != end; ++it) 
 					_graphicalScene->remove( it->second);
 		}
@@ -77,8 +77,8 @@ namespace Logic
 
 		if(!_psTable.empty())
 		{			
-			TParticleTable::const_iterator it	= _psTable.begin();
-			TParticleTable::const_iterator end  = _psTable.end();
+			TParticleTable::const_iterator it	= _psTable.cbegin();
+			TParticleTable::const_iterator end  = _psTable.cend();
 				for(; it != end; ++it) 				
 					_graphicalScene->add(it->second);
 		}
@@ -92,6 +92,7 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 		
+		// Variables a extraer del map
 		std::string varScript(		"fxScript0");		
 		std::string varLooped(		"fxLooped0");
 		std::string varPos(			"fxPos0");
@@ -104,7 +105,7 @@ namespace Logic
 		std::vector<std::string> autoHFXs; // vector de PS con autoStart
 
 		// READ FXs & CREATE PSs
-		for(int i = 0; i < _MAX_FX ; ++i) {	// 10 FXs maximo por entidad deberia ser suficente
+		while(true) {	// 10 FXs maximo por entidad deberia ser suficente
 
 			if( !entityInfo->hasAttribute( varScript ) )
 				break;
@@ -189,7 +190,7 @@ namespace Logic
 				}
 
 		} else if( !_psTable.empty() ) {
-			ps = _psTable.begin()->second;	// Si no se especifica Action actuamos sobre el primer PS	
+			ps = _psTable.cbegin()->second;	// Si no se especifica Action actuamos sobre el primer PS	
 			
 		} else { 
 			return; // Action UNDEF + _psTable.empty() -> No podemos hacer nada

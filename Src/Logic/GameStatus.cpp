@@ -24,17 +24,13 @@ namespace Logic
 {
 	CGameStatus* CGameStatus::_instance = 0;
 
-	//PT
-	//CGameStatus::CGameStatus(const unsigned short numPlayers)
-	CGameStatus::CGameStatus(TMapNameList &maplist)
+	CGameStatus::CGameStatus(unsigned int numPlayers) : _numPlayers(numPlayers)
 	{
 		_instance=this;
-		//PT
-		//_numPlayers=numPlayers;
-		_numPlayers = maplist.size();
-		_numBases=_numPlayers+1;//base adicional para Lobby
+
+		_numBases = _numPlayers+1;//base adicional para Lobby
 		
-		for(int i=0; i<=_numPlayers; i++)//creamos las bases con 3 anillos cada una
+		for(int i=0; i<=_numPlayers; ++i)//creamos las bases con 3 anillos cada una
 		{
 			Logic::CBaseInfo* base=createBase(3,3,0); //la base 0 es lobby (rings, lifeBase, colorBase)
 			if (base!=0)
@@ -53,15 +49,11 @@ namespace Logic
 		_players.clear();
 	}
 
-	//PT
-	//bool CGameStatus::Init(const unsigned short numPlayers)
-	bool CGameStatus::Init(TMapNameList &maplist)
+
+	bool CGameStatus::Init(unsigned int numPlayers)
 	{
 		assert(!_instance && "Segunda inicialización de Logic::CGameStatus no permitida!");
-
-		//new CGameStatus(numPlayers);
-		new CGameStatus(maplist);
-
+		new CGameStatus(numPlayers);
 		return true;
 	} // Init
 
@@ -119,8 +111,8 @@ namespace Logic
 		//set enemies number 0 before calculating it
 		_enemies = 0;
 
-		for(std::vector<CPlayerInfo*>::iterator itPlayers = _players.begin();
-			itPlayers != _players.end(); itPlayers++)
+		for(std::vector<CPlayerInfo*>::const_iterator itPlayers = _players.cbegin();
+			itPlayers != _players.cend(); itPlayers++)
 		{
 			CPlayerInfo* player = (*itPlayers);
 

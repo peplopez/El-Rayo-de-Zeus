@@ -12,8 +12,9 @@ la gestión de la lógica del juego.
 #ifndef __Logic_Server_H
 #define __Logic_Server_H
 
-#include <string>
-#include "Logic\Entity\LogicalPosition.h"
+
+#include "PlayerSettings.h"
+#include "Entity\LogicalPosition.h"
 
 
 // Predeclaración de clases para ahorrar tiempo de compilación
@@ -49,6 +50,10 @@ sus componentes, mensajes, factorias de entidades y componentes, etc.
 */
 namespace Logic
 {
+
+	typedef std::vector<std::string> TMapNames;
+	
+
 	/**
 	Servidor de la lógica que se se encarga de la creación del mundo, su 
 	destrucción y actualización a lo largo de la partida. Se encarga de 
@@ -63,17 +68,7 @@ namespace Logic
 	class CServer
 	{
 
-	protected:
-
-		typedef std::list<std::string> TMapNameList;
-
-		typedef std::vector<std::string> TMapNameVector;
-		
-		typedef std::map<std::string, CMap*> TMaps;	
-
-		typedef std::list<CEntity*> TEntityList;
-		
-		typedef std::map<int, TEntityList> TMapEntityLists;
+	
 
 
 	public:
@@ -108,6 +103,11 @@ namespace Logic
 		*/
 		void tick(unsigned int msecs);
 
+
+		/**
+		*/		
+		bool loadWorld(TMultiSettings& allSettings);
+
 		/**
 		Carga un nuevo nivel a partir del nombre del mapa que se
 		desea cargar. Si ya existía un mapa este se borra, solo
@@ -116,29 +116,27 @@ namespace Logic
 		@param filename Fichero que se desea cargar.
 		@return true si la carga fue correcta.
 		*/
-		bool loadMap(const std::string &filename);
+		bool loadMap(CPlayerSettings &settings, int mapNumber);
 
 		/**
 		Si hay un nivel cargado lo descarga  destruye.
 		*/
-		void unLoadMap(const std::string &filename);
+		void unLoadMap(std::string mapName);
 
 		/**
 		Función que activa el mapa en curso.
 
 		@return true si la inicialización fue correcta.
 		*/
-		bool activateMap(const std::string &filename);
+		bool activateMap(const std::string &mapName);
 
 		/**
 		Función que desactiva el mapa en curso.
 		*/
-		void deactivateMap(const std::string &filename);
+		void deactivateMap(const std::string &mapName);
 		
 
-		/**
-		*/
-		bool loadWorld(TMapNameList &mapList);
+	
 
 		/**
 		*/
@@ -209,8 +207,11 @@ namespace Logic
 		void compositorEnable(const std::string &name);
 		void compositorDisable(const std::string &name);
 
-		std::ostringstream  getBasestring(int base);
+
+
 	protected:
+
+
 		/**
 		Constructor.
 		*/
@@ -242,17 +243,21 @@ namespace Logic
 		*/
 		//CMap *_map;
 
+		typedef std::map<std::string, CMap*> TMaps;	
+		typedef std::list<CEntity*> TEntityList;		
+		typedef std::map<int, TEntityList> TEntityIDMap;
+
 		/**
 		*/
 		TMaps _maps;
 
 		/**
 		*/
-		TMapNameVector _mapNames;
+		TMapNames _mapNames;
 
 		/**
 		*/
-		TMapEntityLists _entitiesToMove;
+		TEntityIDMap _entitiesToMove;
 
 		/**
 		Entidad del jugador.
@@ -266,6 +271,9 @@ namespace Logic
 
 
 	private:
+
+		
+
 		/**
 		Única instancia de la clase.
 		*/

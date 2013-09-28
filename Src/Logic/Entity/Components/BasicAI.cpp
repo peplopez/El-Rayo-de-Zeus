@@ -14,7 +14,7 @@ angular de entidades.
 #include "BasicAI.h"
 #include "Logic/Server.h"
 #include "Logic/Entity/Entity.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 #include "Logic/Maps/Map.h"
 #include "Application/BaseApplication.h"
 

@@ -33,7 +33,7 @@ namespace ScriptManager
 		//Logic::CEntity* entity = Logic::CServer::getSingletonPtr()->getMap()->getEntityByID(entityID);
 		//if (entity != NULL)
 		//{
-		//	return !entity->isPlayer();
+		//	return !entity->isLocalPlayer();
 		//}
 
 		return false;

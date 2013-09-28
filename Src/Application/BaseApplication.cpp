@@ -94,7 +94,7 @@ namespace Application {
 
 		TStateTable::const_iterator it, end;
 
-		for (it = _states.begin(), end = _states.end(); 
+		for (it = _states.cbegin(), end = _states.cend(); 
 			 it != end; ++it) 
 		{
 			it->second->release();
@@ -119,7 +119,7 @@ namespace Application {
 		// Sin embargo, en ese caso, habría que comprobar que no es
 		// el estado actual, ni el estado siguiente al que se espera ir...
 		it = _states.find(name);
-		assert(it == _states.end());
+		assert(it == _states.cend());
 #endif
 		_states[name] = newState;
 		return newState->init();
@@ -136,7 +136,7 @@ namespace Application {
 		it = _states.find(name);
 	
 		// Si no hay ningún estado con ese nombre, no hacemos nada
-		if (it == _states.end())
+		if (it == _states.cend())
 			return false;
 
 		_nextState = it->second;
@@ -295,8 +295,8 @@ namespace Application {
 	{
 		if (!_clock->_timeObservers.empty())
 		{
-			IClock::TTimeObserverList::const_iterator it = _clock->_timeObservers.begin();
-			IClock::TTimeObserverList::const_iterator end = _clock->_timeObservers.end();
+			IClock::TTimeObserverList::const_iterator it = _clock->_timeObservers.cbegin();
+			IClock::TTimeObserverList::const_iterator end = _clock->_timeObservers.cend();
 			while(it != end)
 			{
 				if (_clock->getTime() >= it->second)

@@ -15,7 +15,7 @@ de la entidad.
 
 #include "Combat.h"
 #include "Logic/Entity/Entity.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 #include "Logic/Entity/Messages/Message.h"
 #include "Logic/Entity/Messages/MessageBoolString.h"
 #include "Logic/Entity/Messages/MessageFloat.h"

@@ -38,10 +38,11 @@ namespace Logic
 			SET_ANIMATION				= 0x05,
 			STOP_ANIMATION				= 0x06,			 
 			CONTACT						= 0x07,   
-			SET_MATERIAL				= 0x08,			
+			SET_MATERIAL				= 0x08,	
+			RESET_MATERIAL				= 0x28,
+			SET_SCALE		 			= 0x27,			
 			CAMERA						= 0x09,
-			LIFE_MODIFIER				= 0x0A,
-			SET_SUBENTITY_MATERIAL		= 0x0B,
+			LIFE_MODIFIER				= 0x0A,		
 			AVATAR_MOVE					= 0x10,
 			DAMAGED						= 0x11,			
 			ANIMATION_FINISHED			= 0x12,
@@ -57,14 +58,11 @@ namespace Logic
 			ALTAR_SWITCHED	 			= 0x22,
 			ATTACH						= 0x24,
 			DETACH						= 0x25,
-			AUDIO			 			= 0x26,
-			SET_SCALE		 			= 0x27,
-			SET_INITIAL_MATERIAL		= 0x28,
+			AUDIO			 			= 0x26,			
 			SET_ANIMATION_WITH_TIME		= 0X29,
 			DAMAGE_MOMENT				= 0x30,
 			COMBO_MOMENT				= 0X31,
-			LIFE_RESTORE				= 0x32,
-			DELETE_GRAPHICAL_ENTITY		= 0x33, //mensaje de eliminacion de la entidad Grafica
+			LIFE_RESTORE				= 0x32,		
 			DELETE_PHYSICAL_ENTITY		= 0x34,	//mensaje de eliminacion de la entidad fisica
 			SHOP						= 0x35,
 			ALTAR_MS_ORDER 				= 0x36,
@@ -118,8 +116,10 @@ namespace Logic
 			FX_BLAST,
 			FX_BLAST_SMALL,
 			FX_CIRCLES,
-			FX_ELECTRIC_ORB_RED,
-			FX_ELECTRIC_ORB_BLUE,
+			FX_ORB_RED,
+			FX_ORB_GREEN,
+			FX_ORB_BLUE,
+			FX_ORB_YELLOW,
 			FX_FLAME_THROWER,
 			FX_RAIN,
 			FX_SMOKE,
@@ -134,12 +134,12 @@ namespace Logic
 	/**
 	Tipo copia para los mensajes. Por simplicidad.
 	*/
-	typedef Logic::Message::TMessageType TMessageType;
+	typedef Message::TMessageType TMessageType;
 
 	/**
 	Tipo copia para los mensajes. Por simplicidad.
 	*/
-	typedef Logic::Message::TActionType TActionType;
+	typedef Message::TActionType TActionType;
 
 	/**
 	Declaración de la clase
@@ -163,7 +163,7 @@ namespace Logic
 		*/
 		CMessage() : _classId(GetAltTypeIdOf(CMessage)),_refCount(0), _type(Message::UNASSIGNED), _action(Message::UNDEF) {}
 			
-		
+	
 		/**
 		Constructor de la clase. 
 		*/

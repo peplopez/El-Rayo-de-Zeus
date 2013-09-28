@@ -11,7 +11,7 @@ scripts asociados a una entidad.
 */
 
 #include "Script.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 #include "ScriptManager/Server.h"
 
 #include "Logic/Entity/Messages/Message.h"

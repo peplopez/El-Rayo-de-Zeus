@@ -13,13 +13,16 @@ del juego.
 #ifndef __Logic_EntityFactory_H
 #define __Logic_EntityFactory_H
 
-#include <map>
-#include <string>
-#include <list>
+
 
 #include "BaseSubsystems/Math.h"
 #include "EntityID.h"
 #include "Logic/Entity/LogicalPosition.h"
+
+#include <map>
+#include <string>
+#include <list>
+#include <vector>
 
 
 // Predeclaración de clases para ahorrar tiempo de compilación
@@ -77,42 +80,59 @@ namespace Logic
 		*/
 		static CEntityFactory *getSingletonPtr() {return _instance;}
 
+	
+	private:
 		/**
-		Carga un nuevo listado de entidades que se pueden crear mediante 
-		componentes. El fichero que contiene la definición es muy simple.
-		Cada línea corresponde a una entidad que viene definida por una
-		serie de palabras separadas por espacios donde la primera
-		palabra es el tipo de la entidad y el resto son los componentes 
-		que conforman dicha entidad.
-		<p>
-		Se puede cargar más de un fichero con definiciones de entidades.
-		Si los tipo de entidad se encuentran repetidos siempre prevalece
-		el último añadido.
-
-		@param filename Fichero con la descripción de las entidades.
-		@return true si la carga se hizo correctamente.
+		Única instancia de la clase.
 		*/
-		bool loadBluePrints(const std::string &filename);
+		static CEntityFactory *_instance;
+
+		/** 
+		Constructor de la clase, protegido, pues es un singleton.
+		Registra al objeto como observer del cargador de mapas.
+		*/
+		CEntityFactory();
 
 		/**
-		Descarga el listado de entidades creadas
+		Destructor protegido, por ser singleton.
 		*/
-		void unloadBluePrints();
+		~CEntityFactory();
 
 		/**
-		Add - ESC
-		Carga un std:map con los arquetipos. Se almacena en la factoría de 
-		entidades. El mapa es del tipo <nombredelarquetipo, Map::CEntity arquetipo> 
+		Segunda fase de la construcción del objeto. Sirve para hacer
+		inicializaciones de la propia instancia en vez de inicializaciones 
+		estáticas.
 
-		@param filename Fichero con la descripción de los arquetipos.
+		@return true si todo fue correctamente.
 		*/
-		bool loadArchetypes(const std::string &filename);
+		bool open();
 
 		/**
-		Descarga el listado de arquetipos creados
+		Segunda fase de la destrucción del objeto. Sirve para hacer liberar 
+		los recursos de la propia instancia, la liberación de los recursos 
+		estáticos se hace en Release().
 		*/
-		void unloadArchetypes();
+		void close();
 
+		
+
+		
+
+
+
+	/**************
+		ENTITIES
+	***************/
+
+	public:
+
+		//---------------- PATTERN ENTITIES -------------------------------
+		bool loadPatternEntities(const std::string &mapFileName);
+		void unloadPatternEntities();
+		void fillMapUsingPattern(Logic::CMap *map);
+
+
+		//----------------  CREATION -------------------------------
 		/**
 		Crea una nueva entidad de juego en un mapa determinado a partir de
 		su descripción en base a los componentes que necesita debido
@@ -120,6 +140,10 @@ namespace Logic
 
 		El método se encarga de asignar un nuevo identificador único a la
 		entidad y añadirlo en el mapa del parámetro.
+
+		Mod ESC - Método modificado usado durante la carga del mapa, para que tenga en cuenta los archetypes.
+		En este método se añade al MAP::CEntity la información adicional que haya en el arquetipo,
+		pero nunca se sobreescribe la existente del map.txt, excepto el type.
 
 		@param entityInfo Descripción de la entidad; puede ser leída
 		de un fichero de mapa o montada "al vuelo".
@@ -129,24 +153,15 @@ namespace Logic
 		@note Las entidades aquí creadas pueden eliminarse al final del 
 		juego o bien utilizando deferredDeleteEntity.
 		*/
-		CEntity *createEntity(const Map::CEntity *entityInfo,
-							  CMap *map);
-
-		/**
+		CEntity *createEntity(Map::CEntity entityInfo, 
+			Logic::CMap *map, bool useArchetype = true);
+		/*
 		Add Pep
 		*/
 		CEntity *createEntity(const Map::CEntity *entityInfo, CMap *map, const CEntity* father);
 
 
 		/**
-		Add ESC
-		Mod ESC - Método modificado usado durante la carga del mapa, para que tenga en cuenta los archetypes.
-		En este método se añade al MAP::CEntity la información adicional que haya en el arquetipo,
-		pero nunca se sobreescribe la existente del map.txt, excepto el type.
-		*/
-		CEntity *createMergedEntity(Map::CEntity *entityInfo,
-							  CMap *map);
-		
 		/**
 		Add PEP
 		Para crear entidad pasandole el padre */
@@ -155,30 +170,9 @@ namespace Logic
 								Logic::CMap *map,
 								const CEntity* father);
 
-		/**
-		Add ESC
-		Crea una entidad lógica en el mapa a partir del nombre del 
-		archeytipe y el transform pasados como parametro.
-
-		@param archetype nombre del archetype que se utilizará como modelo
-		@param transform transform de la entidad que se creará
-		*/
-
-		CEntity *createEntity(const std::string &archetype,
-							  const Matrix4 &transform);
-
-
-		/**
-		Add PEP
-		Crea una entidad lógica en el mapa a partir del nombre del 
-		archeytipe y la posición lógica pasados como parametros.
-
-		@param archetype nombre del archetype que se utilizará como modelo
-		@param pos posición lógica de la entidad que se creará
-		*/
-
-		CEntity *createEntity(const std::string &archetype,
-			const Logic::CLogicalPosition *pos);
+		
+		//---------------- DELETION -------------------------------
+		
 		/**
 		Destruye el CEntity pasado como parámetro. La destrucción
 		es inmediata, por lo que el <em>invocante debe garantizar</em>
@@ -229,6 +223,105 @@ namespace Logic
 		elimine todos los objetos pendientes de ser borrados.
 		*/
 		void deleteDefferedEntities();
+
+
+	private:				
+
+		typedef std::vector<Map::CEntity> TPatternEntities;
+		TPatternEntities _patternEntities;
+
+		/**
+		Tipo lista de CEntity donde guardaremos los pendientes de borrar.
+		*/
+		typedef std::list<Logic::CEntity*> TEntityList;
+		
+
+		/**
+		Lista de objetos pendientes de borrar.
+		*/
+		TEntityList _pendingEntities;
+
+		
+
+		/** 
+		Ensambla una nueva entidad de juego a partir de su tipo de entidad.
+		En base al tipo de entidad se crearán y añadirán a la entidad las 
+		instancias de los componentes que necesita según lo leído en el/los 
+		archivo/s blueprint.
+		Es un procedimiento auxiliar utilizado por createEntity.
+
+		@param type Tipo de la entidad que se quiere crear.
+		@return La entidad creada o NULL si no se pudo crear.
+		*/
+		CEntity *assembleEntity(const std::string &type);
+
+
+
+
+
+	/****************
+		ARCHETYPES
+	****************/
+
+	public:
+
+		/**
+		Add - ESC
+		Carga un std:map con los arquetipos. Se almacena en la factoría de 
+		entidades. El mapa es del tipo <nombredelarquetipo, Map::CEntity arquetipo> 
+
+		@param filename Fichero con la descripción de los arquetipos.
+		*/
+		bool loadArchetypes(const std::string &filename);
+
+		/**
+		Descarga el listado de arquetipos creados
+		*/
+		void unloadArchetypes();
+
+	private:
+
+		/**
+		Add ESC
+		Tipo mapa ordenado, para almacenar los archetypes con valores predefinidos.
+		*/
+		typedef std::map<std::string, Map::CEntity> TArchetypeMap;
+
+		/**
+		Add ESC
+		Tabla donde se almacenan las entidades archetype.
+		*/
+		TArchetypeMap _archetypes;
+
+
+
+
+	/****************
+		BLUEPRINTS
+	*****************/
+
+	public:
+		/**
+		Carga un nuevo listado de entidades que se pueden crear mediante 
+		componentes. El fichero que contiene la definición es muy simple.
+		Cada línea corresponde a una entidad que viene definida por una
+		serie de palabras separadas por espacios donde la primera
+		palabra es el tipo de la entidad y el resto son los componentes 
+		que conforman dicha entidad.
+		<p>
+		Se puede cargar más de un fichero con definiciones de entidades.
+		Si los tipo de entidad se encuentran repetidos siempre prevalece
+		el último añadido.
+
+		@param filename Fichero con la descripción de las entidades.
+		@return true si la carga se hizo correctamente.
+		*/
+		bool loadBluePrints(const std::string &filename);
+
+		/**
+		Descarga el listado de entidades creadas
+		*/
+		void unloadBluePrints();
 		
 		
 		/**
@@ -247,64 +340,9 @@ namespace Logic
 			std::list<std::string> components;
 
 		}TBluePrint;
+				
 
-
-
-	protected:
-
-		/**
-		Única instancia de la clase.
-		*/
-		static CEntityFactory *_instance;
-
-		/** 
-		Constructor de la clase, protegido, pues es un singleton.
-		Registra al objeto como observer del cargador de mapas.
-		*/
-		CEntityFactory();
-
-		/**
-		Destructor protegido, por ser singleton.
-		*/
-		~CEntityFactory();
-
-		/**
-		Segunda fase de la construcción del objeto. Sirve para hacer
-		inicializaciones de la propia instancia en vez de inicializaciones 
-		estáticas.
-
-		@return true si todo fue correctamente.
-		*/
-		bool open();
-
-		/**
-		Segunda fase de la destrucción del objeto. Sirve para hacer liberar 
-		los recursos de la propia instancia, la liberación de los recursos 
-		estáticos se hace en Release().
-		*/
-		void close();
-
-		/** 
-		Ensambla una nueva entidad de juego a partir de su tipo de entidad.
-		En base al tipo de entidad se crearán y añadirán a la entidad las 
-		instancias de los componentes que necesita según lo leído en el/los 
-		archivo/s blueprint.
-		Es un procedimiento auxiliar utilizado por createEntity.
-
-		@param type Tipo de la entidad que se quiere crear.
-		@return La entidad creada o NULL si no se pudo crear.
-		*/
-		CEntity *assembleEntity(const std::string &type);
-
-		/**
-		Tipo lista de CEntity donde guardaremos los pendientes de borrar.
-		*/
-		typedef std::list<Logic::CEntity*> TEntityList;
-
-		/**
-		Lista de objetos pendientes de borrar.
-		*/
-		TEntityList _pendingEntities;
+	private:
 
 		/**
 		Add ESC
@@ -318,24 +356,6 @@ namespace Logic
 		*/
 		TBluePrintMap _bluePrints;
 
-		/**
-		Add ESC
-		Tipo mapa ordenado, para almacenar los archetypes con valores predefinidos.
-		*/
-		typedef std::map<std::string,Map::CEntity> TArchetypeMap;
-
-		/**
-		Add ESC
-		Tabla donde se almacenan las entidades archetype.
-		*/
-		TArchetypeMap _archetypes;
-
-		/**
-		Add ESC
-		Referencia al mapa lógico actual, donde se crearán las entidades logicas.
-		*/
-
-		CMap *_currentMap;
 
 	}; // CEntityFactory
 

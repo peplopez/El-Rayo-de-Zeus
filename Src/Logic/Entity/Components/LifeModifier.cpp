@@ -19,7 +19,7 @@ Contiene la implementación del componente que controla la vida de una entidad.
 #include "Logic/Maps/Map.h"
 #include "Logic/Server.h"
 
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 
 namespace Logic 

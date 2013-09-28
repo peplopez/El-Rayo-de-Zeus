@@ -12,13 +12,14 @@ de una escena.
 */
 
 #include "BaseCamera.h"
+#include "../RingStruct.h"
 
 #include "BaseSubsystems/Math.h"
 
 #include "Logic/Server.h"
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/Map.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 #include "Graphics/Scene.h"
 #include "Graphics/Camera.h"
@@ -62,8 +63,9 @@ namespace Logic
 
 	bool CBaseCamera::activate()
 	{		
-		_graphicsCamera->setTargetPosition(Vector3::ZERO);
-		_currentPos = Math::fromCylindricalToCartesian(0, _radius, _height);// Esto lo ponemos así de momento para que salga desde arriba la camara.
+		_graphicsCamera->setTargetPosition(Logic::startingRingPosition + Logic::separationBetweenRings);
+		_currentPos = Math::fromCylindricalToCartesian(0, _radius, _height + 
+			Logic::startingRingPosition.y + Logic::separationBetweenRings.y);
 		_graphicsCamera->setPosition(_currentPos);
 		_distance=7;
 		return true;
@@ -100,15 +102,15 @@ namespace Logic
 	void CBaseCamera::tick(unsigned int msecs)
 	{
 		
-		_degree += _angularSpeed * msecs/1000; 
+		_degree += _angularSpeed * msecs * 0.001f; 
 
 		if (_degree > 360) 
 			_degree -= 360;
 
-		_currentPos  = Math::fromCylindricalToCartesian(_degree, _radius+_distance, _height);
+		_currentPos  = Math::fromCylindricalToCartesian(_degree, _radius+_distance, _height + 
+			Logic::startingRingPosition.y + Logic::separationBetweenRings.y);
 
 		_graphicsCamera->setPosition(_currentPos);
-		_graphicsCamera->setTargetPosition(Vector3::ZERO);
 		
 		
 	} // tick

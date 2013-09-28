@@ -14,7 +14,7 @@ capacidad de un Character de activar/desactivar altares
 #include "AltarStateSwitcher.h"
 
 #include "Logic/Entity/Entity.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 #include "Logic/Maps/Map.h"
 
 #include "Logic/Entity/Components/AvatarController.h"

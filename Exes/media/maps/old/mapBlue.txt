@@ -1,8 +1,7 @@
 Map ={
 	
-	hadesScene = {
-		type = "Scene",
-		sceneFile = "hadesScene.scene",
+	HadesScene = {
+		type = "HadesSceneLowQ",
 	},
 
 	Camera = {
@@ -12,25 +11,23 @@ Map ={
 		type = "BaseCamera",
 	},
 	
-	
 	pointLight1 = {
 		type = "WhitePLight",
 		position = {0, 100, 0},
 	},	
+	
 	Atalanta1 = {
 		type = "NPCAtalanta",
 		base=2,
 		ring=1,
-		degrees=120,
-		initialMaterial1="marineGreen",
+		degrees=120,		
 	},
 	medusa2 = {
 		type = "Medusa",
 		base=2,
 		ring=1,
 		degrees=300,		
-	},	
-	
+	},
 	
 	puApple1 = {
 		type = "PUApple",
@@ -57,7 +54,6 @@ Map ={
 		degrees=270,
 	},
 	
-	
 	LowerRing = {
 		type = "World",
 		base=2,
@@ -69,6 +65,7 @@ Map ={
 		physicHalfHeight = 1,
 		physicBodyOffset = -1.9,		
 	},	
+	
 	CenterRing = {
 		type = "World",
 		base=2,
@@ -80,6 +77,7 @@ Map ={
 		physicHalfHeight = 1,
 		physicBodyOffset = -1.9,
 	},	
+
 	UpperRing = {
 		type = "World",
 		base=2,

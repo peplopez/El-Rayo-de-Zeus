@@ -16,7 +16,7 @@ de una escena.
 #include "Logic/Server.h"
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/Map.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 #include "Graphics/Scene.h"
 #include "Graphics/Camera.h"

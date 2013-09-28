@@ -547,7 +547,8 @@
 -->
     <WidgetLook name="OgreTray/StaticText">
         <Property name="BackgroundEnabled" value="True" />
-        <Property name="FrameEnabled" value="True" />
+        <!--<Property name="FrameEnabled" value="True" />-->
+		<Property name="FrameEnabled" value="False" />
         <Property name="TextColours" value="tl:FF000000 tr:FF000000 bl:FF000000 br:FF000000" />
         <Property name="HorzFormatting" value="WordWrapLeftAligned" />
         <NamedArea name="WithFrameTextRenderArea">
@@ -1169,7 +1170,8 @@
     <WidgetLook name="OgreTray/MiniTray">
         <PropertyDefinition name="TextColour" initialValue="FFFFD700" redrawOnWrite="true" /> <!-- color blanco(FFFFFFFF) del titulo del videojuego. El negro es FF000000 --> 
         <PropertyDefinition name="VertFormatting" initialValue="CentreAligned" />
-        <PropertyDefinition name="HorzFormatting" initialValue="CentreAligned" />
+        <!-- <PropertyDefinition name="HorzFormatting" initialValue="CentreAligned" /> -->
+		<PropertyDefinition name="HorzFormatting" initialValue="RightAligned" />
         <ImagerySection name="frame">
             <FrameComponent>
                 <Area>
@@ -1222,6 +1224,121 @@
     </WidgetLook>
 	
 	
+<!--
+:::: Multi-purpose frame using the MiniTray imagery. //PT
+-->
+    <WidgetLook name="OgreTray/MiniTrayLeft">
+        <PropertyDefinition name="TextColour" initialValue="FFFFD700" redrawOnWrite="true" /> <!-- color blanco(FFFFFFFF) del titulo del videojuego. El negro es FF000000 --> 
+        <PropertyDefinition name="VertFormatting" initialValue="CentreAligned" />
+		<PropertyDefinition name="HorzFormatting" initialValue="LeftAligned" />
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <!--
+				<Image type="TopLeftCorner" imageset="OgreTrayImages" image="MiniTrayTL" />
+                <Image type="TopRightCorner" imageset="OgreTrayImages" image="MiniTrayTR" />
+                <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="MiniTrayBL" />
+                <Image type="BottomRightCorner" imageset="OgreTrayImages" image="MiniTrayBR" />
+                <Image type="LeftEdge" imageset="OgreTrayImages" image="MiniTrayL" />
+                <Image type="TopEdge" imageset="OgreTrayImages" image="MiniTrayT" />
+                <Image type="RightEdge" imageset="OgreTrayImages" image="MiniTrayR" />
+                <Image type="BottomEdge" imageset="OgreTrayImages" image="MiniTrayB" />
+                <Image type="Background" imageset="OgreTrayImages" image="MiniTrayM" />
+				-->
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width"><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height"><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormatProperty name="VertFormatting" />
+                <HorzFormatProperty name="HorzFormatting" />
+            </TextComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame" />
+                <Section section="label">
+                    <ColourProperty name="TextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame" />
+                <Section section="label">
+                    <ColourProperty name="TextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>	
+	
+
+
+	<!-- PT -->
+    <WidgetLook name="OgreTray/MiniError">
+        <PropertyDefinition name="TextColour" initialValue="FFFFFFFF" redrawOnWrite="true" /> <!-- color blanco(FFFFFFFF) del titulo del videojuego. El negro es FF000000 --> 
+        <PropertyDefinition name="VertFormatting" initialValue="CentreAligned" />
+        <PropertyDefinition name="HorzFormatting" initialValue="LeftAligned" />
+        <ImagerySection name="frame">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <!--
+				<Image type="TopLeftCorner" imageset="OgreTrayImages" image="MiniTrayTL" />
+                <Image type="TopRightCorner" imageset="OgreTrayImages" image="MiniTrayTR" />
+                <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="MiniTrayBL" />
+                <Image type="BottomRightCorner" imageset="OgreTrayImages" image="MiniTrayBR" />
+                <Image type="LeftEdge" imageset="OgreTrayImages" image="MiniTrayL" />
+                <Image type="TopEdge" imageset="OgreTrayImages" image="MiniTrayT" />
+                <Image type="RightEdge" imageset="OgreTrayImages" image="MiniTrayR" />
+                <Image type="BottomEdge" imageset="OgreTrayImages" image="MiniTrayB" />
+                <Image type="Background" imageset="OgreTrayImages" image="MiniTrayM" />
+				-->
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="Width"><UnifiedDim scale="1" type="Width" /></Dim>
+                    <Dim type="Height"><UnifiedDim scale="1" type="Height" /></Dim>
+                </Area>
+                <VertFormatProperty name="VertFormatting" />
+                <HorzFormatProperty name="HorzFormatting" />
+            </TextComponent>
+        </ImagerySection>
+        <StateImagery name="Enabled">
+            <Layer>
+                <Section section="frame" />
+                <Section section="label">
+                    <ColourProperty name="TextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="frame" />
+                <Section section="label">
+                    <ColourProperty name="TextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>	
 	
 	<!-- PT-->
     <WidgetLook name="OgreTray/MiniTrayInit">
@@ -1668,7 +1785,133 @@
             </Layer>
         </StateImagery>
     </WidgetLook>
-	
+
+
+
+<!--
+:::: PushButtonNoTransp (igual que el PushButton normal pero sin transparencia, con algun color solido definido)
+-->
+    <WidgetLook name="OgreTray/PushButtonNoTransp">
+        <!--<PropertyDefinition name="NormalTextColour" initialValue="88FFFFFF" redrawOnWrite="true" /> --> <!-- azul -->
+		<PropertyDefinition name="NormalTextColour" initialValue="FFFFFFFF" redrawOnWrite="true" /> 
+        <PropertyDefinition name="HoverTextColour" initialValue="FF000000" redrawOnWrite="true" />
+        <PropertyDefinition name="PushedTextColour" initialValue="FF000000" redrawOnWrite="true" />
+        <PropertyDefinition name="DisabledTextColour" initialValue="FF888888" redrawOnWrite="true" />
+        <ImagerySection name="label">
+            <TextComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <VertFormat type="CentreAligned" />
+                <HorzFormat type="WordWrapCentreAligned" />
+            </TextComponent>
+        </ImagerySection>
+        <ImagerySection name="normal">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+				
+				<Image type="TopLeftCorner" imageset="OgreTrayImages" image="ButtonUpTLNoTransp" />
+                <Image type="TopRightCorner" imageset="OgreTrayImages" image="ButtonUpTRNoTransp" />
+                <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="ButtonUpBLNoTransp" />
+                <Image type="BottomRightCorner" imageset="OgreTrayImages" image="ButtonUpBRNoTransp" />
+				
+                <Image type="LeftEdge" imageset="OgreTrayImages" image="ButtonUpLNoTransp" />
+                <Image type="TopEdge" imageset="OgreTrayImages" image="ButtonUpTNoTransp" />
+                <Image type="RightEdge" imageset="OgreTrayImages" image="ButtonUpRNoTransp" />
+                <Image type="BottomEdge" imageset="OgreTrayImages" image="ButtonUpBNoTransp" />
+				
+                <Image type="Background" imageset="OgreTrayImages" image="ButtonUpMNoTransp" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="hover">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+				<Image type="TopLeftCorner" imageset="OgreTrayImages" image="ButtonOverTL" />
+                <Image type="TopRightCorner" imageset="OgreTrayImages" image="ButtonOverTR" />
+                <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="ButtonOverBL" />
+                <Image type="BottomRightCorner" imageset="OgreTrayImages" image="ButtonOverBR" />
+				
+                <Image type="LeftEdge" imageset="OgreTrayImages" image="ButtonOverL" />
+                <Image type="TopEdge" imageset="OgreTrayImages" image="ButtonOverT" />
+                <Image type="RightEdge" imageset="OgreTrayImages" image="ButtonOverR" />
+                <Image type="BottomEdge" imageset="OgreTrayImages" image="ButtonOverB" />
+				
+                <Image type="Background" imageset="OgreTrayImages" image="ButtonOverM" />
+            </FrameComponent>
+        </ImagerySection>
+        <ImagerySection name="pushed">
+            <FrameComponent>
+                <Area>
+                    <Dim type="LeftEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="TopEdge"><AbsoluteDim value="0" /></Dim>
+                    <Dim type="RightEdge"><UnifiedDim scale="1" type="RightEdge" /></Dim>
+                    <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                </Area>
+                <Image type="TopLeftCorner" imageset="OgreTrayImages" image="ButtonDownTL" />
+                <Image type="TopRightCorner" imageset="OgreTrayImages" image="ButtonDownTR" />
+                <Image type="BottomLeftCorner" imageset="OgreTrayImages" image="ButtonDownBL" />
+                <Image type="BottomRightCorner" imageset="OgreTrayImages" image="ButtonDownBR" />
+                <Image type="LeftEdge" imageset="OgreTrayImages" image="ButtonDownL" />
+                <Image type="TopEdge" imageset="OgreTrayImages" image="ButtonDownT" />
+                <Image type="RightEdge" imageset="OgreTrayImages" image="ButtonDownR" />
+                <Image type="BottomEdge" imageset="OgreTrayImages" image="ButtonDownB" />
+                <Image type="Background" imageset="OgreTrayImages" image="ButtonDownM" />
+            </FrameComponent>
+        </ImagerySection>
+        <StateImagery name="Normal">
+            <Layer>
+                <Section section="normal" />
+                <Section section="label">
+                    <ColourProperty name="NormalTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Hover">
+            <Layer>
+                <Section section="hover" />
+                <Section section="label">
+                    <ColourProperty name="HoverTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Pushed">
+            <Layer>
+                <Section section="pushed" />
+                <Section section="label">
+                    <ColourProperty name="PushedTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="PushedOff">
+            <Layer>
+                <Section section="hover" />
+                <Section section="label">
+                    <ColourProperty name="HoverTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+        <StateImagery name="Disabled">
+            <Layer>
+                <Section section="normal" />
+                <Section section="label">
+                    <ColourProperty name="DisabledTextColour" />
+                </Section>
+            </Layer>
+        </StateImagery>
+    </WidgetLook>	
 	
 	
 	

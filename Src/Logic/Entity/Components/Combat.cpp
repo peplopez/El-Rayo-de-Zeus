@@ -171,7 +171,6 @@ namespace Logic
 		if(newdegree > 360)
 			newdegree = newdegree - 360;
 
-		std::ostringstream basestring = Logic::CServer::getSingletonPtr()->getBasestring(numBase);
 		const std::string type = "Arrow";
 		
 		if(sense!=LogicalPosition::Sense::LEFT && sense!=LogicalPosition::Sense::RIGHT)

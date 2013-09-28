@@ -15,7 +15,7 @@ gráfica de la entidad.
 
 #include "Logic/Entity/Entity.h"
 #include "Logic/Maps/Map.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 #include "Graphics/Scene.h"
 #include "Graphics/Entity.h"
@@ -39,11 +39,10 @@ namespace Logic
 
 	CGraphics::~CGraphics() 
 	{
-		if(_graphicalEntity){				
+		if(_graphicalEntity)				
 			_scene->remove(_graphicalEntity);
-			delete _graphicalEntity;
-		}
-
+		
+		delete	_graphicalEntity;	
 	} // ~CGraphics
 
 	//---------------------------------------------------------
@@ -77,45 +76,32 @@ namespace Logic
 		_graphicalEntity = createGraphicalEntity(entityInfo);
 			if(!_graphicalEntity)
 				return false;
-		
-		Vector3 initialScale = Vector3::UNIT_SCALE;
-
-
-
-		if(entityInfo->hasAttribute("initialScale") )
-			initialScale *=  entityInfo->getFloatAttribute("initialScale");
-			
-		if(entityInfo->hasAttribute("material"))
-		{
-			_graphicalEntity->setMaterial(entityInfo->getStringAttribute("material"));
-		}
-
-		if(entityInfo->hasAttribute("submaterial0"))
-		{
-			_graphicalEntity->setSubEntityMaterial(entityInfo->getStringAttribute("submaterial0"), 0);
-		}
-
-		if(entityInfo->hasAttribute("submaterial1"))
-		{
-			_graphicalEntity->setSubEntityMaterial(entityInfo->getStringAttribute("submaterial1"), 1);
-		}
-
-		if(entityInfo->hasAttribute("initialMaterial0"))
-			_initialMaterial0 = entityInfo->getStringAttribute("initialMaterial0");
-
-		if(entityInfo->hasAttribute("initialMaterial1"))
-		{
-			_initialMaterial1 = entityInfo->getStringAttribute("initialMaterial1");
-			_graphicalEntity->setSubEntityMaterial(_initialMaterial1, 1);
-		}
-
 
 		_graphicalEntity->setTransform(_entity->getTransform());
-		_graphicalEntity->setScale(initialScale);
-				
+
+	// READ MATERIALS & COLORS
+		std::string varMaterial("modelMaterial0");	
+		std::string varColor("modelColor0");
+		const unsigned int N = _graphicalEntity->getNumSubEntities();
+			for(unsigned int entIndex = 0; entIndex < N; ++entIndex) 
+			{
+				if( entityInfo->hasAttribute(varMaterial) )
+					_graphicalEntity->setMaterial(	
+						entityInfo->getStringAttribute(varMaterial), entIndex);
+				if( entityInfo->hasAttribute(varColor) ) 				
+					_graphicalEntity->setColor(		
+						entityInfo->getStringAttribute(varColor),	 entIndex); 
+			
+				++varMaterial	[	varMaterial.length()- 1 ];
+				++varColor		[	varColor.length()	- 1 ];
+			}
+	
+	// SCALE
+		if(entityInfo->hasAttribute("modelScale") )
+			_graphicalEntity->setScale( entityInfo->getFloatAttribute("modelScale") );
 
 	// ATTACHs
-	// TODO  FRS Esto estaría guapo tron extraerlo directamente como lista de pares desde el map.txt
+	// TODO FRS Esto estaría guapo tron extraerlo directamente como lista de pares desde el map.txt
 		if(entityInfo->hasAttribute("modelFacial"))
 			_graphicalEntity->attach( Graphics::TAttachPoint::FACE, 
 				entityInfo->getStringAttribute("modelFacial") );
@@ -145,12 +131,10 @@ namespace Logic
 	bool CGraphics::accept(const CMessage *message)
 	{
 		return	 message->getType() == Message::SET_TRANSFORM ||
-				 message->getType() == Message::SET_MATERIAL ||
-				 message->getType() == Message::SET_SUBENTITY_MATERIAL ||
+				 message->getType() == Message::SET_MATERIAL ||	
+				 message->getType() == Message::RESET_MATERIAL ||			
 				 message->getType() == Message::ATTACH ||
-				 message->getType() == Message::SET_SCALE ||
-				 message->getType() == Message::SET_INITIAL_MATERIAL ||
-				 message->getType() == Message::DELETE_GRAPHICAL_ENTITY ;
+				 message->getType() == Message::SET_SCALE;
 
 	} // accept
 	
@@ -166,29 +150,13 @@ namespace Logic
 		}	break;
 	
 		case Message::SET_MATERIAL: {			
-			CMessageString *rxMsg = static_cast<CMessageString*>(message);
-			_graphicalEntity->setMaterial(rxMsg->getString());			
-		}	break;
-
-		case Message::SET_SUBENTITY_MATERIAL:{
 			CMessageUIntString *rxMsg = static_cast<CMessageUIntString*>(message);
-			_graphicalEntity->setSubEntityMaterial(rxMsg->getString(), rxMsg->getUInt());
+			_graphicalEntity->setMaterial(rxMsg->getString(), rxMsg->getUInt() );		
 		}	break;
 
-		case Message::SET_INITIAL_MATERIAL:{
+		case Message::RESET_MATERIAL:{
 			CMessageUInt *rxMsg = static_cast<CMessageUInt*>(message);
-			//PT
-			switch(rxMsg->getUInt())
-			{
-			case 0:
-				_graphicalEntity->setSubEntityMaterial(_initialMaterial0, 0);
-				break;
-			case 1:
-				_graphicalEntity->setSubEntityMaterial(_initialMaterial1, 1);
-				break;
-
-			}
-			//_graphicalEntity->setSubEntityMaterial(_initialMaterial, rxMsg->getUInt());
+			_graphicalEntity->resetLastMaterial( rxMsg->getUInt() );
 		}	break;
 
 		case Message::ATTACH: {
@@ -231,11 +199,6 @@ namespace Logic
 				
 			} break;
 
-			//PT
-		case Message::DELETE_GRAPHICAL_ENTITY:{
-				//_graphicalEntity->detachFromScene();
-				//CGraphics::detachFromMap();
-			} break;
 
 		} // switch
 

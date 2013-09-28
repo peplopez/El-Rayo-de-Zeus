@@ -18,18 +18,15 @@
 
 namespace Net {
 
-	CPacket::CPacket( PacketType tipo, 
+	CPacket::CPacket( PacketType type, 
 						byte* data, 
 						size_t dataLength, 
 						CConnection* connection, 
-						unsigned char canal)
-	{
-		_data = 0;
-		_dataLength = 0;
-		_packetType = tipo;
-		setData(data,dataLength);
-		_connection = connection;
-		_canal = canal;	
+						unsigned char channel) : 
+		_packetType(type), _connection(connection), _channel(channel),
+		_data(0), _dataLength(0)
+	{	
+		setData(data,dataLength);	
 	}
 
 	CPacket::~CPacket()
@@ -62,34 +59,34 @@ namespace Net {
 	}
 
 
-	PacketType CPacket::getTipo()
+	PacketType CPacket::getType()
 	{
 		return _packetType;
 	}
 
-	void CPacket::setTipo(PacketType tipo)
+	void CPacket::setType(PacketType type)
 	{
-		_packetType = tipo;
+		_packetType = type;
 	}
 
-	CConnection* CPacket::getConexion()
+	CConnection* CPacket::getConnection()
 	{
 		return _connection;
 	}
 
-	void CPacket::setConexion(CConnection* connection)
+	void CPacket::setConnection(CConnection* connection)
 	{
 		_connection = connection;
 	}
 
-	void CPacket::setCanal(unsigned char canal)
+	void CPacket::setChannel(unsigned char channel)
 	{
-		_canal = canal;
+		_channel = channel;
 	}
 
-	unsigned char CPacket::getCanal()
+	unsigned char CPacket::getChannel()
 	{
-		return _canal;
+		return _channel;
 	}
 
 } // namespace Net

@@ -12,6 +12,9 @@ namespace Graphics
 		/** Constructor
 			@remarks Skydome + vol. clouds + lightning settings
 		 */
+
+		SkyXSettings() {};
+
 		SkyXSettings(const Ogre::Vector3 t, const Ogre::Real& tm, const Ogre::Real& mp, const SkyX::AtmosphereManager::Options& atmOpt,
 			const bool& lc, const bool& vc, const Ogre::Real& vcws, const bool& vcauto, const Ogre::Radian& vcwd, 
 			const Ogre::Vector3& vcac, const Ogre::Vector4& vclr,  const Ogre::Vector4& vcaf, const Ogre::Vector2& vcw,
