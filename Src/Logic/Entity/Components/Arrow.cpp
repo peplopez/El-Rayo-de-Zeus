@@ -69,8 +69,7 @@ namespace Logic {
 
 	bool CArrow::accept(const CMessage *message)
 	{
-		return false; //inhabilitado hasta que de verad me haga falta
-		return message->getType() == Message::AVATAR_MOVE;
+		return false; //inhabilitado hasta que de verdad me haga falta		
 	} 
 
 
@@ -80,15 +79,7 @@ namespace Logic {
 	// De esa forma, si recibimos varios mensajes AVATAR_WALK tendremos la última coordenada de cada tipo (degrees, height, ring, base)
 	void CArrow::process(CMessage *message)
 	{
-		switch( message->getAction() ) {
-			
-		case Message::WALK_LEFT:
-		case Message::WALK_RIGHT:
-			_diffDegrees += static_cast<CMessageFloat*>(message)->getFloat();	
-			break;
-		case Message::WALK_STOP:
-			_physicalActor->setLinearVelocity(0,_diffHeight);
-		} // switch message action
+		
 	} 
 
 	//---------------------------------------------------------
@@ -98,9 +89,6 @@ namespace Logic {
 		_diffDegrees+=_angularProjectileSpeed*(_entity->getLogicalPosition()->getSense()==Sense::LEFT?1:-1) * msecs;
 		_diffHeight=(_negativeYVelocity-=0.3)*msecs;
 		// Llamar al método de la clase padre (IMPORTANTE).
-
-
-
 
 
 	  float t = 1 / 60.0f; // seconds per time step (at 60fps)

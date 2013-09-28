@@ -56,6 +56,9 @@ namespace Logic
 		//assert( entityInfo->hasAttribute("lifeModifierHeavyAttack") );
 		if(entityInfo->hasAttribute("lifeModifierHeavyAttack"))
 			_lifeModifierHeavyAttack = entityInfo->getIntAttribute("lifeModifierHeavyAttack");
+		
+		if(entityInfo->hasAttribute("arrowFighter"))
+			_arrowFighter = entityInfo->getBoolAttribute("arrowFighter");
 
 		return true;
 		}
@@ -147,7 +150,7 @@ namespace Logic
 				_entity->emitMessage(message,this);
 
 			
-			}	fireArrow();
+			}
 	 }
 
 	 void CCombat::fireArrow()
@@ -166,18 +169,18 @@ namespace Logic
 			newdegree+= 10;
 
 		//correction in the degrees where ally appears
-		if(newdegree<0)
+		/*if(newdegree<0)
 			newdegree = 360 + newdegree;
 		if(newdegree > 360)
 			newdegree = newdegree - 360;
-
+			*/
 		const std::string type = "Arrow";
 		
 		if(sense!=LogicalPosition::Sense::LEFT && sense!=LogicalPosition::Sense::RIGHT)
 		sense = LogicalPosition::Sense::LEFT;
 
 		CLogicalPosition pos;
-		pos.setDegree(newdegree);
+		pos.setDegree(_entity->getLogicalPosition()->getDegree());
 		pos.setRing(ring);
 		pos.setBase(numBase);
 		pos.setSense(sense);
@@ -206,8 +209,8 @@ namespace Logic
 		}*/
 ////////////////////
 
-		if (_entity->getType()=="NPC" || _entity->getType()=="Creature")
-		 fireArrow();
+		if (_arrowFighter)
+		    fireArrow();
 
 
 		_attackPower = _lifeModifierLightAttack;
@@ -227,6 +230,8 @@ namespace Logic
 		// _entity->emitMessage(muint);
 
 		_attackPower = _lifeModifierHeavyAttack;
+			if (_arrowFighter)
+		    fireArrow();
 
 	} // heavyAttack
 
