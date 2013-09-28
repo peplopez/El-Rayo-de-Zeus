@@ -70,7 +70,7 @@
 		<Window Type="OgreTray/Combobox" Name="MenuSingle/AvatarBox" >
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 			<!-- <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.49,0},{0.95,0},{0.62,0}}" /> -->
-			<Property Name="UnifiedAreaRect" Value="{{0.17,0},{0.56,0},{0.42,0},{0.75,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.17,0},{0.56,0},{0.42,0},{0.70,0}}" />
 			<Property Name="MaxEditTextLength" Value="1073741823" />
 			<Property Name="AlwaysOnTop" Value="True" />			
         </Window>
@@ -86,7 +86,7 @@
 		<Window Type="OgreTray/Combobox" Name="MenuSingle/StageBox" >
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 			<!-- <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.56,0},{0.95,0},{0.75,0}}" /> -->
-			<Property Name="UnifiedAreaRect" Value="{{0.17,0},{0.63,0},{0.42,0},{0.79,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.17,0},{0.63,0},{0.42,0},{0.77,0}}" />
 			<Property Name="MaxEditTextLength" Value="1073741823" />
 			<Property Name="AlwaysOnTop" Value="True" />			
         </Window>
@@ -98,13 +98,13 @@
             <Property Name="Text" Value="Opponents" />
             <Property Name="AlwaysOnTop" Value="True" />
             <!-- <Property Name="UnifiedAreaRect" Value="{{0.58,1},{0.63,0},{0.69,0},{0.68,0}}" /> -->
-			<Property Name="UnifiedAreaRect" Value="{{0.58,1},{0.49,0},{0.69,0},{0.54,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.43,1},{0.49,0},{0.69,0},{0.54,0}}" />
         </Window>		
 		
 		<Window Type="OgreTray/Combobox" Name="MenuSingle/OppBox" >
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 			<!-- <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.63,0},{0.95,0},{0.79,0}}" /> -->
-			<Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.49,0},{0.95,0},{0.65,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.49,0},{0.95,0},{0.67,0}}" />
 			<Property Name="MaxEditTextLength" Value="1073741823" />
 			<Property Name="AlwaysOnTop" Value="True" />			
         </Window>
@@ -114,13 +114,13 @@
             <Property Name="Text" Value="Climatology" />
             <Property Name="AlwaysOnTop" Value="True" />
             <!-- <Property Name="UnifiedAreaRect" Value="{{0.58,1},{0.7,0},{0.69,0},{0.75,0}}" /> -->
-			<Property Name="UnifiedAreaRect" Value="{{0.58,1},{0.56,0},{0.69,0},{0.61,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.43,1},{0.56,0},{0.69,0},{0.61,0}}" />
         </Window>		
 		
 		<Window Type="OgreTray/Combobox" Name="MenuSingle/ClimatologyBox" >
 			<Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
 			<!-- <Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.7,0},{0.95,0},{0.86,0}}" /> -->
-			<Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.56,0},{0.95,0},{0.72,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.7,0},{0.56,0},{0.95,0},{0.82,0}}" />
 			<Property Name="MaxEditTextLength" Value="1073741823" />
 			<Property Name="AlwaysOnTop" Value="True" />			
         </Window>	
@@ -130,7 +130,7 @@
             <Property Name="Text" Value="Low Quality" />
             <Property Name="AlwaysOnTop" Value="True" />
             <!-- <Property Name="UnifiedAreaRect" Value="{{0.58,1},{0.77,0},{0.69,0},{0.82,0}}" /> -->
-			<Property Name="UnifiedAreaRect" Value="{{0.58,1},{0.63,0},{0.69,0},{0.68,0}}" />
+			<Property Name="UnifiedAreaRect" Value="{{0.43,1},{0.63,0},{0.69,0},{0.68,0}}" />
         </Window>		
 		
 		<Window Type="OgreTray/Checkbox" Name="MenuSingle/LowQuality" >
@@ -149,7 +149,7 @@
 			<Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.78,0},{0.95,0},{0.8,0}}" />
         </Window>
 		
-		<Window Type="OgreTray/Title" Name="MenuSingle/TextoProgreso" >
+		<Window Type="OgreTray/TitleLeft" Name="MenuSingle/TextoProgreso" >
 			<Property Name="Text" Value="" />
 			<Property Name="Font" Value="Diogenes-14" />
 			<Property Name="AlwaysOnTop" Value="True" />

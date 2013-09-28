@@ -155,7 +155,20 @@ namespace Logic
 		*/
 		CEntity *createEntity(Map::CEntity entityInfo, 
 			Logic::CMap *map, bool useArchetype = true);
+		/*
+		Add Pep
+		*/
+		CEntity *createEntity(const Map::CEntity *entityInfo, CMap *map, const CEntity* father);
 
+
+		/**
+		/**
+		Add PEP
+		Para crear entidad pasandole el padre */
+		Logic::CEntity *CEntityFactory::createMergedEntity(
+								Map::CEntity *entityInfo,
+								Logic::CMap *map,
+								const CEntity* father);
 
 		
 		//---------------- DELETION -------------------------------

@@ -126,7 +126,8 @@ namespace Logic
 			FX_BURN,
 			FX_BURN_SMALL,
 			FX_SPARKS,
-			FX_TRAILS
+			FX_TRAILS,
+			FX_TRAILS_PROJECTILE
 		};
 	}
 
