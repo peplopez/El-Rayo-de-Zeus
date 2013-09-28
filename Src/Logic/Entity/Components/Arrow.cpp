@@ -14,7 +14,7 @@ Contiene la declaración del componente que se utiliza para representar flechas e
 */
 #include "Arrow.h"
 #include "Logic/Entity/Entity.h"
-#include "Map/MapEntity.h"
+#include "Map/Entity.h"
 
 
 #include "Logic/Entity/Messages/Message.h"
@@ -162,7 +162,7 @@ namespace Logic {
 			
 		 	if (victim->getType()=="World")			
 				if (_negativeYVelocity<0)
-						DestroyArrow
+						DestroyArrow();
 		}
 	}
 

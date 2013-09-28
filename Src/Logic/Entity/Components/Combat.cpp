@@ -23,7 +23,7 @@ angular de entidades.
 #include <Logic/Entity/Messages/MessageUInt.h>
 #include <Logic/Entity/Messages/MessageString.h>
 #include <Logic/Maps/Map.h>
-#include <Map/MapEntity.h>
+#include <Map/Entity.h>
 
 #include "AnimatedGraphics.h"
 #include "logic\server.h"

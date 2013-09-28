@@ -186,7 +186,7 @@ namespace Logic
 		else
 			_initialMaterial = "marine";
 			*/
-		if(entityInfo->hasAttribute("initialMaterial0"))
+	/*	if(entityInfo->hasAttribute("initialMaterial0"))
 			_initialMaterial0 = entityInfo->getStringAttribute("initialMaterial0");	
 		else
 			_initialMaterial0 = "marine";
@@ -194,7 +194,7 @@ namespace Logic
 		if(entityInfo->hasAttribute("initialMaterial1"))
 			_initialMaterial1 = entityInfo->getStringAttribute("initialMaterial1");	
 		else
-			_initialMaterial1 = "";
+			_initialMaterial1 = "";*/
 		//FIN PT
 		
 		_initialScale= 1.0f;	
@@ -245,8 +245,8 @@ namespace Logic
 			_transform.setTrans(position);
 		}
 
-		if(entityInfo->hasAttribute("isPlayer"))
-			setIsPlayer( entityInfo->getBoolAttribute("isPlayer") );		
+	//	if(entityInfo->hasAttribute("isPlayer"))
+		//	setIsPlayer( entityInfo->getBoolAttribute("isPlayer") );		
 
 		// Inicializamos los componentes
 		bool correct = true;

@@ -324,28 +324,6 @@ namespace Logic {
 		assert(entity);
 		_entitiesToMove[targetMap].push_back(entity);
 	}
-	
-	std::ostringstream  CServer::getBasestring(int base)
-	{
-		//solución propuesta:
-		std::ostringstream result;
-			switch(base)
-			{
-			case 1:
-				result << "mapRed";
-				break;
-			case 2:
-				result << "mapBlue";
-				break;
-			case 3:
-				result << "mapGreen";
-				break;
-			case 4:
-				result << "mapYellow";
-				break;
-			}
-			return result;
-	}
 
 	//---------------------------------------------------------
 
