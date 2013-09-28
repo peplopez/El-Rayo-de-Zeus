@@ -209,6 +209,7 @@ namespace Logic
 		void compositorEnable(const std::string &name);
 		void compositorDisable(const std::string &name);
 
+		std::ostringstream  getBasestring(int base);
 	protected:
 		/**
 		Constructor.

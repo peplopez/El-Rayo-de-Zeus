@@ -266,7 +266,27 @@ namespace Logic
 
 	} // createEntity
 
+	Logic::CEntity *CEntityFactory::createEntity(const	Map::CEntity *entityInfo,Logic::CMap *map,const Logic::CEntity* father)
+	{		
+		CEntity *ret = assembleEntity(entityInfo->getType());
 
+		if (!ret)
+			return 0;
+
+		// Añadimos la nueva entidad en el mapa antes de inicializarla.
+		map->addEntity(ret);
+
+		// Y lo inicializamos
+		
+		if (ret->spawn(map, entityInfo, father))
+			return ret;
+		else {
+			map->removeEntity(ret);
+			delete ret;
+			return 0;
+		}
+
+	} // createEntity
 	//---------------------------------------------------------
 
 	//---------------------------------------------------------
@@ -290,9 +310,26 @@ namespace Logic
 		//return ret;
 	} // createMergedEntity
 
+	Logic::CEntity *CEntityFactory::createMergedEntity(
+								Map::CEntity *entityInfo,
+								Logic::CMap *map,
+								const CEntity* father)
+	{
+		
+		//Se busca en el std::map de archetypes el tipo del *entityInfo
+		TArchetypeMap::const_iterator it = _archetypes.find(entityInfo->getType());
 
-	
-	
+		//Si encuentra el archetype de ese tipo, fusiono con él en entityInfo
+		if (it != _archetypes.end())
+		{
+			entityInfo->mergeWithArchetype(it->second);
+		}
+
+		// UNDONE CEntity *ret = createEntity(entityInfo, map);
+		return createEntity(entityInfo, map, father); // [ƒ®§] No se optimiza más enchufando directamente la salida así?
+		//return ret;
+	} // createMergedEntity
+
 	//---------------------------------------------------------
 
 	void CEntityFactory::deferredDeleteEntity(Logic::CEntity *entity)

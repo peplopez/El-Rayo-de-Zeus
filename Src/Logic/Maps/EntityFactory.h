@@ -133,6 +133,12 @@ namespace Logic
 							  CMap *map);
 
 		/**
+		Add Pep
+		*/
+		CEntity *createEntity(const Map::CEntity *entityInfo, CMap *map, const CEntity* father);
+
+
+		/**
 		Add ESC
 		Mod ESC - Método modificado usado durante la carga del mapa, para que tenga en cuenta los archetypes.
 		En este método se añade al MAP::CEntity la información adicional que haya en el arquetipo,
@@ -141,6 +147,13 @@ namespace Logic
 		CEntity *createMergedEntity(Map::CEntity *entityInfo,
 							  CMap *map);
 		
+		/**
+		Add PEP
+		Para crear entidad pasandole el padre */
+		Logic::CEntity *CEntityFactory::createMergedEntity(
+								Map::CEntity *entityInfo,
+								Logic::CMap *map,
+								const CEntity* father);
 
 		/**
 		Add ESC

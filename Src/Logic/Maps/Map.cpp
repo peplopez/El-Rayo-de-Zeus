@@ -23,9 +23,13 @@ Contiene la implementación de la clase CMap, Un mapa lógico.
 
 #include "Physics/Server.h"
 #include "Physics/Scene.h"
-
 #include <cassert>
 
+#include "Application/BaseApplication.h"
+#include "../Entity/LogicalPosition.h"
+
+
+#include "..\..\Application\Clock.h"
 
 // HACK. Debería leerse de algún fichero de configuración
 #define MAP_FILE_PATH "./media/maps/"
@@ -34,7 +38,7 @@ namespace Logic {
 		
 
 	// ƒ®§ Creación de un mapa con nombre name (normalmente el propio filename). => Creación de escenas física y gráfica
-	CMap::CMap(const std::string &name) : _name(name), _isActive(false), alied(0)
+	CMap::CMap(const std::string &name) : _name(name), _isActive(false), alied(0), bullet(0)
 	{
 		_graphicScene = Graphics::CServer::getSingletonPtr()->createScene(name);
 		_physicsScene  = Physics::CServer::getSingletonPtr()->createScene(name); 
@@ -72,7 +76,7 @@ namespace Logic {
 		Graphics::CServer::getSingletonPtr()->activate(_graphicScene);
 		Physics::CServer::getSingletonPtr()->activate(_physicsScene);
 
-		
+		bullet=0;
 
 		return _isActive;
 	} // activate
@@ -231,6 +235,41 @@ namespace Logic {
 		//newAlied->setPosition(newAlied->getPosition() + (rand()%50-25) * Vector3(1, 0, 1) );
 
 	}
+	void CMap::createProjectile(const std::string entityName, const CLogicalPosition pos,const CEntity* father)
+	{
+
+		// [PT] Creamos un proyectil, flecha. Lo hago tal como crea los aliados Pablo
+
+		std::ostringstream eName, eBase, eRing, eDegrees, eSense;
+		eName << entityName; //bullet es un contador
+
+		eBase << pos.getBase();
+		eRing << (unsigned short) pos.getRing();
+		eDegrees << (float)pos.getDegree();
+		eSense << (unsigned short) pos.getSense();
+
+		Map::CEntity bulletInfo(eName.str());
+
+		bulletInfo.setType(entityName);
+
+
+		//Atributos
+		bulletInfo.setAttribute("base", eBase.str());
+		bulletInfo.setAttribute("ring", eRing.str());
+		bulletInfo.setAttribute("sense", eSense.str());
+		bulletInfo.setAttribute("degrees", eDegrees.str());
+
+		CEntity* newBullet = CEntityFactory::getSingletonPtr()->createMergedEntity(&bulletInfo, this, father);
+
+		//activate the new entity
+		//newBullet->getLogicalPosition()->setSense(eSense);
+		newBullet->activate();
+
+		bullet++;
+
+		//newAlied->setPosition(newAlied->getPosition() + (rand()%50-25) * Vector3(1, 0, 1) );
+
+	}
 
 	
 
@@ -249,13 +288,16 @@ namespace Logic {
 		// FRS No podemos usar el removeEntity ya que modificaría la lista mientras la recorremos
 		TEntityList::iterator it = _entityList.begin();
 		TEntityList::iterator end = _entityList.end();
+	
 			while(it != end)			
 				entityFactory->deleteEntity( *it++ ); 
 			// FRS Incrementamos el iterador antes del deleteEntity
 			// ya que el método modifica el _entityList
 
-		_entityList.clear();
+				_entityList.clear();
 		_entityMap.clear();
+		Application::CBaseApplication::getSingletonPtr()->getClock()->removeAllTimeObserver();
+		
 	} // destroyAllEntities
 
 	//--------------------------------------------------------	

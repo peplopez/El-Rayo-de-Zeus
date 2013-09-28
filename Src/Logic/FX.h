@@ -76,6 +76,8 @@ namespace Logic
 						map[Message::TActionType::FX_BURN_SMALL]		="BurnHit_Small";
 						map[Message::TActionType::FX_SPARKS]			="Sparks";
 						map[Message::TActionType::FX_TRAILS]			="Trails";
+						map[Message::TActionType::FX_TRAILS_PROJECTILE]	="TorchFireArrow";
+						
 
 					// TODO añadir on demand...
 					return map;

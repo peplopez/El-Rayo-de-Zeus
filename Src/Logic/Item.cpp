@@ -69,6 +69,7 @@ namespace Logic
 		// FRS Sólo cogen items los players
 		// TODO FRS Hay que especializar el componente para player y otherPlayer o
 		// barajar la opción de renombrarlo como CItemManager y que se use desde Player y OtherPlayer
+		if (otherEntity!=NULL)
 		if(otherEntity->getType() == "Player" || otherEntity->getType() == "NPC") {	
 			
 			// ATTACH TO HAND

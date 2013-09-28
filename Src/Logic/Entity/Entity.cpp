@@ -169,6 +169,125 @@ namespace Logic
 		return correct;
 	} // spawn
 
+	bool CEntity::spawn(CMap *map, const Map::CEntity *entityInfo, const CEntity* father) 
+	{
+		// Leemos las propiedades comunes
+		_map = map;
+		_type = entityInfo->getType();
+		_logicInput = false;
+		_offsetHeight  = 0;
+
+		Vector3 position = Vector3::ZERO;	
+		_pos = new CLogicalPosition();
+
+		assert(entityInfo->hasAttribute("name")) ;
+			_name = entityInfo->getStringAttribute("name");	
+
+		assert(_father!= NULL && "Father null") ;
+		
+		_father=father;
+		// FRS GRAPHICAL NAME = name + ID => para evitar entidades gráficas con = nombre
+		std::stringstream ssAux; 
+			ssAux << _name << _entityID;
+			_graphicalName = ssAux.str();
+		
+		// TODO FRS Este parámetro no es necesario -> se puede deducir del siguiente if
+		if(entityInfo->hasAttribute("logicInput"))
+			_logicInput = entityInfo->getBoolAttribute("logicInput");
+
+		if(entityInfo->hasAttribute("degrees"))
+			_pos->setDegree(entityInfo->getFloatAttribute("degrees"));
+
+		if(entityInfo->hasAttribute("height"))
+			_pos->setHeight(entityInfo->getFloatAttribute("height"));
+			
+			
+		if(entityInfo->hasAttribute("sense"))
+			_pos->setSense(static_cast<Logic::Sense>(entityInfo->getIntAttribute("sense")));
+		else
+			//situación anómala, se lanzaría una excepción o trazas por consola. Se le asigna por defecto dirección LEFT
+			_pos->setSense(Logic::Sense::LOOKING_OUTSIDE);
+
+
+		//PT
+		/*if(entityInfo->hasAttribute("initialMaterial"))
+			_initialMaterial = entityInfo->getStringAttribute("initialMaterial");	
+		else
+			_initialMaterial = "marine";
+			*/
+		if(entityInfo->hasAttribute("initialMaterial0"))
+			_initialMaterial0 = entityInfo->getStringAttribute("initialMaterial0");	
+		else
+			_initialMaterial0 = "marine";
+
+		if(entityInfo->hasAttribute("initialMaterial1"))
+			_initialMaterial1 = entityInfo->getStringAttribute("initialMaterial1");	
+		else
+			_initialMaterial1 = "";
+		//FIN PT
+		
+		_initialScale= 1.0f;	
+		if(entityInfo->hasAttribute("initialScale"))
+			_initialScale = entityInfo->getFloatAttribute("initialScale");	
+		
+		if(entityInfo->hasAttribute("offsetHeight"))					
+		{
+			_offsetHeight=entityInfo->getFloatAttribute("offsetHeight");
+		}
+
+		if(entityInfo->hasAttribute("base"))					
+		{
+			_pos->setBase(entityInfo->getIntAttribute("base"));
+			this->setOriginBase(_pos->getBase());
+		}
+		if(entityInfo->hasAttribute("ring"))
+			_pos->setRing(static_cast<Ring>(entityInfo->getIntAttribute("ring")));
+		else			
+			//situación anómala, se lanzaría una excepción o trazas por consola. 
+			//Se le asigna el anillo central para que pese a todo no pete.
+			_pos->setRing(Logic::LogicalPosition::CENTRAL_RING); 
+
+		if (_logicInput)
+		{
+			position=fromLogicalToCartesian(_pos->getDegree(),_pos->getHeight(), _pos->getBase(),_pos->getRing());
+			_transform.setTrans(position);
+			
+			setYaw(Math::fromDegreesToRadians(-_pos->getDegree()));
+
+		//HACK FRS: Todas estas reorientaciones habría que evitarlas
+			if (_type=="AltarAnimated")
+				setYaw( Math::fromDegreesToRadians( 90 - _pos->getDegree() ) );
+			else if ( (_type == "Creature" || _type == "Cerberus") 
+				      && _pos->getSense() == Logic::Sense::RIGHT)
+				setYaw( Math::fromDegreesToRadians( 180 - _pos->getDegree() ) );	
+		////
+		} 
+		else //logicInput=false	
+		{ 	
+			position = CServer::getSingletonPtr()->getRingPosition(_pos->getRing());						
+			_transform.setTrans(position);
+		}
+
+		if(entityInfo->hasAttribute("position"))
+		{
+			position = entityInfo->getVector3Attribute("position");
+			_transform.setTrans(position);
+		}
+
+		if(entityInfo->hasAttribute("isPlayer"))
+			setIsPlayer( entityInfo->getBoolAttribute("isPlayer") );		
+
+		// Inicializamos los componentes
+		bool correct = true;
+		TComponentVector::const_iterator it = _compoList.begin(); 	
+		TComponentVector::const_iterator end = _compoList.end(); 
+			for( ; it != end && correct; ++it )				
+				correct = (*it)->spawn(this,map,entityInfo) && correct;
+
+		return correct;
+	} // spawn
+
+
 	//---------------------------------------------------------
 
 	bool CEntity::activate() 

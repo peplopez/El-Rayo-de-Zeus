@@ -19,6 +19,7 @@ Contiene la declaración de la clase CMap, Un mapa lógico.
 namespace Logic 
 {
 	class CEntity;
+	class CLogicalPosition;
 }
 
 namespace Map
@@ -222,18 +223,23 @@ namespace Logic
 		//PT
 		void createAlly(std::string entityName, const std::string& type="", const unsigned short base=0U, const unsigned short ring=0U, const unsigned short degrees=0U, const unsigned short sense=0);
 
+		//PeP
+		void createProjectile(const std::string entityName, const CLogicalPosition pos, const CEntity* father=NULL);
 
 		/*******************
 			GET's & SET's
 		******************/
 		bool isActive() { return _isActive; }
 
+		std::string getName() { return _name; }
 
 	private:
 
 		//PT Contador para crear aliados y que no se repitan sus nombres al crearlos
 		unsigned short int alied;
 
+		//PeP Contador para crear flechas y que no se repitan sus nombres al crearlos
+		unsigned short int bullet;
 		/**
 		Tipo tabla de entidades de mapa.
 		*/
