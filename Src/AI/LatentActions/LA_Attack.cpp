@@ -40,6 +40,10 @@ namespace AI
 			return FAIL;
 		//Desactivación de componentes
 		sleepComponents();
+		if (_entity->hasComponent<CCombat>())
+			_entity->getComponent<CCombat>()->awake();
+			if (_entity->hasComponent<CCombat>())
+			_entity->getComponent<CCombat>()->activate();
 
 		switch(_initialCombatState)
 		{
