@@ -49,6 +49,9 @@ Contiene la implementación del estado de juego.
 //PT
 #include <Graphics\Server.h>
 
+#include "BaseApplication.h"
+#include "Clock.h"
+
 namespace Application {
 
 	// ƒ®§ Al inicializar la app
@@ -100,7 +103,9 @@ namespace Application {
 	{
 		// Liberamos el nivel junto con las escenas físico-graficas.
 		Logic::CServer::getSingletonPtr()->unLoadWorld();
-
+		
+		BaseSubsystems::CServer::getSingletonPtr()->destroyDebugRenderWindow();
+		Application::CBaseApplication::getSingletonPtr()->getClock()->removeAllTimeObservers();
 		//UNDONE FRS Esto ya lo ejecuta EntityFactory en su release
 		//Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
 		//Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
@@ -278,9 +283,9 @@ namespace Application {
 	{
 		switch(key.keyId)
 		{
-		case GUI::Key::ESCAPE:
+		case GUI::Key::ESCAPE:	
 			BaseSubsystems::CServer::getSingletonPtr()->destroyDebugRenderWindow();
-			Logic::CServer::getSingletonPtr()->unLoadWorld();
+			Application::CBaseApplication::getSingletonPtr()->getClock()->removeAllTimeObservers();
 			_app->setState("menu");
 			break;
 

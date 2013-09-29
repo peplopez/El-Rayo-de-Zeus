@@ -189,6 +189,7 @@ namespace Logic {
 	{
 		if(_worldIsLoaded) {
 
+
 			TMaps::const_iterator it = _maps.cbegin();
 			TMaps::const_iterator end = _maps.cend();		
 				while (it != end)

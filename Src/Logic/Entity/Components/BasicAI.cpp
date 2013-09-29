@@ -45,7 +45,6 @@ namespace Logic
 		if(!IComponent::spawn(entity,map,entityInfo))
 			return false;
 
-		//_gameStatus=Application::CBaseApplication::getSingletonPtr()->getGameState()->getGameStatus();
 		_gameStatus=CGameStatus::getSingletonPtr();
 		_reloj=Application::CBaseApplication::getSingletonPtr()->getClock();
 	
@@ -54,9 +53,6 @@ namespace Logic
 
 	CBasicAI::~CBasicAI()
 	{
-		_reloj->removeTimeObservers(this);
-		//_reloj->removeAllTimeObserver();
-
 	} // ~CBasicAI
 
 	void CBasicAI::timeArrived()

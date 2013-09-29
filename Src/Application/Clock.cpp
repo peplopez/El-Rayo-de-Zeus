@@ -18,24 +18,25 @@ Contiene la implementación de un interfaz para un temporizador.
 
 namespace Application {
 
-	void IClock::updateTime() {
+	void IClock::updateTime() 
+	{
 		unsigned long newTime = getPhysicalTime();
 		_lastFrameDuration = newTime - _lastTime;
 		_lastTime = newTime;
 	}
 
 	void IClock::removeTimeObservers(IClockListener* listener)
-		{
+	{
 			// l.remove_if([](int n){ return n > 10; }); // remove all elements greater than 10
-			if (!_timeObservers.empty())
-				_timeObservers.remove_if([listener](std::pair<IClockListener*,unsigned long> pai) {return pai.first!=NULL? listener==pai.first: false;});
-		}
+		if (!_timeObservers.empty())
+			_timeObservers.remove_if([listener](std::pair<IClockListener*,unsigned long> pai) 
+											{return pai.first!=NULL? listener==pai.first: false;});
+	}
 
-		void IClock::removeAllTimeObserver()
-		{
-	//	if (!_timeObservers.size()>0)				
-			_timeObservers.clear();
-		}
+	void IClock::removeAllTimeObservers()
+	{			
+		_timeObservers.clear();
+	}
 
 
 } // namespace Application

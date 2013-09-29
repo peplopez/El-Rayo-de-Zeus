@@ -26,7 +26,6 @@ Contiene la implementación de la clase CMap, Un mapa lógico.
 // HACK. Debería leerse de algún fichero de configuración
 #define FILE_PATH "./media/maps/"
 
-#include "Application/BaseApplication.h"
 #include "../Entity/LogicalPosition.h"
 
 
@@ -295,7 +294,6 @@ namespace Logic {
 
 				_entityList.clear();
 		_entityMap.clear();
-		Application::CBaseApplication::getSingletonPtr()->getClock()->removeAllTimeObserver();
 		
 	} // destroyAllEntities
 
