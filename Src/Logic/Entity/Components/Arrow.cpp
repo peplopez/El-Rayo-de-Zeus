@@ -141,12 +141,10 @@ namespace Logic {
 		if ((victim->hasComponent<CLife>() || victim->getType()=="World")  && victim!=NULL && victim!=_entity->getFather() && _entity->getFather()!=NULL)
 		{
 			CMessageUInt *m2 = new CMessageUInt();
-			//m2->setUInt(-10);
-			m2->setUInt(_attackPower);  //Remplazar por una variable miembro con el daño que produce la flecha.
+			m2->setUInt(_attackPower);
 			m2->setType(Message::LIFE_MODIFIER);						
 			m2->setAction(Message::DAMAGE);						
 			victim->emitMessage(m2);
-
 			
 		 	if (victim->getType()=="World")			
 				if (_negativeYVelocity<0)
