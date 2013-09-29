@@ -27,7 +27,7 @@ namespace Application {
 
 	void IClock::removeTimeObservers(IClockListener* listener)
 	{
-			// l.remove_if([](int n){ return n > 10; }); // remove all elements greater than 10
+		// l.remove_if([](int n){ return n > 10; }); // remove all elements greater than 10
 		if (!_timeObservers.empty())
 			_timeObservers.remove_if([listener](std::pair<IClockListener*,unsigned long> pai) 
 											{return pai.first!=NULL? listener==pai.first: false;});

@@ -102,10 +102,10 @@ namespace Application {
 	void CGameState::release() 
 	{
 		// Liberamos el nivel junto con las escenas físico-graficas.
+		// Si cerramos el juego cerrando la ventana, peta por los timeOberserver del PeP, ya que la aplicación no existe
+		// por lo que comento la siguente linea.
 		Logic::CServer::getSingletonPtr()->unLoadWorld();
 		
-		BaseSubsystems::CServer::getSingletonPtr()->destroyDebugRenderWindow();
-		Application::CBaseApplication::getSingletonPtr()->getClock()->removeAllTimeObservers();
 		//UNDONE FRS Esto ya lo ejecuta EntityFactory en su release
 		//Logic::CEntityFactory::getSingletonPtr()->unloadArchetypes();
 		//Logic::CEntityFactory::getSingletonPtr()->unloadBluePrints();
