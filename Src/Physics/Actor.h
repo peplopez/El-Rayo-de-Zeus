@@ -80,6 +80,8 @@ namespace Physics
 
 		friend class CScene;
 
+		friend class CArrow;
+
 		bool load();
 		void unload();
 

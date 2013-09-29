@@ -310,10 +310,10 @@ namespace Ogre
 
 		//PT 06-09-2013
 		optBorder.name = "Border";
-		optBorder.possibleValues.push_back( "None" );
-		optBorder.possibleValues.push_back( "Fixed" );
-		//optBorder.possibleValues.push_back( "Resize" );
-		optBorder.currentValue = "None";
+		optBorder.possibleValues.push_back( "none" );
+		optBorder.possibleValues.push_back( "fixed" );
+		optBorder.possibleValues.push_back( "resize" );
+		optBorder.currentValue = "fixed";
 		optBorder.immutable = false;
 		//FIN PT 06-09-2013
 
@@ -788,9 +788,11 @@ namespace Ogre
 			}	
 
 			//PT 06-09-2013
+			std::string mBorder = "fixed";
 			opt = mOptions.find( "Border" );
 			if( opt == mOptions.end() )
 				OGRE_EXCEPT( Exception::ERR_INTERNAL_ERROR, "Can't find Border option!", "D3D10RenderSystem::initialise" );
+			mBorder = opt->second.currentValue;
 			
 
 			NameValuePairList miscParams;
@@ -802,7 +804,7 @@ namespace Ogre
 			miscParams["useNVPerfHUD"] = StringConverter::toString(mUseNVPerfHUD);
 			miscParams["gamma"] = StringConverter::toString(hwGamma);
 			//PT
-			miscParams["border"] = "none";
+			miscParams["border"] = mBorder;
 
 			autoWindow = this->_createRenderWindow( windowTitle, width, height, 
 				fullScreen, &miscParams );

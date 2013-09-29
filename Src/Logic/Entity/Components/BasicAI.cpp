@@ -55,6 +55,8 @@ namespace Logic
 	CBasicAI::~CBasicAI()
 	{
 		_reloj->removeTimeObservers(this);
+		//_reloj->removeAllTimeObserver();
+
 	} // ~CBasicAI
 
 	void CBasicAI::timeArrived()

@@ -81,6 +81,36 @@ namespace Logic {
 		if (entityInfo->hasAttribute("physicTrigger"))
 			_isTrigger = entityInfo->getBoolAttribute("physicTrigger");
 
+		if (entityInfo->hasAttribute("negativeYVelocity"))
+			_negativeYVelocity = entityInfo->getFloatAttribute("negativeYVelocity");
+
+		if (entityInfo->hasAttribute("attackPower"))
+			_attackPower = entityInfo->getFloatAttribute("attackPower");
+
+
+		_physicalActor = createActor(entityInfo); // Crear el actor asociado al componente
+
+		if(!_physicalActor)
+			return false;
+
+		return true;
+	} // spawn
+
+		bool CPhysics::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo, CEntity* father) 
+	{
+		// Invocar al método de la clase padre
+		if(!IComponent::spawn(entity,map,entityInfo))
+			return false;
+
+		_scene = map->getPhysicScene();
+			assert(_scene && "Escena física es NULL");
+		assert(entityInfo->hasAttribute("shape") && "falta definir atributo shape en el mapa");
+			_shape = entityInfo->getStringAttribute("shape");
+
+		if (entityInfo->hasAttribute("physicTrigger"))
+			_isTrigger = entityInfo->getBoolAttribute("physicTrigger");
+
+		_father=father;
 		_physicalActor = createActor(entityInfo); // Crear el actor asociado al componente
 			if(!_physicalActor)
 				return false;
@@ -126,6 +156,10 @@ namespace Logic {
 		if (entityInfo->hasAttribute("restitution"))
 			_restitution = entityInfo->getFloatAttribute("friction");
 
+		if (entityInfo->hasAttribute("angularProjectileSpeed"))
+			_angularProjectileSpeed = entityInfo->getFloatAttribute("angularProjectileSpeed");
+
+
 		if (_shape == "circle")
 			actor->createFixture(_radius, _density, _friction, _restitution, _isTrigger); 
 		else if (_shape == "box")
@@ -170,11 +204,9 @@ namespace Logic {
 
 	void  CPhysics::onCollision (Physics::IObserver* other) //PeP
 	{
-
 		CMessageUInt* txMsg = new CMessageUInt();
 		txMsg->setType( Message::COLLISION ); 	
-			
-			txMsg->setUInt( static_cast<CPhysics*>(other)->getEntity()->getEntityID() );
+		txMsg->setUInt( static_cast<CPhysics*>(other)->getEntity()->getEntityID() );
 		_entity->emitMessage(txMsg);
 	}
 
@@ -191,5 +223,10 @@ namespace Logic {
 	void  CPhysics::enableCollisions()
 	{
 		_physicalActor->enableCollisions();
+	}
+
+	Physics::CActor* CPhysics::getPhysicalActor()
+	{
+		return _physicalActor;
 	}
 }

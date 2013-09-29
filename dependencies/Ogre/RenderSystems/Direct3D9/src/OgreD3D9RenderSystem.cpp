@@ -273,10 +273,10 @@ namespace Ogre
 
 		//PT 06-09-2013
 		optBorder.name = "Border";
-		optBorder.possibleValues.push_back( "None" );
-		optBorder.possibleValues.push_back( "Fixed" );
-		//optBorder.possibleValues.push_back( "Resize" );
-		optBorder.currentValue = "None";
+		optBorder.possibleValues.push_back( "none" );
+		optBorder.possibleValues.push_back( "fixed" );
+		optBorder.possibleValues.push_back( "resize" );
+		optBorder.currentValue = "fixed";
 		optBorder.immutable = false;
 		//FIN PT 06-09-2013
 
@@ -615,9 +615,11 @@ namespace Ogre
 			hwGamma = opt->second.currentValue == "Yes";
 
 			//PT 06-09-2013
+			std::string mBorder = "None";
 			opt = mOptions.find( "Border" );
 			if( opt == mOptions.end() )
 				OGRE_EXCEPT( Exception::ERR_INTERNAL_ERROR, "Can't find Border option!", "D3D9RenderSystem::initialise" );
+			mBorder = opt->second.currentValue;
 
 			
 
@@ -631,7 +633,8 @@ namespace Ogre
 			miscParams["gamma"] = StringConverter::toString(hwGamma);
 			miscParams["monitorIndex"] = StringConverter::toString(static_cast<int>(mActiveD3DDriver->getAdapterNumber()));
 			//PT
-			miscParams["border"] = "none";
+			//miscParams["border"] = "none";
+			miscParams["border"] = mBorder;
 			autoWindow = _createRenderWindow( windowTitle, width, height, 
 				fullScreen, &miscParams );
 

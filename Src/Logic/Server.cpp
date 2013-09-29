@@ -324,7 +324,6 @@ namespace Logic {
 		assert(entity);
 		_entitiesToMove[targetMap].push_back(entity);
 	}
-	
 
 	//---------------------------------------------------------
 

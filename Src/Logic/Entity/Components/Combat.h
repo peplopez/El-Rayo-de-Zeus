@@ -125,6 +125,12 @@ namespace Logic
 		*/
 		void heavyAttack();
 	
+		/**
+		Add PeP
+		Personajes como Atalanta usan este metodo dentro de lightAttack y heavyAttack para disparar las flechas.
+		*/
+		void fireArrow();
+
 		void cover();
 	 
 		//este metodo devuelve null si no se está ocupando ese grado o la entidad que ocupa ese espacio
