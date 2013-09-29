@@ -21,12 +21,14 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CFGs.wxs" />
+    <Compile Include="DLLs.wxs" />
     <Compile Include="Product.wxs" />
-    <Compile Include="Zeus.wxs" />
+    <Compile Include="Media.wxs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.vcxproj">
-      <Name>Application _Visual Studio 2010_</Name>
+      <Name>Application</Name>
       <Project>{0b9bba1d-20a3-4737-bd4e-c354fef50b8a}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
@@ -34,7 +36,7 @@
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\Configure\Configure.vcxproj">
-      <Name>Configure _Visual Studio 2010_</Name>
+      <Name>Configure</Name>
       <Project>{c1b74fa8-146a-4cc7-9797-55a2f1126af4}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>

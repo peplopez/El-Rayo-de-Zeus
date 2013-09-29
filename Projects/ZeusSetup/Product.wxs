@@ -1,65 +1,86 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   
-  <Product Id="*" Name="Zeus Thunderbolt" Language="1033" Version="1.0.0.2"
-           Manufacturer="Monster LEAK" UpgradeCode="6e904103-ca42-498d-bfe6-7e2a19e317e8">
+  <Product  Name="Zeus Thunderbolt" 
+            Id="733C5452-C415-4C78-864F-02FA30C18538" 
+            UpgradeCode="55980471-5728-4D50-827E-1BED8686DE88" 
+            Language="1033" 
+            Codepage="1252" 
+            Version="1.0.3" 
+            Manufacturer="Monster LEAK" >
 
-    <Package Id="*" InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <Package Id="*" 
+             Keywords="Installer" 
+             Description="Zeus Thunderbolt Installer" 
+             Comments="Mythological Wars: Zeus Thunderbolt"
+             Manufacturer="Monster LEAK"
+             InstallerVersion="100" 
+             Languages="1033" 
+             Compressed="yes"
+             SummaryCodepage="1252"/>
 
-    <Media Id="1" Cabinet="zeus.cab" EmbedCab="yes"/>
+    <Condition Message="You need to be an administrator to install this product.">
+      Privileged
+    </Condition>
+
+    <Media    Id="1" Cabinet="Zeus.cab" EmbedCab="yes" DiskPrompt="CD-ROM #1"/>
+    <Property Id="DiskPrompt" Value="Zeus Thunderbolt Installation [1]" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    
+    <Icon Id="Zeus.ico"    SourceFile="$(var.Application.TargetDir)\Zeus.ico" />
+    <Icon Id="Config.ico"  SourceFile="$(var.Application.TargetDir)\Config.ico" />
 
-    <Icon Id="ZeusIco.exe"    SourceFile="$(var.Application.TargetPath)" />
-    <Icon Id="ConfigIco.exe"  SourceFile="$(var.Configure.TargetPath)" />
-
-    <Feature Id="DefaultFeature" Title="Zeus Feature Title" Level="1">
+    <Feature Id="Complete" Level="1">
       <ComponentRef Id="Game" />
       <ComponentRef Id="Config" />
-      <ComponentRef Id="DLLs" />
       <ComponentRef Id="InstallData"/>
+      <ComponentGroupRef Id="DLLs" />
+      <ComponentGroupRef Id="CFGs" />
+      <ComponentGroupRef Id="Media" />
     </Feature>
-
+    
   </Product>
 
+  
+  
 
-  
-  
+  <!--DIRECTORIES-->  
   <Fragment>
     
     <Directory Id="TARGETDIR" Name="SourceDir">
       
-      <Directory Id="ProgramFilesFolder">
-        <Directory Id="INSTALLDIR" Name="Zeus Thunderbolt" />
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="MonsterLeak" Name="Monster LEAK">
+          <Directory Id="INSTALLDIR" Name="Zeus Thunderbolt" />
+        </Directory>
       </Directory>
       
-      <Directory Id="ProgramMenuFolder">
+      <Directory Id="ProgramMenuFolder" Name="Programs" >
         <Directory Id="MENUDIR" Name="Zeus Thunderbolt">
         </Directory>
       </Directory>
 
       <Directory Id="DesktopFolder" Name="Desktop"/>
-   
-      
+         
     </Directory>
     
   </Fragment>
 
   
+  
+  
+  <!-- GAME -->
   <Fragment>
-      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-
-      <Component Id="Game" Directory="INSTALLDIR">
-        
-        <!-- TODO: Insert files, registry keys, and other resources here. -->
+      <Component Id="Game" Directory="INSTALLDIR" Guid="76DED8C9-BDAB-40DF-AE35-B1763B151E2B">
         
         <File Id="GameExe" Name="Zeus Thunderbolt.exe" Source="$(var.Application.TargetPath)" DiskId="1" KeyPath="yes">
           
-          <Shortcut Id="GameShortcutMenu" Name="Zeus Thunderbolt" Directory="MENUDIR" Description="Clicka acho, juegasho, pisha!"
-                    WorkingDirectory="INSTALLDIR" Icon="ZeusIco.exe" IconIndex="0" Advertise="yes"/>
+          <Shortcut Id="GameShortcutMenu" Name="Zeus Thunderbolt" Directory="MENUDIR" Description="Mythological Wars: Zeus Thunderbolt"
+            Icon="Zeus.ico" IconIndex="0" Advertise="yes"/>
          
-          <Shortcut Id="GameShortcutDesktop" Name="Zeus Thunderbolt" Directory="DesktopFolder"
-                WorkingDirectory='INSTALLDIR' Icon="ZeusIco.exe" IconIndex="0" Advertise="yes"/> 
+          <Shortcut Id="GameShortcutDesktop" Name="Zeus Thunderbolt" Directory="DesktopFolder" Description="Mythological Wars: Zeus Thunderbolt"
+            Icon="Zeus.ico" IconIndex="0" Advertise="yes"/> 
           
         </File>
         
@@ -67,13 +88,14 @@
   </Fragment>
   
 
+  <!-- CONFIGURE -->
   <Fragment>
   <Component Id="Config" Directory="INSTALLDIR">
 
      <File Id="ConfigExe" Name="Settings.exe" Source="$(var.Configure.TargetPath)" DiskId="1" KeyPath="yes">
 
-        <Shortcut Id="ConfigShortcutMenu" Name="Settings" Directory="MENUDIR" Description="Tunea, tunea!"
-                  WorkingDirectory="INSTALLDIR" Icon="ConfigIco.exe" IconIndex="0" Advertise="yes"/>
+        <Shortcut Id="ConfigShortcutMenu" Name="Settings" Directory="MENUDIR" Description="Set configuration"
+                  WorkingDirectory="INSTALLDIR" Icon="Config.ico" IconIndex="0" Advertise="yes"/>
       </File>
 
     </Component>
@@ -81,44 +103,12 @@
   
   
   <Fragment>
-      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
 
-      <Component Id="DLLs" Directory="INSTALLDIR">
-        
-        <!-- TODO: Insert files, registry keys, and other resources here. -->
-        
-        <File Id="CEGUIBase"                  Source="$(var.Application.TargetDir)\CEGUIBase.dll"                   DiskId="1" KeyPath="yes"/>
-        <File Id="CEGUIExpatParser"           Source="$(var.Application.TargetDir)\CEGUIExpatParser.dll"            DiskId="1" KeyPath="yes"/>
-        <File Id="CEGUIFalagardWRBase"        Source="$(var.Application.TargetDir)\CEGUIFalagardWRBase.dll"         DiskId="1" KeyPath="yes"/>
-        <File Id="CEGUILuaScriptModule"       Source="$(var.Application.TargetDir)\CEGUILuaScriptModule.dll"        DiskId="1" KeyPath="yes"/>
-        <File Id="CEGUIOgreRenderer"          Source="$(var.Application.TargetDir)\CEGUIOgreRenderer.dll"           DiskId="1" KeyPath="yes"/>
-        <File Id="CEGUISILLYImageCodec"       Source="$(var.Application.TargetDir)\CEGUISILLYImageCodec.dll"        DiskId="1" KeyPath="yes"/>
-        <File Id="cg"                         Source="$(var.Application.TargetDir)\cg.dll"                          DiskId="1" KeyPath="yes"/>
-        <File Id="fmodex"                     Source="$(var.Application.TargetDir)\fmodex.dll"                      DiskId="1" KeyPath="yes"/>
-        <File Id="lua51"                      Source="$(var.Application.TargetDir)\lua51.dll"                       DiskId="1" KeyPath="yes"/>
-        <File Id="luabind"                    Source="$(var.Application.TargetDir)\luabind.dll"                     DiskId="1" KeyPath="yes"/>
-        <File Id="OgreMain"                   Source="$(var.Application.TargetDir)\OgreMain.dll"                    DiskId="1" KeyPath="yes"/>
-        <File Id="OgreProperty"               Source="$(var.Application.TargetDir)\OgreProperty.dll"                DiskId="1" KeyPath="yes"/>
-        <File Id="OgreRTShaderSystem"         Source="$(var.Application.TargetDir)\OgreRTShaderSystem.dll"          DiskId="1" KeyPath="yes"/>
-        <File Id="OIS"                        Source="$(var.Application.TargetDir)\OIS.dll"                         DiskId="1" KeyPath="yes"/>
-        <File Id="Plugin_CgProgramManager"    Source="$(var.Application.TargetDir)\Plugin_CgProgramManager.dll"     DiskId="1" KeyPath="yes"/>
-        <File Id="Plugin_HellHeavenFX_v1-7-4" Source="$(var.Application.TargetDir)\Plugin_HellHeavenFX_v1-7-4.dll"  DiskId="1" KeyPath="yes"/>
-        <File Id="Plugin_ParticleFX"          Source="$(var.Application.TargetDir)\Plugin_ParticleFX.dll"           DiskId="1" KeyPath="yes"/>
-        <File Id="RenderSystem_Direct3D9"     Source="$(var.Application.TargetDir)\RenderSystem_Direct3D9.dll"      DiskId="1" KeyPath="yes"/>
-        <File Id="RenderSystem_GL"            Source="$(var.Application.TargetDir)\RenderSystem_GL.dll"             DiskId="1" KeyPath="yes"/>
-        <File Id="SILLY"                      Source="$(var.Application.TargetDir)\SILLY.dll"                       DiskId="1" KeyPath="yes"/>
-        <File Id="tolua++"                    Source="$(var.Application.TargetDir)\tolua++.dll"                     DiskId="1" KeyPath="yes"/>
-      </Component>
-  </Fragment>
-  
-  
-  <Fragment>
-
-    <Component Id="InstallData" Directory="MENUDIR">      
-      <RegistryValue Root="HKCU" Key="Software\Monster LEAK\Zeus Thunderbolt"
-                Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+    <Component Id="InstallData" Directory="MENUDIR" Guid="F2218B7E-C32C-470E-B342-2622365EB0F6">
       <RemoveFolder Id="MENUDIR" On="uninstall"/>
-    </Component>
+      <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]"
+                Type="string" Value="" KeyPath="yes"/>
+     </Component>
     
   </Fragment>
   
