@@ -637,9 +637,11 @@ namespace BaseSubsystems
 	{
 		//Si no existe Crear un debug renderWindow de tamaño 1/2 el original
 		if (!_debugRenderWindow)
+		{
 			_debugRenderWindow = _root->createRenderWindow(_WINDOW_TITLE + "- DEBUG", 640,
 									480, false);
 			_debugRenderWindow->setDeactivateOnFocusChange(false);
+		}
 	}
 
 	//--------------------------------------------------------
@@ -647,7 +649,8 @@ namespace BaseSubsystems
 	void CServer::destroyDebugRenderWindow()
 	{
 		_debugRenderWindow->removeAllViewports();
-		_debugRenderWindow->destroy();
+		_debugRenderWindow->removeAllListeners();
+		_root->destroyRenderTarget(_debugRenderWindow);
 		_debugRenderWindow = 0;
 	}
 

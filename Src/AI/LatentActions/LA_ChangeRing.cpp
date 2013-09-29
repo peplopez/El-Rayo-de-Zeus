@@ -42,6 +42,7 @@ namespace AI
 		message->setUShort(Logic::JUMP);				
 		message->setBool(false);
 		_entity->emitMessage(message);	
+		_entity->getComponent<CCombat>()->setVulnerable(false);
 		turn();
 
 		return SUSPENDED;
@@ -55,6 +56,7 @@ namespace AI
 		awakeComponents();
 		if (_entity->hasComponent<CPhysicalCharacter>())
 			_entity->getComponent<CPhysicalCharacter>()->enableCollisions();
+		_entity->getComponent<CCombat>()->setVulnerable(true);
 	}
 
 	//---------------------------------------------------------

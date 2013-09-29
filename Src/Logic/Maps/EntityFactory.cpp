@@ -16,6 +16,8 @@ del juego.
 #include "Map/Entity.h"
 #include "Map/MapParser.h"
 
+#include "../../Logic/Entity/Components/PhysicalCharacter.h"
+
 #include <iostream>
 #include <fstream>
 #include <cassert>
@@ -284,6 +286,74 @@ namespace Logic
 	
 	//-----------------------------------------------------------------
 
+	/**************************
+		DISABLING/ENABLING
+	**************************/
+
+
+	void CEntityFactory::deferredDisablePhysics(CEntity *entity)
+	{
+		assert(entity);
+		_entitiesToDisablePhysics.push_back(entity);
+	}
+
+	//-----------------------------------------------------------------
+
+	void CEntityFactory::disableDefferedEntitiesPhysics()
+	{
+		TEntityList::const_iterator it(_entitiesToDisablePhysics.cbegin());
+		TEntityList::const_iterator end(_entitiesToDisablePhysics.cend());
+		for(; it != end; ++it)
+		{
+			if ((*it)->hasComponent<CPhysics>())
+			{
+				(*it)->getComponent<CPhysics>()->disable();
+				(*it)->getComponent<CPhysics>()->sleep();
+			}
+			else if ((*it)->hasComponent<CPhysicalCharacter>())
+			{
+				(*it)->getComponent<CPhysicalCharacter>()->disable();
+				(*it)->getComponent<CPhysicalCharacter>()->sleep();
+			}
+
+		}
+		
+		_entitiesToDisablePhysics.clear();
+	} // deleteDefferedObjects
+
+	//-----------------------------------------------------------------
+
+	void CEntityFactory::deferredEnablePhysics(CEntity* entity)
+	{
+		assert(entity);
+		_entitiesToEnablePhysics.push_back(entity);
+	}
+
+	//-----------------------------------------------------------------
+
+	void CEntityFactory::enableDefferedEntitiesPhysics()
+	{
+		TEntityList::const_iterator it(_entitiesToEnablePhysics.cbegin());
+		TEntityList::const_iterator end(_entitiesToEnablePhysics.cend());
+		for(; it != end; ++it)
+		{
+			if ((*it)->hasComponent<CPhysics>())
+			{
+				(*it)->getComponent<CPhysics>()->enable();
+				(*it)->getComponent<CPhysics>()->awake();
+			}
+			else if ((*it)->hasComponent<CPhysicalCharacter>())
+			{
+				(*it)->getComponent<CPhysicalCharacter>()->enable();
+				(*it)->getComponent<CPhysicalCharacter>()->awake();
+			}
+		}
+		
+		_entitiesToEnablePhysics.clear();
+	} // deleteDefferedObjects
+
+	//-----------------------------------------------------------------
+
 	Logic::CEntity *CEntityFactory::createEntity(const	Map::CEntity *entityInfo,Logic::CMap *map,const Logic::CEntity* father)
 	{		
 		CEntity *ret = assembleEntity(entityInfo->getType());
@@ -305,6 +375,9 @@ namespace Logic
 		}
 
 	} // createEntity
+
+	//-----------------------------------------------------------------
+
 	void CEntityFactory::deleteEntity(CEntity *entity)
 	{
 			assert(entity);		

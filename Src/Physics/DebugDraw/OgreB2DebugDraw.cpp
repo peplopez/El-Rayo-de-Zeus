@@ -303,6 +303,5 @@ void OgreB2DebugDraw::enable()
 
 void OgreB2DebugDraw::disable()
 {
-	BaseSubsystems::CServer::getSingletonPtr()->getDebugRenderWindow()->removeAllViewports();
 	BaseSubsystems::CServer::getSingletonPtr()->destroyDebugRenderWindow();
 }

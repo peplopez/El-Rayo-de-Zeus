@@ -145,6 +145,7 @@ namespace AI
 		Tiempo en el que se termina la acción
 		*/
 		unsigned long _endingTime;
+
 	};
 
 } //namespace AI 
