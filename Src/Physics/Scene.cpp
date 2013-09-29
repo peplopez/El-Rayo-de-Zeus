@@ -43,8 +43,7 @@ namespace Physics
 	{	
 		b2Vec2 gravity(0, -20);
 		_world = new b2World(gravity);
-		_worldListener = new CContactListener();
-		_debugDraw = new OgreB2DebugDraw(_name, "debugDraw") ;	
+		_worldListener = new CContactListener();	
 	};
 
 	//--------------------------------------------------------
@@ -54,6 +53,7 @@ namespace Physics
 		delete _worldListener;
 		deactivate();
 		delete _world;	
+		delete _debugDraw;
 		
 	} // ~CScene
 	
@@ -62,6 +62,7 @@ namespace Physics
 	void CScene::_init() 
 	{
 //#ifdef _DEBUG
+		_debugDraw = new OgreB2DebugDraw(_name, "debugDraw") ;
 		_debugDraw->SetFlags(b2Draw::e_shapeBit);
 		_world->SetDebugDraw(_debugDraw);
 //#endif		
@@ -75,7 +76,6 @@ namespace Physics
 	//--------------------------------------------------------
 	void CScene::_deinit()
 	{
-
 	}
 	//--------------------------------------------------------
 	bool CScene::activate()

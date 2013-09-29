@@ -46,9 +46,10 @@ OgreB2DebugDraw::OgreB2DebugDraw(const std::string name, const char* material, f
 
 OgreB2DebugDraw::~OgreB2DebugDraw()
 {
-	BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot()->destroySceneManager(m_scene);
-    m_scene->destroyManualObject("OgreB2DebugDrawShapes");
+	m_scene->destroyManualObject("OgreB2DebugDrawShapes");
     m_scene->destroySceneNode("OgreB2DebugDrawNode");
+	m_scene->destroyCamera(m_camera);
+	BaseSubsystems::CServer::getSingletonPtr()->getOgreRoot()->destroySceneManager(m_scene);
 }
 
 

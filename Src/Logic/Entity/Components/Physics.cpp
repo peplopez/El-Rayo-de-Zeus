@@ -215,10 +215,14 @@ namespace Logic {
 
 	void  CPhysics::onCollision (Physics::IObserver* other) //PeP
 	{
-		CMessageUInt* txMsg = new CMessageUInt();
-		txMsg->setType( Message::COLLISION ); 	
-		txMsg->setUInt( static_cast<CPhysics*>(other)->getEntity()->getEntityID() );
-		_entity->emitMessage(txMsg);
+		CEntity* otherEntity= static_cast<CPhysics*>(other)->getEntity();
+		if (otherEntity->getType()!="Arrow")
+		{
+			CMessageUInt* txMsg = new CMessageUInt();
+			txMsg->setType( Message::COLLISION ); 	
+			txMsg->setUInt(otherEntity->getEntityID() );
+			_entity->emitMessage(txMsg);
+		}
 	}
 
 	//---------------------------------------------------------

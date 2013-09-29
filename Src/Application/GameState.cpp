@@ -279,8 +279,13 @@ namespace Application {
 		switch(key.keyId)
 		{
 		case GUI::Key::ESCAPE:
+			BaseSubsystems::CServer::getSingletonPtr()->destroyDebugRenderWindow();
 			Logic::CServer::getSingletonPtr()->unLoadWorld();
 			_app->setState("menu");
+			break;
+
+		case GUI::Key::F2:
+			Physics::CServer::getSingletonPtr()->switchDebugDraw();
 			break;
 
 		case GUI::Key::PAUSE:

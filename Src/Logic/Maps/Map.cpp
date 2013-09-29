@@ -131,6 +131,7 @@ namespace Logic {
 	void CMap::activatePlayerCam()
 	{
 		Graphics::CServer::getSingletonPtr()->activatePlayerCam( this->_graphicScene );
+		Physics::CServer::getSingletonPtr()->setVisibleScene( this->_physicsScene );
 	}
 
 	//---------------------------------------------------------
@@ -138,6 +139,7 @@ namespace Logic {
 	void CMap::activateBaseCam()
 	{
 		Graphics::CServer::getSingletonPtr()->activateBaseCam( this->_graphicScene );
+		Physics::CServer::getSingletonPtr()->setVisibleScene( this->_physicsScene );
 	}
 	
 
@@ -381,10 +383,5 @@ namespace Logic {
 
 	//--------------------------------------------------------
 
-	void CMap::switchDebugDraw()
-	{
-		_physicsScene->switchDebugDraw();
-	}
-	
 
 } // namespace Logic

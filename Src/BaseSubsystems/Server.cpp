@@ -377,10 +377,11 @@ namespace BaseSubsystems
 		if(_renderWindow)
 		{
 			_renderWindow->removeAllViewports();
-			_root->detachRenderTarget(_renderWindow);
-			delete _renderWindow;
+			_root->destroyRenderTarget(_renderWindow->getName());
 			_renderWindow = 0;
 		}
+
+		destroyDebugRenderWindow();
 
 		if(_windowEventListener)
 		{
@@ -638,9 +639,14 @@ namespace BaseSubsystems
 		//Si no existe Crear un debug renderWindow de tamaño 1/2 el original
 		if (!_debugRenderWindow)
 		{
+			try {
 			_debugRenderWindow = _root->createRenderWindow(_WINDOW_TITLE + "- DEBUG", 640,
 									480, false);
 			_debugRenderWindow->setDeactivateOnFocusChange(false);
+			}
+			catch(Ogre::Exception e)
+			{
+			}
 		}
 	}
 
@@ -648,10 +654,13 @@ namespace BaseSubsystems
 
 	void CServer::destroyDebugRenderWindow()
 	{
-		_debugRenderWindow->removeAllViewports();
-		_debugRenderWindow->removeAllListeners();
-		_root->destroyRenderTarget(_debugRenderWindow);
-		_debugRenderWindow = 0;
+		if (_debugRenderWindow)
+		{
+			//Bug en Ogre-> si no se hace así a través del RenderSistem específico peta:
+			//http://www.ogre3d.org/forums/viewtopic.php?f=22&t=69648
+			_root->getRenderSystemByName("Direct3D9 Rendering Subsystem")->destroyRenderTarget(_debugRenderWindow->getName());
+			_debugRenderWindow = 0;
+		}
 	}
 
 } // namespace BaseSubsystems

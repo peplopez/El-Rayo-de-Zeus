@@ -20,7 +20,7 @@ mover al jugador.
 #include <Logic/Entity/Messages/Message.h>
 #include <Logic/Entity/Messages/MessageUShort.h>
 
-#include <Logic/Maps/Map.h>
+#include <Physics\Server.h>
 
 #include <cassert>
 
@@ -114,7 +114,7 @@ namespace GUI {
 				showBase(fromKeyToBaseNumber(key));
 				break;
 			case extra:
-				processExtra(key);
+				break;
 			case notManaged:
 				return false;
 			}
@@ -221,9 +221,6 @@ namespace GUI {
 			_controlledAvatar->emitMessage(m);
 			break;
 			}
-		case GUI::Key::F2:
-			_controlledAvatar->getMap()->switchDebugDraw();
-			break;
 		}
 
 	}

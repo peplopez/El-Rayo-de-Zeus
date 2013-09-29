@@ -56,6 +56,9 @@ namespace Logic
 		//assert( entityInfo->hasAttribute("lifeModifierHeavyAttack") );
 		if(entityInfo->hasAttribute("lifeModifierHeavyAttack"))
 			_lifeModifierHeavyAttack = entityInfo->getIntAttribute("lifeModifierHeavyAttack");
+		
+		if(entityInfo->hasAttribute("arrowFighter"))
+			_arrowFighter = entityInfo->getBoolAttribute("arrowFighter");
 
 		return true;
 		}
@@ -122,6 +125,8 @@ namespace Logic
 					punto=_entity->getLogicalPosition()->getDegree()+10;
 					//con este metodo vemos si con la espada le estamos dando
 				
+				if (_arrowFighter)
+					 fireArrow();
 					unsigned short resultadoAtaque=attackToPlace(punto,_entity->getLogicalPosition()->getRing(),_entity->getLogicalPosition()->getBase(),false);
 					if (resultadoAtaque==2)
 					{
@@ -147,7 +152,7 @@ namespace Logic
 				_entity->emitMessage(message,this);
 
 			
-			}	fireArrow();
+			}
 	 }
 
 	 void CCombat::fireArrow()
@@ -166,18 +171,18 @@ namespace Logic
 			newdegree+= 10;
 
 		//correction in the degrees where ally appears
-		if(newdegree<0)
+		/*if(newdegree<0)
 			newdegree = 360 + newdegree;
 		if(newdegree > 360)
 			newdegree = newdegree - 360;
-
+			*/
 		const std::string type = "Arrow";
 		
 		if(sense!=LogicalPosition::Sense::LEFT && sense!=LogicalPosition::Sense::RIGHT)
 		sense = LogicalPosition::Sense::LEFT;
 
 		CLogicalPosition pos;
-		pos.setDegree(newdegree);
+		pos.setDegree(_entity->getLogicalPosition()->getDegree());
 		pos.setRing(ring);
 		pos.setBase(numBase);
 		pos.setSense(sense);
@@ -206,8 +211,8 @@ namespace Logic
 		}*/
 ////////////////////
 
-		if (_entity->getType()=="NPC" || _entity->getType()=="Creature")
-		 fireArrow();
+	//	if (_arrowFighter)
+	//	    fireArrow();
 
 
 		_attackPower = _lifeModifierLightAttack;
@@ -227,6 +232,7 @@ namespace Logic
 		// _entity->emitMessage(muint);
 
 		_attackPower = _lifeModifierHeavyAttack;
+		
 
 	} // heavyAttack
 
@@ -264,6 +270,7 @@ namespace Logic
 							if (!soloInfo)
 							{				
 								if ((*it)->hasComponent<CCombat>())
+								{
 								if ((*it)->getComponent<CCombat>()->_covering==true && (*it)->getLogicalPosition()->getSense()!=_entity->getLogicalPosition()->getSense())
 								{
 									Logic::CMessage *m = new Logic::CMessage();
@@ -295,7 +302,10 @@ namespace Logic
 									m->setType(Logic::Message::CONTROL);
 									m->setAction(Logic::Message::WALK_STOP);
 									(*it)->emitMessage(m);
+									
 									return 1; //Impacto con daño
+								}
+									
 								}
 							}
 						}

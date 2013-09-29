@@ -113,10 +113,6 @@ namespace Logic
 		void activateBaseCam();
 
 		/**
-		*/
-		void switchDebugDraw();
-
-		/**
 		Función llamada en cada frame para que se realicen las funciones
 		de actualización adecuadas.
 		<p>
@@ -151,8 +147,6 @@ namespace Logic
 		@param entity Entidad a eliminar.
 		*/
 		void removeEntity(CEntity *entity);
-		void removeFromGraphics(CEntity *entity);
-		void removeFromPhysics(CEntity *entity);
 
 
 		/**
