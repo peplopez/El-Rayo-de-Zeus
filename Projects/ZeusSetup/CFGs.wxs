@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <ComponentGroup Id="CFGs" Directory="INSTALLDIR">
+      <Component  Id="controls"     Guid="F820A5B4-B826-4117-98D4-EF1A950FC7EF">
+        <File     Id="controls"  Name="controls.cfg"  Source="$(var.Application.TargetDir)\controls.cfg"   DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="plugins"      Guid="44F638DB-33C0-41DA-B31D-80C37C8D9683">
+        <File     Id="plugins"   Name="plugins.cfg"   Source="$(var.Application.TargetDir)\plugins.cfg"    DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="resources"    Guid="0B927207-1F50-47CF-A025-49F1CAAF3AF1">
+        <File     Id="resources" Name="resources.cfg" Source="$(var.Application.TargetDir)\resources.cfg"  DiskId="1" KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

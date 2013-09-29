@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <ComponentGroup Id="DLLs" Directory="INSTALLDIR">
+      <Component  Id="CEGUIBase"                Guid="2954C494-7510-4769-A6F4-D8026BBBF42A">
+        <File     Id="CEGUIBase"                Name="CEGUIBase.dll"                          Source="$(var.Application.TargetDir)\CEGUIBase.dll"                   DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="CEGUIExpatParser"         Guid="F0E55692-3EC3-44BA-A1A5-04950ADBB597">
+        <File     Id="CEGUIExpatParser"         Name="CEGUIExpatParser.dll"                   Source="$(var.Application.TargetDir)\CEGUIExpatParser.dll"            DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="CEGUIFalagardWRBase"      Guid="25E3A676-3136-46A7-BEAD-12A27D474479">
+        <File     Id="CEGUIFalagardWRBase"      Name="CEGUIFalagardWRBase.dll"                Source="$(var.Application.TargetDir)\CEGUIFalagardWRBase.dll"         DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="CEGUILuaScriptModule"     Guid="520412EB-9804-4BFA-9951-77CC0173B9BB">
+        <File     Id="CEGUILuaScriptModule"     Name="CEGUILuaScriptModule.dll"               Source="$(var.Application.TargetDir)\CEGUILuaScriptModule.dll"        DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="CEGUIOgreRenderer"        Guid="A482D9E6-182F-4BB0-8C16-E3FB9985745C">
+        <File     Id="CEGUIOgreRenderer"        Name="CEGUIOgreRenderer.dll"                  Source="$(var.Application.TargetDir)\CEGUIOgreRenderer.dll"           DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="CEGUISILLYImageCodec"     Guid="41B90162-7E99-4C7D-9959-46288F2B925B">
+        <File     Id="CEGUISILLYImageCodec"     Name="CEGUISILLYImageCodec.dll"               Source="$(var.Application.TargetDir)\CEGUISILLYImageCodec.dll"        DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="cg"                       Guid="6377FD53-AE93-4F03-AC8E-A426A779C1C1">
+        <File     Id="cg"                       Name="cg.dll"                                 Source="$(var.Application.TargetDir)\cg.dll"                          DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="fmodex"                   Guid="1C0709B2-7E86-4E2F-B7E1-F3A42098ED58">
+        <File     Id="fmodex"                   Name="fmodex.dll"                             Source="$(var.Application.TargetDir)\fmodex.dll"                      DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="Hydrax"                   Guid="34F53082-F191-4FF0-8753-C2C584E1E3B7">
+        <File     Id="Hydrax"                   Name="Hydrax.dll"                             Source="$(var.Application.TargetDir)\Hydrax.dll"                      DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="lua51"                    Guid="A4BCFFC8-922A-4F5D-9D8E-07129D25AD48">
+        <File     Id="lua51"                    Name="lua51.dll"                              Source="$(var.Application.TargetDir)\lua51.dll"                       DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="luabind"                  Guid="91B11176-5967-4113-B65F-BC40F9593C72">
+        <File     Id="luabind"                  Name="luabind.dll"                            Source="$(var.Application.TargetDir)\luabind.dll"                     DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="OgreMain"                 Guid="1957D05B-1540-45E3-877D-E42CF970F547">
+        <File     Id="OgreMain"                 Name="OgreMain.dll"                           Source="$(var.Application.TargetDir)\OgreMain.dll"                    DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="OgreProperty"             Guid="815C8919-4DF3-43D7-A10B-F88FB3AC939E">
+        <File     Id="OgreProperty"             Name="OgreProperty.dll"                       Source="$(var.Application.TargetDir)\OgreProperty.dll"                DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="OgreRTShaderSystem"       Guid="B72AD607-870B-4616-9C12-D9AEED7EB443">
+        <File     Id="OgreRTShaderSystem"       Name="OgreRTShaderSystem.dll"                 Source="$(var.Application.TargetDir)\OgreRTShaderSystem.dll"          DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="OIS"                      Guid="52C32A16-BB45-4947-9284-A8130E7362D1">
+        <File     Id="OIS"                      Name="OIS.dll"                                Source="$(var.Application.TargetDir)\OIS.dll"                         DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="Plugin_CgProgramManager"  Guid="5073A820-5D09-436D-9BC0-248257E30F20">
+        <File     Id="Plugin_CgProgramManager"  Name="Plugin_CgProgramManager.dll"            Source="$(var.Application.TargetDir)\Plugin_CgProgramManager.dll"     DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="Plugin_HellHeavenFX"      Guid="9F75B94A-8351-4C8A-A910-EBFF58A3D849">
+        <File     Id="Plugin_HellHeavenFX"      Name="Plugin_HellHeavenFX_v1-7-4_r.dll"       Source="$(var.Application.TargetDir)\Plugin_HellHeavenFX_v1-7-4_r.dll" DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="Plugin_ParticleFX"        Guid="F4F2DFC6-921D-4682-9D14-49283C16B5D8">
+        <File     Id="Plugin_ParticleFX"        Name="Plugin_ParticleFX.dll"                  Source="$(var.Application.TargetDir)\Plugin_ParticleFX.dll"           DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="RenderSystem_Direct3D9"   Guid="6DBB98D7-BD64-4784-801C-7A4B872BDD3B">
+        <File     Id="RenderSystem_Direct3D9"   Name="RenderSystem_Direct3D9.dll"             Source="$(var.Application.TargetDir)\RenderSystem_Direct3D9.dll"      DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="RenderSystem_GL"          Guid="B9A8751E-3420-4BC3-BC11-35485CA1BFC2">
+        <File     Id="RenderSystem_GL"          Name="RenderSystem_GL.dll"                    Source="$(var.Application.TargetDir)\RenderSystem_GL.dll"             DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="SILLY"                    Guid="DE16CB67-FD57-479C-815B-BDE83F0F533D">
+        <File     Id="SILLY"                    Name="SILLY.dll"                              Source="$(var.Application.TargetDir)\SILLY.dll"                       DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="SkyX"                     Guid="5E72EC6E-0B87-4411-93DD-830074EB3B23">
+        <File     Id="SkyX"                     Name="SkyX.dll"                               Source="$(var.Application.TargetDir)\SkyX.dll"                        DiskId="1" KeyPath="yes"/>
+      </Component>
+      <Component  Id="tolua"                    Guid="44BC6875-0D07-434E-8208-5DDE40418EC2">
+        <File     Id="tolua"                    Name="tolua++.dll"                            Source="$(var.Application.TargetDir)\tolua++.dll"                     DiskId="1" KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
