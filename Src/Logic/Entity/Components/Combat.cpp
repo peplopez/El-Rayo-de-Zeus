@@ -125,6 +125,8 @@ namespace Logic
 					punto=_entity->getLogicalPosition()->getDegree()+10;
 					//con este metodo vemos si con la espada le estamos dando
 				
+				if (_arrowFighter)
+					 fireArrow();
 					unsigned short resultadoAtaque=attackToPlace(punto,_entity->getLogicalPosition()->getRing(),_entity->getLogicalPosition()->getBase(),false);
 					if (resultadoAtaque==2)
 					{
@@ -209,8 +211,8 @@ namespace Logic
 		}*/
 ////////////////////
 
-		if (_arrowFighter)
-		    fireArrow();
+	//	if (_arrowFighter)
+	//	    fireArrow();
 
 
 		_attackPower = _lifeModifierLightAttack;
@@ -230,8 +232,7 @@ namespace Logic
 		// _entity->emitMessage(muint);
 
 		_attackPower = _lifeModifierHeavyAttack;
-			if (_arrowFighter)
-		    fireArrow();
+		
 
 	} // heavyAttack
 
@@ -269,6 +270,7 @@ namespace Logic
 							if (!soloInfo)
 							{				
 								if ((*it)->hasComponent<CCombat>())
+								{
 								if ((*it)->getComponent<CCombat>()->_covering==true && (*it)->getLogicalPosition()->getSense()!=_entity->getLogicalPosition()->getSense())
 								{
 									Logic::CMessage *m = new Logic::CMessage();
@@ -300,7 +302,10 @@ namespace Logic
 									m->setType(Logic::Message::CONTROL);
 									m->setAction(Logic::Message::WALK_STOP);
 									(*it)->emitMessage(m);
+									
 									return 1; //Impacto con daño
+								}
+									
 								}
 							}
 						}
