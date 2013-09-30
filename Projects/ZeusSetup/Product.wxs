@@ -14,14 +14,14 @@
              Description="Zeus Thunderbolt Installer" 
              Comments="Mythological Wars: Zeus Thunderbolt"
              Manufacturer="Monster LEAK"
-             InstallerVersion="100" 
+             InstallerVersion="310" 
              Languages="1033" 
              Compressed="yes"
              SummaryCodepage="1252"/>
 
-    <Condition Message="You need to be an administrator to install this product.">
+    <!--<Condition Message="You need to be an administrator to install this product.">
       Privileged
-    </Condition>
+    </Condition>-->
 
     <Media    Id="1" Cabinet="Zeus.cab" EmbedCab="yes" DiskPrompt="CD-ROM #1"/>
     <Property Id="DiskPrompt" Value="Zeus Thunderbolt Installation [1]" />
@@ -31,6 +31,35 @@
     <Icon Id="Zeus.ico"    SourceFile="$(var.Application.TargetDir)\Zeus.ico" />
     <Icon Id="Config.ico"  SourceFile="$(var.Application.TargetDir)\Config.ico" />
 
+    <UIRef Id="WixUI_Mondo" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+
+    <WixVariable Id="WixUILicenseRtf" Value="Resources\License.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="Resources\banner.bmp" /><!-- 493 by 58 pixels, this bitmap will appear at the top of all but the first page of the installer.-->
+    <WixVariable Id="WixUIDialogBmp" Value="Resources\dialog.bmp" /><!-- 493 by 312 pixels, this bitmap will appear on the first page of the installer.-->
+    <!--
+      <WixVariable Id="WixUIExclamationIco" Value="path\exclamation.ico" />
+      <WixVariable Id="WixUIInfoIco" Value="path\information.ico" />
+      <WixVariable Id="WixUINewIco" Value="path\new.ico" /> --> <!--16 by 16 pixels, new folder icon.-->
+    <!--
+      <WixVariable Id="WixUIUpIco" Value="path\up.ico" />--> <!--16 by 16 pixels, parent folder icon.-->
+
+    <!-- ARP PROPERTIES (Add or Remove Programs Menu) -->
+    <Property Id='ARPCOMMENTS'>Mythological Wars: Zeus Thunderbolt</Property>
+    <Property Id='ARPCONTACT'>monster.leak.games@gmail.com</Property>
+    <Property Id='ARPHELPLINK'>monster.leak.games@gmail.com</Property>
+    <Property Id='ARPURLINFOABOUT'>http://elrayodezeus.wordpress.com</Property>
+    <Property Id='ARPURLUPDATEINFO'>http://elrayodezeus.wordpress.com</Property>
+    <Property Id='ARPHELPTELEPHONE'>monster.leak.games@gmail.com</Property>
+    <Property Id='ARPPRODUCTICON'>Zeus.ico</Property>
+    <Property Id='ARPNOMODIFY'>1</Property> <!-- suppress the Modify button -->
+    <!--
+      <Property Id='ARPREADME'>path</Property>
+      <Property Id='ARPSIZE'>app size in kilobytes</Property>
+     -->
+
+    
     <Feature Id="All"	Title="All" Description="Install all features." Display="expand" Level="1">
 
       <Feature  Id="Zeus" Title="Zeus Thunderbolt" Description="Mythological Wars: Zeus Thunderbolt."
@@ -40,30 +69,16 @@
         <ComponentRef Id="InstallData"/>
         <ComponentGroupRef Id="DLLs" />
         <ComponentGroupRef Id="CFGs" />
-        <!--ComponentGroupRef Id="Media" /-->
+        <ComponentGroupRef Id="Media"/> 
       </Feature>
 
-      <Feature Id="DirectX" Title="DirectX" Description="DirectX" Display="expand"	Level="1" >
-      </Feature>
-      
+      <!--<Feature Id="DirectX" Title="DirectX" Description="DirectX" Display="expand"	Level="1" >
+      </Feature>-->
+
     </Feature>
-    
-    <UIRef Id="WixUI_Mondo" />
-    <UIRef Id="WixUI_ErrorProgressText" />
-    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
-
-    <!--<WixVariable Id="WixUILicenseRtf" Value="path\License.rtf" />
-    <WixVariable Id="WixUIBannerBmp" Value="path\banner.bmp" />
-    <WixVariable Id="WixUIDialogBmp" Value="path\dialog.bmp" />
-    <WixVariable Id="WixUIExclamationIco" Value="path\exclamation.ico" />
-    <WixVariable Id="WixUIInfoIco" Value="path\information.ico" />
-    <WixVariable Id="WixUINewIco" Value="path\new.ico" />
-    <WixVariable Id="WixUIUpIco" Value="path\up.ico" />-->
 	
   </Product>
 
-  
-  
 
   <!--DIRECTORIES-->  
   <Fragment>
@@ -97,10 +112,10 @@
         <File Id="GameExe" Name="Zeus Thunderbolt.exe" Source="$(var.Application.TargetPath)" DiskId="1" KeyPath="yes">
           
           <Shortcut Id="GameShortcutMenu" Name="Zeus Thunderbolt" Directory="MENUDIR" Description="Mythological Wars: Zeus Thunderbolt"
-            Icon="Zeus.ico" IconIndex="0" Advertise="yes"/>
+            WorkingDirectory="INSTALLDIR" Icon="Zeus.ico" IconIndex="0" Advertise="yes"/>
          
           <Shortcut Id="GameShortcutDesktop" Name="Zeus Thunderbolt" Directory="DesktopFolder" Description="Mythological Wars: Zeus Thunderbolt"
-            Icon="Zeus.ico" IconIndex="0" Advertise="yes"/> 
+            WorkingDirectory="INSTALLDIR" Icon="Zeus.ico" IconIndex="0" Advertise="yes"/> 
           
         </File>
         
@@ -110,7 +125,7 @@
 
   <!-- CONFIGURE -->
   <Fragment>
-  <Component Id="Config" Directory="INSTALLDIR">
+    <Component Id="Config" Directory="INSTALLDIR">
 
      <File Id="ConfigExe" Name="Settings.exe" Source="$(var.Configure.TargetPath)" DiskId="1" KeyPath="yes">
 
@@ -123,14 +138,12 @@
   
   
   <Fragment>
-
     <Component Id="InstallData" Directory="MENUDIR" Guid="F2218B7E-C32C-470E-B342-2622365EB0F6">
       <RemoveFolder Id="MENUDIR" On="uninstall"/>
       <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]"
                 Type="string" Value="" KeyPath="yes"/>
      </Component>
-    
-  </Fragment>
+   </Fragment>
   
   
 </Wix>
