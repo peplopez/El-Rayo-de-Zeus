@@ -456,6 +456,18 @@ namespace Physics
 	}
 
 	//--------------------------------------------------------
+	
+	void CActor::disable()
+	{
+		_body->SetActive(false);
+	}
+	
+	//--------------------------------------------------------
+	void CActor::enable()
+	{
+		_body->SetActive(true);
+	}
+	//--------------------------------------------------------
 
 	void CActor::disableCollisions()
 	{

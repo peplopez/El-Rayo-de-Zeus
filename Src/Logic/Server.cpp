@@ -129,6 +129,8 @@ namespace Logic {
 		// Eliminamos las entidades que se han marcado para ser eliminadas.
 		moveDefferedEntities();
 		Logic::CEntityFactory::getSingletonPtr()->deleteDefferedEntities();
+		Logic::CEntityFactory::getSingletonPtr()->disableDefferedEntitiesPhysics();
+		Logic::CEntityFactory::getSingletonPtr()->enableDefferedEntitiesPhysics();
 
 		TMaps::const_iterator it = _maps.cbegin();
 		TMaps::const_iterator end = _maps.cend();
@@ -186,6 +188,7 @@ namespace Logic {
 	void CServer::unLoadWorld()
 	{
 		if(_worldIsLoaded) {
+
 
 			TMaps::const_iterator it = _maps.cbegin();
 			TMaps::const_iterator end = _maps.cend();		
@@ -350,8 +353,6 @@ namespace Logic {
 		}
 
 	}
-
-	
 
 	/**************
 		CAMS

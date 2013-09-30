@@ -1,3 +1,15 @@
+/*
+OgreB2-Debug Draw.
+Implementación de Box2D Debug Draw
+usando Ogre como motor de renderizado.
+
+Modificación y adaptación a Galeon para mejorar rendimiento(menos drawcalls)
+del origial de Stephan Aelmore realizado en 2009.
+
+Emilio Santalla, 2013.
+*/
+
+
 #ifndef _OGRE_B2_DEBUGDRAW_H
 #define _OGRE_B2_DEBUGDRAW_H
 
@@ -21,7 +33,7 @@ struct Vertex
 class OgreB2DebugDraw : public b2Draw
 {
 public:
-    OgreB2DebugDraw(Ogre::SceneManager* scene, const char* material, float fillAlpha = 0.5f, Ogre::uint8 renderQueueGroup = Ogre::RENDER_QUEUE_OVERLAY);
+    OgreB2DebugDraw(const std::string name, const char* material, float fillAlpha = 0.5f, Ogre::uint8 renderQueueGroup = Ogre::RENDER_QUEUE_OVERLAY);
     ~OgreB2DebugDraw();
 
     /// Method to be called each frame to clear out all of last frame's shapes.
@@ -31,7 +43,6 @@ public:
 	void RenderLines();
 	void RenderTriangles();
 
-	void setAutoTracking(Ogre::SceneNode* target);
 
     // Methods for accessing rendering options.
     inline const char* getMaterialName() {
@@ -77,13 +88,22 @@ public:
     /// Method called by the b2World for XForms.
    void DrawTransform(const b2Transform& xf);
 
+   void enable();
+   void disable();
+
 private:
+
+	std::string _name;
+
+	Ogre::Camera *m_camera;
     /// ManualObject which holds all the shapes each frame
     Ogre::ManualObject  *m_shapes;
     /// Pointer to the scene to which the shapes are added
     Ogre::SceneManager  *m_scene;
 
 	Ogre::SceneNode *_debugNode;
+
+
 
     /// Material to use for rendering the shapes
     Ogre::String m_material;

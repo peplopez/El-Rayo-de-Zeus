@@ -57,6 +57,8 @@ namespace Physics
 		void move(float x, float y);
 		void setLinearVelocity(float x, float y);
 
+		void disable();
+		void enable();
 
 		void disableCollisions();
 		void enableCollisions();

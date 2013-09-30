@@ -69,11 +69,6 @@ namespace Physics {
 		*/
 		void tick(float secs);
 
-		/**
-		*/
-		void SwitchDebugDraw();
-
-
 		//----------------------
 		// Gestion de la escena
 		//----------------------
@@ -122,6 +117,11 @@ namespace Physics {
 		/*
 		*/
 		void deactivate(CScene* scene);
+		
+		/*
+		*/
+		void setVisibleScene(CScene* scene);
+		void switchDebugDraw();
 
 
 
@@ -147,6 +147,9 @@ namespace Physics {
 		Mapa de escenas. Se asocia una escena con su nombre.
 		*/
 		TScenes _scenes;
+
+		CScene* _visibleScene;
+		CScene* _debugScene;
 
 
 		/**

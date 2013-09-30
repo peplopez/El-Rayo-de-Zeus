@@ -16,6 +16,8 @@ del juego.
 #include "Map/Entity.h"
 #include "Map/MapParser.h"
 
+#include "../../Logic/Entity/Components/PhysicalCharacter.h"
+
 #include <iostream>
 #include <fstream>
 #include <cassert>
@@ -221,6 +223,31 @@ namespace Logic
 		}
 
 	} // createEntity
+	
+	//---------------------------------------------------------
+
+	Logic::CEntity *CEntityFactory::createEntity(const Map::CEntity *entityInfo, Logic::CMap *map,const Logic::CEntity* father)
+	{		
+		CEntity *ret = assembleEntity(entityInfo->getType());
+
+		if (!ret)
+			return 0;
+
+		// Añadimos la nueva entidad en el mapa antes de inicializarla.
+		map->addEntity(ret);
+
+		// Y lo inicializamos
+		
+		if (ret->spawn(map, entityInfo, father))
+			return ret;
+		else {
+			map->removeEntity(ret);
+			delete ret;
+			return 0;
+		}
+
+	} // createEntity
+
 
 	//-----------------------------------------------------------------
 
@@ -284,33 +311,14 @@ namespace Logic
 	
 	//-----------------------------------------------------------------
 
-	Logic::CEntity *CEntityFactory::createEntity(const	Map::CEntity *entityInfo,Logic::CMap *map,const Logic::CEntity* father)
-	{		
-		CEntity *ret = assembleEntity(entityInfo->getType());
-
-		if (!ret)
-			return 0;
-
-		// Añadimos la nueva entidad en el mapa antes de inicializarla.
-		map->addEntity(ret);
-
-		// Y lo inicializamos
-		
-		if (ret->spawn(map, entityInfo, father))
-			return ret;
-		else {
-			map->removeEntity(ret);
-			delete ret;
-			return 0;
-		}
-
-	} // createEntity
 	void CEntityFactory::deleteEntity(CEntity *entity)
 	{
 			assert(entity);		
 		entity->getMap()->removeEntity(entity);// Si la entidad estaba activada se desactiva al sacarla del mapa.
 		delete entity; // El delete nos toca a nosotros
 	} // deleteEntity
+
+	//-----------------------------------------------------------------
 
 	Logic::CEntity *CEntityFactory::createMergedEntity(Map::CEntity *entityInfo,Logic::CMap *map,const CEntity* father)	{		
 		//Se busca en el std::map de archetypes el tipo del *entityInfo
@@ -326,13 +334,79 @@ namespace Logic
 		return createEntity(entityInfo, map, father); // [���] No se optimiza m�s enchufando directamente la salida as�?
 		//return ret;
 	} // createMergedEntity
+	
+	
+	/**************************
+		DISABLING/ENABLING
+	**************************/
+
+
+	void CEntityFactory::deferredDisablePhysics(CEntity *entity)
+	{
+		assert(entity);
+		_entitiesToDisablePhysics.push_back(entity);
+	}
+
+	//-----------------------------------------------------------------
+
+	void CEntityFactory::disableDefferedEntitiesPhysics()
+	{
+		TEntityList::const_iterator it(_entitiesToDisablePhysics.cbegin());
+		TEntityList::const_iterator end(_entitiesToDisablePhysics.cend());
+		for(; it != end; ++it)
+		{
+			if ((*it)->hasComponent<CPhysics>())
+			{
+				(*it)->getComponent<CPhysics>()->disable();
+				(*it)->getComponent<CPhysics>()->sleep();
+			}
+			else if ((*it)->hasComponent<CPhysicalCharacter>())
+			{
+				(*it)->getComponent<CPhysicalCharacter>()->disable();
+				(*it)->getComponent<CPhysicalCharacter>()->sleep();
+			}
+
+		}
+		
+		_entitiesToDisablePhysics.clear();
+	} // disableDefferedObjects
+
+	//-----------------------------------------------------------------
+
+	void CEntityFactory::deferredEnablePhysics(CEntity* entity)
+	{
+		assert(entity);
+		_entitiesToEnablePhysics.push_back(entity);
+	}
+
+	//-----------------------------------------------------------------
+
+	void CEntityFactory::enableDefferedEntitiesPhysics()
+	{
+		TEntityList::const_iterator it(_entitiesToEnablePhysics.cbegin());
+		TEntityList::const_iterator end(_entitiesToEnablePhysics.cend());
+		for(; it != end; ++it)
+		{
+			if ((*it)->hasComponent<CPhysics>())
+			{
+				(*it)->getComponent<CPhysics>()->enable();
+				(*it)->getComponent<CPhysics>()->awake();
+			}
+			else if ((*it)->hasComponent<CPhysicalCharacter>())
+			{
+				(*it)->getComponent<CPhysicalCharacter>()->enable();
+				(*it)->getComponent<CPhysicalCharacter>()->awake();
+			}
+		}
+		
+		_entitiesToEnablePhysics.clear();
+	} // enableDefferedObjects
+
 
 	
-
-	
-/**********************
-		ARCHETYPES
-	*********************/
+	/************************
+			ARCHETYPES
+	*************************/
 
 	bool CEntityFactory::loadArchetypes(const std::string &filename)
 	{
@@ -368,13 +442,10 @@ namespace Logic
 
 	} // unloadArchetypes
 	
-	
-	
-
 
 	/*******************
 		BLUEPRINTS
-	*******************/
+	********************/
 
 	typedef std::pair<std::string,CEntityFactory::TBluePrint> TStringBluePrintPair;
 
@@ -412,7 +483,6 @@ namespace Logic
 	} // loadBluePrints
 	
 	//---------------------------------------------------------
-
 
 	void CEntityFactory::unloadBluePrints()
 	{

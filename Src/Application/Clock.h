@@ -135,7 +135,7 @@ namespace Application
 
 		void removeTimeObservers(IClockListener* listener);
 	
-		void removeAllTimeObserver();
+		void removeAllTimeObservers();
 		
 	protected:
 

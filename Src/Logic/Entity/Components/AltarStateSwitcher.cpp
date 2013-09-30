@@ -84,54 +84,98 @@ namespace Logic
 		{
 		
 		case Message::TRIGGER:
-			if(message->getAction() == Message::TRIGGER_ENTER) 
-			{
-				CEntity *auxTarget = _entity->getMap()->getEntityByID(static_cast<CMessageUInt*>(message)->getUInt());
-				if(auxTarget && (auxTarget->getType() == "Altar" || auxTarget->getType() == "AltarAnimated"))
-				{
-					_switchingAllowed = true;
-					_target = auxTarget;
-				}
-			}
-			else if(message->getAction() == Message::TRIGGER_EXIT)
-			{
-				CEntity *auxTarget = _entity->getMap()->getEntityByID(static_cast<CMessageUInt*>(message)->getUInt());
-				if(auxTarget && (auxTarget->getType() == "Altar" || auxTarget->getType() == "AltarAnimated") )
-				{	
-					if(_switchingState)
-						stopSwitchingState();
-					_switchingAllowed = false;
-					_target = 0;
-				}
-			}
+
+			checkTriggerMessage(message);
 			break;
 		
 		case Message::CONTROL:
 
-			if (message->getAction() == Message::SWITCH_ALTAR)
-				startSwitchingState();
-			else if ((message->getAction() == Message::WALK_RIGHT ||
-						message->getAction() == Message::WALK_LEFT ||
-							message->getAction() == Message::JUMP) && _switchingState)
-				stopSwitchingState();
-
+			checkControlMessage(message);
 			break;
 		
 		
 		case Message::ALTAR_SWITCHED:
-			stopSwitchingState();
-			CMessage *smMsg = new CMessage();
-			smMsg->setType(Message::ALTAR_MS_ORDER);
-			smMsg->setAction(Message::FINISH_SUCCESS);
-			_entity->emitMessage(smMsg);	
+			
+			processAltarSwitched();
 			break;
 		
 		}
 	} // process
 	
+	//---------------------------------------------------------
 
+	void CAltarStateSwitcher::tick(unsigned int msecs)
+	{
+		IComponent::tick(msecs);
+
+		if (_switchingState)
+		{	
+			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT || 
+					_entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT ||
+						_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_OUTSIDE)
+				_targetSense = Logic::LogicalPosition::LOOKING_CENTER;
+		
+			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT)
+				rotate(Math::PI * 0.5f, msecs);
+			else if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT)
+				rotate(-Math::PI * 0.5f, msecs);
+			else if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_OUTSIDE)
+				rotate(Math::PI, msecs);
+		}
+	} // tick
 
 	//---------------------------------------------------------
+
+	void CAltarStateSwitcher::checkTriggerMessage(CMessage* message)
+	{
+		if(message->getAction() == Message::TRIGGER_ENTER) 
+		{
+			CEntity *auxTarget = _entity->getMap()->getEntityByID(static_cast<CMessageUInt*>(message)->getUInt());
+				if(auxTarget && (auxTarget->getType() == "Altar" || auxTarget->getType() == "AltarAnimated"))
+			{
+				_switchingAllowed = true;
+				_target = auxTarget;
+			}
+		}
+		else if(message->getAction() == Message::TRIGGER_EXIT)
+		{
+			CEntity *auxTarget = _entity->getMap()->getEntityByID(static_cast<CMessageUInt*>(message)->getUInt());
+			if(auxTarget && (auxTarget->getType() == "Altar" || auxTarget->getType() == "AltarAnimated") )
+			{	
+				if(_switchingState)
+					stopSwitchingState();
+				_switchingAllowed = false;
+				_target = 0;
+			}
+		}
+	
+	} //checkTriggerMessage
+	//---------------------------------------------------------
+
+	void CAltarStateSwitcher::checkControlMessage(CMessage* message)
+	{
+		if (message->getAction() == Message::SWITCH_ALTAR)
+			startSwitchingState();
+		else if ((message->getAction() == Message::WALK_RIGHT ||
+					message->getAction() == Message::WALK_LEFT ||
+						message->getAction() == Message::JUMP) && _switchingState)
+			stopSwitchingState();		
+	
+	} //checkControlMessage
+	//---------------------------------------------------------
+
+	void CAltarStateSwitcher::processAltarSwitched()
+	{
+		stopSwitchingState();
+		CMessage *smMsg = new CMessage();
+		smMsg->setType(Message::ALTAR_MS_ORDER);
+		smMsg->setAction(Message::FINISH_SUCCESS);
+		_entity->emitMessage(smMsg);	
+	
+	}//processAltarSwitched;
+	
+	//---------------------------------------------------------
+
 
 	void CAltarStateSwitcher::startSwitchingState()
 	{
@@ -213,23 +257,4 @@ namespace Logic
 	
 	//---------------------------------------------------------
 
-	void CAltarStateSwitcher::tick(unsigned int msecs)
-	{
-		IComponent::tick(msecs);
-
-		if (_switchingState)
-		{	
-			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT || 
-					_entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT ||
-						_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_OUTSIDE)
-				_targetSense = Logic::LogicalPosition::LOOKING_CENTER;
-		
-			if (_entity->getLogicalPosition()->getSense() == Logic::Sense::RIGHT)
-				rotate(Math::PI * 0.5f, msecs);
-			else if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LEFT)
-				rotate(-Math::PI * 0.5f, msecs);
-			else if (_entity->getLogicalPosition()->getSense() == Logic::Sense::LOOKING_OUTSIDE)
-				rotate(Math::PI, msecs);
-		}
-	} // tick
 } // namespace Logic

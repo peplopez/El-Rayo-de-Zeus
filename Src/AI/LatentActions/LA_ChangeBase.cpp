@@ -57,6 +57,7 @@ namespace AI
 		_entity->emitMessage(m);*/
 		
 		_scene=_entity->getMap()->getGraphicScene();
+		_entity->getComponent<CCombat>()->setVulnerable(false);
 
 		return RUNNING;
 	}
@@ -74,6 +75,7 @@ namespace AI
 	//	_reloj->removeTimeObserver(0);		
 		//_reloj->removeTimeObserver(1);			
 		awakeComponents();
+		_entity->getComponent<CCombat>()->setVulnerable(true);
 	
 		CMessageFloat *m2 = new CMessageFloat();	
 		m2->setType(Message::SET_SCALE);

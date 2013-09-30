@@ -103,6 +103,7 @@ namespace BaseSubsystems
 	CServer::CServer() : 
 		_root(0),
 		_renderWindow(0),
+		_debugRenderWindow(0),
 		_mouse(0),
 		_keyboard(0),
 		_joystick(0),
@@ -376,10 +377,11 @@ namespace BaseSubsystems
 		if(_renderWindow)
 		{
 			_renderWindow->removeAllViewports();
-			_root->detachRenderTarget(_renderWindow);
-			delete _renderWindow;
+			_root->destroyRenderTarget(_renderWindow->getName());
 			_renderWindow = 0;
 		}
+
+		destroyDebugRenderWindow();
 
 		if(_windowEventListener)
 		{
@@ -519,6 +521,7 @@ namespace BaseSubsystems
 			// con los parámetros actuales del sistema de reenderizado.
 			_renderWindow = _root->initialise(true, _WINDOW_TITLE);
 			
+			
 			// FRS Establecemos el *.ico de ventana y el cursor para modo windowed
 #if _WIN32		
 
@@ -628,5 +631,36 @@ namespace BaseSubsystems
 		mouseStateOIS.height = height;
 
 	} // setWindowExtents
+
+	//--------------------------------------------------------
+
+	void CServer::createDebugRenderWindow()
+	{
+		//Si no existe Crear un debug renderWindow de tamaño 1/2 el original
+		if (!_debugRenderWindow)
+		{
+			try {
+			_debugRenderWindow = _root->createRenderWindow(_WINDOW_TITLE + "- DEBUG", 640,
+									480, false);
+			_debugRenderWindow->setDeactivateOnFocusChange(false);
+			}
+			catch(Ogre::Exception e)
+			{
+			}
+		}
+	}
+
+	//--------------------------------------------------------
+
+	void CServer::destroyDebugRenderWindow()
+	{
+		if (_debugRenderWindow)
+		{
+			//Bug en Ogre-> si no se hace así a través del RenderSistem específico peta:
+			//http://www.ogre3d.org/forums/viewtopic.php?f=22&t=69648
+			_root->getRenderSystemByName("Direct3D9 Rendering Subsystem")->destroyRenderTarget(_debugRenderWindow->getName());
+			_debugRenderWindow = 0;
+		}
+	}
 
 } // namespace BaseSubsystems

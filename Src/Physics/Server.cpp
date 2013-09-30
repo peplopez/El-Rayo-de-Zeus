@@ -25,7 +25,7 @@ namespace Physics {
 
 	//--------------------------------------------------------
 
-	CServer::CServer()
+	CServer::CServer() : _visibleScene(0), _debugScene(0)
 	{
 		assert(!_instance && "PHYSICS::SERVER>> Segunda inicialización de Physics::CServer no permitida!");
 		_instance = this;
@@ -81,18 +81,12 @@ namespace Physics {
 		TScenes::const_iterator end = _scenes.cend();
 			while(it != end)			
 				removeScene( (*it++).second );
+		_visibleScene = 0;
+		_debugScene = 0;
 		
 	} // close
 
 	//--------------------------------------------------------
-
-	void CServer::SwitchDebugDraw()
-	{
-		TScenes::const_iterator it = _scenes.cbegin();
-		TScenes::const_iterator end = _scenes.cend();
-		for (; it != end; ++it)
-			it->second->switchDebugDraw();
-	}
 	
 	/***********
 		TICK
@@ -170,7 +164,37 @@ namespace Physics {
 				"PHYSICS::SERVER>> Esta escena no pertenece al servidor");
 		scene->deactivate(); 
 	} // activate
+
+	//--------------------------------------------------------
+
+	void CServer::setVisibleScene(CScene* scene)
+	{
 	
+		// Sanity check. Nos aseguramos de que la escena pertenezca 
+		// al servidor. Aunque nadie más puede crear escenas...
+		assert( _scenes[ scene->getName() ] == scene && 
+				"PHYSICS::SERVER>> Esta escena no pertenece al servidor");
+		_visibleScene = scene;
+	} // activate
+
+	//--------------------------------------------------------
+	void CServer::switchDebugDraw()
+	{
+		if (!_debugScene)
+		{
+			_debugScene = _visibleScene;
+			if (_debugScene)
+				_debugScene->switchDebugDraw();
+		}
+		else
+		{
+			_debugScene->switchDebugDraw();
+			_debugScene = 0;
+		}
+
+	}
+
+	//--------------------------------------------------------
 
 	
 	/***********
@@ -184,7 +208,6 @@ namespace Physics {
 	//	assert(actor);	// Mover el actor tras transformar el destino a coordenadas lógicas
 	//	actor->move(diffDegrees, diffHeight, diffRing, diffBase);
 	//}
-
 
 
 }

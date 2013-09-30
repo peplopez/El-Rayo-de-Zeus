@@ -48,7 +48,7 @@ namespace Logic
 		defecto.
 		*/
 		CCombat() : IComponent(GetAltTypeIdOf(CCombat)),
-			_attackPower(0),_lifeModifierLightAttack(0), _lifeModifierHeavyAttack(0),_covering(false), _isModeBomb(false),_arrowFighter(false){}
+			_attackPower(0),_lifeModifierLightAttack(0), _lifeModifierHeavyAttack(0),_covering(false), _isModeBomb(false),_arrowFighter(false), _isVulnerable(true){}
 		//CCombat() : IComponent(GetAltTypeIdOf(CCombat)),_attackPower(0),_lifeModifierLightAttack(-10), _lifeModifierHeavyAttack(-20),_covering(false){}
 
 		/**
@@ -144,6 +144,9 @@ namespace Logic
 		void setCovering(bool covering)
 		{_covering=covering;}	
 
+		bool isVulnerable() {return _isVulnerable;}
+		void setVulnerable(bool vulnerable) { _isVulnerable = vulnerable; }
+
 
 	private:
 
@@ -155,6 +158,7 @@ namespace Logic
 
 		bool _covering;
 		bool _isModeBomb; // HACK FRS para probar FX
+		bool _isVulnerable;
 		
 		bool _arrowFighter;
 		std::string _audioCubriendose;

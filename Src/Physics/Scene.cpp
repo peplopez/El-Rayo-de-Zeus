@@ -23,11 +23,6 @@
 #include <Box2D\Common\b2Math.h>
 #include <Box2D\Common\b2Settings.h>
 
-#include "Graphics\Server.h"
-#include "Graphics\Scene.h"
-#include "Graphics\Camera.h"
-
-
 #include <assert.h>
 #include <iostream>
 
@@ -43,21 +38,22 @@
 
 namespace Physics
 {
-	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0), _worldListener(0), _debugDrawEnabled(false), _isInit(false)
+	CScene::CScene(const std::string& name) : _name(name), _world(0), _debugDraw(0),
+		_worldListener(0), _debugDrawEnabled(false), _isInit(false)
 	{	
 		b2Vec2 gravity(0, -20);
 		_world = new b2World(gravity);
-		_worldListener = new CContactListener();
-		_debugDraw = new OgreB2DebugDraw(Graphics::CServer::getSingletonPtr()->getScene(_name)->getSceneMgr(), "debugDraw") ;	
+		_worldListener = new CContactListener();	
 	};
 
 	//--------------------------------------------------------
 
 	CScene::~CScene() 
-	{
+	{	
 		delete _worldListener;
 		deactivate();
 		delete _world;	
+		delete _debugDraw;
 		
 	} // ~CScene
 	
@@ -66,13 +62,12 @@ namespace Physics
 	void CScene::_init() 
 	{
 //#ifdef _DEBUG
-		
-		//_debugDraw->setAutoTracking(Graphics::CServer::getSingletonPtr()->getScene(_name)->getPlayerCamera()->getNode());
+		_debugDraw = new OgreB2DebugDraw(_name, "debugDraw") ;
 		_debugDraw->SetFlags(b2Draw::e_shapeBit);
 		_world->SetDebugDraw(_debugDraw);
 //#endif		
 		_world->SetContactListener(_worldListener);
-		CreateWorldEdges();	
+		_createWorldEdges();	
 
 		_isInit = true;
 
@@ -81,7 +76,6 @@ namespace Physics
 	//--------------------------------------------------------
 	void CScene::_deinit()
 	{
-
 	}
 	//--------------------------------------------------------
 	bool CScene::activate()
@@ -150,7 +144,7 @@ namespace Physics
 
 	//--------------------------------------------------------
 
-	void CScene::CreateWorldEdges()
+	void CScene::_createWorldEdges()
 	{
 
 		CActor* leftWorldEdge = new CActor(180, -150, Logic::Ring::CENTRAL_RING, "static", 0);
@@ -203,6 +197,12 @@ namespace Physics
 	void CScene::switchDebugDraw()
 	{
 		_debugDrawEnabled = !_debugDrawEnabled;
+		
+		if (_debugDrawEnabled)
+			_debugDraw->enable();
+		else
+			_debugDraw->disable();
 
 	}
+
 } // namespace Physics
