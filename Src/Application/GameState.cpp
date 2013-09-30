@@ -285,7 +285,7 @@ namespace Application {
 		{
 		case GUI::Key::ESCAPE:	
 			BaseSubsystems::CServer::getSingletonPtr()->destroyDebugRenderWindow();
-			Application::CBaseApplication::getSingletonPtr()->getClock()->removeAllTimeObservers();
+			Logic::CServer::getSingletonPtr()->unLoadWorld();
 			_app->setState("menu");
 			break;
 
