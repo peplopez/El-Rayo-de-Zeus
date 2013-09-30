@@ -6,7 +6,7 @@
     <ProductVersion>3.7</ProductVersion>
     <ProjectGuid>{f6d492a9-3405-4500-94d1-ad2a45dead32}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>ZeusSetup</OutputName>
+    <OutputName>Zeus Thunderbolt Setup</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
@@ -24,7 +24,8 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <Cultures>en-US</Cultures>
     <SuppressPdbOutput>True</SuppressPdbOutput>
-    <LinkerAdditionalOptions>-ext WixUIExtension</LinkerAdditionalOptions>
+    <LinkerAdditionalOptions>
+    </LinkerAdditionalOptions>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CFGs.wxs" />
@@ -57,6 +58,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

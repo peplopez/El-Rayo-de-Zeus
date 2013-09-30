@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:gamens="http://schemas.microsoft.com/wix/GamingExtension">
   
   <Product  Name="Zeus Thunderbolt" 
             Id="733C5452-C415-4C78-864F-02FA30C18538" 
             UpgradeCode="55980471-5728-4D50-827E-1BED8686DE88" 
             Language="1033" 
             Codepage="1252" 
-            Version="1.0.3" 
+            Version="1.1.5" 
             Manufacturer="Monster LEAK" >
 
     <Package Id="*" 
@@ -17,7 +17,9 @@
              InstallerVersion="310" 
              Languages="1033" 
              Compressed="yes"
-             SummaryCodepage="1252"/>
+             SummaryCodepage="1252"
+             InstallPrivileges="elevated"
+             InstallScope="perMachine"/>
 
     <!--<Condition Message="You need to be an administrator to install this product.">
       Privileged
@@ -31,20 +33,52 @@
     <Icon Id="Zeus.ico"    SourceFile="$(var.Application.TargetDir)\Zeus.ico" />
     <Icon Id="Config.ico"  SourceFile="$(var.Application.TargetDir)\Config.ico" />
 
-    <UIRef Id="WixUI_Mondo" />
-    <UIRef Id="WixUI_ErrorProgressText" />
-    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+    
+    <!-- FEATURES -->
+    <Feature Id="All"	Title="All" Description="Install all features." Display="expand" Level="1">
 
+      <Feature  Id="Zeus" Title="Zeus Thunderbolt" Description="Mythological Wars: Zeus Thunderbolt."
+		          Display="expand"	Level="1" 	ConfigurableDirectory="INSTALLDIR">
+        <ComponentRef Id="FolderTree" />
+        <ComponentRef Id="GameExe" />
+        <ComponentRef Id="ConfigExe" />
+        <ComponentRef Id="InstallData"/>
+        <ComponentGroupRef Id="DLLs" />
+        <ComponentGroupRef Id="CFGs" />
+        <ComponentGroupRef Id="Media"/>
+      </Feature>
+
+      <!--<Feature Id="DirectX" Title="DirectX" Description="DirectX" Display="expand"	Level="1" >
+      </Feature>-->
+    </Feature>
+
+    
+    <!--UI-->
+    
+    <UI>
+      
+      <UIRef Id="WixUI_InstallDir" />
+      <UIRef Id="WixUI_ErrorProgressText" />
+      
+      <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+      <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Zeus Thunderbolt" />
+      
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">
+          WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed
+      </Publish>
+      
+    </UI>
+    
     <WixVariable Id="WixUILicenseRtf" Value="Resources\License.rtf" />
     <WixVariable Id="WixUIBannerBmp" Value="Resources\banner.bmp" /><!-- 493 by 58 pixels, this bitmap will appear at the top of all but the first page of the installer.-->
     <WixVariable Id="WixUIDialogBmp" Value="Resources\dialog.bmp" /><!-- 493 by 312 pixels, this bitmap will appear on the first page of the installer.-->
     <!--
-      <WixVariable Id="WixUIExclamationIco" Value="path\exclamation.ico" />
-      <WixVariable Id="WixUIInfoIco" Value="path\information.ico" />
-      <WixVariable Id="WixUINewIco" Value="path\new.ico" /> --> <!--16 by 16 pixels, new folder icon.-->
-    <!--
-      <WixVariable Id="WixUIUpIco" Value="path\up.ico" />--> <!--16 by 16 pixels, parent folder icon.-->
-
+        <WixVariable Id="WixUIExclamationIco" Value="path\exclamation.ico" />
+        <WixVariable Id="WixUIInfoIco" Value="path\information.ico" />
+        <WixVariable Id="WixUINewIco" Value="path\new.ico" /> --> <!--16 by 16 pixels, new folder icon.-->
+      <!--
+        <WixVariable Id="WixUIUpIco" Value="path\up.ico" />--> <!--16 by 16 pixels, parent folder icon.-->
+    
     <!-- ARP PROPERTIES (Add or Remove Programs Menu) -->
     <Property Id='ARPCOMMENTS'>Mythological Wars: Zeus Thunderbolt</Property>
     <Property Id='ARPCONTACT'>monster.leak.games@gmail.com</Property>
@@ -53,30 +87,16 @@
     <Property Id='ARPURLUPDATEINFO'>http://elrayodezeus.wordpress.com</Property>
     <Property Id='ARPHELPTELEPHONE'>monster.leak.games@gmail.com</Property>
     <Property Id='ARPPRODUCTICON'>Zeus.ico</Property>
-    <Property Id='ARPNOMODIFY'>1</Property> <!-- suppress the Modify button -->
     <!--
+      <Property Id='ARPNOMODIFY'>1</Property> --><!-- suppress the Modify button --><!--
       <Property Id='ARPREADME'>path</Property>
-      <Property Id='ARPSIZE'>app size in kilobytes</Property>
-     -->
+      <Property Id='ARPSIZE'>app size in kilobytes</Property>-->
 
     
-    <Feature Id="All"	Title="All" Description="Install all features." Display="expand" Level="1">
-
-      <Feature  Id="Zeus" Title="Zeus Thunderbolt" Description="Mythological Wars: Zeus Thunderbolt."
-		          Display="expand"	Level="1" 	ConfigurableDirectory="INSTALLDIR">
-        <ComponentRef Id="Game" />
-        <ComponentRef Id="Config" />
-        <ComponentRef Id="InstallData"/>
-        <ComponentGroupRef Id="DLLs" />
-        <ComponentGroupRef Id="CFGs" />
-        <ComponentGroupRef Id="Media"/> 
-      </Feature>
-
-      <!--<Feature Id="DirectX" Title="DirectX" Description="DirectX" Display="expand"	Level="1" >
-      </Feature>-->
-
-    </Feature>
-	
+    <!--CUSTOM ACTIONS -->
+    <Property Id="WixShellExecTarget" Value="[#GameExe]" />
+    <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes"/>
+  
   </Product>
 
 
@@ -87,7 +107,8 @@
       
       <Directory Id="ProgramFilesFolder" Name="PFiles">
         <Directory Id="MonsterLeak" Name="Monster LEAK">
-          <Directory Id="INSTALLDIR" Name="Zeus Thunderbolt" />
+          <Directory Id="INSTALLDIR" Name="Zeus Thunderbolt" >
+          </Directory>
         </Directory>
       </Directory>
       
@@ -102,33 +123,47 @@
     
   </Fragment>
 
-  
+
+  <!-- FOLDER TREE -->
+  <Fragment>
+    <Component Id="FolderTree" Directory="INSTALLDIR" Guid="D866E841-1665-4CCA-8E81-79E45B8D68C2">
+      <CreateFolder>
+        <Permission User="Everyone" GenericAll="yes" TakeOwnership="yes" WriteAttributes="yes" WriteExtendedAttributes="yes" />
+      </CreateFolder>
+    </Component>
+  </Fragment>
   
   
   <!-- GAME -->
-  <Fragment>
-      <Component Id="Game" Directory="INSTALLDIR" Guid="76DED8C9-BDAB-40DF-AE35-B1763B151E2B">
+  <Fragment>    
+      <Component Id="GameExe" Directory="INSTALLDIR" Guid="76DED8C9-BDAB-40DF-AE35-B1763B151E2B">
         
         <File Id="GameExe" Name="Zeus Thunderbolt.exe" Source="$(var.Application.TargetPath)" DiskId="1" KeyPath="yes">
+
+          <Permission User="Everyone" GenericAll="yes" TakeOwnership="yes" Write="yes" WriteAttributes="yes" WriteExtendedAttributes="yes" />
           
           <Shortcut Id="GameShortcutMenu" Name="Zeus Thunderbolt" Directory="MENUDIR" Description="Mythological Wars: Zeus Thunderbolt"
             WorkingDirectory="INSTALLDIR" Icon="Zeus.ico" IconIndex="0" Advertise="yes"/>
          
           <Shortcut Id="GameShortcutDesktop" Name="Zeus Thunderbolt" Directory="DesktopFolder" Description="Mythological Wars: Zeus Thunderbolt"
-            WorkingDirectory="INSTALLDIR" Icon="Zeus.ico" IconIndex="0" Advertise="yes"/> 
+            WorkingDirectory="INSTALLDIR" Icon="Zeus.ico" IconIndex="0" Advertise="yes"/>
+
+          <!--<gamens:Game Id="3A8B14F0-162F-4D26-A323-11A2D496BCB8"/>-->
           
         </File>
         
-      </Component>
+      </Component>    
   </Fragment>
   
 
   <!-- CONFIGURE -->
   <Fragment>
-    <Component Id="Config" Directory="INSTALLDIR">
+    <Component Id="ConfigExe" Directory="INSTALLDIR">
 
-     <File Id="ConfigExe" Name="Settings.exe" Source="$(var.Configure.TargetPath)" DiskId="1" KeyPath="yes">
+      <File Id="ConfigExe" Name="Settings.exe" Source="$(var.Configure.TargetPath)" DiskId="1" KeyPath="yes">
 
+        <Permission User="Everyone" GenericAll="yes" TakeOwnership="yes" Write="yes" WriteAttributes="yes" WriteExtendedAttributes="yes" />
+       
         <Shortcut Id="ConfigShortcutMenu" Name="Settings" Directory="MENUDIR" Description="Set configuration"
                   WorkingDirectory="INSTALLDIR" Icon="Config.ico" IconIndex="0" Advertise="yes"/>
       </File>
