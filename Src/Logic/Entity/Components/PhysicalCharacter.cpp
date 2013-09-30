@@ -107,12 +107,8 @@ namespace Logic {
 				
 		_entity->setLogicalPosition(&auxPos); 
 
-
-		
-
 		_physicalActor->setLinearVelocity(_diffDegrees, _diffHeight);
 
-		
 		//Ponemos el movimiento a cero		
 		_diffDegrees = 0;
 		_diffHeight = 0; 

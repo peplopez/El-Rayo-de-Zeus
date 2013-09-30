@@ -48,7 +48,7 @@ namespace Logic
 		defecto.
 		*/
 		CCombat() : IComponent(GetAltTypeIdOf(CCombat)),
-			_attackPower(0),_lifeModifierLightAttack(0), _lifeModifierHeavyAttack(0),_covering(false), _isModeBomb(false){}
+			_attackPower(0),_lifeModifierLightAttack(0), _lifeModifierHeavyAttack(0),_covering(false), _isModeBomb(false),_arrowFighter(false){}
 		//CCombat() : IComponent(GetAltTypeIdOf(CCombat)),_attackPower(0),_lifeModifierLightAttack(-10), _lifeModifierHeavyAttack(-20),_covering(false){}
 
 		/**
@@ -156,6 +156,7 @@ namespace Logic
 		bool _covering;
 		bool _isModeBomb; // HACK FRS para probar FX
 		
+		bool _arrowFighter;
 		std::string _audioCubriendose;
 	}; // class CCombat
 
