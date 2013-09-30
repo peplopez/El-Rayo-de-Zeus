@@ -219,7 +219,8 @@ namespace Graphics
 		}
 		
 		_visibleScene->setVisible(true, playerCamera);
-		_resetCompositors();
+		if (_visibleScene != _dummyScene)
+			_resetCompositors();
 
 	} // setActiveScene
 
@@ -245,7 +246,8 @@ namespace Graphics
 		}
 
 		_visibleScene->setVisible(true, baseCamera);
-		_resetCompositors();
+		if (_visibleScene != _dummyScene)
+			_resetCompositors();
 
 	} // setActiveScene
 	//--------------------------------------------------------

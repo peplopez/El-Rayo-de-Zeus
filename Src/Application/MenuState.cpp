@@ -90,7 +90,7 @@ namespace Application {
 	{
 		CApplicationState::activate();
 
-		CBaseApplication::getSingletonPtr()->getClock()->removeAllTimeObserver();
+		CBaseApplication::getSingletonPtr()->getClock()->removeAllTimeObservers();
 
 		// Activamos la ventana que nos muestra el menú y activamos el ratón.
 		/*

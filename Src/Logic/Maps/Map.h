@@ -147,8 +147,6 @@ namespace Logic
 		@param entity Entidad a eliminar.
 		*/
 		void removeEntity(CEntity *entity);
-		void removeFromGraphics(CEntity *entity);
-		void removeFromPhysics(CEntity *entity);
 
 
 		/**

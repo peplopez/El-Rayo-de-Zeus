@@ -225,6 +225,13 @@ namespace Logic
 		void deleteDefferedEntities();
 
 
+		void deferredDisablePhysics(CEntity *entity);
+		void disableDefferedEntitiesPhysics();
+
+		void deferredEnablePhysics(CEntity *entity);
+		void enableDefferedEntitiesPhysics();
+
+
 	private:				
 
 		typedef std::vector<Map::CEntity> TPatternEntities;
@@ -234,12 +241,15 @@ namespace Logic
 		Tipo lista de CEntity donde guardaremos los pendientes de borrar.
 		*/
 		typedef std::list<Logic::CEntity*> TEntityList;
-		
+		typedef std::pair<Logic::CEntity*, CMap*> TEntityMapPair;
+		typedef std::list<TEntityMapPair> TEntityMapList;
 
 		/**
-		Lista de objetos pendientes de borrar.
+		Listas de objetos pendientes de borrar.
 		*/
 		TEntityList _pendingEntities;
+		TEntityList _entitiesToEnablePhysics;
+		TEntityList _entitiesToDisablePhysics;
 
 		
 

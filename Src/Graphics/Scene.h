@@ -155,7 +155,6 @@ namespace Graphics
 		friend class CSceneElement;
 		friend class CLight;
 		friend class Logic::CSceneLoader; // HACK FRS Logic???
-		friend class Physics::CScene; // FRS Necesario para el pintado debug de la física
 
 		/**
 		Nombre de la escena.

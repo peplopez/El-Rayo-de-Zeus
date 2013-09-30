@@ -24,7 +24,6 @@ namespace Physics
 	class CContactListener;	
 }
 
-
 class b2World;
 class OgreB2DebugDraw;
 
@@ -86,11 +85,6 @@ namespace Physics
 		*/
 		void tick(float timeStep);
 
-		/**
-		Activa/Desactiva pintado de debug
-		*/
-		void switchDebugDraw();
-
 
 		/******************
 			GET's & SET's
@@ -109,26 +103,31 @@ namespace Physics
 		*/
 		std::string _name;
 
+		/**
+		Listas de gestión de actores
+		*/
 		TActors _actors;
-
 		TActors _actorsToGhost;
 		TActors _actorsToUnghost;
-
-		OgreB2DebugDraw* _debugDraw;
-		bool _debugDrawEnabled;
 
 		b2World* _world;
 		CContactListener* _worldListener;
 
+		void		_createWorldEdges();
+		bool		_isInit;
+		void		_init();
+		void		_deinit();	
 
-		void CreateWorldEdges();
+		/***********************
+			PHYSICS DEBUG
+		***********************/
+	private:
 
-		bool _isInit;
-		void _init();
-		void _deinit();	
+		OgreB2DebugDraw* _debugDraw;
+		bool _debugDrawEnabled;
 
-
-	
+	public:
+		void switchDebugDraw();
 
 	}; // class CScene
 

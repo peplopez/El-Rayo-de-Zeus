@@ -107,13 +107,14 @@ namespace Application {
 
 	void C3DApplication::release()
 	{
-		// Eliminamos el reloj de la aplicación.
-		delete _clock;
 
 		// FRS: BaseApp guarda todos los estados de la App
 		// En el release, desactiva y libera el curState (vinculado a los motores)
 		// Es necesario que todavía no se haya liberado ningún motor.
 		CBaseApplication::release();
+
+		// Eliminamos el reloj de la aplicación.
+		delete _clock;
 
 		// Destruimos la factoría de componentes. La factoría
 		// de componentes no es de construcción y destrucción explícita
@@ -154,6 +155,7 @@ namespace Application {
 
 		if(BaseSubsystems::CServer::getSingletonPtr())
 			BaseSubsystems::CServer::Release();
+
 
 	} // release
 

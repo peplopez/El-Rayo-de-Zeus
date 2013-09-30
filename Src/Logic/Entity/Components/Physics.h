@@ -84,6 +84,9 @@ namespace Logic
 		virtual void detachFromMap();
 		virtual void attachToMap(CMap* map);
 
+		void disable();
+		void enable();
+
 		virtual void disableCollisions();
 		virtual void enableCollisions();
 

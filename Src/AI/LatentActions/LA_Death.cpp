@@ -65,12 +65,14 @@ namespace AI
 		CMessageBoolUShort *message = new CMessageBoolUShort();
 		message->setType(Message::SET_ANIMATION);
 		message->setUShort(Logic::DEATH);
-		message->setAction(Message::WALK_STOP);
 		message->setBool(false);
 		_entity->emitMessage(message);
+		
 		std::cout<<"AI::StateMachine::WTF-I am death!! - SENDING MESSAGE TO CHANGING TO DEATH MODEL " << std::endl;
 
-			//sleepComponents();
+	
+		CEntityFactory::getSingletonPtr()->deferredDisablePhysics(_entity);
+		
 
 		//message to hearing death sound
 		std::string _audio = "media\\audio\\fallecimiento.wav";
@@ -128,13 +130,11 @@ namespace AI
 			respawn();
 
 		}
-		else
+		else if (_entity->getType() == "NPC")
 		{
+			respawn();
 		}
-			 
-			//_entity->destroyAllComponents();   
-		//if(_entity->getType()=="NPC")
-		 //respawn();
+			
 
 		awakeComponents();
 
@@ -159,10 +159,6 @@ namespace AI
 		// superado el tiempo de espera. Según lo hayamos superado o no,
 		// la acción tendrá que pasar a un estado de terminado con éxito o
 		// quedarse en el mismo estado en ejecución.
-		/*if(Application::CBaseApplication::getSingletonPtr()->getAppTime() < _endingTime)
-			return RUNNING;
-		else 
-			return SUCCESS;*/
 
 
 		//PT
@@ -179,7 +175,7 @@ namespace AI
 				return RUNNING;
 			}
 		}
-		else if(_entity->getType()=="NPC")
+		else if(_entity->getType() == "NPC")
 		{
 			if(Application::CBaseApplication::getSingletonPtr()->getAppTime() > _endingTime)
 				return SUCCESS;
@@ -226,26 +222,7 @@ namespace AI
 	*/
 	void CLA_Death::process(CMessage *message)
 	{
-		switch(message->getType())
-		{
-		case Message::ANIMATION_FINISHED: //ConditionFail
-			{
-				CMessageUShort* maux = static_cast<CMessageUShort*>(message);
-				if (maux->getUShort()==Logic::DEATH)
-				{
-					//sleepComponents(); //PT lo comento
-				//		finish(true);
-					if (!_entity->isLocalPlayer())
-					{	
-					//	_entity->detachFromMap();
-					//	_entity->destroyAllComponents();
-						//CEntityFactory::getSingletonPtr()->deferredDeleteEntity(_entity);
-					}
-					//el finish es para cambiar a otro estado, pero de momento este el estado en el que quiero que permanezca. Otro posible estado sería desapareciendo quiza...
-				}
-				break;
-			}
-		}
+
 	}
 	
 	void CLA_Death::tick(unsigned int msecs) 
@@ -284,6 +261,8 @@ namespace AI
 
 	void CLA_Death::respawn()
 	{
+			CEntityFactory::getSingletonPtr()->deferredEnablePhysics(_entity);
+
 			//PT Respawneo en la base Origen
 			if (_entity->hasComponent<CBaseTraveler>())	
 				_entity->getComponent<CBaseTraveler>()->respawnInBaseOrigin();
@@ -292,6 +271,7 @@ namespace AI
 			CMessageBoolUShort *message = new CMessageBoolUShort();
 			message->setType(Message::LIFE_RESTORE);
 			_entity->emitMessage(message);
+			
 	}
 
 } //namespace LOGIC

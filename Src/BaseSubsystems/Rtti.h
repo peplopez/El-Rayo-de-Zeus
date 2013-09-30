@@ -5,7 +5,7 @@ Contiene la declaración de la plantilla TAltTypeIdGenerator, que proporciona rtt
 a los Componentes del proyecto.
 
 
-@author AltDevBlog
+@author AltDevBlog - Adaptado y modificado por Emilio Santalla
 @date Enero 2013
 */
 

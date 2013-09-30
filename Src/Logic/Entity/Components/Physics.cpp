@@ -65,7 +65,18 @@ namespace Logic {
 	}
 
 	//---------------------------------------------------------
+	void CPhysics::disable()
+	{
+		_physicalActor->disable();
+	}
+	//---------------------------------------------------------
+	
+	void CPhysics::enable()
+	{
+		_physicalActor->enable();
+	}
 
+	//---------------------------------------------------------
 	bool CPhysics::spawn(CEntity *entity, CMap *map, const Map::CEntity *entityInfo) 
 	{
 		// Invocar al método de la clase padre
