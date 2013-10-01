@@ -11,10 +11,10 @@
          
           <Shortcut Id="ManualShortcutMenu" Name="Zeus Thunderbolt Manual" Directory="MENUDIR" 
             Description="Manual - Mythological Wars: Zeus Thunderbolt"
-            WorkingDirectory="INSTALLDIR" Advertise="yes"/>
+            WorkingDirectory="INSTALLDIR" Icon="Manual.ico" IconIndex="0" Advertise="yes"/>
 
           <Shortcut Id="ManualShortcutDesktop" Name="Zeus Thunderbolt Manual" Directory="DesktopFolder" Description="Manual - Mythological Wars: Zeus Thunderbolt"
-            WorkingDirectory="INSTALLDIR" Advertise="yes"/>
+            WorkingDirectory="INSTALLDIR" Icon="Manual.ico" IconIndex="0" Advertise="yes"/>
 
           <!--<gamens:Game Id="3A8B14F0-162F-4D26-A323-11A2D496BCB8"/>-->
 

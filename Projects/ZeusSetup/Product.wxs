@@ -30,8 +30,9 @@
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     
-    <Icon Id="Zeus.ico"    SourceFile="$(var.Application.TargetDir)\Zeus.ico" />
-    <Icon Id="Config.ico"  SourceFile="$(var.Application.TargetDir)\Config.ico" />
+    <Icon Id="Zeus.ico"    SourceFile="Resources\Icons\Zeus.ico" />
+    <Icon Id="Config.ico"  SourceFile="Resources\Icons\Config.ico" />
+    <Icon Id="Manual.ico"  SourceFile="Resources\Icons\pdf.ico" />
 
     
     <!-- FEATURES -->
