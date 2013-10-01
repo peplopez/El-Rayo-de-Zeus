@@ -29,6 +29,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CFGs.wxs" />
+    <Compile Include="Base.wxs" />
+    <Compile Include="Directories.wxs" />
     <Compile Include="DLLs.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="Media.wxs" />

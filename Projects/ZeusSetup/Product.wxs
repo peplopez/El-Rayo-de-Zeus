@@ -39,17 +39,12 @@
 
       <Feature  Id="Zeus" Title="Zeus Thunderbolt" Description="Mythological Wars: Zeus Thunderbolt."
 		          Display="expand"	Level="1" 	ConfigurableDirectory="INSTALLDIR">
-        <ComponentRef Id="FolderTree" />
-        <ComponentRef Id="GameExe" />
-        <ComponentRef Id="ConfigExe" />
-        <ComponentRef Id="InstallData"/>
+        <ComponentGroupRef Id="Base"/>
         <ComponentGroupRef Id="DLLs" />
         <ComponentGroupRef Id="CFGs" />
         <ComponentGroupRef Id="Media"/>
       </Feature>
-
-      <!--<Feature Id="DirectX" Title="DirectX" Description="DirectX" Display="expand"	Level="1" >
-      </Feature>-->
+      
     </Feature>
 
     
@@ -98,87 +93,7 @@
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes"/>
   
   </Product>
-
-
-  <!--DIRECTORIES-->  
-  <Fragment>
-    
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      
-      <Directory Id="ProgramFilesFolder" Name="PFiles">
-        <Directory Id="MonsterLeak" Name="Monster LEAK">
-          <Directory Id="INSTALLDIR" Name="Zeus Thunderbolt" >
-          </Directory>
-        </Directory>
-      </Directory>
-      
-      <Directory Id="ProgramMenuFolder" Name="Programs" >
-        <Directory Id="MENUDIR" Name="Zeus Thunderbolt">
-        </Directory>
-      </Directory>
-
-      <Directory Id="DesktopFolder" Name="Desktop"/>
-         
-    </Directory>
-    
-  </Fragment>
-
-
-  <!-- FOLDER TREE -->
-  <Fragment>
-    <Component Id="FolderTree" Directory="INSTALLDIR" Guid="D866E841-1665-4CCA-8E81-79E45B8D68C2">
-      <CreateFolder>
-        <Permission User="Everyone" GenericAll="yes" TakeOwnership="yes" WriteAttributes="yes" WriteExtendedAttributes="yes" />
-      </CreateFolder>
-    </Component>
-  </Fragment>
   
   
-  <!-- GAME -->
-  <Fragment>    
-      <Component Id="GameExe" Directory="INSTALLDIR" Guid="76DED8C9-BDAB-40DF-AE35-B1763B151E2B">
-        
-        <File Id="GameExe" Name="Zeus Thunderbolt.exe" Source="$(var.Application.TargetPath)" DiskId="1" KeyPath="yes">
 
-          <Permission User="Everyone" GenericAll="yes" TakeOwnership="yes" Write="yes" WriteAttributes="yes" WriteExtendedAttributes="yes" />
-          
-          <Shortcut Id="GameShortcutMenu" Name="Zeus Thunderbolt" Directory="MENUDIR" Description="Mythological Wars: Zeus Thunderbolt"
-            WorkingDirectory="INSTALLDIR" Icon="Zeus.ico" IconIndex="0" Advertise="yes"/>
-         
-          <Shortcut Id="GameShortcutDesktop" Name="Zeus Thunderbolt" Directory="DesktopFolder" Description="Mythological Wars: Zeus Thunderbolt"
-            WorkingDirectory="INSTALLDIR" Icon="Zeus.ico" IconIndex="0" Advertise="yes"/>
-
-          <!--<gamens:Game Id="3A8B14F0-162F-4D26-A323-11A2D496BCB8"/>-->
-          
-        </File>
-        
-      </Component>    
-  </Fragment>
-  
-
-  <!-- CONFIGURE -->
-  <Fragment>
-    <Component Id="ConfigExe" Directory="INSTALLDIR">
-
-      <File Id="ConfigExe" Name="Settings.exe" Source="$(var.Configure.TargetPath)" DiskId="1" KeyPath="yes">
-
-        <Permission User="Everyone" GenericAll="yes" TakeOwnership="yes" Write="yes" WriteAttributes="yes" WriteExtendedAttributes="yes" />
-       
-        <Shortcut Id="ConfigShortcutMenu" Name="Settings" Directory="MENUDIR" Description="Set configuration"
-                  WorkingDirectory="INSTALLDIR" Icon="Config.ico" IconIndex="0" Advertise="yes"/>
-      </File>
-
-    </Component>
- </Fragment>
-  
-  
-  <Fragment>
-    <Component Id="InstallData" Directory="MENUDIR" Guid="F2218B7E-C32C-470E-B342-2622365EB0F6">
-      <RemoveFolder Id="MENUDIR" On="uninstall"/>
-      <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]"
-                Type="string" Value="" KeyPath="yes"/>
-     </Component>
-   </Fragment>
-  
-  
 </Wix>
