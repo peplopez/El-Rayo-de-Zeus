@@ -6,7 +6,7 @@
             UpgradeCode="55980471-5728-4D50-827E-1BED8686DE88" 
             Language="1033" 
             Codepage="1252" 
-            Version="1.1.5" 
+            Version="1.1.6" 
             Manufacturer="Monster LEAK" >
 
     <Package Id="*" 
