@@ -30,6 +30,7 @@
   <ItemGroup>
     <Compile Include="CFGs.wxs" />
     <Compile Include="Base.wxs" />
+    <Compile Include="Manual.wxs" />
     <Compile Include="VCRedist.wxs" />
     <Compile Include="DXRedist.wxs" />
     <Compile Include="Directories.wxs" />
@@ -59,6 +60,7 @@
     <Content Include="Resources\banner.bmp" />
     <Content Include="Resources\dialog.bmp" />
     <Content Include="Resources\License.rtf" />
+    <Content Include="Resources\Zeus Thunderbolt Manual.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources" />

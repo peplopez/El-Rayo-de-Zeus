@@ -6,7 +6,7 @@
             UpgradeCode="55980471-5728-4D50-827E-1BED8686DE88" 
             Language="1033" 
             Codepage="1252" 
-            Version="1.1.6" 
+            Version="1.1.7" 
             Manufacturer="Monster LEAK" >
 
     <Package Id="*" 
@@ -43,6 +43,7 @@
         <ComponentGroupRef Id="DLLs" />
         <ComponentGroupRef Id="CFGs" />
         <ComponentGroupRef Id="Media"/>
+        <ComponentGroupRef Id="Manual"/>
       </Feature>
       
       <Feature Id="VCRedist" Title="Visual C++ 10.0 Runtime" AllowAdvertise="no"
@@ -51,9 +52,9 @@
         <ComponentGroupRef Id="VCRedist"/>
       </Feature>
       
-      <Feature Id="DXRedist" Title="DirectX 9.0c Redistributable" AllowAdvertise="no" 
+      <Feature Id="DXRedist" Title="DirectX End-User Runtimes" AllowAdvertise="no" 
                Display="hidden" Level="1"> <!--hidden to prevent the user from seeing the feature in any UI that may be part of your installer-->
-        <ComponentRef Id="DXRedist"/>
+        <ComponentGroupRef Id="DXRedist"/>
       </Feature>
       
     </Feature>
@@ -73,7 +74,7 @@
           WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed
       </Publish>
 
-      <ProgressText Action="InstallDirectX">Installing DirectX 9.0c</ProgressText>
+      <ProgressText Action="InstallDirectX">Installing DirectX End-User Runtimes</ProgressText>
       
     </UI>
     
