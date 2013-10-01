@@ -2,9 +2,22 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
 
-    <DirectoryRef Id="TARGETDIR">
+    <!--<DirectoryRef Id="TARGETDIR">
       <Merge Id="VCRedist" SourceFile="Resources\Microsoft_VC100_CRT_x86.msm" DiskId="1" Language="0"/>
-    </DirectoryRef>
+    </DirectoryRef>-->
+
+    
+    <ComponentGroup Id="VCRedist" Directory="INSTALLDIR">
+
+      <Component Id="msvcp100" DiskId="1" Guid="A907A604-94F9-42E5-AFFB-9B8F305CCCEB">
+        <File Id="msvcp100" Source="Resources\VCRedist\msvcp100.dll" KeyPath="yes" />
+      </Component>
+
+      <Component Id="msvcr100" DiskId="1" Guid="26A85337-2AE1-4A42-A390-1C2B1FF9027B">
+        <File Id="msvcr100" Source="Resources\VCRedist\msvcr100.dll" KeyPath="yes" />
+      </Component>
+
+    </ComponentGroup>
     
   </Fragment>
 </Wix>

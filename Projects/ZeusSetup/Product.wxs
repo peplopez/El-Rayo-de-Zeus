@@ -47,7 +47,8 @@
       
       <Feature Id="VCRedist" Title="Visual C++ 10.0 Runtime" AllowAdvertise="no"
                Display="hidden" Level="1">
-        <MergeRef Id="VCRedist"/>
+        <!--<MergeRef Id="VCRedist"/>-->
+        <ComponentGroupRef Id="VCRedist"/>
       </Feature>
       
       <Feature Id="DXRedist" Title="DirectX 9.0c Redistributable" AllowAdvertise="no" 
@@ -105,7 +106,7 @@
     
     <Property Id="WixShellExecTarget" Value="[#GameExe]" />
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes"/>
-    <CustomAction Id="InstallDirectX" FileKey="DXSETUPEXE" ExeCommand="" 
+    <CustomAction Id="InstallDirectX" FileKey="DXSETUPEXE" ExeCommand="/silent" 
                   Execute="deferred" Impersonate="no" Return="check"/>
 
     <InstallExecuteSequence>
