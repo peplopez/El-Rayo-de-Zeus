@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <Fragment>
+    
+    <!--DIRECTORIES-->
+   
+    <Directory Id="TARGETDIR" Name="SourceDir">
+
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="MonsterLeak" Name="Monster LEAK">
+          <Directory Id="INSTALLDIR" Name="Zeus Thunderbolt" >
+            <Directory Id="DirectXRedistDirectory" Name="DirectX 9.0c"/>
+          </Directory>
+        </Directory>
+      </Directory>
+
+      <Directory Id="ProgramMenuFolder" Name="Programs" >
+        <Directory Id="MENUDIR" Name="Zeus Thunderbolt">
+        </Directory>
+      </Directory>
+
+      <Directory Id="DesktopFolder" Name="Desktop"/>
+
+    </Directory>
+    
+  </Fragment>
+  
+</Wix>

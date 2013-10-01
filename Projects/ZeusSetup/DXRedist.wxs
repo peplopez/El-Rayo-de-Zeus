@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    
+    <Component  Id="DXRedist"  Directory="DirectXRedistDirectory" DiskId="1" Guid="29CE3C65-9B0F-4F8F-B9E9-4CDA9F267977">
+      <File Id="DXSETUPEXE"                 Source="Resources\DXRedist\dxsetup.exe" KeyPath="yes" Checksum="yes"/>
+      <File Id="dxupdate.cab"               Source="Resources\DXRedist\dxupdate.cab"/>
+      <File Id="dxdllreg_x86.cab"           Source="Resources\DXRedist\dxdllreg_x86.cab"/>
+      <File Id="dsetup32.dll"               Source="Resources\DXRedist\dsetup32.dll"/>
+      <File Id="dsetup.dll"                 Source="Resources\DXRedist\dsetup.dll"/>
+      <File Id="DEC2006_d3dx9_32_x86.cab"   Source="Resources\DXRedist\Jun2010_d3dx9_43_x86.cab"/>
+    </Component>
+    
+  </Fragment>
+</Wix>

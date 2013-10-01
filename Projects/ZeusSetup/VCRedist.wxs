@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+
+    <DirectoryRef Id="INSTALLDIR">
+      <Merge Id="VCRedist" SourceFile="Resources\Microsoft_VC100_CRT_x86.msm" DiskId="1" Language="0"/>
+    </DirectoryRef>
+    
+  </Fragment>
+</Wix>

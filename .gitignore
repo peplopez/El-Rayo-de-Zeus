@@ -71,6 +71,7 @@ DocumentacionDoxygen/
 
 #INSTALLER#
 ############
+/Msi
 /Projects/ZeusSetup/bin
 /Projects/ZeusSetup/obj
 
@@ -185,12 +186,14 @@ DocumentacionDoxygen/
 !/dependencies/lib/*/Hydrax*.lib
 
 
+!/Exes/*.ico
 !/Exes/controls.cfg
 !/Exes/plugins*.cfg
 !/Exes/resources.cfg
 
-!/Projects/Application/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir -> FRS pero es más facil hacer un reset changes que andar poniendo el outDir -> FRS Ya no se borra el .user con el ant clean :)
+!/Projects/Application/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir -> FRS Ya no se borra el .user con el ant clean :)
 !/Projects/Configure/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir.
+!/Projects/ZeusSetup/Resources/*/*.exe
 
 
 

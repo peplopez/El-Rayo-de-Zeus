@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    
+    <ComponentGroup Id="Base" Directory="INSTALLDIR">
+    
+      <!-- PERMISSIONS -->
+      <Component Id="Permissions" Guid="D866E841-1665-4CCA-8E81-79E45B8D68C2">
+        <CreateFolder>
+          <Permission GenericAll="yes" User="Everyone" />
+        </CreateFolder>
+      </Component>
+     
+
+
+      <!-- GAME -->
+      <Component Id="GameExe" DiskId="1" Guid="76DED8C9-BDAB-40DF-AE35-B1763B151E2B">
+
+        <File Id="GameExe" Name="Zeus Thunderbolt.exe" Source="$(var.Application.TargetPath)" KeyPath="yes">
+         
+          <Shortcut Id="GameShortcutMenu" Name="Zeus Thunderbolt" Directory="MENUDIR" Description="Mythological Wars: Zeus Thunderbolt"
+            WorkingDirectory="INSTALLDIR" Icon="Zeus.ico" IconIndex="0" Advertise="yes"/>
+
+          <Shortcut Id="GameShortcutDesktop" Name="Zeus Thunderbolt" Directory="DesktopFolder" Description="Mythological Wars: Zeus Thunderbolt"
+            WorkingDirectory="INSTALLDIR" Icon="Zeus.ico" IconIndex="0" Advertise="yes"/>
+
+          <!--<gamens:Game Id="3A8B14F0-162F-4D26-A323-11A2D496BCB8"/>-->
+
+        </File>
+
+      </Component>
+      
+
+
+      <!-- CONFIGURE -->
+      <Component Id="ConfigExe" DiskId="1"  Guid="E4138068-34E4-45D6-A756-6DEB70BDA3AC">
+
+        <File Id="ConfigExe" Name="Settings.exe" Source="$(var.Configure.TargetPath)" KeyPath="yes">
+        
+          <Shortcut Id="ConfigShortcutMenu" Name="Settings" Directory="MENUDIR" Description="Set configuration"
+                    WorkingDirectory="INSTALLDIR" Icon="Config.ico" IconIndex="0" Advertise="yes"/>
+        </File>
+
+      </Component>
+      
+      
+      <!--INSTALL DATA -->    
+      <Component Id="InstallData" DiskId="1" Guid="F2218B7E-C32C-470E-B342-2622365EB0F6">
+        <RemoveFolder Id="MENUDIR" Directory="MENUDIR" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]"
+                  Type="string" Value="" KeyPath="yes"/>
+      </Component>
+    
+    </ComponentGroup>
+  
+  </Fragment>
+</Wix>
