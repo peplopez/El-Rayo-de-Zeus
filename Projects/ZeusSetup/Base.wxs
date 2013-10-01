@@ -7,7 +7,7 @@
       <!-- PERMISSIONS -->
       <Component Id="Permissions" Guid="D866E841-1665-4CCA-8E81-79E45B8D68C2">
         <CreateFolder>
-          <Permission GenericAll="yes" User="[LOGON_ACCOUNT]" Domain="[LOGON_DOMAIN]" />
+          <Permission GenericAll="yes" User="Everyone" />
         </CreateFolder>
       </Component>
      

@@ -45,10 +45,20 @@
         <ComponentGroupRef Id="Media"/>
       </Feature>
       
+      <Feature Id="VCRedist" Title="Visual C++ 10.0 Runtime" AllowAdvertise="no"
+               Display="hidden" Level="1">
+        <MergeRef Id="VCRedist"/>
+      </Feature>
+      
+      <Feature Id="DXRedist" Title="DirectX 9.0c Redistributable" AllowAdvertise="no" 
+               Display="hidden" Level="1"> <!--hidden to prevent the user from seeing the feature in any UI that may be part of your installer-->
+        <ComponentRef Id="DXRedist"/>
+      </Feature>
+      
     </Feature>
 
     
-    <!--UI-->
+    <!--USER INTERFACE-->
     
     <UI>
       
@@ -61,8 +71,11 @@
       <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">
           WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed
       </Publish>
+
+      <ProgressText Action="InstallDirectX">Installing DirectX 9.0c</ProgressText>
       
     </UI>
+    
     
     <WixVariable Id="WixUILicenseRtf" Value="Resources\License.rtf" />
     <WixVariable Id="WixUIBannerBmp" Value="Resources\banner.bmp" /><!-- 493 by 58 pixels, this bitmap will appear at the top of all but the first page of the installer.-->
@@ -89,11 +102,18 @@
 
     
     <!--CUSTOM ACTIONS -->
+    
     <Property Id="WixShellExecTarget" Value="[#GameExe]" />
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes"/>
-  
+    <CustomAction Id="InstallDirectX" FileKey="DXSETUPEXE" ExeCommand="" 
+                  Execute="deferred" Impersonate="no" Return="check"/>
+
+    <InstallExecuteSequence>
+      <Custom Action="InstallDirectX" Before="InstallFinalize">
+        <![CDATA[NOT REMOVE]]>
+      </Custom>
+    </InstallExecuteSequence>
+    
   </Product>
   
-  
-
 </Wix>
