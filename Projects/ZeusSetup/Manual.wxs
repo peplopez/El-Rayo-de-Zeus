@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    
+    <ComponentGroup Id="Manual" Directory="INSTALLDIR">
+    
+      <!-- GAME -->
+      <Component Id="Manual" DiskId="1" Guid="991B85C3-F0FF-4366-9065-CBE9FD63B821">
+
+        <File Id="Manual" Source="Resources\Zeus Thunderbolt Manual.pdf" KeyPath="yes">
+         
+          <Shortcut Id="ManualShortcutMenu" Name="Zeus Thunderbolt Manual" Directory="MENUDIR" 
+            Description="Manual - Mythological Wars: Zeus Thunderbolt"
+            WorkingDirectory="INSTALLDIR" Icon="Manual.ico" IconIndex="0" Advertise="yes"/>
+
+          <Shortcut Id="ManualShortcutDesktop" Name="Zeus Thunderbolt Manual" Directory="DesktopFolder" Description="Manual - Mythological Wars: Zeus Thunderbolt"
+            WorkingDirectory="INSTALLDIR" Icon="Manual.ico" IconIndex="0" Advertise="yes"/>
+
+          <!--<gamens:Game Id="3A8B14F0-162F-4D26-A323-11A2D496BCB8"/>-->
+
+        </File>
+
+      </Component>
+   
+    </ComponentGroup>
+  
+  </Fragment>
+</Wix>

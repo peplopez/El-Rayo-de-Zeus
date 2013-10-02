@@ -10,7 +10,7 @@
       <Directory Id="ProgramFilesFolder" Name="PFiles">
         <Directory Id="MonsterLeak" Name="Monster LEAK">
           <Directory Id="INSTALLDIR" Name="Zeus Thunderbolt" >
-            <Directory Id="DirectXRedistDirectory" Name="DirectX 9.0c"/>
+            <Directory Id="DXRedistDir" Name="DirectX End-User Runtimes June2010"/>
           </Directory>
         </Directory>
       </Directory>

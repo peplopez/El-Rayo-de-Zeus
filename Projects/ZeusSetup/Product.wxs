@@ -6,7 +6,7 @@
             UpgradeCode="55980471-5728-4D50-827E-1BED8686DE88" 
             Language="1033" 
             Codepage="1252" 
-            Version="1.1.5" 
+            Version="1.1.7" 
             Manufacturer="Monster LEAK" >
 
     <Package Id="*" 
@@ -30,8 +30,9 @@
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     
-    <Icon Id="Zeus.ico"    SourceFile="$(var.Application.TargetDir)\Zeus.ico" />
-    <Icon Id="Config.ico"  SourceFile="$(var.Application.TargetDir)\Config.ico" />
+    <Icon Id="Zeus.ico"    SourceFile="Resources\Icons\Zeus.ico" />
+    <Icon Id="Config.ico"  SourceFile="Resources\Icons\Config.ico" />
+    <Icon Id="Manual.ico"  SourceFile="Resources\Icons\pdf.ico" />
 
     
     <!-- FEATURES -->
@@ -43,16 +44,18 @@
         <ComponentGroupRef Id="DLLs" />
         <ComponentGroupRef Id="CFGs" />
         <ComponentGroupRef Id="Media"/>
+        <ComponentGroupRef Id="Manual"/>
       </Feature>
       
       <Feature Id="VCRedist" Title="Visual C++ 10.0 Runtime" AllowAdvertise="no"
                Display="hidden" Level="1">
-        <MergeRef Id="VCRedist"/>
+        <!--<MergeRef Id="VCRedist"/>-->
+        <ComponentGroupRef Id="VCRedist"/>
       </Feature>
       
-      <Feature Id="DXRedist" Title="DirectX 9.0c Redistributable" AllowAdvertise="no" 
+      <Feature Id="DXRedist" Title="DirectX End-User Runtimes" AllowAdvertise="no" 
                Display="hidden" Level="1"> <!--hidden to prevent the user from seeing the feature in any UI that may be part of your installer-->
-        <ComponentRef Id="DXRedist"/>
+        <ComponentGroupRef Id="DXRedist"/>
       </Feature>
       
     </Feature>
@@ -72,7 +75,7 @@
           WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed
       </Publish>
 
-      <ProgressText Action="InstallDirectX">Installing DirectX 9.0c</ProgressText>
+      <ProgressText Action="InstallDirectX">Installing DirectX End-User Runtimes</ProgressText>
       
     </UI>
     
@@ -105,7 +108,7 @@
     
     <Property Id="WixShellExecTarget" Value="[#GameExe]" />
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes"/>
-    <CustomAction Id="InstallDirectX" FileKey="DXSETUPEXE" ExeCommand="" 
+    <CustomAction Id="InstallDirectX" FileKey="DXSETUPEXE" ExeCommand="/silent" 
                   Execute="deferred" Impersonate="no" Return="check"/>
 
     <InstallExecuteSequence>

@@ -194,7 +194,7 @@ DocumentacionDoxygen/
 !/Projects/Application/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir -> FRS Ya no se borra el .user con el ant clean :)
 !/Projects/Configure/*.user #PT: se podria ignorar y que cada uno se acuerde el outdir.
 !/Projects/ZeusSetup/Resources/*/*.exe
-
+!/Projects/ZeusSetup/Resources/*/*.dll
 
 
 

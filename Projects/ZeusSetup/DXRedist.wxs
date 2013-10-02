@@ -2,14 +2,479 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     
-    <Component  Id="DXRedist"  Directory="DirectXRedistDirectory" DiskId="1" Guid="29CE3C65-9B0F-4F8F-B9E9-4CDA9F267977">
-      <File Id="DXSETUPEXE"                 Source="Resources\DXRedist\dxsetup.exe" KeyPath="yes" Checksum="yes"/>
-      <File Id="dxupdate.cab"               Source="Resources\DXRedist\dxupdate.cab"/>
-      <File Id="dxdllreg_x86.cab"           Source="Resources\DXRedist\dxdllreg_x86.cab"/>
-      <File Id="dsetup32.dll"               Source="Resources\DXRedist\dsetup32.dll"/>
-      <File Id="dsetup.dll"                 Source="Resources\DXRedist\dsetup.dll"/>
-      <File Id="DEC2006_d3dx9_32_x86.cab"   Source="Resources\DXRedist\Jun2010_d3dx9_43_x86.cab"/>
-    </Component>
+    <ComponentGroup Id="DXRedist" Directory="DXRedistDir">
+      <Component Id="cmpAB8D93D82488DF9DE2149B951A818549" Guid="{4068F7D5-3FDE-4422-9574-2D7C6C3991ED}">
+        <File Id="DXSETUPEXE" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\DXSETUP.exe" Checksum="yes" />
+      </Component>
+      <Component Id="cmp7E81EF4B7FB613A97EF25F2D5B99AB09" Guid="{5C98B267-52EA-4292-B035-51B5672E0DE7}">
+        <File Id="filE6D3FBE531958D6D275B7F5947797DD9" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Apr2005_d3dx9_25_x64.cab" />
+      </Component>
+      <Component Id="cmp8656B90B65832327A61EF03E006EE1FB" Guid="{2CC9C87E-3C40-4300-9237-B734C934217D}">
+        <File Id="filBD3E6AB97B63F3285F82273810193BBC" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Apr2005_d3dx9_25_x86.cab" />
+      </Component>
+      <Component Id="cmp77B1C0A8584B9122231B83F4AECF819B" Guid="{9A47F2CC-8D13-47B6-BC0D-ACADA6EB69DF}">
+        <File Id="filC90A1667503E9766E36A009A5CFF979E" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Apr2006_d3dx9_30_x64.cab" />
+      </Component>
+      <Component Id="cmp3633C1316C0F200EDA4C4773B0B9C08B" Guid="{C8A5CABE-4A28-4499-B82A-A35DCE6B1606}">
+        <File Id="filE3FB73D5EC1430AB2BEA06C1337047DC" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Apr2006_d3dx9_30_x86.cab" />
+      </Component>
+      <Component Id="cmpB7F6B8C530DE0E050A9F451A59856CAE" Guid="{498C8945-B030-44C0-8531-3637C8D0FB7E}">
+        <File Id="filC7CD880D7F070C5FC45CCD2BDD3F119A" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Apr2006_MDX1_x86.cab" />
+      </Component>
+      <Component Id="cmp185C7F7A1BBFA5CA389FE01FF8938E72" Guid="{C24177E1-1196-4D0C-A811-8166F8783DB2}">
+        <File Id="filD37F8AB5EC4309D0D36484D5601EB370" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Apr2006_MDX1_x86_Archive.cab" />
+      </Component>
+      <Component Id="cmpD57ED34114C2CD63F3CE0529420C9A9A" Guid="{BE779B7F-FD63-4AA3-8B99-A4CC83143F7D}">
+        <File Id="fil81E7845F1CB109F1DD699155B96D9B24" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Apr2006_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmp7A0E1303551E0976D7CAD379FF432A91" Guid="{A156E3AA-D44C-44C5-ABE2-3858AAD06BDA}">
+        <File Id="fil495BD9AC02DC262C9B4EFE7406B2E43B" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Apr2006_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmp2C734D66928E115D5CBF3FFC8D0ACE26" Guid="{2F670B71-052B-4C98-9675-B17D5E4AD0AE}">
+        <File Id="fil98A18FC38305201E62E10E3623E20482" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Apr2006_xinput_x64.cab" />
+      </Component>
+      <Component Id="cmpFF01A0D046DD5DF26F1B0432AF37E934" Guid="{AE7841AC-42CF-40A3-9E4E-9D3518531E0F}">
+        <File Id="filD680AE84F65B4D7F9B9A9E885636DFE2" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Apr2006_xinput_x86.cab" />
+      </Component>
+      <Component Id="cmpF2D683EA08D27823D22AAF91AC565BEC" Guid="{915244D4-7971-4B01-A1A4-84DFBC30C9FA}">
+        <File Id="fil83A8C79D5543A6C3CF216098F0846A7D" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\APR2007_d3dx10_33_x64.cab" />
+      </Component>
+      <Component Id="cmpA5BF4648E7481C3A10727046099215F8" Guid="{CC19120B-0471-4D2E-B1A5-0AEDBB7046C5}">
+        <File Id="filF0C80A41648A8C552DF0D9E8B6CF8345" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\APR2007_d3dx10_33_x86.cab" />
+      </Component>
+      <Component Id="cmp6C83F86460A01B15C55496759CBD4EE8" Guid="{F422320B-7B34-455F-BC40-3C3A73A5B7BE}">
+        <File Id="fil8FCCBAB0A73C74BFD98984CC2C70811E" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\APR2007_d3dx9_33_x64.cab" />
+      </Component>
+      <Component Id="cmpAFB4E5F2316F4D9BAD0F4596AE86D677" Guid="{12C73C83-4913-4552-94A9-8C78D23E7C4F}">
+        <File Id="fil7CB9F10743A3477A8926D23C80DECB3E" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\APR2007_d3dx9_33_x86.cab" />
+      </Component>
+      <Component Id="cmpF680FAA38FEAA3D49E311063E09F389D" Guid="{E9DB17E1-E48E-4283-A514-43E4F40B763A}">
+        <File Id="fil1BF4E07CF9D0B52D7FDE9DE10688F7D3" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\APR2007_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmp46903AF668F617829A5648FA8FD73654" Guid="{A70331A4-0349-4439-84A7-31324CA2A5FC}">
+        <File Id="filF96D0FF3A4168B7DD1F215E7BDAD7AA1" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\APR2007_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmpF2E6C8B53738744568A176DC8D9E9114" Guid="{F3DC746A-098F-4160-B3ED-0C2B99572186}">
+        <File Id="fil9BC6263D1DAF8FB07C67987E7EBF7D1A" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\APR2007_xinput_x64.cab" />
+      </Component>
+      <Component Id="cmp3DFDF88D44E9BEFFC92D26AEEF8CB47F" Guid="{0DEA9197-E563-4DC6-9384-297D2F6CC520}">
+        <File Id="fil99382DBC3FFF4BF513060E2C3EC9FCF4" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\APR2007_xinput_x86.cab" />
+      </Component>
+      <Component Id="cmp15E8AB4B924A410C0FE451936C3C45AE" Guid="{03EE60A2-7789-4EC4-8252-B470DE7968CF}">
+        <File Id="filE4CC3ED380BEA80BA09B511026C2475D" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2005_d3dx9_27_x64.cab" />
+      </Component>
+      <Component Id="cmp31594B1FD11D6C64B1E8219074162589" Guid="{C8945B4E-7334-4738-A020-F5AC59053EED}">
+        <File Id="fil7B2477A597D3078C1181BD80027E1B1F" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2005_d3dx9_27_x86.cab" />
+      </Component>
+      <Component Id="cmp5B875C5EB369DF27E9628AF7993C1178" Guid="{BBC965B0-B020-4200-B4BE-6A34E5678F0A}">
+        <File Id="filB05C9CE9E68A0ECC788B52DD7D841214" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\AUG2006_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmp593CFEFA58FED259520E433B939FB1FE" Guid="{D13859ED-DC8B-48D1-825B-A5481B25DDEC}">
+        <File Id="filC6CAD82A31EED936641204204BB3021F" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\AUG2006_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmpABC1EFE09D1993B9A52D4AF7D64D2397" Guid="{F400849E-9415-49CF-9ADC-DAAD8259B135}">
+        <File Id="filEFFF914E1CE8BAB5FE6B8C715DFDE7F0" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\AUG2006_xinput_x64.cab" />
+      </Component>
+      <Component Id="cmpFF31C98234BB2E465B0E44CC31805B1F" Guid="{817F7A26-6FC2-450E-85B8-0F9D7162E39E}">
+        <File Id="fil7C772CBCD9A4280F88B0FA4A24D2AF1A" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\AUG2006_xinput_x86.cab" />
+      </Component>
+      <Component Id="cmpC3B15498EDE9C7380C1DCB25ADB54676" Guid="{64669826-B86D-456B-918C-88034C86E0B7}">
+        <File Id="fil493870161BA283B4EB4E01C60E8D15F4" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\AUG2007_d3dx10_35_x64.cab" />
+      </Component>
+      <Component Id="cmp0D534C5277BECF3AB6D980AD8C5AA6D0" Guid="{7F6311C5-10D1-41CD-AA23-E0C1EA708F9A}">
+        <File Id="fil830347D7D628F0C430F3EB60DBAE5706" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\AUG2007_d3dx10_35_x86.cab" />
+      </Component>
+      <Component Id="cmpB9F9BE607C36C3743BD18CEA0A14AC7A" Guid="{32E3FB96-4A23-4B25-94EA-FD55EBDA6198}">
+        <File Id="fil3CBDD476E6ED070BA360C7C3228681C9" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\AUG2007_d3dx9_35_x64.cab" />
+      </Component>
+      <Component Id="cmp43B843F0BAD7C600A693581CA96898EA" Guid="{29EF7735-AA7E-4FC8-923E-26CB2478FA69}">
+        <File Id="fil12343216269AD6183788125D72E3A205" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\AUG2007_d3dx9_35_x86.cab" />
+      </Component>
+      <Component Id="cmp20DA24800253A4962FB611F5FDC0B66B" Guid="{8F621BE5-0F8A-4FCC-B074-783E7490B273}">
+        <File Id="fil7D896C60E35A7E487F3AAC32943B7FBF" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\AUG2007_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmp9BC8CD43698D596E6BF6286EEAD0FC7C" Guid="{782596B0-ED07-432E-82D0-DDD894DDAF36}">
+        <File Id="fil9BBBA21FCC955A94CF406DD58861B0D2" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\AUG2007_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmp71609D66AEA185A9758BD4BE87F89041" Guid="{7AB3FC8F-6C37-4938-9B4C-0AA513CD78D1}">
+        <File Id="fil282791E28366C678B7ED68E778782D79" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2008_d3dx10_39_x64.cab" />
+      </Component>
+      <Component Id="cmpDD547898A2D1EA3A6D9A6E01202977C1" Guid="{85A4B43B-8B40-4734-A774-FE964342CD80}">
+        <File Id="filC793F377A2E1A64A64F4D03C014D32A7" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2008_d3dx10_39_x86.cab" />
+      </Component>
+      <Component Id="cmpFC74710C934310D6118E881AD6D1D7C0" Guid="{BFF7782F-F8C5-4438-A1ED-2B1FAC3194A5}">
+        <File Id="fil85B36AA0DDA89272A29970D98EF32111" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2008_d3dx9_39_x64.cab" />
+      </Component>
+      <Component Id="cmp5654C1C653D46592D9A932A32F595175" Guid="{1EACF65D-54D0-41B5-89FC-60829DFC3F42}">
+        <File Id="fil06F11BE9176F7E8D39716F91D6BE7418" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2008_d3dx9_39_x86.cab" />
+      </Component>
+      <Component Id="cmp6E4AD901BDFEE6FB4576C7AEE21B8B50" Guid="{C4741479-F6D6-42F1-A808-626D6965ED83}">
+        <File Id="filDA5FD37EDD9DB36B3B0E240801C6D0C3" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2008_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmp2E4E92FACC5CDD262F386BD89797AAEB" Guid="{736E7C84-DB0F-4EFF-8B23-B41AF71FD7F7}">
+        <File Id="fil7374E48C8F919F7529B2B0EE57B4C7D0" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2008_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmp125D8B3388985969B15E367E0E380B32" Guid="{3FDD2BE2-951C-466A-8281-D461975E2FA2}">
+        <File Id="fil6E8B9651A0F1788AB5E709A4EDA1437C" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2008_XAudio_x64.cab" />
+      </Component>
+      <Component Id="cmp8250056373DDDBCC3A9571573F3E438D" Guid="{1D94E409-7995-4825-B12E-F410CBAC2611}">
+        <File Id="fil36E292BED7A63DC86D05349A74C84C38" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2008_XAudio_x86.cab" />
+      </Component>
+      <Component Id="cmpD39161FF18692E497D4E5E6EADE1E9D9" Guid="{6ACABD57-D5A0-4809-83A1-956F8B152A39}">
+        <File Id="filEAE41216A427D695C3025ECFBF9F1901" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_D3DCompiler_42_x64.cab" />
+      </Component>
+      <Component Id="cmp43C720DDF61888A7574883ECD308CEF2" Guid="{35873718-FE01-4F2B-A1E5-2B77B117B606}">
+        <File Id="fil1E4215D5E0FDB1C4C8E4882E0D785EEC" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_D3DCompiler_42_x86.cab" />
+      </Component>
+      <Component Id="cmp048812DACAD50B6A4AF8C781CF4D616C" Guid="{0D74BDA5-F47E-4ED3-8E4B-A3ECF4A737E5}">
+        <File Id="fil82F4C70CEE914B5E7E814FE99CD7DA7A" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_d3dcsx_42_x64.cab" />
+      </Component>
+      <Component Id="cmp1C0A8888314028E6CE814A41E6188311" Guid="{C971109A-B1DD-4ACF-A42D-3FC96C4520DA}">
+        <File Id="fil585922E983BA238BF1275B192932A570" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_d3dcsx_42_x86.cab" />
+      </Component>
+      <Component Id="cmpD22940F3F0B64A8B2BC63C982179DB80" Guid="{225DD602-8A81-4D77-B089-17E711FA6603}">
+        <File Id="fil1827D46B8DD6384B68D2F625303BD022" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_d3dx10_42_x64.cab" />
+      </Component>
+      <Component Id="cmpDDA12A25BF8CE438C3865D783FC453C2" Guid="{72213B92-F71C-4E8D-8557-41179DCFDEBC}">
+        <File Id="filC7BEDA6A56B54CD5C90DCE3906E08C72" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_d3dx10_42_x86.cab" />
+      </Component>
+      <Component Id="cmpFDCF746BDE9EF27B44A03BC6D75E7091" Guid="{8BCAF763-A6C8-44D9-AD92-8E3C100F52E6}">
+        <File Id="fil4E52A4260F16F0168958B73A52A89E73" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_d3dx11_42_x64.cab" />
+      </Component>
+      <Component Id="cmp2EA61D11131D00CEC419A4C37637672B" Guid="{EE447E9E-92CA-41C0-9D48-9354272BDDDA}">
+        <File Id="fil9F378A7BF6B90CD02E3A74784E928E5F" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_d3dx11_42_x86.cab" />
+      </Component>
+      <Component Id="cmp9F0B1F0C9CD4FC0588986F90762E1CBA" Guid="{030589EC-E8DA-4B0E-B1B9-FF6E4193B34C}">
+        <File Id="fil220978385CD1FC0DD1551EBBBC6F7767" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_d3dx9_42_x64.cab" />
+      </Component>
+      <Component Id="cmp8CB6092EE863CD2C47E681CC7E4A3376" Guid="{314AA725-081C-4C42-B37B-610C90B00D1F}">
+        <File Id="fil4A0C702E34DFDEC62DF8316713E82B0E" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_d3dx9_42_x86.cab" />
+      </Component>
+      <Component Id="cmp71E865DCC0F823DDDD9E93921BD6F2FF" Guid="{E470980D-39AE-4547-8716-51D0A4FBA15A}">
+        <File Id="fil9CD4930B54893F7A6024E863E1B951FA" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmpD700F5D87EDA500C95A1581D358E3BE4" Guid="{C9D25B74-C8CB-4396-A476-F7AC3E4C600A}">
+        <File Id="fil7BEEBB244AB92FB7E8E30974D6B47EE5" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmp09788DE9C765E8ED19B047AA206E3047" Guid="{D30A4A44-AE08-4F0F-A586-D22CAE08DABB}">
+        <File Id="filADB3E67920104D072CE64D45A23B863C" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_XAudio_x64.cab" />
+      </Component>
+      <Component Id="cmp7C0D54920CC6CAAA5CDD25F57D793243" Guid="{D15E2C05-BA93-46C3-9DA7-BF828D46B24E}">
+        <File Id="fil34A242569E350EDF81A0B130CB786A59" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Aug2009_XAudio_x86.cab" />
+      </Component>
+      <Component Id="cmpF05AA02D21F4AEAE7F0E81502E0603ED" Guid="{CBF88F7D-39A5-4A0F-B012-A20AA10AA009}">
+        <File Id="fil4A5A4BFDB46FB02A4DB649B10E2271C2" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Dec2005_d3dx9_28_x64.cab" />
+      </Component>
+      <Component Id="cmp2A6DA78158A7C586017BE0FCCAE7AB56" Guid="{7906A911-BF3C-47C5-9971-41B596535048}">
+        <File Id="filCAB7724A7A08C88F7B0517DAD4F8A7D0" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Dec2005_d3dx9_28_x86.cab" />
+      </Component>
+      <Component Id="cmp2E6ECE1D5F94468F42A373F13929E350" Guid="{2D59BE49-D698-4DC2-97F2-C5FADD5B0820}">
+        <File Id="filCCE604941E5749B3AA4F2CE6AE421354" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\DEC2006_d3dx10_00_x64.cab" />
+      </Component>
+      <Component Id="cmpD97A23C93C1D85D5452E9FC2A210F144" Guid="{A707687E-7506-4278-9A7C-9F4C771CFD60}">
+        <File Id="fil9CF9CE9300E52D23A4A5FD7DE43102E8" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\DEC2006_d3dx10_00_x86.cab" />
+      </Component>
+      <Component Id="cmpEF43CB1B9F650796C081EB413B7F5D81" Guid="{32FFDFE0-FB45-439E-97EE-C558919DCF4A}">
+        <File Id="filEDAF17BA97069400D107809B3E53082D" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\DEC2006_d3dx9_32_x64.cab" />
+      </Component>
+      <Component Id="cmp38CCDDFDFC9412E2F638AAE70A885211" Guid="{CB727FD4-3A36-4418-8CDA-31668597C53B}">
+        <File Id="fil334161A15422969DC6E9D85953B57851" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\DEC2006_d3dx9_32_x86.cab" />
+      </Component>
+      <Component Id="cmpA4A6C881319E7DAA5F8BEA91B3EC6745" Guid="{4AA40017-99B6-42F1-BD2E-C1DE52B87A59}">
+        <File Id="fil68DFD8AC96A0EF7237FCC87D584CF241" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\DEC2006_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmpE4D048F7605B4F8D0814723A5EC8AF81" Guid="{8F775983-036A-442D-BA71-0833C04A44FC}">
+        <File Id="fil56F06B9A6D9365FF2049135F8A16F7F2" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\DEC2006_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmp6DEC4A66DC99F5A87C7FA19EB0FD6E01" Guid="{D1E12E35-B331-49E8-99A4-FB65E0F314ED}">
+        <File Id="filEF9F9F6C61D3296391502B420885BC5A" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\DSETUP.dll" />
+      </Component>
+      <Component Id="cmp63732179050F6C223C3C514A01018E93" Guid="{59AF44D7-00CD-4679-A745-BAC0B0779346}">
+        <File Id="fil0600C678C22CEEFD4FB4B6F0D5F460DB" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\dsetup32.dll" />
+      </Component>
+      <Component Id="cmp8056F94228F7A878309B3DC8E3A3007C" Guid="{306548A5-250D-4F0E-A6DD-4B2104D2C0EA}">
+        <File Id="fil2EB41673EE99EECDAF25DDE06CA7B5DE" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\dxdllreg_x86.cab" />
+      </Component>
+      <Component Id="cmp2F146554036547BA1A14EB83718F3BC8" Guid="{E4645000-00CA-442F-8DB4-12B1941CD12B}">
+        <File Id="fil29276A50205DA1FFCCC50C7DD30D2E8B" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\dxupdate.cab" />
+      </Component>
+      <Component Id="cmpE1625E109209120D7AEF50164CCC0AC5" Guid="{3F2FFB6F-E4B0-4E12-A899-DF91E592E2AD}">
+        <File Id="filDC75447021B9B0556F251A174C74C81B" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Feb2005_d3dx9_24_x64.cab" />
+      </Component>
+      <Component Id="cmpA1E4DAAA713C4A350E442D444D116975" Guid="{11C492FB-2F34-41EF-AD81-EB26319A683A}">
+        <File Id="fil60C4071ADF49163B0036F1A1A8C19814" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Feb2005_d3dx9_24_x86.cab" />
+      </Component>
+      <Component Id="cmp6304A6D42AAAA1D850320B09B427590A" Guid="{46092962-7DDE-48F5-9BE8-F495F5E72B62}">
+        <File Id="filE8CC33448E9F8075D4E5B82A248383CE" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Feb2006_d3dx9_29_x64.cab" />
+      </Component>
+      <Component Id="cmpBC39EF07802DA34AF7F1E36E367B993A" Guid="{E18E5A04-A60F-4593-B0DA-D50F50093A3F}">
+        <File Id="filC24AD5D654CF7A1ADB676FB079AE9EDE" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Feb2006_d3dx9_29_x86.cab" />
+      </Component>
+      <Component Id="cmp35BF6C01BAA2A4200C2B39F1767597BB" Guid="{C0C4583D-1A42-438B-8361-588AC5FD12FC}">
+        <File Id="fil39959BD109D877123839022ED2CF77CD" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Feb2006_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmpF4CBFD42E9F18DF6A0063352C5115459" Guid="{BDFA370A-66A6-4F63-BB72-734DDDC50D42}">
+        <File Id="filA82F9C92CC863DA12D2CD52E0D774493" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Feb2006_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmpF0B2AEC3A04050A7B365590B0A86F291" Guid="{93AB3B25-7A3E-4812-A58D-2EA8E16DA4E5}">
+        <File Id="fil992C76E41214DAEFD78C111B8B1F291D" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\FEB2007_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmpC2A488199AD1C6EB2DA24EE2E0C90ED8" Guid="{56E37E33-39E4-44D7-ACE2-2EAC4EAFA24A}">
+        <File Id="fil1BD8E7F905ED867B94CD9B710162D0B5" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\FEB2007_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmp90A6C5C101E24E166FF00CE4B9EFB204" Guid="{B37192F1-ABA0-4167-82C5-B38EA9471C60}">
+        <File Id="fil9BEA0AD5668F0A727257C72837673D11" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Feb2010_X3DAudio_x64.cab" />
+      </Component>
+      <Component Id="cmp762D2685174E2DC53E2A26F41B98AC52" Guid="{11B4B0F0-D5E6-4A07-B44A-0693F20ED0F9}">
+        <File Id="filB3EBDAFBB8E29838FB2C2313D3E90C3D" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Feb2010_X3DAudio_x86.cab" />
+      </Component>
+      <Component Id="cmp8D767ECB1AC6D1B8A349E079B6E58B06" Guid="{276F6924-A64E-4EBE-BEA2-2C6A7A7A5F4D}">
+        <File Id="fil0841A7B88A681E8A8D761BD7594695BF" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Feb2010_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmp0D45CABF87966519C26798CF5602BEBE" Guid="{E378B325-5855-4434-9FA3-8F95DCCE7216}">
+        <File Id="filF9B89791B1A8C598DDEE482DA2E32F3E" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Feb2010_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmp8ACDDDFA98B6809098534781FBAD6C35" Guid="{045A5077-05F6-426C-A1B6-586484FEFAD9}">
+        <File Id="filF81037AEB77350671A9BA22F276A4F36" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Feb2010_XAudio_x64.cab" />
+      </Component>
+      <Component Id="cmp96CFAB1079E1C28E1FD3B202A5E3ADD5" Guid="{34847EFA-CC66-4B55-A2BB-38B514E959EB}">
+        <File Id="fil5E81DB34DA919623D185637AE2DB89EE" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Feb2010_XAudio_x86.cab" />
+      </Component>
+      <Component Id="cmp60C7B2B00CC8F2B0A4D0CCA67AF13F64" Guid="{AF47AE73-FB3D-45DB-A5F5-9F3EB7DC0098}">
+        <File Id="filBF6283C66C8A31018E0A23D76716FF02" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2005_d3dx9_26_x64.cab" />
+      </Component>
+      <Component Id="cmp4D2053AF7CFF6E61AD44991448FF07E1" Guid="{5C4CAB49-F23F-4F05-8DD7-48A0B9E747C0}">
+        <File Id="fil1553E8BB47B85B01068F0CB83398D650" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2005_d3dx9_26_x86.cab" />
+      </Component>
+      <Component Id="cmpE002FFEEB053B87136CBCE7805BFE2DB" Guid="{FB7F0756-DE2F-44F3-91C3-A3D11B495642}">
+        <File Id="fil1B21F852D77B06B892042E542874724B" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2006_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmpFFF371226F236210B054C3D24672FB73" Guid="{244E4610-3471-47C0-BBCC-B246B9B345B0}">
+        <File Id="fil2A51F9184BD2800F44B10E252DE45777" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2006_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmp96BE79CB5C035CF33E9AC5C43D337CE6" Guid="{49A17D2A-CA67-4B75-BA63-D9757E9B415D}">
+        <File Id="fil1FF151B53C726730A5156473A897CB4E" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2007_d3dx10_34_x64.cab" />
+      </Component>
+      <Component Id="cmpE29D4EDBEE2E9A130AE4D1090C608CC1" Guid="{37493FE0-EDE3-4FDB-A146-88CB56A02E1A}">
+        <File Id="filAACF679CC5078846DDEFCCF4E536055A" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2007_d3dx10_34_x86.cab" />
+      </Component>
+      <Component Id="cmpB895F44485FD36D6EBE6FCCDB95967E3" Guid="{C74D48C6-B808-4B36-8625-C74D8A995795}">
+        <File Id="fil0585685DBEA408D80377CC0F7076A02F" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2007_d3dx9_34_x64.cab" />
+      </Component>
+      <Component Id="cmp80F317F9580DE75BD65792CD8ABDA246" Guid="{3A1AA1C7-C4ED-4575-A138-C6B2C2803A35}">
+        <File Id="fil70FC290F4ACBC33E9D736249812DF7DB" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2007_d3dx9_34_x86.cab" />
+      </Component>
+      <Component Id="cmp2840BE956F4F2A489FDF6B22F0DDE107" Guid="{D192D0CD-A5F7-4B1C-88F6-AC9A1E3659B0}">
+        <File Id="filAF6D0DC8D65F055261694B3F83BA8D26" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2007_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmpB8A30BEF7B211229BA13799F109CB2C9" Guid="{141C87BD-B5EA-4B51-A918-6004C436AC36}">
+        <File Id="filBB2627882ACBCFB6D0CA4C1B58EAAC29" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2007_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmp03BF1E0570C70F3E7EA3F516C376FB23" Guid="{770B671A-ECE5-456E-A262-D997E3BA10D9}">
+        <File Id="filDCC1FB9D4B1F7C2B98533514D65A3E98" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2008_d3dx10_38_x64.cab" />
+      </Component>
+      <Component Id="cmpAEEA465F0170C697ED6096697B1C5150" Guid="{62E72998-8E62-4BC6-AAA1-04BB4D146884}">
+        <File Id="filAE53C46BC4E2FD19B479C7A2F2D3AB8F" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2008_d3dx10_38_x86.cab" />
+      </Component>
+      <Component Id="cmp1EFDF18C93F49762E008B8A60C78DB22" Guid="{FD91E73F-25E0-47FC-B232-B0DA113CD8EF}">
+        <File Id="filB5C1F90A023556BFEC608190C404DE00" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2008_d3dx9_38_x64.cab" />
+      </Component>
+      <Component Id="cmp4B5D30D27503381BD1D7982CD2999DF2" Guid="{80BE47DE-1BF9-4AFB-9179-FD758704EA4B}">
+        <File Id="fil1655F84E89055500EB98C8B85BA593DD" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2008_d3dx9_38_x86.cab" />
+      </Component>
+      <Component Id="cmpFCCA63E73E4F3A102BD6F5B815D3C9CE" Guid="{6286E5F1-6C5F-41DC-B2EE-4C767F7A008F}">
+        <File Id="fil0A80F6D61FF181AAC8C8E3A472A3F5B6" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2008_X3DAudio_x64.cab" />
+      </Component>
+      <Component Id="cmp77C9B7EB4AC6E00C0EB2B5320788A5C6" Guid="{C53BCD2A-A5E4-4379-9A93-6B41B39EEEE2}">
+        <File Id="filC3E6B5FF162080DD945F9B9FD9A1F440" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2008_X3DAudio_x86.cab" />
+      </Component>
+      <Component Id="cmp92D7BBD7BB8B76B89D4D2C120EEF984B" Guid="{AE60A293-9BCC-48E8-83B0-09F38A7E4D54}">
+        <File Id="fil90A3F75DCCCDED71C8C4CD6E699A7094" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2008_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmp3FA7677DA70565B2EC9C8EFB03A910E5" Guid="{0195D7CD-0BE5-4BAD-86B3-65E87C0AB0DE}">
+        <File Id="filEEB7162AF0B877422E406678A27B0640" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2008_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmpA1B9926A7377F82C2D5F232AF5582439" Guid="{CECB49A8-F6D4-4B52-8D84-925B90F2D451}">
+        <File Id="filC947B3D72F731B67302EF8536722F295" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2008_XAudio_x64.cab" />
+      </Component>
+      <Component Id="cmpF5E429028D5BF3ACE3920115BC40DD94" Guid="{6AA465E1-1363-46F6-8A3B-074274EFB996}">
+        <File Id="filC09BAA9E92DAB61925E4E2A46253B51F" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\JUN2008_XAudio_x86.cab" />
+      </Component>
+      <Component Id="cmpF64E552E8438A8DB88C50B1CD460C012" Guid="{2F8AE55F-32D9-41FA-9556-A93E853BF91D}">
+        <File Id="fil72478FF58469DF4D59BDDE06E9B6B6EF" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_D3DCompiler_43_x64.cab" />
+      </Component>
+      <Component Id="cmp98DAD000C6747B725F5418CCF7152A38" Guid="{86DCA8B8-DB09-4F30-8CDC-532E7A7B3876}">
+        <File Id="fil3FA518DC7B502FFABDBB10D5EA47625E" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_D3DCompiler_43_x86.cab" />
+      </Component>
+      <Component Id="cmp96E2B10444027C63F24FA9882BDB00E8" Guid="{14392A9F-8790-4AD7-800B-BE0173AAC2DD}">
+        <File Id="fil364E05AE76BD4F92FEBE8FBE153F1A56" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_d3dcsx_43_x64.cab" />
+      </Component>
+      <Component Id="cmpCC4FAF0110B6A08676B058B8BEF950F7" Guid="{ED024B19-B42C-4E88-A2DC-A7B9E3061E2D}">
+        <File Id="fil661B2B9CBEA802BC2170002D458C3EF3" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_d3dcsx_43_x86.cab" />
+      </Component>
+      <Component Id="cmpDE43D5B89BA619E423ADD9820CB8DB70" Guid="{98C54595-3F4A-4198-80A4-3278C56401FC}">
+        <File Id="fil684184BDFE47C9F63918F5226AE2A2FB" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_d3dx10_43_x64.cab" />
+      </Component>
+      <Component Id="cmp79D81D64EB58B6053A06FBBB6D89CE1E" Guid="{81791C89-8687-4B4B-9F85-083867E96A53}">
+        <File Id="filE380CD568EAAE357B52337EC5C0C655D" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_d3dx10_43_x86.cab" />
+      </Component>
+      <Component Id="cmpE59C27EB00070155C2C6FE6EE7E605E3" Guid="{6D989351-F831-41CC-A5FE-713287128AA2}">
+        <File Id="filA3516CA1DE8C88A8150A797696404396" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_d3dx11_43_x64.cab" />
+      </Component>
+      <Component Id="cmp73C396E5EAC3A55DF1F07CB027915E29" Guid="{0EC032C2-869A-4537-9AC1-6D06D0F938FD}">
+        <File Id="filAFBED2C57010BFBCD769E0913EF57127" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_d3dx11_43_x86.cab" />
+      </Component>
+      <Component Id="cmpAB24AF2D95C22E6CBAB12C62F1A9B220" Guid="{5315E105-D47E-4D72-BB27-B8302062F848}">
+        <File Id="fil68DC2D7D56DCB96DF6C05594ACC0711E" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_d3dx9_43_x64.cab" />
+      </Component>
+      <Component Id="cmp8B940601CD7B09C21C016C6BA6123459" Guid="{32352F91-202C-4523-B011-23E0105B8279}">
+        <File Id="filCE0836F20984F8EDE24B8AD7E6D67862" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_d3dx9_43_x86.cab" />
+      </Component>
+      <Component Id="cmpB0D08BCE63ACC91174B75BD9DE702497" Guid="{D3D6D387-20D3-4B6D-8F3B-5B947D4EB1E2}">
+        <File Id="fil7D7374203929ABA54E94036600ED55A9" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmp2708646D821DF184EB2E12B193F99A58" Guid="{FC62A17F-9E25-4F03-A2CA-C506629B8A01}">
+        <File Id="fil7CDE4F409DADC5DE465C5871FA882AAA" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmpE17386DFCCB1B38F60BC37407774846F" Guid="{291033A5-0C99-4A8C-AC8C-0350E1DB171C}">
+        <File Id="fil6C2FE80F36125EC5EA11E2A1E9780252" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_XAudio_x64.cab" />
+      </Component>
+      <Component Id="cmp5733A941780C7C8216384051C2384FD5" Guid="{03156BB9-1B28-422B-8C48-BC863F61E3BD}">
+        <File Id="fil745517533BF8EB2054F46BB0BA64A3B8" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Jun2010_XAudio_x86.cab" />
+      </Component>
+      <Component Id="cmp12EF85F939A6030799F67B7EC8FAD010" Guid="{C21B9423-7BBB-4075-8EFE-3DC3DA0FFE17}">
+        <File Id="fil34001925BBB151CDD9394E71E5CC944A" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2008_d3dx10_37_x64.cab" />
+      </Component>
+      <Component Id="cmp829FAEC36A0F78A85A26F9F94CA6D4E8" Guid="{0632E786-831A-44C0-A757-6786F1BB09A1}">
+        <File Id="filBE70FDAEA9C5EA7A3F1F3F79491E3CB2" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2008_d3dx10_37_x86.cab" />
+      </Component>
+      <Component Id="cmp3026CA6F1B5E0C09889289C0BF10ECC0" Guid="{42F845E3-C6A9-492D-BCBF-21F61FBDE4AC}">
+        <File Id="filD12797D5B8113BF104BD44B9A7A68E52" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2008_d3dx9_37_x64.cab" />
+      </Component>
+      <Component Id="cmpEA5F6C173AA2FC2A88BB1433383C3559" Guid="{33EFBAC5-7747-40FA-B6C6-71ED652755BF}">
+        <File Id="fil2897AF313C3A6D2314640BC17A7C66EC" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2008_d3dx9_37_x86.cab" />
+      </Component>
+      <Component Id="cmp9794B6B633BA8DDB27CAF6F782C2E5E4" Guid="{2F7BDF7F-6FA5-4AC4-B007-1D41F177134B}">
+        <File Id="filFA8959C17724C8720E11A5452E4DBDA3" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2008_X3DAudio_x64.cab" />
+      </Component>
+      <Component Id="cmpCFB562F58417B02E95B4880EAD4974AC" Guid="{DB60FD85-17C8-4386-8448-7BC296C4D8F3}">
+        <File Id="fil46FC86C0810CF8DA0293B89631636455" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2008_X3DAudio_x86.cab" />
+      </Component>
+      <Component Id="cmpFF7982944DAFC7D460418B1FFC2985E4" Guid="{AFE2E86D-8932-4DC9-8373-A6F3B7C18BEF}">
+        <File Id="fil1F156A2332C57511950270B5ED02EF1F" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2008_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmp04A5B886A7FD8E996673C2D4798B874B" Guid="{C9B7F957-505D-4F82-A25B-0A562F01D98C}">
+        <File Id="filB4371CFAB851FF605132674A1E3BDEDB" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2008_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmp690639D3F3BD09042112FB9FE3D28BF0" Guid="{98E93DF2-6F6D-446B-BAC5-B9DC5E0D5ED7}">
+        <File Id="fil3F7D3D6E5507FE964A11291DF2396020" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2008_XAudio_x64.cab" />
+      </Component>
+      <Component Id="cmp305B9A07C197BB56110D747A28F3DC1A" Guid="{69E5B454-4C37-4F22-8C07-7DA9D7B6C7C9}">
+        <File Id="filCBBC805234345BA9252B204CADE7908F" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2008_XAudio_x86.cab" />
+      </Component>
+      <Component Id="cmp56ED9249CA508849119366F8D278B399" Guid="{AD83ABCA-695A-42A5-8DFF-B1358DA75F53}">
+        <File Id="fil2A5419A0FBF2C9DE33D4E23930CEE438" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2009_d3dx10_41_x64.cab" />
+      </Component>
+      <Component Id="cmp96DD20CE53C72EE785C70BC9452F4B47" Guid="{3B654CB7-903A-4554-8133-E62EFC635232}">
+        <File Id="filF1C2EE1467FBD1A48E5DD8AAEDC3807E" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2009_d3dx10_41_x86.cab" />
+      </Component>
+      <Component Id="cmp243F76B31ADA3EB5107519EF5497918C" Guid="{D58146E8-6B2B-4E46-853B-6F7E9BFF4F1F}">
+        <File Id="filBE2CE182B2259AD358C9A8B8FA34C12D" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2009_d3dx9_41_x64.cab" />
+      </Component>
+      <Component Id="cmpD9D07C61A4BC7FA3016AAB00788CBC2B" Guid="{413C4B49-B3D4-4C8B-90D3-95A9BCCD1A13}">
+        <File Id="fil9291E55E30CAD5350158014A1F0049A1" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2009_d3dx9_41_x86.cab" />
+      </Component>
+      <Component Id="cmp84EF1239E0C4B27041798715E2D9F738" Guid="{E7946C31-B01E-49EF-8739-A3A55FA8AA15}">
+        <File Id="filB98F0FEBC2F9EEA87AB1FADCE4601BDA" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2009_X3DAudio_x64.cab" />
+      </Component>
+      <Component Id="cmp2C78F8B89DECB8C72B648C864CFAE653" Guid="{0A5701E6-CB69-4E9B-8D41-5E80CBD4E62F}">
+        <File Id="fil209A715C28DDDB8E3452B3C73B248F57" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2009_X3DAudio_x86.cab" />
+      </Component>
+      <Component Id="cmp9DCBB8E37BC1A15B5993225416804ED8" Guid="{E2994F6C-13B7-4CB8-840F-D376F931F102}">
+        <File Id="filDE8A10E4F3D6E90ED53C2F64103A5B24" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2009_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmp96145DCC1E4C8B71160FEE8FEA79B6F7" Guid="{659103DA-A49E-4767-B370-358C7F2207BB}">
+        <File Id="fil81248D7BB4FB60F7082D54F59371407C" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2009_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmpA95463373DB515F9D13CD03237F24941" Guid="{AC685046-267B-4761-A1D0-975537DE8996}">
+        <File Id="filBEE809F6B962322BB6B057C740267DAB" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2009_XAudio_x64.cab" />
+      </Component>
+      <Component Id="cmpCC665155872DA3764909CD2D71DCDC29" Guid="{56A3828A-9883-4174-941A-7CDD101EE0A7}">
+        <File Id="fil4248F3B841A5BD1F814DDE6BF16F39D3" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Mar2009_XAudio_x86.cab" />
+      </Component>
+      <Component Id="cmp0FF3576E9B48BE87C43E4F0538DC9749" Guid="{F0818F33-B554-4DC4-B3DC-9BD0D6CB7252}">
+        <File Id="fil5C0D04C38D6F8481A55C7D616E5B4CC5" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2007_d3dx10_36_x64.cab" />
+      </Component>
+      <Component Id="cmp70DCE8DC31B3DA968A2F9F1D171561AB" Guid="{EDA9C550-3559-41E7-AB9D-06F01A77091A}">
+        <File Id="fil9F7BEB758BA5EF3A332D35986CBD0679" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2007_d3dx10_36_x86.cab" />
+      </Component>
+      <Component Id="cmp4ABDDB861920F0C8412CA19897FE894D" Guid="{276F9F98-A133-4F56-A76E-2C98C317D3A1}">
+        <File Id="filF9887E712494B17786E5B9BC55CDDA94" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2007_d3dx9_36_x64.cab" />
+      </Component>
+      <Component Id="cmp409E607A3420B16A3A3C52AD17A7E8C3" Guid="{0917B92E-7874-4C44-9B6A-AA5C5805FDDA}">
+        <File Id="fil9A7ED14C9852203C0C04ACF5586055A9" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2007_d3dx9_36_x86.cab" />
+      </Component>
+      <Component Id="cmpD410428DA574F6CFD0E799634E5B2817" Guid="{F1700C31-90BE-418D-93B8-C8F29208526D}">
+        <File Id="fil6B428E357317BBE5F274AFBF7C0DEEB6" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\NOV2007_X3DAudio_x64.cab" />
+      </Component>
+      <Component Id="cmpDC65512A8D946B44D94A6FD37FECF763" Guid="{16CE44A0-46FF-4663-A12E-9398A457EDFE}">
+        <File Id="fil268243887F5B5A6AB925081F5AC0BF1D" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\NOV2007_X3DAudio_x86.cab" />
+      </Component>
+      <Component Id="cmpC63637B7CD0F989932AA5548F4A7F3D5" Guid="{C07C450F-7F12-4026-800C-29D1DC934701}">
+        <File Id="fil2C98D4C9D838BDFBFD33A17FC76631E9" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\NOV2007_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmp56A2C8BD736DC423CEA82FA2F0220501" Guid="{0F475118-F97D-4D1C-AE95-48CBD32F8EB1}">
+        <File Id="fil5B9C9D2F5C973823C9A7F2CC33BD9BA0" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\NOV2007_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmp17289DBF7BF83D4E58E86BFE63B72D0C" Guid="{D91B0784-36BA-4A9B-88BE-4D86AF869F4C}">
+        <File Id="filAD3BD07FF8C67BE1A5572494E8AFCDC7" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2008_d3dx10_40_x64.cab" />
+      </Component>
+      <Component Id="cmp061FCF4920C780402968E8A9B2D9371A" Guid="{0C5BF05D-897A-45B8-ACD2-C7631F68B4E4}">
+        <File Id="filD0A2A46699AACB659380FDE13EB09E3F" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2008_d3dx10_40_x86.cab" />
+      </Component>
+      <Component Id="cmp5A2F9F3583EBBA8F1AD16419E56DA2F1" Guid="{52E83529-538A-4AF3-8FEC-899D342A7A7D}">
+        <File Id="filA07479B24CADD1C5BD92651C485B2137" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2008_d3dx9_40_x64.cab" />
+      </Component>
+      <Component Id="cmp9FBB3439A80C2FCBBDD5E293016986ED" Guid="{AA01E22A-B9FA-440F-96AC-1B50D1C8E8E4}">
+        <File Id="filE710AA1BCE8A4D4CCEC5D817586F8776" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2008_d3dx9_40_x86.cab" />
+      </Component>
+      <Component Id="cmp94018C80FC25B039AAE0ED88CA36B1D1" Guid="{A6A71804-3896-49F0-A806-3306446C8664}">
+        <File Id="filB2354966A24B6C2FEA098E69040EC1F2" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2008_X3DAudio_x64.cab" />
+      </Component>
+      <Component Id="cmp6DACA4ECD3E4B88668163D2ECD547B86" Guid="{28E60886-57E8-45A1-A1F7-3473E9B57BB9}">
+        <File Id="filF3C0E26E01D79B007DBCD8DA9D50820A" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2008_X3DAudio_x86.cab" />
+      </Component>
+      <Component Id="cmpFF3FD861287F9B8418B7D74E647159EF" Guid="{39E6E79A-7E00-40E0-9864-702EEBF6C3FE}">
+        <File Id="fil6D47519DB9581815A38F06B4A4A1E18D" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2008_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmp0F4ACBCB558CB5ABD2A8F8260E547B40" Guid="{0D78CE0C-6CF9-4B8A-9C7F-E01D5D0670A1}">
+        <File Id="filFE25C9A51FA02EFE31894A8A414EB43F" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2008_XACT_x86.cab" />
+      </Component>
+      <Component Id="cmp2055F4F764A960A235841968E12FBF02" Guid="{5C3A97A0-9AE3-4673-9DE5-DB7B5B039ECF}">
+        <File Id="fil75DEA02AF1A83C8A8CBF5481785C0C0A" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2008_XAudio_x64.cab" />
+      </Component>
+      <Component Id="cmp2DCEC3859BE4FC6E9A77085E1F983381" Guid="{1616B1C0-DC46-4632-A4BE-75B80ED5580F}">
+        <File Id="fil31DB90CD37342AFC718756EE55F2820A" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Nov2008_XAudio_x86.cab" />
+      </Component>
+      <Component Id="cmpE0C355DC8D80C66188999CC9F3033135" Guid="{E8A320BA-94A1-4530-958C-C23A89BBEB3C}">
+        <File Id="fil0A3D80F80C0EE1ED6CFD17705E24EE87" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Oct2005_xinput_x64.cab" />
+      </Component>
+      <Component Id="cmp4FE94CDBFB1ED4833DF8194D7A6B9434" Guid="{68409BA8-DC42-4CA2-9984-E58778F21E62}">
+        <File Id="fil740BEE38EFF6562F851BEBBB78D36977" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\Oct2005_xinput_x86.cab" />
+      </Component>
+      <Component Id="cmpA0139AE75ABD2799F2FBD41E56B2DCE5" Guid="{31373D96-AA53-45CA-A6B5-C71DA98ED327}">
+        <File Id="fil4C6D07532CCED987A37BC81557EF3D49" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\OCT2006_d3dx9_31_x64.cab" />
+      </Component>
+      <Component Id="cmp0EFB534DC3CACFF0AB678BC8EA344A7D" Guid="{06682905-3ECA-484E-9D23-CF732FBB7927}">
+        <File Id="fil33237581F65369BBB985433CCF0D0499" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\OCT2006_d3dx9_31_x86.cab" />
+      </Component>
+      <Component Id="cmp283A1BAF0065A4F5984DBE0CC52C33C6" Guid="{F84C2CFB-BEA1-44DE-80D1-047E577FA9D4}">
+        <File Id="fil63C248C2650334294BE3B379517179F9" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\OCT2006_XACT_x64.cab" />
+      </Component>
+      <Component Id="cmpA7B1C4AA63C77155CB21A308693DC1A1" Guid="{E51B8CBD-5D78-4577-950E-7EF64F8C4613}">
+        <File Id="fil01F97835DA03D6B7E4B3ED4475D52C62" DiskId="1" KeyPath="yes" Source="Resources\DXRedist\OCT2006_XACT_x86.cab" />
+      </Component>
+    </ComponentGroup>
     
   </Fragment>
 </Wix>

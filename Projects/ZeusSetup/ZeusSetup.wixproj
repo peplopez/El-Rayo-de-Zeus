@@ -12,7 +12,7 @@
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>..\..\Msi\$(Configuration)\</OutputPath>
+    <OutputPath>..\..\Msi\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
     <Cultures>en-US</Cultures>
@@ -30,6 +30,7 @@
   <ItemGroup>
     <Compile Include="CFGs.wxs" />
     <Compile Include="Base.wxs" />
+    <Compile Include="Manual.wxs" />
     <Compile Include="VCRedist.wxs" />
     <Compile Include="DXRedist.wxs" />
     <Compile Include="Directories.wxs" />
@@ -59,6 +60,7 @@
     <Content Include="Resources\banner.bmp" />
     <Content Include="Resources\dialog.bmp" />
     <Content Include="Resources\License.rtf" />
+    <Content Include="Resources\Zeus Thunderbolt Manual.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources" />
