@@ -637,7 +637,7 @@ namespace BaseSubsystems
 	void CServer::createDebugRenderWindow()
 	{
 		//Si no existe Crear un debug renderWindow de tamaño 1/2 el original
-		if (!_debugRenderWindow)
+		if (!_debugRenderWindow && !_renderWindow->isFullScreen())
 		{
 			try {
 			_debugRenderWindow = _root->createRenderWindow(_WINDOW_TITLE + "- DEBUG", 640,
@@ -656,7 +656,7 @@ namespace BaseSubsystems
 	{
 		if (_debugRenderWindow)
 		{
-			//Bug en Ogre-> si no se hace así a través del RenderSistem específico peta:
+			//Bug en Ogre-> si no se hace así a través del RenderSystem específico peta:
 			//http://www.ogre3d.org/forums/viewtopic.php?f=22&t=69648
 			_root->getRenderSystemByName("Direct3D9 Rendering Subsystem")->destroyRenderTarget(_debugRenderWindow->getName());
 			_debugRenderWindow = 0;

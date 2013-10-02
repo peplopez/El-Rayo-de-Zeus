@@ -61,11 +61,10 @@ namespace Logic
 		_altarInfo = _gameStatus->getBase(entity->getLogicalPosition()->
 			getBase())->getRing(entity->getLogicalPosition()->getRing())->createAltar(entity);
 
-		_on = true;
-		if (_entity->getName() == "Altar1" || 
-				_entity->getName() == "Altar2"||
-					_entity->getName() == "Altar3") 
-						_on = false;	
+		if(entityInfo->hasAttribute("switchingTime"))
+			_switchingTime = entityInfo->getIntAttribute("switchingTime");
+	
+	
 	return true;
 	} // spawn
 	
@@ -180,6 +179,8 @@ namespace Logic
 				{
 					LOG(_entity->getName() << ": activado")
 					_gameStatus->getPlayer(_entity->getOriginBase())->increaseAltarsActivated();
+					if (_entity->getOriginBase() != _player->getOriginBase())
+						_gameStatus->getPlayer(_player->getOriginBase())->increaseMeritPoints();
 					CMessageFloatUShort *m = new CMessageFloatUShort();	
 					m->setType(Message::SET_ANIMATION_WITH_PAUSE);
 					m->setUShort(Logic::AnimationName::SWITCH_ALTAR);

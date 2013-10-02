@@ -88,11 +88,9 @@ namespace Logic
 			_offsetHeight=entityInfo->getFloatAttribute("offsetHeight");
 		
 
-		if(entityInfo->hasAttribute("base"))					
-		{
-			_pos->setBase(_map->getMapNumber());
-			this->setOriginBase(_pos->getBase());
-		}
+		_pos->setBase(_map->getMapNumber());
+		this->setOriginBase(_pos->getBase());
+
 		if(entityInfo->hasAttribute("ring"))
 			_pos->setRing(static_cast<Ring>(entityInfo->getIntAttribute("ring")));
 		else			
@@ -524,6 +522,25 @@ namespace Logic
 	} //setLogicalPosition
 		
 	//---------------------------------------------------------
+
+	void CEntity::setLogicalPosition(const Logic::CLogicalPosition &pos)
+	{
+		_pos->setBase(pos.getBase());
+		_pos->setDegree(pos.getDegree());
+		_pos->setRing(pos.getRing());
+		_pos->setSense(pos.getSense());
+		_pos->setHeight(pos.getHeight());
+
+		setPosition(
+			fromLogicalToCartesian(
+				_pos->getDegree(),
+				_pos->getHeight(),
+				_pos->getBase(),
+				_pos->getRing()
+			)
+		);
+
+	} //setLogicalPosition
 
 	void CEntity::setOrientation(const Matrix3& orientation) 
 	{

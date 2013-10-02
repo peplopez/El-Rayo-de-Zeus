@@ -265,6 +265,7 @@ namespace Logic
 		@param pos Nueva posición lógica de la entidad.
 		*/		
 		void setLogicalPosition(const Logic::CLogicalPosition *pos);
+		void setLogicalPosition(const Logic::CLogicalPosition &pos);
 
 		/**
 		Add PEP

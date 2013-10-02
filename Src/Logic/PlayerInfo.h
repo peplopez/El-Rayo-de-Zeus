@@ -86,6 +86,7 @@ namespace Logic
 		
 		void increaseAltarsActivated();
 		void decreaseAltarsActivated();
+		void increaseMeritPoints();
 
 		unsigned int getAltarsActivated()
 		{
