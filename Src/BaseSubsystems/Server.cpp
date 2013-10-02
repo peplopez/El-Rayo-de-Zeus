@@ -381,8 +381,6 @@ namespace BaseSubsystems
 			_renderWindow = 0;
 		}
 
-		destroyDebugRenderWindow();
-
 		if(_windowEventListener)
 		{
 			delete _windowEventListener;
