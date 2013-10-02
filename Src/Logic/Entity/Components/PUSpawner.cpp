@@ -105,7 +105,7 @@ namespace Logic
 		CLogicalPosition pos;
 		pos.setBase(_entity->getOriginBase());
 		pos.setDegree(rand() % 360);
-		pos.setHeight(5);
+		pos.setHeight(3);
 		pos.setRing(static_cast<Logic::Ring>(1 + rand() % 3));
 		return pos;
 	}

@@ -512,6 +512,7 @@ Map = {
 	
 	PUApple = {
 		type = "PowerUp",
+		puType = "puApple",
 		model = "puApple3.1.mesh",	
 		logicInput = true,
 		lifeModifier = 50,	
@@ -574,6 +575,7 @@ Map = {
 	},	
 	PUPandora = {
 		type = "PowerUp",
+		puType = "puPandora",
 		model = "puPandora3.1.mesh",
 		sense = 1,
 		logicInput=true,
@@ -607,6 +609,7 @@ Map = {
 	},	
 	PUThrone = {
 		type = "PowerUp",
+		puType = "puThrone",
 		model = "puThrone3.1.mesh",	
 		logicInput=true,
 		lifeModifier=-10,

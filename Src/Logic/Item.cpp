@@ -39,7 +39,8 @@ namespace Logic
 		if( entityInfo->hasAttribute("modelOnHand") )
 			_modelOnHand = entityInfo->getStringAttribute("modelOnHand");
 	
-		_type = _entity->getName().substr(0, _entity->getName().length() - 1); 
+		if (entityInfo->hasAttribute("puType") )
+			_puType = entityInfo->getStringAttribute("puType");
 			
 		return true;		
 	} // spawn
@@ -82,19 +83,19 @@ namespace Logic
 			}
 
 ///////////// HACK TEST FRS Para probar FX -> Esto lo suyo sería hacerlo en cada uno de los hijos de Item			
-			if( _type == "puPandora" ) {
+			if( _puType == "puPandora" ) {
 				CMessage *txMsg = new CMessage();	
 					txMsg->setType(Message::FX_START);
 					txMsg->setAction(Message::FX_BLAST_SMALL);
 					otherEntity->emitMessage(txMsg,this);
 			
-			} else if ( _type == "puApple" ) {
+			} else if ( _puType == "puApple" ) {
 				CMessage *txMsg = new CMessage();	
 					txMsg->setType(Message::FX_START);
 					txMsg->setAction(Message::FX_TRAILS);
 					otherEntity->emitMessage(txMsg,this);
 
-			} else if ( _type == "puThrone" ) {
+			} else if ( _puType == "puThrone" ) {
 				CMessage *txMsg = new CMessage();	
 					txMsg->setType(Message::FX_START);
 					txMsg->setAction(Message::FX_FLAME_THROWER);
