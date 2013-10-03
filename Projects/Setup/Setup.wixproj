@@ -10,6 +10,7 @@
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <Name>Setup</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>..\..\Msi\</OutputPath>
@@ -27,17 +28,6 @@
     <LinkerAdditionalOptions>
     </LinkerAdditionalOptions>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="CFGs.wxs" />
-    <Compile Include="Base.wxs" />
-    <Compile Include="Manual.wxs" />
-    <Compile Include="VCRedist.wxs" />
-    <Compile Include="DXRedist.wxs" />
-    <Compile Include="Directories.wxs" />
-    <Compile Include="DLLs.wxs" />
-    <Compile Include="Product.wxs" />
-    <Compile Include="Media.wxs" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.vcxproj">
       <Name>Application</Name>
@@ -63,6 +53,7 @@
     <Content Include="Resources\Zeus Thunderbolt Manual.pdf" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Source Files" />
     <Folder Include="Resources" />
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +65,17 @@
       <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
       <Name>WixUIExtension</Name>
     </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Source Files\Base.wxs" />
+    <Compile Include="Source Files\CFGs.wxs" />
+    <Compile Include="Source Files\Directories.wxs" />
+    <Compile Include="Source Files\DLLs.wxs" />
+    <Compile Include="Source Files\DXRedist.wxs" />
+    <Compile Include="Source Files\Manual.wxs" />
+    <Compile Include="Source Files\Media.wxs" />
+    <Compile Include="Source Files\Product.wxs" />
+    <Compile Include="Source Files\VCRedist.wxs" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
