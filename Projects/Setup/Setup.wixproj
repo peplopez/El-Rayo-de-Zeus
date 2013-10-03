@@ -53,7 +53,6 @@
     <Content Include="Resources\Zeus Thunderbolt Manual.pdf" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Source Files" />
     <Folder Include="Resources" />
   </ItemGroup>
   <ItemGroup>
@@ -67,15 +66,15 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source Files\Base.wxs" />
-    <Compile Include="Source Files\CFGs.wxs" />
-    <Compile Include="Source Files\Directories.wxs" />
-    <Compile Include="Source Files\DLLs.wxs" />
-    <Compile Include="Source Files\DXRedist.wxs" />
-    <Compile Include="Source Files\Manual.wxs" />
-    <Compile Include="Source Files\Media.wxs" />
-    <Compile Include="Source Files\Product.wxs" />
-    <Compile Include="Source Files\VCRedist.wxs" />
+    <Compile Include="Base.wxs" />
+    <Compile Include="CFGs.wxs" />
+    <Compile Include="Directories.wxs" />
+    <Compile Include="DLLs.wxs" />
+    <Compile Include="DXRedist.wxs" />
+    <Compile Include="Manual.wxs" />
+    <Compile Include="Media.wxs" />
+    <Compile Include="Product.wxs" />
+    <Compile Include="VCRedist.wxs" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
