@@ -1,5 +1,5 @@
 Map ={
-	
+		
 	Scene = {
 		type = "SCENE",		
 	},
@@ -11,7 +11,9 @@ Map ={
 		degrees = 0,
 		sense = 2,
 		fxScript0 = "Blast",	
-		fxPos0 = {0, 10, 5},
+		fxPos0 = {0, 1, 5},
+		fxScript1 = "Circles",		
+		fxPos1 = {0,5,0},		
 	},
 	
 	Camera = {
@@ -23,8 +25,8 @@ Map ={
 	
 	PUSpawner1 = {
 		type = "PUSpawner",
-		maxTimeToSpawn = 70,
-		timeModulator = 40,
+		maxTimeToSpawn = 15,
+		timeModulator = 5,
 	},
 		
 	Light1 = {
@@ -44,7 +46,7 @@ Map ={
 		shape="box",
 		physicHalfWidth = 190,
 		physicHalfHeight = 1,
-		physicBodyOffset = -1.9,
+		physicBodyOffset = -1.9,			
 	},	
 	CenterRing = {
 		type = "World",

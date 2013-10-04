@@ -203,12 +203,12 @@ namespace Logic
 		 //muint->setUInt(_lifeModifierLightAttack);
 		 //_entity->emitMessage(muint);
 ///////////// HACK TEST FRS Para probar FX
-	/*	if(_isModeBomb) {
-			CMessage *txMsg = new CMessage();	
-				txMsg->setType(Message::FX_START);
-				txMsg->setAction(Message::FX_BLAST);
-				_entity->emitMessage(txMsg,this);
-		}*/
+		//if(_isModeBomb) {
+		//	CMessage *txMsg = new CMessage();	
+		//		txMsg->setType(Message::FX_START);
+		//		txMsg->setAction(Message::FX_BLAST);
+		//		_entity->emitMessage(txMsg,this);
+		//}
 ////////////////////
 
 	//	if (_arrowFighter)

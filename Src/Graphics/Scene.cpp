@@ -326,9 +326,9 @@ namespace Graphics
 		static const int	RING_WIDTH_EXT[] = {2* RING_WIDTH[0] / 3, 3* RING_WIDTH[1] / 4, 0.6* RING_WIDTH[2]};
 
 		static const Ogre::Plane RING_PLANES[] = { 
-			Ogre::Plane(	Vector3::UNIT_Y,  RING_HEIGHT + RING_HEIGHT_OFFSET), 
-			Ogre::Plane(	Vector3::UNIT_Y,			    RING_HEIGHT_OFFSET), 	
-			Ogre::Plane(	Vector3::UNIT_Y, -RING_HEIGHT + RING_HEIGHT_OFFSET)
+			Ogre::Plane(	Vector3::UNIT_Y, 250 + RING_HEIGHT + RING_HEIGHT_OFFSET), 
+			Ogre::Plane(	Vector3::UNIT_Y, 250 +			    RING_HEIGHT_OFFSET), 	
+			Ogre::Plane(	Vector3::UNIT_Y, 250 - RING_HEIGHT + RING_HEIGHT_OFFSET)
 		};
 		static const int RING_RAD_SQR[] = { RING_RAD[0] * RING_RAD[0], 
 											RING_RAD[1] * RING_RAD[1],
